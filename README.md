@@ -4,7 +4,7 @@
 
 >  cite as: Pandit H.J. et al. (2019) Creating a Vocabulary for Data Privacy. In:  Panetto H., Debruyne C., Hepp M., Lewis D., Ardagna C., Meersman R.  (eds) On the Move to Meaningful Internet Systems: OTM 2019 Conferences.  OTM 2019. Lecture Notes in Computer Science, vol 11877. Springer, Cham.  https://doi.org/10.1007/978-3-030-33246-4_44
 
-## Abstract / Summary
+## Overview
 
 The Data Privacy Vocabulary provides terms (classes and properties) to annotate and categorize instances of legally compliant personal data handling according to the EU General Data Protection Regulation. This scope could be extended by later versions to other data and privacy protection regulations. 
 
@@ -17,15 +17,17 @@ The vocabulary provides terms to describe:
 * legal basis used to justify processing
 * information about consent where it is used as a legal basis
 
-The namespace for DPV terms is `http://www.w3.org/ns/dpv#`
-
-The suggested prefix for the DPV namespace is `dpv`
+The namespace for DPV terms is `http://www.w3.org/ns/dpv#` with suggested prefix `dpv`. The IRI for DPV is currently redirected to serve the files hosted in this repository from GitHub pages i.e. `http://dpvcg.github.io/dpv/` (thanks to @bert-github for setting this up). Content-negotiation should therefore be supported for all files/serialisations of the DPV and its modules.
 
 The [**DPV-GDPR**](https://github.com/dpvcg/dpv-gdpr) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within GDPR.
 
 The [**DPV-NACE**](https://github.com/dpvcg/dpv-nace) vocabulary provides a RDFS and DPV compatible serialisation of the  [NACE](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2) industry standard classification system used in the EU.
 
 The Data Privacy Vocabulary is an outcome of the activities of the [Data Privacy Vocabularies and Controls Community Group (DPVCG)](https://www.w3.org/community/dpvcg/) 
+
+## DPV and Modules
+
+The term 'DPV' represents the entire vocabulary - with its concepts and terms as defined in the specification. Serialisations for this in `rdf+xml`, `json-ld`, and `turtle` are provided. The 'modules' in DPV are separate files for each of the hierarchies and concept taxonomies - for example 'purposes'. These are defined in the `rdf` folder with serialisations for each module. The `core` or `base` vocabulary or ontology is defined containing the top-level classes and data model (i.e. `PersonalDataHandling`).
 
 ## Contribution / Participation
 
@@ -41,7 +43,7 @@ To suggest a new term, we request following information:
 * relation to existing term(s) in DPV e.g. through sub-classes
 * justification or relevance of why this term should be added (where not obvious)
 
-###Raising issues
+### Raising issues
 
 Before submitting an issue, please see the whether the issue has been addressed on [GitHub](https://github.com/dpvcg/dpv/issues) or [W3C trackers](https://www.w3.org/community/dpvcg/track/). If not, please raise the issue via the group's [public mailing list](https://lists.w3.org/Archives/Public/public-dpvcg/) or expressed as [GitHub issues](https://github.com/dpvcg/dpv/issues). 
 
