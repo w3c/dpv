@@ -1,0 +1,369 @@
+{% from 'macro_term_table.jinja2' import table_classes %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DPV-GDPR: GDPR Extension for Data Privacy Vocabulary</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv-gdpr",
+    title: "GDPR Extension for Data Privacy Vocabulary (DPV-GDPR)",
+    subtitle: "version 0.2",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    edDraftURI: "https://w3.org/ns/dpv-gdpr",
+    github: {
+      repoURL: "https://github.com/dpvcg/dpv-gdpr",
+      branch: "master"
+    },
+    subjectPrefix: "[dpv-gdpr]",
+    doJsonLd: true,
+    canonicalUri: "https://w3.org/ns/dpv-gdpr",
+    otherLinks: [
+      {
+        key: "Version History",
+        data: [
+          {
+            value: "v0.2 (this version)",
+            href: "https://w3.org/ns/dpv-gdpr/versions/v0.2"
+          },
+          {
+            value: "v0.1 (previous version)",
+            href: "https://w3.org/ns/dpv-gdpr/versions/v0.1"
+          }
+        ]
+      }
+    ],
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      company: "Trinity College Dublin",
+      companyURL: "https://tcd.ie/"
+    }
+    ],
+    formerEditors: [
+    {
+      name: "Axel Polleres",
+      url: "https://www.polleres.net/",
+      company: "Vienna University of Economics and Business",
+      companyURL: "https://wu.ac.at/"
+    }
+    ],
+    authors: [
+      {
+        "name": "Axel Polleres",
+        "company": "Vienna University of Economics and Business"
+      },
+      {
+        "name": "Beatriz Esteves",
+        "company": "Universidad Politécnica de Madrid"
+      },
+      {
+        "name": "Bert Bos",
+        "company": "W3C/ERCIM"
+      },
+      {
+        "name": "Bud Bruegger",
+        "company": "Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein"
+      },
+      {
+        "name": "Elmar Kiesling",
+        "company": "Vienna University of Technology"
+      },
+      {
+        "name": "Eva Schlehahn",
+        "company": "Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein"
+      },
+      {
+        "name": "Fajar J. Ekaputra",
+        "company": "Vienna University of Technology"
+      },
+      {
+        "name": "Georg P. Krog",
+        "company": "Signatu AS"
+      },
+      {
+        "name": "Harshvardhan J. Pandit",
+        "company": "Trinity College Dublin"
+      },
+      {
+        "name": "Javier D. Fernández",
+        "company": "Vienna University of Economics and Business"
+      },
+      {
+        "name": "Mark Lizar",
+        "company": "OpenConsent/Kantara Initiative"
+      },
+      {
+        "name": "Ramisa Gachpaz Hamed",
+        "company": "Trinity College Dublin"
+      },
+      {
+        "name": "Rigo Wenning",
+        "company": "W3C/ERCIM"
+      },
+      {
+        "name": "Rob Brennan",
+        "company": "Dublin City University"
+      },
+      {
+        "name": "Simon Steyskal",
+        "company": "Siemens"
+      }
+    ]
+  };
+</script>
+<style type="text/css">
+  .head img[src*="logos/W3C"] {
+    display: inherit !important;
+  }
+  .head a:hover > img[src*='ogc'] {
+    opacity: 0.8;
+  }
+  /* Table styles, March 2016 */
+  table {border-collapse:collapse}
+  th, td {
+    border:thin solid black;
+    padding: 0.3em;
+  }
+  .inlineCode {
+    FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #ddf
+  }
+  PRE.code {
+    BORDER-RIGHT: #999999 1pt solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #999999 1pt solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; BORDER-LEFT: #999999 1pt solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #999999 1pt solid; FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #eef
+  }
+  PRE.code2 {
+    BORDER-RIGHT: #999999 1pt solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #999999 1pt solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; BORDER-LEFT: #999999 1pt solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #999999 1pt solid; FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #ffa
+  }
+  .ednote {
+    FONT-STYLE: italic
+  }
+  PRE.clientmsg {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 2px; BACKGROUND: #eee; PADDING-BOTTOM: 2px; MARGIN: 0px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999 1px solid
+  }
+  PRE.servermsg {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 2px; BACKGROUND: #eee; PADDING-BOTTOM: 2px; MARGIN: 5px 0px 0px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999 1px solid; TEXT-ALIGN: left
+  }
+  P.msg {
+    PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; TEXT-ALIGN: center
+  }
+  DIV.interaction {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid
+  }
+  DIV.interaction H4 {
+    MARGIN: 0px 0px 10px
+  }
+  DIV.interaction P {
+    MARGIN: 0px
+  }
+  DIV.test {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid
+  }
+  DIV.test H4 {
+    MARGIN: 0px 0px 10px
+  }
+</style>
+</head>
+<body>
+  <section id="abstract">
+    <p>The Data Privacy Vocabulary (DPV) provides terms (classes and properties) to describe and represent information related to processing of personal data. This extension extends the DPV and provides concepts specific to the obligations and requirements of the General Data Protection Regulation (GDPR). More specifically, it provides a taxonomy of legal bases and rights as defined within the GDPR.</p>
+    <p class="note">
+      The namespace for terms for Legal Bases under GDPR is <a href="http://www.w3.org/ns/dpv-gdpr#"><code>http://www.w3.org/ns/dpv-gdpr#</code></a><br/>
+      The suggested prefix for the GDPR Legal Bases namespace is <code>dpv-gdpr</code><br/>
+      The DPV-GDPR ontology and its documentation is available on <a href="https://github.com/dpvcg/dpv-gdpr">GitHub</a>.</p>
+  </section>
+  <section id="sotd">
+    <!-- sotd: Status of this document -->
+    <p>This document is published by the <a href="https://www.w3.org/community/dpvcg/">Data Privacy Vocabularies and Controls Community Group (DPVCG)</a> as a deliverable and report of its work in creating and maintaining the Data Privacy Vocabulary (DPV) and its extensions.</p>
+    <div class="note">
+      <p><strong>Contributing to the DPV and its extensions</strong> The DPVCG welcomes participation regarding the DPV, including expansion or refinement of its terms, addressing open issues, and welcomes suggestions on their resolution or mitigation.</p>
+      <p>While we welcome participation via any and all mediums - e.g., via <a href="https://github.com/dpvcg/dpv">Github</a> pull requests or issues, <a href="https://lists.w3.org/Archives/Public/public-dpvcg/">emails</a>, papers, or reports - the formal resolution of contributions takes place only through the DPVCG meeting calls and mailing lists. We therefore suggest joining the group to participate in these discussions for formal approval.</p>
+      <p>For contributions to the DPV, please see <a href="https://github.com/dpvcg/dpv#contribution--participation">the section on GitHub</a>. For DPV-GDPR specific contributions, please see <a href="https://github.com/dpvcg/dpv#contribution--participation">the section on GitHub</a>. The current list of open issues and their discussions to date can be found at <a href="https://www.w3.org/community/dpvcg/track/issues/open">DPVCG issue tracker</a> as well as GitHub issues for <a href="https://github.com/dpvcg/dpv/issues">DPV</a> and <a href="https://github.com/dpvcg/dpv-gdpr/issues">DPV-GDPR</a>.</p>
+    </div>
+  </section>
+  <section id="motivation">
+    <h2>Introduction</h2>
+    <p>The Data Privacy Vocabulary provides terms (classes and properties) to annotate and categorize instances of legally compliant personal data handling. In particular, the vocabulary provides <code>LegalBasis</code> and <code>DataSubjectRight</code> as top-level concepts representing the various legal bases for justifying processing of personal data and rights provided to the data subject respectively. Since these concepts are specifically defined within the scope of jurisdictional laws, their implementation is provided as a separate vocabulary that extends the DPV, thereby permitting continued usage of DPV as a jurisdiction-agnostic and generic vocabulary.</p>
+    <p>This vocabulary, termed as DPV-GDPR, extends the concepts within DPV regarding legal bases and data subject rights with those provided by the GDPR. It provides a compatible extension to be used in combination with the DPV to represent GDPR-specific information.</p>
+  </section>
+  <section id="namespaces">
+    <h2>Namespaces</h2>
+    <p>The namespace for DPV-GDPR vocabulary is <code>http://www.w3.org/ns/dpv-gdpr#</code>. The table below indicates the full list of namespaces and prefixes used in this document.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Prefix</th>
+          <th>Namespace</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>dct</code>
+          </td>
+          <td>
+            <code>http://purl.org/dc/terms/</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>dpv</code>
+          </td>
+          <td>
+            <code>http://www.w3.org/ns/dpv#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>dpv-gdpr</code>
+          </td>
+          <td>
+            <code>http://www.w3.org/ns/dpv-gdpr#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>odrl</code>
+          </td>
+          <td>
+            <code>http://www.w3.org/ns/odrl/2/</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>owl</code>
+          </td>
+          <td>
+            <code>http://www.w3.org/2002/07/owl#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>rdf</code>
+          </td>
+          <td>
+            <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>rdfs</code>
+          </td>
+          <td>
+            <code>http://www.w3.org/2000/01/rdf-schema#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>skos</code>
+          </td>
+          <td>
+            <code>http://www.w3.org/2004/02/skos/core#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>spl</code>
+          </td>
+          <td>
+            <code>http://www.specialprivacy.eu/langs/usage-policy#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>svd</code>
+          </td>
+          <td>
+            <code>http://www.specialprivacy.eu/vocabs/data#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>svdu</code>
+          </td>
+          <td>
+            <code>http://www.specialprivacy.eu/vocabs/duration#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>svl</code>
+          </td>
+          <td>
+            <code>http://www.specialprivacy.eu/vocabs/locations#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>svpu</code>
+          </td>
+          <td>
+            <code>http://www.specialprivacy.eu/vocabs/purposes#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>svpr</code>
+          </td>
+          <td>
+            <code>http://www.specialprivacy.eu/vocabs/processing#</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>svr</code>
+          </td>
+          <td>
+            <code>http://www.specialprivacy.eu/vocabs/recipients</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>xsd</code>
+          </td>
+          <td>
+            <code>http://www.w3.org/2001/XMLSchema#</code>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section id="conformance"></section>
+  <section id="vocab-legal-basis">
+    <h2>Legal Basis under GDPR</h2>
+    <p>Regulations such as the GDPR specify certain legal basis for carrying out the processing of personal data, which makes it mandatory for every processing to have one (or more) legal basis that justifies their compliance. DPV provides a list of legal bases as per the GDPR under the separate namespace of dpv-gdpr. Additional legal bases can be declared by subclassing <code>dpv:LegalBasis</code>.</p>
+    <p>The taxonomy lists the legal bases as provided by GDPR Article 6 regarding processing of personal data, those defined in GDPR Article 9 regarding processing of special categories of personal data, and those provided by GDPR Articles 45, 46, and 49 in connection with transfer of personal data. The legal basis of ‘consent’ as defined in Article 6(1)(a) has been declared using the terms ‘explicit’ and ‘non-explicit’ to differentiate the requirements of the two in accordance of their requirements of compliance. Furthermore, legal basis provided by Article 6 apply to processing involving personal data whereas those in Article 9 apply specifically to processing involving special categories of personal data.</p>
+
+    {% if legal_basis_classes %}
+    <section id="legal-basis-classes">
+    {{ table_classes(legal_basis_classes) }}
+    </section>
+    {% endif %}
+    {% if legal_basis_properties %}
+    <section id="legal-basis-properties">
+    {{ table_properties(legal_basis_properties) }}
+    </section>
+    {% endif %}
+
+  </section>
+  <section id="vocab-rights">
+    <h2>Rights under GDPR</h2>
+    <p>GDPR provides several rights to the data subject, whose applicability depends on the context and nature of processing taking place. DPV lists these rights at an abstract level as concepts along with their origin in specific clauses of the GDPR.</p>
+
+    {% if rights_classes %}
+    <section id="rights-classes">
+    {{ table_classes(rights_classes) }}
+    </section>
+    {% endif %}
+    {% if rights_properties %}
+    <section id="rights-properties">
+    {{ table_properties(rights_properties) }}
+    </section>
+    {% endif %}
+  </section>
+</body>
+</html>

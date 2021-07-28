@@ -1,0 +1,188 @@
+{% macro table_classes(term_list) %}
+  <h3>Classes</h3>
+    <p>
+      {% for term in term_list | sort(attribute='iri') %}
+      <code><a href="#{{term.iri|fragment_this}}">{{term.rdfs_label}}</a></code> |
+      {% endfor %}
+    </p>
+
+    {% for term in term_list | sort(attribute='iri') %}
+    <section data-dfn-for="{{term.iri|fragment_this}}">
+      <h4 id="{{term.iri|fragment_this}}">{{term}}</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>Term:</td>
+            <td><code><dfn>{{term.iri|fragment_this}}</dfn></code></td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>{{term.dct_description}}</td>
+          </tr>
+          {% if term.rdfs_subClassOf %}
+          <tr>
+            <td>Subclass Of:</td>
+            <td>
+              {% if term.rdfs_subClassOf is sequence and not term.rdfs_subClassOf is string %}{% for parent in term.rdfs_subClassOf|sort %}
+              <a href="{{parent.iri}}">{{parent|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.rdfs_subClassOf.iri}}">{{term.rdfs_subClassOf|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% set children = term|subclasses %}
+          {% if children %}
+          <tr>
+            <td>Superclass Of:</td>
+            <td>
+              {% for child in children|sort %}
+              <a href="{{child.iri}}">{{child|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}
+            </td>
+          </tr>
+          {% endif %}
+         {#  <tr>
+            <td>Status:</td>
+            <td>{{term.sw_term_status}}</td>
+          </tr> #}
+          {% if term.rdfs_isDefinedBy %}
+          <tr>
+            <td>Source:</td>
+            <td>
+            {% if term.rdfs_isDefinedBy is sequence and not term.rdfs_isDefinedBy is string %}{% for parent in term.rdfs_isDefinedBy|sort %}
+              <a href="{{parent}}">{{parent|saved_label}}</a>{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              <a href="{{term.rdfs_isDefinedBy}}">{{term.rdfs_isDefinedBy|saved_label}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          <tr>
+            <td>Created:</td>
+            <td><time>{{term.dct_created}}</time></td>
+          </tr>
+          {% if term.dct_modified %}
+          <tr>
+            <td>Modified:</td>
+            <td><time>{{term.dct_modified}}</time></td>
+          </tr>
+          {% endif %}
+          {% if term.dct_creator %}
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              {% if term.dct_creator is sequence and not term.dct_creator is string %}{% for person in term.dct_creator|sort %}
+              {{person}}{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              {{term.dct_creator}}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.rdfs_seeAlso %}
+          <tr>
+            <td>See Also:</td>
+            <td>
+              {% if term.rdfs_seeAlso is sequence and not term.rdfs_seeAlso is string %}{% for link in term.rdfs_seeAlso %}
+              <a href="{{link.iri}}">{{link|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.rdfs_seeAlso.iri}}">{{term.rdfs_seeAlso|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+    {% endfor %}
+{% endmacro %}
+
+{% macro table_properties(term_list) %}
+  <h3>Properties</h3>
+    <p>
+      {% for term in term_list | sort(attribute='iri') %}
+      <code><a href="#{{term.iri|fragment_this}}">{{term.rdfs_label}}</a></code> |
+      {% endfor %}
+    </p>
+
+    {% for term in term_list | sort(attribute='iri') %}
+    <section data-dfn-for="{{term.iri|fragment_this}}">
+      <h4 id="{{term.iri|fragment_this}}">{{term}}</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>Term:</td>
+            <td><code><dfn>{{term.iri|fragment_this}}</dfn></code></td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>{{term.dct_description}}</td>
+          </tr>
+          {% if term.rdfs_subPropertyOf %}
+          <tr>
+            <td>Sub-Property Of:</td>
+            <td>
+              {% if term.rdfs_subPropertyOf is sequence and not term.rdfs_subPropertyOf is string %}{% for parent in term.rdfs_subPropertyOf|sort %}
+              <a href="{{parent.iri}}">{{parent|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.rdfs_subPropertyOf.iri}}">{{term.rdfs_subPropertyOf}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          <tr>
+            <td>Status:</td>
+            <td>{{term.sw_term_status}}</td>
+          </tr>
+          {% if term.rdfs_isDefinedBy %}
+          <tr>
+            <td>Source:</td>
+            <td>
+            {% if term.rdfs_isDefinedBy is sequence and not term.rdfs_isDefinedBy is string %}{% for parent in term.rdfs_isDefinedBy|sort %}
+              <a href="{{parent}}">{{parent|saved_label}}</a>{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              <a href="{{term.rdfs_isDefinedBy}}">{{term.rdfs_isDefinedBy|saved_label}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          <tr>
+            <td>Created:</td>
+            <td><time>{{term.dct_created}}</time></td>
+          </tr>
+          {% if term.dct_date_approved %}
+          <tr>
+            <td>Approved:</td>
+            <td><time>{{term.dct_date_accepted}}</time></td>
+          </tr>
+          {% endif %}
+          {% if term.dct_creator %}
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              {% if term.dct_creator is sequence and not term.dct_creator is string %}{% for person in term.dct_creator|sort %}
+              {{person}}{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              {{term.dct_creator}}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.rdfs_seeAlso %}
+          <tr>
+            <td>See Also:</td>
+            <td>
+              {% if term.rdfs_seeAlso is sequence and not term.rdfs_seeAlso is string %}{% for link in term.rdfs_seeAlso %}
+              <a href="{{link.iri}}">{{link|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.rdfs_seeAlso.iri}}">{{term.rdfs_seeAlso|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+    {% endfor %}
+{% endmacro %}
