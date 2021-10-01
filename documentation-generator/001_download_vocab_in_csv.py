@@ -26,11 +26,12 @@ DPV_SHEETS = (
     'TechnicalOrganisationalMeasure_properties',
     'Entities',
     'Entities_properties',
-    'Consent',
+    'LegalBasis',
     'Consent_properties',
     # DPV-GDPR
     'GDPR_LegalBasis',
     'GDPR_LegalRights',
+    'GDPR_DataTransfers',
     )
 
 from urllib import request

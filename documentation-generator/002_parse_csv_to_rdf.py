@@ -32,10 +32,14 @@ RDF_SERIALIZATIONS = {
     'jsonld': 'json-ld'
     }
 
+VOCAB_TERM_ACCEPT = ('accepted', 'changed')
+VOCAB_TERM_REJECT = ('deprecated', 'removed')
+
 import csv
 from collections import namedtuple
 
 from rdflib import Graph, Namespace
+from rdflib.compare import graph_diff
 from rdflib.namespace import XSD
 from rdflib import RDF, RDFS, OWL
 from rdflib.term import Literal, URIRef, BNode
@@ -205,7 +209,7 @@ def add_triples_for_classes(classes, graph):
 
     for cls in classes:
         # only add accepted classes
-        if cls.sw_termstatus != "accepted":
+        if cls.sw_termstatus not in VOCAB_TERM_ACCEPT:
             continue
         # rdf:type
         graph.add((BASE[f'{cls.term}'], RDF.type, RDFS.Class))
@@ -239,7 +243,7 @@ def add_triples_for_properties(properties, graph):
 
     for prop in properties:
         # only record accepted classes
-        if prop.sw_termstatus != "accepted":
+        if prop.sw_termstatus not in VOCAB_TERM_ACCEPT:
             continue
         # rdf:type
         graph.add((BASE[f'{prop.term}'], RDF.type, RDF.Property))
@@ -315,8 +319,11 @@ DPV_CSV_FILES = {
         'classes': f'{IMPORT_CSV_PATH}/Entities.csv',
         'properties': f'{IMPORT_CSV_PATH}/Entities_properties.csv'
         },
+    'legal_basis': {
+        'classes': f'{IMPORT_CSV_PATH}/LegalBasis.csv',
+    },
     'consent': {
-        'classes': f'{IMPORT_CSV_PATH}/Consent.csv',
+        # 'classes': f'{IMPORT_CSV_PATH}/Consent.csv',
         'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
         },
     }
@@ -365,6 +372,9 @@ DPV_GDPR_CSV_FILES = {
         },
     'rights': {
         'classes': f'{IMPORT_CSV_PATH}/GDPR_LegalRights.csv',
+        },
+    'data_transfers': {
+        'classes': f'{IMPORT_CSV_PATH}/GDPR_DataTransfers.csv',
         },
     }
 

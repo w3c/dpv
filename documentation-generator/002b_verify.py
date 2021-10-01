@@ -6,16 +6,19 @@
 #############################################################
 
 # this is where the data to be validated is situated in
+# file is expected to be executed from the documentation-generator folder
+# (parent of folder containing this file)
+# (because its less typing of cd & cd ..)
 DATA_PATHS = [
-    '../vocab_dpv',
-    '../vocab_dpv/modules',
-    '../vocab_dpv_gdpr',
-    '../vocab_dpv_gdpr/modules',
+    '../dpv',
+    '../dpv/rdf',
+    '../dpv-gdpr',
+    '../dpv-gdpr/rdf',
 ]
 
 # this is the list of shapes to be validated against
 SHAPES = [
-    './shapes.ttl',
+    './shacl_shapes/shapes.ttl',
     ]
 
 # note that this has parameters for filepath
@@ -66,6 +69,7 @@ import subprocess
 
 
 def test_shacl(folder, shape):
+    print(folder)
     _, _, files = next(walk(folder))
     for file in files:
         if not file.endswith('.ttl'):
