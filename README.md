@@ -5,6 +5,8 @@ Data Privacy Vocabularies and Controls Community Group (DPVCG) repository
 
 The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to develop a taxonomy of privacy and data protection related terms, which include in particular terms from the new European General Data Protection Regulation (GDPR), such as a taxonomy of personal data as well as a classification of purposes (i.e., purposes for data collection), and events of disclosures, consent, and processing such personal data.
 
+License: All work produced by DPVCG and provided through this repo or elsewhere is provided by contributors under the [W3C Document License](https://www.w3.org/Consortium/Legal/2015/doc-license). A copy of the license is provided in the [LICENSE.md](./LICENSE.md) file.
+
 Outputs:
   * Data Privacy Vocabulary (DPV) - [https://w3.org/ns/dpv](https://w3.org/ns/dpv)
   * GDPR terms for Data Privacy Vocabulary (DPV-GDPR) [https://w3.org/ns/dpv-gdpr](https://w3.org/ns/dpv-gdpr)
