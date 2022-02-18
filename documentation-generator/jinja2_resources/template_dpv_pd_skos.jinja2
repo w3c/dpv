@@ -1,0 +1,380 @@
+{% from 'macro_term_table_skos.jinja2' import table_classes %}
+{% from 'macro_term_table_skos.jinja2' import table_properties %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DPVS-PD: Extended Personal Data concepts for DPV-SKOS</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpvs-pd",
+    title: "DPVS-PD: Extended Personal Data concepts for DPV",
+    subtitle: "version 0.4 (published 2022-02-15)",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/dpv-skos/dpv-pd",
+    // github: {
+    //   repoURL: "https://github.com/w3c/dpv-pd",
+    //   branch: "master"
+    // },
+    subjectPrefix: "[dpv-pd]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false },
+    canonicalUri: "https://w3id.org/dpv/dpv-skos/dpv-pd",
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      company: "Trinity College Dublin",
+      companyURL: "https://tcd.ie/"
+    }
+    ],
+    formerEditors: [
+    {
+      name: "Axel Polleres",
+      url: "https://www.polleres.net/",
+      company: "Vienna University of Economics and Business",
+      companyURL: "https://wu.ac.at/"
+    }
+    ],
+    authors: [
+      {
+        "name": "Axel Polleres",
+        "company": "Vienna University of Economics and Business"
+      },
+      {
+        "name": "Beatriz Esteves",
+        "company": "Universidad Politécnica de Madrid"
+      },
+      {
+        "name": "Bert Bos",
+        "company": "W3C/ERCIM"
+      },
+      {
+        "name": "Bud Bruegger",
+        "company": "Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein"
+      },
+      {
+        "name": "Elmar Kiesling",
+        "company": "Vienna University of Technology"
+      },
+      {
+        "name": "Eva Schlehahn",
+        "company": "Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein"
+      },
+      {
+        "name": "David Hickey",
+        "company": "Dublin City University"
+      },
+      {
+        "name": "Fajar J. Ekaputra",
+        "company": "Vienna University of Technology"
+      },
+      {
+        "name": "Georg P. Krog",
+        "company": "Signatu AS"
+      },
+      {
+        "name": "Harshvardhan J. Pandit",
+        "company": "Trinity College Dublin"
+      },
+      {
+        "name": "Javier D. Fernández",
+        "company": "Vienna University of Economics and Business"
+      },
+      {
+        "name": "Julian Flake",
+        "company": "University of Koblenz-Landau",
+      },
+      {
+        "name": "Mark Lizar",
+        "company": "OpenConsent/Kantara Initiative"
+      },
+      {
+        "name": "Paul Ryan",
+        "company": "Uniphar PLC"
+      },
+      {
+        "name": "Piero Bonatti",
+        "company": "Università di Napoli Federico II"
+      },
+      {
+        "name": "Ramisa Gachpaz Hamed",
+        "company": "Trinity College Dublin"
+      },
+      {
+        "name": "Rigo Wenning",
+        "company": "W3C/ERCIM"
+      },
+      {
+        "name": "Rob Brennan",
+        "company": "Dublin City University"
+      },
+      {
+        "name": "Simon Steyskal",
+        "company": "Siemens"
+      }
+    ],
+    localBiblio: {
+      "DPV": {
+        href: "https://www.w3id.org/dpv",
+        title: "Data Privacy Vocabulary (DPV)"
+      },
+      "DPV-GDPR": {
+        href: "https://www.w3id.org/dpv/dpv-gdpr",
+        title: "GDPR Extension for Data Privacy Vocabulary (DPV-GDPR)"
+      },
+      "DPV-NACE": {
+        href: "https://www.w3id.org/dpv/dpv-nace",
+        title: "NACE Taxonomy serialised in RDFS"
+      },
+      "DPV-PD": {
+        href: "https://www.w3id.org/dpv/pd",
+        title: "Personal Data Categories Extension for Data Privacy Vocabulary (DPV-PD)"
+      },
+      "DPV-SKOS": {
+        href: "https://www.w3id.org/dpv/dpv-skos",
+        title: "Data Privacy Vocabulary serialised using SKOS+RDFS (DPV-SKOS)"
+      },
+      "DPVS-GDPR": {
+        href: "https://www.w3id.org/dpv/dpv-skos/dpv-gdpr",
+        title: "GDPR Extension for DPV-SKOS"
+      },
+      "DPVS-PD": {
+        href: "https://www.w3id.org/dpv/dpv-skos/dpv-pd",
+        title: "Personal Data Categories Extension for DPV-SKOS"
+      },
+      "DPV-OWL": {
+        href: "https://www.w3id.org/dpv/dpv-skos",
+        title: "Data Privacy Vocabulary serialised using OWL2 (DPV-OWL)"
+      },
+      "DPV-Primer": {
+        href: "https://www.w3id.org/dpv/dpv-primer",
+        title: "Primer for Data Privacy Vocabulary"
+      },
+      "DPVCG": {
+        href: "https://www.w3.org/community/dpvcg/",
+        title: "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)"
+      },
+      "GDPR": {
+        href: "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+        title: "General Data Protection Regulation (GDPR)"
+      },
+      "SPECIAL": {
+        href: "https://www.specialprivacy.eu/",
+        title: "SPECIAL H2020 Project"
+      },
+      "RDF": {
+        href: "https://www.w3.org/TR/rdf11-concepts/",
+        title: "RDF 1.1 Concepts and Abstract Syntax"
+      },
+      "RDFS": {
+        href: "https://www.w3.org/TR/rdf-schema/",
+        title: "RDF Schema 1.1"
+      },
+      "OWL" :{
+        href: "https://www.w3.org/TR/owl2-overview/",
+        title: "OWL 2 Web Ontology Language Document Overview (Second Edition)"
+      },
+      "SKOS": {
+        href: "https://www.w3.org/TR/skos-reference/",
+        title: "SKOS Simple Knowledge Organization System"
+      },
+      "DPV-ADOPTION": {
+        href: "https://www.w3.org/community/dpvcg/wiki/Adoption_of_DPVCG",
+        title: "Listing of DPV adoption and applications"
+      },
+      "DPV GUIDES": {
+          href: "https://w3id.org/dpv/guides",
+          title: "Guidelines for Adoption and Use of DPV"
+      },
+      "NACE": {
+        href: "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+        title: "Statistical Classification of Economic Activities in the European Community (NACE)"
+      },
+      "NAICS": {
+        href: "https://www.census.gov/eos/www/naics/",
+        title: "North American Industry Classification System (NAICS)"
+      },
+      "ISIC": {
+        href: "https://unstats.un.org/unsd/classifications",
+        title: "International Standard Industrial Classification of All Economic Activities (ISIC)"
+      },
+      "GICS": {
+        href: "https://www.msci.com/gics",
+        title: "Global Industry Classification Standard (GICS)"
+      },
+      "NACE-NAICS": {
+        href: "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+        title: "NACE to NAICS mapping"
+      },
+      "EnterPrivacy": {
+        href: "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
+        title: "Taxonomy of Personal Data Categories"
+      },
+      "TIME": {
+        href: "https://www.w3.org/TR/owl-time/",
+        title: "Time Ontology in OWL"
+      },
+      "ISO-27017": {
+        href: "https://www.iso.org/standard/43757.html",
+        title: "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
+      }
+    }
+  };
+</script>
+<style type="text/css">
+  .head img[src*="logos/W3C"] {
+    display: inherit !important;
+  }
+  .head a:hover > img[src*='ogc'] {
+    opacity: 0.8;
+  }
+  /* Table styles, March 2016 */
+  table {border-collapse:collapse}
+  th, td {
+    border:thin solid black;
+    padding: 0.3em;
+  }
+  .inlineCode {
+    FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #ddf
+  }
+  PRE.code {
+    BORDER-RIGHT: #999999 1pt solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #999999 1pt solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; BORDER-LEFT: #999999 1pt solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #999999 1pt solid; FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #eef
+  }
+  PRE.code2 {
+    BORDER-RIGHT: #999999 1pt solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #999999 1pt solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; BORDER-LEFT: #999999 1pt solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #999999 1pt solid; FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #ffa
+  }
+  .ednote {
+    FONT-STYLE: italic
+  }
+  PRE.clientmsg {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 2px; BACKGROUND: #eee; PADDING-BOTTOM: 2px; MARGIN: 0px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999 1px solid
+  }
+  PRE.servermsg {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 2px; BACKGROUND: #eee; PADDING-BOTTOM: 2px; MARGIN: 5px 0px 0px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999 1px solid; TEXT-ALIGN: left
+  }
+  P.msg {
+    PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; TEXT-ALIGN: center
+  }
+  DIV.interaction {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid
+  }
+  DIV.interaction H4 {
+    MARGIN: 0px 0px 10px
+  }
+  DIV.interaction P {
+    MARGIN: 0px
+  }
+  DIV.test {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid
+  }
+  DIV.test H4 {
+    MARGIN: 0px 0px 10px
+  }
+</style>
+</head>
+<body>
+  <section id="abstract">
+    <p>DPVS-PD extends the [[[DPV-SKOS]]] to provide additional concepts regarding Personal Data categories.</p>
+    <p>The namespace for terms in DPVS-PD is <a href="http://www.w3id.org/dpv/dpv-skos/dpv-pd#"><code>https://www.w3id.org/dpv/dpv-skos/dpv-pd#</code></a><br/>
+      The suggested prefix for the namespace is <code>dpvo-pd</code><br/>
+      The DPVS-PD vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+    <p class="note">Newcomers to the DPV are <strong>strongly recommended to first read through the [[[DPV-Primer]]]</strong> to familiarise themselves with the semantics, concepts, their place within DPV.</p>
+
+    <p><strong>DPV Family of Documents</strong></p>
+    <ul>
+      <li>[[DPV-Primer]]: The Primer serves as an introductory document to DPV and provides an overview of its concepts.</li>
+      <li>[[DPV]]: The DPV Specification is the formal and normative description of DPV and its concepts. It provides a serialisation of the concepts as a taxonomy using SKOS.</li>
+      <li>Extensions to Concepts: <ul>
+        <li>[[DPV-GDPR]]: Extension to the DPV providing concepts relevant to [[GDPR]].</li>
+        <li>[[DPV-PD]]: Extension to the DPV providing a taxonomy of personal data categories.</li></ul></li>
+      <li>Serialisations of DPV: <ul>
+        <li>[[DPV-SKOS]]: A serialisation of the DPV using [[RDFS]] and [[SKOS]] to enable its use as a schema or ontology.</li>
+        <li>[[DPVS-PD]]:(This document) Extension to the DPV-SKOS providing a taxonomy of personal data categories.</li></ul></li>
+        <li>[[DPV-OWL]]: is a serialisation of the DPV using [[OWL]] to enable its use as an ontology.</li></ul></li>
+      <li>[[DPV-NACE]]: [[NACE]] taxonomy serialised in RDFS</li>
+    </ul>
+    <p>The table provides an overview of the expression of concepts across the three DPV serialisations, and which are followed by DPV-PD..</p>
+    <table>
+      <thead>
+          <td>Serialisation</td>
+          <td><a href="https://w3id.org/dpv/dpv-pd"><code>dpv-pd</code></a></td>
+          <td><a href="https://w3id.org/dpv/dpv-skos/dpv-pd"><code>dpv-skos/dpv-pd</code></a></td>
+          <td><a href="https://w3id.org/dpv/dpv-skos/dpv-pd"><code>dpv-skos/dpv-pd</code></a></td>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Semantics</td>
+          <th>[[DPV]]</th>
+          <th>[[DPV-SKOS]]</th>
+          <th>[[DPV-OWL]]</th>
+        </tr>
+        <tr>
+          <td>Concept</td>
+          <td><code>dpv:Concept</code>
+          </td><td><code>skos:Concept</code></td>
+          <td><code>owl:Class</code></td>
+        </tr>
+        <tr>
+          <td>is subtype of</td>
+          <td><code>dpv:isSubTypeOf</code>
+          </td><td><code>skos:broaderTransitive</code></td>
+          <td><code>owl:subClassOf</code></td>
+        </tr>
+        <tr>
+          <td>is instance of</td>
+          <td><code>dpv:isInstanceOf</code>
+          </td><td><code>rdf:type</code></td>
+          <td><code>rdf:type</code></td>
+        </tr>
+        <tr>
+          <td>has concept</td>
+          <td><code>dpv:Relation</code>
+          </td><td><code>rdf:Property</code></td>
+          <td><code>owl:ObjectProperty</code></td>
+        </tr>
+        <tr>
+          <td>relationship domain</td>
+          <td><code>dpv:domain</code>
+          </td><td><code>rdfs:domain</code></td>
+          <td><code>rdfs:domain</code></td>
+        </tr>
+        <tr>
+          <td>relationship range</td>
+          <td><code>dpv:range</code>
+          </td><td><code>rdfs:range</code></td>
+          <td><code>rdfs:range</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>Related Links</strong></p>
+    <ul>
+      <li>For a general overview of the Data Protection Vocabularies and Controls Community Group [[DPVCG]], its history, deliverables, and activities - refer to <a href="https://www.w3.org/community/dpvcg/"><u>DPVCG Website</u></a>.</p>
+      </li>
+      <li>
+        <p>The peer-reviewed article “<a href="https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44"><u>Creating A Vocabulary for Data Privacy</u></a>” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed <a href="http://hdl.handle.net/2262/91581"><u>here</u></a>, <a href="http://doras.dcu.ie/23801/"><u>here</u></a>, and <a href="https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf"><u>here</u></a>.</p>
+      </li>
+    </ul>
+  </section>
+  <section id="sotd">
+    <!-- sotd: Status of this document -->
+    <p>This document is published by the <a href="https://www.w3.org/community/dpvcg/">Data Privacy Vocabularies and Controls Community Group (DPVCG)</a> as a deliverable and report of its work in creating and maintaining the Data Privacy Vocabulary (DPV) and its extensions.</p>
+    <div class="note">
+      <p><strong>Contributing to the DPV and its extension DPV-PD</strong> The DPVCG welcomes participation regarding DPV and DPV-PD, including expansion or refinement of its terms, addressing open issues, and welcomes suggestions on their resolution or mitigation.</p>
+      <p>While we welcome participation via any and all mediums - e.g., via <a href="https://github.com/w3c/dpv/issues">Github</a> pull requests or issues, <a href="https://lists.w3.org/Archives/Public/public-dpvcg/">emails</a>, papers, or reports - the formal resolution of contributions takes place only through the DPVCG meeting calls and mailing lists. We therefore suggest joining the group to participate in these discussions for formal approval.</p>
+      <p>For contributions to the DPV, please see <a href="https://github.com/w3c/dpv#contribution--participation">the section on GitHub</a>. The current list of open issues and their discussions to date can be found at <a href="https://github.com/w3c/dpv/issues">GitHub issues</a>.</p>
+    </div>
+  </section>
+  <section id="vocab">
+    <h2>Taxonomy</h2>
+
+    <section id="dpv-pd-classes">
+    {{ table_classes(dpv_pd_classes) }}
+    </section>
+
+  </section>
+</body>
+</html>

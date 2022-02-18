@@ -1,6 +1,6 @@
 # Data Privacy Vocabulary (DPV)
 
-[https://w3.org/ns/dpv](https://w3.org/ns/dpv)
+[https://w3id.org/dpv](https://w3id.org/dpv)
 
 >  cite as: Pandit H.J. et al. (2019) Creating a Vocabulary for Data Privacy. In:  Panetto H., Debruyne C., Hepp M., Lewis D., Ardagna C., Meersman R.  (eds) On the Move to Meaningful Internet Systems: OTM 2019 Conferences.  OTM 2019. Lecture Notes in Computer Science, vol 11877. Springer, Cham.  https://doi.org/10.1007/978-3-030-33246-4_44
 
@@ -17,7 +17,7 @@ The vocabulary provides terms to describe:
 * legal basis used to justify processing
 * information about consent where it is used as a legal basis
 
-The namespace for DPV terms is `http://www.w3.org/ns/dpv#` with suggested prefix `dpv`. The IRI for DPV is currently redirected to serve the files hosted in this repository from GitHub pages i.e. `http://dpvcg.github.io/dpv/` (thanks to @bert-github for setting this up). Content-negotiation should therefore be supported for all files/serialisations of the DPV and its modules.
+The namespace for DPV terms is `http://www.w3id.org/dpv#` with suggested prefix `dpv`. The IRI for DPV is currently redirected to serve the files hosted in this repository from GitHub pages i.e. `http://dpvcg.github.io/dpv/` (thanks to @bert-github for setting this up). Content-negotiation should therefore be supported for all files/serialisations of the DPV and its modules.
 
 The [**DPV-GDPR**](https://github.com/w3c/dpv/tree/master/dpv-gdpr) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within GDPR.
 

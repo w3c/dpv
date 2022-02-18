@@ -1,0 +1,640 @@
+{% from 'macro_term_table_skos.jinja2' import table_classes %}
+{% from 'macro_term_table_skos.jinja2' import table_properties %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DPV-SKOS: Data Privacy Vocabulary (DPV) expressed using SKOS+RDF</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "DPV-SKOS: Data Privacy Vocabulary (DPV) in SKOS+RDF",
+    subtitle: "version 0.4 (published 2022-02-15)",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/dpv-skos",
+    // github: {
+    //   repoURL: "https://github.com/w3c/dpv",
+    //   branch: "master"
+    // },
+    subjectPrefix: "[dpvs]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false },
+    canonicalUri: "https://w3id.org/dpv/dpv-skos",
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      company: "Trinity College Dublin",
+      companyURL: "https://tcd.ie/"
+    }
+    ],
+    formerEditors: [
+    {
+      name: "Axel Polleres",
+      url: "https://www.polleres.net/",
+      company: "Vienna University of Economics and Business",
+      companyURL: "https://wu.ac.at/"
+    }
+    ],
+    authors: [
+      {
+        "name": "Axel Polleres",
+        "company": "Vienna University of Economics and Business"
+      },
+      {
+        "name": "Beatriz Esteves",
+        "company": "Universidad Politécnica de Madrid"
+      },
+      {
+        "name": "Bert Bos",
+        "company": "W3C/ERCIM"
+      },
+      {
+        "name": "Bud Bruegger",
+        "company": "Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein"
+      },
+      {
+        "name": "Elmar Kiesling",
+        "company": "Vienna University of Technology"
+      },
+      {
+        "name": "Eva Schlehahn",
+        "company": "Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein"
+      },
+      {
+        "name": "David Hickey",
+        "company": "Dublin City University"
+      },
+      {
+        "name": "Fajar J. Ekaputra",
+        "company": "Vienna University of Technology"
+      },
+      {
+        "name": "Georg P. Krog",
+        "company": "Signatu AS"
+      },
+      {
+        "name": "Harshvardhan J. Pandit",
+        "company": "Trinity College Dublin"
+      },
+      {
+        "name": "Javier D. Fernández",
+        "company": "Vienna University of Economics and Business"
+      },
+      {
+        "name": "Julian Flake",
+        "company": "University of Koblenz-Landau",
+      },
+      {
+        "name": "Mark Lizar",
+        "company": "OpenConsent/Kantara Initiative"
+      },
+      {
+        "name": "Paul Ryan",
+        "company": "Uniphar PLC"
+      },
+      {
+        "name": "Piero Bonatti",
+        "company": "Università di Napoli Federico II"
+      },
+      {
+        "name": "Ramisa Gachpaz Hamed",
+        "company": "Trinity College Dublin"
+      },
+      {
+        "name": "Rigo Wenning",
+        "company": "W3C/ERCIM"
+      },
+      {
+        "name": "Rob Brennan",
+        "company": "Dublin City University"
+      },
+      {
+        "name": "Simon Steyskal",
+        "company": "Siemens"
+      }
+    ],
+    localBiblio: {
+      "DPV": {
+        href: "https://www.w3id.org/dpv",
+        title: "Data Privacy Vocabulary (DPV)"
+      },
+      "DPV-GDPR": {
+        href: "https://www.w3id.org/dpv/dpv-gdpr",
+        title: "GDPR Extension for Data Privacy Vocabulary (DPV-GDPR)"
+      },
+      "DPV-NACE": {
+        href: "https://www.w3id.org/dpv/dpv-nace",
+        title: "NACE Taxonomy serialised in RDFS"
+      },
+      "DPV-PD": {
+        href: "https://www.w3id.org/dpv/pd",
+        title: "Personal Data Categories Extension for Data Privacy Vocabulary (DPV-PD)"
+      },
+      "DPV-SKOS": {
+        href: "https://www.w3id.org/dpv/dpv-skos",
+        title: "Data Privacy Vocabulary serialised using SKOS+RDFS (DPV-SKOS)"
+      },
+      "DPVS-GDPR": {
+        href: "https://www.w3id.org/dpv/dpv-skos/dpv-gdpr",
+        title: "GDPR Extension for DPV-SKOS"
+      },
+      "DPVS-PD": {
+        href: "https://www.w3id.org/dpv/dpv-skos/dpv-pd",
+        title: "Personal Data Categories Extension for DPV-SKOS"
+      },
+      "DPV-OWL": {
+        href: "https://www.w3id.org/dpv/dpv-skos",
+        title: "Data Privacy Vocabulary serialised using OWL2 (DPV-OWL)"
+      },
+      "DPV-Primer": {
+        href: "https://www.w3id.org/dpv/dpv-primer",
+        title: "Primer for Data Privacy Vocabulary"
+      },
+      "DPVCG": {
+        href: "https://www.w3.org/community/dpvcg/",
+        title: "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)"
+      },
+      "GDPR": {
+        href: "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+        title: "General Data Protection Regulation (GDPR)"
+      },
+      "SPECIAL": {
+        href: "https://www.specialprivacy.eu/",
+        title: "SPECIAL H2020 Project"
+      },
+      "RDF": {
+        href: "https://www.w3.org/TR/rdf11-concepts/",
+        title: "RDF 1.1 Concepts and Abstract Syntax"
+      },
+      "RDFS": {
+        href: "https://www.w3.org/TR/rdf-schema/",
+        title: "RDF Schema 1.1"
+      },
+      "OWL" :{
+        href: "https://www.w3.org/TR/owl2-overview/",
+        title: "OWL 2 Web Ontology Language Document Overview (Second Edition)"
+      },
+      "SKOS": {
+        href: "https://www.w3.org/TR/skos-reference/",
+        title: "SKOS Simple Knowledge Organization System"
+      },
+      "DPV-ADOPTION": {
+        href: "https://www.w3.org/community/dpvcg/wiki/Adoption_of_DPVCG",
+        title: "Listing of DPV adoption and applications"
+      },
+      "DPV GUIDES": {
+          href: "https://w3id.org/dpv/guides",
+          title: "Guidelines for Adoption and Use of DPV"
+      },
+      "NACE": {
+        href: "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+        title: "Statistical Classification of Economic Activities in the European Community (NACE)"
+      },
+      "NAICS": {
+        href: "https://www.census.gov/eos/www/naics/",
+        title: "North American Industry Classification System (NAICS)"
+      },
+      "ISIC": {
+        href: "https://unstats.un.org/unsd/classifications",
+        title: "International Standard Industrial Classification of All Economic Activities (ISIC)"
+      },
+      "GICS": {
+        href: "https://www.msci.com/gics",
+        title: "Global Industry Classification Standard (GICS)"
+      },
+      "NACE-NAICS": {
+        href: "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+        title: "NACE to NAICS mapping"
+      },
+      "EnterPrivacy": {
+        href: "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
+        title: "Taxonomy of Personal Data Categories"
+      },
+      "TIME": {
+        href: "https://www.w3.org/TR/owl-time/",
+        title: "Time Ontology in OWL"
+      },
+      "ISO-27017": {
+        href: "https://www.iso.org/standard/43757.html",
+        title: "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
+      }
+    }
+  };
+</script>
+<style type="text/css">
+  .head img[src*="logos/W3C"] {
+    display: inherit !important;
+  }
+  .head a:hover > img[src*='ogc'] {
+    opacity: 0.8;
+  }
+  /* Table styles, March 2016 */
+  table {border-collapse:collapse}
+  th, td {
+    border:thin solid black;
+    padding: 0.3em;
+  }
+  .inlineCode {
+    FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #ddf
+  }
+  PRE.code {
+    BORDER-RIGHT: #999999 1pt solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #999999 1pt solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; BORDER-LEFT: #999999 1pt solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #999999 1pt solid; FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #eef
+  }
+  PRE.code2 {
+    BORDER-RIGHT: #999999 1pt solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #999999 1pt solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; BORDER-LEFT: #999999 1pt solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #999999 1pt solid; FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #ffa
+  }
+  .ednote {
+    FONT-STYLE: italic ;
+  }
+  PRE.clientmsg {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 2px; BACKGROUND: #eee; PADDING-BOTTOM: 2px; MARGIN: 0px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999 1px solid
+  }
+  PRE.servermsg {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 2px; BACKGROUND: #eee; PADDING-BOTTOM: 2px; MARGIN: 5px 0px 0px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999 1px solid; TEXT-ALIGN: left
+  }
+  P.msg {
+    PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; TEXT-ALIGN: center
+  }
+  DIV.interaction {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid
+  }
+  DIV.interaction H4 {
+    MARGIN: 0px 0px 10px
+  }
+  DIV.interaction P {
+    MARGIN: 0px
+  }
+  DIV.test {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid
+  }
+  DIV.test H4 {
+    MARGIN: 0px 0px 10px
+  }
+  .todo {
+    display: block;
+    background-color: #F99;
+    margin: 5px;
+    padding-left: 5px;
+    border: 2px solid #633;
+  }
+  .todo::before {
+    content: "TODO: ";
+    font-weight: bold;
+  }
+  figure {
+    margin: 2px;
+    padding: 2px;
+    border: 1px solid black;
+  }
+</style>
+</head>
+<body>
+    <section id="abstract">
+      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV-SKOS specification that provides the DPV as an RDFS ontology and using SKOS semantics to describe its hierarchies.</p>
+      <p>The canonical URL for DPV-SKOS is <a href="https://w3id.org/dpv/dpv-skos">https://w3id.org/dpv/dpv-skos#</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv/dpv-skos#"><code>https://w3id.org/dpv/dpv-skos#</code></a>, the suggested prefix for is <code>dpvo</code>, and this document along with its various serializations are available on <a href="https://github.com/w3c/dpv">GitHub</a>.
+      <p class="note">Newcomers to the DPV are <strong>strongly recommended to first read through the [[[DPV-Primer]]]</strong> to familiarise themselves with the semantics, concepts, their place within DPV.</p>
+
+      <p><strong>DPV Family of Documents</strong></p>
+    <ul>
+      <li>[[DPV-Primer]]: The Primer serves as an introductory document to DPV and provides an overview of its concepts.</li>
+      <li>[[DPV]]: The DPV Specification is the formal and normative description of DPV and its concepts. It provides a serialisation of the concepts as a taxonomy using SKOS.</li>
+      <li>Extensions to Concepts: <ul>
+        <li>[[DPV-GDPR]]: Extension to the DPV providing concepts relevant to [[GDPR]].</li>
+        <li>[[DPV-PD]]: Extension to the DPV providing a taxonomy of personal data categories.</li></ul></li>
+      <li>Serialisations of DPV: <ul>
+        <li>[[DPV-SKOS]]: (This document) A serialisation of the DPV using [[RDFS]] and [[SKOS]] to enable its use as a schema or ontology.</li>
+        <li>[[DPV-OWL]]: is a serialisation of the DPV using [[OWL]] to enable its use as an ontology.</li></ul></li>
+      <li>[[DPV-NACE]]: [[NACE]] taxonomy serialised in RDFS</li>
+    </ul>
+    <p>The table provides an overview of the expression of concepts across the three DPV serialisations.</p>
+    <table>
+      <thead>
+        <th>Concept</th>
+        <th>[[DPV]]</th>
+        <th>[[DPV-SKOS]]</th>
+        <th>[[DPV-OWL]]</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Concept</td>
+          <td><code>dpv:Concept</code>
+          </td><td><code>skos:Concept</code></td>
+          <td><code>owl:Class</code></td>
+        </tr>
+        <tr>
+          <td>is subtype of</td>
+          <td><code>dpv:isSubTypeOf</code>
+          </td><td><code>skos:broaderTransitive</code></td>
+          <td><code>owl:subClassOf</code></td>
+        </tr>
+        <tr>
+          <td>is instance of</td>
+          <td><code>dpv:isInstanceOf</code>
+          </td><td><code>rdf:type</code></td>
+          <td><code>rdf:type</code></td>
+        </tr>
+        <tr>
+          <td>has concept</td>
+          <td><code>dpv:Relation</code>
+          </td><td><code>rdf:Property</code></td>
+          <td><code>owl:ObjectProperty</code></td>
+        </tr>
+        <tr>
+          <td>relationship domain</td>
+          <td><code>dpv:domain</code>
+          </td><td><code>rdfs:domain</code></td>
+          <td><code>rdfs:domain</code></td>
+        </tr>
+        <tr>
+          <td>relationship range</td>
+          <td><code>dpv:range</code>
+          </td><td><code>rdfs:range</code></td>
+          <td><code>rdfs:range</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>Related Links</strong></p>
+    <ul>
+      <li>For a general overview of the Data Protection Vocabularies and Controls Community Group [[DPVCG]], its history, deliverables, and activities - refer to <a href="https://www.w3.org/community/dpvcg/"><u>DPVCG Website</u></a>.</p>
+      </li>
+      <li>
+        <p>The peer-reviewed article “<a href="https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44"><u>Creating A Vocabulary for Data Privacy</u></a>” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed <a href="http://hdl.handle.net/2262/91581"><u>here</u></a>, <a href="http://doras.dcu.ie/23801/"><u>here</u></a>, and <a href="https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf"><u>here</u></a>.</p>
+      </li>
+    </ul>
+    </section>
+    <section id="sotd">
+      <!-- sotd: Status of this document -->
+      <p>This document is published by the <a href="https://www.w3.org/community/dpvcg/">Data Privacy Vocabularies and Controls Community Group (DPVCG)</a> as a deliverable and report of its work in creating and maintaining the Data Privacy Vocabulary (DPV).</p>
+      <div class="note">
+        <p><strong>Contributing to the DPV and its extensions</strong> The DPVCG welcomes participation regarding the DPV, including expansion or refinement of its terms, addressing open issues, and welcomes suggestions on their resolution or mitigation.</p>
+        <p>For contributions to the DPV, please see <a href="https://github.com/w3c/dpv#contribution--participation">the section on GitHub</a>. The current list of open issues and their discussions to date can be found at <a href="https://github.com/w3c/dpv/issues">GitHub issues</a>.</p>
+      </div>
+      <p>Serialisations of DPV and its modules are available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+    </section>
+  <section id="dpvs-semantics">
+    <h2>DPV-SKOS Semantics</h2>
+    <p>As the earlier table outlined, this specification provides a serialisation of [[DPV]] by using RDFS to model the 'ontology' aspects and SKOS to model the 'hierarchy of concepts'. This is necessary to provide the ability to express information with greater flexibility than is permitted within the stricter semantics of OWL.</p>
+    <p>For example, consider the case where the <code>Purpose</code> is to be specified as <code>RequestedServiceProvision</code>. Given that ontologies, schemas, or data models should define domains and ranges for properties where applicable or suitable to enable their use within tools, for validation, inferences, and so on - it necessitates <code>RequestedServiceProvision</code> be an <i>instance</i> of <code>Purpose</code>. However, doing so prevents <code>RequestedServiceProvision</code> from being further extended, such as via <i>subclass mechanism</i>. While OWL2 permits <i>punning</i>, utilising it in this situation results in a large amount of assertions regarding each class being an instance of itself and of all its parent classes.</p>
+    <p>To prevent the above, and to provide the ability to express relationships between concepts whilst still permitting their usage with properties, this serialisation is designed where RDFS is used to express the basic structure or schema of the ontology i.e. the classes and properties, and SKOS is then utilised to express relationships between their instances. In this, each concept is defined as a <code>rdfs:Class</code> and a <code>skos:Concept</code> so that their usage can be applied based on either semantics. As a result, the taxonomies within DPV-SKOS are of two types:</p>
+    <ol>
+      <li>RDFS subclasses: these are classes with a subclass relationship to their parents.</li>
+      <li>SKOS broader (transitive): these are concepts that instances of a 'top concept' where relationship with 'parent' is defined using <code>skos:broaderTransitive</code> instead.</li>
+    </ol>
+    <figure>
+      <img src="img/semantics-01.png">
+      <figcaption>SKOS semantics providing ability to express relationships between concepts so that they can be used as value of properties</figcaption>
+    </figure>
+    <p>As an example, consider the <code>Purpose</code> taxonomy, part of which is illustrated in the figure above. Here, <code>ServiceProvision</code> and <code>RequestedServiceProvision</code> are part of the purpose hierarchy, where <i>RequestedServiceProvision</i> is a more specialised type of <i>ServiceProvision</i>. While DPV suggests best practice as extending (via subclass or instantiation) its concepts to make them specific to the applied use-case, this may not always be desired or required. Such as when the use-case wants to indicate its purpose is <code>RequestedServiceProvision</code> without additional details (e.g. for planning what they would like to do).</p>
+    <p>Instead, by declaring both these concepts as instances of <code>Purpose</code>, the property <code>hasPurpose</code> can be used to refer to either of them. To extend them, one must create another instance of <code>Purpose</code> and relate it to the closest concept within the hierarchy by using <code>skos:broaderTransitive</code> to indicate relevance.</p>
+    <aside class="example" title="Using the RDFS+SKOS semantics">
+    <pre class="nohighlight">
+ex:PDH a dpvs:PersonalDataHandling ;
+    dpvs:hasPurpose dpvs:RequestedServiceProvision .
+
+ex:PDH a dpvs:PersonalDataHandling ;
+    dpvs:hasPurpose ex:PurposeXYZ .
+ex:PurposeXYZ a dpvs:Purpose ;
+    skos:broaderTransitive dpvs:RequestedServiceProvision .
+
+# 'hacks that are invalid or no longer necessary
+
+# 1: Creating empty blank nodes to satisfy property range assertions
+ex:PDH a dpvs:PersonalDataHandling ;
+    dpvs:hasPurpose [ a dpvs:RequestedServiceProvision ] .
+
+# 2: Creating a node only to subclass existing concept
+ex:PDH a dpvs:PersonalDataHandling ;
+    dpvs:hasPurpose ex:Purpose XYZ .
+ex:PurposeXYZ rdfs:subClassOf dpvs:RequestedServiceProvision
+    </pre>
+    </aside>
+    <figure>
+      <img src="img/semantics-02.png">
+      <figcaption>SKOS semantics providing ability to express relationships between concepts so that they can be used as value of properties</figcaption>
+    </figure>
+    <p>Not all taxonomies make sense when expressed as an instance of a top concept. For example, consider the <i>Entities</i> taxonomy, where various entities are described as a hierarchy, as depicted in the figure above. In its case, it would not be accurate or correct to express relationships between instances such as <code>skos:broader dpvs:DataController</code>. For such cases, the expression of hierarchies continues to utilise the <code>rdfs:subClassOf</code> relationship to enforce the creation of specific instances representing that entity e.g. a specific data controller.</p>
+  </section>
+  <section id="vocab-base">
+    <h2>Base Vocabulary</h2>
+    <figure>
+    <img title="DPV Base Vocabulary" alt="DPV base vocabulary" src="/dpv/dpv/diagrams/personaldatahandling.png">
+      <figcaption>Base Vocabulary</figcaption>
+    </figure>
+    <p>The 'Base' or 'Core' concepts in DPV represent the most relevant concepts for representing information regarding the what, how, where, who, why of personal data and its processing. Each of these concepts is further elaborated as a taxonomy of concepts in a hierarchical fashion. The DPV provides the following as 'top-level' concepts and relations to associate them with other concepts:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Property</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>[=PersonalData=]</td>
+          <td>[=hasPersonalData=]</td>
+          <td>Personal data categories</td>
+        </tr>
+        <tr>
+          <td>[=Purpose=]</td>
+          <td>[=hasPurpose=]</td>
+          <td>Purpose of Processing</td>
+        </tr>
+        <tr>
+          <td>[=Processing=]</td>
+          <td>[=hasProcessing=]</td>
+          <td>Category or type of processing of personal data</td>
+        </tr>
+        <tr>
+          <td>[=DataController=]</td>
+          <td>[=hasDataController=]</td>
+          <td>Data Controller responsible for processing</td>
+        </tr>
+        <tr>
+          <td>[=DataSubject=]</td>
+          <td>[=hasDataSubject=]</td>
+          <td>Data Subject or Individual whose data is being processing</td>
+        </tr>
+        <tr>
+          <td>[=Recipient=]</td>
+          <td>[=hasRecipient=]</td>
+          <td>Recipient of personal data</td>
+        </tr>
+        <tr>
+          <td>[=TechnicalOrganisationalMeasure=]</td>
+          <td>[=hasTechnicalOrganisationalMeasure=]</td>
+          <td>Technical and/or Organisational measures associated with processing</td>
+        </tr>
+        <tr>
+          <td>[=LegalBasis=]</td>
+          <td>[=hasLegalBasis=]</td>
+          <td>Legal bases or justifications for processing</td>
+        </tr>
+        <tr>
+          <td>[=Right=]</td>
+          <td>[=hasRight=]</td>
+          <td>Rights applicable or provided</td>
+        </tr>
+        <tr>
+          <td>[=Risk=]</td>
+          <td>[=hasRisk=]</td>
+          <td>Risks applicable or probable regarding processing</td>
+        </tr>
+        <tr>
+          <td>[=PersonalDataHandling=]</td>
+          <td>[=hasPersonalDataHandling=]</td>
+          <td>A concept for associating the other core concepts as a 'group, 'policy', or 'set' - so as to express different use-cases and combinations</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>DPV provides taxonomies for all core concepts except the ones specified below:</p>
+    <ul>
+      <li data-dfn-for="PersonalDataHandling"><dfn>PersonalDataHandling</dfn>: DPV defines the concept of  for representing a 'policy' or 'grouping' that associates the top-level concepts with one another. The relation <span data-dfn-for="hasPersonalDataHandling"><dfn>hasPersonalDataHandling</dfn> provides a relation to associate a <code>PersonalDataHandling</code> with other concepts, including like itself.</span></li>
+      <li><span data-dfn-for="Right"><dfn>Right</dfn>: The concept <code>Right</code> represents a generic rights provided or recognised by some law or convention.</span> The relation <span data-dfn-for="hasRight"><dfn>hasRight</dfn> provides the relation to associate a <code>Right</code> with concepts.</span>. In addition, <span data-dfn-for="DataSubjectRight"><dfn>DataSubjectRight</dfn> refers to rights specifically available to applicable for Data Subjects.</span></li>
+      <li data-dfn-for="Risk"><dfn>Risk</dfn> represents the generic concept of <i>Risk</i> that can be associated with other concepts using [=hasRisk=].</li>
+    </ul>
+
+  {% if core_classes %}
+  <section id="baseontology-classes">
+    {{ table_classes(core_classes, 'base') }}
+  </section>
+  {% endif %}
+  {% if core_properties %}
+  <section id="baseontology-properties">
+    {{ table_properties(core_properties, 'base') }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-entities">
+  <h2>Entities</h2>
+    {% if entities_classes %}
+  <section id="entities-classes">
+    {{ table_classes(entities_classes) }}
+  </section>
+  {% endif %}
+  {% if entities_properties %}
+  <section id="entities-properties">
+    {{ table_properties(entities_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-purpose">
+  <h2>Purposes</h2>
+    {% if purpose_classes %}
+  <section id="purpose-classes">
+    {{ table_classes(purpose_classes) }}
+  </section>
+  {% endif %}
+  {% if purpose_properties %}
+  <section id="purpose-properties">
+    {{ table_properties(purpose_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-processing">
+  <h2>Processing</h2>
+    {% if processing_classes %}
+  <section id="processing-classes">
+    {{ table_classes(processing_classes) }}
+  </section>
+  {% endif %}
+  {% if processing_properties %}
+  <section id="processing-properties">
+    {{ table_properties(processing_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-personaldata">
+  <h2>Personal Data</h2>
+    {% if personaldata_classes %}
+  <section id="personaldata-classes">
+    {{ table_classes(personaldata_classes) }}
+  </section>
+  {% endif %}
+  {% if personaldata_properties %}
+  <section id="personaldata-properties">
+    {{ table_properties(personaldata_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-technical_organisational_measures">
+  <h2>Tech/Org Measures</h2>
+    {% if technical_organisational_measures_classes %}
+  <section id="technical_organisational_measures-classes">
+    {{ table_classes(technical_organisational_measures_classes) }}
+  </section>
+  {% endif %}
+  {% if technical_organisational_measures_properties %}
+  <section id="technical_organisational_measures-properties">
+    {{ table_properties(technical_organisational_measures_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-context">
+  <h2>Contextual Info</h2>
+    {% if context_classes %}
+  <section id="context-classes">
+    {{ table_classes(context_classes) }}
+  </section>
+  {% endif %}
+  {% if context_properties %}
+  <section id="context-properties">
+    {{ table_properties(context_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-jurisdictions">
+  <h2>Location &amp; Jurisdictions</h2>
+    {% if jurisdictions_classes %}
+  <section id="jurisdictions-classes">
+    {{ table_classes(jurisdictions_classes) }}
+  </section>
+  {% endif %}
+  {% if jurisdictions_properties %}
+  <section id="jurisdictions-properties">
+    {{ table_properties(jurisdictions_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-legal_basis">
+  <h2>Legal Bases</h2>
+    {% if legal_basis_classes %}
+  <section id="legal_basis-classes">
+    {{ table_classes(legal_basis_classes) }}
+  </section>
+  {% endif %}
+  {% if legal_basis_properties %}
+  <section id="legal_basis-properties">
+    {{ table_properties(legal_basis_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-consent">
+  <h2>Consent</h2>
+    {% if consent_classes %}
+  <section id="consent-classes">
+    {{ table_classes(consent_classes) }}
+  </section>
+  {% endif %}
+  {% if consent_properties %}
+  <section id="consent-properties">
+    {{ table_properties(consent_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+# Overview
+
+digraph G {
+    rankdir=RL;
+    node [shape=rect,style=filled,fillcolor=yellow];
+Thing [fillcolor=none];
+N1 [label="Tech/Org Measure"];
+N2 [label="Tech Measure",style=filled,fillcolor=yellow];
+N3 [label="Org Measure",style=filled,fillcolor=yellow];
+RiskMitigationMeasure, N2,N3 -> N1 [arrowhead=onormal,label="isSubTypeOf"];
+
+Risk -> RiskMitigationMeasure [label="isMitigatedByMeasure"];
+RiskMitigationMeasure -> Risk [label="mitigatesRisk"];
+
+Thing -> N1 [label="hasTechnicalOrganisationalMeasure"];
+Thing -> N2 [label="hasTechnicalMeasure"];
+Thing -> N3 [label="hasOrganisationalMeasure"];
+Thing -> Risk [label="hasRisk"];
+
+Thing -> Policy [label="hasPolicy"];
+Policy -> Thing [label="isPolicyFor"];
+Policy -> N3 [arrowhead=onormal,label="isSubTypeOf"];
+}
+
+# Technical
+
+digraph G {
+    // rankdir=LR;
+    compound=true;
+    node [shape=rect,style=filled,fillcolor=yellow];
+
+TechnicalMeasure -> AccessControlMethod [dir=both,arrowhead=none,arrowtail=onormal];
+TechnicalMeasure -> Encryption [dir=both,arrowhead=none,arrowtail=onormal];
+Anonymization -> PseudoAnonymization [dir=both,arrowhead=none,arrowtail=onormal];
+TechnicalMeasure -> AuthenticationProtocols [dir=both,arrowhead=none,arrowtail=onormal];
+PseudoAnonymization -> DeIdentification [dir=both,arrowhead=none,arrowtail=onormal];
+Encryption -> EncryptionInRest [dir=both,arrowhead=none,arrowtail=onormal];
+Encryption -> EncryptionInTransfer [dir=both,arrowhead=none,arrowtail=onormal];
+TechnicalMeasure -> Anonymization [dir=both,arrowhead=none,arrowtail=onormal];
+AuthenticationProtocols -> SingleSignOn [dir=both,arrowhead=none,arrowtail=onormal];
+}
+
+# Organisational Measure
+
+digraph G {
+    // rankdir=LR;
+    compound=true;
+    node [shape=rect,style=filled,fillcolor=yellow];
+
+    subgraph cluster_0 {
+        style=dotted;
+    Assessment, AuthorisationProcedure, CertificationSeal, Consultation, GuidelinesPrinciple, LegalAgreement, Notice ;
+    }
+    subgraph cluster_1 {
+        style=dotted;
+        Policy, PrivacyByDesign, RecordsOfActivities, RegularityOfRecertification, Safeguard, StaffTraining ;
+    }
+    Consultation -> OrganisationalMeasure [arrowhead=onormal,ltail=cluster_0] ;
+    OrganisationalMeasure -> RecordsOfActivities [arrowhead=none,arrowtail=onormal,dir=both,lhead=cluster_1] ;
+    
+}
+
+# Impact Assessment
+
+digraph G {
+    rankdir=BT;
+    compound=true;
+    node [shape=rect,style=filled,fillcolor=yellow];
+    edge [arrowhead=onormal];
+
+    DPIA -> ImpactAssessment ;
+    PIA ->  ImpactAssessment ;
+    DataTransferImpactAssessment ->  ImpactAssessment ;
+}

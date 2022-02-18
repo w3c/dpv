@@ -1,0 +1,216 @@
+{% macro table_classes(term_list, prefix=None) %}
+  <h3>Classes</h3>
+    <p>
+      {% for term in term_list | sort(attribute='iri') %}
+      <code><a href="#{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}">{{term.skos_prefLabel}}</a></code>{{" |" if not loop.last }}
+      {% endfor %}
+    </p>
+
+    {% for term in term_list | sort(attribute='iri') %}
+    <section {% if not prefix %}data-dfn-for="{{term.iri|fragment_this}}"{% endif %}>
+      <h4 id="{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}">{{term.skos_prefLabel}}</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>Term:</td>
+            <td><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></td>
+          </tr>
+          <tr>
+            <td>Definition:</td>
+            <td>{{term.skos_definition}}</td>
+          </tr>
+          {% if term.rdfs_subClassOf %}
+          <tr>
+            <td>SubClass of:</td>
+            <td>
+              {% if term.rdfs_subClassOf is sequence and not term.rdfs_subClassOf is string %}{% for parent in term.rdfs_subClassOf|sort %}
+              <a href="{{parent.iri}}">{{parent|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.rdfs_subClassOf.iri}}">{{term.rdfs_subClassOf|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% for pt in term.rdf_type %}{% if 'dpv' in pt.iri %}
+          <tr>
+            <td>Instance of:</td>
+            <td>{% for cls in term.rdf_type %}{% if 'dpv' in cls.iri %}<a href="{{cls.iri}}">{{cls|prefix_this}}</a>{% endif %}{% endfor %}</td>
+          </tr>
+          {% endif %}{% endfor %}
+          {% if term.skos_broaderTransitive %}
+          <tr>
+            <td>Narrower than:</td>
+            <td>
+              {% if term.skos_broaderTransitive is sequence and not term.skos_broaderTransitive is string %}{% for parent in term.skos_broaderTransitive|sort %}
+              <a href="{{parent.iri}}">{{parent|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.skos_broaderTransitive.iri}}">{{term.skos_broaderTransitive|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% set children = term|subclasses %}
+          {% if children %}
+          <tr>
+            <td>SuperType Of:</td>
+            <td>
+              {% for child in children|sort %}
+              <a href="{{child.iri}}">{{child|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.skos_note %}
+          <tr>
+            <td>Note:</td>
+             <td>{{term.skos_note}}</td>
+          </tr>
+          {% endif %}
+          {% if term.dct_source %}
+          <tr>
+            <td>Source:</td>
+            <td>
+            {% if term.dct_source is sequence and not term.dct_source is string %}{% for parent in term.dct_source|sort %}
+              <a href="{{parent}}">{{parent|saved_label}}</a>{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              <a href="{{term.dct_source}}">{{term.dct_source|saved_label}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          <tr>
+            <td>Created:</td>
+            <td><time>{{term.dct_created}}</time></td>
+          </tr>
+          {% if term.dct_modified %}
+          <tr>
+            <td>Modified:</td>
+            <td><time>{{term.dct_modified}}</time></td>
+          </tr>
+          {% endif %}
+          {% if term.dct_creator %}
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              {% if term.dct_creator is sequence and not term.dct_creator is string %}{% for person in term.dct_creator|sort %}
+              {{person}}{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              {{term.dct_creator}}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.skos_related %}
+          <tr>
+            <td>See Also:</td>
+            <td>
+              {% if term.skos_related is sequence and not term.skos_related is string %}{% for link in term.skos_related %}
+              <a href="{{link.iri}}">{{link|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.skos_related.iri}}">{{term.skos_related|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+    {% endfor %}
+{% endmacro %}
+
+{% macro table_properties(term_list, prefix=None) %}
+  <h3>Properties</h3>
+    <p>
+      {% for term in term_list | sort(attribute='iri') %}
+      <code><a href="#{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}">{{term.skos_prefLabel}}</a></code> |
+      {% endfor %}
+    </p>
+
+    {% for term in term_list | sort(attribute='iri') %}
+    <section {% if not prefix %}data-dfn-for="{{term.iri|fragment_this}}"{% endif %}>
+      <h4 id="{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}">{{term.skos_prefLabel}}</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>Term:</td>
+            <td><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>{{term.skos_definition}}</td>
+          </tr>
+          {% if term.rdfs_subPropertyOf %}
+          <tr>
+            <td>Sub-Property Of:</td>
+            <td>
+              {% if term.rdfs_subPropertyOf is sequence and not term.rdfs_subPropertyOf is string %}{% for parent in term.rdfs_subPropertyOf|sort %}
+              <a href="{{parent.iri}}">{{parent|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.rdfs_subPropertyOf.iri}}">{{term.rdfs_subPropertyOf|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.dct_source %}
+          <tr>
+            <td>Source:</td>
+            <td>
+            {% if term.dct_source is sequence and not term.dct_source is string %}{% for parent in term.dct_source|sort %}
+              <a href="{{parent}}">{{parent|saved_label}}</a>{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              <a href="{{term.dct_source}}">{{term.dct_source|saved_label}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.rdfs_domain %}
+          <tr>
+            <td>Domain:</td>
+            <td><a href="{{term.rdfs_domain}}"><code>{{term.rdfs_domain|prefix_this}}</code></a></td>
+          </tr>
+          {% endif %}
+          {% if term.rdfs_range %}
+          <tr>
+            <td>Range:</td>
+            <td><a href="{{term.rdfs_range}}"><code>{{term.rdfs_range|prefix_this}}</code></a></td>
+          </tr>
+          {% endif %}
+          <tr>
+            <td>Created:</td>
+            <td><time>{{term.dct_created}}</time></td>
+          </tr>
+          {% if term.dct_date_approved %}
+          <tr>
+            <td>Approved:</td>
+            <td><time>{{term.dct_date_accepted}}</time></td>
+          </tr>
+          {% endif %}
+          {% if term.dct_creator %}
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              {% if term.dct_creator is sequence and not term.dct_creator is string %}{% for person in term.dct_creator|sort %}
+              {{person}}{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              {{term.dct_creator}}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.skos_related %}
+          <tr>
+            <td>See Also:</td>
+            <td>
+              {% if term.skos_related is sequence and not term.skos_related is string %}{% for link in term.skos_related %}
+              <a href="{{link.iri}}">{{link|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.skos_related.iri}}">{{term.skos_related|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+    {% endfor %}
+{% endmacro %}

@@ -14,19 +14,35 @@ DPV_DOCUMENT_ID = '11bjy424zwC_j4bj9pnhmmI8o7RgrJfX4NgsZ31iR3Wo'
 # The sheet names are assumed to be valid IRIs
 # If they are not, escape them for IRI/HTML representation
 DPV_SHEETS = (
+    # Namespaces
+    'Namespaces',
+    'Namespaces_Other',
     # DPV
     'BaseOntology',
     'BaseOntology_properties',
-    'PersonalDataCategory',
+    'PersonalData',
+    'PersonalData_properties',
+    'dpv-pd',
     'Purpose',
     'Purpose_properties',
+    'Context',
+    'Context_properties',
     'Processing',
     'Processing_properties',
+    'ProcessingContext',
+    'ProcessingContext_properties',
     'TechnicalOrganisationalMeasure',
     'TechnicalOrganisationalMeasure_properties',
     'Entities',
     'Entities_properties',
+    'Entities_LegalRole',
+    'Entities_LegalRole_properties',
+    'Entities_Organisation',
+    'Entities_DataSubjects',
+    'Jurisdictions',
+    'Jurisdictions_properties',
     'LegalBasis',
+    'LegalBasis_properties',
     'Consent_properties',
     # DPV-GDPR
     'GDPR_LegalBasis',

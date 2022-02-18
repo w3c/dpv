@@ -9,8 +9,8 @@ GITHUB_REPO_RAW = 'https://raw.githubusercontent.com/w3c/dpv/master/'
 GITHUB_DPV_RAW = f'{GITHUB_REPO_RAW}dpv/rdf/'
 GITHUB_GDPR_RAW = f'{GITHUB_REPO_RAW}dpv-gdpr/rdf/'
 
-LOCAL_DPV = '../dpv/rdf/'
-LOCAL_GDPR = '../dpv-gdpr/rdf/'
+LOCAL_DPV = '../dpv/modules/'
+LOCAL_GDPR = '../dpv-gdpr/modules/'
 
 DPV_MODULES = (
     'base',
@@ -68,7 +68,7 @@ for module in DPV_MODULES:
     old = download_file_to_rdf_graph(f'{GITHUB_DPV_RAW}{module}.ttl')
     new = Graph()
     new.load(f'{LOCAL_DPV}{module}.ttl', format='turtle')
-    added, removed, changed = compare_iterations(old, new)
+    removed, added, changed = compare_iterations(old, new)
     print(f'added: {len(added)} ; removed: {len(removed)} ; changed: {len(changed)}')
     if removed:
         print('\nTerms Removed')
@@ -92,7 +92,7 @@ for module in DPV_GDPR_MODULES:
     old = download_file_to_rdf_graph(f'{GITHUB_GDPR_RAW}{module}.ttl')
     new = Graph()
     new.load(f'{LOCAL_GDPR}{module}.ttl', format='turtle')
-    added, removed, changed = compare_iterations(old, new)
+    removed, added, changed = compare_iterations(old, new)
     print(f'added: {len(added)} ; removed: {len(removed)} ; changed: {len(changed)}')
     if removed:
         print('\nTerms Removed')
