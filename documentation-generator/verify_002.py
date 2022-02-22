@@ -12,8 +12,9 @@
 DATA_PATHS = [
     '../dpv',
     '../dpv/modules',
-    # '../dpv-gdpr',
-    # '../dpv-gdpr/rdf',
+    '../dpv-gdpr',
+    '../dpv-gdpr/modules',
+    '../dpv-pd',
 ]
 
 # this is the list of shapes to be validated against

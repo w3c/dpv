@@ -76,6 +76,7 @@ dpv:ContextConcepts a skos:Collection ;
         dpv:hasFrequency,
         dpv:hasHumanInvolvement,
         dpv:hasIdentifier,
+        dpv:isImplementedByEntity,
         dpv:isImplementedUsingTechnology .
 
 dpv:EntitiesConcepts a skos:Collection ;
@@ -88,6 +89,7 @@ dpv:EntitiesConcepts a skos:Collection ;
         dpv:DataImporter,
         dpv:DataProcessor,
         dpv:DataProtectionAuthority,
+        dpv:DataProtectionOfficer,
         dpv:DataSubProcessor,
         dpv:DataSubject,
         dpv:ForProfitOrganisation,
@@ -167,6 +169,7 @@ dpv:Personal_DataConcepts a skos:Collection ;
         dpv:PersonalData,
         dpv:PseudoAnonymisedData,
         dpv:SensitivePersonalData,
+        dpv:SpecialCategoryPersonalData,
         dpv:hasPersonalData .
 
 dpv:ProcessingConcepts a skos:Collection ;
@@ -843,6 +846,20 @@ dpv:DataProtectionAuthority a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Data Protection Authority"@en ;
     dpv:isSubTypeOf dpv:Authority .
+
+dpv:DataProtectionOfficer a skos:Concept,
+        dpv:Concept ;
+    dct:created "2020-11-04"^^xsd:date ;
+    dct:creator "Georg Krog"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:modified "2021-12-08"^^xsd:date ;
+    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_37/oj> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "modified"@en ;
+    skos:definition "An entity within or authorised by an organisation to monitor internal compliance, inform and advise on data protection obligations and act as a contact point for data subjects and the supervisory authority."@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Data Protection Officer"@en ;
+    dpv:isSubTypeOf dpv:Representative .
 
 dpv:DataSubProcessor a skos:Concept,
         dpv:Concept ;
@@ -2015,18 +2032,6 @@ dpv:SellProductsToDataSubject a skos:Concept,
     skos:prefLabel "Sell Products to Data Subject"@en ;
     dpv:isSubTypeOf dpv:SellProducts .
 
-dpv:SensitivePersonalData a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-01-19"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Personal data that is considered 'sensitive' in terms of privacy and/or impact, and therefore requires additional considerations and/or protection"@en ;
-    skos:inScheme dpv: ;
-    skos:note "Sensitivity' is a matter of context, and may be defined within legal frameworks. For GDPR, Special categories of personal data are considered a subset of sensitive data. To illustrate the difference between the two, consider the situation where Location data is collected, and which is considered 'sensitive' but not 'special'. As a probable rule, sensitive data require additional considerations whereas special category data requires additional legal basis / justifications."@en ;
-    skos:prefLabel "SensitivePersonalData"@en ;
-    dpv:isSubTypeOf dpv:PersonalData .
-
 dpv:ServiceRecordManagement a skos:Concept,
         dpv:Concept ;
     dct:created "2021-09-08"^^xsd:date ;
@@ -2087,6 +2092,21 @@ dpv:SocialMediaMarketing a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Social Media"@en ;
     dpv:isSubTypeOf dpv:Marketing .
+
+dpv:SpecialCategoryPersonalData a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-05-07"^^xsd:date ;
+    dct:creator "Elmar Kiesling; Harshvardhan J. Pandit"^^xsd:string,
+        "Fajar Ekaputra"^^xsd:string ;
+    dct:modified "2022-01-19"^^xsd:date ;
+    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_9/par_1/oj> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "modified"@en ;
+    skos:definition "Sensitive Personal Data whose use requires specific legal permission or justification"@en ;
+    skos:inScheme dpv: ;
+    skos:note "The term 'special category' is based on GDPR Art.9, but should not be considered as exlusive to it. DPV considers all Special Categories to also be Sensitive, but whose use is either prohibited or regulated and therefore requires additional legal basis for justification."@en ;
+    skos:prefLabel "Special Category Personal Data"@en ;
+    dpv:isSubTypeOf dpv:SensitivePersonalData .
 
 dpv:StaffTraining a skos:Concept,
         dpv:Concept ;
@@ -2921,6 +2941,24 @@ dpv:isExplicit a skos:Concept,
     skos:note "The conditions for what is considered 'explicit consent' differ by norms and laws."@en ;
     skos:prefLabel "is explicit"@en .
 
+dpv:isImplementedByEntity a skos:Concept,
+        dpv:Relation ;
+    dct:created "2019-05-07"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Beatriz Esteves"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:modified "2022-01-26"^^xsd:date ;
+    rdfs:domain dpv:Concept ;
+    rdfs:isDefinedBy dpv: ;
+    rdfs:range dpv:Entity ;
+    sw:term_status "modified"@en ;
+    skos:definition "Indicates implementation details such as entities or agents"@en ;
+    skos:inScheme dpv: ;
+    skos:note "The use of 'entity' is inclusive of entities (e.g. Data Processor) as well as 'agent' (e.g. DPO). For indicating technological implementation, the property isImplementedByTechnology should be used."@en ;
+    skos:prefLabel "is implemented by entity"@en .
+
 dpv:isImplementedUsingTechnology a skos:Concept,
         dpv:Relation ;
     dct:created "2022-01-26"^^xsd:date ;
@@ -3286,21 +3324,6 @@ dpv:RecordsOfActivities a skos:Concept,
     skos:prefLabel "Records of Activities"@en ;
     dpv:isSubTypeOf dpv:OrganisationalMeasure .
 
-dpv:Representative a skos:Concept,
-        dpv:Concept ;
-    dct:created "2020-11-04"^^xsd:date ;
-    dct:creator "Beatriz Esteves"^^xsd:string,
-        "Georg Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Paul Ryan"^^xsd:string ;
-    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_27/oj> ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "A representative of a legal entity"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Representative"@en ;
-    dpv:isSubTypeOf dpv:LegalEntity .
-
 dpv:RequestedServiceProvision a skos:Concept,
         dpv:Concept ;
     dct:created "2021-09-08"^^xsd:date ;
@@ -3341,6 +3364,18 @@ dpv:Sector a skos:Concept,
     skos:inScheme dpv: ;
     skos:note "There are various sector codes used commonly to indicate the domain of an organisation or business. Examples include NACE (EU), ISIC (UN), SIC and NAICS (USA)."@en ;
     skos:prefLabel "Sector"@en .
+
+dpv:SensitivePersonalData a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-01-19"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Personal data that is considered 'sensitive' in terms of privacy and/or impact, and therefore requires additional considerations and/or protection"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Sensitivity' is a matter of context, and may be defined within legal frameworks. For GDPR, Special categories of personal data are considered a subset of sensitive data. To illustrate the difference between the two, consider the situation where Location data is collected, and which is considered 'sensitive' but not 'special'. As a probable rule, sensitive data require additional considerations whereas special category data requires additional legal basis / justifications."@en ;
+    skos:prefLabel "Sensitive Personal Data"@en ;
+    dpv:isSubTypeOf dpv:PersonalData .
 
 dpv:Technology a skos:Concept,
         dpv:Concept ;
@@ -3705,6 +3740,21 @@ dpv:Remove a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Remove"@en ;
     dpv:isSubTypeOf dpv:Processing .
+
+dpv:Representative a skos:Concept,
+        dpv:Concept ;
+    dct:created "2020-11-04"^^xsd:date ;
+    dct:creator "Beatriz Esteves"^^xsd:string,
+        "Georg Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_27/oj> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "A representative of a legal entity"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Representative"@en ;
+    dpv:isSubTypeOf dpv:LegalEntity .
 
 dpv:Right a skos:Concept,
         dpv:Concept ;

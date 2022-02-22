@@ -33,7 +33,7 @@ RDF_SERIALIZATIONS = {
     'jsonld': 'json-ld'
     }
 
-VOCAB_TERM_ACCEPT = ('accepted', 'changed')
+VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified')
 VOCAB_TERM_REJECT = ('deprecated', 'removed')
 
 import csv

@@ -6,19 +6,24 @@ from rdflib.term import Literal
 SW = Namespace('http://www.w3.org/2003/06/sw-vocab-status/ns#')
 
 GITHUB_REPO_RAW = 'https://raw.githubusercontent.com/w3c/dpv/master/'
-GITHUB_DPV_RAW = f'{GITHUB_REPO_RAW}dpv/rdf/'
-GITHUB_GDPR_RAW = f'{GITHUB_REPO_RAW}dpv-gdpr/rdf/'
+GITHUB_DPV_RAW = f'{GITHUB_REPO_RAW}dpv/modules/'
+GITHUB_GDPR_RAW = f'{GITHUB_REPO_RAW}dpv-gdpr/modules/'
+GITHUB_PD_RAW = f'{GITHUB_REPO_RAW}dpv-pd/'
 
 LOCAL_DPV = '../dpv/modules/'
 LOCAL_GDPR = '../dpv-gdpr/modules/'
+LOCAL_PD = '../dpv-pd/'
 
 DPV_MODULES = (
     'base',
-    'personal_data_categories',
+    'personal_data',
     'purposes',
     'processing',
     'technical_organisational_measures',
+    'context',
+    'processing_context',
     'entities',
+    'jurisdictions',
     'legal_basis',
     'consent',
     )
@@ -47,18 +52,18 @@ def download_file_to_rdf_graph(url):
     return graph
 
 
-def compare_iterations(old, new):
+def compare_iterations(graph_old, graph_new):
     '''compare old and new iterations of a graph
     returns added, removed, changed sets of concepts'''
+    old = set(s for s in graph_old.subjects(None, None))
+    new = set(s for s in graph_new.subjects(None, None))
+    # added: things in new set that are not in old set
     added = new - old
-    added = tuple(
-        x.split('#')[1] for x in added.subjects(RDF.type, RDFS.Class))
+    print(f'added: {len(added)}')
+    # removed: things in old set that are not in new set
     removed = old - new
-    removed = tuple(
-        x.split('#')[1] for x in removed.subjects(RDF.type, RDFS.Class))
-    changed = tuple(x.split('#')[1] for x in new.subjects(
-        SW.term_status, Literal('changed', lang='en')))
-    return added, removed, changed
+    print(f'removed: {len(removed)}')
+    return added, removed
 
 
 # DPV
@@ -68,42 +73,52 @@ for module in DPV_MODULES:
     old = download_file_to_rdf_graph(f'{GITHUB_DPV_RAW}{module}.ttl')
     new = Graph()
     new.load(f'{LOCAL_DPV}{module}.ttl', format='turtle')
-    removed, added, changed = compare_iterations(old, new)
-    print(f'added: {len(added)} ; removed: {len(removed)} ; changed: {len(changed)}')
+    added, removed = compare_iterations(old, new)
+    print(f'added: {len(added)} ; removed: {len(removed)}')
     if removed:
-        print('\nTerms Removed')
+        print('Concepts Removed')
         for term in removed:
             print(term)
     if added:
-        print('\nTerms Added')
+        print('\nConcepts Added')
         for term in added:
             print(term)
-    if changed:
-        print('\nTerms Changed')
-        for term in changed:
-            print(term)
-    print('\n')
+    print('---')
 
 
 # DPV-GDPR
-print('\n\n--- DPV-GDPR --- ')
+print('\n--- DPV-GDPR --- ')
 for module in DPV_GDPR_MODULES:
     print(f'MODULE: {module}')
     old = download_file_to_rdf_graph(f'{GITHUB_GDPR_RAW}{module}.ttl')
     new = Graph()
     new.load(f'{LOCAL_GDPR}{module}.ttl', format='turtle')
-    removed, added, changed = compare_iterations(old, new)
-    print(f'added: {len(added)} ; removed: {len(removed)} ; changed: {len(changed)}')
+    added, removed = compare_iterations(old, new)
+    print(f'added: {len(added)} ; removed: {len(removed)}')
     if removed:
-        print('\nTerms Removed')
+        print('Concepts Removed')
         for term in removed:
             print(term)
     if added:
-        print('\nTerms Added')
+        print('\nConcepts Added')
         for term in added:
             print(term)
-    if changed:
-        print('\nTerms Changed')
-        for term in changed:
-            print(term)
-    print('\n')
+    print('---')
+
+
+# DPV-PD
+print('\n--- DPV-PD ---')
+old = download_file_to_rdf_graph(f'{GITHUB_PD_RAW}dpv-pd.ttl')
+new = Graph()
+new.load(f'{LOCAL_PD}dpv-pd.ttl', format='turtle')
+added, removed = compare_iterations(old, new)
+print(f'added: {len(added)} ; removed: {len(removed)}')
+if removed:
+    print('\nConcepts Removed')
+    for term in removed:
+        print(term)
+if added:
+    print('Concepts Added')
+    for term in added:
+        print(term)
+print('---')

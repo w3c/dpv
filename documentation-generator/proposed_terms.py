@@ -19,13 +19,11 @@ for module in CSVS:
         for row in csvreader:
             row = row[:len(schema_labels)]
             item = SCHEMA(*row)
-            if item.Status not in ("proposed", "changed"): continue
+            if item.Status not in ("proposed", "changed", "modified"): continue
             if item.Status == "proposed":
                 output.append(item.Term)
-            elif item.Status == "changed":
-                output.append(f'{item.Term} (changed)')
             else:
-                raise AttributeError('Unknown Status')
+                output.append(f'{item.Term} (changed)')
             if 'properties' in module:
                 if item.ParentProperty:
                     output.append(f'\tparent: {item.ParentProperty}')
