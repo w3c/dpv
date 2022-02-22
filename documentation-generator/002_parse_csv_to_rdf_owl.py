@@ -38,6 +38,7 @@ VOCAB_TERM_REJECT = ('deprecated', 'removed')
 
 import csv
 from collections import namedtuple
+import json
 
 from rdflib import Graph, Namespace
 from rdflib.compare import graph_diff
@@ -241,9 +242,12 @@ def add_triples_for_classes(classes, graph):
     graph: rdflib graph
     returns: None'''
 
+    proposed = []
     for cls in classes:
         # only add accepted classes
         if cls.sw_termstatus not in VOCAB_TERM_ACCEPT:
+            if cls.sw_termstatus == 'proposed':
+                proposed.append(cls.term)
             continue
         # rdf:type
         DEBUG(cls.term)
@@ -276,7 +280,7 @@ def add_triples_for_classes(classes, graph):
         
         add_common_triples_for_all_terms(cls, graph)
 
-    return None
+    return proposed
         
 
 def add_triples_for_properties(properties, graph):
@@ -285,9 +289,12 @@ def add_triples_for_properties(properties, graph):
     graph: rdflib graph
     returns: None'''
 
+    proposed = []
     for prop in properties:
         # only record accepted classes
         if prop.sw_termstatus not in VOCAB_TERM_ACCEPT:
+            if prop.sw_termstatus == 'proposed':
+                proposed.append(prop.term)
             continue
         # rdf:type
         DEBUG(prop.term)
@@ -360,6 +367,8 @@ def add_triples_for_properties(properties, graph):
                 else:
                     graph.add((BASE[f'{prop.term}'], RDFS.subPropertyOf, Literal(parent, datatype=XSD.string)))
         add_common_triples_for_all_terms(prop, graph)
+
+    return proposed
 
 
 def serialize_graph(graph, filepath):
@@ -439,8 +448,10 @@ DPV_CSV_FILES = {
 
 # this graph will get written to dpv.ttl
 DPV_GRAPH = Graph()
+proposed_terms = {}
 for name, module in DPV_CSV_FILES.items():
     graph = Graph()
+    proposed = []
     DEBUG('------')
     DEBUG(f'Processing {name} module')
     for prefix, namespace in NAMESPACES.items():
@@ -448,14 +459,27 @@ for name, module in DPV_CSV_FILES.items():
     if 'classes' in module:
         classes = extract_terms_from_csv(module['classes'], DPV_Class)
         DEBUG(f'there are {len(classes)} classes in {name}')
-        add_triples_for_classes(classes, graph)
+        returnval = add_triples_for_classes(classes, graph)
+        if returnval:
+            proposed.extend(returnval)
     if 'properties' in module:
         properties = extract_terms_from_csv(module['properties'], DPV_Property)
         DEBUG(f'there are {len(properties)} properties in {name}')
-        add_triples_for_properties(properties, graph)
+        returnval = add_triples_for_properties(properties, graph)
+        if returnval:
+            proposed.extend(returnval)
+    if proposed:
+        proposed_terms[name] = proposed
     # serialize
     serialize_graph(graph, f'{EXPORT_DPV_MODULE_PATH}/{name}')
     DPV_GRAPH += graph
+
+if proposed_terms:
+    with open(f'{EXPORT_DPV_PATH}/proposed.json', 'w') as fd:
+        json.dump(proposed_terms, fd)
+    DEBUG(f'exported proposed terms to {EXPORT_DPV_PATH}/proposed.json')
+else:
+    DEBUG('no proposed terms in DPV-OWL')
 
 # add information about ontology
 # this is assumed to be in file dpv-ontology-metadata.ttl
@@ -489,9 +513,11 @@ DPV_GDPR_CSV_FILES = {
 
 BASE = NAMESPACES['dpvo-gdpr']
 DPV_GDPR_GRAPH = Graph()
+proposed_terms = {}
 
 for name, module in DPV_GDPR_CSV_FILES.items():
     graph = Graph()
+    proposed = []
     DEBUG('------')
     DEBUG(f'Processing {name} module')
     for prefix, namespace in NAMESPACES.items():
@@ -499,15 +525,27 @@ for name, module in DPV_GDPR_CSV_FILES.items():
     if 'classes' in module:
         classes = extract_terms_from_csv(module['classes'], DPV_Class)
         DEBUG(f'there are {len(classes)} classes in {name}')
-        add_triples_for_classes(classes, graph)
+        returnval = add_triples_for_classes(classes, graph)
+        if returnval:
+            proposed.extend(returnval)
     if 'properties' in module:
         properties = extract_terms_from_csv(module['properties'], DPV_Property)
         DEBUG(f'there are {len(properties)} properties in {name}')
-        add_triples_for_properties(properties, graph)
+        returnval = add_triples_for_properties(properties, graph)
+        if returnval:
+            proposed.extend(returnval)
+    if proposed:
+        proposed_terms[name] = proposed
     # serialize
     serialize_graph(graph, f'{EXPORT_DPV_GDPR_MODULE_PATH}/{name}')
     DPV_GDPR_GRAPH += graph
 
+if proposed_terms:
+    with open(f'{EXPORT_DPV_GDPR_PATH}/proposed.json', 'w') as fd:
+        json.dump(proposed_terms, fd)
+    DEBUG(f'exported proposed terms to {EXPORT_DPV_GDPR_PATH}/proposed.json')
+else:
+    DEBUG('no proposed terms in DPVO-GDPR')
 graph = Graph()
 graph.load('ontology_metadata/dpv-owl-gdpr.ttl', format='turtle')
 DPV_GDPR_GRAPH += graph
@@ -528,14 +566,22 @@ DPV_PD_CSV_FILES = f'{IMPORT_CSV_PATH}/dpv-pd.csv'
 
 BASE = NAMESPACES['dpvo-pd']
 DPV_PD_GRAPH = Graph()
-
+proposed_terms = []
 DEBUG('------')
 DEBUG(f'Processing DPV-PD')
 for prefix, namespace in NAMESPACES.items():
     DPV_PD_GRAPH.namespace_manager.bind(prefix, namespace)
 classes = extract_terms_from_csv(DPV_PD_CSV_FILES, DPV_Class)
 DEBUG(f'there are {len(classes)} classes in {name}')
-add_triples_for_classes(classes, DPV_PD_GRAPH)
+returnval = add_triples_for_classes(classes, DPV_PD_GRAPH)
+if returnval:
+    proposed_terms.extend(returnval)
+if proposed_terms:
+    with open(f'{EXPORT_DPV_PD_PATH}/proposed.json', 'w') as fd:
+        json.dump(proposed_terms, fd)
+    DEBUG(f'exported proposed terms to {EXPORT_DPV_PD_PATH}/proposed.json')
+else:
+    DEBUG('no proposed terms in DPVO-PD')
 # serialize
 DPV_PD_GRAPH.load('ontology_metadata/dpv-owl-pd.ttl', format='turtle')
 
