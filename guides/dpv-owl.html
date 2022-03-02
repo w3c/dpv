@@ -199,10 +199,10 @@
 </head>
 <body>
 <section id="abstract">
-    <p>The [[[DPV]]] can be easily encoded in a low-complexity profile of OWL2 called <em>OWL2-PL</em>. The OWL2 encoding of DPV can be found at [[DPV-OWL]] </p>
+    <p>This document acts as a guide presenting how [[[DPV]]], through its OWL2 encoding (i.e. [[DPV-OWL]]) can be used as an OWL2 vocabulary by easily encoding it in a low-complexity profile of OWL2 called <em>OWL2-PL</em>. </p>
 </section>
 <section id="sotd">
-    <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv#</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix for is <code>dpv</code>, and this document along with its various serializations are available on <a href="https://github.com/w3c/dpv">GitHub</a>.
+    <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv#</a> which contains its specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix for is <code>dpv</code>, and the specification along with its various serializations are available on <a href="https://github.com/w3c/dpv">GitHub</a>.
       <p class="note">Newcomers to the DPV are <strong>strongly recommended to first read through the [[[DPV-Primer]]]</strong> to familiarise themselves with the semantics, concepts, their place within DPV.</p>
     <p><strong>DPV Family of Documents</strong></p>
     <ul>
@@ -223,7 +223,7 @@
     <p>The reason for encoding DPV concepts as classes is simple: they are meant to be extended and refined for specific domains and use cases, as described in section 4 of the primer. For example, the purpose <em>AcademicResearch</em> may be specialized by introducing two subclasses, one for medical research and one for AI research. The processing category <em>Collect</em>, that denotes all personal data collection operations, can be specialized by two subclasses, one for the direct collection from the data subject, and one for the import of personal data from a third party, such as Open-ID or a Solid repository, for example. The new subclasses, in turn can be further specialized to support extreme extensibility and granularity. For example, the class <em>Location</em> can be refined by a class <em>EULocation</em> representing all the coordinates that fall within the borders of the European Union; in turn, <em>EULocation</em> can be refined by further terms, one for each country belonging to the Union; such terms can be further refined by classes that represent increasingly specific areas, such as regions, cities, streets, buildings, and even rooms in a building.</p>
     <p>OWL2 provides strong interoperability guarantees: its <em>direct semantics</em> constitutes a crisp semantic specification, that guarantees that all compliant software agents understand and process DPV and its extensions in the same way.</p>
     <p>The formal semantics of OWL2 provides also other guarantees, for example it can be formally proved that the compliance checking algorithms never return any false positive or negative. This robustness property and flexibility, extensibility and interoperability, make OWL2 the recommended machine-understandable encoding for automated compliance checking (of privacy policies – or records of processing – with respect to data protection regulations and the data subjects’ consent to personal data processing).</p>
-    <p>OWL2 does not mean poor performance: for example, using the specialized Java compliance checker developed in SPECIAL (https://github.com/specialprivacy/SPECIAL-compliance-engine) a compliance check takes only a few hundred μ-seconds.</p>
+    <p>OWL2 does not mean poor performance: for example, using the <a href="https://github.com/specialprivacy/SPECIAL-compliance-engine">specialized Java compliance checker developed in SPECIAL</a> a compliance check takes only a few hundred μ-seconds.</p>
 </section>
 <section id="modeling-dpv-with-owl2-pl">
     <h2>Modeling and extending DPV with OWL2-PL</h2>
@@ -239,7 +239,7 @@
     <p>Such disjointness assertions may help in identifying wrong uses of DPV (like the assignment of a recipient to property <em>hasPurpose</em>).</p>
     <p>To give a concrete example, let us show how the term <em>MedicalHealth</em> is encoded in OWL2. In the following examples we use the <em>Manchester syntax</em> of OWL2.</p>
     <aside class="example" title="Combining concepts">
-        <p>DPV defines <em>MedicalHealth</em> at , where it is specified that this term is a subclass of both <em>External</em> and <em>SpecialCategoryPersonalData</em>. In OWL2, the class <em>MedicalHealth</em> can be created and associated to its super-classes with the following simple text:</p>
+        <p>DPV defines <em>MedicalHealth</em> at <a href="https://w3id.org/dpv#MedicalHealth">https://w3id.org/dpv#MedicalHealth</a>, where it is specified that this term is a subclass of both <em>External</em> and <em>SpecialCategoryPersonalData</em>. In OWL2, the class <em>MedicalHealth</em> can be created and associated to its super-classes with the following simple text:</p>
 <pre class="nohighlight">
 Class: dpv:MedicalHealth
 SubclassOf: dpv:External, dpv:SpecialCategoryPersonalData</pre>
@@ -260,7 +260,7 @@ SubclassOf: dpv:Marketing</pre>
     <ul>
     <li><p>a single, specific recipient or controller,</p></li>
     <li><p>a single location, such as those specified by GPS coordinates,</p></li>
-    <li><p>other single data values, such as specific email addresses (like “”), specific social security numbers, and the like.</p></li>
+    <li><p>other single data values, such as specific email addresses (like “jane.doe@provider.org”), specific social security numbers, and the like.</p></li>
     </ul>
     <p>The rule of thumb to decide whether a term should be a class or an instance is based on the question: <em>can the new term possibly be further refined?</em> If the answer is “yes”, then make it a class, otherwise it can be made an instance. In case of doubt, making the new term a class is the safest option.</p>
     <p>Instances can be added to the ontology with:</p>
@@ -317,18 +317,18 @@ EquivalentTo:
 </pre></aside>
     <p>where <em>A6-1-a-consent</em> is a superclass of <em>A6-1-a-explicit-consent and A6-1-a-non-explicit-consent. </em>In a similar way, one can encode a consent statement that permits all the operations that <em>collect</em> <em>contact information</em> for <em>marketing</em> purposes:</p>
     <aside><pre>Class: Policy2
-    EquivalentTo: 
-        hasProcessing some Collection and 
-        hasPersonalData some Contact and
-        hasPurpose some Marketing</pre></aside>
+EquivalentTo: 
+    hasProcessing some Collection and 
+    hasPersonalData some Contact and
+    hasPurpose some Marketing</pre></aside>
     <p>Now, since <em>EmailAddress</em> is a subclass of <em>Contact</em> and <em>Advertising</em> is a subclass of <em>Marketing</em>, all the operations that belong to<em> Policy1</em> satisfy also the requirements for being in<em> Policy2</em> as well. Then<em> Policy1</em> is a subclass of <em>Policy2</em>, that is, the privacy policy complies with the data subject’s consent.</p>
     <p>It is also easy to say that some properties of a policy must have a single value (an instance). For example, the policy <em>Policy3</em> stating that the email address “user@provider.com” (and only that mail address) can be transferred to the ACME company (and only that company) for any marketing purposes is encoded in OWL2-PL as follows:</p>
     <aside><pre>Class: Policy3
-    EquivalentTo: 
-        hasProcessing some Transfer and 
-        hasPersonalData some {user@provider.com} and
-        hasRecipient some {myext:ACME}
-        hasPurpose some Marketing</pre></aside>
+EquivalentTo: 
+    hasProcessing some Transfer and 
+    hasPersonalData some {user@provider.com} and
+    hasRecipient some {myext:ACME}
+    hasPurpose some Marketing</pre></aside>
     <p>The expressions {user@provider.com} and {myext:ACME} denote the classes that contain <em>only </em>user@provider.com and ACME, respectively. Therefore, all the operations permitted by <em>Policy3</em> process only the address “user@provider.com” and share it only with ACME, as required. Any other operation is forbidden.</p>
     <p>Interestingly, every OWL2 reasoner can be used to check compliance, because they are all able to check whether a class is a subclass of another class. Of course, the reasoners specialized for OWL2-PL are in general more efficient than generic OWL2 reasoners. The part of OWL2-PL aimed at encoding policies supports the above syntax, that is, policies can be defined using the keywords “<em>EquivalentTo</em>”, “<em>and</em>”, and “<em>some</em>” as shown above. Each policy must have a unique definition.</p>
     <p>This kind of automated compliance checking has several interesting applications, including the following:</p>
@@ -348,8 +348,8 @@ EquivalentTo:
 </section>
 <section id="references">
     <p>[1] Piero A. Bonatti, Sabrina Kirrane, Iliana M. Petrova, Luigi Sauro: <em>Machine Understandable Policies and GDPR Compliance Checking</em>. Künstliche Intell. 34(3): 303-315 (2020)</p>
-    <p>[2] P.A. Bonatti, L. Ioffredo, G. Luongo, S. Mosi, I.M. Petrova, L. Sauro: <em>Formalization of the GDPR and of the Pilots’ Policies</em>. SPECIAL Report D5. Available at:</p>
-    <p>[3] P.A. Bonatti, J. Langens, L. Sauro: <em>Policy Language – v1</em>. TRAPEZE Report D2.1. Available at:</p>
+    <p>[2] P.A. Bonatti, L. Ioffredo, G. Luongo, S. Mosi, I.M. Petrova, L. Sauro: <em>Formalization of the GDPR and of the Pilots’ Policies</em>. SPECIAL Report D5. Available at: <a href="https://specialprivacy.ercim.eu/images/documents/report-D5.pdf">https://specialprivacy.ercim.eu/images/documents/report-D5.pdf</a></p>
+    <p>[3] P.A. Bonatti, J. Langens, L. Sauro: <em>Policy Language – v1</em>. TRAPEZE Report D2.1. Available at: <a href="https://trapeze-project.eu/resources/">https://trapeze-project.eu/resources/</a></p>
 </section>
 </body>
 </body>
