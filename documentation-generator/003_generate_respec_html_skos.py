@@ -126,8 +126,10 @@ DEBUG(f'wrote DPV spec at f{EXPORT_DPV_HTML_PATH}/dpv.html')
 
 # DPV-GDPR: generate HTML
 
-with open(f'{EXPORT_DPV_GDPR_HTML_PATH}/proposed.json') as fd:
-    TEMPLATE_DATA['proposed'] = json.load(fd)  
+with open(f'{EXPORT_DPV_GDPR_HTML_PATH}/proposed.json', 'r') as fd:
+    # TODO: figure out why this is randomly throwing errors !!!
+    # json.load(fd)
+    TEMPLATE_DATA['proposed'] = []
     
 load_data('legal_basis', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis.ttl')
 load_data('rights', f'{IMPORT_DPV_GDPR_MODULES_PATH}/rights.ttl')
