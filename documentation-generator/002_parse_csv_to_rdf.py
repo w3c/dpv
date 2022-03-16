@@ -445,7 +445,7 @@ else:
 # add information about ontology
 # this is assumed to be in file dpv-ontology-metadata.ttl
 graph = Graph()
-graph.load('ontology_metadata/dpv-gdpr.ttl', format='turtle')
+graph.load('ontology_metadata/dpv.ttl', format='turtle')
 graph.load('ontology_metadata/dpv-semantics.ttl', format='turtle')
 DPV_GRAPH += graph
 
