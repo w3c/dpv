@@ -77,11 +77,11 @@ DPV_NACE = Namespace('https://w3id.org/dpv/nace#')
 DPV_GDPR = Namespace('https://w3id.org/dpv/gdpr#')
 DPV_PD = Namespace('https://w3id.org/dpv/pd#')
 DPVS = Namespace('https://w3id.org/dpv/dpv-skos#')
-DPVS_GDPR = Namespace('https://w3id.org/dpv/dpv-skos/gdpr#')
-DPVS_PD = Namespace('https://w3id.org/dpv/dpv-skos/pd#')
+DPVS_GDPR = Namespace('https://w3id.org/dpv/dpv-skos/dpv-gdpr#')
+DPVS_PD = Namespace('https://w3id.org/dpv/dpv-skos/dpv-pd#')
 DPVO = Namespace('https://w3id.org/dpv/dpv-owl#')
-DPVO_GDPR = Namespace('https://w3id.org/dpv/dpv-owl/gdpr#')
-DPVO_PD = Namespace('https://w3id.org/dpv/dpv-owl/pd#')
+DPVO_GDPR = Namespace('https://w3id.org/dpv/dpv-owl/dpv-gdpr#')
+DPVO_PD = Namespace('https://w3id.org/dpv/dpv-owl/dpv-pd#')
 
 # The dpv namespace is the default base for all terms
 # Later, this is changed to write terms under DPV-GDPR namespace
