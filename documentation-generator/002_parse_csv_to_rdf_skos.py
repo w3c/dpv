@@ -73,9 +73,9 @@ SW = Namespace('http://www.w3.org/2003/06/sw-vocab-status/ns#')
 TIME = Namespace('http://www.w3.org/2006/time#')
 
 DPV = Namespace('https://w3id.org/dpv#')
-DPV_NACE = Namespace('https://w3id.org/dpv/nace#')
-DPV_GDPR = Namespace('https://w3id.org/dpv/gdpr#')
-DPV_PD = Namespace('https://w3id.org/dpv/pd#')
+DPV_NACE = Namespace('https://w3id.org/dpv/dpv-nace#')
+DPV_GDPR = Namespace('https://w3id.org/dpv/dpv-gdpr#')
+DPV_PD = Namespace('https://w3id.org/dpv/dpv-pd#')
 DPVS = Namespace('https://w3id.org/dpv/dpv-skos#')
 DPVS_GDPR = Namespace('https://w3id.org/dpv/dpv-skos/dpv-gdpr#')
 DPVS_PD = Namespace('https://w3id.org/dpv/dpv-skos/dpv-pd#')
@@ -475,8 +475,8 @@ for name, module in DPV_CSV_FILES.items():
         DPV_GRAPH.add((concept, SKOS.inScheme, DPV['']))
     # serialize
     serialize_graph(graph, f'{EXPORT_DPV_MODULE_PATH}/{name}')
-    if 'topconcept':
-        DPV_GRAPH.add((BASE[''], SKOS.hasTopConcept, BASE[f'{topconcept}']))
+    if topconcept:
+        DPV_GRAPH.add((BASE[''], SKOS.hasTopConcept, URIRef(topconcept)))
     DPV_GRAPH += graph
 
 if proposed_terms:
@@ -558,8 +558,8 @@ for name, module in DPV_GDPR_CSV_FILES.items():
         DPV_GDPR_GRAPH.add((concept, SKOS.inScheme, DPV_GDPR['']))
     # serialize
     serialize_graph(graph, f'{EXPORT_DPV_GDPR_MODULE_PATH}/{name}')
-    if 'topconcept':
-        DPV_GDPR_GRAPH.add((BASE[''], SKOS.hasTopConcept, BASE[f'topconcept']))
+    if topconcept:
+        DPV_GDPR_GRAPH.add((BASE[''], SKOS.hasTopConcept, URIRef(topconcept)))
     DPV_GDPR_GRAPH += graph
 
 if proposed_terms:
