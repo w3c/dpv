@@ -2,13 +2,13 @@
 @prefix dpv: <https://w3id.org/dpv#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skos1: <http://www.w3.org/20.5/02/skos/core#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 dpv:ContextConcepts a skos:Collection ;
     dct:title "Context Concepts"^^xsd:string ;
     skos:member dpv:AlgorithmicLogic,
-        dpv:Consequence,
         dpv:Context,
         dpv:Duration,
         dpv:Frequency,
@@ -22,20 +22,21 @@ dpv:ContextConcepts a skos:Collection ;
         dpv:SecondaryImportance,
         dpv:Technology,
         dpv:hasAlgorithmicLogic,
-        dpv:hasConsequence,
         dpv:hasContext,
         dpv:hasDuration,
         dpv:hasFrequency,
         dpv:hasHumanInvolvement,
         dpv:hasIdentifier,
+        dpv:isAfter,
+        dpv:isBefore,
         dpv:isImplementedByEntity,
         dpv:isImplementedUsingTechnology .
 
-dpv:isInstanceOf rdfs:subPropertyOf skos:semanticRelation ;
-    skos:prefLabel "isInstanceOf"@en .
+dpv:isInstanceOf skos1:prefLabel "isInstanceOf"@en ;
+    rdfs:subPropertyOf skos1:semanticRelation .
 
-dpv:isSubTypeOf rdfs:subPropertyOf skos:broaderTransitive ;
-    skos:prefLabel "isSubTypeOf"@en .
+dpv:isSubTypeOf skos1:prefLabel "isSubTypeOf"@en ;
+    rdfs:subPropertyOf skos1:broaderTransitive .
 
 dpv:NotRequired a skos:Concept,
         dpv:Concept ;
@@ -120,21 +121,6 @@ dpv:hasAlgorithmicLogic a skos:Concept,
     skos:definition "Indicates the logic used in processing such as for automated decision making"@en ;
     skos:prefLabel "has algorithmic logic"@en .
 
-dpv:hasConsequence a skos:Concept,
-        dpv:Relation ;
-    dct:created "2020-11-04"^^xsd:date ;
-    dct:creator "Georg P. Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Paul Ryan"^^xsd:string ;
-    dct:modified "2021-09-21"^^xsd:date ;
-    rdfs:domain dpv:Concept ;
-    rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Consequence ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates consequences of processing such as those for Data Subjects in relation to automated decision making"@en ;
-    skos:note "Removed plural suffix for consistency"@en ;
-    skos:prefLabel "has consequence"@en .
-
 dpv:hasContext a skos:Concept,
         dpv:Relation ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -163,6 +149,7 @@ dpv:hasDuration a skos:Concept,
 dpv:hasFrequency a skos:Concept,
         dpv:Relation ;
     dct:created "2022-02-16"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:domain dpv:Concept ;
     rdfs:isDefinedBy dpv: ;
     rdfs:range dpv:Frequency ;
@@ -197,6 +184,32 @@ dpv:hasIdentifier a skos:Concept,
     sw:term_status "accepted"@en ;
     skos:definition "Indicates an identifier associated for identification or reference"@en ;
     skos:prefLabel "has identifier"@en .
+
+dpv:isAfter a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-03-02"^^xsd:date ;
+    dct:creator "Georg P. Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string ;
+    rdfs:domain dpv:Concept ;
+    rdfs:isDefinedBy dpv: ;
+    rdfs:range dpv:Concept ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the specified concepts is 'after' this concept in some context"@en ;
+    skos:prefLabel "is after"@en .
+
+dpv:isBefore a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-03-02"^^xsd:date ;
+    dct:creator "Georg P. Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string ;
+    rdfs:domain dpv:Concept ;
+    rdfs:isDefinedBy dpv: ;
+    rdfs:range dpv:Concept ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the specified concepts is 'before' this concept in some context"@en ;
+    skos:prefLabel "is before"@en .
 
 dpv:isImplementedByEntity a skos:Concept,
         dpv:Relation ;
@@ -241,19 +254,10 @@ dpv:AlgorithmicLogic a skos:Concept,
     skos:prefLabel "Algorithmic Logic"@en ;
     dpv:isSubTypeOf dpv:Context .
 
-dpv:Consequence a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-01-26"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "The consequence(s) possible or arising from indicated plan or action"@en ;
-    skos:prefLabel "Consequence"@en ;
-    dpv:isSubTypeOf dpv:Context .
-
 dpv:Duration a skos:Concept,
         dpv:Concept ;
     dct:created "2022-02-09"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "The duration or temporal limitation"@en ;
@@ -262,6 +266,7 @@ dpv:Duration a skos:Concept,
 dpv:Frequency a skos:Concept,
         dpv:Concept ;
     dct:created "2022-02-16"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "The frequency or information about periods and repetitions in terms of recurrence."@en ;
@@ -273,7 +278,7 @@ dpv:HumanInvolvement a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:definition "The involvement of humans as a factor or agent in processing"@en ;
+    skos:definition "The involvement of humans in specified context"@en ;
     skos:note "Human Involvement here broadly refers to any involvement by a human in the context of carrying out processing. This may include verification of outcomes, providing input data for making decisions, or overseeing activities."@en ;
     skos:prefLabel "Human Involvement"@en ;
     dpv:isSubTypeOf dpv:Context .
@@ -332,9 +337,9 @@ dpv:Context a skos:Concept,
     skos:definition "Contextually relevant information about purpose not possible to represent through other concepts"@en ;
     skos:prefLabel "Context"@en .
 
-dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
-    skos:prefLabel "Relation"@en .
+dpv:Relation skos1:prefLabel "Relation"@en ;
+    rdfs:subPropertyOf skos1:semanticRelation .
 
-dpv:Concept rdfs:subClassOf skos:Concept ;
-    skos:prefLabel "Concept"@en .
+dpv:Concept skos1:prefLabel "Concept"@en ;
+    rdfs:subClassOf skos1:Concept .
 

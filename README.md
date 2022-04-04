@@ -9,13 +9,33 @@ The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to d
 
 License: All work produced by DPVCG and provided through this repo or elsewhere is provided by contributors under the [W3C Document License](https://www.w3.org/Consortium/Legal/2015/doc-license). A copy of the license is provided in the [LICENSE.md](./LICENSE.md) file.
 
-Outputs:
-  * Primer: Introduction to the Data Privacy Vocabulary - [https://w3id.org/dpv/primer](https://w3id.org/dpv/primer)
-  * Data Privacy Vocabulary (DPV) - [https://w3id.org/dpv](https://w3id.org/dpv)
-  * GDPR terms for Data Privacy Vocabulary (DPV-GDPR) [https://w3id.org/dpv/dpv-gdpr](https://w3id.org/dpv/dpv-gdpr)
+## DPV Family of Documents
 
-Publication: 
- * Pandit H.J. et al. (2019) Creating a Vocabulary for Data Privacy. In:  Panetto H., Debruyne C., Hepp M., Lewis D., Ardagna C., Meersman R.  (eds) On the Move to Meaningful Internet Systems: OTM 2019 Conferences.  OTM 2019. Lecture Notes in Computer Science, vol 11877. Springer, Cham.  https://doi.org/10.1007/978-3-030-33246-4_44
+**Core documents:**
+
+* [Primer for Data Privacy Vocabulary](https://www.w3id.org/dpv/primer): introductory document to DPV concepts
+    
+> **Note:** Newcomers to the DPV are **strongly recommended to first read through the Primer** to familiarise themselves with the semantics and concepts of DPV.
+    
+*   [Data Privacy Vocabulary (DPV) Specification](https://www.w3id.org/dpv): (this document) formal and normative description of DPV and its concepts.
+
+**Serialisations of DPV:**
+
+-   [Data Privacy Vocabulary serialised using SKOS+RDFS (DPV-SKOS)](https://www.w3id.org/dpv/dpv-skos): serialisation of DPV with SKOS and RDFS semantics
+-   [Data Privacy Vocabulary serialised using OWL2 (DPV-OWL)](https://www.w3id.org/dpv/dpv-owl): serialisation of DPV using OWL2 semantics
+
+**Extensions to Concepts:**
+-   [GDPR Extension for Data Privacy Vocabulary (DPV-GDPR)](https://www.w3id.org/dpv/dpv-gdpr): extends DPV concepts for GDPR
+-   [Personal Data Categories Extension for Data Privacy Vocabulary (DPV-PD)](https://www.w3id.org/dpv/dpv-pd)
+-   [Legal Extension providing Jurisdictions, Laws, and Authorities for Data Privacy Vocabulary (DPV-LEGAL)](https://www.w3id.org/dpv/dpv-legal)
+-   [Guidelines for Adoption and Use of DPV](https://w3id.org/dpv/guides): [Using DPV in OWL2](https://w3id.org/dpv/guides/dpv-owl)
+
+**Other Resources:**
+-   [NACE Taxonomy serialised in RDFS](https://www.w3id.org/dpv/dpv-nace)
+
+**Related Links**
+*   For a general overview of the Data Protection Vocabularies and Controls Community Group \[[DPVCG](#bib-dpvcg "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)")\], its history, deliverables, and activities - refer to [DPVCG Website](https://www.w3.org/community/dpvcg/).
+*   **Cite as:** The peer-reviewed article “[Creating A Vocabulary for Data Privacy](https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44)” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed [here](http://hdl.handle.net/2262/91581), [here](http://doras.dcu.ie/23801/), and [here](https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf).
 
 ## Data Privacy Vocabulary (DPV)
 
@@ -33,22 +53,6 @@ The vocabulary provides terms to describe:
 * risks as applicable
 
 The namespace for DPV terms is `http://www.w3id.org/dpv#` with suggested prefix `dpv`. The IRI for DPV is currently redirected to serve the files hosted in this repository from GitHub pages i.e. `https://w3c.github.io/dpv/dpv/` (thanks to @bert-github for setting this up). Content-negotiation should therefore be supported for all files/serialisations of the DPV and its modules.
-
-## DPV Family of Documents
-
-* [DPV-Primer](https://www.w3id.org/dpv/dpv-primer): The Primer serves as an introductory document to DPV and provides an overview of its concepts.
-* [DPV](https://www.w3id.org/dpv/): The DPV Specification is the formal and normative description of DPV and its concepts. It provides a serialisation of the concepts as a taxonomy using SKOS.
-
-**Extensions to Concepts**
-
-* [DPV-GDPR](https://www.w3id.org/dpv/dpv-gdpr): Extension expands on the DPV vocabulary to provide the specific legal basis, rights, and concepts defined within GDPR. It expands or specialises the concepts in DPV for use with GDPR.
-* [DPV-PD](https://www.w3id.org/dpv/dpv-pd): Extension to the DPV providing a taxonomy of personal data categories.
-* [DPV-NACE](https://www.w3id.org/dpv-nace): [NACE](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2) industry standard classification system used in the EU serialised in RDFS
-
-**Serialisations of DPV**
-
-* [DPV-SKOS](https://www.w3id.org/dpv/dpv-skos): A serialisation of the DPV using RDFS and SKOS to enable its use as a lightweight ontology for modelling or annotating information. This serialisation can be used in cases where the DPV is to be used as a 'data model' or 'schema' without formal logical assertions. It is suitable in cases where simple(r) inferences are required, or where the strict interpretation or restrictions of OWL are not needed, or the rules/constraints are expressed in another language (e.g. SWRL or SHACL).
-* [DPV-OWL](https://www.w3id.org/dpv/dpv-owl): a serialisation of the DPV specification using OWL language. It should be used where the additional semantic relationships offered by OWL (based on description logic) are needed for modelling knowledge and describing desired inferences. OWL offers more powerful (and complex) features compared to RDFS regarding expression of information and its use to produce desired inferences in a coherent manner. 
 
 ### DPV and Modules
 

@@ -2,6 +2,7 @@
 @prefix dpv: <https://w3id.org/dpv#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skos1: <http://www.w3.org/20.5/02/skos/core#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -59,18 +60,15 @@ dpv:Technical_Organisational_MeasuresConcepts a skos:Collection ;
         dpv:ThirdPartyAgreement,
         dpv:hasOrganisationalMeasure,
         dpv:hasPolicy,
-        dpv:hasRisk,
         dpv:hasTechnicalMeasure,
         dpv:hasTechnicalOrganisationalMeasure,
-        dpv:isMitigatedByMeasure,
-        dpv:isPolicyFor,
-        dpv:mitigatesRisk .
+        dpv:isPolicyFor .
 
-dpv:isInstanceOf rdfs:subPropertyOf skos:semanticRelation ;
-    skos:prefLabel "isInstanceOf"@en .
+dpv:isInstanceOf skos1:prefLabel "isInstanceOf"@en ;
+    rdfs:subPropertyOf skos1:semanticRelation .
 
-dpv:isSubTypeOf rdfs:subPropertyOf skos:broaderTransitive ;
-    skos:prefLabel "isSubTypeOf"@en .
+dpv:isSubTypeOf skos1:prefLabel "isSubTypeOf"@en ;
+    rdfs:subPropertyOf skos1:broaderTransitive .
 
 dpv:AccessControlMethod a skos:Concept,
         dpv:Concept ;
@@ -396,6 +394,18 @@ dpv:RiskManagementProcedure a skos:Concept,
     skos:prefLabel "Risk Management Procedure"@en ;
     dpv:isSubTypeOf dpv:OrganisationalMeasure .
 
+dpv:RiskMitigationMeasure a skos:Concept,
+        dpv:Concept ;
+    dct:created "2020-11-04"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Measures intended to mitigate, minimise, or prevent risk."@en ;
+    skos:prefLabel "Risk Mitigation Measure"@en ;
+    dpv:isSubTypeOf dpv:TechnicalOrganisationalMeasure .
+
 dpv:SafeguardForDataTransfer a skos:Concept,
         dpv:Concept ;
     dct:created "2021-09-22"^^xsd:date ;
@@ -473,7 +483,7 @@ dpv:ThirdPartyAgreement a skos:Concept,
 
 dpv:hasOrganisationalMeasure a skos:Concept,
         dpv:Relation ;
-    dct:created "2022-02-10"^^xsd:date ;
+    dct:created "2022-02-09"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:domain dpv:Concept ;
     rdfs:isDefinedBy dpv: ;
@@ -495,17 +505,6 @@ dpv:hasPolicy a skos:Concept,
     skos:definition "Indicates policy applicable or used"@en ;
     skos:prefLabel "has policy"@en .
 
-dpv:hasRisk a skos:Concept,
-        dpv:Relation ;
-    dct:created "2020-11-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:domain dpv:Concept ;
-    rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Risk ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates applicability of Risk"@en ;
-    skos:prefLabel "has risk"@en .
-
 dpv:hasTechnicalMeasure a skos:Concept,
         dpv:Relation ;
     dct:created "2022-02-09"^^xsd:date ;
@@ -518,18 +517,6 @@ dpv:hasTechnicalMeasure a skos:Concept,
     skos:definition "Indicates use or applicability of Technical measure"@en ;
     skos:prefLabel "has technical measure"@en .
 
-dpv:isMitigatedByMeasure a skos:Concept,
-        dpv:Relation ;
-    dct:created "2022-02-09"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:domain dpv:Risk ;
-    rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:RiskMitigationMeasure ;
-    rdfs:subPropertyOf dpv:hasTechnicalOrganisationalMeasure ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicate a risk is mitigated by specified measure"@en ;
-    skos:prefLabel "is mitigated by measure"@en .
-
 dpv:isPolicyFor a skos:Concept,
         dpv:Relation ;
     dct:created "2022-01-26"^^xsd:date ;
@@ -540,17 +527,6 @@ dpv:isPolicyFor a skos:Concept,
     sw:term_status "accepted"@en ;
     skos:definition "Indicates the context or application of policy"@en ;
     skos:prefLabel "is policy for"@en .
-
-dpv:mitigatesRisk a skos:Concept,
-        dpv:Relation ;
-    dct:created "2020-11-04"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:domain dpv:RiskMitigationMeasure ;
-    rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Risk ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates mitigation of risk(s)"@en ;
-    skos:prefLabel "mitigates risk"@en .
 
 dpv:AuthenticationProtocols a skos:Concept,
         dpv:Concept ;
@@ -675,18 +651,6 @@ dpv:Policy a skos:Concept,
     skos:prefLabel "Policy"@en ;
     dpv:isSubTypeOf dpv:OrganisationalMeasure .
 
-dpv:RiskMitigationMeasure a skos:Concept,
-        dpv:Concept ;
-    dct:created "2020-11-04"^^xsd:date ;
-    dct:creator "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Paul Ryan"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Measures intended to mitigate, minimise, or prevent risk."@en ;
-    skos:prefLabel "Risk Mitigation Measure"@en ;
-    dpv:isSubTypeOf dpv:TechnicalOrganisationalMeasure .
-
 dpv:Anonymization a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -739,31 +703,6 @@ dpv:LegalAgreement a skos:Concept,
     skos:prefLabel "Legal Agreement"@en ;
     dpv:isSubTypeOf dpv:OrganisationalMeasure .
 
-dpv:DataProcessingAgreement a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-01-26"^^xsd:date ;
-    dct:creator "Beatriz Esteves"^^xsd:string,
-        "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Julian Flake"^^xsd:string,
-        "Paul Ryan"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "An agreement outlining conditions, criteria, obligations, responsibilities, and specifics for carrying out processing of personal data"@en ;
-    skos:note "For specific role-based data processing agreements, see concepts for Processors and JointDataController agreements."@en ;
-    skos:prefLabel "Data Processing Agreement"@en ;
-    dpv:isSubTypeOf dpv:LegalAgreement .
-
-dpv:TechnicalOrganisationalMeasure a skos:Concept,
-        dpv:Concept ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Bud Bruegger"^^xsd:string ;
-    dct:modified "2020-11-04"^^xsd:date ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "The Technical and Organisational measures used."@en ;
-    skos:prefLabel "Technical and Organisational Measure"@en .
-
 dpv:hasTechnicalOrganisationalMeasure a skos:Concept,
         dpv:Relation ;
     dct:created "2019-04-04"^^xsd:date ;
@@ -780,6 +719,34 @@ dpv:hasTechnicalOrganisationalMeasure a skos:Concept,
     skos:definition "Indicates use or applicability of Technical or Organisational measure"@en ;
     skos:prefLabel "has technical and organisational measure"@en .
 
+dpv:DataProcessingAgreement a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-01-26"^^xsd:date ;
+    dct:creator "Beatriz Esteves"^^xsd:string,
+        "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "An agreement outlining conditions, criteria, obligations, responsibilities, and specifics for carrying out processing of personal data"@en ;
+    skos:note "For specific role-based data processing agreements, see concepts for Processors and JointDataController agreements."@en ;
+    skos:prefLabel "Data Processing Agreement"@en ;
+    dpv:isSubTypeOf dpv:LegalAgreement .
+
+dpv:Relation skos1:prefLabel "Relation"@en ;
+    rdfs:subPropertyOf skos1:semanticRelation .
+
+dpv:TechnicalOrganisationalMeasure a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Bud Bruegger"^^xsd:string ;
+    dct:modified "2020-11-04"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The Technical and Organisational measures used."@en ;
+    skos:prefLabel "Technical and Organisational Measure"@en .
+
 dpv:TechnicalMeasure a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -792,9 +759,6 @@ dpv:TechnicalMeasure a skos:Concept,
     skos:definition "Technical measures required/followed when processing data of the declared category"@en ;
     skos:prefLabel "Technical Measure"@en ;
     dpv:isSubTypeOf dpv:TechnicalOrganisationalMeasure .
-
-dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
-    skos:prefLabel "Relation"@en .
 
 dpv:OrganisationalMeasure a skos:Concept,
         dpv:Concept ;
@@ -809,6 +773,6 @@ dpv:OrganisationalMeasure a skos:Concept,
     skos:prefLabel "Organisational Measure"@en ;
     dpv:isSubTypeOf dpv:TechnicalOrganisationalMeasure .
 
-dpv:Concept rdfs:subClassOf skos:Concept ;
-    skos:prefLabel "Concept"@en .
+dpv:Concept skos1:prefLabel "Concept"@en ;
+    rdfs:subClassOf skos1:Concept .
 

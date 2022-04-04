@@ -265,15 +265,17 @@ def add_triples_for_classes(classes, graph, model, topconcept):
                     if parent == "dpv:Concept":
                         continue
                     # assuming something like rdfs:Resource
-                    prefix, term = parent.split(':')
-                    prefix = prefix.replace("sc__", "")
+                    prefix_str, term = parent.split(':')
+                    prefix = prefix_str.replace("sc__", "")
                     # gets the namespace from registered ones and create URI
                     # will throw an error if namespace is not registered
                     # dpv internal terms are expected to have the prefix i.e. dpv:term
                     parent = NAMESPACES_DPV_SKOS[prefix][f'{term}']
                     graph.add((BASE[f'{cls.term}'], SKOS.broaderTransitive, parent))
-                    if model == 'ontology':
-                        graph.add((BASE[f'{cls.term}'], RDFS.subClassOf, parent))
+                    if model == 'vocabulary' and "sc__" in prefix_str:
+                        graph.add((BASE[f'{cls.term}'], RDFS.subClassOf, parent))    
+                    elif model == 'ontology':
+                        graph.add((BASE[f'{cls.term}'], RDFS.subClassOf, parent))    
                 else:
                     graph.add((BASE[f'{cls.term}'], SKOS.broaderTransitive, Literal(parent, datatype=XSD.string)))
         
@@ -370,13 +372,11 @@ def serialize_graph(graph, filepath):
 # #############################################################################
 
 # DPV #
-
 DPV_CSV_FILES = {
     'base': {
         'classes': f'{IMPORT_CSV_PATH}/BaseOntology.csv',
         'properties': f'{IMPORT_CSV_PATH}/BaseOntology_properties.csv',
         'model': 'vocabulary',
-        'topconcept': '',
         },
     'personal_data': {
         'classes': f'{IMPORT_CSV_PATH}/PersonalData.csv',
@@ -396,6 +396,11 @@ DPV_CSV_FILES = {
         'model': 'taxonomy',
         'topconcept': BASE['Context'],
         },
+    'risk': {
+        'classes': f'{IMPORT_CSV_PATH}/Risk.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Risk_properties.csv',
+        'model': 'ontology',
+        },
     'processing': {
         'classes': f'{IMPORT_CSV_PATH}/Processing.csv',
         'properties': f'{IMPORT_CSV_PATH}/Processing_properties.csv',
@@ -405,8 +410,8 @@ DPV_CSV_FILES = {
     'processing_context': {
         'classes': f'{IMPORT_CSV_PATH}/ProcessingContext.csv',
         'properties': f'{IMPORT_CSV_PATH}/ProcessingContext_properties.csv',
-        'model': 'taxonomy',
-        'topconcept': BASE['Context'],
+        'model': 'vocabulary',
+        'topconcept': BASE['ProcessingContext'],
         },
     'technical_organisational_measures': {
         'classes': f'{IMPORT_CSV_PATH}/TechnicalOrganisationalMeasure.csv',
@@ -420,11 +425,32 @@ DPV_CSV_FILES = {
         'model': 'ontology',
         'topconcept': BASE['Entity'],
         },
-    'jurisdictions': {
-        'classes': f'{IMPORT_CSV_PATH}/Jurisdictions.csv',
-        'properties': f'{IMPORT_CSV_PATH}/Jurisdictions_properties.csv',
+    'entities_authority': {
+        'classes': f'{IMPORT_CSV_PATH}/Entities_Authority.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Entities_Authority_properties.csv',
         'model': 'ontology',
-        'topconcept': '',
+        'topconcept': BASE['Authority'],
+        },
+    'entities_legalrole': {
+        'classes': f'{IMPORT_CSV_PATH}/Entities_LegalRole.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Entities_LegalRole_properties.csv',
+        'model': 'ontology',
+        },
+    'entities_organisation': {
+        'classes': f'{IMPORT_CSV_PATH}/Entities_Organisation.csv',
+        'model': 'ontology',
+        'topconcept': BASE['Organisation'],
+        },
+    'entities_datasubject': {
+        'classes': f'{IMPORT_CSV_PATH}/Entities_DataSubject.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Entities_DataSubject_properties.csv',
+        'model': 'ontology',
+        'topconcept': BASE['DataSubject'],
+        },
+    'jurisdiction': {
+        'classes': f'{IMPORT_CSV_PATH}/Jurisdiction.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Jurisdiction_properties.csv',
+        'model': 'ontology',
         },
     'legal_basis': {
         'classes': f'{IMPORT_CSV_PATH}/LegalBasis.csv',
@@ -436,9 +462,8 @@ DPV_CSV_FILES = {
         # 'classes': f'{IMPORT_CSV_PATH}/Consent.csv',
         'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
         'model': 'vocabulary',
-        'topconcept': '',
-        },
-    }
+    },
+}
 
 # this graph will get written to dpv.ttl
 DPV_GRAPH = Graph()
@@ -449,7 +474,7 @@ for name, module in DPV_CSV_FILES.items():
     proposed = []
     DEBUG('------')
     model = module['model']
-    topconcept = module['topconcept']
+    topconcept = module.get('topconcept')
     DEBUG(f'Processing {name} {model}')
     for prefix, namespace in NAMESPACES.items():
         graph.namespace_manager.bind(prefix, namespace)

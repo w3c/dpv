@@ -392,25 +392,30 @@ DPV_CSV_FILES = {
         'classes': f'{IMPORT_CSV_PATH}/PersonalData.csv',
         'properties': f'{IMPORT_CSV_PATH}/PersonalData_properties.csv',
         'model': 'ontology',
-        'topconcept': DPV.PersonalData,
+        'topconcept': BASE['PersonalData'],
         },
     'purposes': {
         'classes': f'{IMPORT_CSV_PATH}/Purpose.csv',
         'properties': f'{IMPORT_CSV_PATH}/Purpose_properties.csv',
         'model': 'taxonomy',
-        'topconcept': DPV.Purpose,
+        'topconcept': BASE['Purpose'],
         },
     'context': {
         'classes': f'{IMPORT_CSV_PATH}/Context.csv',
         'properties': f'{IMPORT_CSV_PATH}/Context_properties.csv',
         'model': 'taxonomy',
-        'topconcept': DPV.Context,
+        'topconcept': BASE['Context'],
+        },
+    'risk': {
+        'classes': f'{IMPORT_CSV_PATH}/Risk.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Risk_properties.csv',
+        'model': 'ontology',
         },
     'processing': {
         'classes': f'{IMPORT_CSV_PATH}/Processing.csv',
         'properties': f'{IMPORT_CSV_PATH}/Processing_properties.csv',
         'model': 'taxonomy',
-        'topconcept': DPV.Processing,
+        'topconcept': BASE['Processing'],
         },
     'processing_context': {
         'classes': f'{IMPORT_CSV_PATH}/ProcessingContext.csv',
@@ -421,30 +426,52 @@ DPV_CSV_FILES = {
         'classes': f'{IMPORT_CSV_PATH}/TechnicalOrganisationalMeasure.csv',
         'properties': f'{IMPORT_CSV_PATH}/TechnicalOrganisationalMeasure_properties.csv',
         'model': 'taxonomy',
-        'topconcept': DPV.TechnicalOrganisationalMeasure,
+        'topconcept': BASE['TechnicalOrganisationalMeasure'],
         },
     'entities': {
         'classes': f'{IMPORT_CSV_PATH}/Entities.csv',
         'properties': f'{IMPORT_CSV_PATH}/Entities_properties.csv',
         'model': 'ontology',
-        'topconcept': DPV.Entity,
+        'topconcept': BASE['Entity'],
         },
-    'jurisdictions': {
-        'classes': f'{IMPORT_CSV_PATH}/Jurisdictions.csv',
-        'properties': f'{IMPORT_CSV_PATH}/Jurisdictions_properties.csv',
+    'entities_authority': {
+        'classes': f'{IMPORT_CSV_PATH}/Entities_Authority.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Entities_Authority_properties.csv',
+        'model': 'ontology',
+        'topconcept': BASE['Authority'],
+        },
+    'entities_legalrole': {
+        'classes': f'{IMPORT_CSV_PATH}/Entities_LegalRole.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Entities_LegalRole_properties.csv',
+        'model': 'ontology',
+        },
+    'entities_organisation': {
+        'classes': f'{IMPORT_CSV_PATH}/Entities_Organisation.csv',
+        'model': 'ontology',
+        'topconcept': BASE['Organisation'],
+        },
+    'entities_datasubject': {
+        'classes': f'{IMPORT_CSV_PATH}/Entities_DataSubject.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Entities_DataSubject_properties.csv',
+        'model': 'ontology',
+        'topconcept': BASE['DataSubject'],
+        },
+    'jurisdiction': {
+        'classes': f'{IMPORT_CSV_PATH}/Jurisdiction.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Jurisdiction_properties.csv',
         'model': 'ontology',
         },
     'legal_basis': {
         'classes': f'{IMPORT_CSV_PATH}/LegalBasis.csv',
         'properties': f'{IMPORT_CSV_PATH}/LegalBasis_properties.csv',
         'model': 'taxonomy',
-        'topconcept': DPV.LegalBasis,
+        'topconcept': BASE['LegalBasis'],
     },
     'consent': {
         # 'classes': f'{IMPORT_CSV_PATH}/Consent.csv',
         'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
-        },
-    }
+    },
+}
 
 # this graph will get written to dpv.ttl
 DPV_GRAPH = Graph()

@@ -20,6 +20,18 @@ dpvs:AnonymisedData a rdfs:Class,
     skos:note "It is advised to carefully consider indicating data is fully or completely anonymised by determining whether the data by itself or in combination with other data can identify a person. Failing this condition, the data should be denoted as PseudoAnonymisedData. To indicate data is anonymised only for a specified entity (e.g. within an organisation), the concept AnonymisedDataWithinScope (as subclass of PseudoAnonymisedData) should be used instead of AnonymisedData."@en ;
     skos:prefLabel "Anonymised Data"@en .
 
+dpvs:CollectedPersonalData a rdfs:Class,
+        skos:Concept ;
+    dct:created "2022-03-30"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpvs: ;
+    rdfs:subClassOf dpvs:PersonalData ;
+    sw:term_status "accepted"@en ;
+    skos:broaderTransitive dpvs:PersonalData ;
+    skos:definition "Personal Data that has been collected from another source such as the Data Subject"@en ;
+    skos:note "To indicate the source of data, use the DataSource concept with the hasDataSource relation"@en ;
+    skos:prefLabel "Collected Personal Data"@en .
+
 dpvs:Data a rdfs:Class,
         skos:Concept ;
     dct:created "2022-01-19"^^xsd:date ;
@@ -45,16 +57,30 @@ dpvs:DerivedPersonalData a rdfs:Class,
     skos:prefLabel "Derived Personal Data"@en ;
     skos:related svd:Derived .
 
+dpvs:GeneratedPersonalData a rdfs:Class,
+        skos:Concept ;
+    dct:created "2022-03-30"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpvs: ;
+    rdfs:subClassOf dpvs:PersonalData ;
+    sw:term_status "accepted"@en ;
+    skos:broaderTransitive dpvs:PersonalData ;
+    skos:definition "Personal Data that is generated or brought into existence without relation to existing data i.e. it is not derived or inferred from other data"@en ;
+    skos:note "Generated Data is used to indicate data that is produced and is not derived or inferred from other data"@en ;
+    skos:prefLabel "Generated Personal Data"@en .
+
 dpvs:InferredPersonalData a rdfs:Class,
         skos:Concept ;
     dct:created "2022-01-19"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpvs: ;
-    rdfs:subClassOf dpvs:DerivedPersonalData ;
+    rdfs:subClassOf dpvs:DerivedPersonalData,
+        dpvs:GeneratedPersonalData ;
     sw:term_status "accepted"@en ;
-    skos:broaderTransitive dpvs:DerivedPersonalData ;
+    skos:broaderTransitive dpvs:DerivedPersonalData,
+        dpvs:GeneratedPersonalData ;
     skos:definition "Personal Data that is obtained through inference from other data"@en ;
-    skos:note "Inferred Data is data that is derived from existing data, but which did not originally exist within it, e.g. inferring demographics from browsing history."@en ;
+    skos:note "Inferred Data is derived data generated from existing data, but which did not originally exist within it, e.g. inferring demographics from browsing history."@en ;
     skos:prefLabel "Inferred Personal Data"@en .
 
 dpvs:NonPersonalData a rdfs:Class,
@@ -125,8 +151,10 @@ dpvs:SpecialCategoryPersonalData a rdfs:Class,
 dpvs:Personal_DataConcepts a skos:Collection ;
     dct:title "Personal_Data Concepts"^^xsd:string ;
     skos:member dpvs:AnonymisedData,
+        dpvs:CollectedPersonalData,
         dpvs:Data,
         dpvs:DerivedPersonalData,
+        dpvs:GeneratedPersonalData,
         dpvs:InferredPersonalData,
         dpvs:NonPersonalData,
         dpvs:PersonalData,

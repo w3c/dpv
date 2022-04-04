@@ -13,6 +13,9 @@ IMPORT_DPV_GDPR_MODULES_PATH = '../dpv-gdpr/modules'
 EXPORT_DPV_GDPR_HTML_PATH = '../dpv-gdpr'
 IMPORT_DPV_PD_PATH = '../dpv-pd/dpv-pd.ttl'
 EXPORT_DPV_PD_HTML_PATH = '../dpv-pd'
+IMPORT_DPV_LEGAL_PATH = '../dpv-legal/dpv-legal.ttl'
+IMPORT_DPV_LEGAL_MODULES_PATH = '../dpv-legal/modules'
+EXPORT_DPV_LEGAL_HTML_PATH = '../dpv-legal'
 
 import json
 from rdflib import Graph, Namespace
@@ -106,9 +109,14 @@ load_data('purpose', f'{IMPORT_DPV_MODULES_PATH}/purposes.ttl')
 load_data('processing', f'{IMPORT_DPV_MODULES_PATH}/processing.ttl')
 load_data('technical_organisational_measures', f'{IMPORT_DPV_MODULES_PATH}/technical_organisational_measures.ttl')
 load_data('entities', f'{IMPORT_DPV_MODULES_PATH}/entities.ttl')
+load_data('entities_authority', f'{IMPORT_DPV_MODULES_PATH}/entities_authority.ttl')
+load_data('entities_legalrole', f'{IMPORT_DPV_MODULES_PATH}/entities_legalrole.ttl')
+load_data('entities_organisation', f'{IMPORT_DPV_MODULES_PATH}/entities_organisation.ttl')
+load_data('entities_datasubject', f'{IMPORT_DPV_MODULES_PATH}/entities_datasubject.ttl')
 load_data('context', f'{IMPORT_DPV_MODULES_PATH}/context.ttl')
+load_data('risk', f'{IMPORT_DPV_MODULES_PATH}/risk.ttl')
 load_data('processing_context', f'{IMPORT_DPV_MODULES_PATH}/processing_context.ttl')
-load_data('jurisdictions', f'{IMPORT_DPV_MODULES_PATH}/jurisdictions.ttl')
+load_data('jurisdiction', f'{IMPORT_DPV_MODULES_PATH}/jurisdiction.ttl')
 load_data('legal_basis', f'{IMPORT_DPV_MODULES_PATH}/legal_basis.ttl')
 load_data('consent', f'{IMPORT_DPV_MODULES_PATH}/consent.ttl')
 g = Graph()
@@ -164,5 +172,38 @@ with open(f'{EXPORT_DPV_PD_HTML_PATH}/dpv-pd.html', 'w+') as fd:
     fd.write(template.render(**TEMPLATE_DATA))
 DEBUG(f'wrote DPV-PD spec at f{EXPORT_DPV_PD_HTML_PATH}/dpv-pd.html')
 
+# DPV-LEGAL: generate HTML
+
+with open(f'{EXPORT_DPV_LEGAL_HTML_PATH}/proposed.json') as fd:
+    TEMPLATE_DATA['proposed'] = json.load(fd)  
+
+def load_legal_data(label, filepath):
+    DEBUG(f'loading data for {label}')
+    g = Graph()
+    g.load(filepath, format='turtle')
+    G = DataGraph()
+    G.load(g)
+    G.graph.ns = { k:v for k,v in G.graph.namespaces() }
+    # TODO: Take the instance variable so that template has contextual info
+    # e.g. Law can specify jurisdiction label, authorities, etc.,
+    TEMPLATE_DATA[f'{label}_terms'] = G.get_instances_of('skos_Concept')
+
+load_legal_data('ontology', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/ontology.ttl')
+load_legal_data('locations', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/locations.ttl')
+load_legal_data('laws', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/laws.ttl')
+load_legal_data('authorities', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/authorities.ttl')
+load_legal_data('EU_EEA', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/eu_eea.ttl')
+load_legal_data('EU_Adequacy', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/eu_adequacy.ttl')
+g = Graph()
+g.load(f'{IMPORT_DPV_LEGAL_PATH}', format='turtle')
+G.load(g)
+
+template = template_env.get_template('template_dpv_legal.jinja2')
+with open(f'{EXPORT_DPV_LEGAL_HTML_PATH}/index.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote DPV-LEGAL spec at f{EXPORT_DPV_LEGAL_HTML_PATH}/index.html')
+with open(f'{EXPORT_DPV_LEGAL_HTML_PATH}/dpv-legal.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote DPV-LEGAL spec at f{EXPORT_DPV_LEGAL_HTML_PATH}/dpv-legal.html')
 
 DEBUG('--- END ---')

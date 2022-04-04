@@ -27,6 +27,8 @@ DPV_SHEETS = (
     'Purpose_properties',
     'Context',
     'Context_properties',
+    'Risk',
+    'Risk_properties',
     'Processing',
     'Processing_properties',
     'ProcessingContext',
@@ -35,12 +37,15 @@ DPV_SHEETS = (
     'TechnicalOrganisationalMeasure_properties',
     'Entities',
     'Entities_properties',
+    'Entities_Authority',
+    'Entities_Authority_properties',
     'Entities_LegalRole',
     'Entities_LegalRole_properties',
     'Entities_Organisation',
-    'Entities_DataSubjects',
-    'Jurisdictions',
-    'Jurisdictions_properties',
+    'Entities_DataSubject',
+    'Entities_DataSubject_properties',
+    'Jurisdiction',
+    'Jurisdiction_properties',
     'LegalBasis',
     'LegalBasis_properties',
     'Consent_properties',
@@ -48,6 +53,13 @@ DPV_SHEETS = (
     'GDPR_LegalBasis',
     'GDPR_LegalRights',
     'GDPR_DataTransfers',
+    # DPV-Legal
+    'legal_properties',
+    'legal_Locations',
+    'legal_Laws',
+    'legal_Authorities',
+    'legal_EU_EEA',
+    'legal_EU_Adequacy',
     )
 
 from urllib import request
@@ -57,8 +69,11 @@ def download_csv(document_id, sheet_name, save_path='./vocab_csv'):
     '''Download the sheet and save to given path'''
     url = GOOGLE_EXPORT_LINK % (document_id, sheet_name)
     print(f'Downloading {sheet_name}...', end='')
-    request.urlretrieve(url, f'{save_path}/{sheet_name}.csv')
-    print('DONE')
+    try:
+        request.urlretrieve(url, f'{save_path}/{sheet_name}.csv')
+        print('DONE')
+    except Exception as E:
+        print(f'ERROR :: {E}')
 
 
 if __name__ == '__main__':

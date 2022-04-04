@@ -18,7 +18,7 @@ In between steps 2 and 3, there can be a series of tests done to ensure the RDF 
 
 `./003_generate_respec_html.py` will generate HTML documentation for DPV and DPV-GDPR from RDF.
 
-
+The `9**` series offers convenience in running the other scripts in some combination. `902` executes all the RDF generation scripts, `903` executes all the HTML generation scripts, and `999` executes all scripts.
 ## How everything works
 
 ### Downloading CSV data

@@ -2,6 +2,7 @@
 @prefix dpv: <https://w3id.org/dpv#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skos1: <http://www.w3.org/20.5/02/skos/core#> .
 @prefix spl: <http://www.specialprivacy.eu/langs/usage-policy#> .
 @prefix svd: <http://www.specialprivacy.eu/vocabs/data#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
@@ -10,8 +11,10 @@
 dpv:Personal_DataConcepts a skos:Collection ;
     dct:title "Personal_Data Concepts"^^xsd:string ;
     skos:member dpv:AnonymisedData,
+        dpv:CollectedPersonalData,
         dpv:Data,
         dpv:DerivedPersonalData,
+        dpv:GeneratedPersonalData,
         dpv:InferredPersonalData,
         dpv:NonPersonalData,
         dpv:PersonalData,
@@ -20,11 +23,11 @@ dpv:Personal_DataConcepts a skos:Collection ;
         dpv:SpecialCategoryPersonalData,
         dpv:hasPersonalData .
 
-dpv:isInstanceOf rdfs:subPropertyOf skos:semanticRelation ;
-    skos:prefLabel "isInstanceOf"@en .
+dpv:isInstanceOf skos1:prefLabel "isInstanceOf"@en ;
+    rdfs:subPropertyOf skos1:semanticRelation .
 
-dpv:isSubTypeOf rdfs:subPropertyOf skos:broaderTransitive ;
-    skos:prefLabel "isSubTypeOf"@en .
+dpv:isSubTypeOf skos1:prefLabel "isSubTypeOf"@en ;
+    rdfs:subPropertyOf skos1:broaderTransitive .
 
 dpv:AnonymisedData a skos:Concept,
         dpv:Concept ;
@@ -37,6 +40,17 @@ dpv:AnonymisedData a skos:Concept,
     skos:prefLabel "Anonymised Data"@en ;
     dpv:isSubTypeOf dpv:NonPersonalData .
 
+dpv:CollectedPersonalData a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-03-30"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Personal Data that has been collected from another source such as the Data Subject"@en ;
+    skos:note "To indicate the source of data, use the DataSource concept with the hasDataSource relation"@en ;
+    skos:prefLabel "Collected Personal Data"@en ;
+    dpv:isSubTypeOf dpv:PersonalData .
+
 dpv:InferredPersonalData a skos:Concept,
         dpv:Concept ;
     dct:created "2022-01-19"^^xsd:date ;
@@ -44,9 +58,10 @@ dpv:InferredPersonalData a skos:Concept,
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "Personal Data that is obtained through inference from other data"@en ;
-    skos:note "Inferred Data is data that is derived from existing data, but which did not originally exist within it, e.g. inferring demographics from browsing history."@en ;
+    skos:note "Inferred Data is derived data generated from existing data, but which did not originally exist within it, e.g. inferring demographics from browsing history."@en ;
     skos:prefLabel "Inferred Personal Data"@en ;
-    dpv:isSubTypeOf dpv:DerivedPersonalData .
+    dpv:isSubTypeOf dpv:DerivedPersonalData,
+        dpv:GeneratedPersonalData .
 
 dpv:PseudoAnonymisedData a skos:Concept,
         dpv:Concept ;
@@ -58,8 +73,8 @@ dpv:PseudoAnonymisedData a skos:Concept,
     skos:prefLabel "Pseudo-anonymised Data"@en ;
     dpv:isSubTypeOf dpv:PersonalData .
 
-dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
-    skos:prefLabel "Relation"@en .
+dpv:Relation skos1:prefLabel "Relation"@en ;
+    rdfs:subPropertyOf skos1:semanticRelation .
 
 dpv:SpecialCategoryPersonalData a skos:Concept,
         dpv:Concept ;
@@ -99,6 +114,17 @@ dpv:DerivedPersonalData a skos:Concept,
     skos:note "Derived Data is data that is obtained through processing of existing data, e.g. deriving first name from full name. To indicate data that is derived but which was not present or evident within the source data, InferredPersonalData should be used."@en ;
     skos:prefLabel "Derived Personal Data"@en ;
     skos:related svd:Derived ;
+    dpv:isSubTypeOf dpv:PersonalData .
+
+dpv:GeneratedPersonalData a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-03-30"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Personal Data that is generated or brought into existence without relation to existing data i.e. it is not derived or inferred from other data"@en ;
+    skos:note "Generated Data is used to indicate data that is produced and is not derived or inferred from other data"@en ;
+    skos:prefLabel "Generated Personal Data"@en ;
     dpv:isSubTypeOf dpv:PersonalData .
 
 dpv:NonPersonalData a skos:Concept,
@@ -146,6 +172,6 @@ dpv:PersonalData a skos:Concept,
     skos:related spl:AnyData ;
     dpv:isSubTypeOf dpv:Data .
 
-dpv:Concept rdfs:subClassOf skos:Concept ;
-    skos:prefLabel "Concept"@en .
+dpv:Concept skos1:prefLabel "Concept"@en ;
+    rdfs:subClassOf skos1:Concept .
 

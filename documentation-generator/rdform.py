@@ -152,6 +152,7 @@ class DataGraph(object):
 
         # iterate triples in graph
         for s, p, o in graph:
+            o_bckp = o
             iri = str(s)
             # DEBUG(f'{iri}')
             # if the object has been encountered before, retrieve it
@@ -208,6 +209,8 @@ class DataGraph(object):
                 obj.metadata[p].append(o)
             else:
                 obj.metadata[p] = o
+            if hasattr(o_bckp, 'language'):
+                obj.metadata[f'{p}__{o_bckp.language}'] = o
             # DEBUG(f'handled triple: {iri} {p} {o}')
             # DEBUG(f'type of s: {type(iri)}')
             # DEBUG(f'data in p: {obj.metadata[p]}')
