@@ -67,13 +67,13 @@ FOAF = Namespace('http://xmlns.com/foaf/0.1/')
 ODRL = Namespace('http://www.w3.org/ns/odrl/2/')
 PROV = Namespace('http://www.w3.org/ns/prov#')
 SKOS = Namespace('http://www.w3.org/2004/02/skos/core#')
-SPL = Namespace('http://www.specialprivacy.eu/langs/usage-policy#')
-SVD = Namespace('http://www.specialprivacy.eu/vocabs/data#')
-SVDU = Namespace('http://www.specialprivacy.eu/vocabs/duration#')
-SVL = Namespace('http://www.specialprivacy.eu/vocabs/locations#')
-SVPR = Namespace('http://www.specialprivacy.eu/vocabs/processing#')
-SVPU = Namespace('http://www.specialprivacy.eu/vocabs/purposes#')
-SVR = Namespace('http://www.specialprivacy.eu/vocabs/recipients')
+SPL = Namespace('https://specialprivacy.ercim.eu/langs/usage-policy#')
+SVD = Namespace('https://specialprivacy.ercim.eu/vocabs/data#')
+SVDU = Namespace('https://specialprivacy.ercim.eu/vocabs/duration#')
+SVL = Namespace('https://specialprivacy.ercim.eu/vocabs/locations#')
+SVPR = Namespace('https://specialprivacy.ercim.eu/vocabs/processing#')
+SVPU = Namespace('https://specialprivacy.ercim.eu/vocabs/purposes#')
+SVR = Namespace('https://specialprivacy.ercim.eu/vocabs/recipients')
 SW = Namespace('http://www.w3.org/2003/06/sw-vocab-status/ns#')
 TIME = Namespace('http://www.w3.org/2006/time#')
 
@@ -924,6 +924,7 @@ DPV_LEGAL_GRAPH += graph
 if proposed:
     proposed_terms['EU_Adequacy'] = proposed
 
+DPV_LEGAL_GRAPH.load('ontology_metadata/dpv-legal.ttl', format='turtle')
 serialize_graph(DPV_LEGAL_GRAPH, f'{EXPORT_DPV_LEGAL_PATH}/dpv-legal')
 if proposed_terms:
     with open(f'{EXPORT_DPV_LEGAL_PATH}/proposed.json', 'w') as fd:

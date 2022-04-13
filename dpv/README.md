@@ -19,9 +19,13 @@ The vocabulary provides terms to describe:
 
 The namespace for DPV terms is `http://www.w3id.org/dpv#` with suggested prefix `dpv`. The IRI for DPV is currently redirected to serve the files hosted in this repository from GitHub pages i.e. `http://dpvcg.github.io/dpv/` (thanks to @bert-github for setting this up). Content-negotiation should therefore be supported for all files/serialisations of the DPV and its modules.
 
-The [**DPV-GDPR**](https://github.com/w3c/dpv/tree/master/dpv-gdpr) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within GDPR.
+The [**DPV-GDPR**](https://w3id.org/dpv/dpv-gdpr) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within GDPR.
 
-The [**DPV-NACE**](https://github.com/w3c/dpv/tree/master/dpv-nace) vocabulary provides a RDFS and DPV compatible serialisation of the  [NACE](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2) industry standard classification system used in the EU.
+The [**DPV-PD**](https://w3id.org/dpv/dpv-pd) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within PD.
+
+The [**DPV-LEGAL**](https://w3id.org/dpv/dpv-legal) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within LEGAL.
+
+The [**DPV-NACE**](https://w3id.org/dpv/dpv-nace) vocabulary provides a RDFS and DPV compatible serialisation of the  [NACE](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2) industry standard classification system used in the EU.
 
 The Data Privacy Vocabulary is an outcome of the activities of the [Data Privacy Vocabularies and Controls Community Group (DPVCG)](https://www.w3.org/community/dpvcg/) 
 

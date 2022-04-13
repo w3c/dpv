@@ -4,7 +4,7 @@ Downloads the CSV data for DPV and other vocabularies (such as DPV-GDPR), conver
 
 Requires: `python3` and modules `rdflib`, `rdflib-jsonld`, `jinja2`
 
-The Data Privacy Vocabulary (DPV) is available at https://www.w3id.org/dpv and its repository is at https://github.com/w3c/dpv. 
+The Data Privacy Vocabulary (DPV) is available at https://w3id.org/dpv and its repository is at https://github.com/w3c/dpv. 
 
 ## Quick Summary
 
