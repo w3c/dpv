@@ -45,8 +45,8 @@
     ],
     localBiblio: {%  include 'references.json' %}
   };
-</script>
-<style type="text/css">
+ </script>
+ <style type="text/css">
   .head img[src*="logos/W3C"] {
     display: inherit !important;
   }
@@ -95,11 +95,11 @@
   DIV.test H4 {
     MARGIN: 0px 0px 10px
   }
-</style>
+ </style>
 </head>
 <body>
   <section id="abstract">
-    <p>DPV-LEGAL extends the [[[DPV]]] to provide concepts related to ...</p>
+    <p>DPV-LEGAL extends the [[[DPV]]] to provide concepts related to Jurisdictions, Laws, Authorities, EU/EEA Memberships, EU Adequacy Decisions</p>
     <p>The namespace for terms in DPV-LEGAL is <a href="http://www.w3id.org/dpv/dpv-legal#"><code>https://www.w3id.org/dpv/dpv-legal#</code></a><br/>
       The suggested prefix for the namespace is <code>dpv-legal</code><br/>
       The DPV-LEGAL vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
@@ -109,6 +109,10 @@
   <section id="motivation">
     <h2>Introduction</h2>
     <p>The Data Privacy Vocabulary (DPV) provides terms to annotate and categorise instances of legally compliant personal data handling. In particular, the vocabulary provides <code>Location</code>, <code>Law</code>, and <code>Authority</code> as top-level concepts. Since these concepts are specifically defined within the scope of jurisdictional laws, their implementation is provided as a separate vocabulary that extends the DPV, thereby permitting continued usage of DPV as a jurisdiction-agnostic and generic vocabulary.</p>
+    <figure>
+      <img src="/dpv-legal/img/dpv-legal-overview.png">
+      <figcaption>Overview of Concepts modeled in DPV-LEGAL</figcaption>
+    </figure>
     <p>This vocabulary, termed as DPV-LEGAL, provides several collections of concepts based on extending those from the DPV regarding:</p>
     <ul>
       <li>A <a href="#vocab-locations">hierarchical list of regions</a> consisting of continents, countries, and regions within countries (limited data), along with their ISO and UN provisioned codes</li>
@@ -117,7 +121,7 @@
       <li>A <a href="#vocab-EU-EEA">membership of EU and EEA</a> along with specific temporal variations such as the introduction of exclusion of a member (e.g. EU-27 post-Brexit)</li>
       <li>A <a href='#vocab-EU-Adequacy'>list of EU Adequacy decisions</a> along with jurisdictions applicable, and start and end dates where available</li>
     </ul>
-    <p>We welcome further contributions to refine or extend this data</p>
+    <p>We welcome further contributions to refine or extend this data, See the <a href="#sources">sources</a> appendix for documents and resources to extend this vocabulary.</p>
   </section>
 
 <section id="vocab-laws">
@@ -128,6 +132,14 @@
       <h4><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></h4>
       <table class="definition">
         <tbody>
+          <tr>
+            <td>IRI</td>
+            <td>`{{ term.iri }}`</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td><a href="{{term.dpv_isInstanceOf}}">{{term.dpv_isInstanceOf|prefix_this}}</a></td>
+          </tr>
           <tr>
             <td>Label:</td>
             <td>{{term.skos_prefLabel__en}}</td>
@@ -206,6 +218,14 @@
       <table class="definition">
         <tbody>
           <tr>
+            <td>IRI</td>
+            <td>`{{ term.iri }}`</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td><a href="{{term.dpv_isInstanceOf}}">{{term.dpv_isInstanceOf|prefix_this}}</a></td>
+          </tr>
+          <tr>
             <td>Label:</td>
             <td>{{term.skos_prefLabel__en}}</td>
           </tr>
@@ -213,9 +233,6 @@
             <td>Label (DE):</td>
             <td>{{term.skos_prefLabel__de}}</td>
           </tr>{%  endif %}
-          <tr>
-            <td>Type:</td>
-            <td>{% for t in term.rdf_type %}{% if t.iri.startswith('https://w3id.org/dpv#') %}<a href="{{t.iri}}">{{ t|prefix_this }}</a>{% endif %}{% endfor %}</td>
           </tr>
           <tr>
             <td>Website:</td>
@@ -282,16 +299,20 @@
       <table class="definition">
         <tbody>
           <tr>
+            <td>IRI</td>
+            <td>`{{ term.iri }}`</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td><a href="{{term.dpv_isInstanceOf}}">{{term.dpv_isInstanceOf|prefix_this}}</a></td>
+          </tr>
+          <tr>
             <td>Label:</td>
             <td>{{term.dct_title}}</td>
           </tr>
-          <tr>
-            <td>Type:</td>
-            <td>{% for t in term.rdf_type %}{% if t.iri.startswith('https://w3id.org/dpv#') %}<a href="{{t.iri}}">{{ t|prefix_this }}</a>{% endif %}{% endfor %}</td>
-          </tr>
-          {% if term.skos_broaderTransitive %}<tr>
+          {% if term.dpv_isSubTypeOf %}<tr>
             <td>has broader:</td>
-            <td><a href="{{term.skos_broaderTransitive.iri}}">{{ term.skos_broaderTransitive|prefix_this }}</a></td>
+            <td><a href="{{term.dpv_isSubTypeOf.iri}}">{{ term.dpv_isSubTypeOf|prefix_this }}</a></td>
           </tr>{%  endif %}
           {%  if term.dct_temporal %}<tr>
             <td>Temporal start:</td>
@@ -352,6 +373,14 @@
       <h4><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></h4>
       <table class="definition">
         <tbody>
+          <tr>
+            <td>IRI</td>
+            <td>`{{ term.iri }}`</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td><a href="{{term.dpv_isInstanceOf}}">{{term.dpv_isInstanceOf|prefix_this}}</a></td>
+          </tr>
           <tr>
             <td>Label:</td>
             <td>{{term.dct_title}}</td>
@@ -421,16 +450,20 @@
       <table class="definition">
         <tbody>
           <tr>
+            <td>IRI</td>
+            <td>`{{ term.iri }}`</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td><a href="{{term.dpv_isInstanceOf}}">{{term.dpv_isInstanceOf|prefix_this}}</a></td>
+          </tr>
+          <tr>
             <td>Label:</td>
             <td>{{term.dct_title}}</td>
           </tr>
-          <tr>
-            <td>Type:</td>
-            <td>{% for t in term.rdf_type %}{% if t.iri.startswith('https://w3id.org/dpv#') %}<a href="{{t.iri}}">{{ t|prefix_this }}</a>{% endif %}{% endfor %}</td>
-          </tr>
-          {% if term.skos_broaderTransitive %}<tr>
+          {% if term.dpv_isSubTypeOf %}<tr>
             <td>has broader:</td>
-            <td>{% if term.skos_broaderTransitive is sequence %}{% for loc in term.skos_broaderTransitive|sort(attribute="iri") %}<a href="{{loc.iri}}">{{ loc|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.skos_broaderTransitive.iri}}">{{ term.skos_broaderTransitive|prefix_this }}</a>{% endif %}</td>
+            <td>{% if term.dpv_isSubTypeOf is sequence %}{% for loc in term.dpv_isSubTypeOf|sort(attribute="iri") %}<a href="{{loc.iri}}">{{ loc|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dpv_isSubTypeOf.iri}}">{{ term.dpv_isSubTypeOf|prefix_this }}</a>{% endif %}</td>
           </tr>{%  endif %}
           <tr>
             <td>Concept Created:</td>
@@ -470,6 +503,18 @@
       </table>
     </section>
     {% endfor %}
+</section>
+
+<section id="sources" class="appendix">
+  <h2>Sources for Extending Concepts</h2>
+  <h3>ISO 3166 Codes</h3>
+  <p>The <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> is a standard providing codes for countries and regions within them in various formats. DPV-LEGAL currently only models the Countries and Sub-Regions (for some jurisdictions). Adopters can provide additional concepts based on 3166.</p>
+  <h3>United Nations Codes</h3>
+  <p>The UN's <a href="https://unstats.un.org/unsd/methodology/m49">Standard country or area codes for statistical use (M49)</a> are similar to ISO 3166 in providing standardised notations for jurisdictions. Adopters can further adopt additional UN codes or vocabularies.</p>
+  <h3>Global Privacy Assembly Resources</h3>
+  <p>The Global Privacy Assembly is a group of various data protection and privacy authorities, and as such provides an authorititative collection of their memberships. The <a href="https://globalprivacyassembly.org/wp-content/uploads/2021/09/The-2020-GPA-Census.pdf">2020 Census</a> and <a href="https://globalprivacyassembly.org/participation-in-the-assembly/members-online/">Members online presence</a> are two convenient lists of authorities and their online/social links. Adopters can use these resources to extend this vocabulary.</p>
+  <h3>Global Tables of Data Privacy Laws and Bills</h3>
+  <p>Graham Greenleaf does a comprehensive and resourceful job of maintaining a collection of privacy and data protection laws across the world. Adopters can utilise this resource to add concepts to this vocabulary. See: Greenleaf G. (2019). Global Tables of Data Privacy Laws and Bills (6th Ed January 2019) (SSRN Scholarly Paper ID 3380794). Social Science Research Network. <a href="https://papers.ssrn.com/abstract=3380794">https://papers.ssrn.com/abstract=3380794</a></p>
 </section>
 
 {% if proposed %}

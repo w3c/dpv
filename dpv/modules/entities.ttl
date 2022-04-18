@@ -2,7 +2,6 @@
 @prefix dpv: <https://w3id.org/dpv#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix skos1: <http://www.w3.org/20.5/02/skos/core#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -19,17 +18,17 @@ dpv:EntitiesConcepts a skos:Collection ;
         dpv:hasRepresentative,
         dpv:hasResponsibleEntity .
 
-dpv:hasDomain skos1:prefLabel "has domain"@en ;
-    rdfs:subPropertyOf skos1:semanticRelation .
+dpv:hasDomain rdfs:subPropertyOf skos:semanticRelation ;
+    skos:prefLabel "has domain"@en .
 
-dpv:hasRange skos1:prefLabel "has range"@en ;
-    rdfs:subPropertyOf skos1:semanticRelation .
+dpv:hasRange rdfs:subPropertyOf skos:semanticRelation ;
+    skos:prefLabel "has range"@en .
 
-dpv:isInstanceOf skos1:prefLabel "isInstanceOf"@en ;
-    rdfs:subPropertyOf skos1:semanticRelation .
+dpv:isInstanceOf rdfs:subPropertyOf skos:semanticRelation ;
+    skos:prefLabel "isInstanceOf"@en .
 
-dpv:isSubTypeOf skos1:prefLabel "isSubTypeOf"@en ;
-    rdfs:subPropertyOf skos1:broaderTransitive .
+dpv:isSubTypeOf rdfs:subPropertyOf skos:broaderTransitive ;
+    skos:prefLabel "isSubTypeOf"@en .
 
 dpv:NaturalPerson a skos:Concept,
         dpv:Concept ;
@@ -48,12 +47,12 @@ dpv:hasAddress a skos:Concept,
         "Georg P Krog"^^xsd:string,
         "Harshvardhan J.Pandit"^^xsd:string,
         "Paul Ryan"^^xsd:string ;
-    rdfs:domain dpv:Entity ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Concept ;
     sw:term_status "accepted"@en ;
     skos:definition "Specifies address of a legal entity such as street address or pin code"@en ;
-    skos:prefLabel "has address"@en .
+    skos:prefLabel "has address"@en ;
+    dpv:hasDomain dpv:Entity ;
+    dpv:hasRange dpv:Concept .
 
 dpv:hasContact a skos:Concept,
         dpv:Relation ;
@@ -62,12 +61,12 @@ dpv:hasContact a skos:Concept,
         "Georg P Krog"^^xsd:string,
         "Harshvardhan J.Pandit"^^xsd:string,
         "Paul Ryan"^^xsd:string ;
-    rdfs:domain dpv:Entity ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Concept ;
     sw:term_status "accepted"@en ;
     skos:definition "Specifies contact details of a legal entity such as phone  or email"@en ;
-    skos:prefLabel "has contact"@en .
+    skos:prefLabel "has contact"@en ;
+    dpv:hasDomain dpv:Entity ;
+    dpv:hasRange dpv:Concept .
 
 dpv:hasName a skos:Concept,
         dpv:Relation ;
@@ -76,12 +75,12 @@ dpv:hasName a skos:Concept,
         "Georg P Krog"^^xsd:string,
         "Harshvardhan J.Pandit"^^xsd:string,
         "Paul Ryan"^^xsd:string ;
-    rdfs:domain dpv:Entity ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Concept ;
     sw:term_status "accepted"@en ;
     skos:definition "Specifies name of a legal entity"@en ;
-    skos:prefLabel "has name"@en .
+    skos:prefLabel "has name"@en ;
+    dpv:hasDomain dpv:Entity ;
+    dpv:hasRange dpv:Concept .
 
 dpv:hasRepresentative a skos:Concept,
         dpv:Relation ;
@@ -90,25 +89,25 @@ dpv:hasRepresentative a skos:Concept,
         "Georg P Krog"^^xsd:string,
         "Harshvardhan J.Pandit"^^xsd:string,
         "Paul Ryan"^^xsd:string ;
-    rdfs:domain dpv:Entity ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Representative ;
-    rdfs:subPropertyOf dpv:hasEntity ;
     sw:term_status "accepted"@en ;
     skos:definition "Specifies representative of the legal entity"@en ;
-    skos:prefLabel "has representative"@en .
+    skos:prefLabel "has representative"@en ;
+    dpv:hasDomain dpv:Entity ;
+    dpv:hasRange dpv:Representative ;
+    dpv:isSubTypeOf dpv:hasEntity .
 
 dpv:hasResponsibleEntity a skos:Concept,
         dpv:Relation ;
     dct:created "2022-03-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:domain dpv:Concept ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Entity ;
-    rdfs:subPropertyOf dpv:hasEntity ;
     sw:term_status "accepted"@en ;
     skos:definition "Specifies the indicated entity is responsible within some context"@en ;
-    skos:prefLabel "has responsible entity"@en .
+    skos:prefLabel "has responsible entity"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:Entity ;
+    dpv:isSubTypeOf dpv:hasEntity .
 
 dpv:LegalEntity a skos:Concept,
         dpv:Concept ;
@@ -138,19 +137,19 @@ dpv:hasEntity a skos:Concept,
         dpv:Relation ;
     dct:created "2022-02-09"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:domain dpv:Concept ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Entity ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates inclusion or applicability of an entity to some concept"@en ;
     skos:note "parent property for controller, processor, data subject, authority, etc.?"@en ;
-    skos:prefLabel "has entity"@en .
+    skos:prefLabel "has entity"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:Entity .
 
-dpv:Relation skos1:prefLabel "Relation"@en ;
-    rdfs:subPropertyOf skos1:semanticRelation .
+dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
+    skos:prefLabel "Relation"@en .
 
-dpv:Concept skos1:prefLabel "Concept"@en ;
-    rdfs:subClassOf skos1:Concept .
+dpv:Concept rdfs:subClassOf skos:Concept ;
+    skos:prefLabel "Concept"@en .
 
 dpv:Entity a skos:Concept,
         dpv:Concept ;

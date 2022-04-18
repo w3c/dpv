@@ -13,6 +13,9 @@ IMPORT_DPV_GDPR_MODULES_PATH = '../dpv-skos/dpv-gdpr/modules'
 EXPORT_DPV_GDPR_HTML_PATH = '../dpv-skos/dpv-gdpr'
 IMPORT_DPV_PD_PATH = '../dpv-skos/dpv-pd/dpv-pd.ttl'
 EXPORT_DPV_PD_HTML_PATH = '../dpv-skos/dpv-pd'
+IMPORT_DPV_LEGAL_PATH = '../dpv-skos/dpv-legal/dpv-legal.ttl'
+IMPORT_DPV_LEGAL_MODULES_PATH = '../dpv-skos/dpv-legal/modules'
+EXPORT_DPV_LEGAL_HTML_PATH = '../dpv-skos/dpv-legal'
 
 from rdflib import Graph, Namespace
 from rdflib import RDF, RDFS, OWL
@@ -170,5 +173,39 @@ with open(f'{EXPORT_DPV_PD_HTML_PATH}/dpv-pd.html', 'w+') as fd:
     fd.write(template.render(**TEMPLATE_DATA))
 DEBUG(f'wrote DPV-PD spec at f{EXPORT_DPV_PD_HTML_PATH}/dpv-pd.html')
 
+
+# DPV-LEGAL: generate HTML
+
+with open(f'{EXPORT_DPV_LEGAL_HTML_PATH}/proposed.json') as fd:
+    TEMPLATE_DATA['proposed'] = json.load(fd)  
+
+def load_legal_data(label, filepath):
+    DEBUG(f'loading data for {label}')
+    g = Graph()
+    g.load(filepath, format='turtle')
+    G = DataGraph()
+    G.load(g)
+    G.graph.ns = { k:v for k,v in G.graph.namespaces() }
+    # TODO: Take the instance variable so that template has contextual info
+    # e.g. Law can specify jurisdiction label, authorities, etc.,
+    TEMPLATE_DATA[f'{label}_terms'] = G.get_instances_of('skos_Concept')
+
+load_legal_data('ontology', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/ontology.ttl')
+load_legal_data('locations', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/locations.ttl')
+load_legal_data('laws', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/laws.ttl')
+load_legal_data('authorities', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/authorities.ttl')
+load_legal_data('EU_EEA', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/eu_eea.ttl')
+load_legal_data('EU_Adequacy', f'{IMPORT_DPV_LEGAL_MODULES_PATH}/eu_adequacy.ttl')
+g = Graph()
+g.load(f'{IMPORT_DPV_LEGAL_PATH}', format='turtle')
+G.load(g)
+
+template = template_env.get_template('template_dpv_legal_skos.jinja2')
+with open(f'{EXPORT_DPV_LEGAL_HTML_PATH}/index.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote DPV-LEGAL spec at f{EXPORT_DPV_LEGAL_HTML_PATH}/index.html')
+with open(f'{EXPORT_DPV_LEGAL_HTML_PATH}/dpv-legal.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote DPV-LEGAL spec at f{EXPORT_DPV_LEGAL_HTML_PATH}/dpv-legal.html')
 
 DEBUG('--- END ---')

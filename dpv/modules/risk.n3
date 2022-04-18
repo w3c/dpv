@@ -2,7 +2,6 @@
 @prefix dpv: <https://w3id.org/dpv#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix skos1: <http://www.w3.org/20.5/02/skos/core#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -29,17 +28,17 @@ dpv:RiskConcepts a skos:Collection ;
         dpv:isMitigatedByMeasure,
         dpv:mitigatesRisk .
 
-dpv:hasDomain skos1:prefLabel "has domain"@en ;
-    rdfs:subPropertyOf skos1:semanticRelation .
+dpv:hasDomain rdfs:subPropertyOf skos:semanticRelation ;
+    skos:prefLabel "has domain"@en .
 
-dpv:hasRange skos1:prefLabel "has range"@en ;
-    rdfs:subPropertyOf skos1:semanticRelation .
+dpv:hasRange rdfs:subPropertyOf skos:semanticRelation ;
+    skos:prefLabel "has range"@en .
 
-dpv:isInstanceOf skos1:prefLabel "isInstanceOf"@en ;
-    rdfs:subPropertyOf skos1:semanticRelation .
+dpv:isInstanceOf rdfs:subPropertyOf skos:semanticRelation ;
+    skos:prefLabel "isInstanceOf"@en .
 
-dpv:isSubTypeOf skos1:prefLabel "isSubTypeOf"@en ;
-    rdfs:subPropertyOf skos1:broaderTransitive .
+dpv:isSubTypeOf rdfs:subPropertyOf skos:broaderTransitive ;
+    skos:prefLabel "isSubTypeOf"@en .
 
 dpv:Benefit a skos:Concept,
         dpv:Concept ;
@@ -159,13 +158,13 @@ dpv:hasImpact a skos:Concept,
         "Georg P Krog"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Julian Flake"^^xsd:string ;
-    rdfs:domain dpv:Concept ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Impact ;
-    rdfs:subPropertyOf dpv:hasConsequence ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates impact(s) possible or arising as consequences from specified concept"@en ;
-    skos:prefLabel "has impact"@en .
+    skos:prefLabel "has impact"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:Impact ;
+    dpv:isSubTypeOf dpv:hasConsequence .
 
 dpv:hasImpactOn a skos:Concept,
         dpv:Relation ;
@@ -175,47 +174,47 @@ dpv:hasImpactOn a skos:Concept,
         "Georg P Krog"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Julian Flake"^^xsd:string ;
-    rdfs:domain dpv:Impact ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Concept ;
-    rdfs:subPropertyOf dpv:hasConsequenceOn ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates the thing (e.g. plan, process, or entity) affected by an impact"@en ;
-    skos:prefLabel "has impact on"@en .
+    skos:prefLabel "has impact on"@en ;
+    dpv:hasDomain dpv:Impact ;
+    dpv:hasRange dpv:Concept ;
+    dpv:isSubTypeOf dpv:hasConsequenceOn .
 
 dpv:hasRisk a skos:Concept,
         dpv:Relation ;
     dct:created "2020-11-18"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:domain dpv:Concept ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Risk ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates applicability of Risk for this concept"@en ;
-    skos:prefLabel "has risk"@en .
+    skos:prefLabel "has risk"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:Risk .
 
 dpv:isMitigatedByMeasure a skos:Concept,
         dpv:Relation ;
     dct:created "2022-02-09"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:domain dpv:Risk ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:RiskMitigationMeasure ;
-    rdfs:subPropertyOf dpv:hasTechnicalOrganisationalMeasure ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicate a risk is mitigated by specified measure"@en ;
-    skos:prefLabel "is mitigated by measure"@en .
+    skos:prefLabel "is mitigated by measure"@en ;
+    dpv:hasDomain dpv:Risk ;
+    dpv:hasRange dpv:RiskMitigationMeasure ;
+    dpv:isSubTypeOf dpv:hasTechnicalOrganisationalMeasure .
 
 dpv:mitigatesRisk a skos:Concept,
         dpv:Relation ;
     dct:created "2020-11-04"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:domain dpv:RiskMitigationMeasure ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Risk ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates risks mitigated by this concept"@en ;
-    skos:prefLabel "mitigates risk"@en .
+    skos:prefLabel "mitigates risk"@en ;
+    dpv:hasDomain dpv:RiskMitigationMeasure ;
+    dpv:hasRange dpv:Risk .
 
 dpv:hasConsequence a skos:Concept,
         dpv:Relation ;
@@ -226,13 +225,13 @@ dpv:hasConsequence a skos:Concept,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Julian Flake"^^xsd:string ;
     dct:modified "2021-09-21"^^xsd:date ;
-    rdfs:domain dpv:Concept ;
     rdfs:isDefinedBy dpv: ;
-    rdfs:range dpv:Consequence ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates consenquence(s) possible or arising from specified concept"@en ;
     skos:note "Removed plural suffix for consistency"@en ;
-    skos:prefLabel "has consequence"@en .
+    skos:prefLabel "has consequence"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:Consequence .
 
 dpv:Damage a skos:Concept,
         dpv:Concept ;
@@ -276,8 +275,8 @@ dpv:Consequence a skos:Concept,
     skos:prefLabel "Consequence"@en ;
     dpv:isSubTypeOf dpv:Context .
 
-dpv:Relation skos1:prefLabel "Relation"@en ;
-    rdfs:subPropertyOf skos1:semanticRelation .
+dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
+    skos:prefLabel "Relation"@en .
 
 dpv:Impact a skos:Concept,
         dpv:Concept ;
@@ -294,6 +293,6 @@ dpv:Impact a skos:Concept,
     skos:prefLabel "Impact"@en ;
     dpv:isSubTypeOf dpv:Consequence .
 
-dpv:Concept skos1:prefLabel "Concept"@en ;
-    rdfs:subClassOf skos1:Concept .
+dpv:Concept rdfs:subClassOf skos:Concept ;
+    skos:prefLabel "Concept"@en .
 

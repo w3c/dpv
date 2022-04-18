@@ -1,0 +1,534 @@
+{% from 'macro_term_table.jinja2' import table_classes %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DPV-LEGAL: Extension providing Jurisdictions, Laws, and Authorities for DPV</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv-legal",
+    title: "DPV-LEGAL: Extension providing Jurisdictions, Laws, and Authorities for DPV",
+    subtitle: "version 0.6",
+    publishDate: "2022-04-02",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/dpv-legal",
+    // github: {
+    //   repoURL: "https://github.com/w3c/dpv-gdpr",
+    //   branch: "master"
+    // },
+    subjectPrefix: "[dpv-legal]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false },
+    canonicalUri: "https://w3id.org/dpv/dpv-legal",
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      company: "Trinity College Dublin",
+      companyURL: "https://tcd.ie/"
+    }
+    ],
+    authors: [
+      {
+        "name": "Harshvardhan J. Pandit",
+        "company": "Trinity College Dublin"
+      },
+      {
+        "name": "Julian Flake",
+        "company": "University of Koblenz-Landau",
+      }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+ </script>
+ <style type="text/css">
+  .head img[src*="logos/W3C"] {
+    display: inherit !important;
+  }
+  .head a:hover > img[src*='ogc'] {
+    opacity: 0.8;
+  }
+  /* Table styles, March 2016 */
+  table {border-collapse:collapse}
+  th, td {
+    border:thin solid black;
+    padding: 0.3em;
+  }
+  .inlineCode {
+    FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #ddf
+  }
+  PRE.code {
+    BORDER-RIGHT: #999999 1pt solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #999999 1pt solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; BORDER-LEFT: #999999 1pt solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #999999 1pt solid; FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #eef
+  }
+  PRE.code2 {
+    BORDER-RIGHT: #999999 1pt solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #999999 1pt solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; BORDER-LEFT: #999999 1pt solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #999999 1pt solid; FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #ffa
+  }
+  .ednote {
+    FONT-STYLE: italic
+  }
+  PRE.clientmsg {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 2px; BACKGROUND: #eee; PADDING-BOTTOM: 2px; MARGIN: 0px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999 1px solid
+  }
+  PRE.servermsg {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 2px; BACKGROUND: #eee; PADDING-BOTTOM: 2px; MARGIN: 5px 0px 0px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999 1px solid; TEXT-ALIGN: left
+  }
+  P.msg {
+    PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; TEXT-ALIGN: center
+  }
+  DIV.interaction {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid
+  }
+  DIV.interaction H4 {
+    MARGIN: 0px 0px 10px
+  }
+  DIV.interaction P {
+    MARGIN: 0px
+  }
+  DIV.test {
+    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid
+  }
+  DIV.test H4 {
+    MARGIN: 0px 0px 10px
+  }
+ </style>
+</head>
+<body>
+  <section id="abstract">
+    <p>DPV-LEGAL extends the [[[DPV]]] to provide concepts related to Jurisdictions, Laws, Authorities, EU/EEA Memberships, EU Adequacy Decisions</p>
+    <p>The namespace for terms in DPVO-LEGAL is <a href="http://www.w3id.org/dpv/dpv-owl/dpv-legal#"><code>https://www.w3id.org/dpv/dpv-owl/dpv-legal#</code></a><br/>
+      The suggested prefix for the namespace is <code>dpvo-legal</code><br/>
+      The DPV-LEGAL vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+    {{ dpv_document_family(document='dpv-legal') }}
+      {{ sotd() }}
+  </section>
+  <section id="motivation">
+    <h2>Introduction</h2>
+    <p>The Data Privacy Vocabulary (DPV) provides terms to annotate and categorise instances of legally compliant personal data handling. In particular, the vocabulary provides <code>Location</code>, <code>Law</code>, and <code>Authority</code> as top-level concepts. Since these concepts are specifically defined within the scope of jurisdictional laws, their implementation is provided as a separate vocabulary that extends the DPV, thereby permitting continued usage of DPV as a jurisdiction-agnostic and generic vocabulary.</p>
+    <figure>
+      <img src="/dpv-legal/img/dpv-legal-overview.png">
+      <figcaption>Overview of Concepts modeled in DPV-LEGAL</figcaption>
+    </figure>
+    <p>This vocabulary, termed as DPV-LEGAL, provides several collections of concepts based on extending those from the DPV regarding:</p>
+    <ul>
+      <li>A <a href="#vocab-locations">hierarchical list of regions</a> consisting of continents, countries, and regions within countries (limited data), along with their ISO and UN provisioned codes</li>
+      <li>A <a href="#vocab-laws">list of laws</a> and their applicable jurisdictions, and start and end dates where available</li>
+      <li>A <a href="#vocab-authorities">list of authorities</a> and the laws they enforce as well their applicable jurisdictions</li>
+      <li>A <a href="#vocab-EU-EEA">membership of EU and EEA</a> along with specific temporal variations such as the introduction of exclusion of a member (e.g. EU-27 post-Brexit)</li>
+      <li>A <a href='#vocab-EU-Adequacy'>list of EU Adequacy decisions</a> along with jurisdictions applicable, and start and end dates where available</li>
+    </ul>
+    p>We welcome further contributions to refine or extend this data, See the <a href="#sources">sources</a> appendix for documents and resources to extend this vocabulary.</p>
+  </section>
+
+<section id="vocab-laws">
+  <h2>Laws</h2>
+
+    {% for term in laws_terms | sort(attribute='iri') %}
+    <section id="{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}" {% if not prefix %}data-dfn-for="{{term.iri|fragment_this}}"{% endif %}>
+      <h4><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td>`{{ term.iri }}`</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>{% for t in term.rdf_type %}{% if 'w3.org' not in t.iri %}<a href="{{t.iri}}">{{ t|prefix_this }}</a>{% endif %}{% endfor %}</td>
+          </tr>
+          <tr>
+            <td>Label:</td>
+            <td>{{term.rdfs_label__en}}</td>
+          </tr>
+          {% if term.rdfs_label__de %}<tr>
+            <td>Label (DE):</td>
+            <td>{{term.rdfs_label__de}}</td>
+          </tr>{%  endif %}
+          <tr>
+            <td>Website:</td>
+            <td><a href="{{term.foaf_homepage}}">link</a></td>
+          </tr>
+          {%  if term.dct_temporal %}<tr>
+            <td>Temporal start:</td>
+            <td>{{ term.dct_temporal.time_hasBeginning.time_inXSDDate }}
+          </tr>{%  if term.dct_temporal.time_hasEnd %}
+          <tr>
+            <td>Temporal end:</td>
+            <td>{{ term.dct_temporal.time_hasEnd.time_inXSDDate }}</td>
+          </tr>{%  endif %}{%  endif %}
+          <tr>
+            <td>Jurisdictions:</td>
+            <td>{%  if term.dpvo_hasJurisdiction is sequence %}{%  for loc in term.dpvo_hasJurisdiction|sort(attribute='iri') %}<a href="{{loc.iri}}">{{ loc.iri|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dpvo_hasJurisdiction.iri}}">{{ term.dpvo_hasJurisdiction.iri|prefix_this }}</a>{% endif %}</td>
+          </tr>
+          {# <tr>
+            <td>Authority</td>
+            <td>{%  if term.dpvo_hasAuthority is sequence %}{%  for loc in term.dpvo_hasAuthority %}<a href="{{loc.iri}}">{{ loc.iri|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dpvo_hasAuthority.iri}}">{{ term.dpvo_hasAuthority.iri|prefix_this }}</a>{% endif %}</td>
+          </tr> #}
+          <tr>
+            <td>Concept Created:</td>
+            <td><time>{{term.dct_created}}</time></td>
+          </tr>
+          {% if term.dct_modified %}
+          <tr>
+            <td>Concept Modified:</td>
+            <td><time>{{term.dct_modified}}</time></td>
+          </tr>
+          {% endif %}
+          {% if term.dct_creator %}
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              {% if term.dct_creator is sequence and not term.dct_creator is string %}{% for person in term.dct_creator|sort %}
+              {{person}}{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              {{term.dct_creator}}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.skos_related %}
+          <tr>
+            <td>See Also:</td>
+            <td>
+              {% if term.skos_related is sequence and not term.skos_related is string %}{% for link in term.skos_related %}
+              <a href="{{link.iri}}">{{link|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.skos_related.iri}}">{{term.skos_related|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+    {% endfor %}
+
+</section>
+
+<section id="vocab-authorities">
+  <h2>Authorities</h2>
+
+  {% for term in authorities_terms | sort(attribute='iri') %}
+    <section id="{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}" {% if not prefix %}data-dfn-for="{{term.iri|fragment_this}}"{% endif %}>
+      <h4><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td>`{{ term.iri }}`</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>{% for t in term.rdf_type %}{% if 'w3.org' not in t.iri %}<a href="{{t.iri}}">{{ t|prefix_this }}</a>{% endif %}{% endfor %}</td>
+          </tr>
+          <tr>
+            <td>Label:</td>
+            <td>{{term.rdfs_label__en}}</td>
+          </tr>
+          {% if term.rdfs_label__de %}<tr>
+            <td>Label (DE):</td>
+            <td>{{term.rdfs_label__de}}</td>
+          </tr>{%  endif %}
+          </tr>
+          <tr>
+            <td>Website:</td>
+            <td><a href="{{term.foaf_homepage}}">link</a></td>
+          </tr>
+          <tr>
+            <td>Jurisdictions:</td>
+            <td>{%  if term.dpvo_hasJurisdiction is sequence %}{%  for loc in term.dpvo_hasJurisdiction|sort(attribute='iri') %}<a href="{{loc.iri}}">{{ loc.iri|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dpvo_hasJurisdiction.iri}}">{{ term.dpvo_hasJurisdiction.iri|prefix_this }}</a>{% endif %}</td>
+          </tr>
+          <tr>
+            <td>Laws:</td>
+            <td>{%  if term.dpvo_hasLaw is sequence %}{%  for loc in term.dpvo_hasLaw|sort(attribute='iri') %}<a href="{{loc.iri}}">{{ loc.iri|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dpvo_hasLaw.iri}}">{{ term.dpvo_hasLaw.iri|prefix_this }}</a>{% endif %}</td>
+          </tr>
+          {# <tr>
+            <td>Authority</td>
+            <td>{%  if term.dpvo_hasAuthority is sequence %}{%  for loc in term.dpvo_hasAuthority %}<a href="{{loc.iri}}">{{ loc.iri|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dpvo_hasAuthority.iri}}">{{ term.dpvo_hasAuthority.iri|prefix_this }}</a>{% endif %}</td>
+          </tr> #}
+          <tr>
+            <td>Concept Created:</td>
+            <td><time>{{term.dct_created}}</time></td>
+          </tr>
+          {% if term.dct_modified %}
+          <tr>
+            <td>Concept Modified:</td>
+            <td><time>{{term.dct_modified}}</time></td>
+          </tr>
+          {% endif %}
+          {% if term.dct_creator %}
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              {% if term.dct_creator is sequence and not term.dct_creator is string %}{% for person in term.dct_creator|sort %}
+              {{person}}{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              {{term.dct_creator}}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.skos_related %}
+          <tr>
+            <td>See Also:</td>
+            <td>
+              {% if term.skos_related is sequence and not term.skos_related is string %}{% for link in term.skos_related %}
+              <a href="{{link.iri}}">{{link|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.skos_related.iri}}">{{term.skos_related|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+    {% endfor %}
+</section>
+
+<section id="vocab-EU-EEA">
+  <h2>EU/EEA Memberships</h2>
+
+  {% for term in EU_EEA_terms | sort(attribute='iri') %}
+    <section id="{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}" {% if not prefix %}data-dfn-for="{{term.iri|fragment_this}}"{% endif %}>
+      <h4><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td>`{{ term.iri }}`</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>{% for t in term.rdf_type %}{% if 'w3.org' not in t.iri %}<a href="{{t.iri}}">{{ t|prefix_this }}</a>{% endif %}{% endfor %}</td>
+          </tr>
+          <tr>
+            <td>Label:</td>
+            <td>{{term.dct_title}}</td>
+          </tr>
+          {% if term.dpvo_isSubTypeOf %}<tr>
+            <td>has broader:</td>
+            <td><a href="{{term.dpvo_isSubTypeOf.iri}}">{{ term.dpvo_isSubTypeOf|prefix_this }}</a></td>
+          </tr>{%  endif %}
+          {%  if term.dct_temporal %}<tr>
+            <td>Temporal start:</td>
+            <td>{{ term.dct_temporal.time_hasBeginning.time_inXSDDate }}
+          </tr>{%  if term.dct_temporal.time_hasEnd %}
+          <tr>
+            <td>Temporal end:</td>
+            <td>{{ term.dct_temporal.time_hasEnd.time_inXSDDate }}</td>
+          </tr>{%  endif %}{%  endif %}
+          <tr>
+            <td>Members:</td>
+            <td>{%  if term.dpvo_hasCountry is sequence %}{%  for loc in term.dpvo_hasCountry|sort(attribute='iri') %}<a href="{{loc.iri}}">{{ loc.iri|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dpvo_hasCountry.iri}}">{{ term.dpvo_hasCountry.iri|prefix_this }}</a>{% endif %}</td>
+          </tr>
+          <tr>
+            <td>Concept Created:</td>
+            <td><time>{{term.dct_created}}</time></td>
+          </tr>
+          {% if term.dct_modified %}
+          <tr>
+            <td>Concept Modified:</td>
+            <td><time>{{term.dct_modified}}</time></td>
+          </tr>
+          {% endif %}
+          {% if term.dct_creator %}
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              {% if term.dct_creator is sequence and not term.dct_creator is string %}{% for person in term.dct_creator|sort %}
+              {{person}}{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              {{term.dct_creator}}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.skos_related %}
+          <tr>
+            <td>See Also:</td>
+            <td>
+              {% if term.skos_related is sequence and not term.skos_related is string %}{% for link in term.skos_related %}
+              <a href="{{link.iri}}">{{link|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.skos_related.iri}}">{{term.skos_related|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+    {% endfor %}
+</section>
+
+<section id="vocab-EU-Adequacy">
+  <h2>EU Adequacy Decisions</h2>
+  {% for term in EU_Adequacy_terms | sort(attribute='iri') %}
+    <section id="{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}" {% if not prefix %}data-dfn-for="{{term.iri|fragment_this}}"{% endif %}>
+      <h4><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td>`{{ term.iri }}`</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>{% for t in term.rdf_type %}{% if 'w3.org' not in t.iri %}<a href="{{t.iri}}">{{ t|prefix_this }}</a>{% endif %}{% endfor %}</td>
+          </tr>
+          <tr>
+            <td>Label:</td>
+            <td>{{term.dct_title}}</td>
+          </tr>
+          <tr>
+            <td>Jurisdictions:</td>
+            <td>{%  if term.dpvo_hasJurisdiction is sequence %}{%  for loc in term.dpvo_hasJurisdiction|sort(attribute='iri') %}<a href="{{loc.iri}}">{{ loc.iri|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dpvo_hasJurisdiction.iri}}">{{ term.dpvo_hasJurisdiction.iri|prefix_this }}</a>{% endif %}</td>
+          </tr>
+
+          {%  if term.dct_temporal %}<tr>
+            <td>Temporal start:</td>
+            <td>{{ term.dct_temporal.time_hasBeginning.time_inXSDDate }}
+          </tr>{%  if term.dct_temporal.time_hasEnd %}
+          <tr>
+            <td>Temporal end:</td>
+            <td>{{ term.dct_temporal.time_hasEnd.time_inXSDDate }}</td>
+          </tr>{%  endif %}{%  endif %}
+          <tr>
+            <td>Website:</td>
+            <td><a href="{{term.foaf_homepage}}">link</a></td>
+          </tr>
+          <tr>
+            <td>Concept Created:</td>
+            <td><time>{{term.dct_created}}</time></td>
+          </tr>
+          {% if term.dct_modified %}
+          <tr>
+            <td>Concept Modified:</td>
+            <td><time>{{term.dct_modified}}</time></td>
+          </tr>
+          {% endif %}
+          {% if term.dct_creator %}
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              {% if term.dct_creator is sequence and not term.dct_creator is string %}{% for person in term.dct_creator|sort %}
+              {{person}}{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              {{term.dct_creator}}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.skos_related %}
+          <tr>
+            <td>See Also:</td>
+            <td>
+              {% if term.skos_related is sequence and not term.skos_related is string %}{% for link in term.skos_related %}
+              <a href="{{link.iri}}">{{link|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.skos_related.iri}}">{{term.skos_related|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+    {% endfor %}
+</section>
+
+<section id="vocab-locations">
+  <h2>Locations</h2>
+  {% for term in locations_terms | sort(attribute='iri') %}
+    <section id="{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}" {% if not prefix %}data-dfn-for="{{term.iri|fragment_this}}"{% endif %}>
+      <h4><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td>`{{ term.iri }}`</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>{% for t in term.rdf_type %}{% if 'w3.org' not in t.iri %}<a href="{{t.iri}}">{{ t|prefix_this }}</a>{% endif %}{% endfor %}</td>
+          </tr>
+          <tr>
+            <td>Label:</td>
+            <td>{{term.dct_title}}</td>
+          </tr>
+          {% if term.dct_isPartOf %}<tr>
+            <td>has broader:</td>
+            <td>{% if term.dct_isPartOf is sequence %}{% for loc in term.dct_isPartOf|sort(attribute="iri") %}<a href="{{loc.iri}}">{{ loc|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dct_isPartOf.iri}}">{{ term.dct_isPartOf|prefix_this }}</a>{% endif %}</td>
+          </tr>{%  endif %}
+          <tr>
+            <td>Concept Created:</td>
+            <td><time>{{term.dct_created}}</time></td>
+          </tr>
+          {% if term.dct_modified %}
+          <tr>
+            <td>Concept Modified:</td>
+            <td><time>{{term.dct_modified}}</time></td>
+          </tr>
+          {% endif %}
+          {% if term.dct_creator %}
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              {% if term.dct_creator is sequence and not term.dct_creator is string %}{% for person in term.dct_creator|sort %}
+              {{person}}{{', ' if not loop.last }}
+              {% endfor %}{% else %}
+              {{term.dct_creator}}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if term.skos_related %}
+          <tr>
+            <td>See Also:</td>
+            <td>
+              {% if term.skos_related is sequence and not term.skos_related is string %}{% for link in term.skos_related %}
+              <a href="{{link.iri}}">{{link|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.skos_related.iri}}">{{term.skos_related|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </section>
+    {% endfor %}
+</section>
+
+<section id="sources" class="appendix">
+  <h2>Sources for Extending Concepts</h2>
+  <h3>ISO 3166 Codes</h3>
+  <p>The <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> is a standard providing codes for countries and regions within them in various formats. DPV-LEGAL currently only models the Countries and Sub-Regions (for some jurisdictions). Adopters can provide additional concepts based on 3166.</p>
+  <h3>United Nations Codes</h3>
+  <p>The UN's <a href="https://unstats.un.org/unsd/methodology/m49">Standard country or area codes for statistical use (M49)</a> are similar to ISO 3166 in providing standardised notations for jurisdictions. Adopters can further adopt additional UN codes or vocabularies.</p>
+  <h3>Global Privacy Assembly Resources</h3>
+  <p>The Global Privacy Assembly is a group of various data protection and privacy authorities, and as such provides an authorititative collection of their memberships. The <a href="https://globalprivacyassembly.org/wp-content/uploads/2021/09/The-2020-GPA-Census.pdf">2020 Census</a> and <a href="https://globalprivacyassembly.org/participation-in-the-assembly/members-online/">Members online presence</a> are two convenient lists of authorities and their online/social links. Adopters can use these resources to extend this vocabulary.</p>
+  <h3>Global Tables of Data Privacy Laws and Bills</h3>
+  <p>Graham Greenleaf does a comprehensive and resourceful job of maintaining a collection of privacy and data protection laws across the world. Adopters can utilise this resource to add concepts to this vocabulary. See: Greenleaf G. (2019). Global Tables of Data Privacy Laws and Bills (6th Ed January 2019) (SSRN Scholarly Paper ID 3380794). Social Science Research Network. <a href="https://papers.ssrn.com/abstract=3380794">https://papers.ssrn.com/abstract=3380794</a></p>
+</section>
+
+{% if proposed %}
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  {% for name, terms in proposed.items() %}
+    <strong>{{name}}</strong>
+    <ul>{% for term in terms %}
+      <li>{{term}}</li>
+    {% endfor %}</ul>
+  {% endfor %}
+</section>
+{% endif %}
+<section id="conformance" class="noTOC"></section>
+</body>
+</html>

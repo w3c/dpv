@@ -24,17 +24,8 @@ EXPORT_DPV_MODULE_PATH = '../dpv-owl/modules'
 EXPORT_DPV_GDPR_PATH = '../dpv-owl/dpv-gdpr'
 EXPORT_DPV_GDPR_MODULE_PATH = '../dpv-owl/dpv-gdpr/modules'
 EXPORT_DPV_PD_PATH = '../dpv-owl/dpv-pd'
-
-# serializations in the form of extention: rdflib name
-RDF_SERIALIZATIONS = {
-    'rdf': 'xml', 
-    'ttl': 'turtle', 
-    'n3': 'n3',
-    'jsonld': 'json-ld'
-    }
-
-VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified')
-VOCAB_TERM_REJECT = ('deprecated', 'removed')
+EXPORT_DPV_LEGAL_PATH = '../dpv-owl/dpv-legal'
+EXPORT_DPV_LEGAL_MODULE_PATH = '../dpv-owl/dpv-legal/modules'
 
 import csv
 from collections import namedtuple
@@ -53,71 +44,12 @@ logging.basicConfig(
 DEBUG = logging.debug
 INFO = logging.info
 
-# Namespaces are in two files: 
-# 1. Namespaces.csv for DPV issued namespaces
-# 2. Namespaces_other for External namespaces
-
-DCT = Namespace('http://purl.org/dc/terms/')
-FOAF = Namespace('http://xmlns.com/foaf/0.1/')
-ODRL = Namespace('http://www.w3.org/ns/odrl/2/')
-PROV = Namespace('http://www.w3.org/ns/prov#')
-SKOS = Namespace('http://www.w3.org/2004/02/skos/core#')
-SPL = Namespace('https://specialprivacy.ercim.eu/langs/usage-policy#')
-SVD = Namespace('https://specialprivacy.ercim.eu/vocabs/data#')
-SVDU = Namespace('https://specialprivacy.ercim.eu/vocabs/duration#')
-SVL = Namespace('https://specialprivacy.ercim.eu/vocabs/locations#')
-SVPR = Namespace('https://specialprivacy.ercim.eu/vocabs/processing#')
-SVPU = Namespace('https://specialprivacy.ercim.eu/vocabs/purposes#')
-SVR = Namespace('https://specialprivacy.ercim.eu/vocabs/recipients')
-SW = Namespace('http://www.w3.org/2003/06/sw-vocab-status/ns#')
-TIME = Namespace('http://www.w3.org/2006/time#')
-
-DPV = Namespace('https://w3id.org/dpv#')
-DPV_NACE = Namespace('https://w3id.org/dpv/dpv-nace#')
-DPV_GDPR = Namespace('https://w3id.org/dpv/dpv-gdpr#')
-DPV_PD = Namespace('https://w3id.org/dpv/dpv-pd#')
-DPVS = Namespace('https://w3id.org/dpv/dpv-skos#')
-DPVS_GDPR = Namespace('https://w3id.org/dpv/dpv-skos/dpv-gdpr#')
-DPVS_PD = Namespace('https://w3id.org/dpv/dpv-skos/dpv-pd#')
-DPVO = Namespace('https://w3id.org/dpv/dpv-owl#')
-DPVO_GDPR = Namespace('https://w3id.org/dpv/dpv-owl/dpv-gdpr#')
-DPVO_PD = Namespace('https://w3id.org/dpv/dpv-owl/dpv-pd#')
+from vocab_management import *
 
 # The dpv namespace is the default base for all terms
 # Later, this is changed to write terms under DPV-GDPR namespace
 BASE = DPVO
 
-NAMESPACES = {
-    'dct': DCT,
-    'foaf': FOAF,
-    'odrl': ODRL,
-    'owl': OWL,
-    'prov': PROV,
-    'rdf': RDF,
-    'rdfs': RDFS,
-    'skos': SKOS,
-    'spl': SPL,
-    'svd': SVD,
-    'svdu': SVDU,
-    'svl': SVL,
-    'svpr': SVPR,
-    'svpu': SVPU,
-    'svr': SVR,
-    'sw': SW,
-    'time': TIME,
-    'xsd': XSD,
-    # DPV
-    'dpv': DPV,
-    'dpv-nace': DPV_NACE,
-    'dpv-gdpr': DPV_GDPR,
-    'dpv-pd': DPV_PD,
-    'dpvs': DPVS,
-    'dpvs-gdpr': DPVS_GDPR,
-    'dpvs-pd': DPVS_PD,
-    'dpvo': DPVO,
-    'dpvo-gdpr': DPVO_GDPR,
-    'dpvo-pd': DPVO_PD,
-}
 NAMESPACES_DPV_OWL = {
     'dpv': DPVO,
     'dpv-nace': DPV_NACE,
@@ -615,3 +547,334 @@ DPV_PD_GRAPH.load('ontology_metadata/dpv-owl-pd.ttl', format='turtle')
 for prefix, namespace in NAMESPACES.items():
     DPV_PD_GRAPH.namespace_manager.bind(prefix, namespace)
 serialize_graph(DPV_PD_GRAPH, f'{EXPORT_DPV_PD_PATH}/dpv-pd')
+
+# #############################################################################
+
+# DPV-LEGAL #
+# The structure of DPV-Legal spreadsheets is different than the rest of DPV
+# Therefore, it requires separate functions/code to handle
+
+DPV_LEGAL_CSV_FILES = {
+    f'{IMPORT_CSV_PATH}/legal_Authorities.csv',
+    f'{IMPORT_CSV_PATH}/legal_EU_Adequacy.csv',
+    f'{IMPORT_CSV_PATH}/legal_EU_EEA.csv',
+    f'{IMPORT_CSV_PATH}/legal_Laws.csv',
+    f'{IMPORT_CSV_PATH}/legal_Locations.csv',
+    f'{IMPORT_CSV_PATH}/legal_properties.csv',
+    }
+
+BASE = NAMESPACES['dpvo-legal']
+DPV_LEGAL_GRAPH = Graph()
+for prefix, namespace in NAMESPACES.items():
+    DPV_LEGAL_GRAPH.namespace_manager.bind(prefix, namespace)
+graph = Graph()
+for prefix, namespace in NAMESPACES.items():
+    graph.namespace_manager.bind(prefix, namespace)
+proposed_terms = {}
+DEBUG('------')
+DEBUG(f'Processing DPV-LEGAL')
+for prefix, namespace in NAMESPACES.items():
+    DPV_LEGAL_GRAPH.namespace_manager.bind(prefix, namespace)
+
+DEBUG(f'Processing DPV-LEGAL classes and properties')
+# NOTE: There are currently no additional classes
+# >>> START
+# classes = extract_terms_from_csv(DPV_LEGAL_CSV_FILES, DPV_Class)
+# DEBUG(f'there are {len(classes)} classes in {name}')
+# returnval = add_triples_for_classes(classes, DPV_LEGAL_GRAPH)
+# if returnval:
+#         proposed_terms.extend(returnval)
+# add collection representing concepts
+# DPV_LEGAL_GRAPH.add((BASE[f'LegalConcepts'], RDF.type, SKOS.Collection))
+# DPV_LEGAL_GRAPH.add((BASE[f'LegalConcepts'], DCT.title, Literal(f'Legal Concepts', datatype=XSD.string)))
+# for concept, _, _ in DPV_LEGAL_GRAPH.triples((None, RDF.type, SKOS.Concept)):
+#     DPV_LEGAL_GRAPH.add((BASE[f'LegalConcepts'], SKOS.member, concept))
+properties = extract_terms_from_csv(
+    f'{IMPORT_CSV_PATH}/legal_properties.csv', DPV_Property)
+DEBUG(f'there are {len(properties)} properties in DPV-LEGAL')
+returnval = add_triples_for_properties(properties, graph)
+if returnval:
+    proposed_terms['ontology'] = returnval
+# serialize
+# DPV_LEGAL_GRAPH.load('ontology_metadata/dpv-legal.ttl', format='turtle')
+serialize_graph(graph, f'{EXPORT_DPV_LEGAL_MODULE_PATH}/ontology')
+DPV_LEGAL_GRAPH += graph
+if proposed:
+    proposed_terms['vocab'] = proposed
+
+DEBUG('Processing DPV-LEGAL Locations')
+graph = Graph()
+for prefix, namespace in NAMESPACES.items():
+    graph.namespace_manager.bind(prefix, namespace)
+proposed = []
+Location_schema = namedtuple('Legal_Location', (
+    'Term', 'Label', 'ParentTerm', 'Alpha2', 'Alpha3', 'Numeric', 'M49',
+    'broader', 'narrower', 'created', 'modified', 
+    'status', 'contributors', 'resolution'))
+concepts = extract_terms_from_csv(
+    f'{IMPORT_CSV_PATH}/legal_Locations.csv', Location_schema)
+for row in concepts:
+    if row.status not in VOCAB_TERM_ACCEPT:
+        proposed.append(row.Term)
+        continue
+    term = BASE[row.Term]
+    parent = row.ParentTerm.replace("dpv:", "")
+    graph.add((term, RDF.type, DPVO[f'{parent}']))
+    graph.add((term, RDF.type, OWL.NamedIndividual))
+    graph.add((term, DCT.title, Literal(row.Label, lang='en')))
+    graph.add((term, RDFS.label, Literal(row.Label, lang='en')))
+    if row.Alpha2:
+        graph.add((
+            term, BASE.iso_alpha2, Literal(row.Alpha2, datatype=XSD.string)))
+        graph.add((
+            term, BASE.iso_alpha3, Literal(row.Alpha3, datatype=XSD.string)))
+        graph.add((
+            term, BASE.iso_numeric, Literal(row.Numeric, datatype=XSD.string)))
+    if row.M49:
+        graph.add((
+            term, BASE.un_m49, Literal(row.M49, datatype=XSD.string)))
+    parents = [p.strip() for p in row.broader.split(',') if p]
+    for item in parents:
+        print(f'item: {item}')
+        prefix, parent = item.split(':')
+        parent = NAMESPACES[prefix][f'{parent}']
+        graph.add((term, DCT.isPartOf, parent))
+        graph.add((parent, DCT.hasPart, term))
+    # dct:created
+    graph.add((term, DCT.created, Literal(row.created, datatype=XSD.date)))
+    # dct:modified
+    if row.modified:
+        graph.add((term, DCT.modified, Literal(row.modified, datatype=XSD.date)))
+    # sw:term_status
+    graph.add((term, SW.term_status, Literal(row.status, lang='en')))
+    # dct:creator
+    if row.contributors:
+        authors = [a.strip() for a in row.contributors.split(',')]
+        for author in authors:
+            graph.add((term, DCT.creator, Literal(author, datatype=XSD.string)))
+serialize_graph(graph, f'{EXPORT_DPV_LEGAL_MODULE_PATH}/locations')
+DPV_LEGAL_GRAPH += graph
+if proposed:
+    proposed_terms['location'] = proposed
+
+DEBUG('Processing DPV-LEGAL Laws')
+graph = Graph()
+for prefix, namespace in NAMESPACES.items():
+    graph.namespace_manager.bind(prefix, namespace)
+proposed = []
+Location_schema = namedtuple('Legal_Laws', (
+    'term', 'label_en', 'label_de', 'time_start', 'time_end',
+    'jurisdictions', 'webpage',
+    'created', 'modified', 'status', 'contributors', 'resolution'))
+concepts = extract_terms_from_csv(
+    f'{IMPORT_CSV_PATH}/legal_Laws.csv', Location_schema)
+for row in concepts:
+    if row.status not in VOCAB_TERM_ACCEPT:
+        proposed.append(row.Term)
+        continue
+    term = BASE[row.term]
+    graph.add((term, RDF.type, DPVO.Law))
+    graph.add((term, RDF.type, OWL.NamedIndividual))
+    graph.add((term, DCT.title, Literal(row.label_en, lang='en')))
+    graph.add((term, RDFS.label, Literal(row.label_en, lang='en')))
+    if row.label_de:
+        graph.add((term, DCT.title, Literal(row.label_de, lang='de')))
+        graph.add((term, RDFS.label, Literal(row.label_de, lang='de')))
+    for loc in row.jurisdictions.split(','):
+        loc = loc.replace("dpv-legal:", "")
+        graph.add((term, DPVO.hasJurisdiction, BASE[f'{loc}']))
+        graph.add((BASE[f'{loc}'], DPVO.hasLaw, term))
+    graph.add((term, FOAF.homepage, Literal(row.webpage, datatype=XSD.anyURI)))
+    if row.time_start:
+        dct_temporal = BNode()
+        graph.add((term, DCT.temporal, dct_temporal))
+        graph.add((dct_temporal, RDF.type, TIME.ProperInterval))
+        dct_date = BNode()
+        graph.add((dct_temporal, TIME.hasBeginning, dct_date))
+        graph.add((dct_date, TIME.inXSDDate, Literal(row.time_start, datatype=XSD.date)))
+        if row.time_end:
+            dct_date = BNode()
+            graph.add((dct_temporal, TIME.hasEnd, dct_date))
+            graph.add((dct_date, TIME.inXSDDate, Literal(row.time_end, datatype=XSD.date)))
+    # dct:created
+    graph.add((term, DCT.created, Literal(row.created, datatype=XSD.date)))
+    # dct:modified
+    if row.modified:
+        graph.add((term, DCT.modified, Literal(row.modified, datatype=XSD.date)))
+    # sw:term_status
+    graph.add((term, SW.term_status, Literal(row.status, lang='en')))
+    # dct:creator
+    if row.contributors:
+        authors = [a.strip() for a in row.contributors.split(',')]
+        for author in authors:
+            graph.add((term, DCT.creator, Literal(author, datatype=XSD.string)))
+serialize_graph(graph, f'{EXPORT_DPV_LEGAL_MODULE_PATH}/laws')
+DPV_LEGAL_GRAPH += graph
+if proposed:
+    proposed_terms['laws'] = proposed
+
+DEBUG('Processing DPV-LEGAL Authorities')
+graph = Graph()
+for prefix, namespace in NAMESPACES.items():
+    graph.namespace_manager.bind(prefix, namespace)
+proposed = []
+Location_schema = namedtuple('Legal_Laws', (
+    'term', 'label_en', 'label_de', 'type', 'jurisdictions', 'laws', 'webpage',
+    'created', 'modified', 'status', 'contributors', 'resolution'))
+concepts = extract_terms_from_csv(
+    f'{IMPORT_CSV_PATH}/legal_Authorities.csv', Location_schema)
+for row in concepts:
+    if row.status not in VOCAB_TERM_ACCEPT:
+        proposed.append(row.Term)
+        continue
+    term = BASE[row.term]
+    graph.add((term, RDF.type, DPVO[f'{row.type.replace("dpv:","")}']))
+    graph.add((term, RDF.type, OWL.NamedIndividual))
+    graph.add((term, DCT.title, Literal(row.label_en, lang='en')))
+    graph.add((term, RDFS.label, Literal(row.label_en, lang='en')))
+    if row.label_de:
+        graph.add((term, DCT.title, Literal(row.label_de, lang='de')))
+        graph.add((term, RDFS.label, Literal(row.label_de, lang='de')))
+    for loc in row.jurisdictions.split(','):
+        loc = loc.replace("dpv-legal:", "")
+        graph.add((term, DPVO.hasJurisdiction, BASE[f'{loc}']))
+        graph.add((BASE[f'{loc}'], DPVO.hasAuthority, term))
+    for law in row.laws.split(','):
+        law = law.replace("dpv-legal:", "")
+        graph.add((term, DPVO.hasLaw, BASE[f'{law}']))
+        graph.add((BASE[f'{law}'], DPVO.hasAuthority, term))
+    graph.add((term, FOAF.homepage, Literal(row.webpage, datatype=XSD.anyURI)))
+    # dct:created
+    graph.add((term, DCT.created, Literal(row.created, datatype=XSD.date)))
+    # dct:modified
+    if row.modified:
+        graph.add((term, DCT.modified, Literal(row.modified, datatype=XSD.date)))
+    # sw:term_status
+    graph.add((term, SW.term_status, Literal(row.status, lang='en')))
+    # dct:creator
+    if row.contributors:
+        authors = [a.strip() for a in row.contributors.split(',')]
+        for author in authors:
+            graph.add((term, DCT.creator, Literal(author, datatype=XSD.string)))
+    graph.add((BASE['AuthoritiesConcepts'], SKOS.member, term))
+graph.add((BASE['AuthoritiesConcepts'], RDF.type, SKOS.Collection))
+serialize_graph(graph, f'{EXPORT_DPV_LEGAL_MODULE_PATH}/authorities')
+DPV_LEGAL_GRAPH += graph
+if proposed:
+    proposed_terms['authorities'] = proposed
+
+DEBUG('Processing DPV-LEGAL EU-EEA Memberships')
+graph = Graph()
+for prefix, namespace in NAMESPACES.items():
+    graph.namespace_manager.bind(prefix, namespace)
+proposed = []
+Location_schema = namedtuple('Legal_EU_EEA', (
+    'term', 'label', 'type', 'broader', 'time_start', 'time_end', 'members',
+    'created', 'modified', 'status', 'contributors', 'resolution'))
+concepts = extract_terms_from_csv(
+    f'{IMPORT_CSV_PATH}/legal_EU_EEA.csv', Location_schema)
+for row in concepts:
+    if row.status not in VOCAB_TERM_ACCEPT:
+        proposed.append(row.Term)
+        continue
+    term = BASE[row.term]
+    graph.add((term, RDF.type, DPVO[f'{row.type.replace("dpv:","")}']))
+    graph.add((term, RDF.type, OWL.NamedIndividual))
+    graph.add((term, DCT.title, Literal(row.label, lang='en')))
+    if row.broader:
+        graph.add((term, DCT.isPartOf, BASE[f'{row.broader.replace("dpv-legal:","")}']))
+        graph.add((BASE[f'{row.broader.replace("dpv-legal:","")}'], DCT.hasPart, term))
+    for loc in row.members.split(','):
+        loc = loc.replace("dpv-legal:", "")
+        graph.add((term, DPVO.hasCountry, BASE[f'{loc}']))
+        graph.add((term, DCT.isPartOf, BASE[f'{loc}']))
+        graph.add((BASE[f'{loc}'], DCT.hasPart, term))
+    if row.time_start:
+        dct_temporal = BNode()
+        graph.add((term, DCT.temporal, dct_temporal))
+        graph.add((dct_temporal, RDF.type, TIME.ProperInterval))
+        dct_date = BNode()
+        graph.add((dct_temporal, TIME.hasBeginning, dct_date))
+        graph.add((dct_date, TIME.inXSDDate, Literal(row.time_start, datatype=XSD.date)))
+        if row.time_end:
+            dct_date = BNode()
+            graph.add((dct_temporal, TIME.hasEnd, dct_date))
+            graph.add((dct_date, TIME.inXSDDate, Literal(row.time_end, datatype=XSD.date)))
+    # dct:created
+    graph.add((term, DCT.created, Literal(row.created, datatype=XSD.date)))
+    # dct:modified
+    if row.modified:
+        graph.add((term, DCT.modified, Literal(row.modified, datatype=XSD.date)))
+    # sw:term_status
+    graph.add((term, SW.term_status, Literal(row.status, lang='en')))
+    # dct:creator
+    if row.contributors:
+        authors = [a.strip() for a in row.contributors.split(',')]
+        for author in authors:
+            graph.add((term, DCT.creator, Literal(author, datatype=XSD.string)))
+serialize_graph(graph, f'{EXPORT_DPV_LEGAL_MODULE_PATH}/eu_eea')
+DPV_LEGAL_GRAPH += graph
+if proposed:
+    proposed_terms['EU_EEA'] = proposed
+
+DEBUG('Processing DPV-LEGAL EU Adequacy Decisions')
+graph = Graph()
+for prefix, namespace in NAMESPACES.items():
+    graph.namespace_manager.bind(prefix, namespace)
+proposed = []
+Location_schema = namedtuple('Legal_EU_Adequacy', (
+    'term', 'label', 'webpage', 'countryA', 'countryB',
+    'time_start', 'time_end',
+    'created', 'modified', 'status', 'contributors', 'resolution'))
+concepts = extract_terms_from_csv(
+    f'{IMPORT_CSV_PATH}/legal_EU_Adequacy.csv', Location_schema)
+for row in concepts:
+    if row.status not in VOCAB_TERM_ACCEPT:
+        proposed.append(row.Term)
+        continue
+    term = BASE[row.term]
+    graph.add((term, RDF.type, DPVO.Law))
+    graph.add((term, RDF.type, OWL.NamedIndividual))
+    graph.add((term, RDF.type, DPVO_GDPR['A45-3']))
+    graph.add((term, DCT.title, Literal(row.label, lang='en')))
+    graph.add((term, FOAF.homepage, Literal(row.webpage, datatype=XSD.anyURI)))
+    graph.add((term, DPVO.hasJurisdiction, BASE[f'{row.countryA.replace("dpv-legal:","")}']))
+    graph.add((term, DPVO.hasJurisdiction, BASE[f'{row.countryB.replace("dpv-legal:","")}']))
+    if row.time_start:
+        dct_temporal = BNode()
+        graph.add((term, DCT.temporal, dct_temporal))
+        graph.add((dct_temporal, RDF.type, TIME.ProperInterval))
+        dct_date = BNode()
+        graph.add((dct_temporal, TIME.hasBeginning, dct_date))
+        graph.add((dct_date, TIME.inXSDDate, Literal(row.time_start, datatype=XSD.date)))
+        if row.time_end:
+            dct_date = BNode()
+            graph.add((dct_temporal, TIME.hasEnd, dct_date))
+            graph.add((dct_date, TIME.inXSDDate, Literal(row.time_end, datatype=XSD.date)))
+    # dct:created
+    graph.add((term, DCT.created, Literal(row.created, datatype=XSD.date)))
+    # dct:modified
+    if row.modified:
+        graph.add((term, DCT.modified, Literal(row.modified, datatype=XSD.date)))
+    # sw:term_status
+    graph.add((term, SW.term_status, Literal(row.status, lang='en')))
+    # dct:creator
+    if row.contributors:
+        authors = [a.strip() for a in row.contributors.split(',')]
+        for author in authors:
+            graph.add((term, DCT.creator, Literal(author, datatype=XSD.string)))
+serialize_graph(graph, f'{EXPORT_DPV_LEGAL_MODULE_PATH}/eu_adequacy')
+DPV_LEGAL_GRAPH += graph
+if proposed:
+    proposed_terms['EU_Adequacy'] = proposed
+
+DPV_LEGAL_GRAPH.load('ontology_metadata/dpv-owl-legal.ttl', format='turtle')
+serialize_graph(DPV_LEGAL_GRAPH, f'{EXPORT_DPV_LEGAL_PATH}/dpv-legal')
+if proposed_terms:
+    with open(f'{EXPORT_DPV_LEGAL_PATH}/proposed.json', 'w') as fd:
+        json.dump(proposed_terms, fd)
+    DEBUG(f'exported proposed terms to {EXPORT_DPV_LEGAL_PATH}/proposed.json')
+else:
+    DEBUG('no proposed terms in DPV-LEGAL')
+
+# #############################################################################

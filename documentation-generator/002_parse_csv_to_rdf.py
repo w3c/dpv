@@ -30,25 +30,12 @@ EXPORT_DPV_PD_PATH = '../dpv-pd'
 EXPORT_DPV_LEGAL_PATH = '../dpv-legal'
 EXPORT_DPV_LEGAL_MODULE_PATH = '../dpv-legal/modules'
 
-# serializations in the form of extention: rdflib name
-RDF_SERIALIZATIONS = {
-    'rdf': 'xml', 
-    'ttl': 'turtle', 
-    'n3': 'n3',
-    'jsonld': 'json-ld'
-    }
-
-VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified')
-VOCAB_TERM_REJECT = ('deprecated', 'removed')
-
 import csv
 from collections import namedtuple
 import json
 
 from rdflib import Graph, Namespace
 from rdflib.compare import graph_diff
-from rdflib.namespace import XSD
-from rdflib import RDF, RDFS, OWL
 from rdflib.term import Literal, URIRef, BNode
 
 import logging
@@ -58,73 +45,11 @@ logging.basicConfig(
 DEBUG = logging.debug
 INFO = logging.info
 
-# Namespaces are in two files: 
-# 1. Namespaces.csv for DPV issued namespaces
-# 2. Namespaces_other for External namespaces
-
-DCT = Namespace('http://purl.org/dc/terms/')
-FOAF = Namespace('http://xmlns.com/foaf/0.1/')
-ODRL = Namespace('http://www.w3.org/ns/odrl/2/')
-PROV = Namespace('http://www.w3.org/ns/prov#')
-SKOS = Namespace('http://www.w3.org/2004/02/skos/core#')
-SPL = Namespace('https://specialprivacy.ercim.eu/langs/usage-policy#')
-SVD = Namespace('https://specialprivacy.ercim.eu/vocabs/data#')
-SVDU = Namespace('https://specialprivacy.ercim.eu/vocabs/duration#')
-SVL = Namespace('https://specialprivacy.ercim.eu/vocabs/locations#')
-SVPR = Namespace('https://specialprivacy.ercim.eu/vocabs/processing#')
-SVPU = Namespace('https://specialprivacy.ercim.eu/vocabs/purposes#')
-SVR = Namespace('https://specialprivacy.ercim.eu/vocabs/recipients')
-SW = Namespace('http://www.w3.org/2003/06/sw-vocab-status/ns#')
-TIME = Namespace('http://www.w3.org/2006/time#')
-
-DPV = Namespace('https://w3id.org/dpv#')
-DPV_NACE = Namespace('https://w3id.org/dpv/dpv-nace#')
-DPV_GDPR = Namespace('https://w3id.org/dpv/dpv-gdpr#')
-DPV_PD = Namespace('https://w3id.org/dpv/dpv-pd#')
-DPV_LEGAL = Namespace('https://w3id.org/dpv/dpv-legal#')
-DPVS = Namespace('https://w3id.org/dpv/dpv-skos#')
-DPVS_GDPR = Namespace('https://w3id.org/dpv/dpv-skos/dpv-gdpr#')
-DPVS_PD = Namespace('https://w3id.org/dpv/dpv-skos/dpv-pd#')
-DPVO = Namespace('https://w3id.org/dpv/dpv-owl#')
-DPVO_GDPR = Namespace('https://w3id.org/dpv/dpv-owl/dpv-gdpr#')
-DPVO_PD = Namespace('https://w3id.org/dpv/dpv-owl/dpv-pd#')
+from vocab_management import *
 
 # The dpv namespace is the default base for all terms
 # Later, this is changed to write terms under DPV-GDPR namespace
 BASE = DPV
-
-NAMESPACES = {
-    'dct': DCT,
-    'foaf': FOAF,
-    'odrl': ODRL,
-    'owl': OWL,
-    'prov': PROV,
-    'rdf': RDF,
-    'rdfs': RDFS,
-    'skos': SKOS,
-    'spl': SPL,
-    'svd': SVD,
-    'svdu': SVDU,
-    'svl': SVL,
-    'svpr': SVPR,
-    'svpu': SVPU,
-    'svr': SVR,
-    'sw': SW,
-    'time': TIME,
-    'xsd': XSD,
-    # DPV
-    'dpv': DPV,
-    'dpv-nace': DPV_NACE,
-    'dpv-gdpr': DPV_GDPR,
-    'dpv-pd': DPV_PD,
-    'dpv-legal': DPV_LEGAL,
-    'dpvs': DPVS,
-    'dpvs-gdpr': DPVS_GDPR,
-    'dpvs-pd': DPVS_PD,
-    'dpvo': DPVO,
-    'dpvo-gdpr': DPVO_GDPR,
-    'dpvo-pd': DPVO_PD,
-}
 
 # the field labels are based on what they should be translated to
 
@@ -296,7 +221,7 @@ def add_triples_for_properties(properties, graph):
             # will throw an error if namespace is not registered
             # dpv internal terms are expected to have the prefix i.e. dpv:term
             link = NAMESPACES[prefix][f'{label}']
-            graph.add((BASE[f'{prop.term}'], RDFS.domain, link))
+            graph.add((BASE[f'{prop.term}'], DPV.hasDomain, link))
         # rdfs:range
         if prop.rdfs_range:
             # assuming something like rdfs:Resource
@@ -305,13 +230,13 @@ def add_triples_for_properties(properties, graph):
             # will throw an error if namespace is not registered
             # dpv internal terms are expected to have the prefix i.e. dpv:term
             link = NAMESPACES[prefix][f'{label}']
-            graph.add((BASE[f'{prop.term}'], RDFS.range, link))
+            graph.add((BASE[f'{prop.term}'], DPV.hasRange, link))
         # rdfs:subPropertyOf
         if prop.rdfs_subpropertyof:
             parents = [p.strip() for p in prop.rdfs_subpropertyof.split(',')]
             for parent in parents:
                 if parent.startswith('http'):
-                    graph.add((BASE[f'{prop.term}'], RDFS.subPropertyOf, URIRef(parent)))
+                    graph.add((BASE[f'{prop.term}'], DPV.isSubTypeOf, URIRef(parent)))
                 elif ':' in parent:
                     if parent == "dpv:Relation":
                         continue
@@ -321,9 +246,9 @@ def add_triples_for_properties(properties, graph):
                     # will throw an error if namespace is not registered
                     # dpv internal terms are expected to have the prefix i.e. dpv:term
                     parent = NAMESPACES[prefix][f'{term}']
-                    graph.add((BASE[f'{prop.term}'], RDFS.subPropertyOf, parent))
+                    graph.add((BASE[f'{prop.term}'], DPV.isSubTypeOf, parent))
                 else:
-                    graph.add((BASE[f'{prop.term}'], RDFS.subPropertyOf, Literal(parent, datatype=XSD.string)))
+                    graph.add((BASE[f'{prop.term}'], DPV.isSubTypeOf, Literal(parent, datatype=XSD.string)))
         add_common_triples_for_all_terms(prop, graph)
 
     return proposed
@@ -649,6 +574,9 @@ if returnval:
 # serialize
 # DPV_LEGAL_GRAPH.load('ontology_metadata/dpv-legal.ttl', format='turtle')
 serialize_graph(graph, f'{EXPORT_DPV_LEGAL_MODULE_PATH}/ontology')
+DPV_LEGAL_GRAPH += graph
+if proposed:
+    proposed_terms['location'] = proposed
 
 DEBUG('Processing DPV-LEGAL Locations')
 graph = Graph()
@@ -666,9 +594,10 @@ for row in concepts:
         proposed.append(row.Term)
         continue
     term = BASE[row.Term]
-    parent = row.ParentTerm.replace("dpv:", "")
-    graph.add((term, RDF.type, DPV[f'{parent}']))
+    parent = DPV[row.ParentTerm.replace("dpv:", "")]
+    graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
+    graph.add((term, DPV.isInstanceOf, parent))
     graph.add((term, DCT.title, Literal(row.Label, lang='en')))
     graph.add((term, SKOS.prefLabel, Literal(row.Label, lang='en')))
     if row.Alpha2:
@@ -686,8 +615,9 @@ for row in concepts:
         print(f'item: {item}')
         prefix, parent = item.split(':')
         parent = NAMESPACES[prefix][f'{parent}']
-        graph.add((term, SKOS.broaderTransitive, parent))
-        graph.add((parent, SKOS.narrowerTransitive, term))
+        graph.add((term, DPV.isSubTypeOf, parent))
+        # graph.add((term, SKOS.broaderTransitive, parent))
+        # graph.add((parent, SKOS.narrowerTransitive, term))
     # dct:created
     graph.add((term, DCT.created, Literal(row.created, datatype=XSD.date)))
     # dct:modified
@@ -705,7 +635,7 @@ graph.add((BASE['LocationConcepts'], RDF.type, SKOS.Collection))
 serialize_graph(graph, f'{EXPORT_DPV_LEGAL_MODULE_PATH}/locations')
 DPV_LEGAL_GRAPH += graph
 if proposed:
-    proposed_terms['location'] = proposed
+    proposed_terms['vocab'] = proposed
 
 DEBUG('Processing DPV-LEGAL Laws')
 graph = Graph()
@@ -723,8 +653,9 @@ for row in concepts:
         proposed.append(row.Term)
         continue
     term = BASE[row.term]
-    graph.add((term, RDF.type, DPV.Law))
+    graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
+    graph.add((term, DPV.isInstanceOf, DPV.Law))
     graph.add((term, DCT.title, Literal(row.label_en, lang='en')))
     graph.add((term, SKOS.prefLabel, Literal(row.label_en, lang='en')))
     if row.label_de:
@@ -780,8 +711,9 @@ for row in concepts:
         proposed.append(row.Term)
         continue
     term = BASE[row.term]
-    graph.add((term, RDF.type, DPV[f'{row.type.replace("dpv:","")}']))
+    graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
+    graph.add((term, DPV.isInstanceOf, DPV[f'{row.type.replace("dpv:","")}']))
     graph.add((term, DCT.title, Literal(row.label_en, lang='en')))
     graph.add((term, SKOS.prefLabel, Literal(row.label_en, lang='en')))
     if row.label_de:
@@ -830,8 +762,9 @@ for row in concepts:
         proposed.append(row.Term)
         continue
     term = BASE[row.term]
-    graph.add((term, RDF.type, DPV[f'{row.type.replace("dpv:","")}']))
+    graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
+    graph.add((term, DPV.isInstanceOf, DPV[f'{row.type.replace("dpv:","")}']))
     graph.add((term, DCT.title, Literal(row.label, lang='en')))
     if row.broader:
         graph.add((term, SKOS.broaderTransitive, BASE[f'{row.broader.replace("dpv-legal:","")}']))
@@ -887,9 +820,9 @@ for row in concepts:
         proposed.append(row.Term)
         continue
     term = BASE[row.term]
-    graph.add((term, RDF.type, DPV.Law))
-    graph.add((term, RDF.type, DPV_GDPR['A45-3']))
+    graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
+    graph.add((term, DPV.isInstanceOf, DPV_GDPR['A45-3']))
     graph.add((term, DCT.title, Literal(row.label, lang='en')))
     graph.add((term, FOAF.homepage, Literal(row.webpage, datatype=XSD.anyURI)))
     graph.add((term, DPV.hasJurisdiction, BASE[f'{row.countryA.replace("dpv-legal:","")}']))
