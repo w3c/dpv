@@ -7,6 +7,7 @@ CHECK_ERROR() {
 	retval=$?
 	if [ $retval -ne 0 ]; then
 	    echo "Error"
+	    echo $retval
 		exit 1;
 	fi
 }
