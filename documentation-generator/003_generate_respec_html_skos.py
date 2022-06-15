@@ -16,6 +16,8 @@ EXPORT_DPV_PD_HTML_PATH = '../dpv-skos/dpv-pd'
 IMPORT_DPV_LEGAL_PATH = '../dpv-skos/dpv-legal/dpv-legal.ttl'
 IMPORT_DPV_LEGAL_MODULES_PATH = '../dpv-skos/dpv-legal/modules'
 EXPORT_DPV_LEGAL_HTML_PATH = '../dpv-skos/dpv-legal'
+IMPORT_DPV_TECH_PATH = '../dpv-skos/dpv-tech/dpv-tech.ttl'
+EXPORT_DPV_TECH_HTML_PATH = '../dpv-skos/dpv-tech'
 
 from rdflib import Graph, Namespace
 from rdflib import RDF, RDFS, OWL
@@ -207,5 +209,22 @@ DEBUG(f'wrote DPV-LEGAL spec at f{EXPORT_DPV_LEGAL_HTML_PATH}/index.html')
 with open(f'{EXPORT_DPV_LEGAL_HTML_PATH}/dpv-legal.html', 'w+') as fd:
     fd.write(template.render(**TEMPLATE_DATA))
 DEBUG(f'wrote DPV-LEGAL spec at f{EXPORT_DPV_LEGAL_HTML_PATH}/dpv-legal.html')
+
+# DPV-TECH: generate HTML
+
+with open(f'{EXPORT_DPV_TECH_HTML_PATH}/proposed.json') as fd:
+    TEMPLATE_DATA['proposed'] = json.load(fd)  
+
+load_data('dpv_tech', f'{IMPORT_DPV_TECH_PATH}')
+g = Graph()
+g.load(f'{IMPORT_DPV_TECH_PATH}', format='turtle')
+G.load(g)
+template = template_env.get_template('template_dpv_skos_tech.jinja2')
+with open(f'{EXPORT_DPV_TECH_HTML_PATH}/index.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote DPV-TECH spec at f{EXPORT_DPV_TECH_HTML_PATH}/index.html')
+with open(f'{EXPORT_DPV_TECH_HTML_PATH}/dpv-tech.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote DPV-TECH spec at f{EXPORT_DPV_TECH_HTML_PATH}/dpv-tech.html')
 
 DEBUG('--- END ---')

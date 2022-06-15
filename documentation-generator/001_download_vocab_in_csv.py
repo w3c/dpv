@@ -60,6 +60,9 @@ DPV_SHEETS = (
     'legal_Authorities',
     'legal_EU_EEA',
     'legal_EU_Adequacy',
+    # DPV-Technology
+    'dpv-tech',
+    'dpv-tech_properties',
     )
 
 from urllib import request

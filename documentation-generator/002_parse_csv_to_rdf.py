@@ -29,6 +29,7 @@ EXPORT_DPV_GDPR_MODULE_PATH = '../dpv-gdpr/modules'
 EXPORT_DPV_PD_PATH = '../dpv-pd'
 EXPORT_DPV_LEGAL_PATH = '../dpv-legal'
 EXPORT_DPV_LEGAL_MODULE_PATH = '../dpv-legal/modules'
+EXPORT_DPV_TECH_PATH = '../dpv-tech'
 
 import csv
 from collections import namedtuple
@@ -865,6 +866,49 @@ if proposed_terms:
     DEBUG(f'exported proposed terms to {EXPORT_DPV_LEGAL_PATH}/proposed.json')
 else:
     DEBUG('no proposed terms in DPV-LEGAL')
+
+# #############################################################################
+
+# DPV-TECH #
+
+DPV_TECH_CSV_FILES = [
+    f'{IMPORT_CSV_PATH}/dpv-tech.csv',
+    f'{IMPORT_CSV_PATH}/dpv-tech_properties.csv',
+    ]
+
+BASE = NAMESPACES['dpv-tech']
+DPV_TECH_GRAPH = Graph()
+proposed_terms = []
+DEBUG('------')
+DEBUG(f'Processing DPV-TECH')
+for prefix, namespace in NAMESPACES.items():
+    DPV_TECH_GRAPH.namespace_manager.bind(prefix, namespace)
+classes = extract_terms_from_csv(DPV_TECH_CSV_FILES[0], DPV_Class)
+properties = extract_terms_from_csv(DPV_TECH_CSV_FILES[1], DPV_Property)
+DEBUG(f'there are {len(classes)} classes and {len(properties)} properties in {name}')
+returnval = add_triples_for_classes(classes, DPV_TECH_GRAPH)
+if returnval:
+        proposed_terms.extend(returnval)
+returnval = add_triples_for_properties(properties, DPV_TECH_GRAPH)
+if returnval:
+        proposed_terms.extend(returnval)
+# add collection representing concepts
+DPV_TECH_GRAPH.add((BASE[f'TechnologyConcepts'], RDF.type, SKOS.Collection))
+DPV_TECH_GRAPH.add((BASE[f'TechnologyConcepts'], DCT.title, Literal(f'Technology Concepts', datatype=XSD.string)))
+for concept, _, _ in DPV_TECH_GRAPH.triples((None, RDF.type, SKOS.Concept)):
+    DPV_TECH_GRAPH.add((BASE[f'TechnologyConcepts'], SKOS.member, concept))
+if proposed_terms:
+    with open(f'{EXPORT_DPV_TECH_PATH}/proposed.json', 'w') as fd:
+        json.dump(proposed_terms, fd)
+    DEBUG(f'exported proposed terms to {EXPORT_DPV_TECH_PATH}/proposed.json')
+else:
+    DEBUG('no proposed terms in DPV-TECH')
+# serialize
+DPV_TECH_GRAPH.load('ontology_metadata/dpv-tech.ttl', format='turtle')
+
+for prefix, namespace in NAMESPACES.items():
+    DPV_TECH_GRAPH.namespace_manager.bind(prefix, namespace)
+serialize_graph(DPV_TECH_GRAPH, f'{EXPORT_DPV_TECH_PATH}/dpv-tech')
 
 # #############################################################################
 
