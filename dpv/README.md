@@ -21,9 +21,11 @@ The namespace for DPV terms is `http://www.w3id.org/dpv#` with suggested prefix 
 
 The [**DPV-GDPR**](https://w3id.org/dpv/dpv-gdpr) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within GDPR.
 
-The [**DPV-PD**](https://w3id.org/dpv/dpv-pd) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within PD.
+The [**DPV-PD**](https://w3id.org/dpv/dpv-pd) vocabulary expands on the DPV vocabulary to provide a taxonomy of personal data categories.
 
-The [**DPV-LEGAL**](https://w3id.org/dpv/dpv-legal) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within LEGAL.
+The [**DPV-LEGAL**](https://w3id.org/dpv/dpv-legal) vocabulary expands on the DPV vocabulary to provide locations in terms of countries and regions, their formal identifiers as per ISO 3166, laws related to data protection and privacy, and authorities for enforcing laws.
+
+The [**DPV-TECH**](https://www.w3id.org/dpv/dpv-legal) vocabulary expands on the DPV vocabulary to provide concepts for representing use of technologies 
 
 The [**DPV-NACE**](https://w3id.org/dpv/dpv-nace) vocabulary provides a RDFS and DPV compatible serialisation of the  [NACE](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2) industry standard classification system used in the EU.
 

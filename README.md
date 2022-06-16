@@ -17,7 +17,7 @@ License: All work produced by DPVCG and provided through this repo or elsewhere 
     
 > **Note:** Newcomers to the DPV are **strongly recommended to first read through the Primer** to familiarise themselves with the semantics and concepts of DPV.
     
-*   [Data Privacy Vocabulary (DPV) Specification](https://www.w3id.org/dpv): (this document) formal and normative description of DPV and its concepts.
+*   [Data Privacy Vocabulary (DPV) Specification](https://www.w3id.org/dpv): formal and normative description of DPV and its concepts.
 
 **Serialisations of DPV:**
 
@@ -28,10 +28,13 @@ License: All work produced by DPVCG and provided through this repo or elsewhere 
 -   [GDPR Extension for Data Privacy Vocabulary (DPV-GDPR)](https://www.w3id.org/dpv/dpv-gdpr): extends DPV concepts for GDPR
 -   [Personal Data Categories Extension for Data Privacy Vocabulary (DPV-PD)](https://www.w3id.org/dpv/dpv-pd)
 -   [Legal Extension providing Jurisdictions, Laws, and Authorities for Data Privacy Vocabulary (DPV-LEGAL)](https://www.w3id.org/dpv/dpv-legal)
--   [Guidelines for Adoption and Use of DPV](https://w3id.org/dpv/guides): [Using DPV in OWL2](https://w3id.org/dpv/guides/dpv-owl)
+-   [Extension providing concepts for modelling use of Technologies for Data Privacy Vocabulary (DPV-TECH)](https://www.w3id.org/dpv/dpv-tech)
 
 **Other Resources:**
 -   [NACE Taxonomy serialised in RDFS](https://www.w3id.org/dpv/dpv-nace)
+
+**Guidelines on Use:**
+- -   [Guidelines for Adoption and Use of DPV](https://w3id.org/dpv/guides): [Using DPV in OWL2](https://w3id.org/dpv/guides/dpv-owl)
 
 **Related Links**
 *   For a general overview of the Data Protection Vocabularies and Controls Community Group \[[DPVCG](#bib-dpvcg "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)")\], its history, deliverables, and activities - refer to [DPVCG Website](https://www.w3.org/community/dpvcg/).
@@ -87,7 +90,7 @@ The development and maintainence of DPV takes place primarily through a shared s
 
 Therefore, whenever adding a new term or changing existing ones, the following steps are recommended to update the DPV vocabulary and documentation:
 
-1. Make changes appropriately in the shared spreadsheet. The links to this are available to the DPVCG members.
+1. Make changes appropriately in the shared spreadsheet. The links to this are available to the DPVCG members. For others, please see the CSV files in `documentation_generator/vocab_csv`. Ideally, create an GitHub issue for discussions and follow ups.
 2. Use the [documentation-generator](https://github.com/w3c/dpv/tree/master/documentation-generator) tooling to download the spreadsheet, generate RDF, test it, generate HTML output. 
 3. Manually inspect whether the changes have been made. Tools, scripts, and software in general can propogate errors silently. 
 4. The variables and parameters in  [documentation-generator](https://github.com/w3c/dpv/tree/master/documentation-generator) tooling can be used to define the path where files are exported to can be set to the `dpv` repository to make changes in this directory. For e.g. `EXPORT_DPV_HTML_PATH = ~/code/dpvcg/dpv` will generate the HTML documentation in the `dpv` directory. 
