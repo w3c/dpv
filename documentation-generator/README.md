@@ -20,7 +20,9 @@ In between steps 2 and 3, there can be a series of tests done to ensure the RDF 
 
 The `9**` series offers convenience in running the other scripts in some combination. `902` executes all the RDF generation scripts, `903` executes all the HTML generation scripts, and `999` executes all scripts.
 
-In addition to these, `8**` series offers convenience with tasks. `801` converts the DPV-OWL RDF files into OWL (Manchester Syntax). It will be run automatically through the `902` script so that every update will auto-generate these files.
+In addition to these, `1**` series offers convenience with tasks. `101` converts the DPV-OWL RDF files into OWL (Manchester Syntax). It will be run automatically through the `902` script so that every update will auto-generate these files.
+
+The `8**` series provides packaging and release management tasks. `801` will generate zips for creating a new release, stored in `repo-base/releases` which is gitignored. 
 
 ## How everything works
 
