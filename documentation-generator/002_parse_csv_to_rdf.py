@@ -384,7 +384,7 @@ for name, module in DPV_CSV_FILES.items():
         proposed_terms[name] = proposed
     # add collection representing concepts
     graph.add((BASE[f'{name.title()}Concepts'], RDF.type, SKOS.Collection))
-    graph.add((BASE[f'{name.title()}Concepts'], DCT.title, Literal(f'{name.title()} Concepts', datatype=XSD.string)))
+    graph.add((BASE[f'{name.title()}Concepts'], SKOS.prefLabel, Literal(f'{name.title()} Concepts', datatype=XSD.string)))
     for concept, _, _ in graph.triples((None, RDF.type, SKOS.Concept)):
         graph.add((BASE[f'{name.title()}Concepts'], SKOS.member, concept))
         DPV_GRAPH.add((concept, SKOS.inScheme, DPV['']))
@@ -461,7 +461,7 @@ for name, module in DPV_GDPR_CSV_FILES.items():
         proposed_terms[name] = proposed
     # add collection representing concepts
     graph.add((BASE[f'{name.title()}Concepts'], RDF.type, SKOS.Collection))
-    graph.add((BASE[f'{name.title()}Concepts'], DCT.title, Literal(f'{name.title()} Concepts', datatype=XSD.string)))
+    graph.add((BASE[f'{name.title()}Concepts'], SKOS.prefLabel, Literal(f'{name.title()} Concepts', datatype=XSD.string)))
     for concept, _, _ in graph.triples((None, RDF.type, SKOS.Concept)):
         graph.add((BASE[f'{name.title()}Concepts'], SKOS.member, concept))
         DPV_GDPR_GRAPH.add((concept, SKOS.inScheme, DPV_GDPR['']))
@@ -509,7 +509,7 @@ if returnval:
         proposed_terms.extend(returnval)
 # add collection representing concepts
 DPV_PD_GRAPH.add((BASE[f'PersonalDataConcepts'], RDF.type, SKOS.Collection))
-DPV_PD_GRAPH.add((BASE[f'PersonalDataConcepts'], DCT.title, Literal(f'Personal Data Concepts', datatype=XSD.string)))
+DPV_PD_GRAPH.add((BASE[f'PersonalDataConcepts'], SKOS.prefLabel, Literal(f'Personal Data Concepts', datatype=XSD.string)))
 for concept, _, _ in DPV_PD_GRAPH.triples((None, RDF.type, SKOS.Concept)):
     DPV_PD_GRAPH.add((BASE[f'PersonalDataConcepts'], SKOS.member, concept))
 if proposed_terms:
@@ -563,7 +563,7 @@ DEBUG(f'Processing DPV-LEGAL classes and properties')
 #         proposed_terms.extend(returnval)
 # add collection representing concepts
 # DPV_LEGAL_GRAPH.add((BASE[f'LegalConcepts'], RDF.type, SKOS.Collection))
-# DPV_LEGAL_GRAPH.add((BASE[f'LegalConcepts'], DCT.title, Literal(f'Legal Concepts', datatype=XSD.string)))
+# DPV_LEGAL_GRAPH.add((BASE[f'LegalConcepts'], SKOS.prefLabel, Literal(f'Legal Concepts', datatype=XSD.string)))
 # for concept, _, _ in DPV_LEGAL_GRAPH.triples((None, RDF.type, SKOS.Concept)):
 #     DPV_LEGAL_GRAPH.add((BASE[f'LegalConcepts'], SKOS.member, concept))
 properties = extract_terms_from_csv(
@@ -599,7 +599,7 @@ for row in concepts:
     graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
     graph.add((term, DPV.isInstanceOf, parent))
-    graph.add((term, DCT.title, Literal(row.Label, lang='en')))
+    graph.add((term, SKOS.prefLabel, Literal(row.Label, lang='en')))
     graph.add((term, SKOS.prefLabel, Literal(row.Label, lang='en')))
     if row.Alpha2:
         graph.add((
@@ -657,10 +657,10 @@ for row in concepts:
     graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
     graph.add((term, DPV.isInstanceOf, DPV.Law))
-    graph.add((term, DCT.title, Literal(row.label_en, lang='en')))
+    graph.add((term, SKOS.prefLabel, Literal(row.label_en, lang='en')))
     graph.add((term, SKOS.prefLabel, Literal(row.label_en, lang='en')))
     if row.label_de:
-        graph.add((term, DCT.title, Literal(row.label_de, lang='de')))
+        graph.add((term, SKOS.prefLabel, Literal(row.label_de, lang='de')))
         graph.add((term, SKOS.prefLabel, Literal(row.label_de, lang='de')))
     for loc in row.jurisdictions.split(','):
         loc = loc.replace("dpv-legal:", "")
@@ -715,10 +715,10 @@ for row in concepts:
     graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
     graph.add((term, DPV.isInstanceOf, DPV[f'{row.type.replace("dpv:","")}']))
-    graph.add((term, DCT.title, Literal(row.label_en, lang='en')))
+    graph.add((term, SKOS.prefLabel, Literal(row.label_en, lang='en')))
     graph.add((term, SKOS.prefLabel, Literal(row.label_en, lang='en')))
     if row.label_de:
-        graph.add((term, DCT.title, Literal(row.label_de, lang='de')))
+        graph.add((term, SKOS.prefLabel, Literal(row.label_de, lang='de')))
         graph.add((term, SKOS.prefLabel, Literal(row.label_de, lang='de')))
     for loc in row.jurisdictions.split(','):
         loc = loc.replace("dpv-legal:", "")
@@ -766,7 +766,7 @@ for row in concepts:
     graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
     graph.add((term, DPV.isInstanceOf, DPV[f'{row.type.replace("dpv:","")}']))
-    graph.add((term, DCT.title, Literal(row.label, lang='en')))
+    graph.add((term, SKOS.prefLabel, Literal(row.label, lang='en')))
     if row.broader:
         graph.add((term, SKOS.broaderTransitive, BASE[f'{row.broader.replace("dpv-legal:","")}']))
         graph.add((BASE[f'{row.broader.replace("dpv-legal:","")}'], SKOS.narrowerTransitive, term))
@@ -824,7 +824,7 @@ for row in concepts:
     graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
     graph.add((term, DPV.isInstanceOf, DPV_GDPR['A45-3']))
-    graph.add((term, DCT.title, Literal(row.label, lang='en')))
+    graph.add((term, SKOS.prefLabel, Literal(row.label, lang='en')))
     graph.add((term, FOAF.homepage, Literal(row.webpage, datatype=XSD.anyURI)))
     graph.add((term, DPV.hasJurisdiction, BASE[f'{row.countryA.replace("dpv-legal:","")}']))
     graph.add((term, DPV.hasJurisdiction, BASE[f'{row.countryB.replace("dpv-legal:","")}']))
@@ -894,7 +894,7 @@ if returnval:
         proposed_terms.extend(returnval)
 # add collection representing concepts
 DPV_TECH_GRAPH.add((BASE[f'TechnologyConcepts'], RDF.type, SKOS.Collection))
-DPV_TECH_GRAPH.add((BASE[f'TechnologyConcepts'], DCT.title, Literal(f'Technology Concepts', datatype=XSD.string)))
+DPV_TECH_GRAPH.add((BASE[f'TechnologyConcepts'], SKOS.prefLabel, Literal(f'Technology Concepts', datatype=XSD.string)))
 for concept, _, _ in DPV_TECH_GRAPH.triples((None, RDF.type, SKOS.Concept)):
     DPV_TECH_GRAPH.add((BASE[f'TechnologyConcepts'], SKOS.member, concept))
 if proposed_terms:

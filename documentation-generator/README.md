@@ -24,6 +24,15 @@ In addition to these, `1**` series offers convenience with tasks. `101` converts
 
 The `8**` series provides packaging and release management tasks. `801` will generate zips for creating a new release, stored in `repo-base/releases` which is gitignored. 
 
+## Requirements
+
+- Internet connectivity - for downloading the spreadsheets from Google Sheets hosting the DPV terms and metadata with `100` script.
+- Python 3.9+ (preferably as close to the latest version as possible) - for executing scripts
+- Python modules to be installed using `pip` - see `requirements.txt`
+- Java runtime 18+ (preferably as close to the latest version as possible) - for executing SHACL validations
+- TopBraid SHACL validation binary from https://github.com/TopQuadrant/shacl (grab the latest release from https://repo1.maven.org/maven2/org/topbraid/shacl/)
+- Ontology Converter v2.0 from https://github.com/sszuev/ont-converter (grab the latest release from https://github.com/sszuev/ont-converter/releases) - required to convert RDF to Manchester Syntax with `101` script.
+
 ## How everything works
 
 ### Downloading CSV data
