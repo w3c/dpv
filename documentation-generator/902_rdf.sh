@@ -21,5 +21,5 @@ CHECK_ERROR
 CHECK_ERROR
 
 # Step2.3: convert to OWL Manchester Syntax
-./801_convert_owl_manchester.sh
+./101_convert_owl_manchester.sh
 CHECK_ERROR
