@@ -2,17 +2,21 @@
 
 from rdflib import Graph, Namespace
 from rdflib import RDF, RDFS, OWL
-from rdflib.term import Literal
+from rdflib.term import Literal, BNode
 SW = Namespace('http://www.w3.org/2003/06/sw-vocab-status/ns#')
 
 GITHUB_REPO_RAW = 'https://raw.githubusercontent.com/w3c/dpv/master/'
 GITHUB_DPV_RAW = f'{GITHUB_REPO_RAW}dpv/modules/'
-GITHUB_GDPR_RAW = f'{GITHUB_REPO_RAW}dpv-gdpr/modules/'
-GITHUB_PD_RAW = f'{GITHUB_REPO_RAW}dpv-pd/'
+GITHUB_DPV_GDPR_RAW = f'{GITHUB_REPO_RAW}dpv-gdpr/modules/'
+GITHUB_DPV_PD_RAW = f'{GITHUB_REPO_RAW}dpv-pd/'
+GITHUB_DPV_LEGAL_RAW = f'{GITHUB_REPO_RAW}dpv-legal/modules/'
+GITHUB_DPV_TECH_RAW = f'{GITHUB_REPO_RAW}dpv-tech/'
 
 LOCAL_DPV = '../dpv/modules/'
-LOCAL_GDPR = '../dpv-gdpr/modules/'
-LOCAL_PD = '../dpv-pd/'
+LOCAL_DPV_GDPR = '../dpv-gdpr/modules/'
+LOCAL_DPV_PD = '../dpv-pd/'
+LOCAL_DPV_LEGAL = '../dpv-legal/modules/'
+LOCAL_DPV_TECH = '../dpv-tech/'
 
 DPV_MODULES = (
     'base',
@@ -37,12 +41,20 @@ DPV_GDPR_MODULES = (
     'rights',
     'data_transfers',
     )
+DPV_LEGAL_MODULES = (
+    'authorities',
+    'eu_adequacy',
+    'eu_eea',
+    'laws',
+    'locations',
+    'ontology',
+    )
 
 import urllib
 import tempfile
 
 
-def download_file_to_rdf_graph(url):
+def _download_file_to_rdf_graph(url):
     '''Downloads URL and loads into rdflib graph'''
     graph = Graph()
     try:
@@ -57,28 +69,25 @@ def download_file_to_rdf_graph(url):
     return graph
 
 
-def compare_iterations(graph_old, graph_new):
+def _compare_iterations(graph_old, graph_new, ignore_BNode=True):
     '''compare old and new iterations of a graph
     returns added, removed, changed sets of concepts'''
     old = set(s for s in graph_old.subjects(None, None))
     new = set(s for s in graph_new.subjects(None, None))
     # added: things in new set that are not in old set
     added = new - old
-    print(f'added: {len(added)}')
     # removed: things in old set that are not in new set
     removed = old - new
-    print(f'removed: {len(removed)}')
+    if ignore_BNode:
+        # ignore changes in BNodes
+        added = [n for n in added if type(n) is not BNode]
+        removed = [n for n in removed if type(n) is not BNode]
     return added, removed
 
 
-# DPV
-print('--- DPV --- ')
-for module in DPV_MODULES:
-    print(f'MODULE: {module}')
-    old = download_file_to_rdf_graph(f'{GITHUB_DPV_RAW}{module}.ttl')
-    new = Graph()
-    new.load(f'{LOCAL_DPV}{module}.ttl', format='turtle')
-    added, removed = compare_iterations(old, new)
+def _print_stats(added, removed):
+    '''print statistics and information about terms
+    will output added terms, removed terms'''
     print(f'added: {len(added)} ; removed: {len(removed)}')
     if removed:
         print('Concepts Removed')
@@ -91,39 +100,23 @@ for module in DPV_MODULES:
     print('---')
 
 
-# DPV-GDPR
-print('\n--- DPV-GDPR --- ')
-for module in DPV_GDPR_MODULES:
-    print(f'MODULE: {module}')
-    old = download_file_to_rdf_graph(f'{GITHUB_GDPR_RAW}{module}.ttl')
-    new = Graph()
-    new.load(f'{LOCAL_GDPR}{module}.ttl', format='turtle')
-    added, removed = compare_iterations(old, new)
-    print(f'added: {len(added)} ; removed: {len(removed)}')
-    if removed:
-        print('Concepts Removed')
-        for term in removed:
-            print(term)
-    if added:
-        print('\nConcepts Added')
-        for term in added:
-            print(term)
-    print('---')
+def _retrieve_and_compare(NAME, MODULES=None):
+    '''Will retrieve old version from GitHub and compare new version'''
+    print(f'\n--- {NAME} --- ')
+    if MODULES is None:
+        MODULES = [NAME.lower()]
+    var_github_raw = globals()[f"GITHUB_{NAME.replace('-','_')}_RAW"]
+    var_local = globals()[f"LOCAL_{NAME.replace('-','_')}"]
+    for module in MODULES:
+        print(f'MODULE: {module}')
+        old = _download_file_to_rdf_graph(f'{var_github_raw}{module}.ttl')
+        new = Graph()
+        new.load(f'{var_local}{module}.ttl', format='turtle')
+        added, removed = _compare_iterations(old, new)
+        _print_stats(added, removed)
 
-
-# DPV-PD
-print('\n--- DPV-PD ---')
-old = download_file_to_rdf_graph(f'{GITHUB_PD_RAW}dpv-pd.ttl')
-new = Graph()
-new.load(f'{LOCAL_PD}dpv-pd.ttl', format='turtle')
-added, removed = compare_iterations(old, new)
-print(f'added: {len(added)} ; removed: {len(removed)}')
-if removed:
-    print('\nConcepts Removed')
-    for term in removed:
-        print(term)
-if added:
-    print('Concepts Added')
-    for term in added:
-        print(term)
-print('---')
+_retrieve_and_compare('DPV', MODULES=DPV_MODULES)
+_retrieve_and_compare('DPV-GDPR', MODULES=DPV_GDPR_MODULES)
+_retrieve_and_compare('DPV-PD')
+_retrieve_and_compare('DPV-LEGAL', MODULES=DPV_LEGAL_MODULES)
+_retrieve_and_compare('DPV-TECH')
