@@ -11,6 +11,9 @@ EXPORT_DPV_HTML_PATH = '../dpv'
 IMPORT_DPV_GDPR_PATH = '../dpv-gdpr/dpv-gdpr.ttl'
 IMPORT_DPV_GDPR_MODULES_PATH = '../dpv-gdpr/modules'
 EXPORT_DPV_GDPR_HTML_PATH = '../dpv-gdpr'
+IMPORT_RISK_PATH = '../risk/risk.ttl'
+IMPORT_RISK_MODULES_PATH = '../risk/modules'
+EXPORT_RISK_HTML_PATH = '../risk'
 IMPORT_DPV_PD_PATH = '../dpv-pd/dpv-pd.ttl'
 EXPORT_DPV_PD_HTML_PATH = '../dpv-pd'
 IMPORT_DPV_LEGAL_PATH = '../dpv-legal/dpv-legal.ttl'
@@ -228,5 +231,28 @@ DEBUG(f'wrote DPV-TECH spec at f{EXPORT_DPV_TECH_HTML_PATH}/index.html')
 with open(f'{EXPORT_DPV_TECH_HTML_PATH}/dpv-tech.html', 'w+') as fd:
     fd.write(template.render(**TEMPLATE_DATA))
 DEBUG(f'wrote DPV-TECH spec at f{EXPORT_DPV_TECH_HTML_PATH}/dpv-tech.html')
+
+# Risk: generate HTML
+
+with open(f'{EXPORT_RISK_HTML_PATH}/proposed.json') as fd:
+    TEMPLATE_DATA['proposed'] = json.load(fd)  
+
+load_data('consequences', f'{IMPORT_RISK_MODULES_PATH}/consequences.ttl')
+load_data('risk_levels', f'{IMPORT_RISK_MODULES_PATH}/risk_levels.ttl')
+load_data('risk_matrix', f'{IMPORT_RISK_MODULES_PATH}/risk_matrix.ttl')
+load_data('risk_controls', f'{IMPORT_RISK_MODULES_PATH}/risk_controls.ttl')
+load_data('risk_assessment', f'{IMPORT_RISK_MODULES_PATH}/risk_assessment.ttl')
+g = Graph()
+g.load(f'{IMPORT_RISK_PATH}', format='turtle')
+G.load(g)
+
+template = template_env.get_template('template_risk.jinja2')
+with open(f'{EXPORT_RISK_HTML_PATH}/index.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote Risk spec at f{EXPORT_RISK_HTML_PATH}/index.html')
+with open(f'{EXPORT_RISK_HTML_PATH}/risk.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote Risk spec at f{EXPORT_RISK_HTML_PATH}/risk.html')
+
 
 DEBUG('--- END ---')

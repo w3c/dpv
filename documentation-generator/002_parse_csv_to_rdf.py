@@ -30,6 +30,8 @@ EXPORT_DPV_PD_PATH = '../dpv-pd'
 EXPORT_DPV_LEGAL_PATH = '../dpv-legal'
 EXPORT_DPV_LEGAL_MODULE_PATH = '../dpv-legal/modules'
 EXPORT_DPV_TECH_PATH = '../dpv-tech'
+EXPORT_RISK_PATH = '../risk'
+EXPORT_RISK_MODULE_PATH = '../risk/modules'
 
 import csv
 from collections import namedtuple
@@ -928,7 +930,81 @@ for prefix, namespace in NAMESPACES.items():
     DPV_TECH_GRAPH.namespace_manager.bind(prefix, namespace)
 serialize_graph(DPV_TECH_GRAPH, f'{EXPORT_DPV_TECH_PATH}/dpv-tech')
 
-# #############################################################################
+##############################################################################
+
+# Risk #
+
+RISK_CSV_FILES = {
+    'consequences': {
+        'classes': f'{IMPORT_CSV_PATH}/Consequences.csv',
+        },
+    'risk_levels': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskLevels.csv',
+        },
+    'risk_matrix': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskMatrix.csv',
+        },
+    'risk_controls': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskControls.csv',
+        },
+    'risk_assessment': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskAssessmentTechniques.csv',
+        },
+    }
+
+BASE = NAMESPACES['risk']
+RISK_GRAPH = Graph()
+proposed_terms = {}
+RISK_GRAPH.add((BASE[''], RDF.type, SKOS.ConceptScheme))
+
+for name, module in RISK_CSV_FILES.items():
+    graph = Graph()
+    proposed = []
+    DEBUG('------')
+    DEBUG(f'Processing {name} module')
+    for prefix, namespace in NAMESPACES.items():
+        graph.namespace_manager.bind(prefix, namespace)
+    if 'classes' in module:
+        classes = extract_terms_from_csv(module['classes'], DPV_Class)
+        DEBUG(f'there are {len(classes)} classes in {name}')
+        returnval = add_triples_for_classes(classes, graph)
+        if returnval:
+            proposed.extend(returnval)
+    if 'properties' in module:
+        properties = extract_terms_from_csv(module['properties'], DPV_Property)
+        DEBUG(f'there are {len(properties)} properties in {name}')
+        returnval = add_triples_for_properties(properties, graph)
+        if returnval:
+            proposed.extend(returnval)
+    if proposed:
+        proposed_terms[name] = proposed
+    # add collection representing concepts
+    graph.add((BASE[f'{name.title()}Concepts'], RDF.type, SKOS.Collection))
+    graph.add((BASE[f'{name.title()}Concepts'], SKOS.prefLabel, Literal(f'{name.title()} Concepts', datatype=XSD.string)))
+    for concept, _, _ in graph.triples((None, RDF.type, SKOS.Concept)):
+        graph.add((BASE[f'{name.title()}Concepts'], SKOS.member, concept))
+        RISK_GRAPH.add((concept, SKOS.inScheme, RISK['']))
+    # serialize
+    serialize_graph(graph, f'{EXPORT_RISK_MODULE_PATH}/{name}')
+    if 'topconcept' in module:
+        RISK_GRAPH.add((BASE[''], SKOS.hasTopConcept, module['topconcept']))
+    RISK_GRAPH += graph
+
+if proposed_terms:
+    with open(f'{EXPORT_RISK_PATH}/proposed.json', 'w') as fd:
+        json.dump(proposed_terms, fd)
+    DEBUG(f'exported proposed terms to {EXPORT_RISK_PATH}/proposed.json')
+else:
+    DEBUG('no proposed terms in RISK')
+graph = Graph()
+graph.load('ontology_metadata/risk.ttl', format='turtle')
+RISK_GRAPH += graph
+
+for prefix, namespace in NAMESPACES.items():
+    RISK_GRAPH.namespace_manager.bind(prefix, namespace)
+serialize_graph(RISK_GRAPH, f'{EXPORT_RISK_PATH}/risk')
+
+##############################################################################
 
 # Save collected links as resource for generating HTML A HREF in JINJA2 templates
 # file is in jinja2_resources/links_labels.json
