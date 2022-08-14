@@ -35,6 +35,18 @@
             </td>
           </tr>
           {% endif %}
+          {% if term.dpv_isInstanceOf %}
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              {% if term.dpv_isInstanceOf is sequence and not term.dpv_isInstanceOf is string %}{% for parent in term.dpv_isInstanceOf|sort %}
+              <a href="{{parent.iri}}">{{parent|prefix_this}}</a>{{", " if not loop.last}}
+              {% endfor %}{% else %}
+              <a href="{{term.dpv_isInstanceOf.iri}}">{{term.dpv_isInstanceOf|prefix_this}}</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
           {% set children = term|subclasses %}
           {% if children %}
           <tr>

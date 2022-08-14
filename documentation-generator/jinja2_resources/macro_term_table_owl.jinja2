@@ -34,7 +34,12 @@
               {% endif %}
             </td>
           </tr>
-          {% endif %}
+          {%  elif term.rdf_type is sequence  %}{% for pt in term.rdf_type %}{% if 'dpv' in pt.iri %}
+          <tr>
+            <td>Instance of:</td>
+            <td>{% for cls in term.rdf_type %}{% if 'dpv' in cls.iri %}<a href="{{cls.iri}}">{{cls|prefix_this}}</a>{% endif %}{% endfor %}</td>
+          </tr>
+          {% endif %}{% endfor %}{% endif %}
           {% set children = term|subclasses %}
           {% if children %}
           <tr>

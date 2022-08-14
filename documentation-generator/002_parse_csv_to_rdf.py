@@ -55,7 +55,8 @@ BASE = DPV
 # the field labels are based on what they should be translated to
 
 DPV_Class = namedtuple('DPV_Class', [
-            'term', 'skos_prefLabel', 'skos_definition', 'dpv_isSubTypeOf', 
+            'term', 'skos_prefLabel', 'skos_definition', 'dpv_isSubTypeOf',
+            'parent_type', 'value', 
             'skos_related', 'relation', 'skos_note', 'skos_scopeNote', 
             'dct_created', 'dct_modified', 'sw_termstatus', 'dct_creator', 
             'resolution'])
@@ -177,21 +178,19 @@ def add_triples_for_classes(classes, graph):
         if cls.dpv_isSubTypeOf:
             parents = [p.strip() for p in cls.dpv_isSubTypeOf.split(',')]
             for parent in parents:
-                if parent.startswith('http'):
-                    graph.add((BASE[f'{cls.term}'], DPV.isSubTypeOf, URIRef(parent)))
-                elif ':' in parent:
-                    if parent == "dpv:Concept":
-                        continue
-                    # assuming something like rdfs:Resource
-                    prefix, term = parent.split(':')
-                    prefix = prefix.replace("sc__", "")
-                    # gets the namespace from registered ones and create URI
-                    # will throw an error if namespace is not registered
-                    # dpv internal terms are expected to have the prefix i.e. dpv:term
-                    parent = NAMESPACES[prefix][f'{term}']
+                if parent == "dpv:Concept":
+                    continue
+                prefix, term = parent.split(':')
+                # gets the namespace from registered ones and create URI
+                # will throw an error if namespace is not registered
+                # dpv terms are expected to have prefixes i.e. dpv:term
+                parent = NAMESPACES[prefix][f'{term}']
+                if cls.parent_type == 'sc':
                     graph.add((BASE[f'{cls.term}'], DPV.isSubTypeOf, parent))
+                elif cls.parent_type == 'a':
+                    graph.add((BASE[f'{cls.term}'], DPV.isInstanceOf, parent))
                 else:
-                    graph.add((BASE[f'{cls.term}'], DPV.isSubTypeOf, Literal(parent, datatype=XSD.string)))
+                    raise Exception(f'Parent Type Unknown: {cls.parent_type} ')
         
         add_common_triples_for_all_terms(cls, graph)
 
@@ -270,13 +269,12 @@ DPV_CSV_FILES = {
     'base': {
         'classes': f'{IMPORT_CSV_PATH}/BaseOntology.csv',
         'properties': f'{IMPORT_CSV_PATH}/BaseOntology_properties.csv',
-        'model': 'vocabulary',
+        'model': 'ontology',
         },
     'personal_data': {
         'classes': f'{IMPORT_CSV_PATH}/PersonalData.csv',
         'properties': f'{IMPORT_CSV_PATH}/PersonalData_properties.csv',
         'model': 'ontology',
-        'topconcept': BASE['PersonalData'],
         },
     'purposes': {
         'classes': f'{IMPORT_CSV_PATH}/Purpose.csv',
@@ -287,8 +285,12 @@ DPV_CSV_FILES = {
     'context': {
         'classes': f'{IMPORT_CSV_PATH}/Context.csv',
         'properties': f'{IMPORT_CSV_PATH}/Context_properties.csv',
-        'model': 'taxonomy',
-        'topconcept': BASE['Context'],
+        'model': 'ontology',
+        },
+    'status': {
+        'classes': f'{IMPORT_CSV_PATH}/Status.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Status_properties.csv',
+        'model': 'ontology',
         },
     'risk': {
         'classes': f'{IMPORT_CSV_PATH}/Risk.csv',
@@ -304,25 +306,37 @@ DPV_CSV_FILES = {
     'processing_context': {
         'classes': f'{IMPORT_CSV_PATH}/ProcessingContext.csv',
         'properties': f'{IMPORT_CSV_PATH}/ProcessingContext_properties.csv',
-        'model': 'taxonomy',
+        'model': 'ontology',
+        },
+    'processing_scale': {
+        'classes': f'{IMPORT_CSV_PATH}/ProcessingScale.csv',
+        'properties': f'{IMPORT_CSV_PATH}/ProcessingScale_properties.csv',
+        'model': 'ontology',
         },
     'technical_organisational_measures': {
         'classes': f'{IMPORT_CSV_PATH}/TechnicalOrganisationalMeasure.csv',
         'properties': f'{IMPORT_CSV_PATH}/TechnicalOrganisationalMeasure_properties.csv',
+        'model': 'ontology',
+        },
+    'technical_measures': {
+        'classes': f'{IMPORT_CSV_PATH}/TechnicalMeasure.csv',
         'model': 'taxonomy',
-        'topconcept': BASE['TechnicalOrganisationalMeasure'],
+        'topconcept': BASE['TechnicalMeasure'],
+        },
+    'organisational_measures': {
+        'classes': f'{IMPORT_CSV_PATH}/OrganisationalMeasure.csv',
+        'model': 'taxonomy',
+        'topconcept': BASE['OrganisationalMeasure'],
         },
     'entities': {
         'classes': f'{IMPORT_CSV_PATH}/Entities.csv',
         'properties': f'{IMPORT_CSV_PATH}/Entities_properties.csv',
         'model': 'ontology',
-        'topconcept': BASE['Entity'],
         },
     'entities_authority': {
         'classes': f'{IMPORT_CSV_PATH}/Entities_Authority.csv',
         'properties': f'{IMPORT_CSV_PATH}/Entities_Authority_properties.csv',
         'model': 'ontology',
-        'topconcept': BASE['Authority'],
         },
     'entities_legalrole': {
         'classes': f'{IMPORT_CSV_PATH}/Entities_LegalRole.csv',
@@ -332,13 +346,11 @@ DPV_CSV_FILES = {
     'entities_organisation': {
         'classes': f'{IMPORT_CSV_PATH}/Entities_Organisation.csv',
         'model': 'ontology',
-        'topconcept': BASE['Organisation'],
         },
     'entities_datasubject': {
         'classes': f'{IMPORT_CSV_PATH}/Entities_DataSubject.csv',
         'properties': f'{IMPORT_CSV_PATH}/Entities_DataSubject_properties.csv',
         'model': 'ontology',
-        'topconcept': BASE['DataSubject'],
         },
     'jurisdiction': {
         'classes': f'{IMPORT_CSV_PATH}/Jurisdiction.csv',
@@ -354,6 +366,7 @@ DPV_CSV_FILES = {
     'consent': {
         # 'classes': f'{IMPORT_CSV_PATH}/Consent.csv',
         'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
+        'model': 'ontology',
     },
 }
 
@@ -599,6 +612,7 @@ for row in concepts:
     graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
     graph.add((term, DPV.isInstanceOf, parent))
+    graph.add((term, RDFS.isDefinedBy, BASE['']))
     graph.add((term, SKOS.prefLabel, Literal(row.Label, lang='en')))
     graph.add((term, SKOS.prefLabel, Literal(row.Label, lang='en')))
     if row.Alpha2:
@@ -617,8 +631,8 @@ for row in concepts:
         prefix, parent = item.split(':')
         parent = NAMESPACES[prefix][f'{parent}']
         graph.add((term, DPV.isSubTypeOf, parent))
-        # graph.add((term, SKOS.broaderTransitive, parent))
-        # graph.add((parent, SKOS.narrowerTransitive, term))
+        # graph.add((term, SKOS.broader, parent))
+        # graph.add((parent, SKOS.narrower, term))
     # dct:created
     graph.add((term, DCT.created, Literal(row.created, datatype=XSD.date)))
     # dct:modified
@@ -657,6 +671,7 @@ for row in concepts:
     graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
     graph.add((term, DPV.isInstanceOf, DPV.Law))
+    graph.add((term, RDFS.isDefinedBy, BASE['']))
     graph.add((term, SKOS.prefLabel, Literal(row.label_en, lang='en')))
     graph.add((term, SKOS.prefLabel, Literal(row.label_en, lang='en')))
     if row.label_de:
@@ -714,6 +729,7 @@ for row in concepts:
     term = BASE[row.term]
     graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
+    graph.add((term, RDFS.isDefinedBy, BASE['']))
     graph.add((term, DPV.isInstanceOf, DPV[f'{row.type.replace("dpv:","")}']))
     graph.add((term, SKOS.prefLabel, Literal(row.label_en, lang='en')))
     graph.add((term, SKOS.prefLabel, Literal(row.label_en, lang='en')))
@@ -765,16 +781,17 @@ for row in concepts:
     term = BASE[row.term]
     graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
+    graph.add((term, RDFS.isDefinedBy, BASE['']))
     graph.add((term, DPV.isInstanceOf, DPV[f'{row.type.replace("dpv:","")}']))
     graph.add((term, SKOS.prefLabel, Literal(row.label, lang='en')))
     if row.broader:
-        graph.add((term, SKOS.broaderTransitive, BASE[f'{row.broader.replace("dpv-legal:","")}']))
-        graph.add((BASE[f'{row.broader.replace("dpv-legal:","")}'], SKOS.narrowerTransitive, term))
+        graph.add((term, SKOS.broader, BASE[f'{row.broader.replace("dpv-legal:","")}']))
+        graph.add((BASE[f'{row.broader.replace("dpv-legal:","")}'], SKOS.narrower, term))
     for loc in row.members.split(','):
         loc = loc.replace("dpv-legal:", "")
         graph.add((term, DPV.hasCountry, BASE[f'{loc}']))
-        graph.add((term, SKOS.narrowerTransitive, BASE[f'{loc}']))
-        graph.add((BASE[f'{loc}'], SKOS.broaderTransitive, term))
+        graph.add((term, SKOS.narrower, BASE[f'{loc}']))
+        graph.add((BASE[f'{loc}'], SKOS.broader, term))
     if row.time_start:
         dct_temporal = BNode()
         graph.add((term, DCT.temporal, dct_temporal))
@@ -823,6 +840,7 @@ for row in concepts:
     term = BASE[row.term]
     graph.add((term, RDF.type, DPV.Concept))
     graph.add((term, RDF.type, SKOS.Concept))
+    graph.add((term, RDFS.isDefinedBy, BASE['']))
     graph.add((term, DPV.isInstanceOf, DPV_GDPR['A45-3']))
     graph.add((term, SKOS.prefLabel, Literal(row.label, lang='en')))
     graph.add((term, FOAF.homepage, Literal(row.webpage, datatype=XSD.anyURI)))

@@ -203,14 +203,14 @@
     <p>To prevent the above, and to provide the ability to express relationships between concepts whilst still permitting their usage with properties, this serialisation is designed where RDFS is used to express the basic structure or schema of the ontology i.e. the classes and properties, and SKOS is then utilised to express relationships between their instances. In this, each concept is defined as a <code>rdfs:Class</code> and a <code>skos:Concept</code> so that their usage can be applied based on either semantics. As a result, the taxonomies within DPV-SKOS are of two types:</p>
     <ol>
       <li>RDFS subclasses: these are classes with a subclass relationship to their parents.</li>
-      <li>SKOS broader (transitive): these are concepts that instances of a 'top concept' where relationship with 'parent' is defined using <code>skos:broaderTransitive</code> instead.</li>
+      <li>SKOS broader (transitive): these are concepts that instances of a 'top concept' where relationship with 'parent' is defined using <code>skos:broader</code> instead.</li>
     </ol>
     <figure>
       <img src="img/semantics-01.png">
       <figcaption>SKOS semantics providing ability to express relationships between concepts so that they can be used as value of properties</figcaption>
     </figure>
     <p>As an example, consider the <code>Purpose</code> taxonomy, part of which is illustrated in the figure above. Here, <code>ServiceProvision</code> and <code>RequestedServiceProvision</code> are part of the purpose hierarchy, where <i>RequestedServiceProvision</i> is a more specialised type of <i>ServiceProvision</i>. While DPV suggests best practice as extending (via subclass or instantiation) its concepts to make them specific to the applied use-case, this may not always be desired or required. Such as when the use-case wants to indicate its purpose is <code>RequestedServiceProvision</code> without additional details (e.g. for planning what they would like to do).</p>
-    <p>Instead, by declaring both these concepts as instances of <code>Purpose</code>, the property <code>hasPurpose</code> can be used to refer to either of them. To extend them, one must create another instance of <code>Purpose</code> and relate it to the closest concept within the hierarchy by using <code>skos:broaderTransitive</code> to indicate relevance.</p>
+    <p>Instead, by declaring both these concepts as instances of <code>Purpose</code>, the property <code>hasPurpose</code> can be used to refer to either of them. To extend them, one must create another instance of <code>Purpose</code> and relate it to the closest concept within the hierarchy by using <code>skos:broader</code> to indicate relevance.</p>
     <aside class="example" title="Using the RDFS+SKOS semantics">
     <pre class="nohighlight">
 ex:PDH a dpvs:PersonalDataHandling ;
@@ -219,7 +219,7 @@ ex:PDH a dpvs:PersonalDataHandling ;
 ex:PDH a dpvs:PersonalDataHandling ;
     dpvs:hasPurpose ex:PurposeXYZ .
 ex:PurposeXYZ a dpvs:Purpose ;
-    skos:broaderTransitive dpvs:RequestedServiceProvision .
+    skos:broader dpvs:RequestedServiceProvision .
 
 # 'hacks that are invalid or no longer necessary
 
@@ -455,6 +455,28 @@ ex:PurposeXYZ rdfs:subClassOf dpvs:RequestedServiceProvision
     {{ table_properties(technical_organisational_measures_properties) }}
   </section>
   {% endif %}
+  <h3>Technical Measures</h3>
+  {% if technical_measures_classes %}
+  <section id="technical_measures-classes">
+    {{ table_classes(technical_measures_classes) }}
+  </section>
+  {% endif %}
+  {% if technical_measures_properties %}
+  <section id="technical_measures-properties">
+    {{ table_properties(technical_measures_properties) }}
+  </section>
+  {% endif %}
+  <h3>Organisational Measures</h3>
+  {% if organisational_measures_classes %}
+  <section id="organisational_measures-classes">
+    {{ table_classes(organisational_measures_classes) }}
+  </section>
+  {% endif %}
+  {% if organisational_measures_properties %}
+  <section id="organisational_measures-properties">
+    {{ table_properties(organisational_measures_properties) }}
+  </section>
+  {% endif %}
 </section>
 
 <section id="vocab-context">
@@ -481,6 +503,34 @@ ex:PurposeXYZ rdfs:subClassOf dpvs:RequestedServiceProvision
   {% if processing_context_properties %}
   <section id="processing-context-properties">
     {{ table_properties(processing_context_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-processing-scale">
+  <h2>Scale of Processing</h2>
+    {% if processing_scale_classes %}
+  <section id="processing-scale-classes">
+    {{ table_classes(processing_scale_classes) }}
+  </section>
+  {% endif %}
+  {% if processing_scale_properties %}
+  <section id="processing-scale-properties">
+    {{ table_properties(processing_scale_properties) }}
+  </section>
+  {% endif %}
+</section>
+
+<section id="vocab-status">
+  <h2>Status</h2>
+    {% if status_classes %}
+  <section id="status-classes">
+    {{ table_classes(status_classes) }}
+  </section>
+  {% endif %}
+  {% if status_properties %}
+  <section id="status-properties">
+    {{ table_properties(status_properties) }}
   </section>
   {% endif %}
 </section>

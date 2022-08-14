@@ -22,19 +22,24 @@ DPV_SHEETS = (
     'BaseOntology_properties',
     'PersonalData',
     'PersonalData_properties',
-    'dpv-pd',
     'Purpose',
     'Purpose_properties',
     'Context',
     'Context_properties',
+    'Status',
+    'Status_properties',
     'Risk',
     'Risk_properties',
     'Processing',
     'Processing_properties',
     'ProcessingContext',
     'ProcessingContext_properties',
+    'ProcessingScale',
+    'ProcessingScale_properties',
     'TechnicalOrganisationalMeasure',
     'TechnicalOrganisationalMeasure_properties',
+    'TechnicalMeasure',
+    'OrganisationalMeasure',
     'Entities',
     'Entities_properties',
     'Entities_Authority',
@@ -48,11 +53,15 @@ DPV_SHEETS = (
     'Jurisdiction_properties',
     'LegalBasis',
     'LegalBasis_properties',
+    'Consent',
     'Consent_properties',
+    # ----- EXTENSIONS -----
+    'dpv-pd',
     # DPV-GDPR
     'GDPR_LegalBasis',
     'GDPR_LegalRights',
     'GDPR_DataTransfers',
+    'GDPR_DPIA',
     # DPV-Legal
     'legal_properties',
     'legal_Locations',
@@ -63,6 +72,14 @@ DPV_SHEETS = (
     # DPV-Technology
     'dpv-tech',
     'dpv-tech_properties',
+    # Risk
+    'Consequences',
+    'RiskLevels',
+    'RiskMatrix',
+    'RiskControls',
+    'RiskAssessmentTechniques',
+    # Rights
+    'EUFundamentalRights',
     )
 
 from urllib import request
