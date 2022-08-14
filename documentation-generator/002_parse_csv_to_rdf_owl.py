@@ -61,6 +61,8 @@ NAMESPACES_DPV_OWL = {
     'dpvo-gdpr': DPVO_GDPR,
     'dpvo-pd': DPVO_PD,
     'dpvo-tech': DPVO_TECH,
+    'dpvo-risk': DPVO_RISK,
+    'dpvo-rights-eu': DPVO_RIGHTS_EU,
 }
 
 # the field labels are based on what they should be translated to

@@ -61,6 +61,8 @@ NAMESPACES_DPV_SKOS = {
     'dpvs-gdpr': DPVS_GDPR,
     'dpvs-pd': DPVS_PD,
     'dpvs-tech': DPVS_TECH,
+    'dpvs-risk': DPVS_RISK,
+    'dpvs-rights-eu': DPVS_RIGHTS_EU,
     'skos': SKOS,
     'xsd': XSD,
 }
