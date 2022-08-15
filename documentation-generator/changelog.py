@@ -11,16 +11,22 @@ GITHUB_DPV_GDPR_RAW = f'{GITHUB_REPO_RAW}dpv-gdpr/modules/'
 GITHUB_DPV_PD_RAW = f'{GITHUB_REPO_RAW}dpv-pd/'
 GITHUB_DPV_LEGAL_RAW = f'{GITHUB_REPO_RAW}dpv-legal/modules/'
 GITHUB_DPV_TECH_RAW = f'{GITHUB_REPO_RAW}dpv-tech/'
+GITHUB_RISK_RAW = f'{GITHUB_REPO_RAW}risk/modules/'
+GITHUB_RIGHTS_EU_RAW = f'{GITHUB_REPO_RAW}rights/eu/'
 
 LOCAL_DPV = '../dpv/modules/'
 LOCAL_DPV_GDPR = '../dpv-gdpr/modules/'
 LOCAL_DPV_PD = '../dpv-pd/'
 LOCAL_DPV_LEGAL = '../dpv-legal/modules/'
 LOCAL_DPV_TECH = '../dpv-tech/'
+LOCAL_RISK = '../risk/modules/'
+LOCAL_RIGHTS_EU = '../rights/eu/'
 
 DPV_MODULES = (
     'base',
+    'consent_status',
     'consent',
+    'consent_types',
     'context',
     'entities_authority',
     'entities_datasubject',
@@ -29,11 +35,15 @@ DPV_MODULES = (
     'entities',
     'jurisdiction',
     'legal_basis',
+    'organisational_measures',
     'personal_data',
     'processing_context',
+    'processing_scale',
     'processing',
     'purposes',
     'risk',
+    'status',
+    'technical_measures',
     'technical_organisational_measures',
     )
 DPV_GDPR_MODULES = (
@@ -48,6 +58,16 @@ DPV_LEGAL_MODULES = (
     'laws',
     'locations',
     'ontology',
+    )
+RISK_MODULES = (
+    'consequences',
+    'risk_assessment',
+    'risk_controls',
+    'risk_levels',
+    'risk_matrix',
+    )
+RIGHTS_MODULES = (
+    'rights-eu',
     )
 
 import urllib
@@ -120,3 +140,5 @@ _retrieve_and_compare('DPV-GDPR', MODULES=DPV_GDPR_MODULES)
 _retrieve_and_compare('DPV-PD')
 _retrieve_and_compare('DPV-LEGAL', MODULES=DPV_LEGAL_MODULES)
 _retrieve_and_compare('DPV-TECH')
+_retrieve_and_compare('RISK', MODULES=RISK_MODULES)
+_retrieve_and_compare('RIGHTS-EU', MODULES=RIGHTS_MODULES)
