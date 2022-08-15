@@ -32,6 +32,7 @@ EXPORT_DPV_LEGAL_MODULE_PATH = '../dpv-legal/modules'
 EXPORT_DPV_TECH_PATH = '../dpv-tech'
 EXPORT_RISK_PATH = '../risk'
 EXPORT_RISK_MODULE_PATH = '../risk/modules'
+EXPORT_RIGHTS_EU_PATH = '../rights/eu'
 
 import csv
 from collections import namedtuple
@@ -1021,6 +1022,47 @@ RISK_GRAPH += graph
 for prefix, namespace in NAMESPACES.items():
     RISK_GRAPH.namespace_manager.bind(prefix, namespace)
 serialize_graph(RISK_GRAPH, f'{EXPORT_RISK_PATH}/risk')
+
+##############################################################################
+
+# RIGHTS-EU #
+
+RIGHTS_EU_CSV_FILES = [
+    f'{IMPORT_CSV_PATH}/EUFundamentalRights.csv',
+    ]
+
+BASE = NAMESPACES['rights-eu']
+RIGHTS_EU_GRAPH = Graph()
+proposed_terms = []
+DEBUG('------')
+DEBUG(f'Processing RIGHTS-EU')
+for prefix, namespace in NAMESPACES.items():
+    RIGHTS_EU_GRAPH.namespace_manager.bind(prefix, namespace)
+classes = extract_terms_from_csv(RIGHTS_EU_CSV_FILES[0], DPV_Class)
+DEBUG(f'there are {len(classes)} classes in {name}')
+returnval = add_triples_for_classes(classes, RIGHTS_EU_GRAPH)
+if returnval:
+        proposed_terms.extend(returnval)
+returnval = add_triples_for_properties(properties, RIGHTS_EU_GRAPH)
+if returnval:
+        proposed_terms.extend(returnval)
+# add collection representing concepts
+RIGHTS_EU_GRAPH.add((BASE[f'EUFundamentalRightsConcepts'], RDF.type, SKOS.Collection))
+RIGHTS_EU_GRAPH.add((BASE[f'EUFundamentalRightsConcepts'], SKOS.prefLabel, Literal(f'EU Fundamental Rights Concepts', datatype=XSD.string)))
+for concept, _, _ in RIGHTS_EU_GRAPH.triples((None, RDF.type, SKOS.Concept)):
+    RIGHTS_EU_GRAPH.add((BASE[f'EUFundamentalRightsConcepts'], SKOS.member, concept))
+if proposed_terms:
+    with open(f'{EXPORT_RIGHTS_EU_PATH}/proposed.json', 'w') as fd:
+        json.dump(proposed_terms, fd)
+    DEBUG(f'exported proposed terms to {EXPORT_RIGHTS_EU_PATH}/proposed.json')
+else:
+    DEBUG('no proposed terms in RIGHTS-EU')
+# serialize
+RIGHTS_EU_GRAPH.load('ontology_metadata/rights-eu.ttl', format='turtle')
+
+for prefix, namespace in NAMESPACES.items():
+    RIGHTS_EU_GRAPH.namespace_manager.bind(prefix, namespace)
+serialize_graph(RIGHTS_EU_GRAPH, f'{EXPORT_RIGHTS_EU_PATH}/rights-eu')
 
 ##############################################################################
 

@@ -21,6 +21,8 @@ IMPORT_DPV_LEGAL_MODULES_PATH = '../dpv-legal/modules'
 EXPORT_DPV_LEGAL_HTML_PATH = '../dpv-legal'
 IMPORT_DPV_TECH_PATH = '../dpv-tech/dpv-tech.ttl'
 EXPORT_DPV_TECH_HTML_PATH = '../dpv-tech'
+IMPORT_RIGHTS_EU_PATH = '../rights/eu/rights-eu.ttl'
+EXPORT_RIGHTS_EU_HTML_PATH = '../rights/eu'
 
 import json
 from rdflib import Graph, Namespace
@@ -256,5 +258,22 @@ with open(f'{EXPORT_RISK_HTML_PATH}/risk.html', 'w+') as fd:
     fd.write(template.render(**TEMPLATE_DATA))
 DEBUG(f'wrote Risk spec at f{EXPORT_RISK_HTML_PATH}/risk.html')
 
+# RIGHTS-EU: generate HTML
+
+with open(f'{EXPORT_RIGHTS_EU_HTML_PATH}/proposed.json') as fd:
+    TEMPLATE_DATA['proposed'] = json.load(fd)  
+
+load_data('rights_eu', f'{IMPORT_RIGHTS_EU_PATH}')
+g = Graph()
+g.load(f'{IMPORT_RIGHTS_EU_PATH}', format='turtle')
+G.load(g)
+
+template = template_env.get_template('template_rights_eu.jinja2')
+with open(f'{EXPORT_RIGHTS_EU_HTML_PATH}/index.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote RIGHTS-EU spec at f{EXPORT_RIGHTS_EU_HTML_PATH}/index.html')
+with open(f'{EXPORT_RIGHTS_EU_HTML_PATH}/rights-eu.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote RIGHTS-EU spec at f{EXPORT_RIGHTS_EU_HTML_PATH}/rights-eu.html')
 
 DEBUG('--- END ---')
