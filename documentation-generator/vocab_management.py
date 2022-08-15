@@ -24,7 +24,7 @@ RDF_SERIALIZATIONS = {
 
 
 ###################### vocab term statuses
-VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified')
+VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified', 'sunset')
 VOCAB_TERM_REJECT = ('deprecated', 'removed')
 
 

@@ -53,7 +53,8 @@ DPV_SHEETS = (
     'Jurisdiction_properties',
     'LegalBasis',
     'LegalBasis_properties',
-    'Consent',
+    'ConsentTypes',
+    'ConsentStatus',
     'Consent_properties',
     # ----- EXTENSIONS -----
     'dpv-pd',

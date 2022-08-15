@@ -1,5 +1,5 @@
-{% macro table_classes(term_list, prefix=None) %}
-  <h3>Classes</h3>
+{% macro table_classes(term_list, prefix=None, skip_heading=False) %}
+  {% if not skip_heading %}<h3>Classes</h3>{% endif %}
     <p>
       {% for term in term_list | sort(attribute='iri') %}
       <code><a href="#{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}">{{term.skos_prefLabel}}</a></code>{{" |" if not loop.last }}
@@ -64,6 +64,12 @@
              <td>{{term.skos_note}}</td>
           </tr>
           {% endif %}
+          {% if term.sw_term_status == "sunset" %}
+          <tr>
+            <td></td>
+             <td style="color: red">{{ term.skos_editorialNote }}</td>
+          </tr>
+          {% endif %}
           {% if term.dct_source %}
           <tr>
             <td>Source:</td>
@@ -116,8 +122,8 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro table_properties(term_list, prefix=None) %}
-  <h3>Properties</h3>
+{% macro table_properties(term_list, prefix=None, skip_heading=False) %}
+  {% if not skip_heading %}<h3>Properties</h3>{% endif %}
     <p>
       {% for term in term_list | sort(attribute='iri') %}
       <code><a href="#{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}">{{term.skos_prefLabel}}</a></code> |
@@ -183,6 +189,12 @@
           <tr>
             <td>Range:</td>
             <td><a href="{{term.rdfs_range}}"><code>{{term.rdfs_range|prefix_this}}</code></a></td>
+          </tr>
+          {% endif %}
+          {% if term.sw_term_status == "sunset" %}
+          <tr>
+            <td></td>
+             <td style="color: red">{{ term.skos_editorialNote }}</td>
           </tr>
           {% endif %}
           <tr>

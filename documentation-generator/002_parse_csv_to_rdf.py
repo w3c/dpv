@@ -173,6 +173,10 @@ def add_triples_for_classes(classes, graph):
             if cls.sw_termstatus == 'proposed':
                 proposed.append(cls.term)
             continue
+        if cls.sw_termstatus == 'sunset':
+            graph.add((
+                BASE[f'{cls.term}'], SKOS.editorialNote, Literal(
+                "WARNING: This concept will be deprecated in future releases", lang='en')))
         # rdf:type
         DEBUG(cls.term)
         graph.add((BASE[f'{cls.term}'], RDF.type, DPV.Concept))
@@ -212,6 +216,10 @@ def add_triples_for_properties(properties, graph):
             if prop.sw_termstatus == 'proposed':
                 proposed.append(prop.term)
             continue
+        if prop.sw_termstatus == 'sunset':
+            graph.add((
+                BASE[f'{prop.term}'], SKOS.editorialNote, Literal(
+                "WARNING: This concept will be deprecated in future releases", lang='en')))
         # rdf:type
         DEBUG(prop.term)
         graph.add((BASE[f'{prop.term}'], RDF.type, DPV.Relation))
@@ -368,6 +376,16 @@ DPV_CSV_FILES = {
     'consent': {
         # 'classes': f'{IMPORT_CSV_PATH}/Consent.csv',
         'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
+        'model': 'ontology',
+    },
+    'consent_types': {
+        'classes': f'{IMPORT_CSV_PATH}/ConsentTypes.csv',
+        # 'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
+        'model': 'ontology',
+    },
+    'consent_status': {
+        'classes': f'{IMPORT_CSV_PATH}/ConsentStatus.csv',
+        # 'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
         'model': 'ontology',
     },
 }

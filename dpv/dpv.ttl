@@ -71,9 +71,11 @@ dpv:BaseConcepts a skos:Collection ;
 
 dpv:ConsentConcepts a skos:Collection ;
     skos:member dpv:hasConsentNotice,
+        dpv:hasConsentStatus,
         dpv:hasExpiry,
         dpv:hasExpiryCondition,
         dpv:hasExpiryTime,
+        dpv:hasIndicationMethod,
         dpv:hasProvisionBy,
         dpv:hasProvisionByJustification,
         dpv:hasProvisionMethod,
@@ -82,8 +84,34 @@ dpv:ConsentConcepts a skos:Collection ;
         dpv:hasWithdrawalByJustification,
         dpv:hasWithdrawalMethod,
         dpv:hasWithdrawalTime,
-        dpv:isExplicit ;
+        dpv:isExplicit,
+        dpv:isIndicatedAtTime,
+        dpv:isIndicatedBy ;
     skos:prefLabel "Consent Concepts"^^xsd:string .
+
+dpv:Consent_StatusConcepts a skos:Collection ;
+    skos:member dpv:ConsentExpired,
+        dpv:ConsentGiven,
+        dpv:ConsentInvalidated,
+        dpv:ConsentRefused,
+        dpv:ConsentRequestDeferred,
+        dpv:ConsentRequested,
+        dpv:ConsentRevoked,
+        dpv:ConsentStatus,
+        dpv:ConsentStatusInvalidForProcessing,
+        dpv:ConsentStatusValidForProcessing,
+        dpv:ConsentUnknown,
+        dpv:ConsentWithdrawn,
+        dpv:RenewedConsentGiven ;
+    skos:prefLabel "Consent_Status Concepts"^^xsd:string .
+
+dpv:Consent_TypesConcepts a skos:Collection ;
+    skos:member dpv:ExplicitlyExpressedConsent,
+        dpv:ExpressedConsent,
+        dpv:ImpliedConsent,
+        dpv:InformedConsent,
+        dpv:UninformedConsent ;
+    skos:prefLabel "Consent_Types Concepts"^^xsd:string .
 
 dpv:ContextConcepts a skos:Collection ;
     skos:member dpv:Context,
@@ -172,7 +200,8 @@ dpv:Entities_DatasubjectConcepts a skos:Collection ;
         dpv:User,
         dpv:Visitor,
         dpv:VulnerableDataSubject,
-        dpv:hasDataSubject ;
+        dpv:hasDataSubject,
+        dpv:hasRelationWithDataSubject ;
     skos:prefLabel "Entities_Datasubject Concepts"^^xsd:string .
 
 dpv:Entities_LegalroleConcepts a skos:Collection ;
@@ -261,6 +290,8 @@ dpv:Organisational_MeasuresConcepts a skos:Collection ;
         dpv:Certification,
         dpv:CertificationSeal,
         dpv:CodeOfConduct,
+        dpv:ConsentNotice,
+        dpv:ConsentRecord,
         dpv:Consultation,
         dpv:ConsultationWithAuthority,
         dpv:ConsultationWithDPO,
@@ -575,6 +606,7 @@ dpv:Technical_Organisational_MeasuresConcepts a skos:Collection ;
     skos:member dpv:OrganisationalMeasure,
         dpv:TechnicalMeasure,
         dpv:TechnicalOrganisationalMeasure,
+        dpv:hasNotice,
         dpv:hasOrganisationalMeasure,
         dpv:hasPolicy,
         dpv:hasTechnicalMeasure,
@@ -1125,16 +1157,177 @@ dpv:Compliant a skos:Concept,
     skos:prefLabel "Compliant"@en ;
     dpv:isInstanceOf dpv:ComplianceStatus .
 
-dpv:Consent a skos:Concept,
+dpv:ConsentExpired a skos:Concept,
         dpv:Concept ;
-    dct:created "2021-04-07"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:definition "Consent of the Data Subject for specified processing"@en ;
+    skos:definition "The state where the temporal or contextual validity of consent has 'expired'"@en ;
     skos:inScheme dpv: ;
-    skos:prefLabel "Consent"@en ;
-    dpv:isSubTypeOf dpv:LegalBasis .
+    skos:note "An example of this state is when the obtained consent has been assigned a duration - which has lapsed or 'expired', making it invalid to be used further for processing data"@en ;
+    skos:prefLabel "Consent Expired"@en ;
+    dpv:isInstanceOf dpv:ConsentStatusInvalidForProcessing .
+
+dpv:ConsentGiven a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The state where consent has been given"@en ;
+    skos:inScheme dpv: ;
+    skos:note "An example of this state is when the individual clicks on a button, ticks a checkbox, verbally agrees - or any other form that communicates their decision agreeing to the processing of data"@en ;
+    skos:prefLabel "Consent Given"@en ;
+    dpv:isInstanceOf dpv:ConsentStatusValidForProcessing .
+
+dpv:ConsentInvalidated a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The state where consent has been deemed to be invalidate"@en ;
+    skos:inScheme dpv: ;
+    skos:note "An example of this state is where an investigating authority or a court finds the collected consent did not meet requirements, and 'invalidates' both prior and future uses of it to carry out processing"@en ;
+    skos:prefLabel "Consent Invalidated"@en ;
+    dpv:isInstanceOf dpv:ConsentStatusInvalidForProcessing .
+
+dpv:ConsentNotice a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "A Notice for information provision associated with Consent"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Consent Notice"@en ;
+    dpv:isSubTypeOf dpv:PrivacyNotice .
+
+dpv:ConsentRecord a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "A Record of Consent or Consent related activities"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Consent Record"@en ;
+    dpv:isSubTypeOf dpv:DataProcessingRecord .
+
+dpv:ConsentRefused a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The state where consent has been refused"@en ;
+    skos:inScheme dpv: ;
+    skos:note "An example of this state is when the individual clicks on a 'disagree' or 'reject' or 'refuse' button, or leaves a checkbox unticked"@en ;
+    skos:prefLabel "Consent Refused"@en ;
+    dpv:isInstanceOf dpv:ConsentStatusInvalidForProcessing .
+
+dpv:ConsentRequestDeferred a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "State where a request for consent has been deferred without a decision"@en ;
+    skos:inScheme dpv: ;
+    skos:note "An example of this state is when the individual closes or dismisses a notice without making a decision. This state is intended for making the distinction between a notice being provided (as a consent request) and the individual interacting with the notice without making a decision - where the 'ignoring of a notice' is taken as consent being neither given nor refused"@en ;
+    skos:prefLabel "Consent Request Deferred"@en ;
+    dpv:isInstanceOf dpv:ConsentStatusInvalidForProcessing .
+
+dpv:ConsentRequested a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "State where a request for consent has been made and is awaiting a decision"@en ;
+    skos:inScheme dpv: ;
+    skos:note "An example of this state is when a notice has been presented to the individual but they have not made a decision"@en ;
+    skos:prefLabel "Consent Requested"@en ;
+    dpv:isInstanceOf dpv:ConsentStatusInvalidForProcessing .
+
+dpv:ConsentRevoked a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The state where the consent is revoked by an entity other than the data subject and which prevents it from being further used as a valid state"@en ;
+    skos:inScheme dpv: ;
+    skos:note "An example of this state is when a Data Controller stops utilising previously obtaining consent, such as when that service no longer exists"@en ;
+    skos:prefLabel "Consent Revoked"@en ;
+    dpv:isInstanceOf dpv:ConsentStatusInvalidForProcessing .
+
+dpv:ConsentUnknown a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "State where information about consent is not available or is unknown"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Consent states can be unknown, for example, when information is not available, or cannot be trusted, or is known to be inaccurate"@en ;
+    skos:prefLabel "Consent Unknown"@en ;
+    dpv:isInstanceOf dpv:ConsentStatusInvalidForProcessing .
+
+dpv:ConsentWithdrawn a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The state where the consent is withdrawn or revoked specifically by the data subject and which prevents it from being further used as a valid state"@en ;
+    skos:inScheme dpv: ;
+    skos:note "This state can be considered a form of 'revocation' of consent, where the revocation can only be performed by the data subject. Therefore we suggest using ConsentRevoked when it is a non-data-subject entity, and ConsentWithdrawn when it is the data subject"@en ;
+    skos:prefLabel "Consent Withdrawn"@en ;
+    dpv:isInstanceOf dpv:ConsentStatusInvalidForProcessing .
 
 dpv:ConsequenceAsSideEffect a skos:Concept,
         dpv:Concept ;
@@ -1719,6 +1912,21 @@ dpv:EvaluationScoring a skos:Concept,
     skos:prefLabel "Evaluation and Scoring"@en ;
     dpv:isSubTypeOf dpv:ProcessingContext .
 
+dpv:ExplicitlyExpressedConsent a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Consent that is expressed through an explicit action solely conveying a consenting decision"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Explicitly expressed consent is a more specific form of Expressed consent where the action taken must 'explicitly' relate to only the consent decision. Expressed consent where the consenting is part of other matters therefore cannot satisfy the requirements of explicitly expressed consent. An example of explicit action expressing the consenting decision is a button on a web form where the form only relates to consent, or it is accompanied with suitable text that reiterates what the consenting decision is about"@en ;
+    skos:prefLabel "Explicitly Expressed Consent"@en ;
+    dpv:isSubTypeOf dpv:ExpressedConsent .
+
 dpv:FederatedLocations a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
@@ -1832,18 +2040,18 @@ dpv:GuardianOfDataSubject a skos:Concept,
 
 dpv:Harm a skos:Concept,
         dpv:Concept ;
-    dct:created "2022-03-23"^^xsd:date ;
+    dct:created "2022-08-13"^^xsd:date ;
     dct:creator "Beatriz Esteves"^^xsd:string,
         "Fajar Ekaputra"^^xsd:string,
         "Georg P Krog"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Julian Flake"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "changed"@en ;
     skos:definition "Impact that acts as or causes harms"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Harm"@en ;
-    dpv:isSubTypeOf dpv:Impact .
+    dpv:isSubTypeOf dpv:Damage .
 
 dpv:HugeDataVolume a skos:Concept,
         dpv:Concept ;
@@ -1914,6 +2122,21 @@ dpv:Immigrant a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Immigrant"@en ;
     dpv:isSubTypeOf dpv:DataSubject .
+
+dpv:ImpliedConsent a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Consent that is implied indirectly through an action not associated solely with conveying a consenting decision"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Implied consent is expected to also be Informed Consent. An example is a CCTV notice outside a monitored area that informs the individuals that by walking in they would be consenting to the use of camera for surveillance."@en ;
+    skos:prefLabel "Implied Consent"@en ;
+    dpv:isSubTypeOf dpv:InformedConsent .
 
 dpv:ImproveExistingProductsAndServices a skos:Concept,
         dpv:Concept ;
@@ -2834,20 +3057,6 @@ dpv:PrivacyByDesign a skos:Concept,
     skos:prefLabel "Privacy by Design"@en ;
     dpv:isSubTypeOf dpv:OrganisationalMeasure .
 
-dpv:PrivacyNotice a skos:Concept,
-        dpv:Concept ;
-    dct:created "2021-09-08"^^xsd:date ;
-    dct:creator "David Hickey"^^xsd:string,
-        "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Paul Ryan"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Represents a notice or document outlining information regarding privacy"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Privacy Notice"@en ;
-    dpv:isSubTypeOf dpv:Notice .
-
 dpv:Profiling a skos:Concept,
         dpv:Concept ;
     dct:created "2019-05-07"^^xsd:date ;
@@ -3059,6 +3268,22 @@ dpv:RegularityOfRecertification a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Regularity of Re-certification"@en ;
     dpv:isSubTypeOf dpv:OrganisationalMeasure .
+
+dpv:RenewedConsentGiven a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The state where a previously given consent has been 'renewed' or 'refreshed' or 'reaffirmed' to form a new instance of given consent"@en ;
+    skos:inScheme dpv: ;
+    skos:note "An example of this state is when a previously given consent has expired, and the individual is presented a notice regarding continuing associated processing operations - to which they agree. This state can be useful to keep track of 'reconfirmed' or 'refreshed' consent within consent records, assist notices and contextual agents to create better consenting dialogues, and assist with specific legal obligations related to subsequent consenting"@en ;
+    skos:prefLabel "Renewed Consent Given"@en ;
+    dpv:isInstanceOf dpv:ConsentStatusValidForProcessing .
 
 dpv:Required a skos:Concept,
         dpv:Concept ;
@@ -3632,6 +3857,20 @@ dpv:Transmit a skos:Concept,
     skos:prefLabel "Transmit"@en ;
     dpv:isSubTypeOf dpv:Disclose .
 
+dpv:UninformedConsent a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Consent that is uninformed i.e. without requirement to provide sufficient information to make a consenting decision"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Uninformed Consent"@en ;
+    dpv:isSubTypeOf dpv:Consent .
+
 dpv:UntilEventDuration a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
@@ -3891,12 +4130,29 @@ dpv:hasConsentNotice a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies the notice provided in context of consent"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:note "The actual notice that the Data Subject received to consent to, either a text or link to a document, which should be usable to decide whether the form or consent was compliant to legislation, e.g. documenting how the user has been informed about rights and implications (such as, right to data portability,right to recitffy, right to erasure, right to restrict processing, right to object, rights regarding automated decision making or profiling, processors, third parties, sub-processors, outside-EEA transfers, automated decision-making, or other necessary details of the privacy-policy). Can be TextOrDocumentOrURI."@en ;
     skos:prefLabel "has consent notice"@en .
+
+dpv:hasConsentStatus a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Specifies the state or status of consent"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "has consent status"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:ConsentStatus .
 
 dpv:hasContact a skos:Concept,
         dpv:Relation ;
@@ -4045,9 +4301,11 @@ dpv:hasExpiry a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Generic property specifying when or under which condition(s) the consent will expire"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "has expiry"@en .
 
@@ -4057,9 +4315,11 @@ dpv:hasExpiryCondition a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies the condition or event that determines the expiry of consent"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:note "Can be TextOrDocumentOrURI"@en ;
     skos:prefLabel "has expiry condition"@en ;
@@ -4071,9 +4331,11 @@ dpv:hasExpiryTime a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies the expiry time or duration for consent"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "has expiry time"@en ;
     dpv:isSubTypeOf dpv:expiry .
@@ -4167,6 +4429,20 @@ dpv:hasImpactOn a skos:Concept,
     dpv:hasRange dpv:Concept ;
     dpv:isSubTypeOf dpv:hasConsequenceOn .
 
+dpv:hasIndicationMethod a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Specifies the method by which an entity has indicated the specific context"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "has indication method"@en ;
+    dpv:hasDomain dpv:Concept .
+
 dpv:hasJointDataControllers a skos:Concept,
         dpv:Relation ;
     dct:created "2022-02-09"^^xsd:date ;
@@ -4236,18 +4512,21 @@ dpv:hasName a skos:Concept,
     dpv:hasDomain dpv:Entity ;
     dpv:hasRange dpv:Concept .
 
-dpv:hasOrganisationalMeasure a skos:Concept,
+dpv:hasNotice a skos:Concept,
         dpv:Relation ;
-    dct:created "2022-02-09"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:definition "Indicates use or applicability of Organisational measure"@en ;
+    skos:definition "Indicates the use or applicability of a Notice for the specified context"@en ;
     skos:inScheme dpv: ;
-    skos:prefLabel "has organisational measure"@en ;
+    skos:prefLabel "has notice"@en ;
     dpv:hasDomain dpv:Concept ;
-    dpv:hasRange dpv:OrganisationalMeasure ;
-    dpv:isSubTypeOf dpv:hasTechnicalOrganisationalMeasure .
+    dpv:hasRange dpv:Notice ;
+    dpv:isSubTypeOf dpv:hasOrganisationalMeasure .
 
 dpv:hasOutcome a skos:Concept,
         dpv:Relation ;
@@ -4305,9 +4584,11 @@ dpv:hasProvisionBy a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies the entity that provisioned or provided consent"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:note "Normally this would be the dataSubject, but in some exceptional cases, the consent might be given on behalf by someone else, e.g. parents of minors."@en ;
     skos:prefLabel "has provision by"@en ;
@@ -4319,9 +4600,11 @@ dpv:hasProvisionByJustification a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies the justification for entity providing consent"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:note "This field can be used to proivde a justification why the provision was provided by another DataSubject or legal entity,  e.g. declariing the relationship (parent, guardian), in combination with the field provisionBy"@en ;
     skos:prefLabel "has provision by justification"@en .
@@ -4332,9 +4615,11 @@ dpv:hasProvisionMethod a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies the method by which consent was provisioned or provided"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:note "Can be used to record information of how consent was provided e.g. by a click to a form, in writing, etc., by logging into a system and confirm per email, or with some additional authentication, etc."@en ;
     skos:prefLabel "has provision method"@en .
@@ -4345,9 +4630,11 @@ dpv:hasProvisionTime a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies the instant in time when consent was given"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "has provision time"@en .
 
@@ -4380,6 +4667,22 @@ dpv:hasRecipientThirdParty a skos:Concept,
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:ThirdParty ;
     dpv:isSubTypeOf dpv:hasRecipient .
+
+dpv:hasRelationWithDataSubject a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the relation between specified Entity and Data Subject"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "has relation with data subject"@en ;
+    dpv:hasDomain dpv:Entity ;
+    dpv:hasRange dpv:Concept ;
+    dpv:isSubTypeOf dpv:hasEntity .
 
 dpv:hasResidualRisk a skos:Concept,
         dpv:Relation ;
@@ -4535,9 +4838,11 @@ dpv:hasWithdrawalBy a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies the entity that withdrew consent"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:note "Normally this would be the dataSubject, but in some exceptional cases, the consent might be withdraawn on behalf by someone else, e.g. parents of minors."@en ;
     skos:prefLabel "has withdrawal by"@en ;
@@ -4549,9 +4854,11 @@ dpv:hasWithdrawalByJustification a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies the justification for entity withdrawing consent"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:note "This field can be used to proivde a justification why the weithdrawal was done by another DataSubject or legal entity, e.g. declariing the relationship (parent, guardian), in combination with the field withdrawalBy"@en ;
     skos:prefLabel "has withdrawal by justification"@en .
@@ -4562,9 +4869,11 @@ dpv:hasWithdrawalMethod a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifries the method by which consent can be/has been withdrawn"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:note "Can be used to record information of how to withdraw consent, e.g. by a click to a form, in writing, etc., by logging into a system and confirm per email, or with some additional authentication, etc."@en ;
     skos:prefLabel "has withdrawal method"@en .
@@ -4575,9 +4884,11 @@ dpv:hasWithdrawalTime a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies the instant in time when consent was withdrawn"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "has withdrawal time"@en .
 
@@ -4628,9 +4939,11 @@ dpv:isExplicit a skos:Concept,
     dct:creator "Bud Bruegger"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "sunset"@en ;
     skos:definition "Specifies consent is 'explicit'"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:note "The conditions for what is considered 'explicit consent' differ by norms and laws."@en ;
     skos:prefLabel "is explicit"@en ;
@@ -4670,6 +4983,35 @@ dpv:isImplementedUsingTechnology a skos:Concept,
     skos:prefLabel "is implemented using technology"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Technology .
+
+dpv:isIndicatedAtTime a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Specifies the temporal information for when the entity has indicated the specific context"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "is indicated at time"@en ;
+    dpv:hasDomain dpv:Concept .
+
+dpv:isIndicatedBy a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Specifies entity who indicates the specific context"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "is indicated by"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:Entity .
 
 dpv:isMitigatedByMeasure a skos:Concept,
         dpv:Relation ;
@@ -4980,6 +5322,21 @@ dpv:DerivedPersonalData a skos:Concept,
     skos:related svd:Derived ;
     dpv:isSubTypeOf dpv:PersonalData .
 
+dpv:ExpressedConsent a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Consent that is expressed through an action intended to convey a consenting decision"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Expressed consent requires the individual take a specific and unambigious action that directly indicates their consent. This action may be a part of other processes such as setting preferences, or agreeing to a contract, or other matters not relating to consent. An example of expressed consent is interacting with a checkbox within a dashboard or clicking a button on a web form"@en ;
+    skos:prefLabel "Expressed Consent"@en ;
+    dpv:isSubTypeOf dpv:InformedConsent .
+
 dpv:GeneratedPersonalData a skos:Concept,
         dpv:Concept ;
     dct:created "2022-03-30"^^xsd:date ;
@@ -5095,20 +5452,6 @@ dpv:NonPersonalData a skos:Concept,
     skos:prefLabel "Non-Personal Data"@en ;
     dpv:isSubTypeOf dpv:Data .
 
-dpv:Notice a skos:Concept,
-        dpv:Concept ;
-    dct:created "2021-09-08"^^xsd:date ;
-    dct:creator "David Hickey"^^xsd:string,
-        "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Paul Ryan"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "A notice is an artefact for providing information, choices, or controls"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Notice"@en ;
-    dpv:isSubTypeOf dpv:OrganisationalMeasure .
-
 dpv:OptimisationForConsumer a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -5162,6 +5505,20 @@ dpv:PersonalisedAdvertising a skos:Concept,
     skos:prefLabel "Personalised Advertising"@en ;
     dpv:isSubTypeOf dpv:Advertising,
         dpv:Personalisation .
+
+dpv:PrivacyNotice a skos:Concept,
+        dpv:Concept ;
+    dct:created "2021-09-08"^^xsd:date ;
+    dct:creator "David Hickey"^^xsd:string,
+        "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Represents a notice or document outlining information regarding privacy"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Privacy Notice"@en ;
+    dpv:isSubTypeOf dpv:Notice .
 
 dpv:RecordsOfActivities a skos:Concept,
         dpv:Concept ;
@@ -5426,6 +5783,19 @@ dpv:hasLocation a skos:Concept,
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Location .
 
+dpv:hasOrganisationalMeasure a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-02-09"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates use or applicability of Organisational measure"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "has organisational measure"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:OrganisationalMeasure ;
+    dpv:isSubTypeOf dpv:hasTechnicalOrganisationalMeasure .
+
 dpv:hasPersonalData a skos:Concept,
         dpv:Relation ;
     dct:created "2022-01-19"^^xsd:date ;
@@ -5528,6 +5898,33 @@ dpv:CertificationSeal a skos:Concept,
     skos:prefLabel "Certification and Seal"@en ;
     dpv:isSubTypeOf dpv:OrganisationalMeasure .
 
+dpv:Consent a skos:Concept,
+        dpv:Concept ;
+    dct:created "2021-04-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Consent of the Data Subject for specified processing"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Consent"@en ;
+    dpv:isSubTypeOf dpv:LegalBasis .
+
+dpv:ConsentStatusValidForProcessing a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "States of consent that can be used as valid justifications for processing data"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Practically, given consent is the only valid state for processing"@en ;
+    skos:prefLabel "Consent Status Valid for Processing"@en ;
+    dpv:isSubTypeOf dpv:ConsentStatus .
+
 dpv:Consult a skos:Concept,
         dpv:Concept ;
     dct:created "2019-05-07"^^xsd:date ;
@@ -5589,17 +5986,6 @@ dpv:CreditChecking a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Credit Checking"@en ;
     dpv:isSubTypeOf dpv:CustomerSolvencyMonitoring .
-
-dpv:Damage a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-03-30"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Impact that acts as or causes damages"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Damage"@en ;
-    dpv:isSubTypeOf dpv:Impact .
 
 dpv:Data a skos:Concept,
         dpv:Concept ;
@@ -5681,6 +6067,21 @@ dpv:Importance a skos:Concept,
     skos:prefLabel "Importance"@en ;
     dpv:isSubTypeOf dpv:Context .
 
+dpv:InformedConsent a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-21"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Consent that is informed i.e. with the requirement to provide sufficient information to make a consenting decision"@en ;
+    skos:inScheme dpv: ;
+    skos:note "The specifics for what information should be provided or made available will depend on the context, use-case, or relevant legal requirements"@en ;
+    skos:prefLabel "Informed Consent"@en ;
+    dpv:isSubTypeOf dpv:Consent .
+
 dpv:LegitimateInterest a skos:Concept,
         dpv:Concept ;
     dct:created "2021-05-19"^^xsd:date ;
@@ -5701,6 +6102,20 @@ dpv:LocationLocality a skos:Concept,
     skos:definition "Locality refers to whether the specified location is local within some context, e.g. for the user"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Location Locality"@en .
+
+dpv:Notice a skos:Concept,
+        dpv:Concept ;
+    dct:created "2021-09-08"^^xsd:date ;
+    dct:creator "David Hickey"^^xsd:string,
+        "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "A notice is an artefact for providing information, choices, or controls"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Notice"@en ;
+    dpv:isSubTypeOf dpv:OrganisationalMeasure .
 
 dpv:Personalisation a skos:Concept,
         dpv:Concept ;
@@ -5844,6 +6259,22 @@ dpv:Anonymization a skos:Concept,
     skos:prefLabel "Anonymization"@en ;
     dpv:isSubTypeOf dpv:TechnicalMeasure .
 
+dpv:ConsentStatus a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The state or status of 'consent' that provides information reflecting its operational status and validity for processing data"@en ;
+    skos:inScheme dpv: ;
+    skos:note "States are useful as information artefacts to implement them in controlling processing, and to reflect the process and flow of obtaining and maintaining consent. For example, a database table that stores consent states for specific processing and can be queried to obtain them in an efficient manner. States are also useful in investigations to determine the use and validity of consenting practices"@en ;
+    skos:prefLabel "Consent Status"@en ;
+    dpv:isSubTypeOf dpv:Status .
+
 dpv:Consultation a skos:Concept,
         dpv:Concept ;
     dct:created "2020-11-04"^^xsd:date ;
@@ -5856,6 +6287,17 @@ dpv:Consultation a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Consultation"@en ;
     dpv:isSubTypeOf dpv:OrganisationalMeasure .
+
+dpv:Damage a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-03-30"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Impact that acts as or causes damages"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Damage"@en ;
+    dpv:isSubTypeOf dpv:Impact .
 
 dpv:DataSource a skos:Concept,
         dpv:Concept ;
@@ -6110,17 +6552,6 @@ dpv:OrganisationGovernance a skos:Concept,
     skos:prefLabel "Organisation Governance"@en ;
     dpv:isSubTypeOf dpv:Purpose .
 
-dpv:Status a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-05-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "The status or state of something"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Status"@en ;
-    dpv:isSubTypeOf dpv:Context .
-
 dpv:ActivityStatus a skos:Concept,
         dpv:Concept ;
     dct:created "2022-05-18"^^xsd:date ;
@@ -6177,6 +6608,22 @@ dpv:Frequency a skos:Concept,
     skos:prefLabel "Frequency"@en ;
     dpv:isSubTypeOf dpv:Context .
 
+dpv:Impact a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-03-23"^^xsd:date ;
+    dct:creator "Beatriz Esteves"^^xsd:string,
+        "Fajar Ekaputra"^^xsd:string,
+        "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The impact(s) possible or arising as a consequence from specified context"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Impact is a stronger notion of consequence in terms of influence, change, or effect on something e.g. for impact assessments"@en ;
+    skos:prefLabel "Impact"@en ;
+    dpv:isSubTypeOf dpv:Consequence .
+
 dpv:LocationFixture a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
@@ -6214,6 +6661,17 @@ dpv:Recipient a skos:Concept,
     skos:prefLabel "Recipient"@en ;
     skos:related spl:AnyRecipient ;
     dpv:isSubTypeOf dpv:LegalEntity .
+
+dpv:Status a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-05-18"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The status or state of something"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Status"@en ;
+    dpv:isSubTypeOf dpv:Context .
 
 dpv:StorageCondition a skos:Concept,
         dpv:Concept ;
@@ -6300,35 +6758,6 @@ dpv:ComplianceStatus a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Compliance Status"@en ;
     dpv:isSubTypeOf dpv:Status .
-
-dpv:Impact a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-03-23"^^xsd:date ;
-    dct:creator "Beatriz Esteves"^^xsd:string,
-        "Fajar Ekaputra"^^xsd:string,
-        "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Julian Flake"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "The impact(s) possible or arising as a consequence from specified context"@en ;
-    skos:inScheme dpv: ;
-    skos:note "Impact is a stronger notion of consequence in terms of influence, change, or effect on something e.g. for impact assessments"@en ;
-    skos:prefLabel "Impact"@en ;
-    dpv:isSubTypeOf dpv:Consequence .
-
-dpv:hasEntity a skos:Concept,
-        dpv:Relation ;
-    dct:created "2022-02-09"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates inclusion or applicability of an entity to some concept"@en ;
-    skos:inScheme dpv: ;
-    skos:note "parent property for controller, processor, data subject, authority, etc.?"@en ;
-    skos:prefLabel "has entity"@en ;
-    dpv:hasDomain dpv:Concept ;
-    dpv:hasRange dpv:Entity .
 
 dpv:AuditStatus a skos:Concept,
         dpv:Concept ;
@@ -6455,6 +6884,35 @@ dpv:Use a skos:Concept,
     skos:prefLabel "Use"@en ;
     dpv:isSubTypeOf dpv:Processing .
 
+dpv:hasEntity a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-02-09"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates inclusion or applicability of an entity to some concept"@en ;
+    skos:inScheme dpv: ;
+    skos:note "parent property for controller, processor, data subject, authority, etc.?"@en ;
+    skos:prefLabel "has entity"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:Entity .
+
+dpv:ConsentStatusInvalidForProcessing a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Julian Flake"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    dct:source <https://w3id.org/GConsent> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "States of consent that cannot be used as valid justifications for processing data"@en ;
+    skos:inScheme dpv: ;
+    skos:note "This identifies the stages associated with consent that should not be used to process data"@en ;
+    skos:prefLabel "Consent Status Invalid for Processing"@en ;
+    dpv:isSubTypeOf dpv:ConsentStatus .
+
 dpv:GeographicCoverage a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
@@ -6534,16 +6992,6 @@ dpv:AutomationOfProcessing a skos:Concept,
     skos:prefLabel "Automation of Processing"@en ;
     dpv:isSubTypeOf dpv:ProcessingContext .
 
-dpv:Entity a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-02-02"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "A human or non-human 'thing' that constitutes as an entity"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Entity"@en .
-
 dpv:LegalEntity a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -6578,6 +7026,16 @@ dpv:LegalBasis a skos:Concept,
     skos:inScheme dpv: ;
     skos:note "Legal basis (plural: legal bases) are defined by legislations and regulations, whose applicability is usually restricted to specific jurisdictions."@en ;
     skos:prefLabel "Legal Basis"@en .
+
+dpv:Entity a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-02-02"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "A human or non-human 'thing' that constitutes as an entity"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Entity"@en .
 
 dpv:Processing a skos:Concept,
         dpv:Concept ;
