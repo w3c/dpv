@@ -471,6 +471,9 @@ DPV_GDPR_CSV_FILES = {
     'data_transfers': {
         'classes': f'{IMPORT_CSV_PATH}/GDPR_DataTransfers.csv',
         },
+    'dpia': {
+        'classes': f'{IMPORT_CSV_PATH}/GDPR_DPIA.csv',
+        },
     }
 
 BASE = NAMESPACES['dpv-gdpr']

@@ -156,6 +156,7 @@ load_data('legal_basis_special', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis_sp
 load_data('legal_basis_data_transfer', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis_data_transfer.ttl')
 load_data('rights', f'{IMPORT_DPV_GDPR_MODULES_PATH}/rights.ttl')
 load_data('data_transfers', f'{IMPORT_DPV_GDPR_MODULES_PATH}/data_transfers.ttl')
+load_data('dpia', f'{IMPORT_DPV_GDPR_MODULES_PATH}/dpia.ttl')
 g = Graph()
 g.load(f'{IMPORT_DPV_GDPR_PATH}', format='turtle')
 G.load(g)
