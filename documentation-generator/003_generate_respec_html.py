@@ -152,6 +152,8 @@ with open(f'{EXPORT_DPV_GDPR_HTML_PATH}/proposed.json') as fd:
     TEMPLATE_DATA['proposed'] = json.load(fd)  
 
 load_data('legal_basis', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis.ttl')
+load_data('legal_basis_special', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis_special.ttl')
+load_data('legal_basis_data_transfer', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis_data_transfer.ttl')
 load_data('rights', f'{IMPORT_DPV_GDPR_MODULES_PATH}/rights.ttl')
 load_data('data_transfers', f'{IMPORT_DPV_GDPR_MODULES_PATH}/data_transfers.ttl')
 g = Graph()

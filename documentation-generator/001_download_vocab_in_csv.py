@@ -60,6 +60,8 @@ DPV_SHEETS = (
     'dpv-pd',
     # DPV-GDPR
     'GDPR_LegalBasis',
+    'GDPR_LegalBasis_SpecialCategory',
+    'GDPR_LegalBasis_DataTransfer',
     'GDPR_LegalRights',
     'GDPR_DataTransfers',
     'GDPR_DPIA',

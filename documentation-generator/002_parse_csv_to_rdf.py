@@ -459,6 +459,12 @@ DPV_GDPR_CSV_FILES = {
     'legal_basis': {
         'classes': f'{IMPORT_CSV_PATH}/GDPR_LegalBasis.csv',
         },
+    'legal_basis_special': {
+        'classes': f'{IMPORT_CSV_PATH}/GDPR_LegalBasis_SpecialCategory.csv',
+        },
+    'legal_basis_data_transfer': {
+        'classes': f'{IMPORT_CSV_PATH}/GDPR_LegalBasis_DataTransfer.csv',
+        },
     'rights': {
         'classes': f'{IMPORT_CSV_PATH}/GDPR_LegalRights.csv',
         },
