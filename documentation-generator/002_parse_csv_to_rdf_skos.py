@@ -219,6 +219,14 @@ def add_triples_for_classes(classes, graph, model, topconcept):
                         graph.add((BASE[f'{cls.term}'], RDF.type, parent))
                     else:
                         raise Exception(f'Parent Type Unknown: {cls.parent_type} ')
+        # rdf:value
+        if cls.rdf_value:
+            value, datatype = cls.rdf_value.split(',')
+            namespace, literal = datatype.split(':')
+            datatype = NAMESPACES[namespace.strip()][literal.strip()]
+            graph.add((
+                BASE[f'{cls.term}'], RDF.value, 
+                Literal(value.strip(), datatype=datatype)))
         
         add_common_triples_for_all_terms(cls, graph)
 

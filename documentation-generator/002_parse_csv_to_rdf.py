@@ -59,7 +59,7 @@ BASE = DPV
 
 DPV_Class = namedtuple('DPV_Class', [
             'term', 'skos_prefLabel', 'skos_definition', 'dpv_isSubTypeOf',
-            'parent_type', 'value', 
+            'parent_type', 'rdf_value', 
             'skos_related', 'relation', 'skos_note', 'skos_scopeNote', 
             'dct_created', 'dct_modified', 'sw_termstatus', 'dct_creator', 
             'resolution'])
@@ -198,6 +198,14 @@ def add_triples_for_classes(classes, graph):
                     graph.add((BASE[f'{cls.term}'], DPV.isInstanceOf, parent))
                 else:
                     raise Exception(f'Parent Type Unknown: {cls.parent_type} ')
+        # rdf:value
+        if cls.rdf_value:
+            value, datatype = cls.rdf_value.split(',')
+            namespace, literal = datatype.split(':')
+            datatype = NAMESPACES[namespace.strip()][literal.strip()]
+            graph.add((
+                BASE[f'{cls.term}'], RDF.value, 
+                Literal(value.strip(), datatype=datatype)))
         
         add_common_triples_for_all_terms(cls, graph)
 
@@ -978,6 +986,9 @@ RISK_CSV_FILES = {
     'risk_assessment': {
         'classes': f'{IMPORT_CSV_PATH}/RiskAssessmentTechniques.csv',
         },
+    'risk_methodology': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskMethodology.csv',
+        },
     }
 
 BASE = NAMESPACES['risk']
@@ -1013,6 +1024,10 @@ for name, module in RISK_CSV_FILES.items():
         graph.add((BASE[f'{name.title()}Concepts'], SKOS.member, concept))
         RISK_GRAPH.add((concept, SKOS.inScheme, RISK['']))
     # serialize
+    if name == 'risk_matrix':
+        graph_extra = Graph()
+        graph_extra.parse('rdf_inputs/risk-matrix-nodes.ttl', format='ttl')
+        graph += graph_extra
     serialize_graph(graph, f'{EXPORT_RISK_MODULE_PATH}/{name}')
     if 'topconcept' in module:
         RISK_GRAPH.add((BASE[''], SKOS.hasTopConcept, module['topconcept']))

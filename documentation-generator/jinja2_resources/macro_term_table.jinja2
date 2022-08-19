@@ -14,7 +14,7 @@
         <tbody>
           <tr>
             <td>IRI</td>
-            <td>`{{ term.iri }}`</td>
+            <td><code>{{ term.iri }}</code></td>
           </tr>
           <tr>
             <td>Term:</td>
@@ -59,6 +59,12 @@
             </td>
           </tr>
           {% endif %}
+          {% if term.rdf_value %}
+          <tr>
+            <td>rdf:value</td>
+            <td>{{ term.rdf_value }}</td>
+          </tr>
+          {% endif %}
           {% if term.skos_note %}
           <tr>
             <td>Note:</td>
@@ -83,6 +89,11 @@
             </td>
           </tr>
           {% endif %}
+          {% for prop in term.metadata %}
+            {% if prop.startswith('dpv_') and prop not in ('dpv_isInstanceOf',) %}
+          <tr><td>{{ prop.replace('_',':') }}</td><td>{{ term|attr(prop)|prefix_this }}</td></tr>
+            {% endif %}
+          {% endfor %}
           <tr>
             <td>Created:</td>
             <td><time>{{term.dct_created}}</time></td>
