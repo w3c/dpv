@@ -81,8 +81,12 @@ DPV_SHEETS = (
     'RiskMatrix',
     'RiskControls',
     'RiskAssessmentTechniques',
+    'RiskManagement',
+    'RiskMethodology',
     # Rights
     'EUFundamentalRights',
+    # EXTRA - unused currently
+    'Standards_ISO',
     )
 
 from urllib import request
