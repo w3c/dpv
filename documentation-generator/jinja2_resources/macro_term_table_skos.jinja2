@@ -1,5 +1,6 @@
-{% macro table_classes(term_list, prefix=None) %}
-  <h3>Classes</h3>
+{% macro table_classes(term_list, prefix=None, skip_heading=False) %}
+  {% if not skip_heading %}<h3>Classes</h3>
+  {% endif %}
     <p>
       {% for term in term_list | sort(attribute='iri') %}
       <code><a href="#{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}">{{term.skos_prefLabel}}</a></code>{{" |" if not loop.last }}
@@ -13,7 +14,7 @@
         <tbody>
           <tr>
             <td>IRI</td>
-            <td>`{{ term.iri }}`</td>
+            <td><code>{{ term.iri }}</code></td>
           </tr>
           <tr>
             <td>Term:</td>
@@ -61,6 +62,12 @@
               <a href="{{child.iri}}">{{child|prefix_this}}</a>{{", " if not loop.last}}
               {% endfor %}
             </td>
+          </tr>
+          {% endif %}
+          {% if term.rdf_value %}
+          <tr>
+            <td>rdf:value</td>
+            <td>{{ term.rdf_value }}</td>
           </tr>
           {% endif %}
           {% if term.skos_note %}

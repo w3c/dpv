@@ -27,6 +27,9 @@ EXPORT_DPV_PD_PATH = '../dpv-skos/dpv-pd'
 EXPORT_DPV_LEGAL_PATH = '../dpv-skos/dpv-legal'
 EXPORT_DPV_LEGAL_MODULE_PATH = '../dpv-skos/dpv-legal/modules'
 EXPORT_DPV_TECH_PATH = '../dpv-skos/dpv-tech'
+EXPORT_RISK_PATH = '../dpv-skos/risk'
+EXPORT_RISK_MODULE_PATH = '../dpv-skos/risk/modules'
+EXPORT_RIGHTS_EU_PATH = '../dpv-skos/rights/eu'
 
 import csv
 from collections import namedtuple
@@ -57,6 +60,8 @@ NAMESPACES_DPV_SKOS = {
     'dpv-gdpr': DPVS_GDPR,
     'dpv-pd': DPVS_PD,
     'dpv-tech': DPVS_TECH,
+    'risk': DPVS_RISK,
+    'rights-eu': DPVS_RIGHTS_EU,
     'dpvs': DPVS,
     'dpvs-gdpr': DPVS_GDPR,
     'dpvs-pd': DPVS_PD,
@@ -71,7 +76,7 @@ NAMESPACES_DPV_SKOS = {
 
 DPV_Class = namedtuple('DPV_Class', [
             'term', 'skos_prefLabel', 'skos_definition', 'dpv_isSubTypeOf', 
-            'parent_type', 'value', 
+            'parent_type', 'rdf_value', 
             'skos_related', 'relation', 'skos_note', 'skos_scopeNote', 
             'dct_created', 'dct_modified', 'sw_termstatus', 'dct_creator', 
             'resolution'])
@@ -424,6 +429,16 @@ DPV_CSV_FILES = {
         'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
         'model': 'ontology',
     },
+    'consent_types': {
+        'classes': f'{IMPORT_CSV_PATH}/ConsentTypes.csv',
+        # 'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
+        'model': 'ontology',
+    },
+    'consent_status': {
+        'classes': f'{IMPORT_CSV_PATH}/ConsentStatus.csv',
+        # 'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
+        'model': 'ontology',
+    },
 }
 
 # this graph will get written to dpv.ttl
@@ -496,6 +511,16 @@ DPV_GDPR_CSV_FILES = {
         'model': 'taxonomy',
         'topconcept': DPVS['LegalBasis'],
         },
+    'legal_basis_special': {
+        'classes': f'{IMPORT_CSV_PATH}/GDPR_LegalBasis_SpecialCategory.csv',
+        'model': 'taxonomy',
+        'topconcept': DPVS['LegalBasis'],
+        },
+    'legal_basis_data_transfer': {
+        'classes': f'{IMPORT_CSV_PATH}/GDPR_LegalBasis_DataTransfer.csv',
+        'model': 'taxonomy',
+        'topconcept': DPVS['LegalBasis'],
+        },
     'rights': {
         'classes': f'{IMPORT_CSV_PATH}/GDPR_LegalRights.csv',
         'model': 'taxonomy',
@@ -504,7 +529,12 @@ DPV_GDPR_CSV_FILES = {
     'data_transfers': {
         'classes': f'{IMPORT_CSV_PATH}/GDPR_DataTransfers.csv',
         'model': 'taxonomy',
-        'topconcept': DPVS['TechnicalOrganisationalMeasure'],
+        'topconcept': DPVS_GDPR['DataTransferTool'],
+        },
+    'dpia': {
+        'classes': f'{IMPORT_CSV_PATH}/GDPR_DPIA.csv',
+        'model': 'ontology',
+        'topconcept': DPV['DPIA'],
         },
     }
 
@@ -517,9 +547,9 @@ for name, module in DPV_GDPR_CSV_FILES.items():
     graph = Graph()
     proposed = []
     DEBUG('------')
+    DEBUG(f'Processing {name} module')
     model = module['model']
     topconcept = module['topconcept']
-    DEBUG(f'Processing {name} module')
     for prefix, namespace in NAMESPACES.items():
         graph.namespace_manager.bind(prefix, namespace)
     if 'classes' in module:
@@ -989,3 +1019,138 @@ for prefix, namespace in NAMESPACES.items():
 serialize_graph(DPV_TECH_GRAPH, f'{EXPORT_DPV_TECH_PATH}/dpv-tech')
 
 # #############################################################################
+
+# Risk #
+
+RISK_CSV_FILES = {
+    'consequences': {
+        'classes': f'{IMPORT_CSV_PATH}/Consequences.csv',
+        'model': 'taxonomy',
+        'topconcept': DPVS['Consequence'],
+        },
+    'risk_levels': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskLevels.csv',
+        'model': 'taxonomy',
+        'topconcept': DPVS['RiskLevel'],
+        },
+    'risk_matrix': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskMatrix.csv',
+        'model': 'ontology',
+        'topconcept': DPVS_RISK['RiskMatrix'],
+        },
+    'risk_controls': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskControls.csv',
+        'model': 'ontology',
+        'topconcept': DPVS['RiskMitigationMeasure'],
+        },
+    'risk_assessment': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskAssessmentTechniques.csv',
+        'model': 'taxonomy',
+        'topconcept': DPVS_RISK['RiskAssessmentTechnique'],
+        },
+    'risk_methodology': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskMethodology.csv',
+        'model': 'taxonomy',
+        'topconcept': DPVS_RISK['RiskManagementMethodology'],
+        },
+    }
+
+BASE = NAMESPACES['dpvs-risk']
+RISK_GRAPH = Graph()
+proposed_terms = {}
+RISK_GRAPH.add((BASE[''], RDF.type, SKOS.ConceptScheme))
+
+for name, module in RISK_CSV_FILES.items():
+    graph = Graph()
+    proposed = []
+    DEBUG('------')
+    DEBUG(f'Processing {name} module')
+    for prefix, namespace in NAMESPACES.items():
+        graph.namespace_manager.bind(prefix, namespace)
+    if 'classes' in module:
+        classes = extract_terms_from_csv(module['classes'], DPV_Class)
+        DEBUG(f'there are {len(classes)} classes in {name}')
+        returnval = add_triples_for_classes(classes, graph, module['model'], module['topconcept'])
+        if returnval:
+            proposed.extend(returnval)
+    if 'properties' in module:
+        properties = extract_terms_from_csv(module['properties'], DPV_Property)
+        DEBUG(f'there are {len(properties)} properties in {name}')
+        returnval = add_triples_for_properties(properties, graph)
+        if returnval:
+            proposed.extend(returnval)
+    if proposed:
+        proposed_terms[name] = proposed
+    # add collection representing concepts
+    graph.add((BASE[f'{name.title()}Concepts'], RDF.type, SKOS.Collection))
+    graph.add((BASE[f'{name.title()}Concepts'], SKOS.prefLabel, Literal(f'{name.title()} Concepts', datatype=XSD.string)))
+    for concept, _, _ in graph.triples((None, RDF.type, SKOS.Concept)):
+        graph.add((BASE[f'{name.title()}Concepts'], SKOS.member, concept))
+        RISK_GRAPH.add((concept, SKOS.inScheme, RISK['']))
+    # serialize
+    if name == 'risk_matrix':
+        graph_extra = Graph()
+        graph_extra.parse('rdf_inputs/risk-matrix-nodes.ttl', format='ttl')
+        graph += graph_extra
+    serialize_graph(graph, f'{EXPORT_RISK_MODULE_PATH}/{name}')
+    if 'topconcept' in module:
+        RISK_GRAPH.add((BASE[''], SKOS.hasTopConcept, module['topconcept']))
+    RISK_GRAPH += graph
+
+if proposed_terms:
+    with open(f'{EXPORT_RISK_PATH}/proposed.json', 'w') as fd:
+        json.dump(proposed_terms, fd)
+    DEBUG(f'exported proposed terms to {EXPORT_RISK_PATH}/proposed.json')
+else:
+    DEBUG('no proposed terms in RISK')
+graph = Graph()
+graph.load('ontology_metadata/dpv-skos-risk.ttl', format='turtle')
+RISK_GRAPH += graph
+
+for prefix, namespace in NAMESPACES.items():
+    RISK_GRAPH.namespace_manager.bind(prefix, namespace)
+serialize_graph(RISK_GRAPH, f'{EXPORT_RISK_PATH}/risk')
+
+##############################################################################
+
+# RIGHTS-EU #
+
+RIGHTS_EU_CSV_FILES = [
+    f'{IMPORT_CSV_PATH}/EUFundamentalRights.csv',
+    ]
+
+BASE = NAMESPACES['dpvs-rights-eu']
+RIGHTS_EU_GRAPH = Graph()
+RIGHTS_EU_GRAPH.add((BASE[''], RDF.type, SKOS.ConceptScheme))
+proposed_terms = []
+DEBUG('------')
+DEBUG(f'Processing RIGHTS-EU')
+for prefix, namespace in NAMESPACES.items():
+    RIGHTS_EU_GRAPH.namespace_manager.bind(prefix, namespace)
+classes = extract_terms_from_csv(RIGHTS_EU_CSV_FILES[0], DPV_Class)
+DEBUG(f'there are {len(classes)} classes in {name}')
+returnval = add_triples_for_classes(classes, RIGHTS_EU_GRAPH, 'taxonomy', DPVS['DataSubjectRight'])
+if returnval:
+        proposed_terms.extend(returnval)
+returnval = add_triples_for_properties(properties, RIGHTS_EU_GRAPH)
+if returnval:
+        proposed_terms.extend(returnval)
+# add collection representing concepts
+RIGHTS_EU_GRAPH.add((BASE[f'EUFundamentalRightsConcepts'], RDF.type, SKOS.Collection))
+RIGHTS_EU_GRAPH.add((BASE[f'EUFundamentalRightsConcepts'], SKOS.prefLabel, Literal(f'EU Fundamental Rights Concepts', datatype=XSD.string)))
+for concept, _, _ in RIGHTS_EU_GRAPH.triples((None, RDF.type, SKOS.Concept)):
+    RIGHTS_EU_GRAPH.add((BASE[f'EUFundamentalRightsConcepts'], SKOS.member, concept))
+if proposed_terms:
+    with open(f'{EXPORT_RIGHTS_EU_PATH}/proposed.json', 'w') as fd:
+        json.dump(proposed_terms, fd)
+    DEBUG(f'exported proposed terms to {EXPORT_RIGHTS_EU_PATH}/proposed.json')
+else:
+    DEBUG('no proposed terms in RIGHTS-EU')
+# serialize
+RIGHTS_EU_GRAPH.load('ontology_metadata/dpv-skos-rights-eu.ttl', format='turtle')
+
+for prefix, namespace in NAMESPACES.items():
+    RIGHTS_EU_GRAPH.namespace_manager.bind(prefix, namespace)
+serialize_graph(RIGHTS_EU_GRAPH, f'{EXPORT_RIGHTS_EU_PATH}/rights-eu')
+
+##############################################################################

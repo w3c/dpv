@@ -11,6 +11,9 @@ EXPORT_DPV_HTML_PATH = '../dpv-owl'
 IMPORT_DPV_GDPR_PATH = '../dpv-owl/dpv-gdpr/dpv-gdpr.ttl'
 IMPORT_DPV_GDPR_MODULES_PATH = '../dpv-owl/dpv-gdpr/modules'
 EXPORT_DPV_GDPR_HTML_PATH = '../dpv-owl/dpv-gdpr'
+IMPORT_RISK_PATH = '../dpv-owl/risk/risk.ttl'
+IMPORT_RISK_MODULES_PATH = '../dpv-owl/risk/modules'
+EXPORT_RISK_HTML_PATH = '../dpv-owl/risk'
 IMPORT_DPV_PD_PATH = '../dpv-owl/dpv-pd/dpv-pd.ttl'
 EXPORT_DPV_PD_HTML_PATH = '../dpv-owl/dpv-pd'
 IMPORT_DPV_LEGAL_PATH = '../dpv-owl/dpv-legal/dpv-legal.ttl'
@@ -18,6 +21,8 @@ IMPORT_DPV_LEGAL_MODULES_PATH = '../dpv-owl/dpv-legal/modules'
 EXPORT_DPV_LEGAL_HTML_PATH = '../dpv-owl/dpv-legal'
 IMPORT_DPV_TECH_PATH = '../dpv-owl/dpv-tech/dpv-tech.ttl'
 EXPORT_DPV_TECH_HTML_PATH = '../dpv-owl/dpv-tech'
+IMPORT_RIGHTS_EU_PATH = '../dpv-owl/rights/eu/rights-eu.ttl'
+EXPORT_RIGHTS_EU_HTML_PATH = '../dpv-owl/rights/eu'
 
 from rdflib import Graph, Namespace
 from rdflib import RDF, RDFS, OWL
@@ -131,6 +136,8 @@ load_data('processing_scale', f'{IMPORT_DPV_MODULES_PATH}/processing_scale.ttl')
 load_data('jurisdiction', f'{IMPORT_DPV_MODULES_PATH}/jurisdiction.ttl')
 load_data('legal_basis', f'{IMPORT_DPV_MODULES_PATH}/legal_basis.ttl')
 load_data('consent', f'{IMPORT_DPV_MODULES_PATH}/consent.ttl')
+load_data('consent_types', f'{IMPORT_DPV_MODULES_PATH}/consent_types.ttl')
+load_data('consent_status', f'{IMPORT_DPV_MODULES_PATH}/consent_status.ttl')
 g = Graph()
 g.load(f'{IMPORT_DPV_PATH}', format='turtle')
 G.load(g)
@@ -151,8 +158,11 @@ with open(f'{EXPORT_DPV_GDPR_HTML_PATH}/proposed.json', 'r') as fd:
     TEMPLATE_DATA['proposed'] = json.load(fd)  
     
 load_data('legal_basis', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis.ttl')
+load_data('legal_basis_special', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis_special.ttl')
+load_data('legal_basis_data_transfer', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis_data_transfer.ttl')
 load_data('rights', f'{IMPORT_DPV_GDPR_MODULES_PATH}/rights.ttl')
 load_data('data_transfers', f'{IMPORT_DPV_GDPR_MODULES_PATH}/data_transfers.ttl')
+load_data('dpia', f'{IMPORT_DPV_GDPR_MODULES_PATH}/dpia.ttl')
 g = Graph()
 g.load(f'{IMPORT_DPV_GDPR_PATH}', format='turtle')
 G.load(g)
@@ -235,5 +245,46 @@ DEBUG(f'wrote DPV-TECH spec at f{EXPORT_DPV_TECH_HTML_PATH}/index.html')
 with open(f'{EXPORT_DPV_TECH_HTML_PATH}/dpv-tech.html', 'w+') as fd:
     fd.write(template.render(**TEMPLATE_DATA))
 DEBUG(f'wrote DPV-TECH spec at f{EXPORT_DPV_TECH_HTML_PATH}/dpv-tech.html')
+
+# Risk: generate HTML
+
+with open(f'{EXPORT_RISK_HTML_PATH}/proposed.json') as fd:
+    TEMPLATE_DATA['proposed'] = json.load(fd)  
+
+load_data('consequences', f'{IMPORT_RISK_MODULES_PATH}/consequences.ttl')
+load_data('risk_levels', f'{IMPORT_RISK_MODULES_PATH}/risk_levels.ttl')
+load_data('risk_matrix', f'{IMPORT_RISK_MODULES_PATH}/risk_matrix.ttl')
+load_data('risk_controls', f'{IMPORT_RISK_MODULES_PATH}/risk_controls.ttl')
+load_data('risk_assessment', f'{IMPORT_RISK_MODULES_PATH}/risk_assessment.ttl')
+load_data('risk_methodology', f'{IMPORT_RISK_MODULES_PATH}/risk_methodology.ttl')
+g = Graph()
+g.load(f'{IMPORT_RISK_PATH}', format='turtle')
+G.load(g)
+
+template = template_env.get_template('template_risk_owl.jinja2')
+with open(f'{EXPORT_RISK_HTML_PATH}/index.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote Risk spec at f{EXPORT_RISK_HTML_PATH}/index.html')
+with open(f'{EXPORT_RISK_HTML_PATH}/risk.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote Risk spec at f{EXPORT_RISK_HTML_PATH}/risk.html')
+
+# RIGHTS-EU: generate HTML
+
+with open(f'{EXPORT_RIGHTS_EU_HTML_PATH}/proposed.json') as fd:
+    TEMPLATE_DATA['proposed'] = json.load(fd)  
+
+load_data('rights_eu', f'{IMPORT_RIGHTS_EU_PATH}')
+g = Graph()
+g.load(f'{IMPORT_RIGHTS_EU_PATH}', format='turtle')
+G.load(g)
+
+template = template_env.get_template('template_rights_eu_owl.jinja2')
+with open(f'{EXPORT_RIGHTS_EU_HTML_PATH}/index.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote RIGHTS-EU spec at f{EXPORT_RIGHTS_EU_HTML_PATH}/index.html')
+with open(f'{EXPORT_RIGHTS_EU_HTML_PATH}/rights-eu.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote RIGHTS-EU spec at f{EXPORT_RIGHTS_EU_HTML_PATH}/rights-eu.html')
 
 DEBUG('--- END ---')
