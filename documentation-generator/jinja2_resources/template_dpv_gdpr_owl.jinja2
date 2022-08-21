@@ -5,12 +5,12 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>DPV-GDPR: GDPR Extension for DPV</title>
+  <title>DPVO-GDPR: GDPR Extension for DPV-OWL</title>
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   <script class="remove">
    // All config options at https://respec.org/docs/ 
    var respecConfig = {
-    shortName: "dpvo-gdpr",
+    shortName: "dpvs-gdpr",
     title: "DPVO-GDPR: GDPR Extension for DPV-OWL",
     subtitle: "version 0.7",
     publishDate: "2022-05-25",
@@ -21,7 +21,7 @@
     //   repoURL: "https://github.com/w3c/dpv-gdpr",
     //   branch: "master"
     // },
-    subjectPrefix: "[dpvo-gdpr]",
+    subjectPrefix: "[dpv-gdpr]",
     doJsonLd: true,
     lint: { "no-unused-dfns": false },
     canonicalUri: "https://w3id.org/dpv/dpv-owl/dpv-gdpr",
@@ -177,7 +177,7 @@
   <section id="abstract">
     <p>DPVO-GDPR extends the [[[DPV-OWL]]] to provide concepts specific to the obligations and requirements of the [[[GDPR]]]. More specifically, it provides a taxonomy of legal bases, rights, and data transfer tools as defined within the GDPR.</p>
     <p>The namespace for terms in DPVO-GDPR is <a href="http://www.w3id.org/dpv/dpv-owl/dpv-gdpr#"><code>https://www.w3id.org/dpv/dpv-owl/dpv-gdpr#</code></a><br/>
-      The suggested prefix for the namespace is <code>dpvo-gdpr</code><br/>
+      The suggested prefix for the namespace is <code>dpvs-gdpr</code><br/>
       The DPV-GDPR vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
     {{ dpv_document_family(document='dpv-gdpr-spec') }}
       {{ sotd() }}
@@ -193,15 +193,31 @@
     <p>The taxonomy lists the legal bases as provided by GDPR Article 6 regarding processing of personal data, those defined in GDPR Article 9 regarding processing of special categories of personal data, and those provided by GDPR Articles 45, 46, and 49 in connection with transfer of personal data. The legal basis of ‘consent’ as defined in Article 6(1)(a) has been declared using the terms ‘explicit’ and ‘non-explicit’ to differentiate the requirements of the two in accordance of their requirements of compliance. Furthermore, legal basis provided by Article 6 apply to processing involving personal data whereas those in Article 9 apply specifically to processing involving special categories of personal data.</p>
 
     {% if legal_basis_classes %}
-    <section id="legal-basis-classes">
-    {{ table_classes(legal_basis_classes) }}
-    </section>
+    {{ table_classes(legal_basis_classes, skip_heading=True) }}
     {% endif %}
     {% if legal_basis_properties %}
-    <section id="legal-basis-properties">
-    {{ table_properties(legal_basis_properties) }}
-    </section>
+    {{ table_properties(legal_basis_properties, skip_heading=True) }}
     {% endif %}
+
+    <section id="vocab-legal-basis-special">
+      <h3>Special Category Personal Data</h3>
+      {% if legal_basis_special_classes %}
+      {{ table_classes(legal_basis_special_classes, skip_heading=True) }}
+      {% endif %}
+      {% if legal_basis_special_properties %}
+      {{ table_properties(legal_basis_special_properties, skip_heading=True) }}
+      {% endif %}      
+    </section>
+
+    <section id="vocab-legal-basis-data-transfer">
+      <h3>Data Transfer</h3>
+      {% if legal_basis_data_transfer_classes %}
+      {{ table_classes(legal_basis_data_transfer_classes, skip_heading=True) }}
+      {% endif %}
+      {% if legal_basis_data_transfer_properties %}
+      {{ table_properties(legal_basis_data_transfer_properties, skip_heading=True) }}
+      {% endif %}      
+    </section>
 
   </section>
 
@@ -222,7 +238,7 @@
   </section>
 
   <section id="vocab-data-transfers">
-    <h2>Data Transfers under GDPR</h2>
+    <h2>Data Transfer Tools</h2>
     <p>GDPR regulates data transfers outside the EU/EEA based on jurisdictions the transfer is occurring within and the guarantees available regarding the protection of personal data and fundamental rights. To indicate the sufficiency of a data transfer being compatible and adherent to these requirements, the European Commission provides various 'data transfer tools' based on the legal bases provided within the GDPR. DPV-GDPR models these as follows.</p>
 
     {% if data_transfers_classes %}
@@ -234,6 +250,18 @@
     <section id="data_transfers-properties">
     {{ table_properties(data_transfers_properties) }}
     </section>
+    {% endif %}
+  </section>
+
+  <section id="vocab-DPIA">
+    <h2>DPIA</h2>
+    <p>TODO</p>
+
+    {% if dpia_classes %}
+      {{ table_classes(dpia_classes, skip_heading=True) }}
+    {% endif %}
+    {% if dpia_properties %}
+      {{ table_properties(dpia_properties, skip_heading=True) }}
     {% endif %}
   </section>
   
