@@ -26,7 +26,7 @@ cd ..
 mkdir -p releases
 
 # 1. dpv.zip - DPV + Extensions as SKOS vocabulary
-zip -q releases/dpv.zip -r dpv dpv-gdpr dpv-pd dpv-legal dpv-tech
+zip -q releases/dpv.zip -r dpv dpv-gdpr dpv-pd dpv-legal dpv-tech risk rights
 echo "generated releases/dpv.zip"
 
 # 2. dpv-skos.zip - DPV + Extensions as RDFS+SKOS ontology
