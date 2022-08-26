@@ -1023,8 +1023,8 @@ serialize_graph(DPV_TECH_GRAPH, f'{EXPORT_DPV_TECH_PATH}/dpv-tech')
 # Risk #
 
 RISK_CSV_FILES = {
-    'consequences': {
-        'classes': f'{IMPORT_CSV_PATH}/Consequences.csv',
+    'risk_consequences': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
         'model': 'taxonomy',
         'topconcept': DPVS['Consequence'],
         },
@@ -1090,7 +1090,7 @@ for name, module in RISK_CSV_FILES.items():
     # serialize
     if name == 'risk_matrix':
         graph_extra = Graph()
-        graph_extra.parse('rdf_inputs/risk-matrix-nodes.ttl', format='ttl')
+        graph_extra.parse('rdf_inputs/risk-matrix-nodes-skos.ttl', format='ttl')
         graph += graph_extra
     serialize_graph(graph, f'{EXPORT_RISK_MODULE_PATH}/{name}')
     if 'topconcept' in module:

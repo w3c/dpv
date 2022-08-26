@@ -75,8 +75,9 @@ DPV_SHEETS = (
     # DPV-Technology
     'dpv-tech',
     'dpv-tech_properties',
+    'tech_algorithms',
     # Risk
-    'Consequences',
+    'RiskConsequences',
     'RiskLevels',
     'RiskMatrix',
     'RiskControls',

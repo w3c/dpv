@@ -30,7 +30,7 @@ echo "DONE"
 
 # Step3: generate HTML
 echo -n "Step3: generate HTML ..."
-./903_html.sh > logs/903.txt 2>&1
+./993_html_all.sh > logs/993.txt 2>&1
 CHECK_ERROR
 echo "DONE"
 

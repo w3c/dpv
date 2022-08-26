@@ -140,17 +140,24 @@
             <td>Type</td>
             <td>{% for t in term.rdf_type %}{% if 'w3.org' not in t.iri %}<a href="{{t.iri}}">{{ t|prefix_this }}</a>{% endif %}{% endfor %}</td>
           </tr>
+          {% if term.rdfs_label__de %}
           <tr>
             <td>Label:</td>
             <td>{{term.rdfs_label__en}}</td>
           </tr>
-          {% if term.rdfs_label__de %}<tr>
+          <tr>
             <td>Label (DE):</td>
             <td>{{term.rdfs_label__de}}</td>
-          </tr>{%  endif %}
+          </tr>
+          {% else %}
+          <tr>
+            <td>Label:</td>
+            <td>{{term.rdfs_label}}</td>
+          </tr>
+          {%  endif %}
           <tr>
             <td>Website:</td>
-            <td><a href="{{term.foaf_homepage}}">link</a></td>
+            <td><a href="{{term.foaf_homepage}}">{{term.foaf_homepage}}</a></td>
           </tr>
           {%  if term.dct_temporal %}<tr>
             <td>Temporal start:</td>
@@ -225,18 +232,25 @@
             <td>Type</td>
             <td>{% for t in term.rdf_type %}{% if 'w3.org' not in t.iri %}<a href="{{t.iri}}">{{ t|prefix_this }}</a>{% endif %}{% endfor %}</td>
           </tr>
+          {% if term.rdfs_label__de %}
           <tr>
             <td>Label:</td>
             <td>{{term.rdfs_label__en}}</td>
           </tr>
-          {% if term.rdfs_label__de %}<tr>
+          <tr>
             <td>Label (DE):</td>
             <td>{{term.rdfs_label__de}}</td>
-          </tr>{%  endif %}
+          </tr>
+          {% else %}
+          <tr>
+            <td>Label:</td>
+            <td>{{term.rdfs_label}}</td>
+          </tr>
+          {%  endif %}
           </tr>
           <tr>
             <td>Website:</td>
-            <td><a href="{{term.foaf_homepage}}">link</a></td>
+            <td><a href="{{term.foaf_homepage}}">{{term.foaf_homepage}}</a></td>
           </tr>
           <tr>
             <td>Jurisdictions:</td>
@@ -308,7 +322,7 @@
           </tr>
           <tr>
             <td>Label:</td>
-            <td>{{term.dct_title}}</td>
+            <td>{{term.rdfs_label}}</td>
           </tr>
           {% if term.dpvo_isSubTypeOf %}<tr>
             <td>has broader:</td>
@@ -383,13 +397,12 @@
           </tr>
           <tr>
             <td>Label:</td>
-            <td>{{term.dct_title}}</td>
+            <td>{{term.rdfs_label}}</td>
           </tr>
           <tr>
             <td>Jurisdictions:</td>
             <td>{%  if term.dpvo_hasJurisdiction is sequence %}{%  for loc in term.dpvo_hasJurisdiction|sort(attribute='iri') %}<a href="{{loc.iri}}">{{ loc.iri|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dpvo_hasJurisdiction.iri}}">{{ term.dpvo_hasJurisdiction.iri|prefix_this }}</a>{% endif %}</td>
           </tr>
-
           {%  if term.dct_temporal %}<tr>
             <td>Temporal start:</td>
             <td>{{ term.dct_temporal.time_hasBeginning.time_inXSDDate }}
@@ -400,7 +413,7 @@
           </tr>{%  endif %}{%  endif %}
           <tr>
             <td>Website:</td>
-            <td><a href="{{term.foaf_homepage}}">link</a></td>
+            <td><a href="{{term.foaf_homepage}}">{{term.foaf_homepage}}</a></td>
           </tr>
           <tr>
             <td>Concept Created:</td>
@@ -446,7 +459,7 @@
   <h2>Locations</h2>
   {% for term in locations_terms | sort(attribute='iri') %}
     <section id="{% if prefix %}{{prefix}}-{% endif %}{{term.iri|fragment_this}}" {% if not prefix %}data-dfn-for="{{term.iri|fragment_this}}"{% endif %}>
-      <h4><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></h4>
+      <h4>{{term.rdfs_label}} {% if term.rdfs_label != term.iri|fragment_this %}(<code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code>){% endif %}</h4>
       <table class="definition">
         <tbody>
           <tr>
@@ -459,11 +472,27 @@
           </tr>
           <tr>
             <td>Label:</td>
-            <td>{{term.dct_title}}</td>
+            <td>{{term.rdfs_label}}</td>
           </tr>
           {% if term.dct_isPartOf %}<tr>
             <td>has broader:</td>
             <td>{% if term.dct_isPartOf is sequence %}{% for loc in term.dct_isPartOf|sort(attribute="iri") %}<a href="{{loc.iri}}">{{ loc|prefix_this }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}<a href="{{term.dct_isPartOf.iri}}">{{ term.dct_isPartOf|prefix_this }}</a>{% endif %}</td>
+          </tr>{%  endif %}
+          {% if term.dpvo_legal_iso_alpha2 %} <tr>
+            <td>ISO Alpha-2 code:</td>
+            <td>{{ term.dpvo_legal_iso_alpha2 }}</td>
+          </tr>{%  endif %}
+          {% if term.dpvo_legal_iso_alpha3 %} <tr>
+            <td>ISO Alpha-3 code:</td>
+            <td>{{ term.dpvo_legal_iso_alpha3 }}</td>
+          </tr>{%  endif %}
+          {% if term.dpvo_legal_iso_numeric %} <tr>
+            <td>ISO Numeric code:</td>
+            <td>{{ term.dpvo_legal_iso_numeric }}</td>
+          </tr>{%  endif %}
+          {% if term.dpvo_legal_un_m49 %} <tr>
+            <td>UN M49 code:</td>
+            <td>{{ term.dpvo_legal_un_m49 }}</td>
           </tr>{%  endif %}
           <tr>
             <td>Concept Created:</td>

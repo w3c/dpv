@@ -971,8 +971,8 @@ serialize_graph(DPV_TECH_GRAPH, f'{EXPORT_DPV_TECH_PATH}/dpv-tech')
 # Risk #
 
 RISK_CSV_FILES = {
-    'consequences': {
-        'classes': f'{IMPORT_CSV_PATH}/Consequences.csv',
+    'risk_consequences': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
         },
     'risk_levels': {
         'classes': f'{IMPORT_CSV_PATH}/RiskLevels.csv',

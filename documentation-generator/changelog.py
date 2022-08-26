@@ -60,7 +60,7 @@ DPV_LEGAL_MODULES = (
     'ontology',
     )
 RISK_MODULES = (
-    'consequences',
+    'risk_consequences',
     'risk_assessment',
     'risk_controls',
     'risk_levels',

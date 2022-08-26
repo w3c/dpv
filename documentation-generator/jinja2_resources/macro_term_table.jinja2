@@ -21,6 +21,10 @@
             <td><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></td>
           </tr>
           <tr>
+            <td>Label:</td>
+            <td>{{term.skos_prefLabel}}</td>
+          </tr>
+          <tr>
             <td>Definition:</td>
             <td>{{term.skos_definition}}</td>
           </tr>
@@ -90,7 +94,7 @@
           </tr>
           {% endif %}
           {% for prop in term.metadata %}
-            {% if prop.startswith('dpv_') and prop not in ('dpv_isInstanceOf',) %}
+            {% if prop.startswith('dpv_') and prop not in ('dpv_isInstanceOf','dpv_isSubTypeOf') %}
           <tr><td>{{ prop.replace('_',':') }}</td><td>{{ term|attr(prop)|prefix_this }}</td></tr>
             {% endif %}
           {% endfor %}
@@ -149,11 +153,15 @@
         <tbody>
           <tr>
             <td>IRI</td>
-            <td>`{{ term.iri }}`</td>
+            <td><code>{{ term.iri }}</code></td>
           </tr>
           <tr>
             <td>Term:</td>
             <td><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></td>
+          </tr>
+          <tr>
+            <td>Label:</td>
+            <td>{{term.skos_prefLabel}}</td>
           </tr>
           <tr>
             <td>Description:</td>

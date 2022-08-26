@@ -21,6 +21,10 @@
             <td><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></td>
           </tr>
           <tr>
+            <td>Label:</td>
+            <td>{{term.rdfs_label}}</td>
+          </tr>
+          <tr>
             <td>Definition:</td>
             <td>{{term.dct_description}}</td>
           </tr>
@@ -76,6 +80,11 @@
             </td>
           </tr>
           {% endif %}
+          {% for prop in term.metadata %}
+            {% if prop.startswith('dpvo_') %}
+          <tr><td>{{ prop.replace('_',':') }}</td><td>{{ term|attr(prop)|prefix_this }}</td></tr>
+            {% endif %}
+          {% endfor %}
           <tr>
             <td>Created:</td>
             <td><time>{{term.dct_created}}</time></td>
@@ -136,6 +145,10 @@
           <tr>
             <td>Term:</td>
             <td><code>{% if not prefix %}<dfn>{{term.iri|fragment_this}}</dfn>{% else %}{{term.iri|fragment_this}}{% endif %}</code></td>
+          </tr>
+          <tr>
+            <td>Label:</td>
+            <td>{{term.rdfs_label}}</td>
           </tr>
           <tr>
             <td>Description:</td>

@@ -638,7 +638,7 @@ DEBUG(f'Processing DPV-LEGAL classes and properties')
 # if returnval:
 #         proposed_terms.extend(returnval)
 # add collection representing concepts
-# DPV_LEGAL_GRAPH.add((BASE[f'LegalConcepts'], DCT.title, Literal(f'Legal Concepts', datatype=XSD.string)))
+# DPV_LEGAL_GRAPH.add((BASE[f'LegalConcepts'], RDFS.label, Literal(f'Legal Concepts', datatype=XSD.string)))
 properties = extract_terms_from_csv(
     f'{IMPORT_CSV_PATH}/legal_properties.csv', DPV_Property)
 DEBUG(f'there are {len(properties)} properties in DPV-LEGAL')
@@ -672,7 +672,6 @@ for row in concepts:
     graph.add((term, RDF.type, DPVO[f'{parent}']))
     graph.add((term, RDF.type, OWL.NamedIndividual))
     graph.add((term, RDFS.isDefinedBy, BASE['']))
-    graph.add((term, DCT.title, Literal(row.Label, lang='en')))
     graph.add((term, RDFS.label, Literal(row.Label, lang='en')))
     if row.Alpha2:
         graph.add((
@@ -727,10 +726,8 @@ for row in concepts:
     graph.add((term, RDF.type, DPVO.Law))
     graph.add((term, RDF.type, OWL.NamedIndividual))
     graph.add((term, RDFS.isDefinedBy, BASE['']))
-    graph.add((term, DCT.title, Literal(row.label_en, lang='en')))
     graph.add((term, RDFS.label, Literal(row.label_en, lang='en')))
     if row.label_de:
-        graph.add((term, DCT.title, Literal(row.label_de, lang='de')))
         graph.add((term, RDFS.label, Literal(row.label_de, lang='de')))
     for loc in row.jurisdictions.split(','):
         loc = loc.replace("dpv-legal:", "")
@@ -783,10 +780,8 @@ for row in concepts:
     graph.add((term, RDF.type, DPVO[f'{row.type.replace("dpv:","")}']))
     graph.add((term, RDF.type, OWL.NamedIndividual))
     graph.add((term, RDFS.isDefinedBy, BASE['']))
-    graph.add((term, DCT.title, Literal(row.label_en, lang='en')))
     graph.add((term, RDFS.label, Literal(row.label_en, lang='en')))
     if row.label_de:
-        graph.add((term, DCT.title, Literal(row.label_de, lang='de')))
         graph.add((term, RDFS.label, Literal(row.label_de, lang='de')))
     for loc in row.jurisdictions.split(','):
         loc = loc.replace("dpv-legal:", "")
@@ -832,7 +827,7 @@ for row in concepts:
     graph.add((term, RDF.type, DPVO[f'{row.type.replace("dpv:","")}']))
     graph.add((term, RDF.type, OWL.NamedIndividual))
     graph.add((term, RDFS.isDefinedBy, BASE['']))
-    graph.add((term, DCT.title, Literal(row.label, lang='en')))
+    graph.add((term, RDFS.label, Literal(row.label, lang='en')))
     if row.broader:
         graph.add((term, DCT.isPartOf, BASE[f'{row.broader.replace("dpv-legal:","")}']))
         graph.add((BASE[f'{row.broader.replace("dpv-legal:","")}'], DCT.hasPart, term))
@@ -889,7 +884,7 @@ for row in concepts:
     graph.add((term, RDF.type, OWL.NamedIndividual))
     graph.add((term, RDF.type, DPVO_GDPR['A45-3']))
     graph.add((term, RDFS.isDefinedBy, BASE['']))
-    graph.add((term, DCT.title, Literal(row.label, lang='en')))
+    graph.add((term, RDFS.label, Literal(row.label, lang='en')))
     graph.add((term, FOAF.homepage, Literal(row.webpage, datatype=XSD.anyURI)))
     graph.add((term, DPVO.hasJurisdiction, BASE[f'{row.countryA.replace("dpv-legal:","")}']))
     graph.add((term, DPVO.hasJurisdiction, BASE[f'{row.countryB.replace("dpv-legal:","")}']))
@@ -973,8 +968,8 @@ serialize_graph(DPV_TECH_GRAPH, f'{EXPORT_DPV_TECH_PATH}/dpv-tech')
 # Risk #
 
 RISK_CSV_FILES = {
-    'consequences': {
-        'classes': f'{IMPORT_CSV_PATH}/Consequences.csv',
+    'risk_consequences': {
+        'classes': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
         'model': 'taxonomy',
         'topconcept': DPVO['Consequence'],
         },
@@ -1033,7 +1028,7 @@ for name, module in RISK_CSV_FILES.items():
     # serialize
     if name == 'risk_matrix':
         graph_extra = Graph()
-        graph_extra.parse('rdf_inputs/risk-matrix-nodes.ttl', format='ttl')
+        graph_extra.parse('rdf_inputs/risk-matrix-nodes-owl.ttl', format='ttl')
         graph += graph_extra
     serialize_graph(graph, f'{EXPORT_RISK_MODULE_PATH}/{name}')
     RISK_GRAPH += graph

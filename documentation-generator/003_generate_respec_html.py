@@ -244,7 +244,7 @@ DEBUG(f'wrote DPV-TECH spec at f{EXPORT_DPV_TECH_HTML_PATH}/dpv-tech.html')
 with open(f'{EXPORT_RISK_HTML_PATH}/proposed.json') as fd:
     TEMPLATE_DATA['proposed'] = json.load(fd)  
 
-load_data('consequences', f'{IMPORT_RISK_MODULES_PATH}/consequences.ttl')
+load_data('risk_consequences', f'{IMPORT_RISK_MODULES_PATH}/risk_consequences.ttl')
 load_data('risk_levels', f'{IMPORT_RISK_MODULES_PATH}/risk_levels.ttl')
 load_data('risk_matrix', f'{IMPORT_RISK_MODULES_PATH}/risk_matrix.ttl')
 load_data('risk_controls', f'{IMPORT_RISK_MODULES_PATH}/risk_controls.ttl')
