@@ -39,3 +39,9 @@ echo -n "Step4: generate changelog ..."
 ./changelog.py > logs/changelog.txt 2>&1
 CHECK_ERROR
 echo "DONE"
+
+# Step5: generate releases
+echo -n "Generating Releases..."
+./801_generate_releases.sh > logs/releases.txt 2>&1
+CHECK_ERROR
+echo "DONE"
