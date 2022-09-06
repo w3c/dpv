@@ -23,6 +23,7 @@ IMPORT_DPV_TECH_PATH = '../dpv-skos/dpv-tech/dpv-tech.ttl'
 EXPORT_DPV_TECH_HTML_PATH = '../dpv-skos/dpv-tech'
 IMPORT_RIGHTS_EU_PATH = '../dpv-skos/rights/eu/rights-eu.ttl'
 EXPORT_RIGHTS_EU_HTML_PATH = '../dpv-skos/rights/eu'
+EXPORT_RIGHTS_HTML_PATH = '../dpv-skos/rights'
 
 from rdflib import Graph, Namespace
 from rdflib import RDF, RDFS, OWL
@@ -281,5 +282,13 @@ DEBUG(f'wrote RIGHTS-EU spec at f{EXPORT_RIGHTS_EU_HTML_PATH}/index.html')
 with open(f'{EXPORT_RIGHTS_EU_HTML_PATH}/rights-eu.html', 'w+') as fd:
     fd.write(template.render(**TEMPLATE_DATA))
 DEBUG(f'wrote RIGHTS-EU spec at f{EXPORT_RIGHTS_EU_HTML_PATH}/rights-eu.html')
+
+template = template_env.get_template('template_rights.jinja2')
+with open(f'{EXPORT_RIGHTS_HTML_PATH}/index.html', 'w+') as fd:
+    fd.write(template.render())
+DEBUG(f'wrote RIGHTS spec at f{EXPORT_RIGHTS_HTML_PATH}/index.html')
+with open(f'{EXPORT_RIGHTS_HTML_PATH}/rights.html', 'w+') as fd:
+    fd.write(template.render())
+DEBUG(f'wrote RIGHTS spec at f{EXPORT_RIGHTS_HTML_PATH}/rights.html')
 
 DEBUG('--- END ---')
