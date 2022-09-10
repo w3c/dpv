@@ -431,7 +431,7 @@ for name, module in DPV_CSV_FILES.items():
         graph.add((BASE[f'{name.title()}Concepts'], SKOS.member, concept))
         DPV_GRAPH.add((concept, SKOS.inScheme, DPV['']))
     # serialize
-    graph.load('ontology_metadata/dpv-semantics.ttl', format='turtle')
+    graph.parse('ontology_metadata/dpv-semantics.ttl', format='turtle')
     serialize_graph(graph, f'{EXPORT_DPV_MODULE_PATH}/{name}')
     if 'topconcept' in module:
         DPV_GRAPH.add((BASE[''], SKOS.hasTopConcept, module['topconcept']))
@@ -447,8 +447,8 @@ else:
 # add information about ontology
 # this is assumed to be in file dpv-ontology-metadata.ttl
 graph = Graph()
-graph.load('ontology_metadata/dpv.ttl', format='turtle')
-graph.load('ontology_metadata/dpv-semantics.ttl', format='turtle')
+graph.parse('ontology_metadata/dpv.ttl', format='turtle')
+graph.parse('ontology_metadata/dpv-semantics.ttl', format='turtle')
 DPV_GRAPH += graph
 
 for prefix, namespace in NAMESPACES.items():
@@ -529,7 +529,7 @@ if proposed_terms:
 else:
     DEBUG('no proposed terms in DPV-GDPR')
 graph = Graph()
-graph.load('ontology_metadata/dpv-gdpr.ttl', format='turtle')
+graph.parse('ontology_metadata/dpv-gdpr.ttl', format='turtle')
 DPV_GDPR_GRAPH += graph
 
 for prefix, namespace in NAMESPACES.items():
@@ -570,7 +570,7 @@ if proposed_terms:
 else:
     DEBUG('no proposed terms in DPV-PD')
 # serialize
-DPV_PD_GRAPH.load('ontology_metadata/dpv-pd.ttl', format='turtle')
+DPV_PD_GRAPH.parse('ontology_metadata/dpv-pd.ttl', format='turtle')
 
 for prefix, namespace in NAMESPACES.items():
     DPV_PD_GRAPH.namespace_manager.bind(prefix, namespace)
@@ -624,7 +624,7 @@ returnval = add_triples_for_properties(properties, graph)
 if returnval:
     proposed_terms['ontology'] = returnval
 # serialize
-# DPV_LEGAL_GRAPH.load('ontology_metadata/dpv-legal.ttl', format='turtle')
+# DPV_LEGAL_GRAPH.parse('ontology_metadata/dpv-legal.ttl', format='turtle')
 serialize_graph(graph, f'{EXPORT_DPV_LEGAL_MODULE_PATH}/ontology')
 DPV_LEGAL_GRAPH += graph
 if proposed:
@@ -914,7 +914,7 @@ DPV_LEGAL_GRAPH += graph
 if proposed:
     proposed_terms['EU_Adequacy'] = proposed
 
-DPV_LEGAL_GRAPH.load('ontology_metadata/dpv-legal.ttl', format='turtle')
+DPV_LEGAL_GRAPH.parse('ontology_metadata/dpv-legal.ttl', format='turtle')
 serialize_graph(DPV_LEGAL_GRAPH, f'{EXPORT_DPV_LEGAL_PATH}/dpv-legal')
 if proposed_terms:
     with open(f'{EXPORT_DPV_LEGAL_PATH}/proposed.json', 'w') as fd:
@@ -960,7 +960,7 @@ if proposed_terms:
 else:
     DEBUG('no proposed terms in DPV-TECH')
 # serialize
-DPV_TECH_GRAPH.load('ontology_metadata/dpv-tech.ttl', format='turtle')
+DPV_TECH_GRAPH.parse('ontology_metadata/dpv-tech.ttl', format='turtle')
 
 for prefix, namespace in NAMESPACES.items():
     DPV_TECH_GRAPH.namespace_manager.bind(prefix, namespace)
@@ -1040,7 +1040,7 @@ if proposed_terms:
 else:
     DEBUG('no proposed terms in RISK')
 graph = Graph()
-graph.load('ontology_metadata/risk.ttl', format='turtle')
+graph.parse('ontology_metadata/risk.ttl', format='turtle')
 RISK_GRAPH += graph
 
 for prefix, namespace in NAMESPACES.items():
@@ -1082,7 +1082,7 @@ if proposed_terms:
 else:
     DEBUG('no proposed terms in RIGHTS-EU')
 # serialize
-RIGHTS_EU_GRAPH.load('ontology_metadata/rights-eu.ttl', format='turtle')
+RIGHTS_EU_GRAPH.parse('ontology_metadata/rights-eu.ttl', format='turtle')
 
 for prefix, namespace in NAMESPACES.items():
     RIGHTS_EU_GRAPH.namespace_manager.bind(prefix, namespace)

@@ -133,6 +133,10 @@ class DataGraph(object):
         prefix = prefixes[0]
         return str(prefix) + name
 
+    def parse(self, graph=None):
+        """In case load is called as parse following rdflib conventions"""
+        self.load(graph)
+
     def load(self, graph=None):
         """takes a rdflib graph and creates objects from it"""
 

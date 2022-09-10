@@ -86,7 +86,7 @@ def _download_file_to_rdf_graph(url):
         tfd = tempfile.NamedTemporaryFile()
         with open(tfd.name, 'w') as fd:
             fd.write(data)
-        graph.load(tfd, format='turtle')
+        graph.parse(tfd, format='turtle')
     except urllib.error.HTTPError:
         pass
     return graph
@@ -134,7 +134,7 @@ def _retrieve_and_compare(NAME, MODULES=None):
         print(f'MODULE: {module}')
         old = _download_file_to_rdf_graph(f'{var_github_raw}{module}.ttl')
         new = Graph()
-        new.load(f'{var_local}{module}.ttl', format='turtle')
+        new.parse(f'{var_local}{module}.ttl', format='turtle')
         added, removed = _compare_iterations(old, new)
         _print_stats(added, removed)
 
