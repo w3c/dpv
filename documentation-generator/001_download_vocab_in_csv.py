@@ -7,6 +7,10 @@
 GOOGLE_EXPORT_LINK = (
     'https://docs.google.com/spreadsheets/d/'
     '%s/gviz/tq?tqx=out:csv&sheet=%s')
+# Google Excel Export link
+GOOGLE_EXCEL_EXPORT_LINK = (
+    'https://docs.google.com/spreadsheets/d/'
+    '%s/export?exportFormat=xlsx&format=xlsx&title=%s')
 
 # The document *must* be publicly viewable (minimum permissions)
 # The document ID is found within the URL
@@ -93,17 +97,28 @@ DPV_SHEETS = (
 from urllib import request
 
 
-def download_csv(document_id, sheet_name, save_path='./vocab_csv'):
-    '''Download the sheet and save to given path'''
-    url = GOOGLE_EXPORT_LINK % (document_id, sheet_name)
-    print(f'Downloading {sheet_name}...', end='')
+def download_document(
+        document_id, document_name, export_link,
+        save_path='./vocab_csv', ext='csv'):
+    '''Download the sheet and save to specified path in specified format'''
+    url = export_link % (document_id, document_name)
+    print(f'Downloading {document_name}.{ext} ...', end='')
     try:
-        request.urlretrieve(url, f'{save_path}/{sheet_name}.csv')
-        print('DONE')
+        request.urlretrieve(url, f'{save_path}/{document_name}.{ext}')
+        print(f'DONE.')
     except Exception as E:
         print(f'ERROR :: {E}')
 
 
 if __name__ == '__main__':
     for sheet in DPV_SHEETS:
-        download_csv(DPV_DOCUMENT_ID, sheet)
+        download_document(
+            document_id=DPV_DOCUMENT_ID, 
+            document_name=sheet,
+            export_link=GOOGLE_EXPORT_LINK)
+    # Spreadsheet as Excel
+    download_document(
+        document_id=DPV_DOCUMENT_ID,
+        document_name='dpv_terms_discussion',
+        export_link=GOOGLE_EXCEL_EXPORT_LINK,
+        ext='xlsx')
