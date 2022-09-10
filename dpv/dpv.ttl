@@ -1,5 +1,6 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix dpv: <https://w3id.org/dpv#> .
+@prefix ns1: <http://purl.org/vocab/vann/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -8,7 +9,6 @@
 @prefix svpr: <https://specialprivacy.ercim.eu/vocabs/processing#> .
 @prefix svpu: <https://specialprivacy.ercim.eu/vocabs/purposes#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
-@prefix vann: <http://purl.org/vocab/vann/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/dpv> a owl:Ontology ;
@@ -36,12 +36,12 @@
         "Harshvardhan J. Pandit" ;
     dct:description "The Data Privacy Vocabulary (DPV) provides terms (classes and properties) to represent information about legally compliant personal data handling, which includes purposes, processing, personal data, technical and organisational measures."@en ;
     dct:license <https://www.w3.org/Consortium/Legal/2015/doc-license> ;
-    dct:modified "2022-08-26"^^xsd:date ;
+    dct:modified "2022-09-10"^^xsd:date ;
     dct:source <https://www.w3.org/community/dpvcg/> ;
     dct:title "Data Privacy Vocabulary"@en ;
-    vann:preferredNamespacePrefix "dpv" ;
-    vann:preferredNamespaceUri "https://w3id.org/dpv#"^^xsd:string ;
-    owl:versionInfo "0.8"^^xsd:string .
+    ns1:preferredNamespacePrefix "dpv" ;
+    ns1:preferredNamespaceUri "https://w3id.org/dpv#"^^xsd:string ;
+    owl:versionInfo "0.8.1"^^xsd:string .
 
 dpv:BaseConcepts a skos:Collection ;
     skos:member dpv:DataController,
@@ -139,7 +139,6 @@ dpv:ContextConcepts a skos:Collection ;
         dpv:hasContext,
         dpv:hasDuration,
         dpv:hasFrequency,
-        dpv:hasHumanInvolvement,
         dpv:hasIdentifier,
         dpv:hasJustification,
         dpv:hasOutcome,
@@ -429,11 +428,14 @@ dpv:Processing_ContextConcepts a skos:Collection ;
         dpv:CompletelyManualProcessing,
         dpv:DataPublishedByDataSubject,
         dpv:DataSource,
+        dpv:DecisionMaking,
         dpv:EvaluationScoring,
         dpv:FullyAutomatedProcessing,
         dpv:HumanInvolvement,
+        dpv:HumanInvolvementForInput,
+        dpv:HumanInvolvementForOversight,
+        dpv:HumanInvolvementForVerification,
         dpv:InnovativeUseOfNewTechnologies,
-        dpv:LargeScaleProcessing,
         dpv:NonPublicDataSource,
         dpv:PartiallyAutomatedProcessing,
         dpv:ProcessingContext,
@@ -446,6 +448,7 @@ dpv:Processing_ContextConcepts a skos:Collection ;
         dpv:SystematicMonitoring,
         dpv:hasAlgorithmicLogic,
         dpv:hasDataSource,
+        dpv:hasHumanInvolvement,
         dpv:hasProcessingAutomation,
         dpv:hasStorageCondition ;
     skos:prefLabel "Processing_Context Concepts"^^xsd:string .
@@ -459,19 +462,23 @@ dpv:Processing_ScaleConcepts a skos:Collection ;
         dpv:HugeScaleOfDataSubjects,
         dpv:LargeDataVolume,
         dpv:LargeScaleOfDataSubjects,
+        dpv:LargeScaleProcessing,
         dpv:LocalEnvironmentScale,
         dpv:LocalityScale,
         dpv:MediumDataVolume,
         dpv:MediumScaleOfDataSubjects,
+        dpv:MediumScaleProcessing,
         dpv:MultiNationalScale,
         dpv:NationalScale,
         dpv:NearlyGlobalScale,
+        dpv:ProcessingScale,
         dpv:RegionalScale,
         dpv:Scale,
         dpv:SingularDataVolume,
         dpv:SingularScaleOfDataSubjects,
         dpv:SmallDataVolume,
         dpv:SmallScaleOfDataSubjects,
+        dpv:SmallScaleProcessing,
         dpv:SporadicDataVolume,
         dpv:SporadicScaleOfDataSubjects,
         dpv:hasDataSubjectScale,
@@ -604,13 +611,14 @@ dpv:StatusConcepts a skos:Collection ;
         dpv:AuditRequested,
         dpv:AuditRequired,
         dpv:AuditStatus,
+        dpv:ComplianceIndeterminate,
         dpv:ComplianceStatus,
+        dpv:ComplianceUnknown,
+        dpv:ComplianceViolation,
         dpv:Compliant,
-        dpv:Incompliant,
-        dpv:NotCompliant,
+        dpv:NonCompliant,
         dpv:PartiallyCompliant,
         dpv:Status,
-        dpv:ViolationOfCompliance,
         dpv:hasActivityStatus,
         dpv:hasAuditStatus,
         dpv:hasComplianceStatus,
@@ -1081,51 +1089,58 @@ dpv:AutomatedDecisionMaking a skos:Concept,
     dct:created "2020-11-04"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string,
         "Piero Bonatti"^^xsd:string ;
-    dct:modified "2022-06-15"^^xsd:date ;
+    dct:modified "2022-09-07"^^xsd:date ;
     dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj> ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:definition "Processing that involves automated decision making"@en ;
     skos:inScheme dpv: ;
     skos:note "Automated decision making can be defined as “the ability to make decisions by technological means without human involvement.” (“Guidelines on Automated individual decision-making and Profiling for the purposes of Regulation 2016/679 (wp251rev.01)”, 2018, p. 8)"@en ;
     skos:prefLabel "Automated Decision Making"@en ;
-    dpv:isSubTypeOf dpv:AutomationOfProcessing .
+    dpv:isSubTypeOf dpv:AutomationOfProcessing,
+        dpv:DecisionMaking .
 
 dpv:AutomatedProcessingWithHumanInput a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2022-09-07"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "Processing that is automated and involves inputs by Humans"@en ;
     skos:inScheme dpv: ;
     skos:note "For example, an algorithm that takes inputs from humans and performs operations based on them"@en ;
     skos:prefLabel "Automated Processing with Human Input"@en ;
-    dpv:isInstanceOf dpv:AutomationOfProcessing .
+    dpv:isInstanceOf dpv:AutomationOfProcessing,
+        dpv:HumanInvolvementForInput .
 
 dpv:AutomatedProcessingWithHumanOversight a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2022-09-07"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "Processing that is automated and involves oversight by Humans"@en ;
     skos:inScheme dpv: ;
     skos:note "For example, a human watching metrics to ensure correctness of procedural values and outputs as processing takes place"@en ;
     skos:prefLabel "Automated Processing with Human Oversight"@en ;
-    dpv:isInstanceOf dpv:AutomationOfProcessing .
+    dpv:isInstanceOf dpv:AutomationOfProcessing,
+        dpv:HumanInvolvementForOversight .
 
 dpv:AutomatedProcessingWithHumanVerification a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2022-09-07"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "Processing that is automated and involves verification of outputs by Humans"@en ;
     skos:inScheme dpv: ;
     skos:note "For example, a human verifying outputs of an algorithm for correctness or impact to individuals"@en ;
     skos:prefLabel "Automated Processing with Human Verification"@en ;
-    dpv:isInstanceOf dpv:AutomationOfProcessing .
+    dpv:isInstanceOf dpv:AutomationOfProcessing,
+        dpv:HumanInvolvementForVerification .
 
 dpv:BackgroundChecks a skos:Concept,
         dpv:Concept ;
@@ -1329,6 +1344,17 @@ dpv:CompletelyManualProcessing a skos:Concept,
     skos:prefLabel "Completely Manual Processing"@en ;
     dpv:isInstanceOf dpv:AutomationOfProcessing .
 
+dpv:ComplianceIndeterminate a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "State where the status of compliance has not been fully assessed, evaluated, or determined"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Compliance Indeterminate"@en ;
+    dpv:isInstanceOf dpv:ComplianceStatus .
+
 dpv:ComplianceMonitoring a skos:Concept,
         dpv:Concept ;
     dct:created "2022-08-17"^^xsd:date ;
@@ -1340,6 +1366,30 @@ dpv:ComplianceMonitoring a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Compliance Monitoring"@en ;
     dpv:isSubTypeOf dpv:GovernanceProcedures .
+
+dpv:ComplianceUnknown a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "State where the status of compliance is unknown"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Compliance Unknown"@en ;
+    dpv:isInstanceOf dpv:ComplianceStatus .
+
+dpv:ComplianceViolation a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-05-18"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2022-09-07"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "changed"@en ;
+    skos:definition "State where compliance cannot be achieved due to requirements being violated"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Changed from \"violation of compliance\" for consistency with other terms"@en ;
+    skos:prefLabel "Compliance Violation"@en ;
+    dpv:isInstanceOf dpv:ComplianceStatus .
 
 dpv:Compliant a skos:Concept,
         dpv:Concept ;
@@ -2703,17 +2753,6 @@ dpv:IncidentReportingCommunication a skos:Concept,
     skos:prefLabel "Incident Reporting Communication"@en ;
     dpv:isSubTypeOf dpv:GovernanceProcedures .
 
-dpv:Incompliant a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-05-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "State of not being compliant"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Incompliant"@en ;
-    dpv:isInstanceOf dpv:ComplianceStatus .
-
 dpv:IncreaseServiceRobustness a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -2902,13 +2941,15 @@ dpv:LargeScaleProcessing a skos:Concept,
     dct:created "2020-11-04"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string,
         "Piero Bonatti"^^xsd:string ;
+    dct:modified "2022-09-07"^^xsd:date ;
     dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj> ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Processing that takes place at large scales"@en ;
+    sw:term_status "modified"@en ;
+    skos:definition "Processing that takes place at large scales (as specified by some criteria)"@en ;
     skos:inScheme dpv: ;
+    skos:note "The exact definition of what constitutes \"large scale\" depends on use of jurisdictional, domain-specific, or other forms of externally defined criterias. Where possible, this should be reflected by extending this term with the appropriate context."@en ;
     skos:prefLabel "Large Scale Processing"@en ;
-    dpv:isSubTypeOf dpv:ProcessingContext .
+    dpv:isInstanceOf dpv:ProcessingScale .
 
 dpv:LegalCompliance a skos:Concept,
         dpv:Concept ;
@@ -3104,6 +3145,17 @@ dpv:MediumScaleOfDataSubjects a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "MediumScaleOfDataSubjects"@en ;
     dpv:isInstanceOf dpv:DataSubjectScale .
+
+dpv:MediumScaleProcessing a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Processing that takes place at medium scales (as specified by some criteria)"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Medium Scale Processing"@en ;
+    dpv:isInstanceOf dpv:ProcessingScale .
 
 dpv:Member a skos:Concept,
         dpv:Concept ;
@@ -3356,6 +3408,19 @@ dpv:NonCommercialResearch a skos:Concept,
     skos:prefLabel "Non-Commercial Research"@en ;
     dpv:isSubTypeOf dpv:ResearchAndDevelopment .
 
+dpv:NonCompliant a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-05-18"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2022-09-07"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "changed"@en ;
+    skos:definition "State of non-compliance where objectives have not been met, but have not been violated"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Changed from not compliant for consistency in commonly used terms"@en ;
+    skos:prefLabel "Non Compliant"@en ;
+    dpv:isInstanceOf dpv:ComplianceStatus .
+
 dpv:NonGovernmentalOrganisation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-02-02"^^xsd:date ;
@@ -3405,17 +3470,6 @@ dpv:NonPublicDataSource a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Non-Public Data Source"@en ;
     dpv:isInstanceOf dpv:DataSource .
-
-dpv:NotCompliant a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-05-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "State of not being compliant where objectives have not been met, but have not been violated"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Not Compliant"@en ;
-    dpv:isInstanceOf dpv:ComplianceStatus .
 
 dpv:NotRequired a skos:Concept,
         dpv:Concept ;
@@ -4416,6 +4470,17 @@ dpv:SmallScaleOfDataSubjects a skos:Concept,
     skos:prefLabel "SmallScaleOfDataSubjects"@en ;
     dpv:isInstanceOf dpv:DataSubjectScale .
 
+dpv:SmallScaleProcessing a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Processing that takes place at small scales (as specified by some criteria)"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Small Scale Processing"@en ;
+    dpv:isInstanceOf dpv:ProcessingScale .
+
 dpv:SocialMediaMarketing a skos:Concept,
         dpv:Concept ;
     dct:created "2020-11-04"^^xsd:date ;
@@ -4939,17 +5004,6 @@ dpv:VendorSelectionAssessment a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Vendor Selection Assessment"@en ;
     dpv:isSubTypeOf dpv:VendorManagement .
-
-dpv:ViolationOfCompliance a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-05-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "State where objectives have been violated"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Violation of Compliance"@en ;
-    dpv:isInstanceOf dpv:ComplianceStatus .
 
 dpv:VirtualisationSecurity a skos:Concept,
         dpv:Concept ;
@@ -6295,6 +6349,17 @@ dpv:DataProtectionOfficer a skos:Concept,
     skos:prefLabel "Data Protection Officer"@en ;
     dpv:isSubTypeOf dpv:Representative .
 
+dpv:DecisionMaking a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Processing that involves decision making"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Decision Making"@en ;
+    dpv:isSubTypeOf dpv:ProcessingContext .
+
 dpv:Derive a skos:Concept,
         dpv:Concept ;
     dct:created "2019-05-07"^^xsd:date ;
@@ -6362,18 +6427,38 @@ dpv:GovernmentalOrganisation a skos:Concept,
     skos:prefLabel "GovernmentalOrganisation"@en ;
     dpv:isInstanceOf dpv:Organisation .
 
-dpv:HumanInvolvement a skos:Concept,
+dpv:HumanInvolvementForInput a skos:Concept,
         dpv:Concept ;
-    dct:created "2022-01-26"^^xsd:date ;
+    dct:created "2022-09-07"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:modified "2022-06-15"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:definition "The involvement of humans in specified context"@en ;
+    skos:definition "Human involvement for the purposes of providing inputs"@en ;
     skos:inScheme dpv: ;
-    skos:note "Human Involvement here broadly refers to any involvement by a human in the context of carrying out processing. This may include verification of outcomes, providing input data for making decisions, or overseeing activities."@en ;
-    skos:prefLabel "Human Involvement"@en ;
-    dpv:isSubTypeOf dpv:AutomationOfProcessing .
+    skos:prefLabel "Human Involvement for Input"@en ;
+    dpv:isInstanceOf dpv:HumanInvolvement .
+
+dpv:HumanInvolvementForOversight a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Human involvement for the purposes of having oversight over a system, its operations, inputs, or outputs"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Human Involvement for Oversight"@en ;
+    dpv:isInstanceOf dpv:HumanInvolvement .
+
+dpv:HumanInvolvementForVerification a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Human involvement for the purposes of verification of a system, its operations, inputs, or outputs"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Human Involvement for Verification"@en ;
+    dpv:isInstanceOf dpv:HumanInvolvement .
 
 dpv:JointDataControllers a skos:Concept,
         dpv:Concept ;
@@ -7322,6 +7407,19 @@ dpv:Necessity a skos:Concept,
     skos:prefLabel "Necessity"@en ;
     dpv:isSubTypeOf dpv:Context .
 
+dpv:ProcessingScale a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string,
+        "Piero Bonatti"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Scale of Processing"@en ;
+    skos:inScheme dpv: ;
+    skos:note "The exact definition of what constitutes \"scale\" depends on use of jurisdictional, domain-specific, or other forms of externally defined criterias. Where possible, this should be reflected by extending the scales provided with the appropriate context."@en ;
+    skos:prefLabel "Processing Scale"@en ;
+    dpv:isSubTypeOf dpv:Scale .
+
 dpv:ResearchAndDevelopment a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -7495,6 +7593,19 @@ dpv:EnforceSecurity a skos:Concept,
     skos:note "Was previous \"Security\". Prefixed to distinguish from TechOrg measures."@en ;
     skos:prefLabel "Enforce Security"@en ;
     dpv:isSubTypeOf dpv:Purpose .
+
+dpv:HumanInvolvement a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-01-26"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2022-06-15"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The involvement of humans in specified context"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Human Involvement here broadly refers to any involvement by a human in the context of carrying out processing. This may include verification of outcomes, providing input data for making decisions, or overseeing activities."@en ;
+    skos:prefLabel "Human Involvement"@en ;
+    dpv:isSubTypeOf dpv:AutomationOfProcessing .
 
 dpv:LegalAgreement a skos:Concept,
         dpv:Concept ;
@@ -7818,17 +7929,6 @@ dpv:Authority a skos:Concept,
     dpv:isSubTypeOf dpv:GovernmentalOrganisation,
         dpv:LegalEntity .
 
-dpv:ComplianceStatus a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-05-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Status associated with Compliance with some norms, objectives, or requirements"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Compliance Status"@en ;
-    dpv:isSubTypeOf dpv:Status .
-
 dpv:AuditStatus a skos:Concept,
         dpv:Concept ;
     dct:created "2022-05-18"^^xsd:date ;
@@ -7838,6 +7938,17 @@ dpv:AuditStatus a skos:Concept,
     skos:definition "Status associated with Auditing or Investigation"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Audit Status"@en ;
+    dpv:isSubTypeOf dpv:Status .
+
+dpv:ComplianceStatus a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-05-18"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Status associated with Compliance with some norms, objectives, or requirements"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Compliance Status"@en ;
     dpv:isSubTypeOf dpv:Status .
 
 dpv:DataSubjectScale a skos:Concept,
@@ -7927,20 +8038,6 @@ dpv:PersonalData a skos:Concept,
     skos:related spl:AnyData ;
     dpv:isSubTypeOf dpv:Data .
 
-dpv:Scale a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-06-15"^^xsd:date ;
-    dct:creator "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Rana Saniei"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "A measurement along some dimension"@en ;
-    skos:inScheme dpv: ;
-    skos:note "Scales are subjective concepts that need to be defined and interpreted within the context of their application. For example, what would be small within one context could be large within another."@en ;
-    skos:prefLabel "Scale"@en ;
-    dpv:isSubTypeOf dpv:ProcessingContext .
-
 dpv:Use a skos:Concept,
         dpv:Concept ;
     dct:created "2019-05-07"^^xsd:date ;
@@ -8016,6 +8113,20 @@ dpv:ProcessingContext a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Processing Context"@en ;
     dpv:isSubTypeOf dpv:Context .
+
+dpv:Scale a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-15"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Rana Saniei"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "A measurement along some dimension"@en ;
+    skos:inScheme dpv: ;
+    skos:note "Scales are subjective concepts that need to be defined and interpreted within the context of their application. For example, what would be small within one context could be large within another."@en ;
+    skos:prefLabel "Scale"@en ;
+    dpv:isSubTypeOf dpv:ProcessingContext .
 
 dpv:SecurityProcedure a skos:Concept,
         dpv:Concept ;

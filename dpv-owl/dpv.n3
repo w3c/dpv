@@ -1,5 +1,6 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix dpvo: <https://w3id.org/dpv/dpv-owl#> .
+@prefix ns1: <http://purl.org/vocab/vann/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -8,7 +9,6 @@
 @prefix svpr: <https://specialprivacy.ercim.eu/vocabs/processing#> .
 @prefix svpu: <https://specialprivacy.ercim.eu/vocabs/purposes#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
-@prefix vann: <http://purl.org/vocab/vann/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/dpv/dpv-owl> a owl:Ontology ;
@@ -36,12 +36,12 @@
         "Harshvardhan J. Pandit" ;
     dct:description "The Data Privacy Vocabulary (DPV) provides terms (classes and properties) to represent information about legally compliant personal data handling, which includes purposes, processing, personal data, technical and organisational measures."@en ;
     dct:license <https://www.w3.org/Consortium/Legal/2015/doc-license> ;
-    dct:modified "2022-08-26"^^xsd:date ;
+    dct:modified "2022-09-10"^^xsd:date ;
     dct:source <https://www.w3.org/community/dpvcg/> ;
     dct:title "Data Privacy Vocabulary"@en ;
-    vann:preferredNamespacePrefix "dpvo" ;
-    vann:preferredNamespaceUri "https://w3id.org/dpv/dpv-owl#"^^xsd:string ;
-    owl:versionInfo "0.8"^^xsd:string .
+    ns1:preferredNamespacePrefix "dpvo" ;
+    ns1:preferredNamespaceUri "https://w3id.org/dpv/dpv-owl#"^^xsd:string ;
+    owl:versionInfo "0.8.1"^^xsd:string .
 
 dpvo:AcademicResearch a owl:Class ;
     rdfs:label "Academic Research"@en ;
@@ -350,39 +350,46 @@ dpvo:AutomatedDecisionMaking a owl:Class ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string,
         "Piero Bonatti"^^xsd:string ;
     dct:description "Processing that involves automated decision making"@en ;
-    dct:modified "2022-06-15"^^xsd:date ;
+    dct:modified "2022-09-07"^^xsd:date ;
     dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj> ;
     rdfs:comment "Automated decision making can be defined as “the ability to make decisions by technological means without human involvement.” (“Guidelines on Automated individual decision-making and Profiling for the purposes of Regulation 2016/679 (wp251rev.01)”, 2018, p. 8)"@en ;
     rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:AutomationOfProcessing ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:AutomationOfProcessing,
+        dpvo:DecisionMaking ;
+    sw:term_status "modified"@en .
 
 dpvo:AutomatedProcessingWithHumanInput a owl:NamedIndividual,
-        dpvo:AutomationOfProcessing ;
+        dpvo:AutomationOfProcessing,
+        dpvo:HumanInvolvementForInput ;
     rdfs:label "Automated Processing with Human Input"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Processing that is automated and involves inputs by Humans"@en ;
+    dct:modified "2022-09-07"^^xsd:date ;
     rdfs:comment "For example, an algorithm that takes inputs from humans and performs operations based on them"@en ;
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
 dpvo:AutomatedProcessingWithHumanOversight a owl:NamedIndividual,
-        dpvo:AutomationOfProcessing ;
+        dpvo:AutomationOfProcessing,
+        dpvo:HumanInvolvementForOversight ;
     rdfs:label "Automated Processing with Human Oversight"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Processing that is automated and involves oversight by Humans"@en ;
+    dct:modified "2022-09-07"^^xsd:date ;
     rdfs:comment "For example, a human watching metrics to ensure correctness of procedural values and outputs as processing takes place"@en ;
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
 dpvo:AutomatedProcessingWithHumanVerification a owl:NamedIndividual,
-        dpvo:AutomationOfProcessing ;
+        dpvo:AutomationOfProcessing,
+        dpvo:HumanInvolvementForVerification ;
     rdfs:label "Automated Processing with Human Verification"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Processing that is automated and involves verification of outputs by Humans"@en ;
+    dct:modified "2022-09-07"^^xsd:date ;
     rdfs:comment "For example, a human verifying outputs of an algorithm for correctness or impact to individuals"@en ;
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
@@ -559,6 +566,15 @@ dpvo:CompletelyManualProcessing a owl:NamedIndividual,
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
+dpvo:ComplianceIndeterminate a owl:NamedIndividual,
+        dpvo:ComplianceStatus ;
+    rdfs:label "Compliance Indeterminate"@en ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "State where the status of compliance has not been fully assessed, evaluated, or determined"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    sw:term_status "accepted"@en .
+
 dpvo:ComplianceMonitoring a owl:Class ;
     rdfs:label "Compliance Monitoring"@en ;
     dct:created "2022-08-17"^^xsd:date ;
@@ -568,6 +584,26 @@ dpvo:ComplianceMonitoring a owl:Class ;
     rdfs:isDefinedBy dpvo: ;
     rdfs:subClassOf dpvo:GovernanceProcedures ;
     sw:term_status "accepted"@en .
+
+dpvo:ComplianceUnknown a owl:NamedIndividual,
+        dpvo:ComplianceStatus ;
+    rdfs:label "Compliance Unknown"@en ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "State where the status of compliance is unknown"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    sw:term_status "accepted"@en .
+
+dpvo:ComplianceViolation a owl:NamedIndividual,
+        dpvo:ComplianceStatus ;
+    rdfs:label "Compliance Violation"@en ;
+    dct:created "2022-05-18"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "State where compliance cannot be achieved due to requirements being violated"@en ;
+    dct:modified "2022-09-07"^^xsd:date ;
+    rdfs:comment "Changed from \"violation of compliance\" for consistency with other terms"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    sw:term_status "changed"@en .
 
 dpvo:Compliant a owl:NamedIndividual,
         dpvo:ComplianceStatus ;
@@ -1721,15 +1757,6 @@ dpvo:IncidentReportingCommunication a owl:Class ;
     rdfs:subClassOf dpvo:GovernanceProcedures ;
     sw:term_status "accepted"@en .
 
-dpvo:Incompliant a owl:NamedIndividual,
-        dpvo:ComplianceStatus ;
-    rdfs:label "Incompliant"@en ;
-    dct:created "2022-05-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "State of not being compliant"@en ;
-    rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
-
 dpvo:IncreaseServiceRobustness a owl:Class ;
     rdfs:label "Increase Service Robustness"@en ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -1885,16 +1912,18 @@ dpvo:LargeScaleOfDataSubjects a owl:NamedIndividual,
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
-dpvo:LargeScaleProcessing a owl:Class ;
+dpvo:LargeScaleProcessing a owl:NamedIndividual,
+        dpvo:ProcessingScale ;
     rdfs:label "Large Scale Processing"@en ;
     dct:created "2020-11-04"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string,
         "Piero Bonatti"^^xsd:string ;
-    dct:description "Processing that takes place at large scales"@en ;
+    dct:description "Processing that takes place at large scales (as specified by some criteria)"@en ;
+    dct:modified "2022-09-07"^^xsd:date ;
     dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj> ;
+    rdfs:comment "The exact definition of what constitutes \"large scale\" depends on use of jurisdictional, domain-specific, or other forms of externally defined criterias. Where possible, this should be reflected by extending this term with the appropriate context."@en ;
     rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:ProcessingContext ;
-    sw:term_status "accepted"@en .
+    sw:term_status "modified"@en .
 
 dpvo:LegalCompliance a owl:Class ;
     rdfs:label "Legal Compliance"@en ;
@@ -2056,6 +2085,15 @@ dpvo:MediumScaleOfDataSubjects a owl:NamedIndividual,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Paul Ryan"^^xsd:string ;
     dct:description "Scale of data subjects considered medium i.e. neither large nor small within the context"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    sw:term_status "accepted"@en .
+
+dpvo:MediumScaleProcessing a owl:NamedIndividual,
+        dpvo:ProcessingScale ;
+    rdfs:label "Medium Scale Processing"@en ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Processing that takes place at medium scales (as specified by some criteria)"@en ;
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
@@ -2270,6 +2308,17 @@ dpvo:NonCommercialResearch a owl:Class ;
     rdfs:subClassOf dpvo:ResearchAndDevelopment ;
     sw:term_status "accepted"@en .
 
+dpvo:NonCompliant a owl:NamedIndividual,
+        dpvo:ComplianceStatus ;
+    rdfs:label "Non Compliant"@en ;
+    dct:created "2022-05-18"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "State of non-compliance where objectives have not been met, but have not been violated"@en ;
+    dct:modified "2022-09-07"^^xsd:date ;
+    rdfs:comment "Changed from not compliant for consistency in commonly used terms"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    sw:term_status "changed"@en .
+
 dpvo:NonGovernmentalOrganisation a owl:NamedIndividual,
         dpvo:Organisation ;
     rdfs:label "NonGovernmentalOrganisation"@en ;
@@ -2309,15 +2358,6 @@ dpvo:NonPublicDataSource a owl:NamedIndividual,
         "Julian Flake"^^xsd:string,
         "Paul Ryan"^^xsd:string ;
     dct:description "A source of data that is not publicly accessible or available"@en ;
-    rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
-
-dpvo:NotCompliant a owl:NamedIndividual,
-        dpvo:ComplianceStatus ;
-    rdfs:label "Not Compliant"@en ;
-    dct:created "2022-05-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "State of not being compliant where objectives have not been met, but have not been violated"@en ;
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
@@ -3164,6 +3204,15 @@ dpvo:SmallScaleOfDataSubjects a owl:NamedIndividual,
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
+dpvo:SmallScaleProcessing a owl:NamedIndividual,
+        dpvo:ProcessingScale ;
+    rdfs:label "Small Scale Processing"@en ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Processing that takes place at small scales (as specified by some criteria)"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    sw:term_status "accepted"@en .
+
 dpvo:SocialMediaMarketing a owl:Class ;
     rdfs:label "Social Media"@en ;
     dct:created "2020-11-04"^^xsd:date ;
@@ -3604,15 +3653,6 @@ dpvo:VendorSelectionAssessment a owl:Class ;
     dct:source <https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten> ;
     rdfs:isDefinedBy dpvo: ;
     rdfs:subClassOf dpvo:VendorManagement ;
-    sw:term_status "accepted"@en .
-
-dpvo:ViolationOfCompliance a owl:NamedIndividual,
-        dpvo:ComplianceStatus ;
-    rdfs:label "Violation of Compliance"@en ;
-    dct:created "2022-05-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "State where objectives have been violated"@en ;
-    rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
 dpvo:VirtualisationSecurity a owl:Class ;
@@ -4915,6 +4955,15 @@ dpvo:DataProtectionOfficer a owl:Class ;
     rdfs:subClassOf dpvo:Representative ;
     sw:term_status "modified"@en .
 
+dpvo:DecisionMaking a owl:Class ;
+    rdfs:label "Decision Making"@en ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Processing that involves decision making"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:ProcessingContext ;
+    sw:term_status "accepted"@en .
+
 dpvo:Derive a owl:Class ;
     rdfs:label "Derive"@en ;
     dct:created "2019-05-07"^^xsd:date ;
@@ -4972,15 +5021,31 @@ dpvo:GovernmentalOrganisation a owl:NamedIndividual,
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
-dpvo:HumanInvolvement a owl:Class ;
-    rdfs:label "Human Involvement"@en ;
-    dct:created "2022-01-26"^^xsd:date ;
+dpvo:HumanInvolvementForInput a owl:NamedIndividual,
+        dpvo:HumanInvolvement ;
+    rdfs:label "Human Involvement for Input"@en ;
+    dct:created "2022-09-07"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "The involvement of humans in specified context"@en ;
-    dct:modified "2022-06-15"^^xsd:date ;
-    rdfs:comment "Human Involvement here broadly refers to any involvement by a human in the context of carrying out processing. This may include verification of outcomes, providing input data for making decisions, or overseeing activities."@en ;
+    dct:description "Human involvement for the purposes of providing inputs"@en ;
     rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:AutomationOfProcessing ;
+    sw:term_status "accepted"@en .
+
+dpvo:HumanInvolvementForOversight a owl:NamedIndividual,
+        dpvo:HumanInvolvement ;
+    rdfs:label "Human Involvement for Oversight"@en ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Human involvement for the purposes of having oversight over a system, its operations, inputs, or outputs"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    sw:term_status "accepted"@en .
+
+dpvo:HumanInvolvementForVerification a owl:NamedIndividual,
+        dpvo:HumanInvolvement ;
+    rdfs:label "Human Involvement for Verification"@en ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Human involvement for the purposes of verification of a system, its operations, inputs, or outputs"@en ;
+    rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
 dpvo:JointDataControllers a owl:Class ;
@@ -5726,6 +5791,17 @@ dpvo:Necessity a owl:Class ;
     rdfs:subClassOf dpvo:Context ;
     sw:term_status "accepted"@en .
 
+dpvo:ProcessingScale a owl:Class ;
+    rdfs:label "Processing Scale"@en ;
+    dct:created "2022-09-07"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string,
+        "Piero Bonatti"^^xsd:string ;
+    dct:description "Scale of Processing"@en ;
+    rdfs:comment "The exact definition of what constitutes \"scale\" depends on use of jurisdictional, domain-specific, or other forms of externally defined criterias. Where possible, this should be reflected by extending the scales provided with the appropriate context."@en ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:Scale ;
+    sw:term_status "accepted"@en .
+
 dpvo:ResearchAndDevelopment a owl:Class ;
     rdfs:label "Research and Development"@en ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -5862,6 +5938,17 @@ dpvo:EnforceSecurity a owl:Class ;
     rdfs:comment "Was previous \"Security\". Prefixed to distinguish from TechOrg measures."@en ;
     rdfs:isDefinedBy dpvo: ;
     rdfs:subClassOf dpvo:Purpose ;
+    sw:term_status "accepted"@en .
+
+dpvo:HumanInvolvement a owl:Class ;
+    rdfs:label "Human Involvement"@en ;
+    dct:created "2022-01-26"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "The involvement of humans in specified context"@en ;
+    dct:modified "2022-06-15"^^xsd:date ;
+    rdfs:comment "Human Involvement here broadly refers to any involvement by a human in the context of carrying out processing. This may include verification of outcomes, providing input data for making decisions, or overseeing activities."@en ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:AutomationOfProcessing ;
     sw:term_status "accepted"@en .
 
 dpvo:LegalAgreement a owl:Class ;
@@ -6140,15 +6227,6 @@ dpvo:Authority a owl:Class ;
         dpvo:LegalEntity ;
     sw:term_status "accepted"@en .
 
-dpvo:ComplianceStatus a owl:Class ;
-    rdfs:label "Compliance Status"@en ;
-    dct:created "2022-05-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "Status associated with Compliance with some norms, objectives, or requirements"@en ;
-    rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:Status ;
-    sw:term_status "accepted"@en .
-
 dpvo:PersonalData a owl:Class ;
     rdfs:label "Personal Data"@en ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -6167,6 +6245,15 @@ dpvo:AuditStatus a owl:Class ;
     dct:created "2022-05-18"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Status associated with Auditing or Investigation"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:Status ;
+    sw:term_status "accepted"@en .
+
+dpvo:ComplianceStatus a owl:Class ;
+    rdfs:label "Compliance Status"@en ;
+    dct:created "2022-05-18"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Status associated with Compliance with some norms, objectives, or requirements"@en ;
     rdfs:isDefinedBy dpvo: ;
     rdfs:subClassOf dpvo:Status ;
     sw:term_status "accepted"@en .
@@ -6229,18 +6316,6 @@ dpvo:Organisation a owl:Class ;
     dct:description "A general term reflecting a company or a business or a group acting as a unit"@en ;
     rdfs:isDefinedBy dpvo: ;
     rdfs:subClassOf dpvo:LegalEntity ;
-    sw:term_status "accepted"@en .
-
-dpvo:Scale a owl:Class ;
-    rdfs:label "Scale"@en ;
-    dct:created "2022-06-15"^^xsd:date ;
-    dct:creator "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Rana Saniei"^^xsd:string ;
-    dct:description "A measurement along some dimension"@en ;
-    rdfs:comment "Scales are subjective concepts that need to be defined and interpreted within the context of their application. For example, what would be small within one context could be large within another."@en ;
-    rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:ProcessingContext ;
     sw:term_status "accepted"@en .
 
 dpvo:Use a owl:Class ;
@@ -6315,6 +6390,18 @@ dpvo:Risk a owl:Class ;
     dct:description "A risk or possibility or uncertainty of negative effects, impacts, or consequences."@en ;
     rdfs:comment "Risks can be associated with one or more different concepts such as purpose, processing, personal data, technical or organisational measure."@en ;
     rdfs:isDefinedBy dpvo: ;
+    sw:term_status "accepted"@en .
+
+dpvo:Scale a owl:Class ;
+    rdfs:label "Scale"@en ;
+    dct:created "2022-06-15"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Rana Saniei"^^xsd:string ;
+    dct:description "A measurement along some dimension"@en ;
+    rdfs:comment "Scales are subjective concepts that need to be defined and interpreted within the context of their application. For example, what would be small within one context could be large within another."@en ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:ProcessingContext ;
     sw:term_status "accepted"@en .
 
 dpvo:SecurityProcedure a owl:Class ;
