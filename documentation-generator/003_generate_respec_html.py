@@ -36,6 +36,8 @@ logging.basicConfig(
     level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
 
+from vocab_management import generate_author_affiliation
+
 TEMPLATE_DATA = {}
 
 G = DataGraph()
@@ -101,6 +103,7 @@ JINJA2_FILTERS = {
     'prefix_this': prefix_this,
     'subclasses': get_subclasses,
     'saved_label': saved_label,
+    'generate_author_affiliation': generate_author_affiliation,
 }
 
 template_loader = FileSystemLoader(searchpath='./jinja2_resources')

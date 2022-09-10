@@ -14,9 +14,13 @@ logging.basicConfig(
     level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
 
+from vocab_management import generate_author_affiliation
+
 # JINJA2 for templating and generating HTML
 from jinja2 import FileSystemLoader, Environment
-JINJA2_FILTERS = {}
+JINJA2_FILTERS = {
+    'generate_author_affiliation': generate_author_affiliation,
+}
 TEMPLATE_DATA = {}
 
 template_loader = FileSystemLoader(searchpath='./jinja2_resources')

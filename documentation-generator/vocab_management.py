@@ -46,3 +46,26 @@ for csvfile in NAMESPACE_CSV:
 			globals()[variable] = namespace
 			NAMESPACES[prefix] = namespace
 			DEBUG(f'{variable} namespace with IRI {iri}')
+
+###################### contributors
+
+'''A Jinja2 filter that takes author names and returns their affiliations'''
+
+import json
+
+with open('../contributors.json', 'r') as fd:
+    contributors = json.load(fd)
+
+
+def generate_author_affiliation(author):
+    '''takes author name, returns affiliation'''
+    if author in contributors:
+        return contributors[author]
+    else:
+        return ''
+
+
+def generate_authors_affiliations(authors):
+    '''takes author name, returns affiliation'''
+    authors = [contributors[author] for author in contributors]
+    return authors
