@@ -3,11 +3,25 @@ Data Privacy Vocabularies and Controls Community Group (DPVCG) repository
 
 [Community Group](https://www.w3.org/community/dpvcg/) | [(W3C) wiki](https://www.w3.org/community/dpvcg/wiki/Main_Page)
 
+> **Call for Comments/Feedbacks for DPV v1.0 release**
+>Please provide your comments by **15-OCT-2022** via [GitHub](https://github.com/w3c/dpv/issues/50) or public-dpvcg@w3.org (mailing list).
+
 The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to develop a taxonomy of privacy and data protection related terms, which include in particular terms from the new European General Data Protection Regulation (GDPR), such as a taxonomy of personal data as well as a classification of purposes (i.e., purposes for data collection), and events of disclosures, consent, and processing such personal data.
 
 > Newcomers to the DPV are recommended to start with the [Primer](https://w3id.org/dpv/primer) to familiarise themselves with the concepts, semantics, and usefulness of the DPV.
 
 License: All work produced by DPVCG and provided through this repo or elsewhere is provided by contributors under the [W3C Document License](https://www.w3.org/Consortium/Legal/2015/doc-license). A copy of the license is provided in the [LICENSE.md](./LICENSE.md) file.
+
+## Releases
+
+> [latest release](https://github.com/w3c/dpv/releases/latest)
+
+Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/releases](https://github.com/w3c/dpv/releases). These contained zipped collections of DPV specifications, modules, extensions, and accompanying documents, categorised by serialisation. Currently, the following types of releases are provided:
+
+- dpv (`dpv.zip`) : The core and canocical DPV specification serialised as a SKOS collection of terms
+- dpv-skos (`dpv-skos.zip`) : DPV serialised using RDFS and SKOS semantics
+- dpv-owl (`dpv-owl.zip`) : DPV serialised using OWL2 semantics
+- dpv (`dpv.xlsx`) : DPV's terms provided in a spreadsheet
 
 ## DPV Family of Documents
 
@@ -17,7 +31,7 @@ License: All work produced by DPVCG and provided through this repo or elsewhere 
     
 > **Note:** Newcomers to the DPV are **strongly recommended to first read through the Primer** to familiarise themselves with the semantics and concepts of DPV.
     
-*   [Data Privacy Vocabulary (DPV) Specification](https://www.w3id.org/dpv): formal and normative description of DPV and its concepts.
+*   [Data Privacy Vocabulary (DPV) Specification](https://www.w3id.org/dpv): (this document) formal and normative description of DPV and its concepts.
 
 **Serialisations of DPV:**
 
@@ -28,13 +42,14 @@ License: All work produced by DPVCG and provided through this repo or elsewhere 
 -   [GDPR Extension for Data Privacy Vocabulary (DPV-GDPR)](https://www.w3id.org/dpv/dpv-gdpr): extends DPV concepts for GDPR
 -   [Personal Data Categories Extension for Data Privacy Vocabulary (DPV-PD)](https://www.w3id.org/dpv/dpv-pd)
 -   [Legal Extension providing Jurisdictions, Laws, and Authorities for Data Privacy Vocabulary (DPV-LEGAL)](https://www.w3id.org/dpv/dpv-legal)
--   [Extension providing concepts for modelling use of Technologies for Data Privacy Vocabulary (DPV-TECH)](https://www.w3id.org/dpv/dpv-tech)
+-   [Risk Extension providing concepts related to risk assessment and management (RISK)](https://www.w3id.org/dpv/risk)
+-   [Rights Extension providing concepts related to rights (RIGHTS)](https://www.w3id.org/dpv/rights)
+
+**Guides and Tutorials**
+-   [Guidelines for Adoption and Use of DPV](https://w3id.org/dpv/guides): [Using DPV in OWL2](https://w3id.org/dpv/guides/dpv-owl)
 
 **Other Resources:**
 -   [NACE Taxonomy serialised in RDFS](https://www.w3id.org/dpv/dpv-nace)
-
-**Guidelines on Use:**
-- -   [Guidelines for Adoption and Use of DPV](https://w3id.org/dpv/guides): [Using DPV in OWL2](https://w3id.org/dpv/guides/dpv-owl)
 
 **Related Links**
 *   For a general overview of the Data Protection Vocabularies and Controls Community Group \[[DPVCG](#bib-dpvcg "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)")\], its history, deliverables, and activities - refer to [DPVCG Website](https://www.w3.org/community/dpvcg/).
