@@ -29,6 +29,17 @@ dpv:isInstanceOf rdfs:subPropertyOf skos:semanticRelation ;
 dpv:isSubTypeOf rdfs:subPropertyOf skos:broader ;
     skos:prefLabel "isSubTypeOf"@en .
 
+dpv:isPolicyFor a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-01-26"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the context or application of policy"@en ;
+    skos:prefLabel "is policy for"@en ;
+    dpv:hasDomain dpv:Policy ;
+    dpv:hasRange dpv:Concept .
+
 dpv:hasNotice a skos:Concept,
         dpv:Relation ;
     dct:created "2022-06-22"^^xsd:date ;
@@ -38,6 +49,7 @@ dpv:hasNotice a skos:Concept,
         "Paul Ryan"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:hasOrganisationalMeasure ;
     skos:definition "Indicates the use or applicability of a Notice for the specified context"@en ;
     skos:prefLabel "has notice"@en ;
     dpv:hasDomain dpv:Concept ;
@@ -50,6 +62,7 @@ dpv:hasPolicy a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:hasTechnicalOrganisationalMeasure ;
     skos:definition "Indicates policy applicable or used"@en ;
     skos:prefLabel "has policy"@en ;
     dpv:hasDomain dpv:Concept ;
@@ -62,22 +75,12 @@ dpv:hasTechnicalMeasure a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:hasTechnicalOrganisationalMeasure ;
     skos:definition "Indicates use or applicability of Technical measure"@en ;
     skos:prefLabel "has technical measure"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:TechnicalMeasure ;
     dpv:isSubTypeOf dpv:hasTechnicalOrganisationalMeasure .
-
-dpv:isPolicyFor a skos:Concept,
-        dpv:Relation ;
-    dct:created "2022-01-26"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates the context or application of policy"@en ;
-    skos:prefLabel "is policy for"@en ;
-    dpv:hasDomain dpv:Policy ;
-    dpv:hasRange dpv:Concept .
 
 dpv:OrganisationalMeasure a skos:Concept,
         dpv:Concept ;
@@ -88,6 +91,7 @@ dpv:OrganisationalMeasure a skos:Concept,
         "Rob Brennan"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:TechnicalOrganisationalMeasure ;
     skos:definition "Organisational measures required/followed when processing data of the declared category"@en ;
     skos:prefLabel "Organisational Measure"@en ;
     dpv:isSubTypeOf dpv:TechnicalOrganisationalMeasure .
@@ -101,6 +105,7 @@ dpv:TechnicalMeasure a skos:Concept,
         "Rob Brennan"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:TechnicalOrganisationalMeasure ;
     skos:definition "Technical measures required/followed when processing data of the declared category"@en ;
     skos:prefLabel "Technical Measure"@en ;
     dpv:isSubTypeOf dpv:TechnicalOrganisationalMeasure .
@@ -111,11 +116,16 @@ dpv:hasOrganisationalMeasure a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:hasTechnicalOrganisationalMeasure ;
     skos:definition "Indicates use or applicability of Organisational measure"@en ;
+    skos:narrower dpv:hasNotice ;
     skos:prefLabel "has organisational measure"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:OrganisationalMeasure ;
     dpv:isSubTypeOf dpv:hasTechnicalOrganisationalMeasure .
+
+dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
+    skos:prefLabel "Relation"@en .
 
 dpv:TechnicalOrganisationalMeasure a skos:Concept,
         dpv:Concept ;
@@ -125,6 +135,8 @@ dpv:TechnicalOrganisationalMeasure a skos:Concept,
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "The Technical and Organisational measures used."@en ;
+    skos:narrower dpv:OrganisationalMeasure,
+        dpv:TechnicalMeasure ;
     skos:prefLabel "Technical and Organisational Measure"@en .
 
 dpv:hasTechnicalOrganisationalMeasure a skos:Concept,
@@ -139,12 +151,12 @@ dpv:hasTechnicalOrganisationalMeasure a skos:Concept,
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates use or applicability of Technical or Organisational measure"@en ;
+    skos:narrower dpv:hasOrganisationalMeasure,
+        dpv:hasPolicy,
+        dpv:hasTechnicalMeasure ;
     skos:prefLabel "has technical and organisational measure"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:TechnicalOrganisationalMeasure .
-
-dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
-    skos:prefLabel "Relation"@en .
 
 dpv:Concept rdfs:subClassOf skos:Concept ;
     skos:prefLabel "Concept"@en .

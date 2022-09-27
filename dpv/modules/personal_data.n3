@@ -43,22 +43,11 @@ dpv:AnonymisedData a skos:Concept,
     dct:creator "Piero Bonatti"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:NonPersonalData ;
     skos:definition "Personal Data that has been (fully and completely) anonymised so that it is no longer considered Personal Data"@en ;
     skos:note "It is advised to carefully consider indicating data is fully or completely anonymised by determining whether the data by itself or in combination with other data can identify a person. Failing this condition, the data should be denoted as PseudoAnonymisedData. To indicate data is anonymised only for a specified entity (e.g. within an organisation), the concept AnonymisedDataWithinScope (as subclass of PseudoAnonymisedData) should be used instead of AnonymisedData."@en ;
     skos:prefLabel "Anonymised Data"@en ;
     dpv:isSubTypeOf dpv:NonPersonalData .
-
-dpv:InferredPersonalData a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-01-19"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Personal Data that is obtained through inference from other data"@en ;
-    skos:note "Inferred Data is derived data generated from existing data, but which did not originally exist within it, e.g. inferring demographics from browsing history."@en ;
-    skos:prefLabel "Inferred Personal Data"@en ;
-    dpv:isSubTypeOf dpv:DerivedPersonalData,
-        dpv:GeneratedPersonalData .
 
 dpv:ObservedPersonalData a skos:Concept,
         dpv:Concept ;
@@ -66,6 +55,7 @@ dpv:ObservedPersonalData a skos:Concept,
     dct:creator "Georg P Krog"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:CollectedPersonalData ;
     skos:definition "Personal Data that has been collected through observation of the Data Subject(s)"@en ;
     skos:prefLabel "Observed Personal Data"@en ;
     dpv:isSubTypeOf dpv:CollectedPersonalData .
@@ -76,9 +66,13 @@ dpv:PseudoAnonymisedData a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:PersonalData ;
     skos:definition "Personal Data that has undergone a partial (incomplete) anonymisation process such that it is still considered Personal Data"@en ;
     skos:prefLabel "Pseudo-anonymised Data"@en ;
     dpv:isSubTypeOf dpv:PersonalData .
+
+dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
+    skos:prefLabel "Relation"@en .
 
 dpv:SpecialCategoryPersonalData a skos:Concept,
         dpv:Concept ;
@@ -89,6 +83,7 @@ dpv:SpecialCategoryPersonalData a skos:Concept,
     dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_9/par_1/oj> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "modified"@en ;
+    skos:broader dpv:SensitivePersonalData ;
     skos:definition "Sensitive Personal Data whose use requires specific legal permission or justification"@en ;
     skos:note "The term 'special category' is based on GDPR Art.9, but should not be considered as exlusive to it. DPV considers all Special Categories to also be Sensitive, but whose use is either prohibited or regulated and therefore requires additional legal basis for justification."@en ;
     skos:prefLabel "Special Category Personal Data"@en ;
@@ -101,6 +96,7 @@ dpv:SyntheticData a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/data-protection-engineering> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:Data ;
     skos:definition "Synthetic data reffers to artificially created data such that it is intended to resemble real data (personal or non-personal), but does not refer to any specific identified or identifiable individual, or to the real measure of an observable parameter in the case of non-personal data"@en ;
     skos:prefLabel "Synthetic Data"@en ;
     dpv:isSubTypeOf dpv:Data .
@@ -111,11 +107,38 @@ dpv:hasPersonalData a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:hasData ;
     skos:definition "Indicates association with Personal Data"@en ;
     skos:prefLabel "has personal data"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:PersonalData ;
     dpv:isSubTypeOf dpv:hasData .
+
+dpv:InferredPersonalData a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-01-19"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:DerivedPersonalData,
+        dpv:GeneratedPersonalData ;
+    skos:definition "Personal Data that is obtained through inference from other data"@en ;
+    skos:note "Inferred Data is derived data generated from existing data, but which did not originally exist within it, e.g. inferring demographics from browsing history."@en ;
+    skos:prefLabel "Inferred Personal Data"@en ;
+    dpv:isSubTypeOf dpv:DerivedPersonalData,
+        dpv:GeneratedPersonalData .
+
+dpv:hasData a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-08-18"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates associated with Data (may or may not be personal)"@en ;
+    skos:narrower dpv:hasPersonalData ;
+    skos:prefLabel "has data"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:Data .
 
 dpv:CollectedPersonalData a skos:Concept,
         dpv:Concept ;
@@ -123,7 +146,9 @@ dpv:CollectedPersonalData a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:PersonalData ;
     skos:definition "Personal Data that has been collected from another source such as the Data Subject"@en ;
+    skos:narrower dpv:ObservedPersonalData ;
     skos:note "To indicate the source of data, use the DataSource concept with the hasDataSource relation"@en ;
     skos:prefLabel "Collected Personal Data"@en ;
     dpv:isSubTypeOf dpv:PersonalData .
@@ -137,7 +162,9 @@ dpv:DerivedPersonalData a skos:Concept,
     dct:source <https://www.w3.org/community/dpvcg/> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:PersonalData ;
     skos:definition "Personal Data that is obtained or derived from other data"@en ;
+    skos:narrower dpv:InferredPersonalData ;
     skos:note "Derived Data is data that is obtained through processing of existing data, e.g. deriving first name from full name. To indicate data that is derived but which was not present or evident within the source data, InferredPersonalData should be used."@en ;
     skos:prefLabel "Derived Personal Data"@en ;
     skos:related svd:Derived ;
@@ -149,7 +176,9 @@ dpv:GeneratedPersonalData a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:PersonalData ;
     skos:definition "Personal Data that is generated or brought into existence without relation to existing data i.e. it is not derived or inferred from other data"@en ;
+    skos:narrower dpv:InferredPersonalData ;
     skos:note "Generated Data is used to indicate data that is produced and is not derived or inferred from other data"@en ;
     skos:prefLabel "Generated Personal Data"@en ;
     dpv:isSubTypeOf dpv:PersonalData .
@@ -160,13 +189,12 @@ dpv:NonPersonalData a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:Data ;
     skos:definition "Data that is not Personal Data"@en ;
+    skos:narrower dpv:AnonymisedData ;
     skos:note "The term NonPersonalData is provided to distinguish between PersonalData and other data, e.g. for indicating which data is regulated by privacy laws. To specify personal data that has been anonymised, the concept AnonymisedData should be used."@en ;
     skos:prefLabel "Non-Personal Data"@en ;
     dpv:isSubTypeOf dpv:Data .
-
-dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
-    skos:prefLabel "Relation"@en .
 
 dpv:SensitivePersonalData a skos:Concept,
         dpv:Concept ;
@@ -174,21 +202,12 @@ dpv:SensitivePersonalData a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:PersonalData ;
     skos:definition "Personal data that is considered 'sensitive' in terms of privacy and/or impact, and therefore requires additional considerations and/or protection"@en ;
+    skos:narrower dpv:SpecialCategoryPersonalData ;
     skos:note "Sensitivity' is a matter of context, and may be defined within legal frameworks. For GDPR, Special categories of personal data are considered a subset of sensitive data. To illustrate the difference between the two, consider the situation where Location data is collected, and which is considered 'sensitive' but not 'special'. As a probable rule, sensitive data require additional considerations whereas special category data requires additional legal basis / justifications."@en ;
     skos:prefLabel "Sensitive Personal Data"@en ;
     dpv:isSubTypeOf dpv:PersonalData .
-
-dpv:hasData a skos:Concept,
-        dpv:Relation ;
-    dct:created "2022-08-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates associated with Data (may or may not be personal)"@en ;
-    skos:prefLabel "has data"@en ;
-    dpv:hasDomain dpv:Concept ;
-    dpv:hasRange dpv:Data .
 
 dpv:Data a skos:Concept,
         dpv:Concept ;
@@ -197,6 +216,9 @@ dpv:Data a skos:Concept,
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "A broad concept representing  'data' or 'information'"@en ;
+    skos:narrower dpv:NonPersonalData,
+        dpv:PersonalData,
+        dpv:SyntheticData ;
     skos:prefLabel "Data"@en .
 
 dpv:PersonalData a skos:Concept,
@@ -207,7 +229,13 @@ dpv:PersonalData a skos:Concept,
     dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_1/oj> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:Data ;
     skos:definition "Data directly or indirectly associated or related to an individual."@en ;
+    skos:narrower dpv:CollectedPersonalData,
+        dpv:DerivedPersonalData,
+        dpv:GeneratedPersonalData,
+        dpv:PseudoAnonymisedData,
+        dpv:SensitivePersonalData ;
     skos:note "This definition of personal data encompasses the concepts used in GDPR Art.4-1 for 'personal data' and ISO/IEC 2700 for 'personally identifiable information (PII)'."@en ;
     skos:prefLabel "Personal Data"@en ;
     skos:related spl:AnyData ;

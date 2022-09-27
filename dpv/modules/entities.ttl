@@ -30,16 +30,6 @@ dpv:isInstanceOf rdfs:subPropertyOf skos:semanticRelation ;
 dpv:isSubTypeOf rdfs:subPropertyOf skos:broader ;
     skos:prefLabel "isSubTypeOf"@en .
 
-dpv:NaturalPerson a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-02-09"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "A human"@en ;
-    skos:prefLabel "Natural Person"@en ;
-    dpv:isSubTypeOf dpv:Entity .
-
 dpv:hasAddress a skos:Concept,
         dpv:Relation ;
     dct:created "2020-11-04"^^xsd:date ;
@@ -82,6 +72,17 @@ dpv:hasName a skos:Concept,
     dpv:hasDomain dpv:Entity ;
     dpv:hasRange dpv:Concept .
 
+dpv:NaturalPerson a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-02-09"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Entity ;
+    skos:definition "A human"@en ;
+    skos:prefLabel "Natural Person"@en ;
+    dpv:isSubTypeOf dpv:Entity .
+
 dpv:hasRepresentative a skos:Concept,
         dpv:Relation ;
     dct:created "2020-11-04"^^xsd:date ;
@@ -91,6 +92,7 @@ dpv:hasRepresentative a skos:Concept,
         "Paul Ryan"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:hasEntity ;
     skos:definition "Specifies representative of the legal entity"@en ;
     skos:prefLabel "has representative"@en ;
     dpv:hasDomain dpv:Entity ;
@@ -103,21 +105,12 @@ dpv:hasResponsibleEntity a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:hasEntity ;
     skos:definition "Specifies the indicated entity is responsible within some context"@en ;
     skos:prefLabel "has responsible entity"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Entity ;
     dpv:isSubTypeOf dpv:hasEntity .
-
-dpv:LegalEntity a skos:Concept,
-        dpv:Concept ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "A human or non-human 'thing' that constitutes as an entity and which is recognised and defined in law"@en ;
-    skos:prefLabel "Legal Entity"@en ;
-    dpv:isSubTypeOf dpv:Entity .
 
 dpv:Representative a skos:Concept,
         dpv:Concept ;
@@ -129,9 +122,22 @@ dpv:Representative a skos:Concept,
     dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_27/oj> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:LegalEntity ;
     skos:definition "A representative of a legal entity"@en ;
     skos:prefLabel "Representative"@en ;
     dpv:isSubTypeOf dpv:LegalEntity .
+
+dpv:LegalEntity a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Entity ;
+    skos:definition "A human or non-human 'thing' that constitutes as an entity and which is recognised and defined in law"@en ;
+    skos:narrower dpv:Representative ;
+    skos:prefLabel "Legal Entity"@en ;
+    dpv:isSubTypeOf dpv:Entity .
 
 dpv:hasEntity a skos:Concept,
         dpv:Relation ;
@@ -140,6 +146,8 @@ dpv:hasEntity a skos:Concept,
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates inclusion or applicability of an entity to some concept"@en ;
+    skos:narrower dpv:hasRepresentative,
+        dpv:hasResponsibleEntity ;
     skos:note "parent property for controller, processor, data subject, authority, etc.?"@en ;
     skos:prefLabel "has entity"@en ;
     dpv:hasDomain dpv:Concept ;
@@ -158,5 +166,7 @@ dpv:Entity a skos:Concept,
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "A human or non-human 'thing' that constitutes as an entity"@en ;
+    skos:narrower dpv:LegalEntity,
+        dpv:NaturalPerson ;
     skos:prefLabel "Entity"@en .
 

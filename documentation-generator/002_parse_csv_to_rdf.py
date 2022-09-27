@@ -198,6 +198,8 @@ def add_triples_for_classes(classes, graph):
                     graph.add((BASE[f'{cls.term}'], DPV.isInstanceOf, parent))
                 else:
                     raise Exception(f'Parent Type Unknown: {cls.parent_type} ')
+                graph.add((BASE[f'{cls.term}'], SKOS.broader, parent))
+                graph.add((parent, SKOS.narrower, BASE[f'{cls.term}']))
         # rdf:value
         if cls.rdf_value:
             value, datatype = cls.rdf_value.split(',')
@@ -256,6 +258,8 @@ def add_triples_for_properties(properties, graph):
             for parent in parents:
                 if parent.startswith('http'):
                     graph.add((BASE[f'{prop.term}'], DPV.isSubTypeOf, URIRef(parent)))
+                    graph.add((BASE[f'{prop.term}'], SKOS.broader, parent))
+                    graph.add((parent, SKOS.narrower, BASE[f'{prop.term}']))
                 elif ':' in parent:
                     if parent == "dpv:Relation":
                         continue
@@ -266,6 +270,8 @@ def add_triples_for_properties(properties, graph):
                     # dpv internal terms are expected to have the prefix i.e. dpv:term
                     parent = NAMESPACES[prefix][f'{term}']
                     graph.add((BASE[f'{prop.term}'], DPV.isSubTypeOf, parent))
+                    graph.add((BASE[f'{prop.term}'], SKOS.broader, parent))
+                    graph.add((parent, SKOS.narrower, BASE[f'{prop.term}']))
                 else:
                     graph.add((BASE[f'{prop.term}'], DPV.isSubTypeOf, Literal(parent, datatype=XSD.string)))
         add_common_triples_for_all_terms(prop, graph)
@@ -669,8 +675,8 @@ for row in concepts:
         prefix, parent = item.split(':')
         parent = NAMESPACES[prefix][f'{parent}']
         graph.add((term, DPV.isSubTypeOf, parent))
-        # graph.add((term, SKOS.broader, parent))
-        # graph.add((parent, SKOS.narrower, term))
+        graph.add((term, SKOS.broader, parent))
+        graph.add((parent, SKOS.narrower, term))
     # dct:created
     graph.add((term, DCT.created, Literal(row.created, datatype=XSD.date)))
     # dct:modified
