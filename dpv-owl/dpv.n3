@@ -1,6 +1,5 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix dpvo: <https://w3id.org/dpv/dpv-owl#> .
-@prefix ns1: <http://purl.org/vocab/vann/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -9,6 +8,7 @@
 @prefix svpr: <https://specialprivacy.ercim.eu/vocabs/processing#> .
 @prefix svpu: <https://specialprivacy.ercim.eu/vocabs/purposes#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/dpv/dpv-owl> a owl:Ontology ;
@@ -39,8 +39,8 @@
     dct:modified "2022-09-10"^^xsd:date ;
     dct:source <https://www.w3.org/community/dpvcg/> ;
     dct:title "Data Privacy Vocabulary"@en ;
-    ns1:preferredNamespacePrefix "dpvo" ;
-    ns1:preferredNamespaceUri "https://w3id.org/dpv/dpv-owl#"^^xsd:string ;
+    vann:preferredNamespacePrefix "dpvo" ;
+    vann:preferredNamespaceUri "https://w3id.org/dpv/dpv-owl#"^^xsd:string ;
     owl:versionInfo "0.8.1"^^xsd:string .
 
 dpvo:AcademicResearch a owl:Class ;
@@ -58,15 +58,16 @@ dpvo:AcademicResearch a owl:Class ;
     rdfs:subClassOf dpvo:ResearchAndDevelopment ;
     sw:term_status "accepted"@en .
 
-dpvo:AcademicScientificOrganisation a owl:NamedIndividual,
-        dpvo:Organisation ;
+dpvo:AcademicScientificOrganisation a owl:Class ;
     rdfs:label "AcademicScientificOrganisation"@en ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Organisations related to academia or scientific pursuits e.g. Universities, Schools, Research Bodies"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     dct:source <http://purl.org/adms> ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Organisation ;
+    sw:term_status "modified"@en .
 
 dpvo:Access a owl:Class ;
     rdfs:label "Access"@en ;
@@ -180,6 +181,20 @@ dpvo:Analyse a owl:Class ;
     rdfs:seeAlso svpr:Analyse ;
     rdfs:subClassOf dpvo:Use ;
     sw:term_status "accepted"@en .
+
+dpvo:Anonymisation a owl:Class ;
+    rdfs:label "Anonymisation"@en ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Mark Lizar"^^xsd:string,
+        "Rob Brennan"^^xsd:string ;
+    dct:description "Altering personal data irreversibly such that a data subject can no longer be identified directly or indirectly, either by the data controller alone or in collaboration with any other party"@en ;
+    dct:modified "2022-10-01"^^xsd:date ;
+    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj> ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:DataAnonymisationTechnique ;
+    sw:term_status "modified"@en .
 
 dpvo:Anonymise a owl:Class ;
     rdfs:label "Anonymise"@en ;
@@ -382,17 +397,17 @@ dpvo:AutomatedProcessingWithHumanOversight a owl:NamedIndividual,
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
-dpvo:AutomatedProcessingWithHumanVerification a owl:NamedIndividual,
+dpvo:AutomatedProcessingWithHumanReview a owl:NamedIndividual,
         dpvo:AutomationOfProcessing,
         dpvo:HumanInvolvementForVerification ;
-    rdfs:label "Automated Processing with Human Verification"@en ;
+    rdfs:label "Automated Processing with Human Review"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "Processing that is automated and involves verification of outputs by Humans"@en ;
-    dct:modified "2022-09-07"^^xsd:date ;
+    dct:description "Processing that is automated and involves review by Humans"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:comment "For example, a human verifying outputs of an algorithm for correctness or impact to individuals"@en ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    sw:term_status "modified"@en .
 
 dpvo:BackgroundChecks a owl:Class ;
     rdfs:label "Background Checks"@en ;
@@ -477,14 +492,15 @@ dpvo:Client a owl:Class ;
     rdfs:subClassOf dpvo:Customer ;
     sw:term_status "accepted"@en .
 
-dpvo:CloudLocation a owl:NamedIndividual,
-        dpvo:RemoteLocation ;
+dpvo:CloudLocation a owl:Class ;
     rdfs:label "Cloud Location"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Location that is in the 'cloud' i.e. a logical location operated over the internet"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:RemoteLocation ;
+    sw:term_status "modified"@en .
 
 dpvo:CodeOfConduct a owl:Class ;
     rdfs:label "Code of Conduct"@en ;
@@ -545,15 +561,6 @@ dpvo:CommunicationForCustomerCare a owl:Class ;
     rdfs:isDefinedBy dpvo: ;
     rdfs:subClassOf dpvo:CommunicationManagement,
         dpvo:CustomerCare ;
-    sw:term_status "accepted"@en .
-
-dpvo:CompleteAnonymisation a owl:Class ;
-    rdfs:label "Complete Anonymisation"@en ;
-    dct:created "2022-02-09"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "Altering personal data irreversibly such that a data subject can no longer be identified directly or indirectly, either by the data controller alone or in collaboration with any other party"@en ;
-    rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:Anonymisation ;
     sw:term_status "accepted"@en .
 
 dpvo:CompletelyManualProcessing a owl:NamedIndividual,
@@ -650,7 +657,7 @@ dpvo:ConsentInvalidated a owl:NamedIndividual,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Julian Flake"^^xsd:string,
         "Paul Ryan"^^xsd:string ;
-    dct:description "The state where consent has been deemed to be invalidate"@en ;
+    dct:description "The state where consent has been deemed to be invalid"@en ;
     dct:source <https://w3id.org/GConsent> ;
     rdfs:comment "An example of this state is where an investigating authority or a court finds the collected consent did not meet requirements, and 'invalidates' both prior and future uses of it to carry out processing"@en ;
     rdfs:isDefinedBy dpvo: ;
@@ -837,14 +844,15 @@ dpvo:Consumer a owl:Class ;
     rdfs:subClassOf dpvo:DataSubject ;
     sw:term_status "accepted"@en .
 
-dpvo:ContinousFrequency a owl:NamedIndividual,
-        dpvo:Frequency ;
+dpvo:ContinousFrequency a owl:Class ;
     rdfs:label "Continous Frequency"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Frequency where occurences are continous"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Frequency ;
+    sw:term_status "modified"@en .
 
 dpvo:ContractPerformance a owl:Class ;
     rdfs:label "Contract Performance"@en ;
@@ -1003,16 +1011,6 @@ dpvo:DPIA a owl:Class ;
     rdfs:subClassOf dpvo:ImpactAssessment ;
     sw:term_status "accepted"@en .
 
-dpvo:DataAnonymisationTechnique a owl:Class ;
-    rdfs:label "Data Anonymisation Technique"@en ;
-    dct:created "2022-08-17"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "Use of anonymisation techniques that reduce the identifiability in data"@en ;
-    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
-    rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:Anonymisation ;
-    sw:term_status "accepted"@en .
-
 dpvo:DataBackupProtocols a owl:Class ;
     rdfs:label "Data Backup Protocols"@en ;
     dct:created "2022-06-15"^^xsd:date ;
@@ -1053,14 +1051,13 @@ dpvo:DataPublishedByDataSubject a owl:NamedIndividual,
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
-dpvo:DataSanitisationTechnique a owl:Class ;
-    rdfs:label "Data Sanitisation Technique"@en ;
-    dct:created "2022-08-17"^^xsd:date ;
+dpvo:DataRedaction a owl:Class ;
+    rdfs:label "Data Redaction"@en ;
+    dct:created "2020-10-01"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "Cleaning or any removal or re-organisation of elements in data based on selective criteria"@en ;
-    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
+    dct:description "Removal of sensitive information from a data or document"@en ;
     rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:TechnicalMeasure ;
+    rdfs:subClassOf dpvo:DataSanitisationTechnique ;
     sw:term_status "accepted"@en .
 
 dpvo:DataSubProcessor a owl:Class ;
@@ -1106,7 +1103,17 @@ dpvo:DataTransferLegalBasis a owl:Class ;
     rdfs:subClassOf dpvo:LegalBasis ;
     sw:term_status "accepted"@en .
 
-dpvo:DeIdentification a owl:Class ;
+dpvo:DecentralisedLocations a owl:Class ;
+    rdfs:label "Decentralised Locations"@en ;
+    dct:created "2022-06-15"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Location that is spread across multiple separate areas with no distinction between their importance"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:LocationFixture ;
+    sw:term_status "modified"@en .
+
+dpvo:Deidentification a owl:Class ;
     rdfs:label "De-Identification"@en ;
     dct:created "2019-04-05"^^xsd:date ;
     dct:creator "Axel Polleres"^^xsd:string,
@@ -1115,16 +1122,7 @@ dpvo:DeIdentification a owl:Class ;
         "Rob Brennan"^^xsd:string ;
     dct:description "Removal of identity or information to reduce identifiability"@en ;
     rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:Anonymisation ;
-    sw:term_status "accepted"@en .
-
-dpvo:DecentralisedLocations a owl:NamedIndividual,
-        dpvo:LocationFixture ;
-    rdfs:label "Decentralised Locations"@en ;
-    dct:created "2022-06-15"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "Location that is spread across multiple separate areas with no distinction between their importance"@en ;
-    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:DataAnonymisationTechnique ;
     sw:term_status "accepted"@en .
 
 dpvo:DeliveryOfGoods a owl:Class ;
@@ -1170,7 +1168,7 @@ dpvo:DeterministicPseudonymisation a owl:Class ;
     dct:description "Pseudoanonymisation achieved through a deterministic function"@en ;
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:Anonymisation ;
+    rdfs:subClassOf dpvo:Pseudoanonymisation ;
     sw:term_status "accepted"@en .
 
 dpvo:Detriment a owl:Class ;
@@ -1284,7 +1282,7 @@ dpvo:DocumentRandomisedPseudonymisation a owl:Class ;
     dct:description "Use of randomised pseudoanonymisation where the same elements are assigned different values in the same document or database"@en ;
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:Anonymisation ;
+    rdfs:subClassOf dpvo:Pseudoanonymisation ;
     sw:term_status "accepted"@en .
 
 dpvo:DocumentSecurity a owl:Class ;
@@ -1388,8 +1386,9 @@ dpvo:EndlessDuration a owl:NamedIndividual,
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Duration that is open ended or without an end"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    sw:term_status "modified"@en .
 
 dpvo:EnforceAccessControl a owl:Class ;
     rdfs:label "Enforce Access Control"@en ;
@@ -1451,14 +1450,15 @@ dpvo:ExplicitlyExpressedConsent a owl:Class ;
     rdfs:subClassOf dpvo:ExpressedConsent ;
     sw:term_status "accepted"@en .
 
-dpvo:FederatedLocations a owl:NamedIndividual,
-        dpvo:LocationFixture ;
+dpvo:FederatedLocations a owl:Class ;
     rdfs:label "Federated Locations"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Location that is federated across multiple separate areas with designation of a primary or central location"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:LocationFixture ;
+    sw:term_status "modified"@en .
 
 dpvo:FileSystemSecurity a owl:Class ;
     rdfs:label "File System Security"@en ;
@@ -1480,41 +1480,45 @@ dpvo:Filter a owl:Class ;
     rdfs:subClassOf dpvo:Transform ;
     sw:term_status "accepted"@en .
 
-dpvo:FixedMultipleLocations a owl:NamedIndividual,
-        dpvo:FixedLocation ;
+dpvo:FixedMultipleLocations a owl:Class ;
     rdfs:label "Fixed Multiple Locations"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Location that is fixed with multiple places e.g. multiple cities"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:FixedLocation ;
+    sw:term_status "modified"@en .
 
-dpvo:FixedOccurencesDuration a owl:NamedIndividual,
-        dpvo:Duration ;
+dpvo:FixedOccurencesDuration a owl:Class ;
     rdfs:label "FixedOccurencesDuration"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Duration that takes place a fixed number of times e.g. 3 times"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Duration ;
+    sw:term_status "modified"@en .
 
-dpvo:FixedSingularLocation a owl:NamedIndividual,
-        dpvo:FixedLocation ;
+dpvo:FixedSingularLocation a owl:Class ;
     rdfs:label "Fixed Singular Location"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Location that is fixed at a specific place e.g. a city"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:FixedLocation ;
+    sw:term_status "modified"@en .
 
-dpvo:ForProfitOrganisation a owl:NamedIndividual,
-        dpvo:Organisation ;
+dpvo:ForProfitOrganisation a owl:Class ;
     rdfs:label "ForProfitOrganisation"@en ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "An organisation that aims to achieve profit as its primary goal"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Organisation ;
+    sw:term_status "modified"@en .
 
 dpvo:FullyAutomatedProcessing a owl:NamedIndividual,
         dpvo:AutomationOfProcessing ;
@@ -1532,7 +1536,7 @@ dpvo:FullyRandomisedPseudonymisation a owl:Class ;
     dct:description "Use of randomised pseudoanonymisation where the same elements are assigned different values each time they occur"@en ;
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:Anonymisation ;
+    rdfs:subClassOf dpvo:Pseudoanonymisation ;
     sw:term_status "accepted"@en .
 
 dpvo:Generate a owl:Class ;
@@ -1771,15 +1775,16 @@ dpvo:IncreaseServiceRobustness a owl:Class ;
     rdfs:subClassOf dpvo:OptimisationForController ;
     sw:term_status "accepted"@en .
 
-dpvo:IndustryConsortium a owl:NamedIndividual,
-        dpvo:Organisation ;
+dpvo:IndustryConsortium a owl:Class ;
     rdfs:label "IndustryConsortium"@en ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "A consortium established and comprising on industry organisations"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     dct:source <http://purl.org/adms> ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Organisation ;
+    sw:term_status "modified"@en .
 
 dpvo:Infer a owl:Class ;
     rdfs:label "Infer"@en ;
@@ -1847,16 +1852,17 @@ dpvo:InternalResourceOptimisation a owl:Class ;
     rdfs:subClassOf dpvo:OptimisationForController ;
     sw:term_status "accepted"@en .
 
-dpvo:InternationalOrganisation a owl:NamedIndividual,
-        dpvo:Organisation ;
+dpvo:InternationalOrganisation a owl:Class ;
     rdfs:label "International Organisation"@en ;
     dct:created "2022-03-23"^^xsd:date ;
     dct:creator "Georg P. Krog"^^xsd:string,
         "Julian Flake"^^xsd:string ;
     dct:description "An organisation and its subordinate bodies governed by public international law, or any other body which is set up by, or on the basis of, an agreement between two or more countries"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_26/oj> ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Organisation ;
+    sw:term_status "modified"@en .
 
 dpvo:IntrusionDetectionSystem a owl:Class ;
     rdfs:label "Intrusion Detection System"@en ;
@@ -2189,7 +2195,7 @@ dpvo:MonotonicCounterPseudoanonymisation a owl:Class ;
     dct:description "A simple pseudoanonymisation method where identifiers are substituted by a number chosen by a monotonic counter"@en ;
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:Anonymisation ;
+    rdfs:subClassOf dpvo:Pseudoanonymisation ;
     sw:term_status "accepted"@en .
 
 dpvo:Move a owl:Class ;
@@ -2319,15 +2325,16 @@ dpvo:NonCompliant a owl:NamedIndividual,
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "changed"@en .
 
-dpvo:NonGovernmentalOrganisation a owl:NamedIndividual,
-        dpvo:Organisation ;
+dpvo:NonGovernmentalOrganisation a owl:Class ;
     rdfs:label "NonGovernmentalOrganisation"@en ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "An organisation not part of or independent from the government"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     dct:source <http://purl.org/adms> ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Organisation ;
+    sw:term_status "modified"@en .
 
 dpvo:NonMaterialDamage a owl:Class ;
     rdfs:label "Non-Material Damage"@en ;
@@ -2338,15 +2345,16 @@ dpvo:NonMaterialDamage a owl:Class ;
     rdfs:subClassOf dpvo:Damage ;
     sw:term_status "accepted"@en .
 
-dpvo:NonProfitOrganisation a owl:NamedIndividual,
-        dpvo:Organisation ;
+dpvo:NonProfitOrganisation a owl:Class ;
     rdfs:label "NonProfitOrganisation"@en ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "An organisation that does not aim to achieve profit as its primary goal"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     dct:source <http://purl.org/adms> ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Organisation ;
+    sw:term_status "modified"@en .
 
 dpvo:NonPublicDataSource a owl:NamedIndividual,
         dpvo:DataSource ;
@@ -2404,14 +2412,15 @@ dpvo:OfficialAuthorityOfController a owl:Class ;
     rdfs:subClassOf dpvo:LegalBasis ;
     sw:term_status "accepted"@en .
 
-dpvo:OftenFrequency a owl:NamedIndividual,
-        dpvo:Frequency ;
+dpvo:OftenFrequency a owl:Class ;
     rdfs:label "Often Frequency"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Frequency where occurences are often or frequent, but not continous"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Frequency ;
+    sw:term_status "modified"@en .
 
 dpvo:OperatingSystemSecurity a owl:Class ;
     rdfs:label "Operating System Security"@en ;
@@ -2707,19 +2716,6 @@ dpvo:Profiling a owl:Class ;
     rdfs:subClassOf dpvo:Use ;
     sw:term_status "accepted"@en .
 
-dpvo:PseudoAnonymisation a owl:Class ;
-    rdfs:label "Pseudo-Anonymisation"@en ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Axel Polleres"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Mark Lizar"^^xsd:string,
-        "Rob Brennan"^^xsd:string ;
-    dct:description "PseudoAnonmyization or 'pseudonymisation’ means the processing of personal data in such a manner that the personal data can no longer be attributed to a specific data subject without the use of additional information, provided that such additional information is kept separately and is subject to technical and organisational measures to ensure that the personal data are not attributed to an identified or identifiable natural person;"@en ;
-    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj> ;
-    rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:Anonymisation ;
-    sw:term_status "accepted"@en .
-
 dpvo:PseudoAnonymise a owl:Class ;
     rdfs:label "Pseudo-Anonymise"@en ;
     dct:created "2019-05-07"^^xsd:date ;
@@ -2736,6 +2732,19 @@ dpvo:PseudoAnonymisedData a owl:Class ;
     dct:description "Personal Data that has undergone a partial (incomplete) anonymisation process such that it is still considered Personal Data"@en ;
     rdfs:isDefinedBy dpvo: ;
     rdfs:subClassOf dpvo:PersonalData ;
+    sw:term_status "accepted"@en .
+
+dpvo:Pseudonymisation a owl:Class ;
+    rdfs:label "Pseudonymisation"@en ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Mark Lizar"^^xsd:string,
+        "Rob Brennan"^^xsd:string ;
+    dct:description "Pseudonymisation means the processing of personal data in such a manner that the personal data can no longer be attributed to a specific data subject without the use of additional information, provided that such additional information is kept separately and is subject to technical and organisational measures to ensure that the personal data are not attributed to an identified or identifiable natural person;"@en ;
+    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj> ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:DataAnonymisationTechnique ;
     sw:term_status "accepted"@en .
 
 dpvo:PublicDataSource a owl:NamedIndividual,
@@ -2800,7 +2809,7 @@ dpvo:RNGPseudoanonymisation a owl:Class ;
     dct:description "A pseudoanonymisation method where identifiers are substituted by a number chosen by a Random Number Generator (RNG)"@en ;
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:Anonymisation ;
+    rdfs:subClassOf dpvo:PseudoAnonymisation ;
     sw:term_status "accepted"@en .
 
 dpvo:RandomLocation a owl:NamedIndividual,
@@ -2809,8 +2818,9 @@ dpvo:RandomLocation a owl:NamedIndividual,
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Location that is random or unknown"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    sw:term_status "modified"@en .
 
 dpvo:Record a owl:Class ;
     rdfs:label "Record"@en ;
@@ -3128,16 +3138,17 @@ dpvo:ServiceRecordManagement a owl:Class ;
     sw:term_status "accepted"@en .
 
 dpvo:ServiceUsageAnalytics a owl:Class ;
-    rdfs:label "Analytics"@en ;
+    rdfs:label "Service Usage Analytics"@en ;
     dct:created "2020-11-04"^^xsd:date ;
     dct:creator "Beatriz Esteves"^^xsd:string,
         "Georg P Krog"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Conduct analysis and reporting related to usage of services or products"@en ;
+    dct:modified "2022-10-05"^^xsd:date ;
     rdfs:comment "Was \"UsageAnalytics\", prefixed with Service to better reflect scope"@en ;
     rdfs:isDefinedBy dpvo: ;
     rdfs:subClassOf dpvo:ServiceProvision ;
-    sw:term_status "accepted"@en .
+    sw:term_status "modified"@en .
 
 dpvo:Share a owl:Class ;
     rdfs:label "Share"@en ;
@@ -3168,14 +3179,15 @@ dpvo:SingularDataVolume a owl:NamedIndividual,
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
-dpvo:SingularFrequency a owl:NamedIndividual,
-        dpvo:Frequency ;
+dpvo:SingularFrequency a owl:Class ;
     rdfs:label "SingularFrequency"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Frequency where occurences are singular i.e. they take place only once"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Frequency ;
+    sw:term_status "modified"@en .
 
 dpvo:SingularScaleOfDataSubjects a owl:NamedIndividual,
         dpvo:DataSubjectScale ;
@@ -3246,14 +3258,15 @@ dpvo:SporadicDataVolume a owl:NamedIndividual,
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
-dpvo:SporadicFrequency a owl:NamedIndividual,
-        dpvo:Frequency ;
+dpvo:SporadicFrequency a owl:Class ;
     rdfs:label "SporadicFrequency"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Frequency where occurences are sporadic or infrequent or sparse"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Frequency ;
+    sw:term_status "modified"@en .
 
 dpvo:SporadicScaleOfDataSubjects a owl:NamedIndividual,
         dpvo:DataSubjectScale ;
@@ -3450,14 +3463,15 @@ dpvo:TechnicalServiceProvision a owl:Class ;
     rdfs:subClassOf dpvo:ServiceProvision ;
     sw:term_status "accepted"@en .
 
-dpvo:TemporalDuration a owl:NamedIndividual,
-        dpvo:Duration ;
+dpvo:TemporalDuration a owl:Class ;
     rdfs:label "TemporalDuration"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Duration that has a fixed temporal duration e.g. 6 months"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Duration ;
+    sw:term_status "modified"@en .
 
 dpvo:ThirdPartyAgreement a owl:Class ;
     rdfs:label "Third-Party Agreement"@en ;
@@ -3542,23 +3556,25 @@ dpvo:UninformedConsent a owl:Class ;
     rdfs:subClassOf dpvo:Consent ;
     sw:term_status "accepted"@en .
 
-dpvo:UntilEventDuration a owl:NamedIndividual,
-        dpvo:Duration ;
+dpvo:UntilEventDuration a owl:Class ;
     rdfs:label "UntilEventDuration"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Duration that takes place until a specific event occurs e.g. Account Closure"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Duration ;
+    sw:term_status "modified"@en .
 
-dpvo:UntilTimeDuration a owl:NamedIndividual,
-        dpvo:Duration ;
+dpvo:UntilTimeDuration a owl:Class ;
     rdfs:label "UntilTimeDuration"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Duration that has a fixed end date e.g. 2022-12-31"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Duration ;
+    sw:term_status "modified"@en .
 
 dpvo:UsageControl a owl:Class ;
     rdfs:label "Usage Control"@en ;
@@ -3607,14 +3623,15 @@ dpvo:UserInterfacePersonalisation a owl:Class ;
     rdfs:subClassOf dpvo:ServicePersonalization ;
     sw:term_status "accepted"@en .
 
-dpvo:VariableLocation a owl:NamedIndividual,
-        dpvo:LocationFixture ;
+dpvo:VariableLocation a owl:Class ;
     rdfs:label "Variable Location"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Location that is known but is variable e.g. somewhere within a given area"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:LocationFixture ;
+    sw:term_status "modified"@en .
 
 dpvo:VendorPayment a owl:Class ;
     rdfs:label "Vendor Payment"@en ;
@@ -3729,13 +3746,32 @@ dpvo:WirelessSecurityProtocols a owl:Class ;
     rdfs:subClassOf dpvo:SecurityMethod ;
     sw:term_status "accepted"@en .
 
-dpvo:WithinDevice a owl:NamedIndividual,
-        dpvo:LocalLocation ;
+dpvo:WithinDevice a owl:Class ;
     rdfs:label "Within Device"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "Location is local and entirely within a device or environment"@en ;
+    dct:description "Location is local and entirely within a device, such as a smartphone"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:LocalLocation ;
+    sw:term_status "modified"@en .
+
+dpvo:WithinPhysicalEnvironment a owl:Class ;
+    rdfs:label "Within Physical Environment"@en ;
+    dct:created "2020-10-06"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Location is local and entirely within a physical environment, such as a room"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:LocalLocation ;
+    sw:term_status "accepted"@en .
+
+dpvo:WithinVirtualEnvironment a owl:Class ;
+    rdfs:label "Within Virtual Environment"@en ;
+    dct:created "2020-10-06"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Location is local and entirely within a virtual environment, such as a shared network directory"@en ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:LocalLocation ;
     sw:term_status "accepted"@en .
 
 dpvo:ZeroKnowledgeAuthentication a owl:Class ;
@@ -5012,14 +5048,15 @@ dpvo:GeneratedPersonalData a owl:Class ;
     rdfs:subClassOf dpvo:PersonalData ;
     sw:term_status "accepted"@en .
 
-dpvo:GovernmentalOrganisation a owl:NamedIndividual,
-        dpvo:Organisation ;
+dpvo:GovernmentalOrganisation a owl:Class ;
     rdfs:label "GovernmentalOrganisation"@en ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "An organisation managed or part of government"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Organisation ;
+    sw:term_status "modified"@en .
 
 dpvo:HumanInvolvementForInput a owl:NamedIndividual,
         dpvo:HumanInvolvement ;
@@ -5082,15 +5119,6 @@ dpvo:Likelihood a owl:Class ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "The likelihood or probability or chance of something taking place or occuring"@en ;
     rdfs:comment "Likelihood can be expressed in a subjective manner, such as 'Unlikely', or in a quantitative manner such as \"Twice in a Day\" (frequency per period). The suggestion is to use quantitative values, or to associate them with subjective terms used so as to enable accurate interpretations and interoperability. See the concepts related to Frequency and Duration for possible uses as a combination to express Likelihood."@en ;
-    rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
-
-dpvo:LocalLocation a owl:NamedIndividual,
-        dpvo:LocationLocality ;
-    rdfs:label "Local Location"@en ;
-    dct:created "2022-06-15"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "Location is local"@en ;
     rdfs:isDefinedBy dpvo: ;
     sw:term_status "accepted"@en .
 
@@ -5182,14 +5210,15 @@ dpvo:RecordsOfActivities a owl:Class ;
     rdfs:subClassOf dpvo:OrganisationalMeasure ;
     sw:term_status "accepted"@en .
 
-dpvo:RemoteLocation a owl:NamedIndividual,
-        dpvo:LocationLocality ;
+dpvo:RemoteLocation a owl:Class ;
     rdfs:label "Remote Location"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Location is remote i.e. not local"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:LocationLocality ;
+    sw:term_status "modified"@en .
 
 dpvo:RequestedServiceProvision a owl:Class ;
     rdfs:label "Requested Service Provision"@en ;
@@ -5547,14 +5576,25 @@ dpvo:DataProcessor a owl:Class ;
     rdfs:subClassOf dpvo:Recipient ;
     sw:term_status "accepted"@en .
 
-dpvo:FixedLocation a owl:NamedIndividual,
-        dpvo:LocationFixture ;
+dpvo:DataSanitisationTechnique a owl:Class ;
+    rdfs:label "Data Sanitisation Technique"@en ;
+    dct:created "2022-08-17"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Cleaning or any removal or re-organisation of elements in data based on selective criteria"@en ;
+    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:TechnicalMeasure ;
+    sw:term_status "accepted"@en .
+
+dpvo:FixedLocation a owl:Class ;
     rdfs:label "Fixed Location"@en ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Location that is fixed i.e. known to occur at a specific place"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:LocationFixture ;
+    sw:term_status "modified"@en .
 
 dpvo:FraudPreventionAndDetection a owl:Class ;
     rdfs:label "Fraud Prevention and Detection"@en ;
@@ -5612,8 +5652,10 @@ dpvo:LocationLocality a owl:Class ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     dct:description "Locality refers to whether the specified location is local within some context, e.g. for the user"@en ;
+    dct:modified "2022-10-04"^^xsd:date ;
     rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
+    rdfs:subClassOf dpvo:Location ;
+    sw:term_status "modified"@en .
 
 dpvo:Notice a owl:Class ;
     rdfs:label "Notice"@en ;
@@ -5741,6 +5783,16 @@ dpvo:Damage a owl:Class ;
     rdfs:subClassOf dpvo:Impact ;
     sw:term_status "accepted"@en .
 
+dpvo:DataAnonymisationTechnique a owl:Class ;
+    rdfs:label "Data Anonymisation Technique"@en ;
+    dct:created "2022-08-17"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Use of anonymisation techniques that reduce the identifiability in data"@en ;
+    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:DataSanitisationTechnique ;
+    sw:term_status "accepted"@en .
+
 dpvo:DataController a owl:Class ;
     rdfs:label "Data Controller"@en ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -5776,6 +5828,16 @@ dpvo:ImpactAssessment a owl:Class ;
     rdfs:isDefinedBy dpvo: ;
     rdfs:subClassOf dpvo:Assessment ;
     sw:term_status "accepted"@en .
+
+dpvo:LocalLocation a owl:Class ;
+    rdfs:label "Local Location"@en ;
+    dct:created "2022-06-15"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "Location is local"@en ;
+    dct:modified "2020-10-05"^^xsd:date ;
+    rdfs:isDefinedBy dpvo: ;
+    rdfs:subClassOf dpvo:LocationLocality ;
+    sw:term_status "modified"@en .
 
 dpvo:Necessity a owl:Class ;
     rdfs:label "Necessity"@en ;
@@ -6299,16 +6361,6 @@ dpvo:GovernanceProcedures a owl:Class ;
     rdfs:subClassOf dpvo:OrganisationalMeasure ;
     sw:term_status "accepted"@en .
 
-dpvo:Location a owl:Class ;
-    rdfs:label "Location"@en ;
-    dct:created "2022-01-19"^^xsd:date ;
-    dct:creator "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:description "A location is a position, site, or area where something is located"@en ;
-    rdfs:comment "Location may be geographic, physical, or virtual."@en ;
-    rdfs:isDefinedBy dpvo: ;
-    sw:term_status "accepted"@en .
-
 dpvo:Organisation a owl:Class ;
     rdfs:label "Organisation"@en ;
     dct:created "2022-02-02"^^xsd:date ;
@@ -6374,6 +6426,16 @@ dpvo:GeographicCoverage a owl:Class ;
     rdfs:subClassOf dpvo:Scale ;
     sw:term_status "accepted"@en .
 
+dpvo:Location a owl:Class ;
+    rdfs:label "Location"@en ;
+    dct:created "2022-01-19"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:description "A location is a position, site, or area where something is located"@en ;
+    rdfs:comment "Location may be geographic, physical, or virtual."@en ;
+    rdfs:isDefinedBy dpvo: ;
+    sw:term_status "accepted"@en .
+
 dpvo:ProcessingContext a owl:Class ;
     rdfs:label "Processing Context"@en ;
     dct:created "2022-02-09"^^xsd:date ;
@@ -6411,19 +6473,6 @@ dpvo:SecurityProcedure a owl:Class ;
     dct:description "Procedures associated with assessing, implementing, and evaluating security"@en ;
     rdfs:isDefinedBy dpvo: ;
     rdfs:subClassOf dpvo:OrganisationalMeasure ;
-    sw:term_status "accepted"@en .
-
-dpvo:Anonymisation a owl:Class ;
-    rdfs:label "Anonymisation"@en ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Axel Polleres"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Mark Lizar"^^xsd:string,
-        "Rob Brennan"^^xsd:string ;
-    dct:description "Process by which some personal identifiers are removed or identifiability is reduced"@en ;
-    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj> ;
-    rdfs:isDefinedBy dpvo: ;
-    rdfs:subClassOf dpvo:TechnicalMeasure ;
     sw:term_status "accepted"@en .
 
 dpvo:Context a owl:Class ;

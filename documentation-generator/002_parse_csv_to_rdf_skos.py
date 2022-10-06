@@ -406,12 +406,14 @@ DPV_CSV_FILES = {
         },
     'entities_organisation': {
         'classes': f'{IMPORT_CSV_PATH}/Entities_Organisation.csv',
-        'model': 'ontology',
+        'model': 'taxonomy',
+        'topconcept': BASE['Organisation'],
         },
     'entities_datasubject': {
         'classes': f'{IMPORT_CSV_PATH}/Entities_DataSubject.csv',
         'properties': f'{IMPORT_CSV_PATH}/Entities_DataSubject_properties.csv',
-        'model': 'ontology',
+        'model': 'taxonomy',
+        'topconcept': BASE['DataSubject'],
         },
     'jurisdiction': {
         'classes': f'{IMPORT_CSV_PATH}/Jurisdiction.csv',

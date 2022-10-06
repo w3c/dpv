@@ -36,12 +36,12 @@
         "Harshvardhan J. Pandit" ;
     dct:description "The Data Privacy Vocabulary (DPV) provides terms (classes and properties) to represent information about legally compliant personal data handling, which includes purposes, processing, personal data, technical and organisational measures."@en ;
     dct:license <https://www.w3.org/Consortium/Legal/2015/doc-license> ;
-    dct:modified "2022-09-10"^^xsd:date ;
+    dct:modified "2022-10-06"^^xsd:date ;
     dct:source <https://www.w3.org/community/dpvcg/> ;
     dct:title "Data Privacy Vocabulary"@en ;
     vann:preferredNamespacePrefix "dpv" ;
     vann:preferredNamespaceUri "https://w3id.org/dpv#"^^xsd:string ;
-    owl:versionInfo "0.8.1"^^xsd:string .
+    owl:versionInfo "0.8.2"^^xsd:string .
 
 dpv:BaseConcepts a skos:Collection ;
     skos:member dpv:DataController,
@@ -257,6 +257,8 @@ dpv:JurisdictionConcepts a skos:Collection ;
         dpv:ThirdCountry,
         dpv:VariableLocation,
         dpv:WithinDevice,
+        dpv:WithinPhysicalEnvironment,
+        dpv:WithinVirtualEnvironment,
         dpv:hasApplicableLaw,
         dpv:hasCountry,
         dpv:hasJurisdiction,
@@ -423,7 +425,7 @@ dpv:Processing_ContextConcepts a skos:Collection ;
         dpv:AutomatedDecisionMaking,
         dpv:AutomatedProcessingWithHumanInput,
         dpv:AutomatedProcessingWithHumanOversight,
-        dpv:AutomatedProcessingWithHumanVerification,
+        dpv:AutomatedProcessingWithHumanReview,
         dpv:AutomationOfProcessing,
         dpv:CompletelyManualProcessing,
         dpv:DataPublishedByDataSubject,
@@ -636,14 +638,14 @@ dpv:Technical_MeasuresConcepts a skos:Collection ;
         dpv:AuthenticationProtocols,
         dpv:AuthorisationProtocols,
         dpv:BiometricAuthentication,
-        dpv:CompleteAnonymisation,
         dpv:CryptographicAuthentication,
         dpv:CryptographicKeyManagement,
         dpv:CryptographicMethods,
         dpv:DataAnonymisationTechnique,
         dpv:DataBackupProtocols,
+        dpv:DataRedaction,
         dpv:DataSanitisationTechnique,
-        dpv:DeIdentification,
+        dpv:Deidentification,
         dpv:DeterministicPseudonymisation,
         dpv:DifferentialPrivacy,
         dpv:DigitalRightsManagement,
@@ -676,7 +678,7 @@ dpv:Technical_MeasuresConcepts a skos:Collection ;
         dpv:PostQuantumCryptography,
         dpv:PrivacyPreservingProtocol,
         dpv:PrivateInformationRetrieval,
-        dpv:PseudoAnonymisation,
+        dpv:Pseudonymisation,
         dpv:QuantumCryptography,
         dpv:RNGPseudoanonymisation,
         dpv:SecretSharingSchemes,
@@ -1433,14 +1435,15 @@ dpv:AcademicScientificOrganisation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     dct:source <http://purl.org/adms> ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Organisation ;
     skos:definition "Organisations related to academia or scientific pursuits e.g. Universities, Schools, Research Bodies"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "AcademicScientificOrganisation"@en ;
-    dpv:isInstanceOf dpv:Organisation .
+    dpv:isSubTypeOf dpv:Organisation .
 
 dpv:Access a skos:Concept,
         dpv:Concept ;
@@ -1590,6 +1593,23 @@ dpv:Analyse a skos:Concept,
     skos:prefLabel "Analyse"@en ;
     skos:related svpr:Analyse ;
     dpv:isSubTypeOf dpv:Use .
+
+dpv:Anonymisation a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Mark Lizar"^^xsd:string,
+        "Rob Brennan"^^xsd:string ;
+    dct:modified "2022-10-01"^^xsd:date ;
+    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "modified"@en ;
+    skos:broader dpv:DataAnonymisationTechnique ;
+    skos:definition "Altering personal data irreversibly such that a data subject can no longer be identified directly or indirectly, either by the data controller alone or in collaboration with any other party"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Anonymisation"@en ;
+    dpv:isSubTypeOf dpv:DataAnonymisationTechnique .
 
 dpv:Anonymise a skos:Concept,
         dpv:Concept ;
@@ -1913,13 +1933,14 @@ dpv:CloudLocation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:RemoteLocation ;
     skos:definition "Location that is in the 'cloud' i.e. a logical location operated over the internet"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Cloud Location"@en ;
-    dpv:isInstanceOf dpv:RemoteLocation .
+    dpv:isSubTypeOf dpv:RemoteLocation .
 
 dpv:CodeOfConduct a skos:Concept,
         dpv:Concept ;
@@ -1981,18 +2002,6 @@ dpv:CommercialResearch a skos:Concept,
     skos:prefLabel "Commercial Research"@en ;
     skos:related svpu:Develop ;
     dpv:isSubTypeOf dpv:ResearchAndDevelopment .
-
-dpv:CompleteAnonymisation a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-02-09"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:Anonymisation ;
-    skos:definition "Altering personal data irreversibly such that a data subject can no longer be identified directly or indirectly, either by the data controller alone or in collaboration with any other party"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Complete Anonymisation"@en ;
-    dpv:isSubTypeOf dpv:Anonymisation .
 
 dpv:CompletelyManualProcessing a skos:Concept,
         dpv:Concept ;
@@ -2115,7 +2124,7 @@ dpv:ConsentInvalidated a skos:Concept,
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:broader dpv:ConsentStatusInvalidForProcessing ;
-    skos:definition "The state where consent has been deemed to be invalidate"@en ;
+    skos:definition "The state where consent has been deemed to be invalid"@en ;
     skos:inScheme dpv: ;
     skos:note "An example of this state is where an investigating authority or a court finds the collected consent did not meet requirements, and 'invalidates' both prior and future uses of it to carry out processing"@en ;
     skos:prefLabel "Consent Invalidated"@en ;
@@ -2351,13 +2360,14 @@ dpv:ContinousFrequency a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Frequency ;
     skos:definition "Frequency where occurences are continous"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Continous Frequency"@en ;
-    dpv:isInstanceOf dpv:Frequency .
+    dpv:isSubTypeOf dpv:Frequency .
 
 dpv:ContractPerformance a skos:Concept,
         dpv:Concept ;
@@ -2544,19 +2554,6 @@ dpv:DPIA a skos:Concept,
     skos:prefLabel "Data Protection Impact Assessment (DPIA)"@en ;
     dpv:isSubTypeOf dpv:ImpactAssessment .
 
-dpv:DataAnonymisationTechnique a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-08-17"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:Anonymisation ;
-    skos:definition "Use of anonymisation techniques that reduce the identifiability in data"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Data Anonymisation Technique"@en ;
-    dpv:isSubTypeOf dpv:Anonymisation .
-
 dpv:DataBackupProtocols a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
@@ -2611,18 +2608,17 @@ dpv:DataPublishedByDataSubject a skos:Concept,
     skos:prefLabel "Data published by Data Subject"@en ;
     dpv:isInstanceOf dpv:DataSource .
 
-dpv:DataSanitisationTechnique a skos:Concept,
+dpv:DataRedaction a skos:Concept,
         dpv:Concept ;
-    dct:created "2022-08-17"^^xsd:date ;
+    dct:created "2020-10-01"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:TechnicalMeasure ;
-    skos:definition "Cleaning or any removal or re-organisation of elements in data based on selective criteria"@en ;
+    skos:broader dpv:DataSanitisationTechnique ;
+    skos:definition "Removal of sensitive information from a data or document"@en ;
     skos:inScheme dpv: ;
-    skos:prefLabel "Data Sanitisation Technique"@en ;
-    dpv:isSubTypeOf dpv:TechnicalMeasure .
+    skos:prefLabel "Data Redaction"@en ;
+    dpv:isSubTypeOf dpv:DataSanitisationTechnique .
 
 dpv:DataSubProcessor a skos:Concept,
         dpv:Concept ;
@@ -2679,7 +2675,20 @@ dpv:DataTransferLegalBasis a skos:Concept,
     skos:prefLabel "Data Transfer Legal Basis"@en ;
     dpv:isSubTypeOf dpv:LegalBasis .
 
-dpv:DeIdentification a skos:Concept,
+dpv:DecentralisedLocations a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-15"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "modified"@en ;
+    skos:broader dpv:LocationFixture ;
+    skos:definition "Location that is spread across multiple separate areas with no distinction between their importance"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Decentralised Locations"@en ;
+    dpv:isSubTypeOf dpv:LocationFixture .
+
+dpv:Deidentification a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
     dct:creator "Axel Polleres"^^xsd:string,
@@ -2688,23 +2697,11 @@ dpv:DeIdentification a skos:Concept,
         "Rob Brennan"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Anonymisation ;
+    skos:broader dpv:DataAnonymisationTechnique ;
     skos:definition "Removal of identity or information to reduce identifiability"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "De-Identification"@en ;
-    dpv:isSubTypeOf dpv:Anonymisation .
-
-dpv:DecentralisedLocations a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-06-15"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:LocationFixture ;
-    skos:definition "Location that is spread across multiple separate areas with no distinction between their importance"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Decentralised Locations"@en ;
-    dpv:isInstanceOf dpv:LocationFixture .
+    dpv:isSubTypeOf dpv:DataAnonymisationTechnique .
 
 dpv:DeliveryOfGoods a skos:Concept,
         dpv:Concept ;
@@ -2758,11 +2755,11 @@ dpv:DeterministicPseudonymisation a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Anonymisation ;
+    skos:broader dpv:Pseudoanonymisation ;
     skos:definition "Pseudoanonymisation achieved through a deterministic function"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Deterministic Pseudonymisation"@en ;
-    dpv:isSubTypeOf dpv:Anonymisation .
+    dpv:isSubTypeOf dpv:Pseudoanonymisation .
 
 dpv:Detriment a skos:Concept,
         dpv:Concept ;
@@ -2905,11 +2902,11 @@ dpv:DocumentRandomisedPseudonymisation a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Anonymisation ;
+    skos:broader dpv:Pseudoanonymisation ;
     skos:definition "Use of randomised pseudoanonymisation where the same elements are assigned different values in the same document or database"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Document Randomised Pseudonymisation"@en ;
-    dpv:isSubTypeOf dpv:Anonymisation .
+    dpv:isSubTypeOf dpv:Pseudoanonymisation .
 
 dpv:DocumentSecurity a skos:Concept,
         dpv:Concept ;
@@ -3037,8 +3034,9 @@ dpv:EndlessDuration a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Duration ;
     skos:definition "Duration that is open ended or without an end"@en ;
     skos:inScheme dpv: ;
@@ -3124,13 +3122,14 @@ dpv:FederatedLocations a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:LocationFixture ;
     skos:definition "Location that is federated across multiple separate areas with designation of a primary or central location"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Federated Locations"@en ;
-    dpv:isInstanceOf dpv:LocationFixture .
+    dpv:isSubTypeOf dpv:LocationFixture .
 
 dpv:FileSystemSecurity a skos:Concept,
         dpv:Concept ;
@@ -3162,49 +3161,53 @@ dpv:FixedMultipleLocations a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:FixedLocation ;
     skos:definition "Location that is fixed with multiple places e.g. multiple cities"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Fixed Multiple Locations"@en ;
-    dpv:isInstanceOf dpv:FixedLocation .
+    dpv:isSubTypeOf dpv:FixedLocation .
 
 dpv:FixedOccurencesDuration a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Duration ;
     skos:definition "Duration that takes place a fixed number of times e.g. 3 times"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "FixedOccurencesDuration"@en ;
-    dpv:isInstanceOf dpv:Duration .
+    dpv:isSubTypeOf dpv:Duration .
 
 dpv:FixedSingularLocation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:FixedLocation ;
     skos:definition "Location that is fixed at a specific place e.g. a city"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Fixed Singular Location"@en ;
-    dpv:isInstanceOf dpv:FixedLocation .
+    dpv:isSubTypeOf dpv:FixedLocation .
 
 dpv:ForProfitOrganisation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Organisation ;
     skos:definition "An organisation that aims to achieve profit as its primary goal"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "ForProfitOrganisation"@en ;
-    dpv:isInstanceOf dpv:Organisation .
+    dpv:isSubTypeOf dpv:Organisation .
 
 dpv:FullyAutomatedProcessing a skos:Concept,
         dpv:Concept ;
@@ -3225,11 +3228,11 @@ dpv:FullyRandomisedPseudonymisation a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Anonymisation ;
+    skos:broader dpv:Pseudoanonymisation ;
     skos:definition "Use of randomised pseudoanonymisation where the same elements are assigned different values each time they occur"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Fully Randomised Pseudonymisation"@en ;
-    dpv:isSubTypeOf dpv:Anonymisation .
+    dpv:isSubTypeOf dpv:Pseudoanonymisation .
 
 dpv:Generate a skos:Concept,
         dpv:Concept ;
@@ -3518,14 +3521,15 @@ dpv:IndustryConsortium a skos:Concept,
         dpv:Concept ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     dct:source <http://purl.org/adms> ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Organisation ;
     skos:definition "A consortium established and comprising on industry organisations"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "IndustryConsortium"@en ;
-    dpv:isInstanceOf dpv:Organisation .
+    dpv:isSubTypeOf dpv:Organisation .
 
 dpv:Infer a skos:Concept,
         dpv:Concept ;
@@ -3602,14 +3606,15 @@ dpv:InternationalOrganisation a skos:Concept,
     dct:created "2022-03-23"^^xsd:date ;
     dct:creator "Georg P. Krog"^^xsd:string,
         "Julian Flake"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_26/oj> ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Organisation ;
     skos:definition "An organisation and its subordinate bodies governed by public international law, or any other body which is set up by, or on the basis of, an agreement between two or more countries"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "International Organisation"@en ;
-    dpv:isInstanceOf dpv:Organisation .
+    dpv:isSubTypeOf dpv:Organisation .
 
 dpv:IntrusionDetectionSystem a skos:Concept,
         dpv:Concept ;
@@ -4056,11 +4061,11 @@ dpv:MonotonicCounterPseudoanonymisation a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Anonymisation ;
+    skos:broader dpv:Pseudoanonymisation ;
     skos:definition "A simple pseudoanonymisation method where identifiers are substituted by a number chosen by a monotonic counter"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Monotonic Counter Pseudoanonymisation"@en ;
-    dpv:isSubTypeOf dpv:Anonymisation .
+    dpv:isSubTypeOf dpv:Pseudoanonymisation .
 
 dpv:Move a skos:Concept,
         dpv:Concept ;
@@ -4229,14 +4234,15 @@ dpv:NonGovernmentalOrganisation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     dct:source <http://purl.org/adms> ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Organisation ;
     skos:definition "An organisation not part of or independent from the government"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "NonGovernmentalOrganisation"@en ;
-    dpv:isInstanceOf dpv:Organisation .
+    dpv:isSubTypeOf dpv:Organisation .
 
 dpv:NonMaterialDamage a skos:Concept,
         dpv:Concept ;
@@ -4254,14 +4260,15 @@ dpv:NonProfitOrganisation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     dct:source <http://purl.org/adms> ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Organisation ;
     skos:definition "An organisation that does not aim to achieve profit as its primary goal"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "NonProfitOrganisation"@en ;
-    dpv:isInstanceOf dpv:Organisation .
+    dpv:isSubTypeOf dpv:Organisation .
 
 dpv:NonPublicDataSource a skos:Concept,
         dpv:Concept ;
@@ -4338,13 +4345,14 @@ dpv:OftenFrequency a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Frequency ;
     skos:definition "Frequency where occurences are often or frequent, but not continous"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Often Frequency"@en ;
-    dpv:isInstanceOf dpv:Frequency .
+    dpv:isSubTypeOf dpv:Frequency .
 
 dpv:OperatingSystemSecurity a skos:Concept,
         dpv:Concept ;
@@ -4733,21 +4741,7 @@ dpv:Profiling a skos:Concept,
     skos:prefLabel "Profiling"@en ;
     dpv:isSubTypeOf dpv:Use .
 
-dpv:PseudoAnonymisation a skos:Concept,
-        dpv:Concept ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Axel Polleres"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Mark Lizar"^^xsd:string,
-        "Rob Brennan"^^xsd:string ;
-    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj> ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:Anonymisation ;
-    skos:definition "PseudoAnonmyization or 'pseudonymisation’ means the processing of personal data in such a manner that the personal data can no longer be attributed to a specific data subject without the use of additional information, provided that such additional information is kept separately and is subject to technical and organisational measures to ensure that the personal data are not attributed to an identified or identifiable natural person;"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Pseudo-Anonymisation"@en ;
-    dpv:isSubTypeOf dpv:Anonymisation .
+dpv:PseudoAnonymisation skos:narrower dpv:RNGPseudoanonymisation .
 
 dpv:PseudoAnonymise a skos:Concept,
         dpv:Concept ;
@@ -4772,6 +4766,22 @@ dpv:PseudoAnonymisedData a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Pseudo-anonymised Data"@en ;
     dpv:isSubTypeOf dpv:PersonalData .
+
+dpv:Pseudonymisation a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Mark Lizar"^^xsd:string,
+        "Rob Brennan"^^xsd:string ;
+    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:DataAnonymisationTechnique ;
+    skos:definition "Pseudonymisation means the processing of personal data in such a manner that the personal data can no longer be attributed to a specific data subject without the use of additional information, provided that such additional information is kept separately and is subject to technical and organisational measures to ensure that the personal data are not attributed to an identified or identifiable natural person;"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Pseudonymisation"@en ;
+    dpv:isSubTypeOf dpv:DataAnonymisationTechnique .
 
 dpv:PublicDataSource a skos:Concept,
         dpv:Concept ;
@@ -4850,18 +4860,19 @@ dpv:RNGPseudoanonymisation a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Anonymisation ;
+    skos:broader dpv:PseudoAnonymisation ;
     skos:definition "A pseudoanonymisation method where identifiers are substituted by a number chosen by a Random Number Generator (RNG)"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "RNG Pseudoanonymisation"@en ;
-    dpv:isSubTypeOf dpv:Anonymisation .
+    dpv:isSubTypeOf dpv:PseudoAnonymisation .
 
 dpv:RandomLocation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:LocationFixture ;
     skos:definition "Location that is random or unknown"@en ;
     skos:inScheme dpv: ;
@@ -5274,13 +5285,14 @@ dpv:ServiceUsageAnalytics a skos:Concept,
     dct:creator "Beatriz Esteves"^^xsd:string,
         "Georg P Krog"^^xsd:string,
         "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2022-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:ServiceProvision ;
     skos:definition "Conduct analysis and reporting related to usage of services or products"@en ;
     skos:inScheme dpv: ;
     skos:note "Was \"UsageAnalytics\", prefixed with Service to better reflect scope"@en ;
-    skos:prefLabel "Analytics"@en ;
+    skos:prefLabel "Service Usage Analytics"@en ;
     dpv:isSubTypeOf dpv:ServiceProvision .
 
 dpv:Severity a skos:Concept,
@@ -5336,13 +5348,14 @@ dpv:SingularFrequency a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Frequency ;
     skos:definition "Frequency where occurences are singular i.e. they take place only once"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "SingularFrequency"@en ;
-    dpv:isInstanceOf dpv:Frequency .
+    dpv:isSubTypeOf dpv:Frequency .
 
 dpv:SingularScaleOfDataSubjects a skos:Concept,
         dpv:Concept ;
@@ -5438,13 +5451,14 @@ dpv:SporadicFrequency a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Frequency ;
     skos:definition "Frequency where occurences are sporadic or infrequent or sparse"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "SporadicFrequency"@en ;
-    dpv:isInstanceOf dpv:Frequency .
+    dpv:isSubTypeOf dpv:Frequency .
 
 dpv:SporadicScaleOfDataSubjects a skos:Concept,
         dpv:Concept ;
@@ -5678,13 +5692,14 @@ dpv:TemporalDuration a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Duration ;
     skos:definition "Duration that has a fixed temporal duration e.g. 6 months"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "TemporalDuration"@en ;
-    dpv:isInstanceOf dpv:Duration .
+    dpv:isSubTypeOf dpv:Duration .
 
 dpv:ThirdPartyAgreement a skos:Concept,
         dpv:Concept ;
@@ -5797,25 +5812,27 @@ dpv:UntilEventDuration a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Duration ;
     skos:definition "Duration that takes place until a specific event occurs e.g. Account Closure"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "UntilEventDuration"@en ;
-    dpv:isInstanceOf dpv:Duration .
+    dpv:isSubTypeOf dpv:Duration .
 
 dpv:UntilTimeDuration a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Duration ;
     skos:definition "Duration that has a fixed end date e.g. 2022-12-31"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "UntilTimeDuration"@en ;
-    dpv:isInstanceOf dpv:Duration .
+    dpv:isSubTypeOf dpv:Duration .
 
 dpv:UsageControl a skos:Concept,
         dpv:Concept ;
@@ -5880,13 +5897,14 @@ dpv:VariableLocation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:LocationFixture ;
     skos:definition "Location that is known but is variable e.g. somewhere within a given area"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Variable Location"@en ;
-    dpv:isInstanceOf dpv:LocationFixture .
+    dpv:isSubTypeOf dpv:LocationFixture .
 
 dpv:VendorPayment a skos:Concept,
         dpv:Concept ;
@@ -6035,13 +6053,38 @@ dpv:WithinDevice a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "modified"@en ;
+    skos:broader dpv:LocalLocation ;
+    skos:definition "Location is local and entirely within a device, such as a smartphone"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Within Device"@en ;
+    dpv:isSubTypeOf dpv:LocalLocation .
+
+dpv:WithinPhysicalEnvironment a skos:Concept,
+        dpv:Concept ;
+    dct:created "2020-10-06"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:broader dpv:LocalLocation ;
-    skos:definition "Location is local and entirely within a device or environment"@en ;
+    skos:definition "Location is local and entirely within a physical environment, such as a room"@en ;
     skos:inScheme dpv: ;
-    skos:prefLabel "Within Device"@en ;
-    dpv:isInstanceOf dpv:LocalLocation .
+    skos:prefLabel "Within Physical Environment"@en ;
+    dpv:isSubTypeOf dpv:LocalLocation .
+
+dpv:WithinVirtualEnvironment a skos:Concept,
+        dpv:Concept ;
+    dct:created "2020-10-06"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:LocalLocation ;
+    skos:definition "Location is local and entirely within a virtual environment, such as a shared network directory"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Within Virtual Environment"@en ;
+    dpv:isSubTypeOf dpv:LocalLocation .
 
 dpv:hasActivityStatus a skos:Concept,
         dpv:Relation ;
@@ -6541,19 +6584,19 @@ dpv:AutomatedProcessingWithHumanOversight a skos:Concept,
     dpv:isInstanceOf dpv:AutomationOfProcessing,
         dpv:HumanInvolvementForOversight .
 
-dpv:AutomatedProcessingWithHumanVerification a skos:Concept,
+dpv:AutomatedProcessingWithHumanReview a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:modified "2022-09-07"^^xsd:date ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:AutomationOfProcessing,
         dpv:HumanInvolvementForVerification ;
-    skos:definition "Processing that is automated and involves verification of outputs by Humans"@en ;
+    skos:definition "Processing that is automated and involves review by Humans"@en ;
     skos:inScheme dpv: ;
     skos:note "For example, a human verifying outputs of an algorithm for correctness or impact to individuals"@en ;
-    skos:prefLabel "Automated Processing with Human Verification"@en ;
+    skos:prefLabel "Automated Processing with Human Review"@en ;
     dpv:isInstanceOf dpv:AutomationOfProcessing,
         dpv:HumanInvolvementForVerification .
 
@@ -7134,14 +7177,15 @@ dpv:GovernmentalOrganisation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-02-02"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:Organisation ;
     skos:definition "An organisation managed or part of government"@en ;
     skos:inScheme dpv: ;
     skos:narrower dpv:Authority ;
     skos:prefLabel "GovernmentalOrganisation"@en ;
-    dpv:isInstanceOf dpv:Organisation .
+    dpv:isSubTypeOf dpv:Organisation .
 
 dpv:HumanInvolvementForInput a skos:Concept,
         dpv:Concept ;
@@ -7178,22 +7222,9 @@ dpv:HumanInvolvementForVerification a skos:Concept,
     skos:broader dpv:HumanInvolvement ;
     skos:definition "Human involvement for the purposes of verification of a system, its operations, inputs, or outputs"@en ;
     skos:inScheme dpv: ;
-    skos:narrower dpv:AutomatedProcessingWithHumanVerification ;
+    skos:narrower dpv:AutomatedProcessingWithHumanReview ;
     skos:prefLabel "Human Involvement for Verification"@en ;
     dpv:isInstanceOf dpv:HumanInvolvement .
-
-dpv:LocalLocation a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-06-15"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:LocationLocality ;
-    skos:definition "Location is local"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:WithinDevice ;
-    skos:prefLabel "Local Location"@en ;
-    dpv:isInstanceOf dpv:LocationLocality .
 
 dpv:NaturalPerson a skos:Concept,
         dpv:Concept ;
@@ -7289,14 +7320,15 @@ dpv:RemoteLocation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:LocationLocality ;
     skos:definition "Location is remote i.e. not local"@en ;
     skos:inScheme dpv: ;
     skos:narrower dpv:CloudLocation ;
     skos:prefLabel "Remote Location"@en ;
-    dpv:isInstanceOf dpv:LocationLocality .
+    dpv:isSubTypeOf dpv:LocationLocality .
 
 dpv:RequestedServiceProvision a skos:Concept,
         dpv:Concept ;
@@ -7494,18 +7526,6 @@ dpv:DataProcessor a skos:Concept,
     skos:narrower dpv:DataSubProcessor ;
     skos:prefLabel "Data Processor"@en ;
     dpv:isSubTypeOf dpv:Recipient .
-
-dpv:LocationLocality a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-06-15"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Locality refers to whether the specified location is local within some context, e.g. for the user"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:LocalLocation,
-        dpv:RemoteLocation ;
-    skos:prefLabel "Location Locality"@en .
 
 dpv:Notice a skos:Concept,
         dpv:Concept ;
@@ -7709,19 +7729,35 @@ dpv:CreditChecking a skos:Concept,
     skos:prefLabel "Credit Checking"@en ;
     dpv:isSubTypeOf dpv:CustomerSolvencyMonitoring .
 
+dpv:DataSanitisationTechnique a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-08-17"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:TechnicalMeasure ;
+    skos:definition "Cleaning or any removal or re-organisation of elements in data based on selective criteria"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:DataAnonymisationTechnique,
+        dpv:DataRedaction ;
+    skos:prefLabel "Data Sanitisation Technique"@en ;
+    dpv:isSubTypeOf dpv:TechnicalMeasure .
+
 dpv:FixedLocation a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
+    sw:term_status "modified"@en ;
     skos:broader dpv:LocationFixture ;
     skos:definition "Location that is fixed i.e. known to occur at a specific place"@en ;
     skos:inScheme dpv: ;
     skos:narrower dpv:FixedMultipleLocations,
         dpv:FixedSingularLocation ;
     skos:prefLabel "Fixed Location"@en ;
-    dpv:isInstanceOf dpv:LocationFixture .
+    dpv:isSubTypeOf dpv:LocationFixture .
 
 dpv:FraudPreventionAndDetection a skos:Concept,
         dpv:Concept ;
@@ -7793,6 +7829,21 @@ dpv:LegitimateInterest a skos:Concept,
         dpv:LegitimateInterestOfThirdParty ;
     skos:prefLabel "Legitimate Interest"@en ;
     dpv:isSubTypeOf dpv:LegalBasis .
+
+dpv:LocationLocality a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-15"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2022-10-04"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "modified"@en ;
+    skos:broader dpv:Location ;
+    skos:definition "Locality refers to whether the specified location is local within some context, e.g. for the user"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:LocalLocation,
+        dpv:RemoteLocation ;
+    skos:prefLabel "Location Locality"@en ;
+    dpv:isSubTypeOf dpv:Location .
 
 dpv:Personalisation a skos:Concept,
         dpv:Concept ;
@@ -7971,6 +8022,22 @@ dpv:Data a skos:Concept,
         dpv:SyntheticData ;
     skos:prefLabel "Data"@en .
 
+dpv:DataAnonymisationTechnique a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-08-17"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:DataSanitisationTechnique ;
+    skos:definition "Use of anonymisation techniques that reduce the identifiability in data"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:Anonymisation,
+        dpv:Deidentification,
+        dpv:Pseudonymisation ;
+    skos:prefLabel "Data Anonymisation Technique"@en ;
+    dpv:isSubTypeOf dpv:DataSanitisationTechnique .
+
 dpv:GuidelinesPrinciple a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -8005,6 +8072,22 @@ dpv:ImpactAssessment a skos:Concept,
         dpv:PIA ;
     skos:prefLabel "Impact Assessment"@en ;
     dpv:isSubTypeOf dpv:Assessment .
+
+dpv:LocalLocation a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-15"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2020-10-05"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "modified"@en ;
+    skos:broader dpv:LocationLocality ;
+    skos:definition "Location is local"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:WithinDevice,
+        dpv:WithinPhysicalEnvironment,
+        dpv:WithinVirtualEnvironment ;
+    skos:prefLabel "Local Location"@en ;
+    dpv:isSubTypeOf dpv:LocationLocality .
 
 dpv:Necessity a skos:Concept,
         dpv:Concept ;
@@ -8059,6 +8142,11 @@ dpv:ProcessingScale a skos:Concept,
     skos:note "The exact definition of what constitutes \"scale\" depends on use of jurisdictional, domain-specific, or other forms of externally defined criterias. Where possible, this should be reflected by extending the scales provided with the appropriate context."@en ;
     skos:prefLabel "Processing Scale"@en ;
     dpv:isSubTypeOf dpv:Scale .
+
+dpv:Pseudoanonymisation skos:narrower dpv:DeterministicPseudonymisation,
+        dpv:DocumentRandomisedPseudonymisation,
+        dpv:FullyRandomisedPseudonymisation,
+        dpv:MonotonicCounterPseudoanonymisation .
 
 dpv:ResearchAndDevelopment a skos:Concept,
         dpv:Concept ;
@@ -8671,23 +8759,6 @@ dpv:Authority a skos:Concept,
     dpv:isSubTypeOf dpv:GovernmentalOrganisation,
         dpv:LegalEntity .
 
-dpv:Location a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-01-19"^^xsd:date ;
-    dct:creator "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "A location is a position, site, or area where something is located"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:Country,
-        dpv:EconomicUnion,
-        dpv:Region,
-        dpv:StorageLocation,
-        dpv:SupraNationalUnion ;
-    skos:note "Location may be geographic, physical, or virtual."@en ;
-    skos:prefLabel "Location"@en .
-
 dpv:AuthenticationProtocols a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -8823,6 +8894,24 @@ dpv:Duration a skos:Concept,
         dpv:UntilTimeDuration ;
     skos:prefLabel "Duration"@en ;
     dpv:isSubTypeOf dpv:Context .
+
+dpv:Location a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-01-19"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "A location is a position, site, or area where something is located"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:Country,
+        dpv:EconomicUnion,
+        dpv:LocationLocality,
+        dpv:Region,
+        dpv:StorageLocation,
+        dpv:SupraNationalUnion ;
+    skos:note "Location may be geographic, physical, or virtual."@en ;
+    skos:prefLabel "Location"@en .
 
 dpv:hasEntity a skos:Concept,
         dpv:Relation ;
@@ -9097,31 +9186,6 @@ dpv:LegalEntity a skos:Concept,
     skos:prefLabel "Legal Entity"@en ;
     dpv:isSubTypeOf dpv:Entity .
 
-dpv:Anonymisation a skos:Concept,
-        dpv:Concept ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Axel Polleres"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Mark Lizar"^^xsd:string,
-        "Rob Brennan"^^xsd:string ;
-    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj> ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:TechnicalMeasure ;
-    skos:definition "Process by which some personal identifiers are removed or identifiability is reduced"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:CompleteAnonymisation,
-        dpv:DataAnonymisationTechnique,
-        dpv:DeIdentification,
-        dpv:DeterministicPseudonymisation,
-        dpv:DocumentRandomisedPseudonymisation,
-        dpv:FullyRandomisedPseudonymisation,
-        dpv:MonotonicCounterPseudoanonymisation,
-        dpv:PseudoAnonymisation,
-        dpv:RNGPseudoanonymisation ;
-    skos:prefLabel "Anonymisation"@en ;
-    dpv:isSubTypeOf dpv:TechnicalMeasure .
-
 dpv:LegalBasis a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -9156,7 +9220,7 @@ dpv:AutomationOfProcessing a skos:Concept,
         dpv:AutomatedDecisionMaking,
         dpv:AutomatedProcessingWithHumanInput,
         dpv:AutomatedProcessingWithHumanOversight,
-        dpv:AutomatedProcessingWithHumanVerification,
+        dpv:AutomatedProcessingWithHumanReview,
         dpv:CompletelyManualProcessing,
         dpv:FullyAutomatedProcessing,
         dpv:HumanInvolvement,
@@ -9251,7 +9315,6 @@ dpv:TechnicalMeasure a skos:Concept,
     skos:inScheme dpv: ;
     skos:narrower dpv:AccessControlMethod,
         dpv:ActivityMonitoring,
-        dpv:Anonymisation,
         dpv:AuthenticationProtocols,
         dpv:AuthorisationProtocols,
         dpv:CryptographicMethods,
