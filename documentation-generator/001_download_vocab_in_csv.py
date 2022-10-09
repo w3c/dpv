@@ -12,94 +12,114 @@ GOOGLE_EXCEL_EXPORT_LINK = (
     'https://docs.google.com/spreadsheets/d/'
     '%s/export?exportFormat=xlsx&format=xlsx&title=%s')
 
-# The document *must* be publicly viewable (minimum permissions)
-# The document ID is found within the URL
-DPV_DOCUMENT_ID = '11bjy424zwC_j4bj9pnhmmI8o7RgrJfX4NgsZ31iR3Wo'
-# The sheet names are assumed to be valid IRIs
-# If they are not, escape them for IRI/HTML representation
-DPV_SHEETS = (
-    # Namespaces
-    'Namespaces',
-    'Namespaces_Other',
-    # DPV
-    'BaseOntology',
-    'BaseOntology_properties',
-    'PersonalData',
-    'PersonalData_properties',
-    'Purpose',
-    'Purpose_properties',
-    'Context',
-    'Context_properties',
-    'Status',
-    'Status_properties',
-    'Risk',
-    'Risk_properties',
-    'Processing',
-    'Processing_properties',
-    'ProcessingContext',
-    'ProcessingContext_properties',
-    'ProcessingScale',
-    'ProcessingScale_properties',
-    'TechnicalOrganisationalMeasure',
-    'TechnicalOrganisationalMeasure_properties',
-    'TechnicalMeasure',
-    'OrganisationalMeasure',
-    'Entities',
-    'Entities_properties',
-    'Entities_Authority',
-    'Entities_Authority_properties',
-    'Entities_LegalRole',
-    'Entities_LegalRole_properties',
-    'Entities_Organisation',
-    'Entities_DataSubject',
-    'Entities_DataSubject_properties',
-    'Jurisdiction',
-    'Jurisdiction_properties',
-    'LegalBasis',
-    'LegalBasis_properties',
-    'ConsentTypes',
-    'ConsentStatus',
-    'Consent_properties',
-    # ----- EXTENSIONS -----
-    'dpv-pd',
-    # DPV-GDPR
-    'GDPR_LegalBasis',
-    'GDPR_LegalBasis_SpecialCategory',
-    'GDPR_LegalBasis_DataTransfer',
-    'GDPR_LegalRights',
-    'GDPR_DataTransfers',
-    'GDPR_DPIA',
-    # DPV-Legal
-    'legal_properties',
-    'legal_Locations',
-    'legal_Laws',
-    'legal_Authorities',
-    'legal_EU_EEA',
-    'legal_EU_Adequacy',
-    # DPV-Technology
-    'dpv-tech',
-    'dpv-tech_properties',
-    'tech_algorithms',
-    # Risk
-    'RiskConsequences',
-    'RiskLevels',
-    'RiskMatrix',
-    'RiskControls',
-    'RiskAssessmentTechniques',
-    'RiskManagement',
-    'RiskMethodology',
-    # Rights
-    'EUFundamentalRights',
-    # EXTRA - unused currently
-    'Standards_ISO',
-    )
+DPV_FILES = (
+    # Format of this data structure is 
+    #   (DOCUMENT_NAME, ((DOCUMENT_ID, SHEET_NAME)+)
+    # 
+    ('base', '1x5Wfl-2Xp22R89lhNwNpYP0xN0zfQLFlNe3On6pwNM4',
+        (
+            'Namespaces', 
+            'Namespaces_Other', 
+            'BaseOntology', 
+            'BaseOntology_properties',)),
+    ('dpv-pd','1SI6gZh9-dq1rf_etfrlYHj0QZwq9Vd25f_OHPX5hbSQ',
+        (
+            'PersonalData', 
+            'PersonalData_properties', 
+            'dpv-pd',)),
+    ('purpose_processing', '1ePg6BU2Zp9fiSDuEnKuVi6dIRrFLEVdatbVxjHRk-8s',
+       (
+           'Purpose', 
+           'Purpose_properties', 
+           'Processing', 
+           'Processing_properties', 
+           'ProcessingContext', 
+           'ProcessingContext_properties', 
+           'ProcessingScale', 
+           'ProcessingScale_properties',)),
+    ('context_status', '1VPQW1DanprQhMwnhSqyKSGbEXdTmLHdc6UjpWJhyLMA', 
+        (
+            'Context', 
+            'Context_properties', 
+            'Status', 
+            'Status_properties',)),
+    ('toms', '16d0_k6ueoXxXRTgecih9Ny7NpeXYF8icm4QX99cPYJA', 
+        (
+            'TechnicalOrganisationalMeasure', 
+            'TechnicalOrganisationalMeasure_properties', 
+            'TechnicalMeasure', 
+            'OrganisationalMeasure',)),
+    ('entities', '1g6zLqVt5FlNlgsXq_NW2W9INv3KdGEFjJCyOd03UmOg', 
+        (
+            'Entities', 
+            'Entities_properties', 
+            'Entities_Authority', 
+            'Entities_Authority_properties', 
+            'Entities_LegalRole', 
+            'Entities_LegalRole_properties', 
+            'Entities_Organisation', 
+            'Entities_DataSubject', 
+            'Entities_DataSubject_properties',)),
+    ('location_jurisdiction', '19exhY34jq6VDApRp2abHD-br6rpm6Q7BOP7H_pm5sKM',
+       (
+            'Jurisdiction', 
+            'Jurisdiction_properties', 
+            'legal_properties', 
+            'legal_Locations', 
+            'legal_Laws', 
+            'legal_Authorities', 
+            'legal_EU_EEA', 
+            'legal_EU_Adequacy',)),
+    ('legal_basis', '13Ub4LXHruocffYnd7JKCMvzi1MYv3Gy61d3UmQBhARc', 
+        (
+            'LegalBasis', 
+            'LegalBasis_properties', 
+            'ConsentTypes', 
+            'ConsentStatus', 
+            'Consent_properties',)),
+    ('gdpr', '1lDJZpl0UND8Bm_4iWKVQtgmMUz0YwP2R63CgP7Gro-U',
+       (
+            'GDPR_LegalBasis', 
+            'GDPR_LegalBasis_SpecialCategory', 
+            'GDPR_LegalBasis_DataTransfer', 
+            'GDPR_LegalRights', 
+            'GDPR_DataTransfers', 
+            'GDPR_DPIA',)),
+    ('dpv-tech', '1GVmF4c7b-9xMSs0TyT45kXoCLLUVs8bbW34tfcozbuA',
+       (
+            'dpv-tech', 
+            'dpv-tech_properties', 
+            'tech_algorithms',)),
+    ('risk', '1y8r3Vk-_Gi1MqbyAM6Ot4DoNDJpa2ZVhCyCyFQkGBy0',
+       (
+            'Risk', 
+            'Risk_properties', 
+            'RiskConsequences', 
+            'RiskLevels', 
+            'RiskMatrix', 
+            'RiskControls', 
+            'RiskAssessmentTechniques', 
+            'RiskManagement', 
+            'RiskMethodology',)),
+    ('rights', '1XW-L6rGWbgGGp62q8eA22SWvh4wUWK5BpC0zfD6wAxM',
+       (
+            'Rights', 
+            'Rights_properties', 
+            'EUFundamentalRights',)),
+    ('rules', '1SDmlzSo1Ax_35v754Jzx4oFGKvGo5nyNtEAL0vSBbM0', 
+        (
+            'Rules', 
+            'Rules_properties',)),
+    ('standards', '1z-qaB2m6lD1ROmPVf9yhfG05D68Z7H4glYLERj6ZCRk',
+       (
+            'Standards_ISO',)),
+)
+
 
 from urllib import request
-
-
 def download_document(
-        document_id, document_name, export_link,
-        save_path='./vocab_csv', ext='csv'):
+    document_id, document_name, export_link,
+    save_path='./vocab_csv', ext='csv'):
     '''Download the sheet and save to specified path in specified format'''
     url = export_link % (document_id, document_name)
     print(f'Downloading {document_name}.{ext} ...', end='')
@@ -110,15 +130,18 @@ def download_document(
         print(f'ERROR :: {E}')
 
 
+# MAIN
 if __name__ == '__main__':
-    for sheet in DPV_SHEETS:
+    for document_name, document_id, sheets in DPV_FILES:
+        for sheet_name in sheets:
+            # Download CSVs
+            download_document(
+                document_id=document_id, 
+                document_name=sheet_name,
+                export_link=GOOGLE_EXPORT_LINK)
+        # Download Excel spreadsheets
         download_document(
-            document_id=DPV_DOCUMENT_ID, 
-            document_name=sheet,
-            export_link=GOOGLE_EXPORT_LINK)
-    # Spreadsheet as Excel
-    download_document(
-        document_id=DPV_DOCUMENT_ID,
-        document_name='dpv_terms_discussion',
-        export_link=GOOGLE_EXCEL_EXPORT_LINK,
+            document_id=document_id,
+            document_name=document_name,
+            export_link=GOOGLE_EXCEL_EXPORT_LINK,
         ext='xlsx')
