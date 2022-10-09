@@ -113,6 +113,11 @@ DPV_FILES = (
     ('standards', '1z-qaB2m6lD1ROmPVf9yhfG05D68Z7H4glYLERj6ZCRk',
        (
             'Standards_ISO',)),
+    ('ucr', '1__STWvOEZRc1u2J-8teOYjLpnTPlZ80_ebTytrUlWgQ',
+        (
+            'UseCase',
+            'Requirement',
+            'Example',)),
 )
 
 

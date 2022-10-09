@@ -1,0 +1,103 @@
+@prefix : <https://w3id.org/dpv/use-cases/ucr#> .
+@prefix ucr: <https://w3id.org/dpv/use-cases/ucr#> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+#######################################################################
+# VOCABULARY
+#######################################################################
+
+: a owl:Ontology ;
+    dct:title "DPV UseCase & Requirements Vocabulary"@en ;
+    dct:description "Concepts for describing use-cases for requirements and concepts within DPV"@en ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:created "2022-06-10"^^xsd:date ;
+    dct:source <https://www.w3.org/community/dpvcg/> ;
+    vann:preferredNamespacePrefix "ucr"^^xsd:string ;
+    vann:preferredNamespaceUri "https://w3id.org/dpv/use-cases/ucr#"^^xsd:string ;
+    owl:versionInfo "0.2"^^xsd:string .
+
+
+:UseCase a skos:Concept, rdfs:Class, sh:NodeShape ;
+    skos:prefLabel "UseCase"@en ;
+    skos:definition "An UseCase provides a description where information within the scope of DPVCG is expected to be relevant or applied, and acts as the basis for identifying requirements (including but not limited to creation of concepts). Use cases can contain descriptions of systems, their operations, actors and entities involved, restrictions or constraints, or any other pertinent detail. They can be a simple textual paragraph or elaborative structured documents (in which case we prefer to reference them here as an URL)."@en ;
+    # SHACL constraints
+    sh:targetClass :UseCase ;
+    sh:property [
+        sh:message "An UseCase MUST have a title provided using dct:title"@en ;
+        sh:path dct:title ; sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:message "An UseCase MUST have a description provided using dct:description"@en ;
+        sh:path dct:description ; sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:message "An UseCase MUST have an identifier with prefix 'U' provided using dct:identifier"@en ;
+        sh:path dct:identifier ; sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:message "An UseCase MAY have one or more contributors specified using dct:contributor"@en ;
+        sh:path dct:contributor ; sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:message "An UseCase MAY have a date (e.g. creation or modification) specified using dct:date"@en ;
+        sh:path dct:date ; sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:message "An UseCase MAY specify the source of its information using dct:source"@en ;
+        sh:path dct:source ; sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:message "An UseCase MAY specify its primary subject or concept using dct:subject"@en ;
+        sh:path dct:subject ; sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:message "An UseCase MAY specify relevant requirements derived from it using dct:references"@en ;
+        sh:path dct:references ; sh:minCount 0 ;
+    ] ;
+    vann:example :U1, :U2, :U3 .
+
+:Requirement a skos:Concept, rdfs:Class, sh:NodeShape ;
+    skos:prefLabel "Requirement"@en ;
+    skos:definition "A Requirement is a functional or non-functional requirement desirable to provided by or implemented within DPVCG's outputs, primarily the DPV and its extensions. Requirements can relate to the design of the resource, specific concepts and relations within it, provision of a resource and its documentation, or any other pertinent usage or behaviour exhibited by resources developed within the scope of the DPVCG"@en ;
+    # SHACL constraints
+    sh:targetClass :Requirement ;
+    sh:property [
+        sh:message "A Requirement MUST have a title provided using dct:title"@en ;
+        sh:path dct:title ; sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:message "A Requirement MUST have a description provided using dct:description"@en ;
+        sh:path dct:description ; sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:message "A Requirement MUST have an identifier with prefix 'R' provided using dct:identifier"@en ;
+        sh:path dct:identifier ; sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:message "A Requirement MUST specify the relevant UseCases used to derive it using dct:references"@en ;
+        sh:path dct:references ; sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:message "A Requirement MAY have one or more contributors specified using dct:contributor"@en ;
+        sh:path dct:contributor ; sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:message "A Requirement MAY have a date (e.g. creation or modification) specified using dct:date"@en ;
+        sh:path dct:date ; sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:message "A Requirement MAY specify the source of its information using dct:source"@en ;
+        sh:path dct:source ; sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:message "A Requirement MAY specify its primary subject or concept using dct:subject"@en ;
+        sh:path dct:subject ; sh:minCount 0 ;
+    ] ;
+    vann:example :R1, :R2, :R3 .
