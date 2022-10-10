@@ -14,7 +14,7 @@ convert_owl() {
     filepath="${1%.*}"
     filepath_owl="${filepath}.owl"
     echo -n "converting $filepath ..."
-    java -jar ont-converter.jar -i "$1" -if RDF_XML -o "$filepath_owl" -of ManchesterSyntax
+    java -jar ont-converter.jar -f -i "$1" -if RDF_XML -o "$filepath_owl" -of ManchesterSyntax
     echo "DONE"
 }
 export -f convert_owl
