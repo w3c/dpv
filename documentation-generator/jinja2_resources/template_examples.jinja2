@@ -144,7 +144,7 @@
       {% for DEX in examples %}
         <section id="{{DEX.dct_identifier}}">
           <h4><strong><i>{{DEX.dct_identifier}}</i>:</strong> {{ DEX.dct_title }}</h4>
-          <p>{{ DEX.dct_description }}</p>
+          <p>{{ DEX.dct_description|safe }}</p>
           {% if DEX.dct_subject %}
             <p><strong>Relevant Concepts:</strong> 
             {% if DEX.dct_subject is sequence %}
@@ -153,7 +153,7 @@
               {% endif %}</p>
           {% endif %}
           <p>source: <a href="{{DEX.dct_source}}">{{DEX.dct_source}}</a></p>
-          {% if DEX.dex_isEmbedded == "true" %}<pre><code>{{ DEX.dct_source|retrieve_source }}</code></pre>{% endif %}
+          {% if DEX.dex_isEmbedded == "true" %}<pre class="nohighlight"><code>{{ DEX.dct_source|retrieve_source }}</code></pre>{% endif %}
         </section>
       {% endfor %}
     </section>
@@ -163,10 +163,9 @@
       <h2>Concept Mappings</h2>
       <ul>
       {% for concept, data in mappings.items()|sort(attribute=0) %}
-        <li><a href="{{ concept }}">{{ concept|prefix_this }}</a>
+        <li>{{ concept|prefix_this }} - <a href="{{ concept }}">{{ concept|prefix_this }}</a>
           <ul>
-          {% if data %}<li>examples:
-            {% for uc in data %}<a href="#{{uc}}">{{ uc }}</a>{{ ", " if not loop.last }}{% endfor %}</li>{% endif %}
+            {% for ex, title in data|sort(attribute='0') %}<li><a href="#{{ex}}">#{{ ex }} - {{ title }}</a>{{ ", " if not loop.last }}</li>{% endfor %}
           </ul></li>
       {% endfor %}
       </ul>

@@ -80,7 +80,7 @@ def add_common_annotations(g, term):
             g.add((DEX[term.uid], DCT.subject, URIRef(subject)))
             if subject not in MAPPINGS:
                 MAPPINGS[subject] = []
-            MAPPINGS[subject].append(term.uid)
+            MAPPINGS[subject].append((term.uid, term.title))
     if term.embed == 'Y':
         g.add((DEX[term.uid], DEX.isEmbedded, Literal(True)))
     else:
