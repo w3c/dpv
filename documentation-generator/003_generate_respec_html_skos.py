@@ -20,6 +20,7 @@ IMPORT_DPV_LEGAL_PATH = '../dpv-skos/dpv-legal/dpv-legal.ttl'
 IMPORT_DPV_LEGAL_MODULES_PATH = '../dpv-skos/dpv-legal/modules'
 EXPORT_DPV_LEGAL_HTML_PATH = '../dpv-skos/dpv-legal'
 IMPORT_DPV_TECH_PATH = '../dpv-skos/dpv-tech/dpv-tech.ttl'
+IMPORT_DPV_TECH_MODULES_PATH = '../dpv-skos/dpv-tech/modules'
 EXPORT_DPV_TECH_HTML_PATH = '../dpv-skos/dpv-tech'
 IMPORT_RIGHTS_EU_PATH = '../dpv-skos/rights/eu/rights-eu.ttl'
 EXPORT_RIGHTS_EU_HTML_PATH = '../dpv-skos/rights/eu'
@@ -233,7 +234,16 @@ DEBUG(f'wrote DPV-LEGAL spec at f{EXPORT_DPV_LEGAL_HTML_PATH}/dpv-legal.html')
 with open(f'{EXPORT_DPV_TECH_HTML_PATH}/proposed.json') as fd:
     TEMPLATE_DATA['proposed'] = json.load(fd)  
 
-load_data('dpv_tech', f'{IMPORT_DPV_TECH_PATH}')
+load_data('core', f'{IMPORT_DPV_TECH_MODULES_PATH}/core.ttl')
+load_data('data', f'{IMPORT_DPV_TECH_MODULES_PATH}/data.ttl')
+load_data('ops', f'{IMPORT_DPV_TECH_MODULES_PATH}/ops.ttl')
+load_data('security', f'{IMPORT_DPV_TECH_MODULES_PATH}/security.ttl')
+load_data('surveillance', f'{IMPORT_DPV_TECH_MODULES_PATH}/surveillance.ttl')
+load_data('provision', f'{IMPORT_DPV_TECH_MODULES_PATH}/provision.ttl')
+load_data('actors', f'{IMPORT_DPV_TECH_MODULES_PATH}/actors.ttl')
+load_data('comms', f'{IMPORT_DPV_TECH_MODULES_PATH}/comms.ttl')
+load_data('tools', f'{IMPORT_DPV_TECH_MODULES_PATH}/tools.ttl')
+
 g = Graph()
 g.parse(f'{IMPORT_DPV_TECH_PATH}', format='turtle')
 G.parse(g)

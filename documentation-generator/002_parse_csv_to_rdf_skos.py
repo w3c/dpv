@@ -27,6 +27,7 @@ EXPORT_DPV_PD_PATH = '../dpv-skos/dpv-pd'
 EXPORT_DPV_LEGAL_PATH = '../dpv-skos/dpv-legal'
 EXPORT_DPV_LEGAL_MODULE_PATH = '../dpv-skos/dpv-legal/modules'
 EXPORT_DPV_TECH_PATH = '../dpv-skos/dpv-tech'
+EXPORT_DPV_TECH_MODULE_PATH = '../dpv-skos/dpv-tech/modules'
 EXPORT_RISK_PATH = '../dpv-skos/risk'
 EXPORT_RISK_MODULE_PATH = '../dpv-skos/risk/modules'
 EXPORT_RIGHTS_EU_PATH = '../dpv-skos/rights/eu'
@@ -224,6 +225,8 @@ def add_triples_for_classes(classes, graph, model, topconcept):
                         graph.add((BASE[f'{cls.term}'], RDF.type, parent))
                     else:
                         raise Exception(f'Parent Type Unknown: {cls.parent_type} ')
+                else:
+                    raise Exception(f'Model Type Unknown: {model} ')
         # rdf:value
         if cls.rdf_value:
             value, datatype = cls.rdf_value.split(',')
@@ -760,7 +763,7 @@ concepts = extract_terms_from_csv(
     f'{IMPORT_CSV_PATH}/legal_Laws.csv', Location_schema)
 for row in concepts:
     if row.status not in VOCAB_TERM_ACCEPT:
-        proposed.append(row.Term)
+        proposed.append(row.term)
         continue
     term = BASE[row.term]
     graph.add((term, RDF.type, DPVS.Law))
@@ -981,43 +984,109 @@ else:
 
 # DPV-TECH #
 
-DPV_TECH_CSV_FILES = [
-    f'{IMPORT_CSV_PATH}/dpv-tech.csv',
-    f'{IMPORT_CSV_PATH}/dpv-tech_properties.csv',
-    ]
-
 BASE = NAMESPACES['dpvs-tech']
+DPV_TECH_CSV_FILES = {
+    'core': {
+        'classes': f'{IMPORT_CSV_PATH}/tech-core.csv',
+        'properties': f'{IMPORT_CSV_PATH}/tech-core-properties.csv',
+        'model': 'ontology',
+    },
+    'data': {
+        'classes': f'{IMPORT_CSV_PATH}/tech-data.csv',
+        'model': 'ontology',
+        'topconcept': BASE['DataTechnology'],
+    },
+    'ops': {
+        'classes': f'{IMPORT_CSV_PATH}/tech-ops.csv',
+        'model': 'ontology',
+    },
+    'security': {
+        'classes': f'{IMPORT_CSV_PATH}/tech-security.csv',
+        'model': 'ontology',
+    },
+    'surveillance': {
+        'classes': f'{IMPORT_CSV_PATH}/tech-surveillance.csv',
+        'model': 'ontology',
+    },
+    'provision': {
+        'classes': f'{IMPORT_CSV_PATH}/tech-provision.csv',
+        'properties': f'{IMPORT_CSV_PATH}/tech-provision-properties.csv',
+        'model': 'ontology',
+    },
+    'actors': {
+        'classes': f'{IMPORT_CSV_PATH}/tech-actors.csv',
+        'properties': f'{IMPORT_CSV_PATH}/tech-actors-properties.csv',
+        'model': 'ontology',
+    },
+    'comms': {
+        'classes': f'{IMPORT_CSV_PATH}/tech-comms.csv',
+        'model': 'ontology',
+    },
+    'provision': {
+        'classes': f'{IMPORT_CSV_PATH}/tech-provision.csv',
+        'properties': f'{IMPORT_CSV_PATH}/tech-provision-properties.csv',
+        'model': 'ontology',
+    },
+    'tools': {
+        'classes': f'{IMPORT_CSV_PATH}/tech-tools.csv',
+        'model': 'ontology',
+    },   
+}
+
 DPV_TECH_GRAPH = Graph()
 proposed_terms = []
 DEBUG('------')
 DEBUG(f'Processing DPV-TECH')
 for prefix, namespace in NAMESPACES.items():
     DPV_TECH_GRAPH.namespace_manager.bind(prefix, namespace)
-classes = extract_terms_from_csv(DPV_TECH_CSV_FILES[0], DPV_Class)
-properties = extract_terms_from_csv(DPV_TECH_CSV_FILES[1], DPV_Property)
-DEBUG(f'there are {len(classes)} classes and {len(properties)} properties in {name}')
-returnval = add_triples_for_classes(classes, DPV_TECH_GRAPH, model='ontology', topconcept=DPV['Technology'])
-if returnval:
-        proposed_terms.extend(returnval)
-returnval = add_triples_for_properties(properties, DPV_TECH_GRAPH)
-if returnval:
-        proposed_terms.extend(returnval)
-# add collection representing concepts
-DPV_TECH_GRAPH.add((BASE[f'TechnologyConcepts'], RDF.type, SKOS.Collection))
-DPV_TECH_GRAPH.add((BASE[f'TechnologyConcepts'], SKOS.prefLabel, Literal(f'Technology Concepts', datatype=XSD.string)))
-for concept, _, _ in DPV_TECH_GRAPH.triples((None, RDF.type, SKOS.Concept)):
-    DPV_TECH_GRAPH.add((BASE[f'TechnologyConcepts'], SKOS.member, concept))
+for name, module in DPV_TECH_CSV_FILES.items():
+    graph = Graph()
+    proposed = []
+    DEBUG('------')
+    model = module['model']
+    topconcept = module.get('topconcept')
+    DEBUG(f'Processing {name} {model}')
+    for prefix, namespace in NAMESPACES.items():
+        graph.namespace_manager.bind(prefix, namespace)
+    if 'classes' in module:
+        classes = extract_terms_from_csv(module['classes'], DPV_Class)
+        DEBUG(f'there are {len(classes)} classes in {name}')
+        returnval = add_triples_for_classes(classes, graph, model, topconcept)
+        if returnval:
+            proposed.extend(returnval)
+    if 'properties' in module:
+        properties = extract_terms_from_csv(module['properties'], DPV_Property)
+        DEBUG(f'there are {len(properties)} properties in {name}')
+        returnval = add_triples_for_properties(properties, graph)
+        if returnval:
+            proposed.extend(returnval)
+    if proposed:
+        proposed_terms[name] = proposed
+    # add collection representing concepts
+    graph.add((BASE[f'{name.title()}Concepts'], RDF.type, SKOS.Collection))
+    graph.add((BASE[f'{name.title()}Concepts'], SKOS.prefLabel, Literal(f'{name.title()} Concepts', datatype=XSD.string)))
+    for concept, _, _ in graph.triples((None, RDF.type, SKOS.Concept)):
+        graph.add((BASE[f'{name.title()}Concepts'], SKOS.member, concept))
+        DPV_GRAPH.add((concept, SKOS.inScheme, DPV['']))
+    # serialize
+    serialize_graph(graph, f'{EXPORT_DPV_TECH_MODULE_PATH}/{name}')
+    if topconcept:
+        DPV_TECH_GRAPH.add((BASE[''], SKOS.hasTopConcept, URIRef(topconcept)))
+    DPV_TECH_GRAPH += graph
+
 if proposed_terms:
     with open(f'{EXPORT_DPV_TECH_PATH}/proposed.json', 'w') as fd:
         json.dump(proposed_terms, fd)
     DEBUG(f'exported proposed terms to {EXPORT_DPV_TECH_PATH}/proposed.json')
 else:
     DEBUG('no proposed terms in DPV-TECH')
-# serialize
-DPV_TECH_GRAPH.parse('ontology_metadata/dpv-skos-tech.ttl', format='turtle')
 
-for prefix, namespace in NAMESPACES.items():
-    DPV_TECH_GRAPH.namespace_manager.bind(prefix, namespace)
+# add information about ontology
+# this is assumed to be in file dpv-ontology-metadata.ttl
+graph = Graph()
+graph.parse('ontology_metadata/dpv-skos-tech.ttl', format='turtle')
+DPV_TECH_GRAPH += graph
+
 serialize_graph(DPV_TECH_GRAPH, f'{EXPORT_DPV_TECH_PATH}/dpv-tech')
 
 # #############################################################################
