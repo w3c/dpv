@@ -450,6 +450,16 @@ DPV_CSV_FILES = {
         # 'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
         'model': 'ontology',
     },
+    'rules': {
+        'classes': f'{IMPORT_CSV_PATH}/Rules.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Rules_properties.csv',
+        'model': 'ontology',
+    },
+    'rights': {
+        'classes': f'{IMPORT_CSV_PATH}/Rights.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Rights_properties.csv',
+        'model': 'ontology',
+    },
 }
 
 # this graph will get written to dpv.ttl
@@ -536,6 +546,9 @@ DPV_GDPR_CSV_FILES = {
         'model': 'ontology',
         'topconcept': DPV['DPIA'],
         },
+    'compliance': {
+        'classes': f'{IMPORT_CSV_PATH}/GDPR_compliance.csv',
+        }
     }
 
 BASE = NAMESPACES['dpvo-gdpr']

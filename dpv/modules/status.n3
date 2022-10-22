@@ -23,12 +23,20 @@ dpv:StatusConcepts a skos:Collection ;
         dpv:ComplianceUnknown,
         dpv:ComplianceViolation,
         dpv:Compliant,
+        dpv:ConformanceStatus,
+        dpv:Conformant,
+        dpv:Lawful,
+        dpv:Lawfulness,
+        dpv:LawfulnessUnkown,
         dpv:NonCompliant,
+        dpv:NonConformant,
         dpv:PartiallyCompliant,
         dpv:Status,
+        dpv:Unlawful,
         dpv:hasActivityStatus,
         dpv:hasAuditStatus,
         dpv:hasComplianceStatus,
+        dpv:hasLawfulness,
         dpv:hasStatus ;
     skos:prefLabel "Status Concepts"^^xsd:string .
 
@@ -201,7 +209,38 @@ dpv:Compliant a skos:Concept,
     skos:prefLabel "Compliant"@en ;
     dpv:isInstanceOf dpv:ComplianceStatus .
 
+dpv:Conformant a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-10-22"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:ConformanceStatus ;
+    skos:definition "State of being conformant"@en ;
+    skos:prefLabel "Conformant"@en ;
+    dpv:isInstanceOf dpv:ConformanceStatus .
+
 dpv:Context skos:narrower dpv:Status .
+
+dpv:Lawful a skos:Concept,
+        dpv:Concept ;
+    dct:created ""^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Lawfulness ;
+    skos:definition "State of being lawful or legally compliant"@en ;
+    skos:prefLabel "Lawful"@en ;
+    dpv:isInstanceOf dpv:Lawfulness .
+
+dpv:LawfulnessUnkown a skos:Concept,
+        dpv:Concept ;
+    dct:created ""^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Lawfulness ;
+    skos:definition "State of the lawfulness not being known"@en ;
+    skos:prefLabel "Lawfulness Unknown"@en ;
+    dpv:isInstanceOf dpv:Lawfulness .
 
 dpv:NonCompliant a skos:Concept,
         dpv:Concept ;
@@ -216,6 +255,17 @@ dpv:NonCompliant a skos:Concept,
     skos:prefLabel "Non Compliant"@en ;
     dpv:isInstanceOf dpv:ComplianceStatus .
 
+dpv:NonConformant a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-10-22"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:ConformanceStatus ;
+    skos:definition "State of being non-conformant"@en ;
+    skos:prefLabel "NonConformant"@en ;
+    dpv:isInstanceOf dpv:ConformanceStatus .
+
 dpv:PartiallyCompliant a skos:Concept,
         dpv:Concept ;
     dct:created "2022-05-18"^^xsd:date ;
@@ -226,6 +276,16 @@ dpv:PartiallyCompliant a skos:Concept,
     skos:definition "State of partially being compliant i.e. only some objectives have been met, and others have not been in violation"@en ;
     skos:prefLabel "Partially Compliant"@en ;
     dpv:isInstanceOf dpv:ComplianceStatus .
+
+dpv:Unlawful a skos:Concept,
+        dpv:Concept ;
+    dct:created ""^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Lawfulness ;
+    skos:definition "State of being unlawful or legally non-compliant"@en ;
+    skos:prefLabel "Unlawful"@en ;
+    dpv:isInstanceOf dpv:Lawfulness .
 
 dpv:hasActivityStatus a skos:Concept,
         dpv:Relation ;
@@ -253,6 +313,19 @@ dpv:hasAuditStatus a skos:Concept,
     dpv:hasRange dpv:AuditStatus ;
     dpv:isSubTypeOf dpv:hasStatus .
 
+dpv:hasLawfulness a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-10-22"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:hasComplianceStatus ;
+    skos:definition "Indicates the status of being lawful or legally compliant"@en ;
+    skos:prefLabel "has lawfulness"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:Lawfulness ;
+    dpv:isSubTypeOf dpv:hasComplianceStatus .
+
 dpv:hasComplianceStatus a skos:Concept,
         dpv:Relation ;
     dct:created "2022-05-18"^^xsd:date ;
@@ -261,6 +334,7 @@ dpv:hasComplianceStatus a skos:Concept,
     sw:term_status "accepted"@en ;
     skos:broader dpv:hasStatus ;
     skos:definition "Indicates the status of compliance of specified concept"@en ;
+    skos:narrower dpv:hasLawfulness ;
     skos:prefLabel "has compliance status"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:ComplianceStatus ;
@@ -268,6 +342,19 @@ dpv:hasComplianceStatus a skos:Concept,
 
 dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
     skos:prefLabel "Relation"@en .
+
+dpv:ConformanceStatus a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-10-22"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Status ;
+    skos:definition "Status associated with conformance to a standard, guideline, code, or recommendation"@en ;
+    skos:narrower dpv:Conformant,
+        dpv:NonConformant ;
+    skos:prefLabel "Conformance Status"@en ;
+    dpv:isSubTypeOf dpv:Status .
 
 dpv:hasStatus a skos:Concept,
         dpv:Relation ;
@@ -283,19 +370,18 @@ dpv:hasStatus a skos:Concept,
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Status .
 
-dpv:Status a skos:Concept,
+dpv:Lawfulness a skos:Concept,
         dpv:Concept ;
-    dct:created "2022-05-18"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:created ""^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Context ;
-    skos:definition "The status or state of something"@en ;
-    skos:narrower dpv:ActivityStatus,
-        dpv:AuditStatus,
-        dpv:ComplianceStatus ;
-    skos:prefLabel "Status"@en ;
-    dpv:isSubTypeOf dpv:Context .
+    skos:broader dpv:ComplianceStatus ;
+    skos:definition "Status associated with being lawful"@en ;
+    skos:narrower dpv:Lawful,
+        dpv:LawfulnessUnkown,
+        dpv:Unlawful ;
+    skos:prefLabel "Lawfulness (alt title: LegalComplianceStatus)"@en ;
+    dpv:isSubTypeOf dpv:ComplianceStatus .
 
 dpv:ActivityStatus a skos:Concept,
         dpv:Concept ;
@@ -311,6 +397,21 @@ dpv:ActivityStatus a skos:Concept,
         dpv:ActivityProposed ;
     skos:prefLabel "Activity Status"@en ;
     dpv:isSubTypeOf dpv:Status .
+
+dpv:Status a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-05-18"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Context ;
+    skos:definition "The status or state of something"@en ;
+    skos:narrower dpv:ActivityStatus,
+        dpv:AuditStatus,
+        dpv:ComplianceStatus,
+        dpv:ConformanceStatus ;
+    skos:prefLabel "Status"@en ;
+    dpv:isSubTypeOf dpv:Context .
 
 dpv:AuditStatus a skos:Concept,
         dpv:Concept ;
@@ -341,6 +442,7 @@ dpv:ComplianceStatus a skos:Concept,
         dpv:ComplianceUnknown,
         dpv:ComplianceViolation,
         dpv:Compliant,
+        dpv:Lawfulness,
         dpv:NonCompliant,
         dpv:PartiallyCompliant ;
     skos:prefLabel "Compliance Status"@en ;

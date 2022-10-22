@@ -7,11 +7,14 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 dpv-gdpr:DpiaConcepts a skos:Collection ;
-    skos:member dpv-gdpr:DPIAIndicatesHighRisk,
+    skos:member dpv-gdpr:DPIAConformant,
+        dpv-gdpr:DPIAConformity,
+        dpv-gdpr:DPIAIndicatesHighRisk,
         dpv-gdpr:DPIAIndicatesLowRisk,
         dpv-gdpr:DPIAIndicatesNoRisk,
         dpv-gdpr:DPIANecessityAssessment,
         dpv-gdpr:DPIANecessityStatus,
+        dpv-gdpr:DPIANonConformant,
         dpv-gdpr:DPIANotRequired,
         dpv-gdpr:DPIAOutcome,
         dpv-gdpr:DPIAOutcomeDPAConsultation,
@@ -19,9 +22,26 @@ dpv-gdpr:DpiaConcepts a skos:Collection ;
         dpv-gdpr:DPIAOutcomeRisksMitigated,
         dpv-gdpr:DPIAOutcomeStatus,
         dpv-gdpr:DPIAProcedure,
+        dpv-gdpr:DPIAProcessingRecommendation,
+        dpv-gdpr:DPIARecommendsProcessingContinue,
+        dpv-gdpr:DPIARecommendsProcessingNotContinue,
         dpv-gdpr:DPIARequired,
         dpv-gdpr:DPIARiskStatus ;
     skos:prefLabel "Dpia Concepts"^^xsd:string .
+
+dpv:ConformanceStatus skos:narrower dpv-gdpr:DPIAConformity .
+
+dpv-gdpr:DPIAConformant a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-10-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv-gdpr: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv-gdpr:DPIAConformity ;
+    skos:definition "Expressing the specified process is conformant with a DPIA"@en ;
+    skos:prefLabel "DPIA Conformant"@en ;
+    dpv:isInstanceOf dpv-gdpr:DPIAConformity .
 
 dpv-gdpr:DPIAIndicatesHighRisk a skos:Concept,
         dpv:Concept ;
@@ -66,6 +86,18 @@ dpv-gdpr:DPIANecessityAssessment a skos:Concept,
     skos:definition "Process that determines whether a DPIA is necessary"@en ;
     skos:prefLabel "DPIA Necessity Assessment"@en ;
     dpv:isSubTypeOf dpv:DPIA .
+
+dpv-gdpr:DPIANonConformant a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-10-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv-gdpr: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv-gdpr:DPIAConformity ;
+    skos:definition "Expressing the specified process is not conformant with a DPIA"@en ;
+    skos:prefLabel "DPIA Non-Conformant"@en ;
+    dpv:isInstanceOf dpv-gdpr:DPIAConformity .
 
 dpv-gdpr:DPIANotRequired a skos:Concept,
         dpv:Concept ;
@@ -133,6 +165,30 @@ dpv-gdpr:DPIAProcedure a skos:Concept,
     skos:prefLabel "DPIA Procedure"@en ;
     dpv:isSubTypeOf dpv:DPIA .
 
+dpv-gdpr:DPIARecommendsProcessingContinue a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-10-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv-gdpr: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv-gdpr:DPIAProcessingRecommendation ;
+    skos:definition "Recommendation from a DPIA that the processing may continue"@en ;
+    skos:prefLabel "DPIA Recommends Processing Continue"@en ;
+    dpv:isInstanceOf dpv-gdpr:DPIAProcessingRecommendation .
+
+dpv-gdpr:DPIARecommendsProcessingNotContinue a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-10-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv-gdpr: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv-gdpr:DPIAProcessingRecommendation ;
+    skos:definition "Recommendation from a DPIA that the processing should not continue"@en ;
+    skos:prefLabel "DPIA Recommends Processing Not Continue"@en ;
+    dpv:isInstanceOf dpv-gdpr:DPIAProcessingRecommendation .
+
 dpv-gdpr:DPIARequired a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-22"^^xsd:date ;
@@ -144,13 +200,23 @@ dpv-gdpr:DPIARequired a skos:Concept,
     skos:prefLabel "DPIA Required"@en ;
     dpv:isInstanceOf dpv-gdpr:DPIANecessityStatus .
 
-dpv:AuditStatus skos:narrower dpv-gdpr:DPIANecessityStatus,
-        dpv-gdpr:DPIAOutcomeStatus,
-        dpv-gdpr:DPIARiskStatus .
-
 dpv:DPIA skos:narrower dpv-gdpr:DPIANecessityAssessment,
         dpv-gdpr:DPIAOutcome,
         dpv-gdpr:DPIAProcedure .
+
+dpv-gdpr:DPIAConformity a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-10-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv-gdpr: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:ConformanceStatus ;
+    skos:definition "Conformity of a process with a DPIA"@en ;
+    skos:narrower dpv-gdpr:DPIAConformant,
+        dpv-gdpr:DPIANonConformant ;
+    skos:prefLabel "DPIA Conformity"@en ;
+    dpv:isSubTypeOf dpv:ConformanceStatus .
 
 dpv-gdpr:DPIANecessityStatus a skos:Concept,
         dpv:Concept ;
@@ -164,6 +230,25 @@ dpv-gdpr:DPIANecessityStatus a skos:Concept,
         dpv-gdpr:DPIARequired ;
     skos:prefLabel "DPIA Necessity Status"@en ;
     dpv:isSubTypeOf dpv:AuditStatus .
+
+dpv-gdpr:DPIAProcessingRecommendation a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-10-22"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv-gdpr: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:AuditStatus ;
+    skos:definition "Recommendation from the DPIA regarding processing"@en ;
+    skos:narrower dpv-gdpr:DPIARecommendsProcessingContinue,
+        dpv-gdpr:DPIARecommendsProcessingNotContinue ;
+    skos:prefLabel "DPIA Processing Recommendation"@en ;
+    dpv:isSubTypeOf dpv:AuditStatus .
+
+dpv:AuditStatus skos:narrower dpv-gdpr:DPIANecessityStatus,
+        dpv-gdpr:DPIAOutcomeStatus,
+        dpv-gdpr:DPIAProcessingRecommendation,
+        dpv-gdpr:DPIARiskStatus .
 
 dpv-gdpr:DPIAOutcomeStatus a skos:Concept,
         dpv:Concept ;

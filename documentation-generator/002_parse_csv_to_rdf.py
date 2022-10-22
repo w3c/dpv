@@ -419,6 +419,16 @@ DPV_CSV_FILES = {
         # 'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
         'model': 'ontology',
     },
+    'rules': {
+        'classes': f'{IMPORT_CSV_PATH}/Rules.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Rules_properties.csv',
+        'model': 'ontology',
+    },
+    'rights': {
+        'classes': f'{IMPORT_CSV_PATH}/Rights.csv',
+        'properties': f'{IMPORT_CSV_PATH}/Rights_properties.csv',
+        'model': 'ontology',
+    },
 }
 
 # this graph will get written to dpv.ttl
@@ -504,6 +514,9 @@ DPV_GDPR_CSV_FILES = {
     'dpia': {
         'classes': f'{IMPORT_CSV_PATH}/GDPR_DPIA.csv',
         },
+    'compliance': {
+        'classes': f'{IMPORT_CSV_PATH}/GDPR_compliance.csv',
+        }
     }
 
 BASE = NAMESPACES['dpv-gdpr']
@@ -1158,9 +1171,9 @@ DEBUG(f'there are {len(classes)} classes in {name}')
 returnval = add_triples_for_classes(classes, RIGHTS_EU_GRAPH)
 if returnval:
         proposed_terms.extend(returnval)
-returnval = add_triples_for_properties(properties, RIGHTS_EU_GRAPH)
-if returnval:
-        proposed_terms.extend(returnval)
+# returnval = add_triples_for_properties(properties, RIGHTS_EU_GRAPH)
+# if returnval:
+#         proposed_terms.extend(returnval)
 # add collection representing concepts
 RIGHTS_EU_GRAPH.add((BASE[f'EUFundamentalRightsConcepts'], RDF.type, SKOS.Collection))
 RIGHTS_EU_GRAPH.add((BASE[f'EUFundamentalRightsConcepts'], SKOS.prefLabel, Literal(f'EU Fundamental Rights Concepts', datatype=XSD.string)))

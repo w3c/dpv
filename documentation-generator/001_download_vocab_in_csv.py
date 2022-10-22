@@ -21,12 +21,14 @@ DPV_FILES = (
             'Namespaces', 
             'Namespaces_Other', 
             'BaseOntology', 
-            'BaseOntology_properties',)),
+            'BaseOntology_properties',
+            )),
     ('dpv-pd','1SI6gZh9-dq1rf_etfrlYHj0QZwq9Vd25f_OHPX5hbSQ',
         (
             'PersonalData', 
             'PersonalData_properties', 
-            'dpv-pd',)),
+            'dpv-pd',
+            )),
     ('purpose_processing', '1ePg6BU2Zp9fiSDuEnKuVi6dIRrFLEVdatbVxjHRk-8s',
        (
            'Purpose', 
@@ -36,19 +38,22 @@ DPV_FILES = (
            'ProcessingContext', 
            'ProcessingContext_properties', 
            'ProcessingScale', 
-           'ProcessingScale_properties',)),
+           'ProcessingScale_properties',
+           )),
     ('context_status', '1VPQW1DanprQhMwnhSqyKSGbEXdTmLHdc6UjpWJhyLMA', 
         (
             'Context', 
             'Context_properties', 
             'Status', 
-            'Status_properties',)),
+            'Status_properties',
+            )),
     ('toms', '16d0_k6ueoXxXRTgecih9Ny7NpeXYF8icm4QX99cPYJA', 
         (
             'TechnicalOrganisationalMeasure', 
             'TechnicalOrganisationalMeasure_properties', 
             'TechnicalMeasure', 
-            'OrganisationalMeasure',)),
+            'OrganisationalMeasure',
+            )),
     ('entities', '1g6zLqVt5FlNlgsXq_NW2W9INv3KdGEFjJCyOd03UmOg', 
         (
             'Entities', 
@@ -59,7 +64,8 @@ DPV_FILES = (
             'Entities_LegalRole_properties', 
             'Entities_Organisation', 
             'Entities_DataSubject', 
-            'Entities_DataSubject_properties',)),
+            'Entities_DataSubject_properties',
+            )),
     ('location_jurisdiction', '19exhY34jq6VDApRp2abHD-br6rpm6Q7BOP7H_pm5sKM',
        (
             'Jurisdiction', 
@@ -69,14 +75,16 @@ DPV_FILES = (
             'legal_Laws', 
             'legal_Authorities', 
             'legal_EU_EEA', 
-            'legal_EU_Adequacy',)),
+            'legal_EU_Adequacy',
+            )),
     ('legal_basis', '13Ub4LXHruocffYnd7JKCMvzi1MYv3Gy61d3UmQBhARc', 
         (
             'LegalBasis', 
             'LegalBasis_properties', 
             'ConsentTypes', 
             'ConsentStatus', 
-            'Consent_properties',)),
+            'Consent_properties',
+            )),
     ('gdpr', '1lDJZpl0UND8Bm_4iWKVQtgmMUz0YwP2R63CgP7Gro-U',
        (
             'GDPR_LegalBasis', 
@@ -84,7 +92,9 @@ DPV_FILES = (
             'GDPR_LegalBasis_DataTransfer', 
             'GDPR_LegalRights', 
             'GDPR_DataTransfers', 
-            'GDPR_DPIA',)),
+            'GDPR_DPIA',
+            'GDPR_compliance'
+            )),
     ('dpv-tech', '1GVmF4c7b-9xMSs0TyT45kXoCLLUVs8bbW34tfcozbuA',
        (
             'tech-core',
@@ -100,7 +110,8 @@ DPV_FILES = (
             'tech-comms',
             'tech-comms-properties',
             'tech-tools',
-            'tech_algorithms',)),
+            'tech_algorithms',
+            )),
     ('risk', '1y8r3Vk-_Gi1MqbyAM6Ot4DoNDJpa2ZVhCyCyFQkGBy0',
        (
             'Risk', 
@@ -111,24 +122,29 @@ DPV_FILES = (
             'RiskControls', 
             'RiskAssessmentTechniques', 
             'RiskManagement', 
-            'RiskMethodology',)),
+            'RiskMethodology',
+            )),
     ('rights', '1XW-L6rGWbgGGp62q8eA22SWvh4wUWK5BpC0zfD6wAxM',
        (
             'Rights', 
             'Rights_properties', 
-            'EUFundamentalRights',)),
+            'EUFundamentalRights',
+            )),
     ('rules', '1SDmlzSo1Ax_35v754Jzx4oFGKvGo5nyNtEAL0vSBbM0', 
         (
             'Rules', 
-            'Rules_properties',)),
+            'Rules_properties',
+            )),
     ('standards', '1z-qaB2m6lD1ROmPVf9yhfG05D68Z7H4glYLERj6ZCRk',
        (
-            'Standards_ISO',)),
+            'Standards_ISO',
+            )),
     ('ucr', '1__STWvOEZRc1u2J-8teOYjLpnTPlZ80_ebTytrUlWgQ',
         (
             'UseCase',
             'Requirement',
-            'Example',)),
+            'Example',
+            )),
 )
 
 

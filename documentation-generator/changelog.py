@@ -45,6 +45,7 @@ DPV_MODULES = (
     'status',
     'technical_measures',
     'technical_organisational_measures',
+    'rules',
     )
 DPV_GDPR_MODULES = (
     'legal_basis',
@@ -53,6 +54,7 @@ DPV_GDPR_MODULES = (
     'rights',
     'data_transfers',
     'dpia',
+    'compliance',
     )
 DPV_LEGAL_MODULES = (
     'authorities',
