@@ -25,6 +25,7 @@ EXPORT_DPV_TECH_HTML_PATH = '../dpv-skos/dpv-tech'
 IMPORT_RIGHTS_EU_PATH = '../dpv-skos/rights/eu/rights-eu.ttl'
 EXPORT_RIGHTS_EU_HTML_PATH = '../dpv-skos/rights/eu'
 EXPORT_RIGHTS_HTML_PATH = '../dpv-skos/rights'
+IMPORT_EXAMPLES = '../examples/examples.ttl'
 
 from rdflib import Graph, Namespace
 from rdflib import RDF, RDFS, OWL
@@ -49,15 +50,18 @@ with open('./jinja2_resources/links_label.json', 'r') as fd:
 with open(f'{EXPORT_DPV_HTML_PATH}/proposed.json') as fd:
     TEMPLATE_DATA['proposed'] = json.load(fd)
 
-def load_data(label, filepath):
+def load_data(label, filepath, custom_concept=None):
     DEBUG(f'loading data for {label}')
     g = Graph()
     g.parse(filepath, format='turtle')
     G = DataGraph()
     G.parse(g)
     G.graph.ns = { k:v for k,v in G.graph.namespaces() }
-    TEMPLATE_DATA[f'{label}_classes'] = G.get_instances_of('rdfs_Class')
-    TEMPLATE_DATA[f'{label}_properties'] = G.get_instances_of('rdf_Property')
+    if custom_concept is None:
+        TEMPLATE_DATA[f'{label}_classes'] = G.get_instances_of('rdfs_Class')
+        TEMPLATE_DATA[f'{label}_properties'] = G.get_instances_of('rdf_Property')
+    else:
+        TEMPLATE_DATA[f'{label}'] = G.get_instances_of(custom_concept)
 
 
 def prefix_this(item):
@@ -96,6 +100,13 @@ def saved_label(item):
     return item
 
 
+def get_example_title(resource):
+    for ex in TEMPLATE_DATA['examples']:
+        if ex.iri == resource.iri:
+            return ex.dct_title
+    return None
+
+
 # JINJA2 for templating and generating HTML
 from jinja2 import FileSystemLoader, Environment
 JINJA2_FILTERS = {
@@ -104,6 +115,7 @@ JINJA2_FILTERS = {
     'subclasses': get_subclasses,
     'saved_label': saved_label,
     'generate_author_affiliation': generate_author_affiliation,
+    'get_example_title': get_example_title,
 }
 
 template_loader = FileSystemLoader(searchpath='./jinja2_resources')
@@ -136,6 +148,7 @@ load_data('legal_basis', f'{IMPORT_DPV_MODULES_PATH}/legal_basis.ttl')
 load_data('consent', f'{IMPORT_DPV_MODULES_PATH}/consent.ttl')
 load_data('consent_types', f'{IMPORT_DPV_MODULES_PATH}/consent_types.ttl')
 load_data('consent_status', f'{IMPORT_DPV_MODULES_PATH}/consent_status.ttl')
+load_data('examples', f'{IMPORT_EXAMPLES}', custom_concept='dex_Example')
 g = Graph()
 g.parse(f'{IMPORT_DPV_PATH}', format='turtle')
 G.parse(g)

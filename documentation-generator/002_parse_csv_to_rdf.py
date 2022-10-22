@@ -73,6 +73,16 @@ DPV_Property = namedtuple('DPV_Property', [
 
 LINKS = {}
 
+EXAMPLES_GRAPH = Graph()
+EXAMPLES_GRAPH.load('../examples/examples.ttl', format='ttl')
+
+
+def get_examples_for_concept(concept):
+    concepts = list(EXAMPLES_GRAPH.triples((None, DCT.subject, concept)))
+    if concepts:
+        concepts = [s for s, _, _ in concepts]
+    return concepts
+
 
 def extract_terms_from_csv(filepath, Mapping):
     '''extracts data from file.csv and creates instances of Class
@@ -158,6 +168,11 @@ def add_common_triples_for_all_terms(term, graph):
     graph.add((BASE[f'{term.term}'], RDFS.isDefinedBy, BASE['']))
     # resolution
         # do nothing
+    # examples
+    examples = get_examples_for_concept(BASE[f'{term.term}'])
+    if examples:
+        for ex in examples:
+            graph.add((BASE[f'{term.term}'], VANN.example, ex))
 
     return None
 
