@@ -82,9 +82,9 @@ def prefix_this(item):
 
 
 def fragment_this(item):
-    if '#' not in item:
-        return item
-    return item.split('#')[-1]
+    if '#' in item:
+        return item.split('#')[-1]
+    return item.split('/')[-1]
 
 
 def get_subclasses(item):

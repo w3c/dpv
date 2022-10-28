@@ -209,6 +209,17 @@ def add_triples_for_classes(classes, graph, model, topconcept):
             continue
         # rdf:type
         DEBUG(cls.term)
+        # check for reused terms
+        if ':' in cls.term:
+            prefix, label = cls.term.split(':')
+            term = NAMESPACES[prefix][label]
+            graph.add((term, RDF.type, SKOS.Concept))
+            graph.add((term, RDF.type, RDFS.Class))
+            # graph.add((term, RDF.type, DPV.ReusedExternalConcept))
+            graph.add((term, SKOS.prefLabel, Literal(cls.skos_prefLabel, lang='en')))
+            graph.add((term, SKOS.scopeNote, Literal(cls.skos_definition, lang='en')))
+            continue
+
         graph.add((BASE[f'{cls.term}'], RDF.type, SKOS.Concept))
         graph.add((BASE[f'{cls.term}'], RDF.type, RDFS.Class))
         topconcept_term = topconcept.split('#')[1] if topconcept else ''
@@ -271,6 +282,16 @@ def add_triples_for_properties(properties, graph):
             continue
         # rdf:type
         DEBUG(prop.term)
+        # check for reused terms
+        if ':' in prop.term:
+            prefix, label = prop.term.split(':')
+            term = NAMESPACES[prefix][label]
+            graph.add((term, RDF.type, RDF.Property))
+            # graph.add((term, RDF.type, DPV.ReusedExternalConcept))
+            graph.add((term, SKOS.prefLabel, Literal(prop.skos_prefLabel, lang='en')))
+            graph.add((term, SKOS.scopeNote, Literal(prop.skos_definition, lang='en')))
+            continue
+
         graph.add((BASE[f'{prop.term}'], RDF.type, RDF.Property))
         # rdfs:domain
         if prop.rdfs_domain:

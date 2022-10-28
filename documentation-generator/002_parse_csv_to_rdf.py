@@ -196,6 +196,16 @@ def add_triples_for_classes(classes, graph):
                 "WARNING: This concept will be deprecated in future releases", lang='en')))
         # rdf:type
         DEBUG(cls.term)
+        # check for reused terms
+        if ':' in cls.term:
+            prefix, label = cls.term.split(':')
+            term = NAMESPACES[prefix][label]
+            graph.add((term, RDF.type, DPV.Concept))
+            # graph.add((term, RDF.type, DPV.ReusedExternalConcept))
+            graph.add((term, SKOS.prefLabel, Literal(cls.skos_prefLabel, lang='en')))
+            graph.add((term, SKOS.scopeNote, Literal(cls.skos_definition, lang='en')))
+            continue
+
         graph.add((BASE[f'{cls.term}'], RDF.type, DPV.Concept))
         # rdfs:subClassOf
         if cls.dpv_isSubTypeOf:
@@ -249,6 +259,17 @@ def add_triples_for_properties(properties, graph):
                 "WARNING: This concept will be deprecated in future releases", lang='en')))
         # rdf:type
         DEBUG(prop.term)
+        # check for reused terms
+        if ':' in prop.term:
+            prefix, label = prop.term.split(':')
+            term = NAMESPACES[prefix][label]
+            graph.add((term, RDF.type, DPV.Relation))
+            # graph.add((term, RDF.type, DPV.ReusedExternalConcept))
+            graph.add((term, SKOS.prefLabel, Literal(prop.skos_prefLabel, lang='en')))
+            # vann:usageNote
+            graph.add((term, SKOS.scopeNote, Literal(prop.skos_definition, lang='en')))
+            continue
+
         graph.add((BASE[f'{prop.term}'], RDF.type, DPV.Relation))
         # rdfs:domain
         if prop.rdfs_domain:

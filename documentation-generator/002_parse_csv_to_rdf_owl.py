@@ -211,6 +211,16 @@ def add_triples_for_classes(classes, graph):
             continue
         # rdf:type
         DEBUG(cls.term)
+        # check for reused terms
+        if ':' in cls.term:
+            prefix, label = cls.term.split(':')
+            term = NAMESPACES[prefix][label]
+            graph.add((term, RDF.type, OWL.Class))
+            # graph.add((term, RDF.type, DPV.ReusedExternalConcept))
+            graph.add((term, RDFS.label, Literal(cls.rdfs_label, lang='en')))
+            graph.add((term, SKOS.scopeNote, Literal(cls.dct_description, lang='en')))
+            continue
+
         # rdfs:subClassOf
         if cls.rdfs_subclassof:
             parents = [p.strip() for p in cls.rdfs_subclassof.split(',')]
@@ -261,6 +271,17 @@ def add_triples_for_properties(properties, graph):
             continue
         # rdf:type
         DEBUG(prop.term)
+        # check for reused terms
+        if ':' in prop.term:
+            prefix, label = prop.term.split(':')
+            term = NAMESPACES[prefix][label]
+            graph.add((term, RDF.type, RDF.Property))
+            graph.add((term, RDF.type, OWL.AnnotationProperty))
+            # graph.add((term, RDF.type, DPV.ReusedExternalConcept))
+            graph.add((term, RDFS.label, Literal(prop.rdfs_label, lang='en')))
+            graph.add((term, SKOS.scopeNote, Literal(prop.dct_description, lang='en')))
+            continue
+
         graph.add((BASE[f'{prop.term}'], RDF.type, RDF.Property))
         if prop.rdfs_domain or prop.rdfs_range:
             graph.add((BASE[f'{prop.term}'], RDF.type, OWL.ObjectProperty))
