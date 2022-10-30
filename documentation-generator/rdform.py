@@ -80,6 +80,8 @@ class RDFS_Resource(object):
             return self.dct_title
         elif 'rdfs_label' in self.metadata:
             return self.rdfs_label
+        elif 'skos_prefLabel' in self.metadata:
+            return self.skos_prefLabel
         elif self.iri is not None:
             return self.iri
         else:

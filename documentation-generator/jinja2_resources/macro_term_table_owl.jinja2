@@ -3,24 +3,24 @@
   {% endif %}
     <p>
       {% for term in term_list | sort(attribute='iri') %}
-      <code><a href="#{% if ':' in term.rdfs_label %}{{prefix}}-{{term.iri|prefix_this}}{% else %}{{term.iri|fragment_this}}{% endif %}">{{term.rdfs_label}}</a></code> |
+      <code><a href="#{% if term|get_namespace_reference %}{{prefix}}-{{term.iri|prefix_this}}{% else %}{{term.iri|fragment_this}}{% endif %}">{{term.rdfs_label}}</a></code> |
       {% endfor %}
     </p>
 
     {% for term in term_list | sort(attribute='iri') %}
-    <section data-dfn-for="{% if ':' in term.rdfs_label %}{{prefix}}-{{term.iri|prefix_this}}{% else %}{{term.iri|fragment_this}}{% endif %}">
-      <h4 id="{% if ':' in term.rdfs_label %}{{prefix}}-{{term.iri|prefix_this}}{% else %}{{term.iri|fragment_this}}{% endif %}">{{term.rdfs_label}}</h4>
+    <section {% if prefix %}data-dfn-for="{{prefix}}"{% endif %}>
+      <h4 id="{% if term|get_namespace_reference %}{{prefix}}-{{term.iri|prefix_this}}{% else %}{{term.iri|fragment_this}}{% endif %}">{{term.rdfs_label}}</h4>
       <table class="definition">
         <tbody>
           <tr>
             <td>IRI</td>
-            <td>{% if ':' in term.rdfs_label %}<a href="{{term.iri}}"><code>{{ term.iri }}</code></a>{% else %}<code>{{ term.iri }}</code></a>{% endif %}</td>
+            <td>{% if not term|get_namespace_reference %}<a href="{{term.iri}}"><code>{{ term.iri }}</code></a>{% else %}<code>{{ term.iri }}</code></a>{% endif %}</td>
           </tr>
           <tr>
             <td>Term:</td>
-            <td><code><dfn>{% if ':' in term.rdfs_label %}{{ term.iri|prefix_this }}{% else %}{{term.iri|fragment_this}}{% endif %}</dfn></code></td>
+            <td><dfn>{% if term|get_namespace_reference %}<a href="{{term.iri}}">{{term.iri|prefix_this}}</a>{% else %}{{term.iri|fragment_this}}{% endif %}</dfn></td>
           </tr>
-          {% if ':' not in term.rdfs_label %}<tr>
+          {% if not term|get_namespace_reference %}<tr>
             <td>Label:</td>
             <td>{{term.rdfs_label}}</td>
           </tr>
@@ -28,7 +28,10 @@
             <td>Description:</td>
             <td>{{term.dct_description}}</td>
           </tr>
-          {% else %}<tr><td>Usage Note:</td><td>{{ term.skos_scopeNote }}</td></tr>{% endif %}
+          {% else %}
+            <tr><td>Vocabulary:</td><td>{% set prefix, iri = term.rdfs_label|get_namespace_reference %}[[[{{prefix}}]]]</a></td></tr>
+            <tr><td>Usage Note:</td><td>{{ term.skos_scopeNote }}</td></tr>
+          {% endif %}
           {% if term.rdfs_subClassOf %}
           <tr>
             <td>SubClass of:</td>
@@ -138,24 +141,24 @@
   {% if not skip_heading %}<h3>Properties</h3>{% endif %}
     <p>
       {% for term in term_list | sort(attribute='iri') %}
-      <code><a href="#{% if ':' in term.rdfs_label %}{{prefix}}-{{term.iri|prefix_this}}{% else %}{{term.iri|fragment_this}}{% endif %}">{{term.rdfs_label}}</a></code> |
+      <code><a href="#{% if term|get_namespace_reference %}{{prefix}}-{{term.iri|prefix_this}}{% else %}{{term.iri|fragment_this}}{% endif %}">{{term.rdfs_label}}</a></code> |
       {% endfor %}
     </p>
 
     {% for term in term_list | sort(attribute='iri') %}
-    <section data-dfn-for="{% if ':' in term.rdfs_label %}{{prefix}}-{{term.iri|prefix_this}}{% else %}{{term.iri|fragment_this}}{% endif %}">
-      <h4 id="{% if ':' in term.rdfs_label %}{{prefix}}-{{term.iri|prefix_this}}{% else %}{{term.iri|fragment_this}}{% endif %}">{{term.rdfs_label}}</h4>
+    <section {% if prefix %}data-dfn-for="{{prefix}}"{% endif %}>
+      <h4 id="{% if term|get_namespace_reference %}{{prefix}}-{{term.iri|prefix_this}}{% else %}{{term.iri|fragment_this}}{% endif %}">{{term.rdfs_label}}</h4>
       <table class="definition">
         <tbody>
           <tr>
             <td>IRI</td>
-            <td>{% if ':' in term.rdfs_label %}<a href="{{term.iri}}"><code>{{ term.iri }}</code></a>{% else %}<code>{{ term.iri }}</code></a>{% endif %}</td>
+            <td>{% if term|get_namespace_reference %}<a href="{{term.iri}}"><code>{{ term.iri }}</code></a>{% else %}<code>{{ term.iri }}</code></a>{% endif %}</td>
           </tr>
           <tr>
             <td>Term:</td>
-            <td><code><dfn>{% if ':' in term.rdfs_label %}{{ term.iri|prefix_this }}{% else %}{{term.iri|fragment_this}}{% endif %}</dfn></code></td>
+            <td><dfn>{% if term|get_namespace_reference %}{{ term.iri|prefix_this }}{% else %}{{term.iri|fragment_this}}{% endif %}</dfn></td>
           </tr>
-          {% if ':' not in term.rdfs_label %}<tr>
+          {% if not term|get_namespace_reference %}<tr>
             <td>Label:</td>
             <td>{{term.rdfs_label}}</td>
           </tr>
@@ -163,7 +166,10 @@
             <td>Description:</td>
             <td>{{term.dct_description}}</td>
           </tr>
-          {% else %}<tr><td>Usage Note:</td><td>{{ term.skos_scopeNote }}</td></tr>{% endif %}
+          {% else %}
+            <tr><td>Vocabulary:</td><td>{% set prefix, iri = term.rdfs_label|get_namespace_reference %}[[[{{prefix}}]]]</a></td></tr>
+            <tr><td>Usage Note:</td><td>{{ term.skos_scopeNote }}</td></tr>
+          {% endif %}
           {% if term.rdfs_subPropertyOf %}
           <tr>
             <td>Sub-Property Of:</td>
@@ -190,11 +196,11 @@
           {% endif %}
           <tr>
             <td>Domain:</td>
-            <td>{% if term.rdfs_domain %}<a href="{{ term.rdfs_domain}}">{{ term.rdfs_domain|prefix_this}}</a>{% else %}<i>left blank / left blank / unspecified</i>{% endif %}</td>
+            <td>{% if term.rdfs_domain %}<a href="{{ term.rdfs_domain}}">{{ term.rdfs_domain|prefix_this}}</a>{% else %}<i>left blank / unspecified</i>{% endif %}</td>
           </tr>
           <tr>
             <td>Range:</td>
-            <td>{% if term.rdfs_range %}<a href="{{ term.rdfs_range}}">{{ term.rdfs_range|prefix_this}}</a>{% else %}<i>left blank / left blank / unspecified</i>{% endif %}</td>
+            <td>{% if term.rdfs_range %}<a href="{{ term.rdfs_range}}">{{ term.rdfs_range|prefix_this}}</a>{% else %}<i>left blank / unspecified</i>{% endif %}</td>
           </tr>
           {% if term.dct_created %}
           <tr>

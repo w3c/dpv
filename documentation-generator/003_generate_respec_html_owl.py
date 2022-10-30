@@ -37,7 +37,7 @@ logging.basicConfig(
     level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
 
-from vocab_management import generate_author_affiliation
+from vocab_management import generate_author_affiliation, NAMESPACES
 
 TEMPLATE_DATA = {}
 
@@ -114,6 +114,13 @@ def get_example_title(resource):
     return None
 
 
+def get_namespace_reference(term):
+    if getattr(term, 'rdfs_isDefinedBy', None) is not None:
+        return None
+    term = str(term).split(':')[0]
+    return term.upper(), NAMESPACES[term]
+
+
 # JINJA2 for templating and generating HTML
 from jinja2 import FileSystemLoader, Environment
 JINJA2_FILTERS = {
@@ -123,6 +130,7 @@ JINJA2_FILTERS = {
     'saved_label': saved_label,
     'generate_author_affiliation': generate_author_affiliation,
     'get_example_title': get_example_title,
+    'get_namespace_reference': get_namespace_reference
 }
 
 template_loader = FileSystemLoader(searchpath='./jinja2_resources')
