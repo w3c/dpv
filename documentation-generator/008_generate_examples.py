@@ -155,6 +155,6 @@ template = template_env.get_template('template_examples.jinja2')
 with open(f'{EXPORT_DEX_PATH}/index.html', 'w+') as fd:
     fd.write(template.render(**TEMPLATE_DATA))
 DEBUG(f'wrote DEX document at f{EXPORT_DEX_PATH}/index.html')
-with open(f'{EXPORT_DEX_PATH}/dex.html', 'w+') as fd:
+with open(f'{EXPORT_DEX_PATH}/examples.html', 'w+') as fd:
     fd.write(template.render(**TEMPLATE_DATA))
 DEBUG(f'wrote DEX document at f{EXPORT_DEX_PATH}/examples.html')

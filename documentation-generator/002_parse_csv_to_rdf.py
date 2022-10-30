@@ -74,7 +74,7 @@ DPV_Property = namedtuple('DPV_Property', [
 LINKS = {}
 
 EXAMPLES_GRAPH = Graph()
-EXAMPLES_GRAPH.load('../examples/examples.ttl', format='ttl')
+EXAMPLES_GRAPH.parse('../examples/examples.ttl', format='ttl')
 
 
 def get_examples_for_concept(concept):
@@ -534,6 +534,7 @@ DPV_GDPR_CSV_FILES = {
         },
     'dpia': {
         'classes': f'{IMPORT_CSV_PATH}/GDPR_DPIA.csv',
+        'properties': f'{IMPORT_CSV_PATH}/GDPR_DPIA_properties.csv',
         },
     'compliance': {
         'classes': f'{IMPORT_CSV_PATH}/GDPR_compliance.csv',

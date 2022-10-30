@@ -93,6 +93,7 @@ DPV_FILES = (
             'GDPR_LegalRights', 
             'GDPR_DataTransfers', 
             'GDPR_DPIA',
+            'GDPR_DPIA_properties',
             'GDPR_compliance'
             )),
     ('dpv-tech', '1GVmF4c7b-9xMSs0TyT45kXoCLLUVs8bbW34tfcozbuA',
