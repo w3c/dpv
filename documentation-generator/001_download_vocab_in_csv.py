@@ -124,6 +124,7 @@ DPV_FILES = (
             'RiskAssessmentTechniques', 
             'RiskManagement', 
             'RiskMethodology',
+            'Justifications',
             )),
     ('rights', '1XW-L6rGWbgGGp62q8eA22SWvh4wUWK5BpC0zfD6wAxM',
        (

@@ -1,6 +1,8 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix dex: <https://w3id.org/dpv/examples#> .
 @prefix dpv: <https://w3id.org/dpv#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -11,6 +13,34 @@
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dct:accessRights a dpv:Relation ;
+    skos:prefLabel "dct:accessRights"@en ;
+    skos:scopeNote "Specfiying constraints on access associated with Rights Exercising (e.g. User must log in) or access to provided data (e.g. access via link)"@en .
+
+dct:format a dpv:Relation ;
+    skos:prefLabel "dct:format"@en ;
+    skos:scopeNote "Specifying the format of provided information, for example a CSV dataset"@en .
+
+dct:hasPart a dpv:Relation ;
+    skos:prefLabel "dct:hasPart"@en ;
+    skos:scopeNote "Specifying a RightExerciseRecord has RightExerciseActivity as part of its records"@en .
+
+dct:isPartOf a dpv:Relation ;
+    skos:prefLabel "dct:isPartOf"@en ;
+    skos:scopeNote "Specifying a RightExerciseActivity is part of a RightExerciseRecord"@en .
+
+dct:valid a dpv:Relation ;
+    skos:prefLabel "dct:valid"@en ;
+    skos:scopeNote "Specfiying the temporal validity of an activity associated with Right Exercise. For example, limits on duration for providing or accessing provided information"@en .
+
+dcat:Resource a dpv:Concept ;
+    skos:prefLabel "dcat:Resource"@en ;
+    skos:scopeNote "A dataset, data service, or any other resource associated with Right Exercise - such as for providing a copy of personal data"@en .
+
+foaf:page a dpv:Relation ;
+    skos:prefLabel "foaf:page"@en ;
+    skos:scopeNote "Indicates a web page or document providing information or functionality associated with a Right Exercise"@en .
 
 <https://w3id.org/dpv> a owl:Ontology ;
     dct:abstract "The Data Privacy Vocabulary (DPV) provides terms (classes and properties) to represent information about legally compliant personal data handling, which includes purposes, processing, personal data, technical and organisational measures."@en ;
@@ -367,6 +397,7 @@ dpv:Personal_DataConcepts a skos:Collection ;
         dpv:Data,
         dpv:DerivedPersonalData,
         dpv:GeneratedPersonalData,
+        dpv:IncorrectData,
         dpv:InferredPersonalData,
         dpv:NonPersonalData,
         dpv:ObservedPersonalData,
@@ -375,6 +406,8 @@ dpv:Personal_DataConcepts a skos:Collection ;
         dpv:SensitivePersonalData,
         dpv:SpecialCategoryPersonalData,
         dpv:SyntheticData,
+        dpv:UnverifiedData,
+        dpv:VerifiedData,
         dpv:hasData,
         dpv:hasPersonalData ;
     skos:prefLabel "Personal_Data Concepts"^^xsd:string .
@@ -501,6 +534,7 @@ dpv:Processing_ScaleConcepts a skos:Collection ;
 
 dpv:PurposesConcepts a skos:Collection ;
     skos:member dpv:AcademicResearch,
+        dpv:AccountManagement,
         dpv:Advertising,
         dpv:AntiTerrorismOperations,
         dpv:CommercialResearch,
@@ -526,12 +560,14 @@ dpv:PurposesConcepts a skos:Collection ;
         dpv:ImproveInternalCRMProcesses,
         dpv:IncreaseServiceRobustness,
         dpv:InternalResourceOptimisation,
+        dpv:LegalCompliance,
         dpv:MaintainCreditCheckingDatabase,
         dpv:MaintainCreditRatingDatabase,
         dpv:MaintainFraudDatabase,
         dpv:Marketing,
         dpv:MemberPartnerManagement,
         dpv:NonCommercialResearch,
+        dpv:OptimisationForConsumer,
         dpv:OptimisationForController,
         dpv:OptimiseUserInterface,
         dpv:OrganisationComplianceManagement,
@@ -540,12 +576,17 @@ dpv:PurposesConcepts a skos:Collection ;
         dpv:PaymentManagement,
         dpv:Personalisation,
         dpv:PersonalisedAdvertising,
+        dpv:PersonalisedBenefits,
         dpv:PersonnelHiring,
         dpv:PersonnelManagement,
         dpv:PersonnelPayment,
+        dpv:ProvideEventRecommendations,
+        dpv:ProvidePersonalisedRecommendations,
+        dpv:ProvideProductRecommendations,
         dpv:PublicRelations,
         dpv:Purpose,
         dpv:RecordManagement,
+        dpv:RepairImpairments,
         dpv:RequestedServiceProvision,
         dpv:ResearchAndDevelopment,
         dpv:Sector,
@@ -556,6 +597,7 @@ dpv:PurposesConcepts a skos:Collection ;
         dpv:ServiceOptimisation,
         dpv:ServicePersonalisation,
         dpv:ServiceProvision,
+        dpv:ServiceRegistration,
         dpv:ServiceUsageAnalytics,
         dpv:SocialMediaMarketing,
         dpv:TargetedAdvertising,
@@ -575,6 +617,10 @@ dpv:RightsConcepts a skos:Collection ;
         dpv:PassiveRight,
         dpv:Right,
         dpv:RightExercise,
+        dpv:RightExerciseActivity,
+        dpv:RightExerciseRecord,
+        dpv:RightFulfilmentNotice,
+        dpv:RightNonFulfilmentNotice,
         dpv:hasRight,
         dpv:isExercisedAt ;
     skos:prefLabel "Rights Concepts"^^xsd:string .
@@ -762,10 +808,24 @@ dpv:RightExercise a skos:Concept,
         "Paul Ryan"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:definition "The exercising of an active right"@en ;
+    skos:definition "Information associated with exercising of an active right"@en ;
     skos:inScheme dpv: ;
-    skos:note "This concept is intended for providing information regarding a right exercise. For recording instances of such exercises, see RightExerciseRecord."@en ;
+    skos:note "This concept is intended for providing information regarding a right exercise. For specific instances of such exercises, see RightExerciseActivity and RightExerciseRecord."@en ;
     skos:prefLabel "Right Exercise"@en .
+
+dpv:RightExerciseActivity a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-11-02"^^xsd:date ;
+    dct:creator "Beatriz Esteves"^^xsd:string,
+        "Georg P Krog"^^xsd:string,
+        "Harshvardhan J Pandit"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "An activity representing an exercising of an active right"@en ;
+    skos:inScheme dpv: ;
+    skos:note "There may be multiple activities associated with exercising and fulfilling rights. See the RightExerciseRecord concept for record-keeping of such activities in a cohesive manner."@en ;
+    skos:prefLabel "Right Exercise Activity"@en .
 
 dpv:hasAddress a skos:Concept,
         dpv:Relation ;
@@ -998,7 +1058,9 @@ dpv:hasJustification a skos:Concept,
     sw:term_status "accepted"@en ;
     skos:definition "Indicates a justification for specified concept or context"@en ;
     skos:inScheme dpv: ;
-    skos:prefLabel "has justification"@en ;
+    skos:prefLabel "dpv:hasJustification"@en,
+        "has justification"@en ;
+    skos:scopeNote "Specifying a justification for non-fulfilment of Right Exercise"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Justification .
 
@@ -1310,7 +1372,9 @@ dpv:isAfter a skos:Concept,
     sw:term_status "accepted"@en ;
     skos:definition "Indicates the specified concepts is 'after' this concept in some context"@en ;
     skos:inScheme dpv: ;
-    skos:prefLabel "is after"@en ;
+    skos:prefLabel "dpv:isAfter"@en,
+        "is after"@en ;
+    skos:scopeNote "Specifying a RightExerciseActivity occurs before another RightExerciseActivity"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Concept .
 
@@ -1337,17 +1401,16 @@ dpv:isBefore a skos:Concept,
     sw:term_status "accepted"@en ;
     skos:definition "Indicates the specified concepts is 'before' this concept in some context"@en ;
     skos:inScheme dpv: ;
-    skos:prefLabel "is before"@en ;
+    skos:prefLabel "dpv:isBefore"@en,
+        "is before"@en ;
+    skos:scopeNote "Specifying a RightExerciseActivity occurs before another RightExerciseActivity"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Concept .
 
 dpv:isExercisedAt a skos:Concept,
         dpv:Relation ;
     dct:created "2022-10-22"^^xsd:date ;
-    dct:creator "Beatriz Esteves"^^xsd:string,
-        "Georg P Krog"^^xsd:string,
-        "Harshvardhan J Pandit"^^xsd:string,
-        "Paul Ryan"^^xsd:string ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates context or information about exercising a right"@en ;
@@ -1382,11 +1445,13 @@ dpv:isImplementedByEntity a skos:Concept,
         "Paul Ryan"^^xsd:string ;
     dct:modified "2022-01-26"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "modified"@en ;
+    sw:term_status "changed"@en ;
     skos:definition "Indicates implementation details such as entities or agents"@en ;
     skos:inScheme dpv: ;
     skos:note "The use of 'entity' is inclusive of entities (e.g. Data Processor) as well as 'agent' (e.g. DPO). For indicating technological implementation, the property isImplementedByTechnology should be used."@en ;
-    skos:prefLabel "is implemented by entity"@en ;
+    skos:prefLabel "dpv:isImplementedByEntity"@en,
+        "is implemented by entity"@en ;
+    skos:scopeNote "Indicates the Entity that implements or performs a Right Exercise Activity"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Entity .
 
@@ -1519,6 +1584,20 @@ dpv:Access a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Access"@en ;
     dpv:isSubTypeOf dpv:Use .
+
+dpv:AccountManagement a skos:Concept,
+        dpv:Concept ;
+    dct:created "2021-09-08"^^xsd:date ;
+    dct:creator "Beatriz Esteves"^^xsd:string,
+        "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Purpose ;
+    skos:definition "Create, maintain, and manage accounts for purposes of providing services"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Account Management"@en ;
+    dpv:isSubTypeOf dpv:Purpose .
 
 dpv:Acquire a skos:Concept,
         dpv:Concept ;
@@ -3542,6 +3621,18 @@ dpv:IncidentReportingCommunication a skos:Concept,
     skos:prefLabel "Incident Reporting Communication"@en ;
     dpv:isSubTypeOf dpv:GovernanceProcedures .
 
+dpv:IncorrectData a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-11-02"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Data ;
+    skos:definition "Data that is known to be incorrect or inconsistent with some quality requirements"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Incorrect Data"@en ;
+    dpv:isSubTypeOf dpv:Data .
+
 dpv:IncreaseServiceRobustness a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -3778,6 +3869,21 @@ dpv:LawfulnessUnkown a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Lawfulness Unknown"@en ;
     dpv:isInstanceOf dpv:Lawfulness .
+
+dpv:LegalCompliance a skos:Concept,
+        dpv:Concept ;
+    dct:created "2020-11-04"^^xsd:date ;
+    dct:creator "Beatriz Esteves"^^xsd:string,
+        "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Purpose ;
+    skos:definition "Fulfilment of obligations or requirements towards achieving compliance with law or regulations"@en ;
+    skos:inScheme dpv: ;
+    skos:note "This purpose only refers to processing that is additionally required in order to fulfill the obligations and requirements associated with a law. For example, the use of consent would have its own separate purposes, with this purpose addressing a legal requirement for maintaining consent record (along with RecordManagement). This purpose will typically be used with Legal Obligation as the legal basis."@en ;
+    skos:prefLabel "Legal Compliance"@en ;
+    dpv:isSubTypeOf dpv:Purpose .
 
 dpv:LegalObligation a skos:Concept,
         dpv:Concept ;
@@ -4446,8 +4552,6 @@ dpv:OperatingSystemSecurity a skos:Concept,
     skos:prefLabel "Operating System Security"@en ;
     dpv:isSubTypeOf dpv:SecurityMethod .
 
-dpv:OptimisationForConsumer skos:narrower dpv:OptimiseUserInterface .
-
 dpv:OptimiseUserInterface a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -4684,6 +4788,23 @@ dpv:PersonalDataHandling a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Personal Data Handling"@en .
 
+dpv:PersonalisedBenefits a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Elmar Kiesling"^^xsd:string,
+        "Fajar Ekaputra"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Javier Fernandez"^^xsd:string,
+        "Simon Steyskal"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:ServicePersonalisation ;
+    skos:definition "Create and provide personalised benefits for a service"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Personalised Benefits"@en ;
+    dpv:isSubTypeOf dpv:ServicePersonalisation .
+
 dpv:PersonnelHiring a skos:Concept,
         dpv:Concept ;
     dct:created "2022-04-20"^^xsd:date ;
@@ -4842,6 +4963,55 @@ dpv:Profiling a skos:Concept,
     skos:prefLabel "Profiling"@en ;
     dpv:isSubTypeOf dpv:Use .
 
+dpv:ProvideEventRecommendations a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-11-26"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string,
+        "Rudy Jacob"^^xsd:string ;
+    dct:modified "2022-10-14"^^xsd:date ;
+    dct:source <https://specialprivacy.ercim.eu/> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:CreatePersonalisedRecommendations ;
+    skos:definition "Create and provide personalised recommendations for events"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Provide Event Recommendations"@en ;
+    dpv:isSubTypeOf dpv:CreatePersonalisedRecommendations .
+
+dpv:ProvidePersonalisedRecommendations a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-11-26"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string,
+        "Rudy Jacob"^^xsd:string ;
+    dct:modified "2022-10-14"^^xsd:date ;
+    dct:source <https://specialprivacy.ercim.eu/> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:ServicePersonalisation ;
+    skos:definition "Create and provide personalised recommendations"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Provide Personalised Recommendations"@en ;
+    dpv:isSubTypeOf dpv:ServicePersonalisation .
+
+dpv:ProvideProductRecommendations a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Elmar Kiesling"^^xsd:string,
+        "Fajar Ekaputra"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Javier Fernandez"^^xsd:string,
+        "Simon Steyskal"^^xsd:string ;
+    dct:modified "2022-10-14"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:CreatePersonalisedRecommendations ;
+    skos:definition "Create and provide product recommendations e.g. suggest similar products"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Provide Product Recommendations"@en ;
+    skos:related svpu:Marketing ;
+    dpv:isSubTypeOf dpv:CreatePersonalisedRecommendations .
+
 dpv:Pseudonymise a skos:Concept,
         dpv:Concept ;
     dct:created "2019-05-07"^^xsd:date ;
@@ -4976,18 +5146,6 @@ dpv:RandomLocation a skos:Concept,
     skos:prefLabel "Random Location"@en ;
     dpv:isInstanceOf dpv:LocationFixture .
 
-dpv:Record a skos:Concept,
-        dpv:Concept ;
-    dct:created "2019-05-07"^^xsd:date ;
-    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj> ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:Obtain ;
-    skos:definition "to make a record (especially media)"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "Record"@en ;
-    dpv:isSubTypeOf dpv:Obtain .
-
 dpv:RecordManagement a skos:Concept,
         dpv:Concept ;
     dct:created "2021-09-01"^^xsd:date ;
@@ -5088,6 +5246,19 @@ dpv:RenewedConsentGiven a skos:Concept,
     skos:prefLabel "Renewed Consent Given"@en ;
     dpv:isInstanceOf dpv:ConsentStatusValidForProcessing .
 
+dpv:RepairImpairments a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-08-24"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:ServiceProvision ;
+    skos:definition "Identify, rectify, or otherwise under take activities intended to fix or repair impairments to existing functionalities"@en ;
+    skos:inScheme dpv: ;
+    skos:note "An example of identifying and rectifying impairments is the process of finding and fixing errors in products, commonly referred to as debugging"@en ;
+    skos:prefLabel "Repair Impairments"@en ;
+    dpv:isSubTypeOf dpv:ServiceProvision .
+
 dpv:Required a skos:Concept,
         dpv:Concept ;
     dct:created "2022-02-13"^^xsd:date ;
@@ -5127,6 +5298,50 @@ dpv:Retrieve a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Retrieve"@en ;
     dpv:isSubTypeOf dpv:Use .
+
+dpv:RightExerciseRecord a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-11-02"^^xsd:date ;
+    dct:creator "Beatriz Esteves"^^xsd:string,
+        "Georg P Krog"^^xsd:string,
+        "Harshvardhan J Pandit"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Record ;
+    skos:definition "Record of a Right being exercised"@en ;
+    skos:inScheme dpv: ;
+    skos:note "This concept represents a record of one or more right exercise activities, such as those associated with a single data subject or service or entity"@en ;
+    skos:prefLabel "Right Exercise Record"@en ;
+    dpv:isInstanceOf dpv:Record .
+
+dpv:RightFulfilmentNotice a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-11-02"^^xsd:date ;
+    dct:creator "Beatriz Esteves"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Notice ;
+    skos:definition "Notice provided regarding fulfilment of a right"@en ;
+    skos:inScheme dpv: ;
+    skos:note "This notice is associated with situations where information is provided with the intention of progressing the fulfilment of a right. For example, a notice asking for more information regarding the scope of the right, or providing information on where to access the data provided under a right."@en ;
+    skos:prefLabel "Right Fulfilment Notice"@en ;
+    dpv:isSubTypeOf dpv:Notice .
+
+dpv:RightNonFulfilmentNotice a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-11-02"^^xsd:date ;
+    dct:creator "Beatriz Esteves"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Notice ;
+    skos:definition "Notice provided regarding non-fulfilment of a right"@en ;
+    skos:inScheme dpv: ;
+    skos:note "This notice is associated with situations where information is provided with the intention of communicating non-fulfilment of a right. For example, to provide justifications on why a right could not be fulfilled or providing information about another entity  who should be approached for exercising this right."@en ;
+    skos:prefLabel "Right Non-Fulfilment Notice"@en ;
+    dpv:isSubTypeOf dpv:Notice .
 
 dpv:RiskLevel a skos:Concept,
         dpv:Concept ;
@@ -5362,6 +5577,21 @@ dpv:SellProductsToDataSubject a skos:Concept,
     skos:note "Sell Products here refers to processing necessary to provide and complete a sale to customers. It should not be confused with providing services with a cost based on an established agreement."@en ;
     skos:prefLabel "Sell Products to Data Subject"@en ;
     dpv:isSubTypeOf dpv:SellProducts .
+
+dpv:ServiceRegistration a skos:Concept,
+        dpv:Concept ;
+    dct:created "2020-11-04"^^xsd:date ;
+    dct:creator "Beatriz Esteves"^^xsd:string,
+        "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:ServiceProvision ;
+    skos:definition "Register users and collect information required for providing a service"@en ;
+    skos:inScheme dpv: ;
+    skos:note "An example of service registration is to provide a form that collects information such as preferred language or media format for downloading a movie"@en ;
+    skos:prefLabel "Service Registration"@en ;
+    dpv:isSubTypeOf dpv:ServiceProvision .
 
 dpv:ServiceUsageAnalytics a skos:Concept,
         dpv:Concept ;
@@ -5931,6 +6161,18 @@ dpv:UntilTimeDuration a skos:Concept,
     skos:prefLabel "Until Time Duration"@en ;
     dpv:isSubTypeOf dpv:Duration .
 
+dpv:UnverifiedData a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-11-02"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Data ;
+    skos:definition "Data that has not been verified in terms of accuracy, inconsistency, or quality"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Unverified Data"@en ;
+    dpv:isSubTypeOf dpv:Data .
+
 dpv:UsageControl a skos:Concept,
         dpv:Concept ;
     dct:created "2022-08-17"^^xsd:date ;
@@ -6051,6 +6293,18 @@ dpv:VendorSelectionAssessment a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Vendor Selection Assessment"@en ;
     dpv:isSubTypeOf dpv:VendorManagement .
+
+dpv:VerifiedData a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-11-02"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Data ;
+    skos:definition "Data that has been verified in terms of accuracy, inconsistency, or quality"@en ;
+    skos:inScheme dpv: ;
+    skos:prefLabel "Verified Data"@en ;
+    dpv:isSubTypeOf dpv:Data .
 
 dpv:VirtualisationSecurity a skos:Concept,
         dpv:Concept ;
@@ -7281,6 +7535,9 @@ dpv:ConsultationWithDataSubject a skos:Concept,
     skos:prefLabel "Consultation with Data Subject"@en ;
     dpv:isSubTypeOf dpv:Consultation .
 
+dpv:CreatePersonalisedRecommendations skos:narrower dpv:ProvideEventRecommendations,
+        dpv:ProvideProductRecommendations .
+
 dpv:Customer a skos:Concept,
         dpv:Concept ;
     dct:created "2022-04-06"^^xsd:date ;
@@ -7520,6 +7777,26 @@ dpv:NonPersonalData a skos:Concept,
     skos:prefLabel "Non-Personal Data"@en ;
     dpv:isSubTypeOf dpv:Data .
 
+dpv:OptimisationForConsumer a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Elmar Kiesling"^^xsd:string,
+        "Fajar Ekaputra"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Javier Fernandez"^^xsd:string,
+        "Simon Steyskal"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:ServiceOptimisation ;
+    skos:definition "Optimize activities and services for consumer or user"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:OptimiseUserInterface ;
+    skos:note "The term optmisation here refers to the efficiency of the service in terms of technical provision (or similar means) with benefits for everybody. Personalisation implies making changes that benefit the current user or persona."@en ;
+    skos:prefLabel "Optimisation for Consumer"@en ;
+    skos:related svpu:Custom ;
+    dpv:isSubTypeOf dpv:ServiceOptimisation .
+
 dpv:Organise a skos:Concept,
         dpv:Concept ;
     dct:created "2019-05-07"^^xsd:date ;
@@ -7550,6 +7827,19 @@ dpv:PrivacyNotice a skos:Concept,
     skos:narrower dpv:ConsentNotice ;
     skos:prefLabel "Privacy Notice"@en ;
     dpv:isSubTypeOf dpv:Notice .
+
+dpv:Record a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-05-07"^^xsd:date ;
+    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Obtain ;
+    skos:definition "to make a record (especially media)"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:RightExerciseRecord ;
+    skos:prefLabel "Record"@en ;
+    dpv:isSubTypeOf dpv:Obtain .
 
 dpv:RecordsOfActivities a skos:Concept,
         dpv:Concept ;
@@ -7656,25 +7946,6 @@ dpv:SensitivePersonalData a skos:Concept,
     skos:note "Sensitivity' is a matter of context, and may be defined within legal frameworks. For GDPR, Special categories of personal data are considered a subset of sensitive data. To illustrate the difference between the two, consider the situation where Location data is collected, and which is considered 'sensitive' but not 'special'. As a probable rule, sensitive data require additional considerations whereas special category data requires additional legal basis / justifications."@en ;
     skos:prefLabel "Sensitive Personal Data"@en ;
     dpv:isSubTypeOf dpv:PersonalData .
-
-dpv:ServiceOptimisation a skos:Concept,
-        dpv:Concept ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Axel Polleres"^^xsd:string,
-        "Elmar Kiesling"^^xsd:string,
-        "Fajar Ekaputra"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Javier Fernandez"^^xsd:string,
-        "Simon Steyskal"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:ServiceProvision ;
-    skos:definition "Optimise services or activities"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:OptimisationForController ;
-    skos:note "Subclass of ServiceProvision since optimisation is usually considered part of providing services"@en ;
-    skos:prefLabel "Service Optimisation"@en ;
-    dpv:isSubTypeOf dpv:ServiceProvision .
 
 dpv:Transfer a skos:Concept,
         dpv:Concept ;
@@ -7816,23 +8087,6 @@ dpv:DataProcessor a skos:Concept,
     skos:prefLabel "Data Processor"@en ;
     dpv:isSubTypeOf dpv:Recipient .
 
-dpv:Notice a skos:Concept,
-        dpv:Concept ;
-    dct:created "2021-09-08"^^xsd:date ;
-    dct:creator "David Hickey"^^xsd:string,
-        "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Paul Ryan"^^xsd:string ;
-    vann:example dex:E0025 ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:OrganisationalMeasure ;
-    skos:definition "A notice is an artefact for providing information, choices, or controls"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:PrivacyNotice ;
-    skos:prefLabel "Notice"@en ;
-    dpv:isSubTypeOf dpv:OrganisationalMeasure .
-
 dpv:PersonalisedAdvertising a skos:Concept,
         dpv:Concept ;
     dct:created "2020-11-04"^^xsd:date ;
@@ -7866,26 +8120,6 @@ dpv:Representative a skos:Concept,
     skos:narrower dpv:DataProtectionOfficer ;
     skos:prefLabel "Representative"@en ;
     dpv:isSubTypeOf dpv:LegalEntity .
-
-dpv:ServicePersonalisation a skos:Concept,
-        dpv:Concept ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Axel Polleres"^^xsd:string,
-        "Elmar Kiesling"^^xsd:string,
-        "Fajar Ekaputra"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Javier Fernandez"^^xsd:string,
-        "Simon Steyskal"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:Personalisation,
-        dpv:ServiceProvision ;
-    skos:definition "Personalise services or product or activities"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:UserInterfacePersonalisation ;
-    skos:prefLabel "Service Personalisation"@en ;
-    dpv:isSubTypeOf dpv:Personalisation,
-        dpv:ServiceProvision .
 
 dpv:hasDataController a skos:Concept,
         dpv:Relation ;
@@ -8191,6 +8425,26 @@ dpv:Remove a skos:Concept,
     skos:prefLabel "Remove"@en ;
     dpv:isSubTypeOf dpv:Processing .
 
+dpv:ServiceOptimisation a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Elmar Kiesling"^^xsd:string,
+        "Fajar Ekaputra"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Javier Fernandez"^^xsd:string,
+        "Simon Steyskal"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:ServiceProvision ;
+    skos:definition "Optimise services or activities"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:OptimisationForConsumer,
+        dpv:OptimisationForController ;
+    skos:note "Subclass of ServiceProvision since optimisation is usually considered part of providing services"@en ;
+    skos:prefLabel "Service Optimisation"@en ;
+    dpv:isSubTypeOf dpv:ServiceProvision .
+
 dpv:ConsentStatus a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-22"^^xsd:date ;
@@ -8259,7 +8513,9 @@ dpv:hasStatus a skos:Concept,
     skos:narrower dpv:hasActivityStatus,
         dpv:hasAuditStatus,
         dpv:hasComplianceStatus ;
-    skos:prefLabel "has status"@en ;
+    skos:prefLabel "dpv:hasStatus"@en,
+        "has status"@en ;
+    skos:scopeNote "Indicates the status of a Right Exercise Activity"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Status .
 
@@ -8294,19 +8550,6 @@ dpv:Damage a skos:Concept,
         dpv:NonMaterialDamage ;
     skos:prefLabel "Damage"@en ;
     dpv:isSubTypeOf dpv:Impact .
-
-dpv:Data a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-01-19"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "A broad concept representing  'data' or 'information'"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:NonPersonalData,
-        dpv:PersonalData,
-        dpv:SyntheticData ;
-    skos:prefLabel "Data"@en .
 
 dpv:DataAnonymisationTechnique a skos:Concept,
         dpv:Concept ;
@@ -8532,13 +8775,32 @@ dpv:Lawfulness a skos:Concept,
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:broader dpv:ComplianceStatus ;
-    skos:definition "Status associated with being lawful"@en ;
+    skos:definition "Status associated with expressing lawfullness or legal compliance"@en ;
     skos:inScheme dpv: ;
     skos:narrower dpv:Lawful,
         dpv:LawfulnessUnkown,
         dpv:Unlawful ;
-    skos:prefLabel "Lawfulness (alt title: LegalComplianceStatus)"@en ;
+    skos:prefLabel "Lawfulness"@en ;
     dpv:isSubTypeOf dpv:ComplianceStatus .
+
+dpv:Notice a skos:Concept,
+        dpv:Concept ;
+    dct:created "2021-09-08"^^xsd:date ;
+    dct:creator "David Hickey"^^xsd:string,
+        "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Paul Ryan"^^xsd:string ;
+    vann:example dex:E0025 ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:OrganisationalMeasure ;
+    skos:definition "A notice is an artefact for providing information, choices, or controls"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:PrivacyNotice,
+        dpv:RightFulfilmentNotice,
+        dpv:RightNonFulfilmentNotice ;
+    skos:prefLabel "Notice"@en ;
+    dpv:isSubTypeOf dpv:OrganisationalMeasure .
 
 dpv:Right a skos:Concept,
         dpv:Concept ;
@@ -8556,6 +8818,28 @@ dpv:Right a skos:Concept,
         dpv:PassiveRight ;
     skos:note "A 'right' is a legal, social, or ethical principle of freedom or entitlement which dictate the norms regarding what is allowed or owed.. Rights as a concept encompass a broad area of norms and entities, and are not specific to Individuals or Data Protection / Privacy. For individual specific rights, see dpv:DataSubjectRight"@en ;
     skos:prefLabel "Right"@en .
+
+dpv:ServicePersonalisation a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Elmar Kiesling"^^xsd:string,
+        "Fajar Ekaputra"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Javier Fernandez"^^xsd:string,
+        "Simon Steyskal"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Personalisation,
+        dpv:ServiceProvision ;
+    skos:definition "Personalise services or product or activities"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:PersonalisedBenefits,
+        dpv:ProvidePersonalisedRecommendations,
+        dpv:UserInterfacePersonalisation ;
+    skos:prefLabel "Service Personalisation"@en ;
+    dpv:isSubTypeOf dpv:Personalisation,
+        dpv:ServiceProvision .
 
 dpv:TechnicalOrganisationalMeasure a skos:Concept,
         dpv:Concept ;
@@ -8906,7 +9190,9 @@ dpv:hasRecipient a skos:Concept,
         dpv:hasDataProcessor,
         dpv:hasRecipientDataController,
         dpv:hasRecipientThirdParty ;
-    skos:prefLabel "has recipient"@en ;
+    skos:prefLabel "dpv:hasRecipient"@en,
+        "has recipient"@en ;
+    skos:scopeNote "Indicates the Recipient of a Right Exercise Activity"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Recipient ;
     dpv:isSubTypeOf dpv:hasEntity .
@@ -9081,6 +9367,22 @@ dpv:AuthenticationProtocols a skos:Concept,
         dpv:ZeroKnowledgeAuthentication ;
     skos:prefLabel "Authentication Protocols"@en ;
     dpv:isSubTypeOf dpv:TechnicalMeasure .
+
+dpv:Data a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-01-19"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "A broad concept representing  'data' or 'information'"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:IncorrectData,
+        dpv:NonPersonalData,
+        dpv:PersonalData,
+        dpv:SyntheticData,
+        dpv:UnverifiedData,
+        dpv:VerifiedData ;
+    skos:prefLabel "Data"@en .
 
 dpv:Encryption a skos:Concept,
         dpv:Concept ;
@@ -9313,31 +9615,6 @@ dpv:Organisation a skos:Concept,
     skos:prefLabel "Organisation"@en ;
     dpv:isSubTypeOf dpv:LegalEntity .
 
-dpv:ServiceProvision a skos:Concept,
-        dpv:Concept ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Axel Polleres"^^xsd:string,
-        "Elmar Kiesling"^^xsd:string,
-        "Fajar Ekaputra"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Javier Fernandez"^^xsd:string,
-        "Simon Steyskal"^^xsd:string ;
-    vann:example dex:E0018 ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:Purpose ;
-    skos:definition "Provide service or product or activities"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:PaymentManagement,
-        dpv:RequestedServiceProvision,
-        dpv:SellProducts,
-        dpv:ServiceOptimisation,
-        dpv:ServicePersonalisation,
-        dpv:ServiceUsageAnalytics,
-        dpv:TechnicalServiceProvision ;
-    skos:prefLabel "Service Provision"@en ;
-    dpv:isSubTypeOf dpv:Purpose .
-
 dpv:Use a skos:Concept,
         dpv:Concept ;
     dct:created "2019-05-07"^^xsd:date ;
@@ -9557,6 +9834,33 @@ dpv:LegalBasis a skos:Concept,
     skos:note "Legal basis (plural: legal bases) are defined by legislations and regulations, whose applicability is usually restricted to specific jurisdictions."@en ;
     skos:prefLabel "Legal Basis"@en .
 
+dpv:ServiceProvision a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Elmar Kiesling"^^xsd:string,
+        "Fajar Ekaputra"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Javier Fernandez"^^xsd:string,
+        "Simon Steyskal"^^xsd:string ;
+    vann:example dex:E0018 ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Purpose ;
+    skos:definition "Provide service or product or activities"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:PaymentManagement,
+        dpv:RepairImpairments,
+        dpv:RequestedServiceProvision,
+        dpv:SellProducts,
+        dpv:ServiceOptimisation,
+        dpv:ServicePersonalisation,
+        dpv:ServiceRegistration,
+        dpv:ServiceUsageAnalytics,
+        dpv:TechnicalServiceProvision ;
+    skos:prefLabel "Service Provision"@en ;
+    dpv:isSubTypeOf dpv:Purpose .
+
 dpv:Transform a skos:Concept,
         dpv:Concept ;
     dct:created "2019-05-07"^^xsd:date ;
@@ -9673,35 +9977,6 @@ dpv:ProcessingContext a skos:Concept,
     skos:prefLabel "Processing Context"@en ;
     dpv:isSubTypeOf dpv:Context .
 
-dpv:Purpose a skos:Concept,
-        dpv:Concept ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Axel Polleres"^^xsd:string,
-        "Javier Fernández"^^xsd:string ;
-    dct:modified "2020-11-04"^^xsd:date ;
-    dct:source <https://specialprivacy.ercim.eu/> ;
-    vann:example dex:E0006,
-        dex:E0009,
-        dex:E0010,
-        dex:E0014 ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "The purpose of processing personal data"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:CommunicationManagement,
-        dpv:CustomerManagement,
-        dpv:EnforceSecurity,
-        dpv:HumanResourceManagement,
-        dpv:Marketing,
-        dpv:OrganisationGovernance,
-        dpv:Personalisation,
-        dpv:RecordManagement,
-        dpv:ResearchAndDevelopment,
-        dpv:ServiceProvision,
-        dpv:VendorManagement ;
-    skos:prefLabel "Purpose"@en ;
-    skos:related spl:AnyPurpose .
-
 dpv:TechnicalMeasure a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -9728,6 +10003,37 @@ dpv:TechnicalMeasure a skos:Concept,
         dpv:SecurityMethod ;
     skos:prefLabel "Technical Measure"@en ;
     dpv:isSubTypeOf dpv:TechnicalOrganisationalMeasure .
+
+dpv:Purpose a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Javier Fernández"^^xsd:string ;
+    dct:modified "2020-11-04"^^xsd:date ;
+    dct:source <https://specialprivacy.ercim.eu/> ;
+    vann:example dex:E0006,
+        dex:E0009,
+        dex:E0010,
+        dex:E0014 ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The purpose of processing personal data"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:AccountManagement,
+        dpv:CommunicationManagement,
+        dpv:CustomerManagement,
+        dpv:EnforceSecurity,
+        dpv:HumanResourceManagement,
+        dpv:LegalCompliance,
+        dpv:Marketing,
+        dpv:OrganisationGovernance,
+        dpv:Personalisation,
+        dpv:RecordManagement,
+        dpv:ResearchAndDevelopment,
+        dpv:ServiceProvision,
+        dpv:VendorManagement ;
+    skos:prefLabel "Purpose"@en ;
+    skos:related spl:AnyPurpose .
 
 dpv:SecurityMethod a skos:Concept,
         dpv:Concept ;
