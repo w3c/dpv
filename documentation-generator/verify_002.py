@@ -11,16 +11,16 @@
 # (because its less typing of cd & cd ..)
 DATA_PATHS = [
     '../dpv',
-    '../dpv/modules',
+    # '../dpv/modules',
     '../dpv-gdpr',
-    '../dpv-gdpr/modules',
+    # '../dpv-gdpr/modules',
     '../dpv-pd',
     '../dpv-legal',
-    '../dpv-legal/modules',
+    # '../dpv-legal/modules',
     '../dpv-tech',
     '../rights/eu',
     '../risk',
-    '../risk/modules',
+    # '../risk/modules',
 ]
 
 # this is the list of shapes to be validated against
