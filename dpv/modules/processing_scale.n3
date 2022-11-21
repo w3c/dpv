@@ -51,17 +51,6 @@ dpv:isInstanceOf rdfs:subPropertyOf skos:semanticRelation ;
 dpv:isSubTypeOf rdfs:subPropertyOf skos:broader ;
     skos:prefLabel "isSubTypeOf"@en .
 
-dpv:hasScale a skos:Concept,
-        dpv:Relation ;
-    dct:created "2022-06-15"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates the scale of specified concept"@en ;
-    skos:prefLabel "has scale"@en ;
-    dpv:hasDomain dpv:Concept ;
-    dpv:hasRange dpv:Scale .
-
 dpv:GlobalScale a skos:Concept,
         dpv:Concept ;
     dct:created "2022-06-15"^^xsd:date ;
@@ -322,12 +311,12 @@ dpv:hasDataSubjectScale a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Scale ;
+    skos:broader dpv:hasScale ;
     skos:definition "Indicates the scale of data subjects"@en ;
     skos:prefLabel "has data subject scale"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:DataSubjectScale ;
-    dpv:isSubTypeOf dpv:Scale .
+    dpv:isSubTypeOf dpv:hasScale .
 
 dpv:hasDataVolume a skos:Concept,
         dpv:Relation ;
@@ -335,12 +324,12 @@ dpv:hasDataVolume a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Scale ;
+    skos:broader dpv:hasScale ;
     skos:definition "Indicates the volume of data"@en ;
     skos:prefLabel "has data volume"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:DataVolume ;
-    dpv:isSubTypeOf dpv:Scale .
+    dpv:isSubTypeOf dpv:hasScale .
 
 dpv:hasGeographicCoverage a skos:Concept,
         dpv:Relation ;
@@ -348,15 +337,29 @@ dpv:hasGeographicCoverage a skos:Concept,
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Scale ;
+    skos:broader dpv:hasScale ;
     skos:definition "Indicate the geographic coverage (of specified context)"@en ;
     skos:prefLabel "has geographic coverage"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:GeographicCoverage ;
-    dpv:isSubTypeOf dpv:Scale .
+    dpv:isSubTypeOf dpv:hasScale .
 
 dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
     skos:prefLabel "Relation"@en .
+
+dpv:hasScale a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-06-15"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the scale of specified concept"@en ;
+    skos:narrower dpv:hasDataSubjectScale,
+        dpv:hasDataVolume,
+        dpv:hasGeographicCoverage ;
+    skos:prefLabel "has scale"@en ;
+    dpv:hasDomain dpv:Concept ;
+    dpv:hasRange dpv:Scale .
 
 dpv:ProcessingScale a skos:Concept,
         dpv:Concept ;
@@ -373,6 +376,24 @@ dpv:ProcessingScale a skos:Concept,
     skos:note "The exact definition of what constitutes \"scale\" depends on use of jurisdictional, domain-specific, or other forms of externally defined criterias. Where possible, this should be reflected by extending the scales provided with the appropriate context."@en ;
     skos:prefLabel "Processing Scale"@en ;
     dpv:isSubTypeOf dpv:Scale .
+
+dpv:Scale a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-06-15"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Rana Saniei"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:ProcessingContext ;
+    skos:definition "A measurement along some dimension"@en ;
+    skos:narrower dpv:DataSubjectScale,
+        dpv:DataVolume,
+        dpv:GeographicCoverage,
+        dpv:ProcessingScale ;
+    skos:note "Scales are subjective concepts that need to be defined and interpreted within the context of their application. For example, what would be small within one context could be large within another."@en ;
+    skos:prefLabel "Scale"@en ;
+    dpv:isSubTypeOf dpv:ProcessingContext .
 
 dpv:DataSubjectScale a skos:Concept,
         dpv:Concept ;
@@ -431,27 +452,6 @@ dpv:GeographicCoverage a skos:Concept,
         dpv:RegionalScale ;
     skos:prefLabel "Geographic Coverage"@en ;
     dpv:isSubTypeOf dpv:Scale .
-
-dpv:Scale a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-06-15"^^xsd:date ;
-    dct:creator "Georg P Krog"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Rana Saniei"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:ProcessingContext ;
-    skos:definition "A measurement along some dimension"@en ;
-    skos:narrower dpv:DataSubjectScale,
-        dpv:DataVolume,
-        dpv:GeographicCoverage,
-        dpv:ProcessingScale,
-        dpv:hasDataSubjectScale,
-        dpv:hasDataVolume,
-        dpv:hasGeographicCoverage ;
-    skos:note "Scales are subjective concepts that need to be defined and interpreted within the context of their application. For example, what would be small within one context could be large within another."@en ;
-    skos:prefLabel "Scale"@en ;
-    dpv:isSubTypeOf dpv:ProcessingContext .
 
 dpv:Concept rdfs:subClassOf skos:Concept ;
     skos:prefLabel "Concept"@en .
