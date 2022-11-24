@@ -10,16 +10,16 @@
 # (parent of folder containing this file)
 # (because its less typing of cd & cd ..)
 DATA_PATHS = [
-    '../dpv',
+    '../dpv/dpv.ttl',
     # '../dpv/modules',
-    '../dpv-gdpr',
+    '../dpv-gdpr/dpv-gdpr.ttl',
     # '../dpv-gdpr/modules',
-    '../dpv-pd',
-    '../dpv-legal',
+    '../dpv-pd/dpv-pd.ttl',
+    # '../dpv-legal',
     # '../dpv-legal/modules',
-    '../dpv-tech',
-    '../rights/eu',
-    '../risk',
+    '../dpv-tech/dpv-tech.ttl',
+    '../rights/eu/rights-eu.ttl',
+    '../risk/risk.ttl',
     # '../risk/modules',
 ]
 
@@ -39,9 +39,9 @@ SHACL_VALIDATION_COMMAND = {
         'shapeparam': '-shapesfile',
         # set this variable to the file containing constraints
         'shapesfile': '{param}',
-        'dataparam': '-datafile',
+        # 'dataparam': '-datafile',
         # set this variable to the file to be validated
-        'datafile': '{param}',
+        # 'datafile': '{param}',
         }
 
 #############################################################
@@ -75,26 +75,24 @@ from os import walk
 import subprocess
 
 
-def test_shacl(folder, shape):
-    print(folder)
-    _, _, files = next(walk(folder))
-    for file in files:
+def test_shacl(paths, shape):
+    print(f'validating with constraints in {shape}')
+    SHACL_VALIDATION_COMMAND['shapesfile'] = shape
+    command = list(SHACL_VALIDATION_COMMAND.values())
+    for file in paths:
         if not file.endswith('.ttl'):
             # skip non-turtle files
             continue
-        print(f'validating {file} with constraints in {shape}')
-        file = path.join(folder, file)
-        SHACL_VALIDATION_COMMAND['shapesfile'] = shape
-        SHACL_VALIDATION_COMMAND['datafile'] = file
-        # print(f'command: {" ".join(SHACL_VALIDATION_COMMAND.values())}')
-        output = subprocess.run(SHACL_VALIDATION_COMMAND.values(), stdout=subprocess.PIPE)
-        output = output.stdout.decode('utf-8')
-        get_shacl_results(output)
+        command.append('-datafile')
+        command.append(file)
+    print(f'command: {command}')
+    output = subprocess.run(command, stdout=subprocess.PIPE)
+    output = output.stdout.decode('utf-8')
+    get_shacl_results(output)
 
 
 #############################################################
 
-for folder in DATA_PATHS:
-    for shape in SHAPES:
-        test_shacl(folder, shape)
+for shape in SHAPES:
+    test_shacl(DATA_PATHS, shape)
 
