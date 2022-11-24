@@ -38,8 +38,8 @@ zip -q releases/dpv-owl.zip -r dpv-owl
 echo "generated releases/dpv-owl.zip"
 
 # 4. dpv-csv.zip - DPV + Extensions as CSV files
-cp documentation-generator/vocab_csv/dpv_terms_discussion.xlsx releases/dpv.xlsx
-echo "generated releases/dpv.xlsx"
+zip -q releases/dpv-xlsx.zip documentation-generator/vocab_csv/*.xlsx
+echo "generated releases/dpv-xlsx.zip"
 
 # 5. dpv-json.zip - DPV + Extensions as JSON files
 # TODO

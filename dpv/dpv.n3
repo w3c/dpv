@@ -650,6 +650,7 @@ dpv:RiskConcepts a skos:Collection ;
         dpv:RiskMitigationMeasure,
         dpv:Severity,
         dpv:hasConsequence,
+        dpv:hasConsequenceOn,
         dpv:hasImpact,
         dpv:hasImpactOn,
         dpv:hasLikelihood,
@@ -722,7 +723,6 @@ dpv:Technical_MeasuresConcepts a skos:Collection ;
         dpv:CryptographicAuthentication,
         dpv:CryptographicKeyManagement,
         dpv:CryptographicMethods,
-        dpv:DataAnonymisationTechnique,
         dpv:DataBackupProtocols,
         dpv:DataRedaction,
         dpv:DataSanitisationTechnique,
@@ -793,16 +793,20 @@ dpv:Technical_Organisational_MeasuresConcepts a skos:Collection ;
         dpv:isPolicyFor ;
     skos:prefLabel "Technical_Organisational_Measures Concepts"^^xsd:string .
 
-dpv:hasDomain rdfs:subPropertyOf skos:semanticRelation ;
+dpv:hasDomain rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf skos:semanticRelation ;
     skos:prefLabel "has domain"@en .
 
-dpv:hasRange rdfs:subPropertyOf skos:semanticRelation ;
+dpv:hasRange rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf skos:semanticRelation ;
     skos:prefLabel "has range"@en .
 
-dpv:isInstanceOf rdfs:subPropertyOf skos:semanticRelation ;
+dpv:isInstanceOf rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf skos:semanticRelation ;
     skos:prefLabel "isInstanceOf"@en .
 
-dpv:isSubTypeOf rdfs:subPropertyOf skos:broader ;
+dpv:isSubTypeOf rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf skos:broader ;
     skos:prefLabel "isSubTypeOf"@en .
 
 dpv:RightExerciseActivity a skos:Concept,
@@ -959,20 +963,6 @@ dpv:hasDuration a skos:Concept,
     skos:prefLabel "has duration"@en ;
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Duration .
-
-dpv:hasExpiry a skos:Concept,
-        dpv:Relation ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Bud Bruegger"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Mark Lizar"^^xsd:string ;
-    dct:modified "2022-06-22"^^xsd:date ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "sunset"@en ;
-    skos:definition "Generic property specifying when or under which condition(s) the consent will expire"@en ;
-    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "has expiry"@en .
 
 dpv:hasFrequency a skos:Concept,
         dpv:Relation ;
@@ -1693,15 +1683,15 @@ dpv:Anonymisation a skos:Concept,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string,
         "Rob Brennan"^^xsd:string ;
-    dct:modified "2022-10-01"^^xsd:date ;
-    dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj> ;
+    dct:modified "2022-11-24"^^xsd:date ;
+    dct:source <https://www.iso.org/standard/45123.html> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "modified"@en ;
-    skos:broader dpv:DataAnonymisationTechnique ;
-    skos:definition "Altering personal data irreversibly such that a data subject can no longer be identified directly or indirectly, either by the data controller alone or in collaboration with any other party"@en ;
+    skos:broader dpv:Deidentification ;
+    skos:definition "Anonymisation is the process by which data is irreversibly altered in such a way that a data subject can no longer be identified directly or indirectly, either by the entity holding the data alone or in collaboration with other entities and information sources"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Anonymisation"@en ;
-    dpv:isSubTypeOf dpv:DataAnonymisationTechnique .
+    dpv:isSubTypeOf dpv:Deidentification .
 
 dpv:Anonymise a skos:Concept,
         dpv:Concept ;
@@ -2579,7 +2569,7 @@ dpv:CryptographicKeyManagement a skos:Concept,
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:broader dpv:CryptographicMethods ;
-    skos:definition "Management of crytographic keys, including their generation, storage, assessment, and safekeeping"@en ;
+    skos:definition "Management of cryptographic keys, including their generation, storage, assessment, and safekeeping"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Cryptographic Key Management"@en ;
     dpv:isSubTypeOf dpv:CryptographicMethods .
@@ -2758,21 +2748,6 @@ dpv:DecentralisedLocations a skos:Concept,
     skos:inScheme dpv: ;
     skos:prefLabel "Decentralised Locations"@en ;
     dpv:isSubTypeOf dpv:LocationFixture .
-
-dpv:Deidentification a skos:Concept,
-        dpv:Concept ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:creator "Axel Polleres"^^xsd:string,
-        "Harshvardhan J. Pandit"^^xsd:string,
-        "Mark Lizar"^^xsd:string,
-        "Rob Brennan"^^xsd:string ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:DataAnonymisationTechnique ;
-    skos:definition "Removal of identity or information to reduce identifiability"@en ;
-    skos:inScheme dpv: ;
-    skos:prefLabel "De-Identification"@en ;
-    dpv:isSubTypeOf dpv:DataAnonymisationTechnique .
 
 dpv:DeliveryOfGoods a skos:Concept,
         dpv:Concept ;
@@ -3981,7 +3956,7 @@ dpv:MaintainCreditCheckingDatabase a skos:Concept,
     skos:broader dpv:CreditChecking ;
     skos:definition "Purposes associated with maintaining a Credit Checking Database"@en ;
     skos:inScheme dpv: ;
-    skos:prefLabel "MaintainCreditCheckingDatabase"@en ;
+    skos:prefLabel "Maintain Credit Checking Database"@en ;
     dpv:isSubTypeOf dpv:CreditChecking .
 
 dpv:MaintainCreditRatingDatabase a skos:Concept,
@@ -3994,7 +3969,7 @@ dpv:MaintainCreditRatingDatabase a skos:Concept,
     skos:broader dpv:CreditChecking ;
     skos:definition "Purposes associated with maintaining a Credit Rating Database"@en ;
     skos:inScheme dpv: ;
-    skos:prefLabel "MaintainCreditRatingDatabase"@en ;
+    skos:prefLabel "Maintain Credit Rating Database"@en ;
     dpv:isSubTypeOf dpv:CreditChecking .
 
 dpv:MaintainFraudDatabase a skos:Concept,
@@ -4818,11 +4793,11 @@ dpv:PostQuantumCryptography a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:CrytographicMethods ;
+    skos:broader dpv:CryptographicMethods ;
     skos:definition "Use of algorithms that are intended to be secure against cryptanalytic attack by a quantum computer"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Post-Quantum Cryptography"@en ;
-    dpv:isSubTypeOf dpv:CrytographicMethods .
+    dpv:isSubTypeOf dpv:CryptographicMethods .
 
 dpv:PrimaryImportance a skos:Concept,
         dpv:Concept ;
@@ -4877,11 +4852,11 @@ dpv:PrivacyPreservingProtocol a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:CrytographicMethods ;
+    skos:broader dpv:CryptographicMethods ;
     skos:definition "Use of protocols designed with the intention of provided additional guarentees regarding privacy"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Privacy Preserving Protocol"@en ;
-    dpv:isSubTypeOf dpv:CrytographicMethods .
+    dpv:isSubTypeOf dpv:CryptographicMethods .
 
 dpv:PrivateInformationRetrieval a skos:Concept,
         dpv:Concept ;
@@ -4890,11 +4865,11 @@ dpv:PrivateInformationRetrieval a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/data-protection-engineering> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:CrytographicMethods ;
+    skos:broader dpv:CryptographicMethods ;
     skos:definition "Use of cryptographic methods to retrieve a record from a system without revealing which record is retrieved"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Private Information Retrieval"@en ;
-    dpv:isSubTypeOf dpv:CrytographicMethods .
+    dpv:isSubTypeOf dpv:CryptographicMethods .
 
 dpv:PrivateLocation a skos:Concept,
         dpv:Concept ;
@@ -5056,11 +5031,11 @@ dpv:QuantumCryptography a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:CrytographicMethods ;
+    skos:broader dpv:CryptographicMethods ;
     skos:definition "Cryptographic methods that utilise quantum mechanical properties to perform cryptographic tasks"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Quantum Cryptography"@en ;
-    dpv:isSubTypeOf dpv:CrytographicMethods .
+    dpv:isSubTypeOf dpv:CryptographicMethods .
 
 dpv:Query a skos:Concept,
         dpv:Concept ;
@@ -5441,11 +5416,11 @@ dpv:SecretSharingSchemes a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/data-pseudonymisation-advanced-techniques-and-use-cases> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:CrytographicMethods ;
+    skos:broader dpv:CryptographicMethods ;
     skos:definition "Use of secret sharing schemes where the secret can only be reconstructed through combination of sufficient number of individuals"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Secret Sharing Schemes"@en ;
-    dpv:isSubTypeOf dpv:CrytographicMethods .
+    dpv:isSubTypeOf dpv:CryptographicMethods .
 
 dpv:Sector a skos:Concept,
         dpv:Concept ;
@@ -5471,11 +5446,11 @@ dpv:SecureMultiPartyComputation a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:CrytographicMethods ;
+    skos:broader dpv:CryptographicMethods ;
     skos:definition "Use of cryptographic methods for entities to jointly compute functions without revealing inputs"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Secure Multi-Party Computation"@en ;
-    dpv:isSubTypeOf dpv:CrytographicMethods .
+    dpv:isSubTypeOf dpv:CryptographicMethods .
 
 dpv:SecurityKnowledgeTraining a skos:Concept,
         dpv:Concept ;
@@ -5901,11 +5876,11 @@ dpv:SymmetricCryptography a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:CrytographicMethods ;
-    skos:definition "Use of crytography where the same keys are utilised for encryption and descryption of information"@en ;
+    skos:broader dpv:CryptographicMethods ;
+    skos:definition "Use of cryptography where the same keys are utilised for encryption and descryption of information"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Symmetric Cryptography"@en ;
-    dpv:isSubTypeOf dpv:CrytographicMethods .
+    dpv:isSubTypeOf dpv:CryptographicMethods .
 
 dpv:SymmetricEncryption a skos:Concept,
         dpv:Concept ;
@@ -5915,7 +5890,7 @@ dpv:SymmetricEncryption a skos:Concept,
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
     skos:broader dpv:Encryption ;
-    skos:definition "Use of symmetric crytography to encrypt data"@en ;
+    skos:definition "Use of symmetric cryptography to encrypt data"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Symmetric Encryption"@en ;
     dpv:isSubTypeOf dpv:Encryption .
@@ -6055,11 +6030,11 @@ dpv:TrustedComputing a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:CrytographicMethods ;
+    skos:broader dpv:CryptographicMethods ;
     skos:definition "Use of cryptographic methods to restrict access and execution to trusted parties and code"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Trusted Computing"@en ;
-    dpv:isSubTypeOf dpv:CrytographicMethods .
+    dpv:isSubTypeOf dpv:CryptographicMethods .
 
 dpv:TrustedExecutionEnvironments a skos:Concept,
         dpv:Concept ;
@@ -6068,11 +6043,11 @@ dpv:TrustedExecutionEnvironments a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/data-protection-engineering> ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:CrytographicMethods ;
+    skos:broader dpv:CryptographicMethods ;
     skos:definition "Use of cryptographic methods to restrict access and execution to trusted parties and code within a dedicated execution environment"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "Trusted Execution Environments"@en ;
-    dpv:isSubTypeOf dpv:CrytographicMethods .
+    dpv:isSubTypeOf dpv:CryptographicMethods .
 
 dpv:TrustedThirdPartyUtilisation a skos:Concept,
         dpv:Concept ;
@@ -6445,8 +6420,6 @@ dpv:hasAuditStatus a skos:Concept,
     dpv:hasRange dpv:AuditStatus ;
     dpv:isSubTypeOf dpv:hasStatus .
 
-dpv:hasConsequenceOn skos:narrower dpv:hasImpactOn .
-
 dpv:hasDataExporter a skos:Concept,
         dpv:Relation ;
     dct:created "2022-02-09"^^xsd:date ;
@@ -6547,13 +6520,13 @@ dpv:hasExpiryCondition a skos:Concept,
     dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "sunset"@en ;
-    skos:broader dpv:expiry ;
+    skos:broader dpv:hasExpiry ;
     skos:definition "Specifies the condition or event that determines the expiry of consent"@en ;
     skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:note "Can be TextOrDocumentOrURI"@en ;
     skos:prefLabel "has expiry condition"@en ;
-    dpv:isSubTypeOf dpv:expiry .
+    dpv:isSubTypeOf dpv:hasExpiry .
 
 dpv:hasExpiryTime a skos:Concept,
         dpv:Relation ;
@@ -6564,12 +6537,12 @@ dpv:hasExpiryTime a skos:Concept,
     dct:modified "2022-06-22"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     sw:term_status "sunset"@en ;
-    skos:broader dpv:expiry ;
+    skos:broader dpv:hasExpiry ;
     skos:definition "Specifies the expiry time or duration for consent"@en ;
     skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
     skos:inScheme dpv: ;
     skos:prefLabel "has expiry time"@en ;
-    dpv:isSubTypeOf dpv:expiry .
+    dpv:isSubTypeOf dpv:hasExpiry .
 
 dpv:hasGeographicCoverage a skos:Concept,
         dpv:Relation ;
@@ -7361,6 +7334,20 @@ dpv:hasConsequence a skos:Concept,
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Consequence .
 
+dpv:hasConsequenceOn a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-11-24"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the thing (e.g. plan, process, or entity) affected by a consequence"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:hasImpactOn ;
+    skos:prefLabel "has consequence on"@en ;
+    dpv:hasDomain dpv:Consequence ;
+    dpv:hasRange dpv:Concept .
+
 dpv:hasData a skos:Concept,
         dpv:Relation ;
     dct:created "2022-08-18"^^xsd:date ;
@@ -7973,9 +7960,6 @@ dpv:VitalInterestOfNaturalPerson a skos:Concept,
     skos:prefLabel "Vital Interest of Natural Person"@en ;
     dpv:isSubTypeOf dpv:VitalInterest .
 
-dpv:expiry skos:narrower dpv:hasExpiryCondition,
-        dpv:hasExpiryTime .
-
 dpv:hasComplianceStatus a skos:Concept,
         dpv:Relation ;
     dct:created "2022-05-18"^^xsd:date ;
@@ -8123,6 +8107,22 @@ dpv:hasDataController a skos:Concept,
     dpv:hasRange dpv:DataController,
         dpv:LegalEntity ;
     dpv:isSubTypeOf dpv:hasEntity .
+
+dpv:hasExpiry a skos:Concept,
+        dpv:Relation ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Bud Bruegger"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Mark Lizar"^^xsd:string ;
+    dct:modified "2022-06-22"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "sunset"@en ;
+    skos:definition "Generic property specifying when or under which condition(s) the consent will expire"@en ;
+    skos:editorialNote "WARNING: This concept will be deprecated in future releases"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:hasExpiryCondition,
+        dpv:hasExpiryTime ;
+    skos:prefLabel "has expiry"@en .
 
 dpv:AccessControlMethod a skos:Concept,
         dpv:Concept ;
@@ -8284,10 +8284,29 @@ dpv:DataSanitisationTechnique a skos:Concept,
     skos:broader dpv:TechnicalMeasure ;
     skos:definition "Cleaning or any removal or re-organisation of elements in data based on selective criteria"@en ;
     skos:inScheme dpv: ;
-    skos:narrower dpv:DataAnonymisationTechnique,
-        dpv:DataRedaction ;
+    skos:narrower dpv:DataRedaction,
+        dpv:Deidentification ;
     skos:prefLabel "Data Sanitisation Technique"@en ;
     dpv:isSubTypeOf dpv:TechnicalMeasure .
+
+dpv:Deidentification a skos:Concept,
+        dpv:Concept ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:creator "Axel Polleres"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string,
+        "Mark Lizar"^^xsd:string,
+        "Rob Brennan"^^xsd:string ;
+    dct:modified "2022-11-24"^^xsd:date ;
+    dct:source <https://nvlpubs.nist.gov/nistpubs/ir/2015/NIST.IR.8053.pdf> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "modified"@en ;
+    skos:broader dpv:DataSanitisationTechnique ;
+    skos:definition "Removal of identity or information to reduce identifiability"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:Anonymisation,
+        dpv:Pseudonymisation ;
+    skos:prefLabel "De-Identification"@en ;
+    dpv:isSubTypeOf dpv:DataSanitisationTechnique .
 
 dpv:FixedLocation a skos:Concept,
         dpv:Concept ;
@@ -8631,22 +8650,6 @@ dpv:Damage a skos:Concept,
     skos:prefLabel "Damage"@en ;
     dpv:isSubTypeOf dpv:Impact .
 
-dpv:DataAnonymisationTechnique a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-08-17"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:DataSanitisationTechnique ;
-    skos:definition "Use of anonymisation techniques that reduce the identifiability in data"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:Anonymisation,
-        dpv:Deidentification,
-        dpv:Pseudonymisation ;
-    skos:prefLabel "Data Anonymisation Technique"@en ;
-    dpv:isSubTypeOf dpv:DataSanitisationTechnique .
-
 dpv:GuidelinesPrinciple a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -8951,21 +8954,6 @@ dpv:TechnicalOrganisationalMeasure a skos:Concept,
         dpv:TechnicalMeasure ;
     skos:prefLabel "Technical and Organisational Measure"@en .
 
-dpv:Consequence a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-01-26"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    vann:example dex:E0029 ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "The consequence(s) possible or arising from specified context"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:ConsequenceAsSideEffect,
-        dpv:ConsequenceOfFailure,
-        dpv:ConsequenceOfSuccess,
-        dpv:Impact ;
-    skos:prefLabel "Consequence"@en .
-
 dpv:DataProcessingAgreement a skos:Concept,
         dpv:Concept ;
     dct:created "2022-01-26"^^xsd:date ;
@@ -9197,6 +9185,21 @@ dpv:ActivityStatus a skos:Concept,
     skos:prefLabel "Activity Status"@en ;
     dpv:isSubTypeOf dpv:Status .
 
+dpv:Consequence a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-01-26"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    vann:example dex:E0029 ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The consequence(s) possible or arising from specified context"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:ConsequenceAsSideEffect,
+        dpv:ConsequenceOfFailure,
+        dpv:ConsequenceOfSuccess,
+        dpv:Impact ;
+    skos:prefLabel "Consequence"@en .
+
 dpv:CryptographicAuthentication a skos:Concept,
         dpv:Concept ;
     dct:created "2022-08-17"^^xsd:date ;
@@ -9206,7 +9209,7 @@ dpv:CryptographicAuthentication a skos:Concept,
     sw:term_status "accepted"@en ;
     skos:broader dpv:AuthenticationProtocols,
         dpv:CryptographicMethods ;
-    skos:definition "Use of crytography for authentication"@en ;
+    skos:definition "Use of cryptography for authentication"@en ;
     skos:inScheme dpv: ;
     skos:narrower dpv:Authentication-ABC,
         dpv:Authentication-PABC,
@@ -9390,10 +9393,11 @@ dpv:Pseudonymisation a skos:Concept,
         "Harshvardhan J. Pandit"^^xsd:string,
         "Mark Lizar"^^xsd:string,
         "Rob Brennan"^^xsd:string ;
+    dct:modified "2022-11-24"^^xsd:date ;
     dct:source <https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj> ;
     rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:DataAnonymisationTechnique ;
+    sw:term_status "modified"@en ;
+    skos:broader dpv:Deidentification ;
     skos:definition "Pseudonymisation means the processing of personal data in such a manner that the personal data can no longer be attributed to a specific data subject without the use of additional information, provided that such additional information is kept separately and is subject to technical and organisational measures to ensure that the personal data are not attributed to an identified or identifiable natural person;"@en ;
     skos:inScheme dpv: ;
     skos:narrower dpv:DeterministicPseudonymisation,
@@ -9402,7 +9406,7 @@ dpv:Pseudonymisation a skos:Concept,
         dpv:MonotonicCounterPseudonymisation,
         dpv:RNGPseudonymisation ;
     skos:prefLabel "Pseudonymisation"@en ;
-    dpv:isSubTypeOf dpv:DataAnonymisationTechnique .
+    dpv:isSubTypeOf dpv:Deidentification .
 
 dpv:StaffTraining a skos:Concept,
         dpv:Concept ;
@@ -9816,37 +9820,6 @@ dpv:ConsentStatusInvalidForProcessing a skos:Concept,
     skos:prefLabel "Consent Status Invalid for Processing"@en ;
     dpv:isSubTypeOf dpv:ConsentStatus .
 
-dpv:CryptographicMethods a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-08-17"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:TechnicalMeasure ;
-    skos:definition "Use of cryptographic methods to perform tasks"@en ;
-    skos:inScheme dpv: ;
-    skos:narrower dpv:AsymmetricCryptography,
-        dpv:CryptographicAuthentication,
-        dpv:CryptographicKeyManagement,
-        dpv:DifferentialPrivacy,
-        dpv:DigitalSignatures,
-        dpv:HashFunctions,
-        dpv:HomomorphicEncryption,
-        dpv:ZeroKnowledgeAuthentication ;
-    skos:prefLabel "Cryptographic Methods"@en ;
-    dpv:isSubTypeOf dpv:TechnicalMeasure .
-
-dpv:CrytographicMethods skos:narrower dpv:PostQuantumCryptography,
-        dpv:PrivacyPreservingProtocol,
-        dpv:PrivateInformationRetrieval,
-        dpv:QuantumCryptography,
-        dpv:SecretSharingSchemes,
-        dpv:SecureMultiPartyComputation,
-        dpv:SymmetricCryptography,
-        dpv:TrustedComputing,
-        dpv:TrustedExecutionEnvironments .
-
 dpv:SecurityProcedure a skos:Concept,
         dpv:Concept ;
     dct:created "2022-08-24"^^xsd:date ;
@@ -10140,6 +10113,36 @@ dpv:SecurityMethod a skos:Concept,
     skos:prefLabel "Security Method"@en ;
     dpv:isSubTypeOf dpv:TechnicalMeasure .
 
+dpv:CryptographicMethods a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-08-17"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:source <https://www.enisa.europa.eu/publications/reference-incident-classification-taxonomy/> ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:TechnicalMeasure ;
+    skos:definition "Use of cryptographic methods to perform tasks"@en ;
+    skos:inScheme dpv: ;
+    skos:narrower dpv:AsymmetricCryptography,
+        dpv:CryptographicAuthentication,
+        dpv:CryptographicKeyManagement,
+        dpv:DifferentialPrivacy,
+        dpv:DigitalSignatures,
+        dpv:HashFunctions,
+        dpv:HomomorphicEncryption,
+        dpv:PostQuantumCryptography,
+        dpv:PrivacyPreservingProtocol,
+        dpv:PrivateInformationRetrieval,
+        dpv:QuantumCryptography,
+        dpv:SecretSharingSchemes,
+        dpv:SecureMultiPartyComputation,
+        dpv:SymmetricCryptography,
+        dpv:TrustedComputing,
+        dpv:TrustedExecutionEnvironments,
+        dpv:ZeroKnowledgeAuthentication ;
+    skos:prefLabel "Cryptographic Methods"@en ;
+    dpv:isSubTypeOf dpv:TechnicalMeasure .
+
 dpv:OrganisationalMeasure a skos:Concept,
         dpv:Concept ;
     dct:created "2019-04-05"^^xsd:date ;
@@ -10212,10 +10215,12 @@ dpv:DataSubject a skos:Concept,
     dpv:isSubTypeOf dpv:LegalEntity,
         dpv:NaturalPerson .
 
-dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
+dpv:Relation rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf skos:semanticRelation ;
     skos:prefLabel "Relation"@en .
 
-dpv:Concept rdfs:subClassOf skos:Concept ;
+dpv:Concept rdfs:isDefinedBy dpv: ;
+    rdfs:subClassOf skos:Concept ;
     skos:prefLabel "Concept"@en .
 
 dpv: a skos:ConceptScheme ;

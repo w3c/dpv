@@ -26,6 +26,7 @@ dpv:RiskConcepts a skos:Collection ;
         dpv:RiskMitigationMeasure,
         dpv:Severity,
         dpv:hasConsequence,
+        dpv:hasConsequenceOn,
         dpv:hasImpact,
         dpv:hasImpactOn,
         dpv:hasLikelihood,
@@ -38,16 +39,20 @@ dpv:RiskConcepts a skos:Collection ;
         dpv:mitigatesRisk ;
     skos:prefLabel "Risk Concepts"^^xsd:string .
 
-dpv:hasDomain rdfs:subPropertyOf skos:semanticRelation ;
+dpv:hasDomain rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf skos:semanticRelation ;
     skos:prefLabel "has domain"@en .
 
-dpv:hasRange rdfs:subPropertyOf skos:semanticRelation ;
+dpv:hasRange rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf skos:semanticRelation ;
     skos:prefLabel "has range"@en .
 
-dpv:isInstanceOf rdfs:subPropertyOf skos:semanticRelation ;
+dpv:isInstanceOf rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf skos:semanticRelation ;
     skos:prefLabel "isInstanceOf"@en .
 
-dpv:isSubTypeOf rdfs:subPropertyOf skos:broader ;
+dpv:isSubTypeOf rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf skos:broader ;
     skos:prefLabel "isSubTypeOf"@en .
 
 dpv:hasLikelihood a skos:Concept,
@@ -293,8 +298,6 @@ dpv:Severity a skos:Concept,
 
 dpv:TechnicalOrganisationalMeasure skos:narrower dpv:RiskMitigationMeasure .
 
-dpv:hasConsequenceOn skos:narrower dpv:hasImpactOn .
-
 dpv:hasImpact a skos:Concept,
         dpv:Relation ;
     dct:created "2022-05-18"^^xsd:date ;
@@ -362,6 +365,19 @@ dpv:hasConsequence a skos:Concept,
     dpv:hasDomain dpv:Concept ;
     dpv:hasRange dpv:Consequence .
 
+dpv:hasConsequenceOn a skos:Concept,
+        dpv:Relation ;
+    dct:created "2022-11-24"^^xsd:date ;
+    dct:creator "Georg P Krog"^^xsd:string,
+        "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the thing (e.g. plan, process, or entity) affected by a consequence"@en ;
+    skos:narrower dpv:hasImpactOn ;
+    skos:prefLabel "has consequence on"@en ;
+    dpv:hasDomain dpv:Consequence ;
+    dpv:hasRange dpv:Concept .
+
 dpv:RiskMitigationMeasure a skos:Concept,
         dpv:Concept ;
     dct:created "2020-11-04"^^xsd:date ;
@@ -400,20 +416,6 @@ dpv:Risk a skos:Concept,
     skos:note "Risks can be associated with one or more different concepts such as purpose, processing, personal data, technical or organisational measure."@en ;
     skos:prefLabel "Risk"@en .
 
-dpv:Consequence a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-01-26"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    vann:example dex:E0029 ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "The consequence(s) possible or arising from specified context"@en ;
-    skos:narrower dpv:ConsequenceAsSideEffect,
-        dpv:ConsequenceOfFailure,
-        dpv:ConsequenceOfSuccess,
-        dpv:Impact ;
-    skos:prefLabel "Consequence"@en .
-
 dpv:Impact a skos:Concept,
         dpv:Concept ;
     dct:created "2022-03-23"^^xsd:date ;
@@ -434,9 +436,25 @@ dpv:Impact a skos:Concept,
     skos:prefLabel "Impact"@en ;
     dpv:isSubTypeOf dpv:Consequence .
 
-dpv:Relation rdfs:subPropertyOf skos:semanticRelation ;
+dpv:Consequence a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-01-26"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    vann:example dex:E0029 ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The consequence(s) possible or arising from specified context"@en ;
+    skos:narrower dpv:ConsequenceAsSideEffect,
+        dpv:ConsequenceOfFailure,
+        dpv:ConsequenceOfSuccess,
+        dpv:Impact ;
+    skos:prefLabel "Consequence"@en .
+
+dpv:Relation rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf skos:semanticRelation ;
     skos:prefLabel "Relation"@en .
 
-dpv:Concept rdfs:subClassOf skos:Concept ;
+dpv:Concept rdfs:isDefinedBy dpv: ;
+    rdfs:subClassOf skos:Concept ;
     skos:prefLabel "Concept"@en .
 

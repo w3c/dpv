@@ -708,17 +708,17 @@ for prefix, namespace in NAMESPACES.items():
     graph.namespace_manager.bind(prefix, namespace)
 proposed = []
 Location_schema = namedtuple('Legal_Location', (
-    'Term', 'Label', 'ParentTerm', 'Alpha2', 'Alpha3', 'Numeric', 'M49',
+    'term', 'Label', 'Parentterm', 'Alpha2', 'Alpha3', 'Numeric', 'M49',
     'broader', 'narrower', 'created', 'modified', 
     'status', 'contributors', 'resolution'))
 concepts = extract_terms_from_csv(
     f'{IMPORT_CSV_PATH}/legal_Locations.csv', Location_schema)
 for row in concepts:
     if row.status not in VOCAB_TERM_ACCEPT:
-        proposed.append(row.Term)
+        proposed.append(row.term)
         continue
-    term = BASE[row.Term]
-    parent = row.ParentTerm.replace("dpv:", "")
+    term = BASE[row.term]
+    parent = row.Parentterm.replace("dpv:", "")
     graph.add((term, RDF.type, DPVO[f'{parent}']))
     graph.add((term, RDF.type, OWL.NamedIndividual))
     graph.add((term, RDFS.isDefinedBy, BASE['']))
@@ -824,7 +824,7 @@ concepts = extract_terms_from_csv(
     f'{IMPORT_CSV_PATH}/legal_Authorities.csv', Location_schema)
 for row in concepts:
     if row.status not in VOCAB_TERM_ACCEPT:
-        proposed.append(row.Term)
+        proposed.append(row.term)
         continue
     term = BASE[row.term]
     graph.add((term, RDF.type, DPVO[f'{row.type.replace("dpv:","")}']))
@@ -871,7 +871,7 @@ concepts = extract_terms_from_csv(
     f'{IMPORT_CSV_PATH}/legal_EU_EEA.csv', Location_schema)
 for row in concepts:
     if row.status not in VOCAB_TERM_ACCEPT:
-        proposed.append(row.Term)
+        proposed.append(row.term)
         continue
     term = BASE[row.term]
     graph.add((term, RDF.type, DPVO[f'{row.type.replace("dpv:","")}']))
@@ -927,7 +927,7 @@ concepts = extract_terms_from_csv(
     f'{IMPORT_CSV_PATH}/legal_EU_Adequacy.csv', Location_schema)
 for row in concepts:
     if row.status not in VOCAB_TERM_ACCEPT:
-        proposed.append(row.Term)
+        proposed.append(row.term)
         continue
     term = BASE[row.term]
     graph.add((term, RDF.type, DPVO.Law))
