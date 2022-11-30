@@ -457,7 +457,6 @@
 </section>
 
     </section>
-    
   <section id="introduction">
     <h2>Introduction</h2>
     <blockquote>This document assumes the reader is familiar with DPV through the [[[DPV-Primer]]], and provides a specification documenting the concepts defined by DPV, structured as topical sections.</blockquote>
@@ -580,7 +579,6 @@
     </ul>
   </section>
 </section>
-
 <section id="vocab-entities">
   <h2>Entities</h2>
   <div class="issue" title="Entities diagram"></div>
@@ -17893,6 +17891,10 @@
   <section id="vocab-consent">
     <h3>Consent</h3>
     <div class="issue" title="Consent diagram"></div>
+    <figure>
+      <a href="diagrams/Consent.png"><img src="diagrams/Consent.png"></a>
+      <figcaption></figcaption>
+    </figure>
     <p>Consent in DPV is a specific legal basis representing <i>information associated with consent</i> rather than only <i>given consent</i>. Common information associated with consent includes tasks such as keeping track of whether "consent has been given/obtained", "issuing a consent request", and "withdrawing consent", as well as expressing requirements through terms such as "informed" and "explicit". To assist with representing these concepts as well as keeping records about how they are being applied, DPV provides the following consent concepts.</p>
     <ul>
       <li>[=Consent=] - a type of legal basis representing consent of the individual.</li>
@@ -22623,6 +22625,7 @@
       <code><a href="#FixedOccurencesDuration">Fixed Occurences Duration</a></code> |
       <code><a href="#Frequency">Frequency</a></code> |
       <code><a href="#Importance">Importance</a></code> |
+      <code><a href="#IndeterminateDuration">Indeterminate Duration</a></code> |
       <code><a href="#Justification">Justification</a></code> |
       <code><a href="#Necessity">Necessity</a></code> |
       <code><a href="#NotRequired">Not Required</a></code> |
@@ -22939,6 +22942,49 @@
               Harshvardhan J. Pandit, 
               Julian Flake, 
               Paul Ryan
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="IndeterminateDuration">Indeterminate Duration</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#IndeterminateDuration</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>IndeterminateDuration</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Indeterminate Duration</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>Duration that is indeterminate or cannot be determined</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#Duration">dpv:Duration</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Note:</td>
+             <td>Indeterminate means (exact or otherwise) information about the duration cannot be determined, which is distinct from &#39;EndlessDuration&#39; where it is known (or decided) that the duration is open-ended or without an end.</td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
             </td>
           </tr>
         </tbody>
@@ -24074,12 +24120,26 @@
 
   <section id="vocab-status">
     <h3>Status</h3>
-    <p>To assist with expressing the state or status associated with various activities, DPV provides the [=Status=] concept that can be associated contextually using the [=hasStatus=] relation. Specific subtypes are provided as [=ActivityStatus=], [=ComplianceStatus=], and [=AuditStatus=].</p>
+    <p>To assist with expressing the state or status associated with various activities, DPV provides the [=Status=] concept that can be associated contextually using the [=hasStatus=] relation. Specific subtypes are provided as [=ActivityStatus=], [=ComplianceStatus=] including [=Lawfulness=], [=AuditStatus=], [=ConformanceStatus=], and [=RequestStatus=].</p>
+
+    <p><strong>[=ActivityStatus=]</strong> represents a state or status of an activity's operations and lifecycle, which includes [=ActivityProposed=], [=ActivityOngoing=], [=ActivityHalted=], [=ActivityCompleted=], and [=ActivityNotCompleted=].</p>
+
+    <p><strong>[=ComplianceStatus=]</strong> represents status associated with <i>compliance</i> with some norms, objectives, or requirements. Types include [=Compliant=], [=PartiallyCompliant=], [=NonCompliant=], [=ComplianceViolation=], [=ComplianceUnknown=], [=ComplianceIndeterminate=]. The association with a law or objective can be specified using [=hasApplicableLaw=] or [=hasPolicy=] directly for the status or indirectly through the concept whose status is being represented.</p>
+
+    <p><strong>[=Lawfulness=]</strong> represents a special type of [=ComplianceStatus=] which relates to legal compliance, or <i>lawfulness</i>, and has types [=Lawful=], [=Unlawful=], and [=LawfulnessUnkown=].</p>
+
+    <p><strong>[=AuditStatus=]</strong> represents the state or status of an audit, where the term <i>audit</i> is loosely defined, and may or may not relate to legal compliance - for e.g. for impact assessments, or as part of certification, or organisational quality assurance processes. Types of audits include [=AuditApproved=], [=AuditConditionallyApproved=], [=AuditRejected=], [=AuditRequested=], [=AuditNotRequired=], and [=AuditRequired=].</p>
+
+    <p><strong>[=ConformanceStatus=]</strong> represents the status of <i>conformance</i>, which is defined distinctly from <i>compliance</i> by considering voluntary association or following of a guideline, requirement, standard, or policy, and where compliance is related to the (legal or other systematically defined) <i>conformity</i> of a given system or use-case with <i>rules</i> which may dictate obligations and prohibitions that must be followed. To provide an illustrative example, consider <i>conformance</i> with a standard on best practices regarding security may assist in the demonstration of <i>compliance</i> with a legal norm requiring organisational measures of security. Types of conformance defined are: [=Conformant=] and [=NonConformant=].</p>
+
+    <p><strong>[=RequestStatus=]</strong> represents the state or status of <i>requests</i>, which can be between entities such as data subjects and controllers regarding exercising of rights, or between controllers and processors regarding processing operations, or between authorities and controllers regarding compliance related communications. Types of request statues are: [=RequestInitiated=], [=RequestAcknowledged=], [=RequestAccepted=], [=RequestRejected=], [=RequestFulfilled=], [=RequestUnfulfilled=], [=RequestRequiresAction=], [=RequestRequiredActionPerformed=], [=RequestActionDelayed=], and [=RequestStatusQuery=].</p>
+
     <section id="status-classes">
       <h3>Classes</h3>
     <p>
       <code><a href="#ActivityCompleted">Activity Completed</a></code> |
       <code><a href="#ActivityHalted">Activity Halted</a></code> |
+      <code><a href="#ActivityNotCompleted">Acitivity Not Completed</a></code> |
       <code><a href="#ActivityOngoing">Activity Ongoing</a></code> |
       <code><a href="#ActivityProposed">Activity Proposed</a></code> |
       <code><a href="#ActivityStatus">Activity Status</a></code> |
@@ -24103,6 +24163,17 @@
       <code><a href="#NonCompliant">Non Compliant</a></code> |
       <code><a href="#NonConformant">NonConformant</a></code> |
       <code><a href="#PartiallyCompliant">Partially Compliant</a></code> |
+      <code><a href="#RequestAccepted">Request Accepted</a></code> |
+      <code><a href="#RequestAcknowledged">Request Acknowledged</a></code> |
+      <code><a href="#RequestActionDelayed">Request Action Delayed</a></code> |
+      <code><a href="#RequestFulfilled">Request Fulfilled</a></code> |
+      <code><a href="#RequestInitiated">Request Initiated</a></code> |
+      <code><a href="#RequestRejected">Request Rejected</a></code> |
+      <code><a href="#RequestRequiredActionPerformed">Request Required Action Performed</a></code> |
+      <code><a href="#RequestRequiresAction">Request Requires Action</a></code> |
+      <code><a href="#RequestStatus">Request Status</a></code> |
+      <code><a href="#RequestStatusQuery">Request Status Query</a></code> |
+      <code><a href="#RequestUnfulfilled">Request Unfulfilled</a></code> |
       <code><a href="#Status">Status</a></code> |
       <code><a href="#Unlawful">Unlawful</a></code> |
     </p>
@@ -24175,6 +24246,49 @@
           <tr>
             <td>Created:</td>
             <td><time>2022-05-18</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="ActivityNotCompleted">Acitivity Not Completed</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#ActivityNotCompleted</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>ActivityNotCompleted</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Acitivity Not Completed</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of an activity that could not be completed, but has reached some end state</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#ActivityStatus">dpv:ActivityStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Note:</td>
+             <td>This relates to a &#39;Stop&#39; state as distinct from a &#39;Halt&#39; state. It makes no comments on whether the Acitivity can be resumed or continued towards completion.</td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
           </tr>
           <tr>
             <td>Contributor(s):</td>
@@ -25092,6 +25206,435 @@
           <tr>
             <td>Created:</td>
             <td><time>2022-05-18</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestAccepted">Request Accepted</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestAccepted</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestAccepted</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Accepted</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of a request being accepted towards fulfilment</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#RequestStatus">dpv:RequestStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestAcknowledged">Request Acknowledged</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestAcknowledged</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestAcknowledged</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Acknowledged</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of a request being acknowledged</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#RequestStatus">dpv:RequestStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestActionDelayed">Request Action Delayed</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestActionDelayed</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestActionDelayed</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Action Delayed</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of a request being delayed towards fulfilment</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#RequestStatus">dpv:RequestStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestFulfilled">Request Fulfilled</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestFulfilled</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestFulfilled</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Fulfilled</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of a request being fulfilled</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#RequestStatus">dpv:RequestStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestInitiated">Request Initiated</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestInitiated</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestInitiated</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Initiated</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of a request being initiated</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#RequestStatus">dpv:RequestStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestRejected">Request Rejected</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestRejected</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestRejected</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Rejected</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of a request being rejected towards non-fulfilment</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#RequestStatus">dpv:RequestStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestRequiredActionPerformed">Request Required Action Performed</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestRequiredActionPerformed</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestRequiredActionPerformed</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Required Action Performed</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of a request&#39;s required action having been performed by the other party</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#RequestStatus">dpv:RequestStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestRequiresAction">Request Requires Action</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestRequiresAction</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestRequiresAction</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Requires Action</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of a request requiring an action to be performed from another party</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#RequestStatus">dpv:RequestStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestStatus">Request Status</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestStatus</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestStatus</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Status</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>Status associated with requests</td>
+          </tr>
+          <tr>
+            <td>SubType of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#Status">dpv:Status</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestStatusQuery">Request Status Query</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestStatusQuery</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestStatusQuery</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Status Query</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of a request&#39;s status being queried</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#RequestStatus">dpv:RequestStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
+          </tr>
+          <tr>
+            <td>Contributor(s):</td>
+            <td>
+              Harshvardhan J. Pandit
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section >
+      <h4 id="RequestUnfulfilled">Request Unfulfilled</h4>
+      <table class="definition">
+        <tbody>
+          <tr>
+            <td>IRI</td>
+            <td><code>https://w3id.org/dpv#RequestUnfulfilled</code></a></td>
+          </tr>
+          <tr>
+            <td>Term:</td>
+            <td><dfn>RequestUnfulfilled</dfn></td>
+          </tr>
+<tr>
+            <td>Label:</td>
+            <td>Request Unfulfilled</td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td>State of a request being unfulfilled</td>
+          </tr>
+          <tr>
+            <td>Instance of:</td>
+            <td>
+              <a href="https://w3id.org/dpv#RequestStatus">dpv:RequestStatus</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Created:</td>
+            <td><time>2022-11-30</time></td>
           </tr>
           <tr>
             <td>Contributor(s):</td>
@@ -27961,7 +28504,7 @@
   <p>The concept [=Right=] represents a normative concept for what is permissible or necessary in accordance with a system such as laws. To associate rights with concepts that are relevant or within which those rights occur, the relation [=hasRight=] is used. Rights can be <i>passive</i>, which means they are always applicable without requiring anything to be done, or <i>active</i> where they require some action to be taken to initiate or exercise them. To represent these concepts, DPV uses [=PassiveRight=] and [=ActiveRight=] respectively. Rights can be applicable to different contexts or entities. To differentiate rights applicable or afforded to data subjects, the concept [=DataSubjectRight=] is used.</p>
   <p>The information regarding hwo to exercise a right is provided through [=RightExerciseNotice=] and associated using the [=isExercisedAt=] relation. This information can specify contextual information through use of other concepts such as [=PersonalDataHandling=] to denote a <i>necessary</i> [=Purpose=] of [=IdentityVerification=] as part of the rights exercise.</p>
   <p>A [=RightExerciseActivity=] represents a concrete instance of a right being exercised. It can include contextual information such as timestamps, durations, entities, etc. that can be part of record-keeping. An activity can be a single <i>step</i> related to rights exercise -- such as the initial request to exercise that right, or its acknowledgement, or the final step taken to fulfil the right (e.g. provide some information), or it can also be a single activity describing the entire rights exercise process(es). To collate related activities associated with a rights exercise (e.g. associated with a specific data subject or a specific request), the concept [=RightExerciseRecord=] is useful. The information provided to describe or in fulfilment of a right exercise is represented by [=RightFulfilmentNotice=] and that associated when a right exercise cannot be fulfilled is represented by [=RightNonFulfilmentNotice=].</p>
-  <p>To indicate contextual information about Right Exercise activities, DPV suggests reuse of existing relations, such as those from DPV itself and [[[DCT]]]. For example, <code>dct:accessRights</code> can be used to specify constraints or requirements regarding access (e.g. log in required), or <code>dct:hasPart</code> and <code>dct:isPartOf</code> to express records and its contents, <code>dct:valid</code> to express validity constraints on the exercising being made available, <code>foaf:page</code> to specify the location or provision of notice, and [=hasStatus</code> to represent the status of an activity.</p>
+  <p>To indicate contextual information about Right Exercise activities, DPV suggests reuse of existing relations, such as those from DPV itself and [[[DCT]]]. For example, <code>dct:accessRights</code> can be used to specify constraints or requirements regarding access (e.g. log in required), or <code>dct:hasPart</code> and <code>dct:isPartOf</code> to express records and its contents, <code>dct:valid</code> to express validity constraints on the exercising being made available, <code>foaf:page</code> to specify the location or provision of notice, and [=hasStatus</code> with [=RequestStatus=] to represent the status of a rights exercise activity.</p>
   <p>When rights require the provision of information which beyond a static common notice, for example a document personalised to the individual's information, or a dataset containing the individual's data, DPV recommends using [[[DCAT]]] to model the contents as a <code>dcat:Resource</code> or other relevant concepts from [[DCAT]] and [[DCT]] such as <code>dct:format</code>, <code>dct:accessRights</code>, and <code>dct:valid</code>.</p>
   <section id="rights-classes">
     <h3>Classes</h3>
@@ -29171,7 +29714,6 @@
   <p>The contributions of Harshvardhan J. Pandit have received funding from the ADAPT SFI Centre for Digital Media Technology is funded by Science Foundation Ireland through the SFI Research Centres Programme and is co-funded under the European Regional Development Fund (ERDF) through Grant#13/RC/2106 (2018 to 2020) and Grant#13/RC/2106_P2 (2021 onwards)</p>
 
 </section>
-
 <section id="proposed-terms" class="appendix">
   <h2>Proposed Terms</h2>
   <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
@@ -29182,28 +29724,13 @@
     <ul>      <li>IdentityAuthentication</li>
 </ul>
     <strong>context</strong>
-    <ul>      <li>IndeterminateDuration</li>
-      <li>PurposeDuration</li>
+    <ul>      <li>PurposeDuration</li>
       <li>ConsentDuration</li>
       <li>ContractDuration</li>
       <li>isApplicableFor</li>
       <li>isNotApplicableFor</li>
       <li>hasImportance</li>
       <li>hasNecessity</li>
-</ul>
-    <strong>status</strong>
-    <ul>      <li>ActivityNotCompleted</li>
-      <li>RequestStatus</li>
-      <li>RequestInitiated</li>
-      <li>RequestAcknowledged</li>
-      <li>RequestAccepted</li>
-      <li>RequestRejected</li>
-      <li>RequestFulfilled</li>
-      <li>RequestUnfulfilled</li>
-      <li>RequestRequiresAction</li>
-      <li>RequestRequiredActionPerformed</li>
-      <li>RequestActionDelayed</li>
-      <li>RequestStatusQuery</li>
 </ul>
     <strong>risk</strong>
     <ul>      <li>RiskThreat</li>
