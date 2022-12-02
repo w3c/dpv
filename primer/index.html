@@ -491,9 +491,6 @@
     <input id="hide-owl-examples" type="button" value="Hide DPV-OWL Examples" onclick="document.querySelectorAll('.ex-owl').forEach(x=>x.classList.toggle('invisible'))">
    </p> -->
   </section>
-  <div class="issue-done" title="For each subsection, add links to visit that section in DPV spec as well as SKOS and OWL specs"></div>
-  <div class="issue-done" title="If there is a guide for a particular section, add a link to the guide in that section"></div>
-  <div class="issue-done" title="Change skos:broader to skos:broader"></div>
   <section id="introduction">
     <h2>Introduction</h2>
     <p>The <a href="https://www.w3.org/community/dpvcg/">[[[DPVCG]]]</a> was formed in 2018 through the <a href="https://www.specialprivacy.eu/">[[[SPECIAL]]]</a> with the ambition of providing a machine-readable and interoperable vocabulary for representing information about the use and processing of personal data, whilst inviting perspectives and contributions from a diverse set of stakeholders across computer science, IT, law, sociology, philosophy – representing academia, industry, policy-makers, and activists. It identified the following issues through the <a href="https://www.w3.org/2018/vocabws/report">W3C Workshop on Privacy and Linked Data</a>:
@@ -663,6 +660,7 @@
     <p>If using [[DPV-SKOS]] semantics, extending is done using <code>skos:broader</code>, whereas [[DPV-OWL]] semantics uses the <code>rdfs:subClassOf</code> relationship. To create instances, both use <code>rdf:type</code>. Where an exact concept is not present within the DPV and a broad concept exists for representing the same information, one should subtype or extend that broad concept to define the required information.</p>
     <aside class="example" title="Extending concepts to represent use-case specific information">
       <p>DPV defines the (broad) concept of <a href="https://www.w3id.org/dpv#Marketing"><code>Marketing</code></a> in its <code>Purpose</code> hierarchy to represent information about (purposes related to) marketing activities and topics. For a use-case which requires representing purposes (note: plural) related to <i>marketing of new products</i>, the broad <code>Marketing</code> concept is extended as a <i>child</i> or <i>subclass</i> concept for representing the intended purpose as, e.g. <code>MarketingNewProducts</code>.</p>
+      <p><strong>Note:</strong> Here the prefix <code>ex:</code> represents <code>http://example.com#</code> - which is a convention for representing additional examples or concepts, such as those created as part of the use-case. The rest of the document follows this nomenclature and convention.</p>
       <p>Example using [[DPV-SKOS]]</p>
       <pre class="ex-skos nohighlight">
 # Case1: Where further categories are required to 'group' related purposes
@@ -765,7 +763,6 @@ exA:TVServiceOptimisation skos:closeMatch exB:TVServiceOptimisation .
   <section id="core-concepts">
     <h2>Core Concepts</h2>
     <section id="core-taxonomy">
-        <div class="issue" title="Update core diagram to add all taxonomies and extensions"></div>
       <h3>Structure of DPV</h3>
       <figure>
         <img src="img/hierarchy-ex2.png" style="width: 100%; height: auto" />
@@ -921,9 +918,8 @@ exA:TVServiceOptimisation skos:closeMatch exB:TVServiceOptimisation .
     </ul>
     </section>
     <section class="notoc"><h4>Rights Exercise</h4>
-      <div class="issue" title="update Rights Exercise diagram"></div>
     <figure>
-        <img src="img/overview_Right.png"/>
+        <img src="img/rights.png"/>
         <figcaption>Indicating applicable or relevant <code>Right</code></figcaption>
       </figure>
       <p>The concept <code>Right</code> represents a normative concept for what is permissible or necessary in accordance with a system such as laws. To associate rights with concepts that are relevant or within which those rights occur, the relation <code>hasRight</code> is used. Rights can be <i>passive</i>, which means they are always applicable without requiring anything to be done, or <i>active</i> where they require some action to be taken to initiate or exercise them. To represent these concepts, DPV uses <code>PassiveRight</code> and <code>ActiveRight</code> respectively. Rights can be applicable to different contexts or entities. To differentiate rights applicable or afforded to data subjects, the concept <code>DataSubjectRight</code> is used. The information on exercising an active right is provided through a <code>RightExerciseNotice</code> which can be recorded through a <code>RightExerciseRecord</code> that can contain one or more <code>RightExerciseActivity</code>. This enables providing information about the existence of a right, how to exercise it, associate requirements for the exercising, and to keep detailed records of the interactions towards fulfilment of that right.</p>
@@ -1126,7 +1122,6 @@ ex:PreventTransactionFraud a dpv:Purpose ;
 
   <section id="processing-categories">
     <h3>Processing Operations</h3>
-    <div class="issue" title="Update processing diagram"></div>
     <figure>
       <img src="img/processing.png">
       <figcaption>Overview of top-concepts in <code>Processing</code> taxonomy</figcaption>
@@ -1146,7 +1141,6 @@ ex:PreventTransactionFraud a dpv:Purpose ;
 
     <section id="data-storage">
       <h4>Data Storage</h4>
-      <div class="issue" title="Update data storage diagram"></div>
       <figure>
         <img src="img/Processing_Storage.png">
         <figcaption>Indicating Storage and Data Source for Processing</figcaption>
@@ -1236,7 +1230,6 @@ ex:PreventTransactionFraud a dpv:Purpose ;
 
   <section id="personal-data">
     <h3>Personal Data</h3>
-    <div class="issue" title="Update personal data diagram"></div>
     <figure>
       <img src="img/PersonalData.png">
       <figcaption>Personal Data concepts within DPV and their extension in <code>dpv-pd</code></figcaption>
@@ -1260,7 +1253,6 @@ ex:PreventTransactionFraud a dpv:Purpose ;
       <p>While this is one possible solution, other methods exist, such as explicitly declaring the data categories and their encapsulation within one another, such as by reusing <code>hasPersonalData</code> or creating additional properties (e.g. <code>containsData</code>) to indicate a personal data concept, i.e. the passport photo, <em>contains</em> information associated through the relation, i.e. name, age, etc. We welcome discussions regarding both these methods.</p>
     </div>
 
-    <div class="issue-done" title="Add subsection for Personal and Non-Personal Data"></div>
     <section id="nonpersonal-synthetic-data">
       <h4>Non-Personal and Synthetic Data</h4>
       <p>While the focus of DPV is on <i>Personal Data</i>, there may be a need to represent <i>Non-Personal Data</i> within the same contextual use-cases. For example, if the personal data has been fully, completely, and irreversibly anonymised, then it can no longer be said to be personal data. To enable this, and other representations, DPV provides the concept <code>Data</code> to represent any data, with subtypes <code>PersonalData</code> and <code>NonPersonalData</code>. Using these as annotations can assist in clearly indicating which data should be protected, or protected with more severe measures, or to determine the scope of regulations which only apply over operations involving personal data.</p>
@@ -1269,7 +1261,6 @@ ex:PreventTransactionFraud a dpv:Purpose ;
 
     <section id="data-source-categorisation">
       <h4>Categorisation based on Source</h4>
-      <div class="issue-done" title="Update subsection for Categorisation (of Data) by Source"></div>
       <p>The concept <code>DataSource</code> refers to information associated with processing contexts for indicating how the data is sourced or obtained. In some cases, it may be desirable to directly express this information over the data itself, such as indicating a dataset is "collected personal data", or that a storage policy only applies over "inferred data". To enable such uses, DPV provides the following subtypes of personal data: <code>CollectedPersonalData</code>, <code>DerivedPersonalData</code>, <code>InferredPersonalData</code>, <code>GeneratedPersonalData</code>, and <code>ObservedPersonalData</code>. Here the terms derive and infer relate to creation of additional data based on existing data, whereas generate refers to creation of new data that is not derived or inferred.</p>
       <aside class="example" title="Derivation and inference of personal data">
         <p>This use-case collects browser fingerprint and IP Address to identify the country one is visiting from, and to infer language to be used for personalisation. Note that this example uses [[DPV-PD]] for personal data concepts.</p>
@@ -1334,7 +1325,6 @@ ex:PreventTransactionFraud a dpv:Purpose ;
 
   <section id="technical-and-organisational-measures">
     <h3>Technical and Organisational Measures</h3>
-    <div class="issue" title="Update tech/org diagram"></div>
     <figure>
       <img src="img/TechnicalOrganisationalMeasure.png">
       <figcaption>Overview of Technical and Organisational Measure concepts in DPV</figcaption>
@@ -1351,7 +1341,6 @@ ex:PreventTransactionFraud a dpv:Purpose ;
 
     <section>
       <h4>Technical Measures</h4>
-      <div class="issue" title="Update diagram for technical measure"></div>
       <figure>
         <a href="img/TechnicalMeasure.png"><img src="img/TechnicalMeasure.png" style="width: auto; max-height: 500px;"></a>
         <figcaption>Overview of Technical Measures in DPV (click to open in new window)</figcaption>
@@ -1372,7 +1361,6 @@ ex:RBACCredential rdf:type dpv:TechnicalMeasure ;
 
     <section>
       <h4>Organisational Measures</h4>
-      <div class="issue" title="Update diagram for organisational measures"></div>
       <figure>
         <a href="img/OrganisationalMeasure.png"><img src="img/OrganisationalMeasure.png"></a>
         <figcaption>Overview of Technical Measures in DPV (click to open in new window)</figcaption>
@@ -1400,10 +1388,6 @@ ex:StaffCredentialsTraining rdf:type dpv:OrganistionalMeasure ;
         </pre></div>
       </aside>
 
-      <div class="issue-done" title="Add subsection for Policies"></div>
-      <div class="issue-done" title="Add subsection for Notices"></div>
-      <div class="issue-done" title="Add subsection for Records"></div>
-      <div class="issue-done" title="Add subsection for Security"></div>
     </section>
 
     <section id="tom-policies">
@@ -1493,7 +1477,6 @@ ex:AcmePrivacyPolicy rdf:type dpv:PrivacyNotice ;
 
     <section id="tom-agreements">
       <h4>Data Processing Agreements</h4>
-      <div class="issue-done" title="Update subsection for Agreements"></div>
       <p>The term <i>Data Processing Agreement</i> refers to a broad concept related to contracts or agreements between entities representing conditions regarding the processing of (personal-)data. This can include ad-hoc 'data handling' policies such as NDAs, embargoes, and enforcement of practices, as well as more formal and legal binding contractual obligations such as those between a Controller and a Processor.</p>
       <p>To represent such concepts, DPV provides <code>LegalAgreement</code>, along with subtypes for <code>NDA</code> (Non-disclosure agreements), <code>ContractualTerms</code>, and <code>DataProcessingAgreement</code>. In these, it is important to remember that while <i>contract</i> can also be as a form of legal basis, the concept represented here is not necessarily the same <i>contract</i> as that is used to justify the processing of personal data with a data subject. Instead, <i>contracts</i> are a broad category representing contractual terms governing data handling within or with an entity.</p>
       <p>For representing specific agreements between entities (other than those with data subjects - which are covered in Legal Basis taxonomy), DPV provides the following types of agreements:</p>
@@ -1588,7 +1571,6 @@ ex:TransferPolicy a dpv:ControllerProcessorAgreement,
 
     <section>
       <h4>Impact Assessments</h4>
-      <div class="issue-done" title="Update subsection for Impact Assessments"></div>
       <figure>
         <img src="img/ImpactAssessment.png">
         <figcaption>Types of Impact Assessments in DPV</figcaption>
@@ -1652,8 +1634,6 @@ ex:UserConsent rdf:type dpv:LegalBasis ;
 
   <section id="consent">
     <h3>Consent</h3>
-    <div class="issue" title="Update diagram for Consent"></div>
-    <div class="issue-done" title="Update subsection for Consent"></div>
     <figure>
         <img src="img/Consent.png">
         <figcaption>Denoting information using <code>Consent</code></figcaption>
@@ -1742,7 +1722,6 @@ ex:UserConsent a dpv:ExpressedConsent .
 
     <section>
       <h4>Consent Status</h4>
-      <div class="issue-done" title="todo: Consent Status"></div>
       <p>The state or status of <i>consent</i> refers to the stage of information about a particular consent instance within its lifecycle. For example, (given) consent first starts with the identification of need to ask consent, then issuing a request (to the individual), making a decision (by the individual), and then following it up with further actions such as the individual withdrawing it. Keeping track of such information is necessary in order to determine whether the current stage of consent information is suitable for its use in justifying processing of personal data governed by that consent, as well as to fulfil obligations such as to keep records of consent. To assist with such consent information management, DPV provides <i>Consent Status</i> as a way to represent the lifecycle and usefulness of an instance towards processing personal data.</p>
       <p>DPV's Consent Statuses are represented by <code>ConsentStatus</code> and indicated using <code>hasConsentStatus</code> relation. The statuses are segregated into two categories based on their interpretation towards processing: <code>ConsentStatusValidForProcessing</code> and <code>ConsentStatusInvalidForProcessing</code>. There are (currently) only two statuses that are valid for processing: <code>ConsentGiven</code> representing the individual has consented, and <code>RenewedConsentGiven</code> where an earlier given consent is <i>renewed</i>, <i>refreshed</i>, or <i>reaffirmed</i>.</p>
       <p>The rest of (currently) 8 statuses refer to various stages that are considered invalid for processing. These are: <code>ConsentUnknown</code> for when information about the status is unknown or unconfirmed, <code>ConsentRequested</code> for when a request to obtain or give consent has been made, <code>ConsentRequestDeferred</code> for when the request was opted to be dismissed or delayed without a decision, <code>ConsentRefused</code> for when consent was refused, <code>ConsentExpired</code> for when the validity (temporal or otherwise) associated with a given consent instance has lapsed, <code>ConsentInvalidated</code> for when a given consent instance is found invalid e.g. by a court, <code>ConsentRevoked</code> for when a given consent instance is revoked or terminated such as when a service provider stops providing the service, and <code>ConsentWithdrawn</code> for when the individual withdraws a previously given consent.</p>
@@ -1772,7 +1751,6 @@ ex:UserConsent a dpv:ExpressedConsent .
 
   <section id="legal-entities">
     <h3>Entities</h3>
-    <div class="issue" title="Update entities diagram to add Organisation"></div>
     <figure>
         <img src="img/Entities.png">
         <figcaption>Overview of Entities in DPV</figcaption>
@@ -1814,7 +1792,6 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
     </section>
     <section>
       <h4>Legal Roles</h4>
-      <div class="issue" title="Legal roles diagram"></div>
       <figure>
         <img src="img/legalentities.png" />
         <figcaption></figcaption>
@@ -1834,8 +1811,6 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
     </section>
     <section>
         <h4>Organisation Categories</h4>
-        <div class="issue" title="Update organisation categories diagram"></div>
-        <div class="issue-done" title="Add text for organisation categories"></div>
         <figure>
          <img src="img/Entities_organisations.png">
          <figcaption>Describing Entities in DPV</figcaption>
@@ -1843,12 +1818,10 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
         <p><code>Organisation</code> is a specified type of entity, representing common concepts such as <i>Company</i> or <i>Business</i>, as well as non-commercial entities such as <i>NGO</i> or <i>University</i>. To assist with expressing such common types of organisations, DPV provides concepts covering Industry, Governmental bodies, NGOs, For and Not-For Profits, and Academic or Scientific Organisations.</p>
         <p>We are looking to provide a rich collection of organisation types to accurately reflect the contextual differences between specific organisation types based on domain (e.g. education and school) and roles (e.g. vendor, procurer). Suggestions and proposals for these are invited.</p>
     </section>
-    <div class="issue-done" title="Add subsection for Authorities"></div>
     <section>
       <h4>Authorities</h4>
       <p>The concept <code>Authority</code> is a specific Governmental Organisation authorised to enforce a law or regulation. Authorities can be associated with a specific domain, topic, or jurisdiction. DPV currently defines regional authorities for <code>NationalAuthority</code>, <code>RegionalAuthority</code>, and <code>SupraNationalAuthority</code>, and <code>DataProtectionAuthority</code> represents authorities associated with data protection and privacy. To associate authorities with concepts, the relations <code>hasAuthority</code> and <code>isAuthorityFor</code> are provided.</p>
     </section>
-    <div class="issue-done" title="Add subsection for Data Subject categories"></div>
     <section>
       <h4>Data Subjects</h4>
       <p>DPV provides a taxonomy of data subject types to assist with describing what kind of individuals or groups are associated with an use-case. Some examples of such types are age-based roles: <code>Adult</code> and <code>Child</code>, <code>ParentOfDataSubject</code>, <code>GuardianOfDataSubject</code>; vulnerability: <code>VulnerableDataSubject</code>, <code>ElderlyDataSubject</code>, <code>AsylumSeeker</code>; domain-specific roles such as <code>Patient</code>, <code>Employee</code>, <code>Student</code>, jurisdictional roles such as <code>Citizen</code>, <code>NonCitizen</code>, <code>Immigrant</code>; and general roles such as <code>User</code>, <code>Member</code>, <code>Participant</code>, and <code>Client</code>.
@@ -1856,7 +1829,6 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
   </section>
 
   <section>
-    <div class="issue-done" title="Make Location and Jurisdiction its own section"></div>
     <h3>Location and Jurisdiction</h3>
     <blockquote>
       <p>goto spec: 
@@ -1873,7 +1845,10 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
 
   <section>
     <h3 id="context">Contextual Information</h3>
-    <div class="issue" title="Add diagram for context"></div>
+    <figure>
+      <img src="img/Context.png">
+      <figcaption></figcaption>
+    </figure>
     <blockquote>
       <p>goto spec: 
         <a href="/dpv#vocab-context">DPV</a> | 
@@ -1911,7 +1886,6 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
     </section>
 
     <section>
-      <div class="issue-done" title="Make Frequency and Duration its own subsection">remove identifier</div>
       <h4>Duration and Frequency</h4>
       <p>To express the duration of events or operations, such as how long processing will take or the validity of consent, the concept <code>Duration</code> can be used. Duration is indicated using the relation <code>hasDuration</code>, and has the following subtypes:</p>
       <ul>
@@ -1931,13 +1905,11 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
       </ul>
     </section>
     <section>
-        <div class="issue-done" title="Add subsection for Scope and Justification"></div>
       <h4>Scope and Justification</h4>
       <p><code>Scope</code>, associated using the relation <code>hasScope</code>, indicates the extent or range or boundaries associated with(in) a context. For example, where processing only takes place for a specific service or within a jurisdictional framework.</p>
       <p><code>Justification</code>, associated using <code>hasJustification</code>, is another generic concept representing the argument or justification or reason provided to explain or document information within the specific context. For example, where an audit was rejected the justification for this rejection can be associated. Or, if processing was decided to be continued despite an assessment showing high-risk criteria, the outcome can express a justification.</p>
     </section>
     <section>
-      <div class="issue-done" title="Add subsection for Scale of Data, Data Subjects, and Processing"></div>
       <h4>Data and Processing Scales</h4>
       <p><code>Scale</code>, associated using <code>hasScale</code>, refers to a measurement along some dimension. DPV provides (qualitative) scales for expressing <i>Data Volume</i>, <i>Data subjects</i>, and <i>Geographical Coverage</i> of processing. Along with these, DPV also provides a <i>Processing Scale</i> to express combinations of these. NOTE: The actual meaning or quantified amounts for each concept are not defined due to their interpretation based on contextual factors such as legislations, guidelines, domains, and variations across industries.</p>
       <p><code>DataVolume</code> refers to the volume or amount of data in the form of a scale with the following subtypes: <code>HugeDataVolume</code>, <code>LargeDataVolume</code>, <code>MediumDataVolume</code>, <code>SmallDataVolume</code>, <code>SporadicDataVolume</code>, <code>SingularDataVolume</code>, and is associated using <code>hasDataVolume</code>.</p>
@@ -1946,7 +1918,6 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
       <p><code>ProcessingScale</code>, also associated using <code>hasScale</code>, represents an interpretation of the other scales to express whether the combination entails a specific threshold for qualifying as 'large scale'. Specific subtypes defined for these are: <code>LargeScaleProcessing</code>, <code>MediumScaleProcessing</code>, <code>SmallScaleProcessing</code>.</p>
     </section>
         
-    <div class="issue-done" title="Add subsection for Statuses"></div>
     <section>
       <h4>Statuses</h4>
       <blockquote>
@@ -1982,16 +1953,15 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
         <a href="/dpv-owl#vocab-risk">DPV-OWL</a>
       </p>
     </blockquote>
-    <div class="issue-done" title="Move risk to its own separate section called Risk and Impacts">Provide overview of core concepts. Describe how the risk extension extends the core concepts.</div>
-    <div class="issue" title="Add diagram for Risk"></div>
+    <figure>
+      <img src="img/risk.png">
+      <figcaption></figcaption>
+    </figure>
     <p>For risk management, DPV's provides a lightweight risk ontology based on commonly utilised concepts regarding risk mitigation and risk management. While these concepts permit rudimentary association of risks and mitigations within a use-case, it is important to note that DPV (currently)
     does not provide comprehensive concepts for risk management.</p>
     <p>For more developed representations of risk assessment, mitigation, and management vocabularies, we suggest the adoption of relevant standards, such as the ISO/IEC 31000 series, and welcome contribution for their representation within DPV through [[[RISK]]].</p>
     <section>
       <h4>Risk and Mitigation</h4>
-      <div class="issue-done" title="Add subsection to risk for Levels, Severity, and Likelihood">Will also describe risk matrix</div>
-      <div class="issue-done" title="Add subsection to risk for Risks Management">Should contain everything in risk extension not covered in other subsections</div>
-      <div class="issue-done" title="Add subsection to risk for Risk Controls"></div>
       <p>The central concepts within DPV's risk management vocabulary are <code>Risk</code> (associated using <code>hasRisk</code>) and its mitigation through <code>RiskMitigationMeasure</code> (associated using <code>mitigatesRisk</code> and conversely <code>isMitigatedByRisk</code>). Through these, risk can be associated with specific concepts (e.g. data categories) or contexts (e.g. personal data handling).</p>
       <p>To express quantified and qualified attributes associated with risk, such as levels and severity, DPV provides the following concepts: <code>RiskLevel</code> (associated using <code>hasRiskLevel</code>) to indicate the 'level' or 'magnitude' of risk; <code>Severity</code> (associated using <code>hasSeverity</code>) to indicate the magnitude of being unwanted or causing unwanted impacts, and <code>Likelihood</code> (associated using <code>hasLikelihood</code>) to indicate the probability of it taking place.</p>
       <p>To express remaining risk after mitigation, the concept <code>ResidualRisk</code> (associated using <code>hasResidualRisk</code> and conversely <code>isResidualRiskOf</code>) is provided. To represent the management of risk and the procedures and methods associated with it, the concept <code>RiskManagementProcess</code> is defined as part of the Technical and Organisational Measures.</p>
@@ -1999,7 +1969,10 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
 
     <section>
       <h4>Consequences and Impacts</h4>
-      <div class="issue-done" title="Add subsection to risk for Consequences and Impacts"></div>
+      <figure>
+        <img src="img/Consequences.png">
+        <figcaption></figcaption>
+      </figure>
       <p>To represent the consequences and impacts of a risk event taking place, DPV provides the following concepts: <code>Consequence</code> arising from the context (e.g. data breach or unauthorised access to data) and the <code>Impact</code> caused  (e.g. identity theft).</p>
       <p>Consequences are associated using <code>hasConsequence</code>, and subtyped to indicate whether the consequence was due to the event successfully taking place (<code>ConsequenceOfSuccess</code>) or due to its failure in successfully completing or not taking place (<code>ConsequenceOfFailure</code>) or as side-effects (<code>ConsequenceAsSideEffect</code>).</p>
       <p>Impacts are associated using <code>hasImpact</code>, with the specific entity being impacted indicated using <code>hasImpactOn</code>. Impacts are subtyped to represent: <code>Benefit</code>, <code>Detriment</code>, <code>Damage</code> (<code>MaterialDamage</code>, <code>NonMaterialDamage</code>), and <code>Harm</code></p>.
@@ -2037,6 +2010,10 @@ ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
 
   <section id="exercising-rights">
     <h4>Exercising Rights</h4>
+    <figure>
+      <img src="img/rights.png">
+      <figcaption></figcaption>
+    </figure>
     <p>The concept <code>Right</code> represents a normative concept for what is permissible or necessary in accordance with a system such as laws. To associate rights with concepts that are relevant or within which those rights occur, the relation <code>hasRight</code> is used. Rights can be <i>passive</i>, which means they are always applicable without requiring anything to be done, or <i>active</i> where they require some action to be taken to initiate or exercise them. To represent these concepts, DPV uses <code>PassiveRight</code> and <code>ActiveRight</code> respectively. Rights can be applicable to different contexts or entities. To differentiate rights applicable or afforded to data subjects, the concept <code>DataSubjectRight</code> is used.</p>
     <p>The information regarding hwo to exercise a right is provided through <code>RightExerciseNotice</code> and associated using the <code>isExercisedAt</code> relation. This information can specify contextual information through use of other concepts such as <code>PersonalDataHandling</code> to denote a <i>necessary</i> <code>Purpose</code> of <code>IdentityVerification</code> as part of the rights exercise.</p>
     <p>A <code>RightExerciseActivity</code> represents a concrete instance of a right being exercised. It can include contextual information such as timestamps, durations, entities, etc. that can be part of record-keeping. An activity can be a single <i>step</i> related to rights exercise -- such as the initial request to exercise that right, or its acknowledgement, or the final step taken to fulfil the right (e.g. provide some information), or it can also be a single activity describing the entire rights exercise process(es). To collate related activities associated with a rights exercise (e.g. associated with a specific data subject or a specific request), the concept <code>RightExerciseRecord</code> is useful. The information provided to describe or in fulfilment of a right exercise is represented by <code>RightFulfilmentNotice</code> and that associated when a right exercise cannot be fulfilled is represented by <code>RightNonFulfilmentNotice</code>.</p>
@@ -2090,9 +2067,7 @@ ex:Policy a dpv:Obligation, odrl:Policy ;
 <section>
   <h2>Extensions</h2>
   <section id="dpv-pd">
-    <div class="issue-done" title="Add section on dpv-pd"></div>
     <h3>DPV-PD (Personal Data)</h3>
-      <div class="issue-done" title="Add subsection for Anonymised Data"></div>
       <p>[[[DPV-PD]]] provides additional concepts that extend the DPV's personal data taxonomy based on an opinionated structure contributed by R. Jason Cronk from <a href="https://enterprivacy.com/">EnterPrivacy</a>. This separation is to enable adopters to decide whether the extension's concepts are useful to them, or to use other external vocabularies, or define their own.</p>
       <p>Concepts within [[DPV-PD]] are broadly structured in top-down fashion by utilising their relevance and origin as:</p>
       <ul>
@@ -2106,7 +2081,6 @@ ex:Policy a dpv:Obligation, odrl:Policy ;
   </section>
 
   <section id="dpv-gdpr">
-    <div class="issue-done" title="Add section on dpv-gdpr"></div>
     <h3>DPV-GDPR</h3>
     <p>While several of DPV's concepts are inspired from the GDPR, the use of DPV itself does not point towards specific concepts from GDPR such as legal bases in Article.6. This is to enable use of DPV with different jurisdictional and domain terminologies through the use of extensions. [[DPV-GDPR]] provides an extension of DPV's concepts for the GDPR for the following.</p>
     <ul>
@@ -2120,7 +2094,6 @@ ex:Policy a dpv:Obligation, odrl:Policy ;
   </section>
 
   <section id="dpv-tech">
-    <div class="issue-done" title="Add section on dpv-tech"></div>
     <h3>DPV-TECH</h3>
     <p>[[[DPV-TECH]]] extends the DPV's terms to represent further specific details regarding technologies, their management, and relevance to actual real-world tools and systems. It provides concepts for the following:</p>
     <ul>
@@ -2133,7 +2106,6 @@ ex:Policy a dpv:Obligation, odrl:Policy ;
   </section>
 
   <section id="dpv-legal">
-    <div class="issue-done" title="Add section on dpv-legal"></div>
     <h3>DPV-LEGAL</h3>
     <p>[[DPV-LEGAL]] provides jurisdictional concepts such as locations (countries), memberships (e.g EU/EEA), laws (e.g. GDPR), authorities (e.g. CNIL for FR), and adequacy decisions (e.g. EU - UK). It also provides relationships between these, e.g. to indicate country FR has law GDPR which is enforced by CNIL authority.</p>
     <p>The goal of the DPV-LEGAL extension is to assist with identifying relevant laws, authorities, and data transfer implications. It also provides information about these concepts, e.g. authority contact information or website.</p>
@@ -2141,7 +2113,6 @@ ex:Policy a dpv:Obligation, odrl:Policy ;
   </section>
 
   <section id="risk">
-    <div class="issue-done" title="Add section on risk"></div>
     <h3>RISK</h3>
     <p>[[[RISK]]] builds on top of the lightweight risk framework within DPV by providing the following extensive concepts related to risk assessment and management. We are in the process of identifying additional concepts and taxonomies for the risk extension, such as for risk management procedures and the creation of a risk ontology based on ISO standards.</p>
     <ul>
@@ -2155,7 +2126,6 @@ ex:Policy a dpv:Obligation, odrl:Policy ;
   </section>
 
   <section id="rights">
-    <div class="issue-done" title="Add section on rights"></div>
     <h3>RIGHTS</h3>
     <p>Impact assessments related to impact on individuals and society require representation of rights as concepts which may be affected or impacted. To assist with these, [[[RIGHTS]]] is provided. Currently, it provides a taxonomy of concepts to represent the EU Charter of Fundamental Rights.</p>
   </section>
