@@ -2,23 +2,24 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>DPV-PD: Extended Personal Data concepts for DPV</title>
+  <title>DPV-PD: Extended Personal Data categories for DPV</title>
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   <script class="remove">
    // All config options at https://respec.org/docs/ 
    var respecConfig = {
     shortName: "dpv-pd",
     title: "DPV-PD: Extended Personal Data concepts for DPV",
-    subtitle: "version 1-beta",
-    publishDate: "2022-11-22",
-    specStatus: "CG-DRAFT",
+    subtitle: "version 1-rc",
+    publishDate: "2022-12-05",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/dpv-pd",
+    canonicalUri: "https://w3id.org/dpv/dpv-pd",
+    edDraftURI: "https://w3id.org/dpv/ed/dpv-pd",
     github: "w3c/dpv",
     subjectPrefix: "[dpv-pd]",
     doJsonLd: true,
-    lint: { "no-unused-dfns": false },
-    canonicalUri: "https://w3id.org/dpv/dpv-pd",
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
     editors: [
     {
       name: "Harshvardhan J. Pandit",
@@ -30,7 +31,8 @@
     {
       name: "Axel Polleres",
       url: "https://www.polleres.net/",
-      "company": "Vienna University of Economics and Business"
+      "company": "Vienna University of Economics and Business",
+      retiredDate: "2019-12-31"
     }
     ],
     authors: [
@@ -238,7 +240,11 @@
   },
   "DPV-GUIDE-Consent": {
     "href": "https://w3id.org/dpv/guides/consent",
-    "title": "Guide for Conesnt Records using DPV"
+    "title": "Guide for Consent Records using DPV"
+  },
+  "DPV-GUIDE-Notice": {
+    "href": "https://w3id.org/dpv/guides/notice",
+    "title": "Guide for Privacy Notices using DPV"
   },
   "DPV-GUIDE-Serialisations": {
     "href": "https://w3id.org/dpv/guides/serialisations",
@@ -260,7 +266,17 @@
     "href": "https://w3id.org/dpv/dpv-gdpr/ropa",
     "title": "Guide for GDPR ROPA's using DPV"
   },
-  "__005": "External Vocabularies",
+  "__005": "Examples",
+  "Examples": {
+    "href": "https://w3id.org/dpv/examples",
+    "title": "DPV Examples"
+  },
+  "__006": "Examples",
+  "UseCases-Requirements": {
+    "href": "https://w3id.org/dpv/use-cases",
+    "title": "DPV Use-Cases and Requirements"
+  },
+  "__000": "External Vocabularies",
   "RDF": {
     "href": "https://www.w3.org/TR/rdf11-concepts/",
     "title": "RDF 1.1 Concepts and Abstract Syntax"
@@ -277,7 +293,7 @@
     "href": "https://www.w3.org/TR/skos-reference/",
     "title": "SKOS Simple Knowledge Organization System"
   },
-  "__006": "External References",
+  "__000": "External References",
   "SPECIAL": {
     "href": "https://www.specialprivacy.eu/",
     "title": "SPECIAL H2020 Project"
@@ -318,6 +334,10 @@
     "href": "https://www.iso.org/standard/43757.html",
     "title": "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
   },
+  "ISO-27560": {
+    "href": "https://www.iso.org/standard/80392.html",
+    "title": "ISO/IEC TS 27560 Privacy technologies — Consent record information structure"
+  },
   "SHACL-UseCases": {
     "href": "https://www.w3.org/TR/shacl-ucr/",
     "title": "SHACL Use Cases and Requirements"
@@ -337,68 +357,24 @@
 }  };
 </script>
 <style type="text/css">
-  .head img[src*="logos/W3C"] {
-    display: inherit !important;
-  }
-  .head a:hover > img[src*='ogc'] {
-    opacity: 0.8;
-  }
   /* Table styles, March 2016 */
   table {border-collapse:collapse}
   th, td {
     border:thin solid black;
     padding: 0.3em;
   }
-  .inlineCode {
-    FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #ddf
-  }
-  PRE.code {
-    BORDER-RIGHT: #999999 1pt solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #999999 1pt solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; BORDER-LEFT: #999999 1pt solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #999999 1pt solid; FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #eef
-  }
-  PRE.code2 {
-    BORDER-RIGHT: #999999 1pt solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #999999 1pt solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; BORDER-LEFT: #999999 1pt solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #999999 1pt solid; FONT-FAMILY: "courier new"; BACKGROUND-COLOR: #ffa
-  }
-  .ednote {
-    FONT-STYLE: italic
-  }
-  PRE.clientmsg {
-    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 2px; BACKGROUND: #eee; PADDING-BOTTOM: 2px; MARGIN: 0px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999 1px solid
-  }
-  PRE.servermsg {
-    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 2px; BACKGROUND: #eee; PADDING-BOTTOM: 2px; MARGIN: 5px 0px 0px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999 1px solid; TEXT-ALIGN: left
-  }
-  P.msg {
-    PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; TEXT-ALIGN: center
-  }
-  DIV.interaction {
-    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid
-  }
-  DIV.interaction H4 {
-    MARGIN: 0px 0px 10px
-  }
-  DIV.interaction P {
-    MARGIN: 0px
-  }
-  DIV.test {
-    BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid
-  }
-  DIV.test H4 {
-    MARGIN: 0px 0px 10px
+  figure {
+    margin: 2px;
+    padding: 2px;
+    border: 1px solid black;
   }
 </style>
 </head>
 <body>
   <section id="abstract">
     <p>DPV-PD extends the [[[DPV]]] to provide additional concepts regarding Personal Data categories.</p>
-    <p>The namespace for terms in DPV-PD is <a href="http://www.w3id.org/dpv/dpv-pd#"><code>https://www.w3id.org/dpv/dpv-pd#</code></a><br/>
-      The suggested prefix for the namespace is <code>dpv-pd</code><br/>
-      The DPV-PD vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
-    <div id="dpv-v1" class="note">
-    <p><strong>DPV v1.0 - beta</strong>
-      The current release is a beta/test version intended to be published as a v1. Feedback can be provided via <a href="https://github.com/w3c/dpv/issues/50">GitHub</a> or <a href="https://lists.w3.org/Archives/Public/public-dpvcg/">public-dpvcg@w3.org</a> (mailing list).
-    </p>
-</div>
-<section id="dpv-document-family" class="noTOC">
+    <p>The canonical URL for DPV-PD is <a href="https://w3id.org/dpv/dpv-pd">https://w3id.org/dpv/dpv-pd</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv/dpv-pd#"><code>https://w3id.org/dpv/dpv-pd#</code></a>, the suggested prefix is <code>dpv-pd</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+    <section id="dpv-document-family" class="noTOC">
     <h2>DPV Family of Documents</h2>
     <ul>
       <li>[[[DPV-Primer]]]:  An introductory document for DPV's concepts and taxonomies.
@@ -406,16 +382,24 @@
       </li>
       <li>[[[DPV]]]:  The formal and normative description of DPV and its concepts, with serialisations in RDFS & SKOS [[DPV-SKOS]] and OWL2 [[DPV-OWL]]</li>
       <li>Extensions to Concepts: <ul>
-        <li>[[[DPV-GDPR]]]:  serialisations: [[DPV-SKOS-GDPR]], [[DPV-OWL-GDPR]]</li>
-        <li>[[[DPV-PD]]] (this document) serialisations: [[DPV-SKOS-PD]], [[DPV-OWL-PD]]</li>
-        <li>[[[DPV-LEGAL]]]  serialisations: [[DPV-SKOS-LEGAL]], [[DPV-OWL-LEGAL]]</li>
-        <li>[[[DPV-TECH]]]  serialisations: [[DPV-SKOS-TECH]], [[DPV-OWL-TECH]]</li>
-        <li>[[[RISK]]]  serialisations: [[RISK-SKOS]], [[RISK-OWL]]</li>
+        <li>[[DPV-GDPR]]:  for GDPR concepts; serialisations: [[DPV-SKOS-GDPR]], [[DPV-OWL-GDPR]]</li>
+        <li>[[DPV-PD]] (this document) for Personal Data concepts; serialisations: [[DPV-SKOS-PD]], [[DPV-OWL-PD]]</li>
+        <li>[[DPV-LEGAL]]  for Jurisdiction-relevant concepts; serialisations: [[DPV-SKOS-LEGAL]], [[DPV-OWL-LEGAL]]</li>
+        <li>[[DPV-TECH]]  for Technology concepts; serialisations: [[DPV-SKOS-TECH]], [[DPV-OWL-TECH]]</li>
+        <li>[[RISK]]  for Risk Assessment and Management concepts; serialisations: [[RISK-SKOS]], [[RISK-OWL]]</li>
         </ul></li>
       <li>[[[DPV-GUIDES]]]: <ul>
+        <li>[[[DPV-GUIDE-Serialisations]]]  (coming soon)</li>
+        <li>[[[DPV-GUIDE-SKOS]]]  (coming soon)</li>
         <li>[[[DPV-GUIDE-OWL2]]] </li>
+        <li>[[[DPV-GUIDE-Notice]]]  (coming soon)</li>
+        <li>[[[DPV-GUIDE-Consent]]]  (being updated for v1)</li>
+        <li>[[[DPV-GUIDE-GDPR-DPIA]]]  (being updated for v1)</li>
+        <li>[[[DPV-GUIDE-GDPR-ROPA]]]  (being updated for v1)</li>
         </ul></li>
       <li>Other Resources:<ul>
+        <li>[[[UseCases-Requirements]]]</li>
+        <li>[[[Examples]]]</li>
         <li>[[[DPV-NACE]]]</li>
         <li>[[[RIGHTS-EU]]] serialisations: [[RIGHTS-EU-SKOS]], [[RIGHTS-EU-OWL]]</li>
         </ul></li>
@@ -435,12 +419,12 @@
   <!-- sotd: Status of this document -->
   <p>This document is published by the <a href="https://www.w3.org/community/dpvcg/">Data Privacy Vocabularies and Controls Community Group (DPVCG)</a> as a deliverable and report of its work in creating and maintaining the Data Privacy Vocabulary (DPV).</p>
   <div class="note">
-    <p><strong>Contributing to the DPV and its extensions</strong> The DPVCG welcomes participation regarding the DPV, including expansion or refinement of its terms, addressing open issues, and welcomes suggestions on their resolution or mitigation.</p>
-    <p>For contributions to the DPV, please see <a href="https://github.com/w3c/dpv#contribution--participation">the section on GitHub</a>. The current list of open issues and their discussions to date can be found at <a href="https://github.com/w3c/dpv/issues">GitHub issues</a>.</p>
+    <p><strong>Contributing to the DPV and its extensions</strong> The DPVCG welcomes participation regarding the DPV, including expansion or refinement of its terms, addressing open issues, and welcomes suggestions on their resolution or mitigation. For further information, please see the <a href="https://github.com/w3c/dpv#contribution--participation">contribution section</a>.</p>
   </div>
 </section>
 
   </section>
+
   <section id="vocab">
     <h2>Taxonomy</h2>
     <div class="issue" title="better organisation of concepts">
@@ -10001,23 +9985,8 @@
   </div>
   </section>
   
-<section id="proposed-terms" class="appendix">
-  <h2>Proposed Terms</h2>
-  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
-    <ul>      <li>IndividualProfile</li>
-      <li>GroupProfile</li>
-      <li>Citizenship</li>
-      <li>Residency</li>
-      <li>Domicile</li>
-      <li>PlaceOfBirth</li>
-      <li>CountryOfBirth</li>
-</ul>
-</section>
 
-<section class="appendix" id="issue-summary">
-</section>
-
-<section id="funding-acknowledgements" class="noTOC">
+<section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
   <h3>Funding Sponsors</h3>
@@ -10029,6 +9998,24 @@
   <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
   <p>The contributions of Harshvardhan J. Pandit have received funding from the ADAPT SFI Centre for Digital Media Technology is funded by Science Foundation Ireland through the SFI Research Centres Programme and is co-funded under the European Regional Development Fund (ERDF) through Grant#13/RC/2106 (2018 to 2020) and Grant#13/RC/2106_P2 (2021 onwards)</p>
 
+</section>
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  <ul>      <li>IndividualProfile</li>
+      <li>GroupProfile</li>
+      <li>Citizenship</li>
+      <li>Residency</li>
+      <li>Domicile</li>
+      <li>PlaceOfBirth</li>
+      <li>CountryOfBirth</li>
+</ul>
+</section>
+
+<section class="appendix" id="issue-summary"></section>
+
+<section class="appendix" id="appendix-deprecated">
+  <h2>Deprecated Terms</h2>
 </section>
 </body>
 </html>
