@@ -1,8 +1,6 @@
 # Documentation generator for DPV vocabularies
 
-Downloads the CSV data for DPV and other vocabularies (such as DPV-GDPR), converts it to RDF serialisations, and generates HTML documentation using the W3C ReSpec template.
-
-Requires: `python3` and modules `rdflib`, `rdflib-jsonld`, `jinja2`
+The documentation generator is responsible for producing the HTML and RDF-based outputs. It downloads a bunch of spreadsheets containing the data for DPV and other vocabularies (such as DPV-GDPR), converts it to RDF serialisations, and generates HTML documentation using the W3C ReSpec template.
 
 The Data Privacy Vocabulary (DPV) is available at https://w3id.org/dpv and its repository is at https://github.com/w3c/dpv. 
 
@@ -27,7 +25,7 @@ The `8**` series provides packaging and release management tasks. `801` will gen
 ## Requirements
 
 - Internet connectivity - for downloading the spreadsheets from Google Sheets hosting the DPV terms and metadata with `100` script.
-- Python 3.9+ (preferably as close to the latest version as possible) - for executing scripts
+- Python 3.11+ (preferably as close to the latest version as possible) - for executing scripts
 - Python modules to be installed using `pip` - see `requirements.txt`
 - Java runtime 18+ (preferably as close to the latest version as possible) - for executing SHACL validations
 - TopBraid SHACL validation binary from https://github.com/TopQuadrant/shacl (grab the latest release from https://repo1.maven.org/maven2/org/topbraid/shacl/)
