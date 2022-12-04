@@ -5,7 +5,7 @@ from rdflib import RDF, RDFS, OWL
 from rdflib.term import Literal, BNode
 SW = Namespace('http://www.w3.org/2003/06/sw-vocab-status/ns#')
 
-GITHUB_REPO_RAW = 'https://raw.githubusercontent.com/w3c/dpv/master/'
+GITHUB_REPO_RAW = 'https://raw.githubusercontent.com/coolharsh55/dpv/master/'
 GITHUB_DPV_RAW = f'{GITHUB_REPO_RAW}dpv/modules/'
 GITHUB_DPV_GDPR_RAW = f'{GITHUB_REPO_RAW}dpv-gdpr/modules/'
 GITHUB_DPV_PD_RAW = f'{GITHUB_REPO_RAW}dpv-pd/'
@@ -45,6 +45,7 @@ DPV_MODULES = (
     'status',
     'technical_measures',
     'technical_organisational_measures',
+    'rights',
     'rules',
     )
 DPV_GDPR_MODULES = (
