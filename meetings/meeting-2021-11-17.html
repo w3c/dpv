@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>DPVCG Meeting Call &ndash; 17 NOV 2021</title>
+<meta name=viewport content="width=device-width">
+<link rel="stylesheet" type="text/css" title="2018" href="https://www.w3.org/StyleSheets/scribe2/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/base.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/2004/02/minutes-style.css">
+<link rel="alternate stylesheet" type="text/css" title="Fancy" href="https://www.w3.org/StyleSheets/scribe2/fancy.css">
+<link rel="alternate stylesheet" type="text/css" title="Typewriter" href="https://www.w3.org/StyleSheets/scribe2/tt-member.css">
+</head>
+
+<body>
+<header>
+<p><a href="https://www.w3.org/"><img src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt=W3C border=0 height=48 width=72></a></p>
+
+<h1>DPVCG Meeting Call</h1>
+<h2>17 NOV 2021</h2>
+
+<nav id=links>
+<a href="https://lists.w3.org/Archives/Public/public-dpvcg/2021Nov/0004.html"><img alt="Agenda." title="Agenda" src="https://www.w3.org/StyleSheets/scribe2/chronometer.png"></a>
+<a href="https://www.w3.org/2021/11/17-dpvcg-irc"><img alt="IRC log." title="IRC log" src="https://www.w3.org/StyleSheets/scribe2/text-plain.png"></a>
+</nav>
+</header>
+
+<div id=prelims>
+<div id=attendees>
+<h2>Attendees</h2>
+<dl class=intro>
+<dt>Present</dt><dd>beatriz, georg, harsh, julian, mark, paul</dd>
+<dt>Regrets</dt><dd>-</dd>
+<dt>Chair</dt><dd>harsh</dd>
+<dt>Scribe</dt><dd>harsh</dd>
+</dl>
+</div>
+
+<nav id=toc>
+<h2>Contents</h2>
+<ol>
+<li><a href="#t01">Joint Controllers</a></li>
+<li><a href="#t02">Indicating who carries out the data processing</a></li>
+<li><a href="#t03">Referencing Agreement between Data Controller and Data Processor</a></li>
+<li><a href="#t04">Entity and Data Subject Subclasses</a></li>
+<li><a href="#t05">Next Meeting</a></li>
+</ol>
+</nav>
+</div>
+
+<main id=meeting class=meeting>
+<h2>Meeting minutes</h2>
+<section><p id=x008 class=summary>previous minutes - <a href="https://www.w3.org/2021/11/10-dpvcg-minutes.html">https://<wbr>www.w3.org/<wbr>2021/<wbr>11/<wbr>10-dpvcg-minutes.html</a></p>
+</section>
+
+<section>
+<h3 id=t01>Joint Controllers</h3>
+<p id=x010 class=summary>previous discussions were regarding using plural vs singular i.e. controller(s)</p>
+<p id=x015 class="phone s01"><cite>paul:</cite> should be plural i.e. controllers<br>
+<span id=x016>… Agreement on using plural, the concept will be JointDataControllers</span><br>
+<span id=x017>… previous discussions about how to refer to joint data controllers were about subclassing it from DataController and using hasDataController</span><br>
+<span id=x018>… Use-case for discussion - Two DataController A and B are engaged in a JointDataControllers relationship AB. One could specify multiple hasDataController [A,B] which would make them JointDataControllers or explicitly say hasDataController AB and indicate AB hasDataController [A,B]</span><br>
+<span id=x019>… Agreement on JointDataControllers as a concept and its use within DPV</span></p>
+</section>
+
+<section>
+<h3 id=t02>Indicating who carries out the data processing</h3>
+<p id=x026 class="phone s02"><cite>georg:</cite> In a personal data handling instance, how to specify who is carrying out the processing, i.e. DataController or DataProcessor<br>
+<span id=x027>… We have &lt;x hasRecipient Recipient&gt; as the current way to indicate data goes to some entity, and it is implied that the entity then carries out processing for specified information</span><br>
+<span id=x028>… However, sometimes it is important to explicitly indicate which entity is carrying out the processing and not just being a recipient for it.</span><br>
+<span id=x029>… Proposal for a property &quot;isProcessedBy&quot; with range Entity to indicate who carried out processing. Since receiving data / collecting data is a type of processing, it will fall under isProcessedBy ?</span><br>
+<span id=x030>… The property can be used at appropriate 'levels' as necessary e.g. directly on Processing types such as collect or use, on PersonalDataHandling instances, or for annotating Policy instances</span><br>
+<span id=x031>… To be revisited in later discussion for finalising</span></p>
+</section>
+
+<section>
+<h3 id=t03>Referencing Agreement between Data Controller and Data Processor</h3>
+<p id=x035 class="phone s02"><cite>georg:</cite> A DataController engages a DataProcessor under a DataProcessorAgreement which outlines the instructions and obligations for carrying out processing.<br>
+<span id=x036>… How to reference this agreement within the personal data handling use e.g. hasDataController A [as DataController] ; isProcessedBy B [as DataProcessor] ; and A--B has some agreement</span><br>
+<span id=x037>… Current proposal puts the DataProcessorAgreement under TechnicalOrganisationalMeasure given its derivation from LegalAgreement</span></p>
+<p id=x038 class="phone s01"><cite>paul:</cite> The placement of DataProcessorAgreement under TechnicalOrganisationalMeasure does not seem correct or elegant since its not an organisational measure</p>
+<p id=x039 class="phone s03"><cite>harsh:</cite> we have two ways of using this, one is creating a property called &quot;hasEntity&quot; and using that to associate entities with agreements (and elsewhere as necessary) - which works when representing the Controller--Processor relationship from a third party perspective</p>
+<p id=x040 class="phone s03"><cite>harsh:</cite> The second one is from a Processor perspective the agreement is its legal basis, so using hasLegalBasis ; and for the Controller it is also the legal basis so using hasLegalBasis ; and both pointing to the DataProcessorAgreement instance</p>
+<p id=x041 class="phone s03"><cite>harsh:</cite> For the Controller using this in a PersonalDataHandling instance, the use could be something like hasTechnicalOrganisationalMeasure DataProcessorAgreement with the DataProcessorAgreement using hasEntity or hasDataController to connect to the entity with type and role</p>
+</section>
+
+<section>
+<h3 id=t04>Entity and Data Subject Subclasses</h3>
+<p id=x046 class="phone s04"><cite>julian:</cite> The discussion of these concepts arose from prior proposals, and it should be considered whether to include them all in an ad-hoc manner within the DPV or only those that add value - such as due to there being obligations or requirements associated with them from laws or domains<br>
+<span id=x047>… Consensus on adding only those concepts which are necessary to be modelled based on requirements</span><br>
+<span id=x048>… For entities and organisations, the ADMS vocabulary provided some categorisation such as National/Regional/SupraNational authorities which we propose for inclusion</span><br>
+<span id=x049>… ADMS itself is a mix of different concepts, so inclusion of a few here would be better</span></p>
+</section>
+
+<section>
+<h3 id=t05>Next Meeting</h3>
+<p id=x053 class="phone s04"><cite>julian:</cite> We will meet next WED NOV-24 13:00 WET / 14:00 CET<br>
+<span id=x054>… Discussion will continue regarding Entity and Data Subject subclasses and other items on agenda</span><br>
+<span id=x055>… There may be a guest presentation by DPVCG member Fajar on use of DPV within the WELLFORT project. Details and timings TBD.</span></p>
+</section>
+</main>
+
+
+<address>Minutes manually created (not a transcript), formatted by <a
+href="https://w3c.github.io/scribe2/scribedoc.html"
+>scribe.perl</a> version 217 (Fri Apr  7 17:23:01 2023 UTC).</address>
+
+</body>
+</html>

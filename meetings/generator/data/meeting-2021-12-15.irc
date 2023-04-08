@@ -1,0 +1,68 @@
+12:49:45 <RRSAgent> RRSAgent has joined #dpvcg
+12:49:45 <RRSAgent> logging to https://www.w3.org/2021/12/15-dpvcg-irc
+12:49:50 <harsh> ScribeNick: harsh
+12:49:53 <harsh> Meeting: DPVCG Meeting Call
+12:49:57 <harsh> Chair: harsh
+12:50:04 <harsh> Date: 15 DEC 2021
+12:50:16 <harsh> Agenda: https://lists.w3.org/Archives/Public/public-dpvcg/2021Dec/0003.html
+13:01:54 <harsh> Present: harsh, julian, georg
+13:02:18 <harsh> Regrets: paul
+13:02:25 <harsh> Present+: inah
+13:06:09 <harsh> Present+: janL
+13:06:21 <harsh> Topic: Decision on Personal Data Categories naming and extension
+13:07:05 <harsh> harsh: Consensus seems to be on moving personal data categories to an extension as it allows using categories as they are, but also keeping them separate i.e. cleaner and modular design
+13:08:03 <harsh> harsh: Another related issue is that the name `PersonalDataCategory` is not appropriate to indicate an instance of personal data, e.g. me@example.com
+13:09:01 <harsh> Present+: mark
+13:13:03 <harsh> inah: is the concept of a 'category' exhaustive enough to indicate what personal data is involved
+13:13:10 <harsh> Present+: beatriz
+14:24:42 <harsh> Current proposal is to move personal data categories to a separate extension (dpv-pd) and keep the core concepts within the main DPV
+14:24:50 <harsh> Proposal accepted, no objections or reservations
+14:25:03 <harsh> Some concerns about backwards compatibility and what the changes will imply for users/adopters
+14:25:42 <harsh> However, this change permits evolving personal data vocabulary separately from rest of DPV, and also prevents confusion about concepts (e.g. Location) common to both
+14:25:59 <harsh> Topic: Renaming PersonalDataCategory to PersonalData
+14:26:12 <harsh> Github issue#27https://github.com/w3c/dpv/issues/27
+14:26:20 <harsh> s/#/#
+14:26:46 <harsh> Reason is that PersonalDataCategory (PDC) is indicative of categories, not instances of personal data
+14:27:05 <harsh> So, for indicating a particular personal data instance, such as me@example.com is involved, is not possible
+14:27:27 <harsh> doing hasPDC 'me@example.com' is incorrect as it declares it as an 'instance of category'
+14:27:42 <harsh> Hence, proposal is to rename PDC to just PersonalData (PD)
+14:28:12 <harsh> With PD, instances can be represented correctly as hasPD X where X is an instance of PD
+14:28:35 <harsh> With PD, categories or groups or sets can also be represented using the semantics of classes, such as hasPD X where X is a subclass of PD
+14:29:12 <harsh> Proposal accepted without objections or reservations other than backwards compatibility and indicating change to users/adopters
+14:30:30 <harsh> A note on real-world usage of PD - both instances and classes/categories are used interchangeably as required within use-cases. For e.g., "your email me@example.com is collected..." for instance, and "your location is collected..." for category
+14:31:10 <harsh> Group agrees on need to provide examples and guidance on usage of PD in such manner to indicate both instances and categories, such as through the primer or additional documentation
+14:31:33 <harsh> Topic: Dicussion on Christmas break and reconvening in new year
+14:31:45 <harsh> We will be meeting again on JAN-05 at 13:00 WET / 14:00 CET
+14:32:12 <harsh> Topics for discussion will be continuation of agenda, i.e. data subject categories and (later discussed) jurisdiction
+14:32:23 <harsh> Topic: Multi-language support within DPV
+14:32:39 <harsh> jan: is there any work on expressing concepts using multiple languages (e.g. EN, FR, DE)
+14:32:56 <harsh> jan: Paul Knowles has expressed interest in taking up this work to provide translations
+14:33:47 <harsh> georg: Signatu has a GDPR lexicon which provides concepts in multiple languages, see https://gdprlexicon.com/ ; However, this is prorprietary and needs to be discussed internally for contribution to DPV
+14:34:43 <harsh> harsh: IATE is EU's official language-based concept thesauri offering translations in several languages. See https://iate.europa.eu/ ; such concepts span several laws and need a professional or fluent speaker who knows legalese to identify the correct term in their language
+14:35:08 <harsh> Group notes that contributions to express DPV in languages other than EN are welcome
+14:35:19 <harsh> Topic: Jurisdiction expression in DPV
+14:35:43 <harsh> harsh: The proposal is to have the concept Jurisdiction and property hasJurisdiction to denote the applicable jurisdiction within information
+14:36:01 <harsh> Jurisdiction can be further refined as Country, SupraNationalUnion (EU), EconomicUnion (EEA), and so on
+14:36:21 <harsh> This allows expression of jurisdiction, e.g. to storage location or to entity
+14:36:58 <harsh> harsh: See example of countries, authorities, and adequacy decisions denoted using Jurisdiction concept here as Turtle/RDF - https://github.com/coolharsh55/dpv-x/blob/master/dpv-jurisdictions/juris.ttl
+14:37:22 <harsh> georg: When referring to jurisdiction, which interpretation is to be taken (e.g. legislative, enforcement)
+14:37:52 <harsh> harsh: No specific interpretation, except indicating which obligations apply or what/where can enforcement happen in terms of laws.
+14:38:10 <harsh> jan: How to express trans-border agreements or flows based on agreements?
+14:38:43 <harsh> harsh: Yes, this is possible by modeling adequacy decisions or agreements between two jurisdictions (see example file in notes), but the actual logic for checking sufficiency is based on implementation and use-case
+14:38:57 <harsh> inah: Jurisdictions can be regional, cities, etc. ?
+14:39:33 <harsh> harsh: Yes, though there is confusion between what further terms to use since there is no common agreement on what is a 'region' in terms of jurisdiction (i.e. governance or geographical). Needs further input.
+14:40:13 <harsh> julian: for Germany, if in a region, then do three jurisdictions need to be defined, e.g. as region, DE, and EU? Or does specifying the region suffice since the others can be inferred from it?
+14:41:07 <harsh> harsh: Based on use-case, if there is a need to indicate all jurisdictions, then that can be done by declaring all three. If only the applicable or relevant needs to be declared, then the region is declared, and the interpretation of applicable jurisdiction is done using the knowledge of membership between jurisdictions.
+14:41:32 <harsh> inah: if Jurisdiction is left open (as in self-declarative), then what does this imply? Can someone declare the company as a jurisdiction?
+14:42:03 <harsh> harsh: Possibly, though it would not be correct to use it as such because jurisdiction as a concept has meaning within law(s) and therefore should be used in accordance with that
+14:42:37 <harsh> jan: For use of DPV, e.g. Jurisdiction, how does it ensure compatibility and interoperability between two different implementations if there no schema or template or profile?
+14:43:44 <harsh> harsh: It is difficult to get an agreement on a profile because of the vast differences in technologies, regions, and requirements. DPV foremost provides a vocabulary, where even if two different implementations use a different set of jurisdiction terms (e.g. regions of USA and EU respectively), then by declaring them as Jurisdiction using DPV it is clear and interoperable that they are jurisdictions, and use specific vocabularies.
+14:44:08 <harsh> harsh: Further schemas or profiles can be created, but need agreement between use-cases and domains, which is difficult to achieve within the group at this point.
+14:44:15 <harsh> zakim, bye
+14:44:15 <Zakim> leaving.  As of this point the attendees have been harsh, julian, georg, :, inah, janL, mark, beatriz
+14:44:15 <Zakim> Zakim has left #dpvcg
+14:44:22 <harsh> rrsagent, publish minutes v2
+14:44:22 <RRSAgent> I have made the request to generate https://www.w3.org/2021/12/15-dpvcg-minutes.html harsh
+14:44:25 <harsh> rrsagent, set logs world-visible
+14:53:10 <harsh> rrsagent, bye
+14:53:10 <RRSAgent> I see no action items

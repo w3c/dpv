@@ -1,0 +1,60 @@
+12:57:10 <RRSAgent> RRSAgent has joined #dpvcg
+12:57:10 <RRSAgent> logging to https://www.w3.org/2022/02/16-dpvcg-irc
+12:57:16 <harsh> ScribeNick: harsh
+12:57:19 <harsh> Meeting: DPVCG Meeting Call
+12:57:23 <harsh> Chair: harsh
+12:57:31 <harsh> Date: 16 FEB 2022
+12:57:49 <harsh> Agenda: https://lists.w3.org/Archives/Public/public-dpvcg/2022Feb/0002.html
+13:03:49 <harsh> Present: harsh, paul, julian, georg, jan
+13:06:28 <harsh> Present+: beatriz
+13:38:05 <harsh> Present+: mark
+15:56:36 <harsh> Topic: DPV v0.4 and Primer
+15:56:53 <harsh> DPV v0.4 and Primer are ready to be published.
+15:57:13 <harsh> DPV-SKOS and DPV-OWL need some minor adjustments to produce serialisations.
+15:57:22 <harsh> These will be published later in the day.
+15:59:54 <harsh> Topic: Use-Cases and Examples
+16:00:32 <harsh> Moving forward, the emphasis is on collecting and documenting use-cases that are to be used as requirements for DPV.
+16:00:49 <harsh> This can mean ensuring the required concepts are present, or identifying areas which need further discussion / enrichment.
+16:02:27 <harsh> Use-cases are also useful to demonstrate where the DPV can be applied, and can act as descriptions for creating examples.
+16:03:09 <harsh> We will have both simple (something has personal data) and complex (modelling data transfers with its own specific legal basis based on GDPR requirements ...) use-cases and examples.
+16:03:59 <harsh> jan: The modelling of COVID-19 passed, where consent is collected, or data is collected and retained, could be a relevant use-case.
+16:04:25 <harsh> jan: The depiction of how DPV concepts act together towards assisting/fulfilling GDPR compliance requirements would be another relevant area for use-cases.
+16:04:59 <harsh> harsh: A relevant resource regarding DPV is the Standard Data Protection Model (SDM) - a specification developed by German DPAs https://www.bfdi.bund.de/EN/Fachthemen/Inhalte/Technik/SDM.html
+16:05:27 <harsh> harsh: Alignment of DPV with such specification / standards can help in demonstrating its practicality as well as ensuring the vocabulary is 'complete' and 'useful' through the concepts and examples.
+16:05:51 <harsh> Topic: Frequency
+16:06:14 <harsh> There is a proposal on modelling `Frequency` as a concept in terms of period repetitions for representing how often something happens.
+16:06:37 <harsh> For example, data collection duration could be 1 year, and the frequency of daily would indicate it happens once per day over the year.
+16:06:55 <Zakim> Zakim has left #dpvcg
+16:07:05 <harsh> `Frequency` could be expressed (using `hasFrequency`) over concepts such as Processing, PersonalDataHandling, etc.
+16:08:52 <harsh> Concept is accepted after discussion.
+16:09:23 <harsh> Topic: Optionality of Concepts
+16:09:34 <harsh> georg: How to indicate, for example, personal data is optional to a purpose?
+16:10:15 <harsh> harsh: One way to (directly) express this is to say `Purpose hasPersonalData PersonalData` and to indicate that as `hasContext Optional` at either Purpose or PersonalData scope.
+16:15:19 <harsh> harsh: A better way to do this would be to instead create 'units' e.g. using `PersonalDataHandling`, and to denote them as being required or optional. So for this use, two `PersonalDataHandling` where one represents the required parts and the other optional ones.
+16:15:40 <harsh> harsh: The Primer has a rudimentary example for this in the `Context` section.
+16:15:51 <harsh> Topic: Consequence of not providing data
+16:16:10 <harsh> georg: How to represent the consequences of personal data not being provided for a purpose? (as required within GDPR)
+16:16:42 <harsh> harsh: It is very difficult to model what happens when something is _not_ done. One logical consequence is that if personal data is _required_ for a purpose, then not providing it results in that purpose not being fulfilled.
+16:17:24 <harsh> harsh: The second aspect to representing such consequences is then understanding what happens, other than the purpose, in case personal data is not provided
+16:18:01 <harsh> Proposal for two subtypes of `Consequence` as `ConsequenceOfSuccess` and `ConsequenceOfFailure` to indicate the resulting consequences when something 'succeeds' or 'takes place', and when it 'fails' or 'does not take place'.
+16:19:53 <harsh> Discussion welcome until next week.
+16:20:01 <harsh> Topic: Expressing Order
+16:20:43 <harsh> To express order to denote something happens, takes place, or is placed before or after something. E.g. collection of data is prior to use - where this order is arbitrary and loosely defined, as collection can continue while usage also takes place.
+16:21:02 <harsh> Proposal is to have two concepts: `followsFrom` and `isFollowedBy` to denote the order of concepts.
+16:21:37 <harsh> Discussion on the correctness of terms, with alternate proposals: `followsOn` instead of `followsFrom`.
+16:22:05 <harsh> Rudimentary consensus on relations `isBefore` and `isAfter` as abstract denotion of order. To be discussed until next week.
+16:22:24 <harsh> Topic: Scope of DPV
+16:23:06 <harsh> harsh: Where possible, large overlaps with other existing vocabularies that are either: standardised, well-defined, or widely-used - is to be avoided so DPV instead can focus on specific terms not available elsewhere.
+16:23:46 <harsh> harsh: For cases where similar concepts (to those existing externally) are needed, we may define rudimentary and simplistics ones in the vocabulary for convenience and completeness.
+16:24:08 <harsh> harsh: For more complex uses and requirements, it is recommended to instead utilise the other vocabularies in conjunction / combination with DPV.
+16:24:24 <harsh> Discussion relevant to the recording of 'data flows', start times, etc. - which are possible through PROV.
+16:24:37 <harsh> Similar overlaps exist with ODRL in terms of permissions, prohibitions, parties. etc.
+16:25:31 <harsh> The recommendation is to utilise these (or others) where the requirements for using DPV have a significant overlap or alignment with their provisions. For example, to model the order in which data is collected and its timestamps, PROV can provide the necessary concepts to represent processing as workflows.
+16:26:02 <harsh> harsh: GDPRov http://w3id.org/GDPRov is one such implementation showing combination of PROV and GDPR-concepts, which can be replicated/extended to work with DPV
+16:26:06 <harsh> Topic: Next Meeting
+16:26:37 <harsh> We will continue discussion on pending concepts next week at FEB-23 13:00 WET / 14:00 CET.
+16:26:45 <harsh> rrsagent, publish minutes v2
+16:26:45 <RRSAgent> I have made the request to generate https://www.w3.org/2022/02/16-dpvcg-minutes.html harsh
+16:26:49 <harsh> rrsagent, set logs world-visible
+16:28:31 <harsh> rrsagent, bye
+16:28:31 <RRSAgent> I see no action items

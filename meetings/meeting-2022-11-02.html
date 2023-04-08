@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>DPVCG Meeting Call &ndash; 02 NOV 2022</title>
+<meta name=viewport content="width=device-width">
+<link rel="stylesheet" type="text/css" title="2018" href="https://www.w3.org/StyleSheets/scribe2/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/base.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/2004/02/minutes-style.css">
+<link rel="alternate stylesheet" type="text/css" title="Fancy" href="https://www.w3.org/StyleSheets/scribe2/fancy.css">
+<link rel="alternate stylesheet" type="text/css" title="Typewriter" href="https://www.w3.org/StyleSheets/scribe2/tt-member.css">
+</head>
+
+<body>
+<header>
+<p><a href="https://www.w3.org/"><img src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt=W3C border=0 height=48 width=72></a></p>
+
+<h1>DPVCG Meeting Call</h1>
+<h2>02 NOV 2022</h2>
+
+<nav id=links>
+<a href="https://lists.w3.org/Archives/Public/public-dpvcg/2022Oct/0013.html"><img alt="Agenda." title="Agenda" src="https://www.w3.org/StyleSheets/scribe2/chronometer.png"></a>
+<a href="https://www.w3.org/2022/11/02-dpvcg-irc"><img alt="IRC log." title="IRC log" src="https://www.w3.org/StyleSheets/scribe2/text-plain.png"></a>
+</nav>
+</header>
+
+<div id=prelims>
+<div id=attendees>
+<h2>Attendees</h2>
+<dl class=intro>
+<dt>Present</dt><dd>beatriz, delaram, georg, harsh, paul</dd>
+<dt>Regrets</dt><dd>-</dd>
+<dt>Chair</dt><dd>harsh</dd>
+<dt>Scribe</dt><dd>harsh</dd>
+</dl>
+</div>
+
+<nav id=toc>
+<h2>Contents</h2>
+<ol>
+<li><a href="#t01">Purpose refinements</a></li>
+<li><a href="#t02">Exercising Rights</a></li>
+<li><a href="#t03">Next Meeting</a></li>
+</ol>
+</nav>
+</div>
+
+<main id=meeting class=meeting>
+<h2>Meeting minutes</h2>
+<section><p id=x008 class=summary><a href="https://www.w3.org/2022/10/26-dpvcg-minutes.html">Previous minutes</a></p>
+</section>
+
+<section>
+<h3 id=t01>Purpose refinements</h3>
+<p id=x010 class=summary>(this is a continued topic, please refer to previous minutes for details)</p>
+<p id=x011 class=summary>The larger question we discussed asked - How do we help DPV users select the correct purpose(s). The most we can do without specifying the validity of purposes for use would be to provide better descriptions that clarify the meaning and intent behind defining that concept.</p>
+<p id=x012 class=summary>An adopter then can compare the descriptions to select one that fits their use-case the best, or in cases there are multiple - select them all.</p>
+<p id=x013 class=summary>Georg and Paul will be taking a look at the existing descriptions to identify what needs to be improved.</p>
+</section>
+
+<section>
+<h3 id=t02>Exercising Rights</h3>
+<p id=x015 class=summary>(this is a continued topic, please refer to previous minutes for details)</p>
+<p id=x016 class=summary>Last week we discussed the core concepts for Rights Exercise and the associated concepts.</p>
+<p id=x017 class=summary>Beatriz shared further work for implementing these for GDPR rights - see mail <a href="https://lists.w3.org/Archives/Public/public-dpvcg/2022Nov/0000.html">https://<wbr>lists.w3.org/<wbr>Archives/<wbr>Public/<wbr>public-dpvcg/<wbr>2022Nov/<wbr>0000.html</a></p>
+<p id=x018 class=summary>The broader approach is to consider Rights Exercise as a process that takes some input (e.g. from Data Subject) and produces some output (e.g. from Data Controller).</p>
+<p id=x019 class=summary>We analysed specific GDPR rights (A.13-A.22, A-7) to identify these inputs and outputs, and how to represent them using DPV concepts.</p>
+<p id=x020 class=summary>When information is to be provided to the data subject, such as for A.13-A.15, this is in the form of a notice. We create specific variations for notices associated with requirements of A.13, A.14, A.15.</p>
+<p id=x021 class=summary>For data required to be provided regarding scope, <code>dpv:hasPersonalDataHandling</code> is capable of expressing specific patterns such as types of personal data, purposes, legal basis, and so on.</p>
+<p id=x022 class=summary>Similarly, for specifying what will be provided in return, the term <code>dpv:MakeAvailable</code> regarding processing and personal data is used - such as for Data Portability and copy of personal data.\</p>
+<p id=x023 class=summary>This approach enables asking for specific personal data (or specifying options) for specific purposes tied to Rights Exercise, such as Identity Verification.</p>
+<p id=x024 class=summary>For expressing metadata about the request, DCMI DCT and PROV-O vocabularies are reused. For example, timestamp is expressed using <code>dct:date</code> and activity agent is indicated using <code>prov:wasAssociatedWith</code>.</p>
+<p id=x025 class=summary>The proposed statuses associated with rights exercises have been moved to a generalised <code>RequestStatus</code> concept to allow their use in any request - making them broader than rights.</p>
+<p id=x026 class=summary>For expressing Data Portability outputs, which has a special case of providing personal data as a dataset, the DCAT vocabulary will be reused e.g. as <code>dcat:Dataset</code> with metadata such as URL it is available at using <code>dcat:landingPage</code> and format using <code>dct:format</code>.</p>
+<p id=x027 class=summary>For cases where a confirmation of processing is to be provided, this is done using <code>PersonalDataHandling</code>, and e.g. where no data is being processed, this means returning an empty list that indicates no personal data is being processed.</p>
+<p id=x028 class=summary>For indicating cases where there is a fee or complex information regarding validity or criteria or constraints, <code>dpv:hasPolicy</code> is used to provide information, which can be in machine-readable format using e.g. <code>odrl:Policy</code>. This can include cases such as a fee being charged for information (e.g. based on amount of data).</p>
+<p id=x029 class=summary>For providing information about cases where a Right Exercise could not be fulfilled, the existing <code>hasJustification Justification</code> concepts are to be reused.</p>
+<p id=x030 class=summary>However, rather than modelling them as <code>RightNonFulfilmentJustification</code>, as originally proposed, we broaden the scope for Justifications to be associated with anything e.g. compliance, conformance, risk.</p>
+<p id=x031 class=summary>We discussed on how these should be provided, and where they should be situated. We concluded that we will collect Justifications, and then group them based on usefulness. For example, some justifications would be <u>valid</u> for Rights Exercises, some for Accountability measures, and so on.</p>
+<p id=x032 class=summary>The Justifications will be provided as part of the risk extensions, since they also relate to the organisational notion of risk management.</p>
+</section>
+
+<section>
+<h3 id=t03>Next Meeting</h3>
+<p id=x034 class=summary>We will meet again on NOV-09 13:00 WET / 14:00 CET.</p>
+<p id=x035 class=summary>Topics for discussion will be Purpose refinements (continued), and final comments on Right Exercise.</p>
+<p id=x036 class=summary>Paul and Georg will be leading the purpose refinement discussion.</p>
+<p id=x037 class=summary>Harsh and Beatriz will be leading the rights exercise discussion.</p>
+<p id=x038 class=summary>Harsh will update DPV based on what has been discussed today, and push the changes online.</p>
+</section>
+</main>
+
+
+<address>Minutes manually created (not a transcript), formatted by <a
+href="https://w3c.github.io/scribe2/scribedoc.html"
+>scribe.perl</a> version 217 (Fri Apr  7 17:23:01 2023 UTC).</address>
+
+</body>
+</html>

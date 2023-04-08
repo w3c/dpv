@@ -1,0 +1,75 @@
+11:58:47 <RRSAgent> RRSAgent has joined #dpvcg
+11:58:47 <RRSAgent> logging to https://www.w3.org/2022/06/15-dpvcg-irc
+11:59:03 <harsh> ScribeNick: harsh
+11:59:06 <harsh> Meeting: DPVCG Meeting Call
+11:59:08 <harsh> Chair: harsh
+11:59:16 <harsh> Date: 15 JUN 2022
+12:00:19 <harsh> Agenda: https://lists.w3.org/Archives/Public/public-dpvcg/2022Jun/0005.html
+12:00:36 <harsh> Previous minutes -> https://www.w3.org/2022/06/08-dpvcg-minutes.html
+12:00:39 <harsh> Present: harsh, paul, georg
+14:02:43 <harsh> Regrets: beatriz
+14:02:58 <harsh> Topic: DPV Technology extension
+14:03:43 <harsh> In the previous meeting we discussed the technology concepts. Since then there have been no further comments on them, there we consider an agreement has been reached and accept them for inclusion in the next iteration of DPV.
+14:04:17 <harsh> The extension will be published with the namespace https://w3id.org/dpv/dpv-tech# and prefix dpv-tech
+14:05:01 <harsh> Topic: Discussion of DPIA concepts to be added to (main) DPV
+14:05:58 <harsh> The concept `Scope` and relation `hasScope` enables expression of information related to determination or indication of scope within some context.
+14:06:41 <harsh> The use of /Scope/ as a concept is important in assessments and investigations and can relate to many things - such as notion of compliance, processing operations, data subject rights, etc.
+14:07:06 <harsh> *Frequency*
+14:09:26 <harsh> DPV currently has the concept `dpv:Frequency` which has been expanded to indicate some commonly utilised frequencies as `ContinousFrequency`, `OftenFrequency`, `SporadicFrequency`, `SingularFrequency`
+14:09:31 <harsh> *Duration*
+14:09:56 <harsh> Similar to frequency, the following commonly used durations are provided - `EndlessDuration`, `TemporalDuration`, `UntilEventDuration`, `UntilTimeDuration`, `FixedOccurencesDuration`
+14:10:18 <harsh> The specifics of these, such as temporal or until-time can be expressed as required, e.g. using the TIME ontology
+14:10:23 <harsh> *Justification*
+14:11:49 <harsh> Often times a note or textual description or documentation of statement is required alongside descriptions of processing operations as the "justification" for why something is done or not done in a particular way. Examples of this include Register of Processing activities and DPIAs
+14:12:07 <harsh> By providing this concept within DPV, the justifications can be associated with specific concepts or graphs as necessary or required.
+14:12:19 <harsh> The relation `hasJustification` provides this capability.
+14:12:36 <harsh> *Processing*
+14:12:55 <harsh> Additional processing operations have been added as follows
+14:13:16 <harsh> `Access` and `Assess` as subtypes of `Use`
+14:13:29 <harsh> `Filter` as subtype of `Transform`
+14:13:55 <harsh> `Monitor` and `Query` as subtype of `Consult`
+14:14:09 <harsh> `Observe` as subtype of `Obtain` and `Screen` as subtype of `Transform`
+14:14:37 <harsh> These operations were relevant in the DPIA documents and investigations (e.g. EDPB guidelines) and therefore represent information to be represented as part of DPV.
+14:15:54 <harsh> *Automation of/in Processing*
+14:16:10 <harsh> DPV has the concept `AutomatedDecisionMaking` which is important because of the obligations and risks it carries.
+14:17:23 <harsh> However, this is not detailed enough to represent where the automation happens, or how humans are involved. The concept `HumanInvolvement` and `hasHumanInvolvement` were created to assist with specifying how humans are involved, but this still did not capture the specifics of automated processing present in real-world uses and guidelines.
+14:17:59 <harsh> For this reason, the concept `AutomationOfProcessing` is created as the top concept for any automation, and is itself a subtype of `ProcessingContext`
+14:18:37 <harsh> Its specialisations include `AutomatedDecisionMaking`, and additionally specific concepts referring to human involvement with specific roles as `FullyAutomatedProcessing`, `AutomatedProcessingWithHumanVerification`, `AutomatedProcessingWithHumanOversight`, `AutomatedProcessingWithHumanInput`, `PartiallyAutomatedProcessing`, `CompletelyManualProcessing`
+14:18:56 <harsh> *Scale of Data, Data Subjects, and Processing*
+14:19:09 <Zakim> Zakim has left #dpvcg
+14:22:07 <harsh> The concept `Scale` refers to some (qualitative in this case) measurement or indication of metrics. Note the relevance to earlier concept `Scope` in terms of similarity, where scope is a much broader concept that encompasses scale but can also include other aspects such as conditionality or possibilities or plans.
+14:23:01 <harsh> To keep this ambiguity about the two concepts to a minimum, all general questions about scope in terms of scale of data (volume), data subjects, or its geographic converage are considered as scales instead, with scope retained for provided details other than these as relevant.
+14:23:45 <harsh> The concepts `DataVolume`, `DataSubjectScale`, and `GeographicCoverage` are the three subtypes or scales.
+14:24:39 <harsh> `DataVolumeScale` and `DataSubjectScale` are further refined with concepts using the prefix /Huge/, /Large/, /Medium/, /Small/, /Sporadic/, and /Singular/ to refer to scales from highest or largest value to smallest or lowest.
+14:25:00 <harsh> The prefix /Massive/ was removed due to not being specific enough as compared to /Huge/ and /Large/.
+14:25:23 <harsh> Legal obligations relate specifically to /Large/ scale and the other concepts have been created to balance expression of things that are not large scale.
+14:26:18 <harsh> The resulting concepts represent the specific scales of their type, for example `LargeDataVolume` refers to amount of data that is considered large within that context, and similar `LargeScaleOfDataSubjects` refers to amount of data subjects that is considered large scale within that context.
+14:27:13 <harsh> The concept `GeographicCoverage` refers to scale (e.g. processing) in terms of geographic areas it covers or relates to. Specific concepts for this are `GlobalScale`, `NearlyGlobalScale`, `MultiNationalScale`, `NationalScale`, `RegionalScale`, `LocalityScale`, `WithinEnvironmentScale` (from largest to narrowest).
+14:28:17 <harsh> s/Within/Local/
+14:28:44 <harsh> The single relation `hasScale` is to be used to indicate any of these types of scales.
+14:29:10 <harsh> *Location*
+14:29:39 <harsh> DPV provides a way to express locations using `Location` and `hasLocation`. This is not to be confused with `GeographicCoverage` as one relates to specifics whereas the other relates to scales.
+14:30:11 <harsh> For further specifying the exactness of location in additional details, the following concepts are provided -
+14:31:07 <harsh> `LocationFixture` refers to the state of that location being /fixed/, with specific types of fixtures provided as `FixedLocation`, `FixedSingularLocation`, `FixedMultipleLocations`, `VariableLocation`, `FederatedLocations`, `DecentralisedLocations`, `RandomLocation`
+14:32:14 <harsh> These are useful to more accurately specify things such as locations where personal data will be stored, for example by creating an instance of decentralised storage as the fixture with multiple specific locations
+14:32:47 <harsh> `LocationLocality` refers to the state of that location being /local/ in the technical sense, such as whether it is on a device or on a server somewhere remote
+14:33:07 <harsh> This information is relevant for accurately specifying whether some processing takes place locally or remotely, for example
+14:33:23 <harsh> Concepts for this are `LocalLocation`, `RemoteLocation`, `WithinDevice`, `CloudLocation`, `ServerLocation`, `ServerlessLocation`
+14:34:20 <harsh> The location concepts also provide a connecting point with the Technology extension for expressing additional information
+14:34:27 <harsh> *Other concepts*
+14:35:16 <harsh> Other concepts to be added include -
+14:35:37 <harsh> `MaintainCreditCheckingDatabase`, `MaintainCreditRatingDatabase`, `MaintainFraudDatabase` as specific purposes related to credit checking and fraud prevention
+14:35:49 <harsh> Personal data categories for `UserAgent`, `Identifier`, `DigitalFingerprint`, `PerformanceAtWork`, `FinancialStatus`, `Reliability`, `Profile`, `WorkEnvironment`, `BrowserHistory`, `VehicleData`, `VehicleUsageData`, `VehicleLicense`, `VehicalLicenseNumber`, `VehicalLicenseRegistration`, `FacialPrint`, `PersonalDocuments`, `HouseholdData`, `SocialMediaData`, `PubliclyAvailableSocialMediaData`
+14:36:27 <harsh> Tech/org measures `ConsultationWithDPO`, `ConsultationWithDataSubject`, `CredentialManagement`, `DataBackupProtocols`, `PhysicalAccessControlMethod`
+14:36:47 <harsh> Data subject categories `MentallyVulnerableDataSubject`, `AsylumSeeker`, `ElderlyDataSubject`
+14:37:06 <harsh> rrsagent, publish minutes v2
+14:37:06 <RRSAgent> I have made the request to generate https://www.w3.org/2022/06/15-dpvcg-minutes.html harsh
+14:37:08 <harsh> rrsagent, set logs world-visible
+14:37:45 <harsh> Topic: Next Meeting
+14:38:07 <harsh> We will meet again next week, WED 22 JUN 14:00 CEST
+14:39:04 <harsh> Topic will be going over pending proposals for rights, rules, and associating ISO standards with DPV concepts
+14:39:07 <harsh> rrsagent, publish minutes v2
+14:39:07 <RRSAgent> I have made the request to generate https://www.w3.org/2022/06/15-dpvcg-minutes.html harsh
+14:39:10 <harsh> rrsagent, set logs world-visible
+14:39:35 <harsh> rrsagent, bye
+14:39:35 <RRSAgent> I see no action items

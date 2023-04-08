@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>DPVCG Meeting Call &ndash; 26 JAN 2022</title>
+<meta name=viewport content="width=device-width">
+<link rel="stylesheet" type="text/css" title="2018" href="https://www.w3.org/StyleSheets/scribe2/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/base.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/2004/02/minutes-style.css">
+<link rel="alternate stylesheet" type="text/css" title="Fancy" href="https://www.w3.org/StyleSheets/scribe2/fancy.css">
+<link rel="alternate stylesheet" type="text/css" title="Typewriter" href="https://www.w3.org/StyleSheets/scribe2/tt-member.css">
+</head>
+
+<body>
+<header>
+<p><a href="https://www.w3.org/"><img src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt=W3C border=0 height=48 width=72></a></p>
+
+<h1>DPVCG Meeting Call</h1>
+<h2>26 JAN 2022</h2>
+
+<nav id=links>
+<a href="https://lists.w3.org/Archives/Public/public-dpvcg/2022Jan/0014.html"><img alt="Agenda." title="Agenda" src="https://www.w3.org/StyleSheets/scribe2/chronometer.png"></a>
+<a href="https://www.w3.org/2022/01/26-dpvcg-irc"><img alt="IRC log." title="IRC log" src="https://www.w3.org/StyleSheets/scribe2/text-plain.png"></a>
+</nav>
+</header>
+
+<div id=prelims>
+<div id=attendees>
+<h2>Attendees</h2>
+<dl class=intro>
+<dt>Present</dt><dd>:, beatriz, harsh, julian, paul</dd>
+<dt>Regrets</dt><dd>georg, RinkeHoekstra</dd>
+<dt>Chair</dt><dd>harsh</dd>
+<dt>Scribe</dt><dd>harsh</dd>
+</dl>
+</div>
+
+<nav id=toc>
+<h2>Contents</h2>
+<ol>
+<li><a href="#t01">Data Sources and Processing</a></li>
+<li><a href="#t02">Automated Processing</a></li>
+<li><a href="#t03">Data Processing Agreement</a></li>
+<li><a href="#t04">Implementation Details</a></li>
+<li><a href="#t05">Next DPV iteration</a></li>
+</ol>
+</nav>
+</div>
+
+<main id=meeting class=meeting>
+<h2>Meeting minutes</h2>
+<section><p id=x007 class=summary><strong>Minutes from last call</strong> ⇒ <a href="https://www.w3.org/community/dpvcg/wiki/MinutesOfMeeting_20220119">https://<wbr>www.w3.org/<wbr>community/<wbr>dpvcg/<wbr>wiki/<wbr>MinutesOfMeeting_20220119</a></p>
+</section>
+
+<section>
+<h3 id=t01>Data Sources and Processing</h3>
+<p id=x012 class=summary>As discussed in the last meeting, we have proposals for expanding the <code>DataSource</code> concept with <code>PublicDataSource</code> and <code>NonPublicDataSource</code> for indicating when data is obtained from a public source - which has implications on its use and justifications.</p>
+<p id=x013 class=summary>The previous discussions also brought up the issue of what is meant by <em>Public</em> data source, and how it relates to availability of data, its <em>open</em>-ness, and whether the term is tied to permissible reuse e.g. <em>licenses</em>.</p>
+<p id=x014 class=summary>For now, we model these terms as high-level abstract concepts in order to provide the ability to indicate whether data is obtained from a <em>public source</em> or otherwise. We invite more nuanced specialisations based on topics of open-ness, reusability, access, and licenses, with preference for authoritative definitions.</p>
+<p id=x015 class=summary>Concepts accepted for addition ⇒ <code>PublicDataSource</code>, <code>NonPublicDataSource</code> as sub-classes of <code>DataSource</code>.</p>
+<p id=x016 class=summary>The previous discussion regarding ISO/IEC 29184:2020 providing data sources as four conditions - direct from data subject, indirect from third party, observed, and inferred can be represented in DPV as follows.</p>
+<p id=x017 class=summary>For <em>Direct</em>, the <code>DataSubject</code> is specified as the data source.</p>
+<p id=x018 class=summary>For <em>Indirect</em>, the applicable <code>DataController</code> or <code>ThirdParty</code> is indicated as the data source.</p>
+<p id=x019 class=summary>For <em>observed</em>, the <code>DataSubject</code> or existing data (or entity holding it) is the source, and the <em>observe</em> as a process is depicted using <code>Processing</code>.</p>
+<p id=x020 class=summary>For <em>inferred</em>, similar to <em>observed</em>, the <code>DataSubject</code> or existing data (or entity) is the source, and the <em>infer</em> is depicted using <code>Processing</code>.</p>
+<p id=x021 class=summary>---</p>
+<p id=x022 class="phone s01"><cite>beatriz:</cite> In PROTECT, we are looking at modelling data sources and roles of data co-operatives. How would these be represented or modelled using DPV?</p>
+<p id=x023 class="phone s02"><cite>harsh:</cite> The term <em>data co-operative</em> is not well defined in terms of law or process. For example, it could include an organisation collecting and holding the data, and sharing it with a controller or third party. It could also be an organisation acting as the middle-party or negotiator between data subject and data controller where the data is directly collected from Data Subject.</p>
+<p id=x024 class="phone s02"><cite>harsh:</cite> Until such roles are clarified in terms of roles under GDPR (e.g. Data Controller or Third Party), data co-operatives are difficult to model without specific use-cases.</p>
+</section>
+
+<section>
+<h3 id=t02>Automated Processing</h3>
+<p id=x031 class="phone s02"><cite>harsh:</cite> We have properties in processing section regarding <code>hasAlgorithmicLogic</code>, <code>hasHumanInvolvement</code>, and <code>hasConsequence</code> which were added based on GDPR's impact assessment criterias.<br>
+<span id=x032>… At the time, we indicated the use-case can specify the value of these as needed.</span><br>
+<span id=x033>… The proposal right now is to add corresponding concepts to provide a better way to represent information related to these properties i.e. their <em>range</em>.</span><br>
+<span id=x034>… The concepts are - <code>AlgorithmicLogicOfProcessing</code>, <code>ConsequenceOfProcessing</code>, <code>HumanInvolvement</code></span><br>
+<span id=x035>… There is a concept for representing algorithmic decision making (as <code>AutomatedDecisionMaking</code>), which could be related to <code>AlgorithmicLogicOfProcessing</code> as follows - the actuall process of decision making is represented using <code>AutomatedDecisionMaking</code> and the explanation or logic of how it is implemented is depicted using <code>hasAlgorithmicLogic AlgorithmicLogic</code>.</span><br>
+<span id=x036>… Concepts are accepted for addition.</span></p>
+</section>
+
+<section>
+<h3 id=t03>Data Processing Agreement</h3>
+<p id=x046 class="phone s02"><cite>harsh:</cite> Proposal to add concept <code>DataProcessingAgreement</code> representing a generic agreement regarding processing of personal data as an organisational measure.<br>
+<span id=x047>… Specific categories of such agreements include <code>DataProcessorAgreement</code>, <code>JointDataControllersAgreement</code>.</span><br>
+<span id=x048>… The terms <em>DataProcessingAgreement</em> and <em>DataProcessorAgreement</em> can be confusing as they are often used interchangeably. For this, <em>DataProcessingAgreement</em> is renamed to <em>ControllerProcessorAgreement</em> to better reflect its purpose and function.</span><br>
+<span id=x049>… Similarly, an agreement for <em>Processor</em> to <em>SubProcessor</em> relations is added as well.</span><br>
+<span id=x050>… ---</span><br>
+<span id=x051>… Discussion on whether these concepts should be in <em>LegalBasis</em> took place, and was concluded with keeping them in organisational measure.</span><br>
+<span id=x052>… This is because these may not always constitute as a legal basis, and where they are used as a legal basis, they can be indicated using <code>hasLegalBasis DataProcessingAgreement</code> as needed.</span><br>
+<span id=x053>… ---</span><br>
+<span id=x054>… Concepts accepted for addition ⇒ <code>DataProcessingAgreement</code> with subclasses <code>ControllerProcessorAgreement</code>, <code>SubProcessorAgreement</code>, <code>JointDataControllersAgreement</code></span></p>
+</section>
+
+<section>
+<h3 id=t04>Implementation Details</h3>
+<p id=x057 class="phone s02"><cite>harsh:</cite> DPV has the property <code>isImplementedBy</code> to indicate how something is implemented i.e. the technology<br>
+<span id=x058>… Proposal to expand this definition to include methods, processes, entities, and agents so that it can also be indicated similarly.</span></p>
+<p id=x061 class="phone s01"><cite>beatriz:</cite> Instead of a single property, there can be two properties - one for entity and another one for technology<br>
+<span id=x062>… Concepts accepted for addition ⇒ <code>isImplementedByEntity</code> and <code>isImplementedUsingTechnology</code></span><br>
+<span id=x063>… Here the labels also assist in ensuring the property is used to indicate entities and technologies respectively.</span></p>
+<p id=x064 class="phone s03"><cite>julian:</cite> Does the term <em>technology</em> also include processes which are not technologies e.g. business processes?</p>
+<p id=x065 class="phone s02"><cite>harsh:</cite> The term <em>technology</em> is quite broad, and includes what we think of as tools or software, but also methods and processes. So this use is fine.</p>
+<p id=x071 class="phone s02"><cite>harsh:</cite> Similarly, for entities we also include agents in the description of the property so as to enable <em>agents</em> when needed to be specified either legally or technically.<br>
+<span id=x072>… ---</span><br>
+<span id=x073>… Proposal to add properties <code>hasPolicy</code> and <code>isPolicyFor</code> as inverse relations for indicating policies applicable or applied, which is a common use-case</span><br>
+<span id=x074>… The property <code>hasPolicy</code> is a sub-property of <code>dpv:hasTechnicalOrganisationalMeasure</code>, and offers a more convenient method to specify policies being applied.</span><br>
+<span id=x075>… Concepts accepted for addition.</span><br>
+<span id=x076>… ---</span></p>
+<p id=x077 class="phone s03"><cite>julian:</cite> Similar to policies, how to indicate what the technical or organisational measure is applied to achieve? For example, some legal obligation requiring something to be implemented.</p>
+<p id=x078 class="phone s03"><cite>julian:</cite> Proposal for relation <code>isRequiredFor</code> to indicate what a measure is required for (or why it is implemented)</p>
+<p id=x089 class="phone s02"><cite>harsh:</cite> This is taking us into modelling legal compliance and fulfilment of obligations and criterias. This can get quite complex and quickly include trying to model norms.<br>
+<span id=x090>… Concept is listed for future discussion.</span><br>
+<span id=x091>… ---</span><br>
+<span id=x092>… Concept <code>Technology</code> has been previously proposed for inclusion, and is accepted for addition based on necessity to representing information corresponding to property <code>isImplementedUsingTechnology</code>.</span><br>
+<span id=x093>… For specific taxonomy of different kinds of <em>technologies</em>, a list from prior minutes and discussions includes - <em>database</em>, <em>server</em>, <em>cookies</em>, <em>device</em>, <em>algorithm</em>.</span><br>
+<span id=x094>… Upon discussion of these, the group has decided to first collect concepts and then to structure them to ensure suitable hierarchy is present, similar to how other concepts have their top-down hierarchies.</span><br>
+<span id=x095>… Such a <em>technology</em> list could be provided directly in DPV or through an extension (e.g. <em>dpv-tech</em>).</span><br>
+<span id=x096>… Discussion on how <em>Technology</em> differs from <em>TechnicalOrganisationalMeasure</em>, for example <em>AccessControl</em> is a technical measure, but could also be a technology, e.g. ID cards.</span><br>
+<span id=x097>… To distinguish between these, we say that the technical measure provides a category of application (e.g. access control) but the technology provides concrete implementations (e.g. ID cards with photos or fingerprint scanner).</span><br>
+<span id=x098>… Thus, we have technical measure detailing the purpose of applying a technology.</span><br>
+<span id=x099>… This also assists in maintaining documentation of technological changes (e.g. different software vendors or versions) for the same measures.</span></p>
+</section>
+
+<section>
+<h3 id=t05>Next DPV iteration</h3>
+<p id=x109 class="phone s02"><cite>harsh:</cite> We currently have the option of producing the next iteration of DPV (v0.4) or waiting 2-3 weeks whilst the OWL <em> SKOS discussion happens.<br>
+<span id=x110>… Based on this, we either provide DPV v0.4 as an OWL vocab (as it is currently) or as a OWL+SKOS vocab.</span><br>
+<span id=x111>… As this includes a significant amount of work in producing the serialisations, specification, and documentation, we will wait until 9FEB for comments on OWL+SKOS.</span><br>
+<span id=x112>… We currently have ~5 supporting votes for SKOS, with no dissenting opinions on mailing list or otherwise. There has been a discussion previously on this topic without conclusion.</span><br>
+<span id=x113>… If we hear no objections by FEB-09, then we schedule DPV v0.4 to be provided as OWL+SKOS. Otherwise as OWL vocab.</span><br>
+<span id=x114>… ---</span><br>
+<span id=x115>… We will have the next meeting on WED FEB-02 13:00 WET </em> 14:00 CEST.</span><br>
+<span id=x116>… We will continue discussion on proposed topics and an agenda will be circulated on MON JAN-31.</span></p>
+</section>
+</main>
+
+
+<address>Minutes manually created (not a transcript), formatted by <a
+href="https://w3c.github.io/scribe2/scribedoc.html"
+>scribe.perl</a> version 217 (Fri Apr  7 17:23:01 2023 UTC).</address>
+
+</body>
+</html>

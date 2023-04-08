@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>DPVCG Meeting Call &ndash; 12 JAN 2022</title>
+<meta name=viewport content="width=device-width">
+<link rel="stylesheet" type="text/css" title="2018" href="https://www.w3.org/StyleSheets/scribe2/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/base.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/2004/02/minutes-style.css">
+<link rel="alternate stylesheet" type="text/css" title="Fancy" href="https://www.w3.org/StyleSheets/scribe2/fancy.css">
+<link rel="alternate stylesheet" type="text/css" title="Typewriter" href="https://www.w3.org/StyleSheets/scribe2/tt-member.css">
+</head>
+
+<body>
+<header>
+<p><a href="https://www.w3.org/"><img src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt=W3C border=0 height=48 width=72></a></p>
+
+<h1>DPVCG Meeting Call</h1>
+<h2>12 JAN 2022</h2>
+
+<nav id=links>
+<a href="https://lists.w3.org/Archives/Public/public-dpvcg/2022Jan/0004.html"><img alt="Agenda." title="Agenda" src="https://www.w3.org/StyleSheets/scribe2/chronometer.png"></a>
+<a href="https://www.w3.org/2022/01/12-dpvcg-irc"><img alt="IRC log." title="IRC log" src="https://www.w3.org/StyleSheets/scribe2/text-plain.png"></a>
+</nav>
+</header>
+
+<div id=prelims>
+<div id=attendees>
+<h2>Attendees</h2>
+<dl class=intro>
+<dt>Present</dt><dd>beatriz, georg, harsh, julian, paul</dd>
+<dt>Regrets</dt><dd>-</dd>
+<dt>Chair</dt><dd>harsh</dd>
+<dt>Scribe</dt><dd>harsh</dd>
+</dl>
+</div>
+
+<nav id=toc>
+<h2>Contents</h2>
+<ol>
+<li><a href="#t01">Jurisdictions</a></li>
+<li><a href="#t02">Next Meeting</a></li>
+</ol>
+</nav>
+</div>
+
+<main id=meeting class=meeting>
+<h2>Meeting minutes</h2>
+<section></section>
+
+<section>
+<h3 id=t01>Jurisdictions</h3>
+<p id=x009 class=summary>Modelling Jurisdiction / Laws as DPV extension <a href="https://lists.w3.org/Archives/Public/public-dpvcg/2022Jan/0002.html">https://<wbr>lists.w3.org/<wbr>Archives/<wbr>Public/<wbr>public-dpvcg/<wbr>2022Jan/<wbr>0002.html</a></p>
+<p id=x010 class=summary>Previous minutes <a href="https://www.w3.org/2022/01/05-dpvcg-minutes.html">https://<wbr>www.w3.org/<wbr>2022/<wbr>01/<wbr>05-dpvcg-minutes.html</a></p>
+<p id=x011 class=summary>Instead of <em>Jurisdiction</em> as a concept, we consider <em>Location</em> to be a <em>Jurisdiction</em> based on the view that jurisdictions are essentially locations with a government or law.</p>
+<p id=x012 class=summary>Concepts for <code>Location</code> accepted for addition - <code>Location</code> class as parent class of all concepts with <code>hasLocation</code> concept to associate a location.</p>
+<p id=x013 class=summary><code>Location</code> is useful in places other than jurisdiction, e.g. StorageLocation to indicate where data is stored, and Controller's location to indicate where the controller is based.</p>
+<p id=x014 class=summary>Since <em>Country</em> is a special form of location and relevant when deciding which laws apply and subsequent investigations, we provide categorisation of <em>Location</em> based on countries and similar concepts.</p>
+<p id=x015 class=summary>For this we have concepts accepted - <code>Country</code> (e.g. France), <code>SupraNationalUnion</code> (e.g. European Union), <code>EconomicUnion</code> (e.g. EEA), and <code>Region</code> (e.g. California).</p>
+<p id=x016 class=summary>---</p>
+<p id=x017 class=summary>The property <code>hasAuthority</code> is accepted to associate the existing concept of <code>Authority</code> with some context, e.g. <code>&lt;Location&gt; hasAuthority &lt;Authority&gt;</code>.</p>
+<p id=x018 class=summary>Using the above concepts, we can create a list of countries (and EU), indicate their authorities (e.g. DPAs).</p>
+<p id=x019 class=summary>To represent <em>Law</em>, the concept <code>Law</code> is provided so that specific use-cases can refer to GDPR as a law and state it is applicable.</p>
+<p id=x020 class=summary>For this, the property <code>hasApplicableLaw</code> is provided to indicate that the law applies or is adhered to.</p>
+<p id=x021 class=summary>Similarly, to indicate a jurisdiction applies or is operated in, the property <code>hasJurisdiction</code> is provided.</p>
+<p id=x022 class=summary>---</p>
+<p id=x023 class=summary>There was a discussion on what should be the appropriate wording and interpretation of concepts related to jurisdictions and law.</p>
+<p id=x024 class=summary>Proposals were <code>hasApplicableJurisdiction</code> and <code>hasRelevantJurisdiction</code> which were not accepted due to being confusing as to applicability based on use-case and the probability of them being misused.</p>
+<p id=x025 class=summary>For now, DPV can provide the generic <code>hasJurisdiction</code> property and its use can specify the interpretation.</p>
+<p id=x026 class=summary>---</p>
+<p id=x027 class=summary><code>&lt;Controller&gt; hasJurisdiction &lt;Location&gt;</code> can indicate the controller acknowledges some location as its jurisdiction (of preference or choice).</p>
+<p id=x028 class=summary>This is in contrast to <code>&lt;Controll&gt; hasLocation &lt;Location&gt;</code> which only indicates the controller is located at some place(s), and which could in theory be used to determine jurisdictional concepts such as lead DPA.</p>
+<p id=x029 class=summary><code>&lt;PersonalDataHandling&gt; hasJurisdiction &lt;EU&gt;</code> similarly indicates that some processing activities or policy is operating within or applied to EU as the stated jurisdiction.</p>
+<p id=x030 class=summary> <code>&lt;PersonalDataHandling&gt; hasApplicableLaw &lt;GDPR&gt;</code> provides an analogous way to specify that a law applies instead of stating the jurisdiction.</p>
+<p id=x031 class=summary><code>&lt;EU&gt; hasApplicableLaw &lt;GDPR&gt;</code> can be provided in an extension to support inferences of the above two statements from each other.</p>
+<p id=x032 class=summary>---</p>
+<p id=x033 class=summary>For now these concepts are considered as being accepted.</p>
+<p id=x034 class=summary>To indicate an objection or raise an issue, members are invited to email to the mailing list with their argument.</p>
+<p id=x035 class=summary>In the next meeting, we will consider such issues, if any, and finalise these concepts.</p>
+</section>
+
+<section>
+<h3 id=t02>Next Meeting</h3>
+<p id=x037 class=summary>We will meet next week in the usual time slot.</p>
+<p id=x038 class=summary>WED JAN-19 13:00 WET / 14:00 CET</p>
+</section>
+</main>
+
+
+<address>Minutes manually created (not a transcript), formatted by <a
+href="https://w3c.github.io/scribe2/scribedoc.html"
+>scribe.perl</a> version 217 (Fri Apr  7 17:23:01 2023 UTC).</address>
+
+</body>
+</html>

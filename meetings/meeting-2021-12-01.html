@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>DPVCG Meeting Call &ndash; 01 DEC 2021</title>
+<meta name=viewport content="width=device-width">
+<link rel="stylesheet" type="text/css" title="2018" href="https://www.w3.org/StyleSheets/scribe2/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/base.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/2004/02/minutes-style.css">
+<link rel="alternate stylesheet" type="text/css" title="Fancy" href="https://www.w3.org/StyleSheets/scribe2/fancy.css">
+<link rel="alternate stylesheet" type="text/css" title="Typewriter" href="https://www.w3.org/StyleSheets/scribe2/tt-member.css">
+</head>
+
+<body>
+<header>
+<p><a href="https://www.w3.org/"><img src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt=W3C border=0 height=48 width=72></a></p>
+
+<h1>DPVCG Meeting Call</h1>
+<h2>01 DEC 2021</h2>
+
+<nav id=links>
+<a href="https://lists.w3.org/Archives/Public/public-dpvcg/2021Nov/0006.html"><img alt="Agenda." title="Agenda" src="https://www.w3.org/StyleSheets/scribe2/chronometer.png"></a>
+<a href="https://www.w3.org/2021/12/01-dpvcg-irc"><img alt="IRC log." title="IRC log" src="https://www.w3.org/StyleSheets/scribe2/text-plain.png"></a>
+</nav>
+</header>
+
+<div id=prelims>
+<div id=attendees>
+<h2>Attendees</h2>
+<dl class=intro>
+<dt>Present</dt><dd>:, fajar, georg, harsh, inah, julian, paul</dd>
+<dt>Regrets</dt><dd>beatriz</dd>
+<dt>Chair</dt><dd>harsh</dd>
+<dt>Scribe</dt><dd>harsh</dd>
+</dl>
+</div>
+
+<nav id=toc>
+<h2>Contents</h2>
+<ol>
+<li><a href="#t01">Presentation on use of DPV in WellFort Project by Fajar</a></li>
+</ol>
+</nav>
+</div>
+
+<main id=meeting class=meeting>
+<h2>Meeting minutes</h2>
+<section></section>
+
+<section>
+<h3 id=t01>Presentation on use of DPV in WellFort Project by Fajar</h3>
+<p id=x013 class=summary>WellFort is an Austrian project for developing a prototype/early-stage regarding privacy-preserving data analysis with auditability using semantic web</p>
+<p id=x014 class=summary>It is a 2 year project involving SBA research and TU Wien</p>
+<p id=x015 class=summary>Premise is situations where data is preferred to be stored locally (e.g. on device) to lessen compliance loads/obligations/risks</p>
+<p id=x016 class=summary>Stakeholders in system include users who give consent</p>
+<p id=x017 class=summary>Requirements are to ensure secure storage for sensitive data, manage consent and contribute to studies while preserving anonymity, and verify how their data is being used and by whom</p>
+<p id=x018 class=summary>URL for project info (ERCIM newsletter) <a href="https://ercim-news.ercim.eu/en126/special/wellfort-a-platform-for-privacy-preserving-data-analysis">https://<wbr>ercim-news.ercim.eu/<wbr>en126/<wbr>special/<wbr>wellfort-a-platform-for-privacy-preserving-data-analysis</a></p>
+<p id=x019 class=summary><strong>WellFort Platform</strong></p>
+<p id=x020 class=summary>Users upload the data through the app or service, and give consent. This information is stored in a triplestore.</p>
+<p id=x021 class=summary>Analyst can request data categories, based on which the Controller sends queries to retrieve this data based on consent given and by matching the related purposes and personal data handling.</p>
+<p id=x022 class=summary>Depending on study, data can be utilised as (fully) anonymised or non-anonymised to be used by the Analyst</p>
+<p id=x023 class="phone s01"><cite>inah:</cite> 1) Are there any semantics that assist with anonymisation? 2) You mentioned users uploading consent, what does this consent contain/entail e.g. what details? 3) What responsibilities are related from this consent?</p>
+<p id=x024 class="phone s02"><cite>fajar:</cite> For #1 The platform produces the anonymised data, and we're trying to explore/develop relation between anonymised data and original data with semantics (paraphrased)</p>
+<p id=x025 class="phone s02"><cite>fajar:</cite> For #2 and #3 we use DPV to represent the consent details</p>
+<p id=x026 class="phone s03"><cite>georg:</cite> The triplestore also stores consent, which can be queried, and which uses DPV. Is this only based on DPV or are there additions?</p>
+<p id=x043 class="phone s02"><cite>fajar:</cite> We have extended DPV with DCAT and other attributes for representing relations with the dataset<br>
+<span id=x044>… <strong>Dataset description and Consent metadata</strong></span><br>
+<span id=x045>… DCAT is used to represent datasets, and DPV is used to denote what personal data categories are utilised in it.</span><br>
+<span id=x046>… DPV components used for consent: Personal data categories, Processing, Purpose, Recipient (with extensions like Research Organisation)</span><br>
+<span id=x047>… For representing expiry, the property expiryTime is additionally created with range xsd:dateTime for specific domains of consent and personal data handling</span><br>
+<span id=x048>… The existing property hasExpiryTime was not used because it needs use of Time vocabulary whereas this work needed XSD</span><br>
+<span id=x049>… Consent changes are stored in audit log, and the values changed in-place within the triple store to maintain auditing capabilities with practical considerations</span><br>
+<span id=x050>… URL for WellFort ontology <a href="https://w3id.org/wellfort/ns/dpv">https://<wbr>w3id.org/<wbr>wellfort/<wbr>ns/<wbr>dpv</a></span><br>
+<span id=x051>… <strong> Consent Checking Mechanisms </strong></span><br>
+<span id=x052>… Uses SPECIAL's / Piero's OWL2-PL usage policy checking mechanism</span><br>
+<span id=x053>… Future work consists of exploring use of PLR reasoning by Piero et al as it is faster</span><br>
+<span id=x054>… URL for repository with work related to SWJ paper <a href="https://gitlab.isis.tuwien.ac.at/wellfort/wellfort-swj">https://<wbr>gitlab.isis.tuwien.ac.at/<wbr>wellfort/<wbr>wellfort-swj</a></span><br>
+<span id=x055>… DataSHIELD used for Trusted environment <a href="https://datashield.org/">https://<wbr>datashield.org/</a></span><br>
+<span id=x056>… Suggestion/Question to DPV about updates and best-practices available</span><br>
+<span id=x057>… <strong> Links </strong></span><br>
+<span id=x058>… Paper accepted for publication in Semantic Web Journal <a href="http://www.semantic-web-journal.net/system/files/swj2883.pdf">http://<wbr>www.semantic-web-journal.net/<wbr>system/<wbr>files/<wbr>swj2883.pdf</a></span><br>
+<span id=x059>… <strong> Q&amp;A </strong></span></p>
+<p id=x060 class="phone s01"><cite>inah:</cite> What are the implications of consent? Such as subject rights. And whether these can be represented using the vocabulary.</p>
+<p id=x061 class="phone s02"><cite>fajar:</cite> This only models the attributes related to matching data categories</p>
+<p id=x062 class="phone s01"><cite>inah:</cite> Does the user know the purpose the analyst uses or will use?</p>
+<p id=x063 class="phone s02"><cite>fajar:</cite> User specifies purpose for &quot;research&quot; and when analyst uses a subclass of research, this is permitted</p>
+<p id=x064 class="phone s04"><cite>harsh:</cite> consent should be modelled as explicit consent ; we're going to remove the boolean property and instead specify classes for which consent would be instantiated</p>
+<p id=x065 class="phone s04"><cite>harsh:</cite> purpose should not be vague e.g. research, and should contain more context</p>
+<p id=x066 class="phone s03"><cite>georg:</cite> how does user withdraw consent and how is this represented ?</p>
+<p id=x067 class="phone s02"><cite>fajar:</cite> we have not modelled this yet</p>
+<p id=x068 class="phone s05"><cite>paul:</cite> what is the frequency of data uploads / ingestion?</p>
+<p id=x069 class="phone s04"><cite>harsh:</cite> do users have to give consent for every data being sent?</p>
+<p id=x070 class="phone s02"><cite>fajar:</cite> this is set by app e.g. daily runs with its own consent or single consent being referenced</p>
+<p id=x071 class="phone s05"><cite>paul:</cite> how do different organisations work with this ? do they set up their own instances?</p>
+<p id=x072 class="phone s02"><cite>fajar:</cite> single platform as it allows different companies, especially SMEs to pool data and resources and get better benefits</p>
+</section>
+</main>
+
+
+<address>Minutes manually created (not a transcript), formatted by <a
+href="https://w3c.github.io/scribe2/scribedoc.html"
+>scribe.perl</a> version 217 (Fri Apr  7 17:23:01 2023 UTC).</address>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>DPVCG Meeting Call &ndash; 03 NOV 2021</title>
+<meta name=viewport content="width=device-width">
+<link rel="stylesheet" type="text/css" title="2018" href="https://www.w3.org/StyleSheets/scribe2/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/base.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/2004/02/minutes-style.css">
+<link rel="alternate stylesheet" type="text/css" title="Fancy" href="https://www.w3.org/StyleSheets/scribe2/fancy.css">
+<link rel="alternate stylesheet" type="text/css" title="Typewriter" href="https://www.w3.org/StyleSheets/scribe2/tt-member.css">
+</head>
+
+<body>
+<header>
+<p><a href="https://www.w3.org/"><img src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt=W3C border=0 height=48 width=72></a></p>
+
+<h1>DPVCG Meeting Call</h1>
+<h2>03 NOV 2021</h2>
+
+<nav id=links>
+<a href="https://lists.w3.org/Archives/Public/public-dpvcg/2021Nov/0000.html"><img alt="Agenda." title="Agenda" src="https://www.w3.org/StyleSheets/scribe2/chronometer.png"></a>
+<a href="https://www.w3.org/2021/11/03-dpvcg-irc"><img alt="IRC log." title="IRC log" src="https://www.w3.org/StyleSheets/scribe2/text-plain.png"></a>
+</nav>
+</header>
+
+<div id=prelims>
+<div id=attendees>
+<h2>Attendees</h2>
+<dl class=intro>
+<dt>Present</dt><dd>:, beatriz, georg, harsh, InahOmoronyia, julian, paul</dd>
+<dt>Regrets</dt><dd>-</dd>
+<dt>Chair</dt><dd>harsh</dd>
+<dt>Scribe</dt><dd>harsh</dd>
+</dl>
+</div>
+
+<nav id=toc>
+<h2>Contents</h2>
+<ol>
+<li><a href="#t01">Privacy / Policy concepts</a></li>
+<li><a href="#t02">Next Meeting</a></li>
+</ol>
+</nav>
+</div>
+
+<main id=meeting class=meeting>
+<h2>Meeting minutes</h2>
+<section></section>
+
+<section>
+<h3 id=t01>Privacy / Policy concepts</h3>
+<p id=x011 class=summary>Last time we stopped discussion at discussing DPA and property hasAuthority</p>
+<p id=x013 class=summary>Concepts for indicating Policy - Properties hasPolicy and isPolicyFor have been added</p>
+<p id=x014 class=summary>Concepts for indicating applicability of PersonalDataHandling - property hasPersonalDataHandling has been added</p>
+<p id=x015 class=summary>Concepts for indicating Jurisdiction - the classes Jurisdiction and Country (pending resolution of clash with personal data category of same name) have been added along with properties hasJurisdiction and hasCountry respectively</p>
+<p id=x016 class=summary>Note that hasCountry is indicative only of relating a country to some concept, it can be used for indicating has country of - operation, location, headquartered, etc. We do not delve into such granularity at this time.</p>
+<p id=x017 class=summary>Concepts for indicating applicability of authority - property hasAuthority has been added to indicate an authority is applicable or related to some concept. Intention is to associate DPA with a jurisdiction, but this can be used for other concepts and authorities as well.</p>
+<p id=x018 class=summary>Concept for indicating JointDataController has been added. To indicate membership, the JointDataController should be associated with member controllers using hasDataController property.</p>
+<p id=x019 class=summary>JointDataController is a subclass of Controller to ensure the same applicability of obligations and requirements. Semantically, this is okay since a Controller would be an instance and a JointController could be an instance representing the collective group or representing the set of controllers, though strictly interpreting it as saying a JointDataController(s) instance is a singular data controller is not correct.</p>
+<p id=x020 class=summary>Concept for DataProcessingAgreement has been added as subclass of LegalAgreement. This can be any agreement between any party regarding the processing of personal data, e.g. Controller - Controller or Controller - Processor or Controller - Third Party</p>
+<p id=x021 class=summary>Note that 'Agreement' and 'Contract' can be interpreted as two separate terms even though they may be used as synonyms in many places. Here, a contract is more formal and legally regularised as compared to an agreement, and therefore DPV models the agreement. To represent a 'Data Processing Contract' the term DataProcessingAgreement is suitable and sufficient.</p>
+<p id=x022 class=summary>Proposed subclasses of DataProcessingAgreement include - DataProcessorAgreement to indicate Controller - Processor or Processor - Processor agreements; and JointDataControllersAgreement to indicate Joint Data Controllers agreement (Controller - Controller)</p>
+<p id=x023 class=summary>Proposed subclasses of DataSubject include - Adult (to contract with Child in DPV), WebsiteVisitors, Customers, Clients (isSameAs Customers?), Patients, Employees, Members, Users, Applicants, JobApplicants, Visitors, Students, Citizens, NonCitizens, Immigrants, Tourists, Trainees.</p>
+<p id=x024 class=summary>These will be discussed later based on need to provide a subclass e.g. governments or banks require employees, universities require staff and students, and so on.</p>
+<p id=x025 class=summary>Discussing benefits and recipient of benefits i.e. beneficiary</p>
+<p id=x026 class=summary>DPV currently contains the concepts Benefit (hasBenefit) and Beneficiary (hasBeneficiary)</p>
+<p id=x027 class=summary>Proposal to add corresponding concepts related to Detriment (hasDetriment), Harm (hasHarm) - though it is unclear how to express who this impacts/affects.</p>
+<p id=x028 class=summary>Instead, separate proposal to abstract these (benefits, detriments) into 'Consequence' and associate them using 'hasConsequence' (DPV already contains this property in Processing module). Then, by adding Benefit, Detriment, and Harm as subclasses of Consequence it is possible to represent them uniformly.</p>
+<p id=x029 class=summary>To indicate whom the consequence affects, the property 'isConsequenceAffecting' can be used, with the target being any entity. This permits specifying a consequence of type 'benefit' affects the 'data controller' in the same model as stating a consequence of type 'harm' affects the 'data subject'.</p>
+<p id=x030 class=summary>Consequences (and its specialisation as benefits, detriments, and harms) are important when considering balancing tests, legitimate interests, and impact assessments.</p>
+<p id=x031 class=summary>Discussing how to indicate some personal data is optional.</p>
+<p id=x032 class=summary>Options presented were - create sub-properties for optional (hasOptionalPersonalDataCategory) and mandatory (hasMandatoryPersonalDataCategory) to express their necessity.</p>
+<p id=x033 class=summary>However, issues as to how to indicate other concepts are optional e.g. optional purpose or optional processing or optional technical measure then arise, and creating such properties for each concept is not desirable.</p>
+<p id=x034 class=summary>Instead, discussion focused around whether the 'relation' or 'property' could be annotated to express that it is optional within that context. In RDF-star, this is something akin &lt;&lt;PDH hasPersonalDataCategory PDC&gt;&gt; isOptional True</p>
+<p id=x035 class=summary>RDF-star and Neo4J' style property annotations are two candidates for how this can be expressed. However, a way to indicate optionality is still needed, and investigation whether this can work for other models (e.g. OWL, SKOS)</p>
+<p id=x036 class=summary>One idea is to create 'contexts' for Optional and Necessary/Mandatory and use them using the RDF-star annotation model (or others). This can enable someone not wanting property-level annotations to have a way to incorporate that same concept for optionality e.g. by subclassing or another property.</p>
+<p id=x037 class=summary>Discussing Data Sources being public. Proposal is to add two subclasses regarding PublicDataSource and NonPublicDataSource.</p>
+<p id=x038 class=summary>Discussion on what it means for source to be 'public' - does it have to be accessible, does it have to be publicly available, open, licenced? There are no globally accepted definitions of this.</p>
+<p id=x039 class=summary>Consensus that a note is needed when adding this concept stating the need to consider definition of public where the concept is used.</p>
+<p id=x040 class=summary>ISO 29184 mentions four categories of data sources based on relation to person: external (e.g. third party), directly provided (e.g. in a form), observed (e.g. fingerprint location), inferred (e.g. correlation). Consensus that representing these will be valuable in DPV.</p>
+<p id=x041 class=summary>So with the public data source and ISO 29184, the categorisation of sources is as follow - DataSubjectAsDataSource (ProvidedByDataSubject, ObservedFromDataSubject, InferredFromDataSubject) and ExternalDataSource (PublicDataSource, NonPublicDataSource, ProcessorDataSource, ThirdPartyDataSource)</p>
+<p id=x042 class=summary>For Jurisdiction, harsh proposes adding Country, SupraNationalUnion (e.g. EU), and EconomicUnion (e.g. EEA) as subclasses.</p>
+<p id=x043 class=summary>Using this as an proposal, harsh has created an example file for countries, their DPAs, EU and EEA membership, and ISO codes. See here - <a href="https://github.com/coolharsh55/dpv-x/blob/master/dpv-jurisdictions/juris.ttl">https://<wbr>github.com/<wbr>coolharsh55/<wbr>dpv-x/<wbr>blob/<wbr>master/<wbr>dpv-jurisdictions/<wbr>juris.ttl</a> (note this link may not work in future depending on changes to that repo)</p>
+</section>
+
+<section>
+<h3 id=t02>Next Meeting</h3>
+<p id=x045 class=summary>We will meet in +1 week on NOV-10 13:00 WET / 14:00 CET</p>
+<p id=x046 class=summary>We will be discussing the following concepts next week - DataSubject subclasses, modelling of benefits and detriments, representing optionality of personal data and other concepts, data sources, and jurisdictions</p>
+</section>
+</main>
+
+
+<address>Minutes manually created (not a transcript), formatted by <a
+href="https://w3c.github.io/scribe2/scribedoc.html"
+>scribe.perl</a> version 217 (Fri Apr  7 17:23:01 2023 UTC).</address>
+
+</body>
+</html>
