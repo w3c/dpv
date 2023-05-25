@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>DPVCG Meeting Call &ndash; 25 MAY 2023</title>
+<meta name=viewport content="width=device-width">
+<link rel="stylesheet" type="text/css" title="2018" href="https://www.w3.org/StyleSheets/scribe2/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/base.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/2004/02/minutes-style.css">
+<link rel="alternate stylesheet" type="text/css" title="Fancy" href="https://www.w3.org/StyleSheets/scribe2/fancy.css">
+<link rel="alternate stylesheet" type="text/css" title="Typewriter" href="https://www.w3.org/StyleSheets/scribe2/tt-member.css">
+</head>
+
+<body>
+<header>
+<p><a href="https://www.w3.org/"><img src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt=W3C border=0 height=48 width=72></a></p>
+
+<h1>DPVCG Meeting Call</h1>
+<h2>25 MAY 2023</h2>
+
+<nav id=links>
+<a href="https://www.w3.org/events/meetings/7988e83c-27ed-4898-9226-78b75a0d32cd"><img alt="Agenda." title="Agenda" src="https://www.w3.org/StyleSheets/scribe2/chronometer.png"></a>
+<a href="https://www.w3.org/2023/05/25-dpvcg-irc"><img alt="IRC log." title="IRC log" src="https://www.w3.org/StyleSheets/scribe2/text-plain.png"></a>
+</nav>
+</header>
+
+<div id=prelims>
+<div id=attendees>
+<h2>Attendees</h2>
+<dl class=intro>
+<dt>Present</dt><dd>delaram, georg, harsh</dd>
+<dt>Regrets</dt><dd>beatriz, paul</dd>
+<dt>Chair</dt><dd>harsh</dd>
+<dt>Scribe</dt><dd>harsh</dd>
+</dl>
+</div>
+
+<nav id=toc>
+<h2>Contents</h2>
+<ol>
+<li><a href="#t01">Data Breach</a></li>
+<li><a href="#t02">Establishments</a></li>
+<li><a href="#t03">Next meeting</a></li>
+</ol>
+</nav>
+</div>
+
+<main id=meeting class=meeting>
+<h2>Meeting minutes</h2>
+<section><p id=x003 class=summary>Repository: w3c/dpv</p>
+</section>
+
+<section>
+<h3 id=t01>Data Breach</h3>
+<p id=x011 class=summary>Continuing from the previous discussion on data breach notifications and records.</p>
+<p id=x012 class=summary>There are distinct information groupings that should be represented separately.</p>
+<p id=x013 class=summary>1) DataBreach is information about the breach incident itself - which is separate from the investigation and what it has affected.</p>
+<p id=x014 class=summary>1a) DataBreach contains information about its temporal duration i.e. when it started and when it ended (if this is known)</p>
+<p id=x015 class=summary>1b) the type of breach to denote the definition used for a breach (DPAs suggest confidentiality, integrity, and availability as types)</p>
+<p id=x016 class=summary>1c) status - whether it is unknown, ongoing, concluded</p>
+<p id=x017 class=summary>1d) source of risk which indicates how the breach happened; this is denoted using dpv:RiskSource</p>
+<p id=x018 class=summary>1e) whose actions or inactions caused the breach; this is denoted using dpv:ThreatActor</p>
+<p id=x019 class=summary>2) DataBreachReport which reports information found during an investigation of the data breach</p>
+<p id=x020 class=summary>The types of reports are - detection, preliminary investigation investigation, ongoing investigation, final investigation</p>
+<p id=x021 class=summary>Reports can have their own temporal properties, e.g. duration or publication date, provenance e.g. who provided information or the publisher, and status - whether the report (as an ActivityStatus) is complete, ongoing, etc. </p>
+<p id=x022 class=summary>DetectionReport specifically indicates a breach has been detected, and is useful to denote the DataSource of information e.g. from a data subject, news article, etc. The question about when a Controller became aware of the breach is answered through this.</p>
+<p id=x023 class=summary>Any report can contain notifications to parties, e.g. to DPA, processor to controller, to data subjects - represented using hasNotice</p>
+<p id=x024 class=summary>Reference to data breach is using dct:subject</p>
+<p id=x025 class=summary>The contents of the report specify what it is affected by using hasConsequenceOn with specific PersonalDataHandling or Service</p>
+<p id=x026 class=summary>Affected data and data subjects similar are expressed using dpv:hasPersonalData and dpv:hasDataSubject</p>
+<p id=x027 class=summary>The processing, data, and data subject scales are indicated using dpv:hasScale variants</p>
+<p id=x028 class=summary>To specify the impact assessment, use dpv:hasImpactAssessment, within which dpv:hasRisk with RiskToFundamentalRights is used to specify whether the breach is likely (hasLikelihood) to affect fundamental rights.</p>
+<p id=x029 class=summary>3) The question about how to express member states affected, which the DPC form asks in two categories - for data subjects affected and organisation's activities.</p>
+<p id=x030 class=summary>For the data subjects, use dpv:hasDataSubject with an object that has rdf:type or rdfs:subClassOf to indicate the category of data subjects, and dpv:hasJurisdiction to specify the jurisdiction.</p>
+<p id=x031 class=summary>Similarly, for the organisation's activities, express directly using dpv:hasJurisdiction or through a PersonalDataHandling</p>
+<p id=x032 class=summary>To specify the establishments, we have a concept in main dpv as Establishment as a subtype of LegalEntity with property hasEstablishment to indicate one organisation is an establishment of another</p>
+</section>
+
+<section>
+<h3 id=t02>Establishments</h3>
+<p id=x034 class=summary>The concept of main establishment is dependant on a jurisdictional frame of reference. For example, CNIL fined Google France because it was the main establishment of Google LLC (USA) and Google Ireland (EU) within France and the law applied was ePrivacy directive which as a national application.</p>
+<p id=x035 class=summary>For GDPR, CNIL cannot fine Google France because the main establishment for EU would be Google Ireland. Therefore we add isMainEstablighmentFor as a relation that connects an Establishment with a Jurisdiction.</p>
+</section>
+
+<section>
+<h3 id=t03>Next meeting</h3>
+<p id=x038 class="phone s01"><cite>harsh:</cite> The next meeting will take place on 01 June at 14:00 WEST / 15:00 CEST<br>
+<span id=x039>… Harsh will be away until 8th, someone else will chair the meetings.</span></p>
+</section>
+</main>
+
+
+<address>Minutes manually created (not a transcript), formatted by <a
+href="https://w3c.github.io/scribe2/scribedoc.html"
+>scribe.perl</a> version 217 (Fri Apr  7 17:23:01 2023 UTC).</address>
+
+</body>
+</html>

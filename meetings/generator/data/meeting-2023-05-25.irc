@@ -1,0 +1,43 @@
+13:01:18 <RRSAgent> RRSAgent has joined #dpvcg
+13:01:22 <RRSAgent> logging to https://www.w3.org/2023/05/25-dpvcg-irc
+13:01:22 <ghurlbot> ghurlbot has joined #dpvcg
+13:01:24 <harsh> Scribe: harsh
+13:01:26 <harsh> repo: w3c/dpv
+13:01:33 <harsh> Meeting: DPVCG Meeting Call
+13:01:36 <harsh> Chair: harsh
+13:02:43 <harsh> Date: 25 MAY 2023
+13:04:18 <harsh> Agenda: https://www.w3.org/events/meetings/7988e83c-27ed-4898-9226-78b75a0d32cd
+13:07:14 <harsh> Present: harsh, georg, delaram
+13:54:15 <harsh> Regrets: paul, beatriz
+
+15:54:05 <harsh> Topic: Data Breach
+15:54:15 <harsh> Continuing from the previous discussion on data breach notifications and records.
+15:54:15 <harsh> There are distinct information groupings that should be represented separately.
+15:54:15 <harsh> 1) DataBreach is information about the breach incident itself - which is separate from the investigation and what it has affected.
+15:54:15 <harsh> 1a) DataBreach contains information about its temporal duration i.e. when it started and when it ended (if this is known)
+15:54:15 <harsh> 1b) the type of breach to denote the definition used for a breach (DPAs suggest confidentiality, integrity, and availability as types)
+15:54:15 <harsh> 1c) status - whether it is unknown, ongoing, concluded
+15:54:15 <harsh> 1d) source of risk which indicates how the breach happened; this is denoted using dpv:RiskSource
+15:54:15 <harsh> 1e) whose actions or inactions caused the breach; this is denoted using dpv:ThreatActor
+15:54:15 <harsh> 2) DataBreachReport which reports information found during an investigation of the data breach
+15:54:15 <harsh> The types of reports are - detection, preliminary investigation investigation, ongoing investigation, final investigation
+15:54:15 <harsh> Reports can have their own temporal properties, e.g. duration or publication date, provenance e.g. who provided information or the publisher, and status - whether the report (as an ActivityStatus) is complete, ongoing, etc. 
+15:54:15 <harsh> DetectionReport specifically indicates a breach has been detected, and is useful to denote the DataSource of information e.g. from a data subject, news article, etc. The question about when a Controller became aware of the breach is answered through this.
+15:54:15 <harsh> Any report can contain notifications to parties, e.g. to DPA, processor to controller, to data subjects - represented using hasNotice
+15:54:15 <harsh> Reference to data breach is using dct:subject
+15:54:15 <harsh> The contents of the report specify what it is affected by using hasConsequenceOn with specific PersonalDataHandling or Service
+15:54:15 <harsh> Affected data and data subjects similar are expressed using dpv:hasPersonalData and dpv:hasDataSubject
+15:54:15 <harsh> The processing, data, and data subject scales are indicated using dpv:hasScale variants
+15:54:15 <harsh> To specify the impact assessment, use dpv:hasImpactAssessment, within which dpv:hasRisk with RiskToFundamentalRights is used to specify whether the breach is likely (hasLikelihood) to affect fundamental rights.
+15:54:15 <harsh> 3) The question about how to express member states affected, which the DPC form asks in two categories - for data subjects affected and organisation's activities.
+15:54:15 <harsh> For the data subjects, use dpv:hasDataSubject with an object that has rdf:type or rdfs:subClassOf to indicate the category of data subjects, and dpv:hasJurisdiction to specify the jurisdiction.
+15:54:15 <harsh> Similarly, for the organisation's activities, express directly using dpv:hasJurisdiction or through a PersonalDataHandling
+15:54:15 <harsh> To specify the establishments, we have a concept in main dpv as Establishment as a subtype of LegalEntity with property hasEstablishment to indicate one organisation is an establishment of another
+
+15:54:15 <harsh> Topic: Establishments
+15:54:15 <harsh> The concept of main establishment is dependant on a jurisdictional frame of reference. For example, CNIL fined Google France because it was the main establishment of Google LLC (USA) and Google Ireland (EU) within France and the law applied was ePrivacy directive which as a national application.
+15:54:15 <harsh> For GDPR, CNIL cannot fine Google France because the main establishment for EU would be Google Ireland. Therefore we add isMainEstablighmentFor as a relation that connects an Establishment with a Jurisdiction.
+
+16:14:10 <harsh> Topic: Next meeting
+16:14:31 <harsh> harsh: The next meeting will take place on 01 June at 14:00 WEST / 15:00 CEST
+16:14:53 <harsh> Harsh will be away until 8th, someone else will chair the meetings.
