@@ -8,7 +8,7 @@
 
 The Data Privacy Vocabulary provides terms (classes and properties) to annotate and categorize instances of legally compliant personal data handling according to the EU General Data Protection Regulation. This extension provides terms, such as legal basis, defined within the GDPR for use with DPV. 
 
-The namespace for DPV-GDPR terms is `http://www.w3.org/dpv/dpv-gdpr#`
+The namespace for DPV-GDPR terms is `https://w3id.org/dpv/dpv-gdpr#`
 
 The suggested prefix for the DPV-GDPR namespace is `dpv-gdpr`
 
