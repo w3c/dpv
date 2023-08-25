@@ -71,20 +71,16 @@ def get_shacl_results(output):
 
 
 
-from os import walk
+from os import remove, walk
 import subprocess
 
 
-def test_shacl(paths, shape):
+def test_shacl(shape):
     print(f'validating with constraints in {shape}')
     SHACL_VALIDATION_COMMAND['shapesfile'] = shape
     command = list(SHACL_VALIDATION_COMMAND.values())
-    for file in paths:
-        if not file.endswith('.ttl'):
-            # skip non-turtle files
-            continue
-        command.append('-datafile')
-        command.append(file)
+    command.append('-datafile')
+    command.append('data.ttl')
     print(f'command: {command}')
     output = subprocess.run(command, stdout=subprocess.PIPE)
     output = output.stdout.decode('utf-8')
@@ -93,6 +89,15 @@ def test_shacl(paths, shape):
 
 #############################################################
 
-for shape in SHAPES:
-    test_shacl(DATA_PATHS, shape)
+g = Graph()
+for file in DATA_PATHS:
+    if not file.endswith('.ttl'):
+        # skip non-turtle files
+        continue
+    g.parse(file)
+g.serialize('data.ttl')
 
+for shape in SHAPES:
+    test_shacl(shape)
+
+remove('data.ttl')
