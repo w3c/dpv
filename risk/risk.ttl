@@ -243,6 +243,7 @@ risk:Risk_ControlsConcepts a skos:Collection ;
         risk:ChangeConsequence,
         risk:ChangeImpact,
         risk:ControlConsequence,
+        risk:ControlImpact,
         risk:ControlMonitors,
         risk:ControlRiskSource,
         risk:HaltSource,
@@ -708,13 +709,14 @@ risk:ChangeImpact a skos:Concept,
         dpv:Concept ;
     dct:created "2022-08-26"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2023-07-31"^^xsd:date ;
     rdfs:isDefinedBy risk: ;
     sw:term_status "accepted"@en ;
-    skos:broader risk:ControlConsequence ;
+    skos:broader risk:ControlImpact ;
     skos:definition "Risk Control that changes Impact"@en ;
     skos:inScheme risk: ;
     skos:prefLabel "Change Impact"@en ;
-    dpv:isSubTypeOf risk:ControlConsequence .
+    dpv:isSubTypeOf risk:ControlImpact .
 
 risk:Checklists a skos:Concept,
         dpv:Concept ;
@@ -4064,13 +4066,14 @@ risk:RemoveImpact a skos:Concept,
         dpv:Concept ;
     dct:created "2022-08-28"^^xsd:date ;
     dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2023-07-31"^^xsd:date ;
     rdfs:isDefinedBy risk: ;
     sw:term_status "accepted"@en ;
-    skos:broader risk:ControlConsequence ;
+    skos:broader risk:ControlImpact ;
     skos:definition "Risk Control that removes Impact i.e. prevents it from materialising"@en ;
     skos:inScheme risk: ;
     skos:prefLabel "Remove Impact"@en ;
-    dpv:isSubTypeOf risk:ControlConsequence .
+    dpv:isSubTypeOf risk:ControlImpact .
 
 risk:RemoveSource a skos:Concept,
         dpv:Concept ;
@@ -5015,8 +5018,23 @@ risk:SFAIRP a skos:Concept,
     dpv:isInstanceOf risk:QualitativeRiskAssessmentTechnique,
         risk:QuantitativeRiskAssessmentTechnique .
 
-dpv:RiskManagementProcedure skos:narrower risk:RiskAssessmentTechnique,
+dpv:RiskManagementProcess skos:narrower risk:RiskAssessmentTechnique,
         risk:RiskManagementMethodology .
+
+risk:ControlImpact a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-08-24"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    dct:modified "2023-07-31"^^xsd:date ;
+    rdfs:isDefinedBy risk: ;
+    sw:term_status "accepted"@en ;
+    skos:broader risk:ControlConsequence ;
+    skos:definition "Risk Mitigation Measure that controls Impacts"@en ;
+    skos:inScheme risk: ;
+    skos:narrower risk:ChangeImpact,
+        risk:RemoveImpact ;
+    skos:prefLabel "Control Impact"@en ;
+    dpv:isSubTypeOf risk:ControlConsequence .
 
 risk:RiskAssessmentTechnique a skos:Concept,
         dpv:Concept ;
@@ -5025,13 +5043,13 @@ risk:RiskAssessmentTechnique a skos:Concept,
     dct:source <https://www.iso.org/standard/72140.html> ;
     rdfs:isDefinedBy risk: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:RiskManagementProcedure ;
+    skos:broader dpv:RiskManagementProcess ;
     skos:definition "A technique or method used to analyse and identify risk levels, sources, likelihoods, severities, and other necessary information required to conduct risk management procedures"@en ;
     skos:inScheme risk: ;
     skos:narrower risk:QualitativeRiskAssessmentTechnique,
         risk:QuantitativeRiskAssessmentTechnique ;
     skos:prefLabel "Risk Assessment Technique"@en ;
-    dpv:isSubTypeOf dpv:RiskManagementProcedure .
+    dpv:isSubTypeOf dpv:RiskManagementProcess .
 
 dpv:Consequence skos:narrower risk:ConsequenceForDataSubject,
         risk:ConsequenceOnDataSecurity,
@@ -5083,6 +5101,21 @@ risk:3SeverityLevels a skos:Concept,
     skos:prefLabel "3 Severity Levels"@en ;
     dpv:isSubTypeOf dpv:Severity .
 
+risk:ControlConsequence a skos:Concept,
+        dpv:Concept ;
+    dct:created "2022-08-24"^^xsd:date ;
+    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
+    rdfs:isDefinedBy risk: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:RiskMitigationMeasure ;
+    skos:definition "Risk Mitigation Measure that controls the Consequences"@en ;
+    skos:inScheme risk: ;
+    skos:narrower risk:ChangeConsequence,
+        risk:ControlImpact,
+        risk:RemoveConsequence ;
+    skos:prefLabel "Control Consequence"@en ;
+    dpv:isSubTypeOf dpv:RiskMitigationMeasure .
+
 risk:ControlRiskSource a skos:Concept,
         dpv:Concept ;
     dct:created "2022-08-18"^^xsd:date ;
@@ -5115,22 +5148,6 @@ risk:RiskMatrix a skos:Concept,
     skos:prefLabel "Risk Matrix"@en ;
     dpv:isInstanceOf risk:QualitativeRiskAssessmentTechnique,
         risk:QuantitativeRiskAssessmentTechnique .
-
-risk:ControlConsequence a skos:Concept,
-        dpv:Concept ;
-    dct:created "2022-08-24"^^xsd:date ;
-    dct:creator "Harshvardhan J. Pandit"^^xsd:string ;
-    rdfs:isDefinedBy risk: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:RiskMitigationMeasure ;
-    skos:definition "Risk Mitigation Measure that controls the Consequences and Impacts"@en ;
-    skos:inScheme risk: ;
-    skos:narrower risk:ChangeConsequence,
-        risk:ChangeImpact,
-        risk:RemoveConsequence,
-        risk:RemoveImpact ;
-    skos:prefLabel "Control Consequence"@en ;
-    dpv:isSubTypeOf dpv:RiskMitigationMeasure .
 
 risk:ExtremelyHighLikelihood a skos:Concept,
         dpv:Concept ;
@@ -5927,7 +5944,7 @@ risk:RiskManagementMethodology a skos:Concept,
     dct:source <https://www.enisa.europa.eu/publications/compendium-of-risk-management-frameworks> ;
     rdfs:isDefinedBy risk: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:RiskManagementProcedure ;
+    skos:broader dpv:RiskManagementProcess ;
     skos:definition "A risk management framework or methodology addresses the main functional components related to identification, assessment, treatment, and monitoring regarding risks"@en ;
     skos:inScheme risk: ;
     skos:narrower risk:ACSC-ISM,
@@ -5965,7 +5982,7 @@ risk:RiskManagementMethodology a skos:Concept,
         risk:OCTAVE-FORTE,
         risk:OCTAVE-S ;
     skos:prefLabel "Risk Management Methodology"@en ;
-    dpv:isSubTypeOf dpv:RiskManagementProcedure .
+    dpv:isSubTypeOf dpv:RiskManagementProcess .
 
 risk:RiskMatrix7x7 a skos:Concept,
         dpv:Concept ;

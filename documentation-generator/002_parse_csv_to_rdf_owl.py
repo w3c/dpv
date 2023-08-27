@@ -598,6 +598,18 @@ for name, module in DPV_GDPR_CSV_FILES.items():
             proposed.extend(returnval)
     if proposed:
         proposed_terms[name] = proposed
+    # SPECIAL: Legal Basis to Rights Mappings
+    if name == "legal_basis":
+        DEBUG(f'Processing LegalBasis-Rights Mappings')
+        with open(f'{IMPORT_CSV_PATH}/GDPR_LegalBasis_Rights_Mapping.csv', 'r') as fd:
+            csvreader = csv.reader(fd)
+            terms = {}
+            labels = next(csvreader)
+            for row in csvreader:
+                for index, mapping in enumerate(row):
+                    if mapping != "Y":
+                        continue
+                    graph.add((BASE[row[0]], DPVO.hasRight, BASE[labels[index]]))
     # serialize
     serialize_graph(graph, f'{EXPORT_DPV_GDPR_MODULE_PATH}/{name}')
     DPV_GDPR_GRAPH += graph

@@ -180,16 +180,24 @@ with open(f'{EXPORT_DPV_GDPR_HTML_PATH}/proposed.json', 'r') as fd:
     # json.load(fd)
     TEMPLATE_DATA['proposed'] = []
     
+load_data('rights', f'{IMPORT_DPV_GDPR_MODULES_PATH}/rights.ttl')
 load_data('legal_basis', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis.ttl')
 load_data('legal_basis_special', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis_special.ttl')
 load_data('legal_basis_data_transfer', f'{IMPORT_DPV_GDPR_MODULES_PATH}/legal_basis_data_transfer.ttl')
-load_data('rights', f'{IMPORT_DPV_GDPR_MODULES_PATH}/rights.ttl')
 load_data('data_transfers', f'{IMPORT_DPV_GDPR_MODULES_PATH}/data_transfers.ttl')
 load_data('dpia', f'{IMPORT_DPV_GDPR_MODULES_PATH}/dpia.ttl')
 load_data('compliance', f'{IMPORT_DPV_GDPR_MODULES_PATH}/compliance.ttl')
-g = Graph()
-g.parse(f'{IMPORT_DPV_GDPR_PATH}', format='turtle')
-G.parse(g)
+
+lb_rights_map = []
+for legalbasis in TEMPLATE_DATA['legal_basis_classes']:
+    rights = []
+    for right in legalbasis.dpvs_hasRight:
+        for o_right in TEMPLATE_DATA['rights_classes']:
+            if right.iri != o_right.iri:
+                continue
+            rights.append((right.iri, o_right.skos_prefLabel))
+    lb_rights_map.append((legalbasis, sorted(rights, key=lambda x: x[0])))
+TEMPLATE_DATA['legal_basis_rights_mapping'] = lb_rights_map
 
 template = template_env.get_template('template_dpv_gdpr_skos.jinja2')
 with open(f'{EXPORT_DPV_GDPR_HTML_PATH}/index.html', 'w+') as fd:

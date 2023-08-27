@@ -573,6 +573,18 @@ for name, module in DPV_GDPR_CSV_FILES.items():
     for concept, _, _ in graph.triples((None, RDF.type, SKOS.Concept)):
         graph.add((BASE[f'{name.title()}Concepts'], SKOS.member, concept))
         DPV_GDPR_GRAPH.add((concept, SKOS.inScheme, DPV_GDPR['']))
+    # SPECIAL: Legal Basis to Rights Mappings
+    if name == "legal_basis":
+        DEBUG(f'Processing LegalBasis-Rights Mappings')
+        with open(f'{IMPORT_CSV_PATH}/GDPR_LegalBasis_Rights_Mapping.csv', 'r') as fd:
+            csvreader = csv.reader(fd)
+            terms = {}
+            labels = next(csvreader)
+            for row in csvreader:
+                for index, mapping in enumerate(row):
+                    if mapping != "Y":
+                        continue
+                    graph.add((BASE[row[0]], DPV.hasRight, BASE[labels[index]]))
     # serialize
     serialize_graph(graph, f'{EXPORT_DPV_GDPR_MODULE_PATH}/{name}')
     if 'topconcept' in module:
@@ -1037,7 +1049,7 @@ DPV_TECH_CSV_FILES = {
 }
 
 DPV_TECH_GRAPH = Graph()
-proposed_terms = []
+proposed_terms = {}
 DEBUG('------')
 DEBUG(f'Processing DPV-TECH')
 for prefix, namespace in NAMESPACES.items():
