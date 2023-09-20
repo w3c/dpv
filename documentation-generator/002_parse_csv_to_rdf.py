@@ -26,6 +26,8 @@ EXPORT_DPV_PATH = '../dpv'
 EXPORT_DPV_MODULE_PATH = '../dpv/modules'
 EXPORT_DPV_GDPR_PATH = '../dpv-gdpr'
 EXPORT_DPV_GDPR_MODULE_PATH = '../dpv-gdpr/modules'
+EXPORT_DPV_DGA_PATH = '../dpv-dga'
+EXPORT_DPV_DGA_MODULE_PATH = '../dpv-dga/modules'
 EXPORT_DPV_PD_PATH = '../dpv-pd'
 EXPORT_DPV_LEGAL_PATH = '../dpv-legal'
 EXPORT_DPV_LEGAL_MODULE_PATH = '../dpv-legal/modules'
@@ -140,6 +142,7 @@ def add_common_triples_for_all_terms(term, graph):
         graph.add((BASE[f'{term.term}'], SKOS.note, Literal(term.skos_note, lang='en')))
     # rdfs:isDefinedBy
     if term.skos_scopeNote:
+        DEBUG(term.skos_scopeNote)
         links = [l.strip() for l in term.skos_scopeNote.replace('(','').replace(')','').split(',')]
         link_iterator = iter(links)
         for label in link_iterator:
@@ -209,6 +212,7 @@ def add_triples_for_classes(classes, graph):
         graph.add((BASE[f'{cls.term}'], RDF.type, DPV.Concept))
         # rdfs:subClassOf
         if cls.dpv_isSubTypeOf:
+            DEBUG(cls.dpv_isSubTypeOf)
             parents = [p.strip() for p in cls.dpv_isSubTypeOf.split(',')]
             for parent in parents:
                 if parent == "dpv:Concept":
@@ -604,6 +608,85 @@ DPV_GDPR_GRAPH += graph
 for prefix, namespace in NAMESPACES.items():
     DPV_GDPR_GRAPH.namespace_manager.bind(prefix, namespace)
 serialize_graph(DPV_GDPR_GRAPH, f'{EXPORT_DPV_GDPR_PATH}/dpv-gdpr')
+
+##############################################################################
+
+# DPV-DGA #
+
+
+DPV_DGA_CSV_FILES = {
+    'legal_basis': {
+        'classes': f'{IMPORT_CSV_PATH}/DGA_LegalBasis.csv',
+        },
+    'legal_rights': {
+        'classes': f'{IMPORT_CSV_PATH}/DGA_LegalRights.csv',
+        },
+    'services': {
+        'classes': f'{IMPORT_CSV_PATH}/DGA_Services.csv',
+        },
+    'registers': {
+        'classes': f'{IMPORT_CSV_PATH}/DGA_Registers.csv',
+        },
+    'toms': {
+        'classes': f'{IMPORT_CSV_PATH}/DGA_TOMs.csv',
+        },
+    'entities': {
+        'classes': f'{IMPORT_CSV_PATH}/DGA_entities.csv',
+        'properties': f'{IMPORT_CSV_PATH}/DGA_properties.csv',
+        },
+    }
+
+BASE = NAMESPACES['dpv-dga']
+DPV_DGA_GRAPH = Graph()
+proposed_terms = {}
+DPV_DGA_GRAPH.add((BASE[''], RDF.type, SKOS.ConceptScheme))
+
+for name, module in DPV_DGA_CSV_FILES.items():
+    graph = Graph()
+    proposed = []
+    DEBUG('------')
+    DEBUG(f'Processing {name} module')
+    for prefix, namespace in NAMESPACES.items():
+        graph.namespace_manager.bind(prefix, namespace)
+    if 'classes' in module:
+        classes = extract_terms_from_csv(module['classes'], DPV_Class)
+        DEBUG(f'there are {len(classes)} classes in {name}')
+        returnval = add_triples_for_classes(classes, graph)
+        if returnval:
+            proposed.extend(returnval)
+    if 'properties' in module:
+        properties = extract_terms_from_csv(module['properties'], DPV_Property)
+        DEBUG(f'there are {len(properties)} properties in {name}')
+        returnval = add_triples_for_properties(properties, graph)
+        if returnval:
+            proposed.extend(returnval)
+    if proposed:
+        proposed_terms[name] = proposed
+    # add collection representing concepts
+    graph.add((BASE[f'{name.title()}Concepts'], RDF.type, SKOS.Collection))
+    graph.add((BASE[f'{name.title()}Concepts'], SKOS.prefLabel, Literal(f'{name.title()} Concepts', datatype=XSD.string)))
+    for concept, _, _ in graph.triples((None, RDF.type, SKOS.Concept)):
+        graph.add((BASE[f'{name.title()}Concepts'], SKOS.member, concept))
+        DPV_DGA_GRAPH.add((concept, SKOS.inScheme, DPV_DGA['']))
+    # serialize
+    serialize_graph(graph, f'{EXPORT_DPV_DGA_MODULE_PATH}/{name}')
+    if 'topconcept' in module:
+        DPV_DGA_GRAPH.add((BASE[''], SKOS.hasTopConcept, module['topconcept']))
+    DPV_DGA_GRAPH += graph
+
+if proposed_terms:
+    with open(f'{EXPORT_DPV_DGA_PATH}/proposed.json', 'w') as fd:
+        json.dump(proposed_terms, fd)
+    DEBUG(f'exported proposed terms to {EXPORT_DPV_DGA_PATH}/proposed.json')
+else:
+    DEBUG('no proposed terms in DPV-DGA')
+graph = Graph()
+graph.parse('ontology_metadata/dpv-dga.ttl', format='turtle')
+DPV_DGA_GRAPH += graph
+
+for prefix, namespace in NAMESPACES.items():
+    DPV_DGA_GRAPH.namespace_manager.bind(prefix, namespace)
+serialize_graph(DPV_DGA_GRAPH, f'{EXPORT_DPV_DGA_PATH}/dpv-dga')
 
 ##############################################################################
 

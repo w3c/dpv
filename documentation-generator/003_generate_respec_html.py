@@ -11,6 +11,9 @@ EXPORT_DPV_HTML_PATH = '../dpv'
 IMPORT_DPV_GDPR_PATH = '../dpv-gdpr/dpv-gdpr.ttl'
 IMPORT_DPV_GDPR_MODULES_PATH = '../dpv-gdpr/modules'
 EXPORT_DPV_GDPR_HTML_PATH = '../dpv-gdpr'
+IMPORT_DPV_DGA_PATH = '../dpv-dga/dpv-dga.ttl'
+IMPORT_DPV_DGA_MODULES_PATH = '../dpv-dga/modules'
+EXPORT_DPV_DGA_HTML_PATH = '../dpv-dga'
 IMPORT_RISK_PATH = '../risk/risk.ttl'
 IMPORT_RISK_MODULES_PATH = '../risk/modules'
 EXPORT_RISK_HTML_PATH = '../risk'
@@ -55,9 +58,9 @@ def load_data(label, filepath, custom_concept=None):
     DEBUG(f'loading data for {label}')
     g = Graph()
     g.parse(filepath, format='turtle')
-    G = DataGraph()
+    # G = DataGraph()
     G.parse(g)
-    G.graph.ns = { k:v for k,v in G.graph.namespaces() }
+    G.graph.ns = { k:v for k,v in NAMESPACES.items() }
     if custom_concept is None:
         TEMPLATE_DATA[f'{label}_classes'] = G.get_instances_of('dpv_Concept')
         TEMPLATE_DATA[f'{label}_properties'] = G.get_instances_of('dpv_Relation')
@@ -205,8 +208,26 @@ with open(f'{EXPORT_DPV_GDPR_HTML_PATH}/dpv-gdpr.html', 'w+') as fd:
     fd.write(template.render(**TEMPLATE_DATA))
 DEBUG(f'wrote DPV-GDPR spec at f{EXPORT_DPV_GDPR_HTML_PATH}/dpv-gdpr.html')
 
-import sys
-sys.exit(0)
+# DPV-DGA: generate HTML
+
+with open(f'{EXPORT_DPV_DGA_HTML_PATH}/proposed.json') as fd:
+    TEMPLATE_DATA['proposed'] = json.load(fd)  
+
+load_data('legal_basis', f'{IMPORT_DPV_DGA_MODULES_PATH}/legal_basis.ttl')
+load_data('legal_rights', f'{IMPORT_DPV_DGA_MODULES_PATH}/legal_rights.ttl')
+load_data('services', f'{IMPORT_DPV_DGA_MODULES_PATH}/services.ttl')
+load_data('registers', f'{IMPORT_DPV_DGA_MODULES_PATH}/registers.ttl')
+load_data('toms', f'{IMPORT_DPV_DGA_MODULES_PATH}/toms.ttl')
+load_data('entities', f'{IMPORT_DPV_DGA_MODULES_PATH}/entities.ttl')
+
+template = template_env.get_template('template_dpv_dga.jinja2')
+with open(f'{EXPORT_DPV_DGA_HTML_PATH}/index.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote DPV-DGA spec at f{EXPORT_DPV_DGA_HTML_PATH}/index.html')
+with open(f'{EXPORT_DPV_DGA_HTML_PATH}/dpv-dga.html', 'w+') as fd:
+    fd.write(template.render(**TEMPLATE_DATA))
+DEBUG(f'wrote DPV-DGA spec at f{EXPORT_DPV_DGA_HTML_PATH}/dpv-dga.html')
+
 # DPV-PD: generate HTML
 
 with open(f'{EXPORT_DPV_PD_HTML_PATH}/proposed.json') as fd:

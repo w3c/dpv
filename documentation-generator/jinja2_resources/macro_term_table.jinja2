@@ -99,7 +99,9 @@
           {% endif %}
           {% for prop in term.metadata %}
             {% if prop.startswith('dpv_') and prop not in ('dpv_isInstanceOf','dpv_isSubTypeOf') %}
-          <tr><td>{{ prop.replace('_',':') }}</td><td>{{ term|attr(prop)|prefix_this }}</td></tr>
+          <tr>
+            <td>{{ prop.replace('_',':') }}</td>
+            <td>{% if term|attr(prop) is sequence %}{% for term_item in term|attr(prop) %}{{ ', ' if not loop.first }}{{ term_item|prefix_this }}{% endfor %}{% else %}{{ term|attr(prop)|prefix_this }}{% endif %}</td></tr>
             {% endif %}
           {% endfor %}
           {% if term.dct_created %}
