@@ -1,0 +1,107 @@
+%{% from 'macro_term_table.jinja2' import index_concepts %}
+%{% from 'macro_term_table.jinja2' import list_hierarchy %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Rights Management{% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "Rights Management",
+    subtitle: "concepts in Data Privacy Vocabulary (DPV)",
+    publishDate: "2024-01-28",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/modules/rights",
+    canonicalUri: "https://w3id.org/dpv/modules/rights",
+    edDraftURI: "https://w3id.org/dpv/modules/rights",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}",
+    }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../../media/common.css">
+</head>
+<body>
+{% block ABSTRACT %}
+    <section id="abstract">
+      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
+      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      {{ dpv_document_family(document='dpv-spec') }}
+      {{ sotd() }}
+    </section>
+{% endblock ABSTRACT %}
+  <section id="introduction">
+    <h2>Introduction</h2>
+    <blockquote>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</blockquote>
+    <div class="issue" title="Review section descriptions"></div>
+  <figure>
+    <img src="../../media/rights.png">
+    <figcaption></figcaption>
+  </figure>
+  <p>The concept [=Right=] represents a normative concept for what is permissible or necessary in accordance with a system such as laws. To associate rights with concepts that are relevant or within which those rights occur, the relation [=hasRight=] is used. Rights can be <i>passive</i>, which means they are always applicable without requiring anything to be done, or <i>active</i> where they require some action to be taken to initiate or exercise them. To represent these concepts, DPV uses [=PassiveRight=] and [=ActiveRight=] respectively. Rights can be applicable to different contexts or entities. To differentiate rights applicable or afforded to data subjects, the concept [=DataSubjectRight=] is used.</p>
+  {{ list_hierarchy(modules['rights']['classes']) }}
+  </section>
+
+  <section>
+  <h2>Rights Notices</h2>
+  <div class="issue" title="Content missing - Rights Notices"></div>
+  <p>The information regarding hwo to exercise a right is provided through [=RightExerciseNotice=] and associated using the [=isExercisedAt=] relation. This information can specify contextual information through use of other concepts such as [=PersonalDataHandling=] to denote a <i>necessary</i> [=Purpose=] of [=IdentityVerification=] as part of the rights exercise.</p>
+  </section>
+
+  <section>
+  <h2>Rights Exercise</h2>
+  <div class="issue" title="Content missing - Rights Exercise"></div>
+  <p>A [=RightExerciseActivity=] represents a concrete instance of a right being exercised. It can include contextual information such as timestamps, durations, entities, etc. that can be part of record-keeping. An activity can be a single <i>step</i> related to rights exercise -- such as the initial request to exercise that right, or its acknowledgement, or the final step taken to fulfil the right (e.g. provide some information), or it can also be a single activity describing the entire rights exercise process(es). To collate related activities associated with a rights exercise (e.g. associated with a specific data subject or a specific request), the concept [=RightExerciseRecord=] is useful. The information provided to describe or in fulfilment of a right exercise is represented by [=RightFulfilmentNotice=] and that associated when a right exercise cannot be fulfilled is represented by [=RightNonFulfilmentNotice=].</p>
+  </section>
+
+  <section>
+  <h2>Rights Records</h2>
+  <div class="issue" title="Content missing - Rights Records"></div>
+  <p>To indicate contextual information about Right Exercise activities, DPV suggests reuse of existing relations, such as those from DPV itself and [[[DCT]]]. For example, <code>dct:accessRights</code> can be used to specify constraints or requirements regarding access (e.g. log in required), or <code>dct:hasPart</code> and <code>dct:isPartOf</code> to express records and its contents, <code>dct:valid</code> to express validity constraints on the exercising being made available, <code>foaf:page</code> to specify the location or provision of notice, and [=hasStatus</code> with [=RequestStatus=] to represent the status of a rights exercise activity.</p>
+  <p>When rights require the provision of information which beyond a static common notice, for example a document personalised to the individual's information, or a dataset containing the individual's data, DPV recommends using [[[DCAT]]] to model the contents as a <code>dcat:Resource</code> or other relevant concepts from [[DCAT]] and [[DCT]] such as <code>dct:format</code>, <code>dct:accessRights</code>, and <code>dct:valid</code>.</p>
+  </section>
+</section>
+
+<section>
+  <h2>Vocabulary Index</h2>
+  <section id="classes">
+    {{ index_concepts(modules['rights']['classes'], vocab_name, filter="classes") }}
+  </section>
+  <section id="properties">
+    {{ index_concepts(modules['rights']['properties'], vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>DPV uses the following terms from [[RDF]] and  [[RDFS]] with their defined meanings:</p>
+    <ul>
+      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+      </ul>
+    <p>The following external concepts are re-used within DPV:</p>
+    {% set module_combined = modules['rights']['classes'].copy() %}
+    {% set _ = module_combined.update(modules['rights']['properties']) %}
+    {{ index_concepts(module_combined, vocab_name, filter="external") }}
+  </section>
+</section>
+<section class="appendix" id="issue-summary"></section>
+<script type="text/javascript" src="../../media/common.js" defer></script>
+</body>
+</html>

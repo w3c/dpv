@@ -1,0 +1,181 @@
+{% from 'macro_term_table.jinja2' import table_classes %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{vocab_name.upper()}}{% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "legal",
+    title: "",
+    subtitle: "extending Data Privacy Vocabulary (DPV)",
+    publishDate: "2024-01-28",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/loc",
+    canonicalUri: "https://w3id.org/dpv/loc",
+    edDraftURI: "https://w3id.org/dpv/loc",
+    github: "w3c/dpv",
+    subjectPrefix: "[loc]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+    }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../../../media/common.css">
+</head>
+<body>
+{% block ABSTRACT %}
+  <section id="abstract">
+    <p>DPV-PD extends the [[[DPV]]] to provide additional concepts regarding Personal Data categories.</p>
+    <p>The canonical URL for DPV-PD is <a href="https://w3id.org/dpv/dpv-pd">https://w3id.org/dpv/dpv-pd</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv/dpv-pd#"><code>https://w3id.org/dpv/dpv-pd#</code></a>, the suggested prefix is <code>dpv-pd</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+    {{ dpv_document_family(document='dpv-pd-spec') }}
+    {{ sotd() }}
+  </section>
+{% endblock ABSTRACT %}
+{% block INTRODUCTION %}
+
+{% endblock INTRODUCTION %}
+{% block VOCAB %}
+<section id="overview">
+    <h2>Overview</h2>
+</section>
+
+{% if modules['legal']['classes']|filter_type('dpv:Law')|length > 0 %}
+<section id="laws">
+    <h2>Laws</h2>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Jurisdictions</th>
+            <th>Webpage</th>
+            <th>Start/End</th>
+        </thead>
+        <tbody>
+        {% for law in modules['legal']['classes']|filter_type('dpv:Law')|ensure_list_unique|sort(attribute='iri') %}
+            <tr>
+                <td>
+                    {% if law['prefix'] != vocab_name %}<a href="#{{law['prefixed']}}"><code>{{ law['prefixed'] }}</code></a>
+                    {% else %}<a href="#{{law['term']}}"><code>{{ law['term'] }}</code></a>
+                {% endif %}</td>
+                <td>{{ law['skos:prefLabel'] }}</td>
+                <td>{% for loc in law['dpv:hasJurisdiction']|ensure_list_unique|sort(attribute='iri') %}
+                {% set loc=data[(loc|prefix_this).split(':')[0]][loc|prefix_this] %}
+                <a href="{{loc['iri']}}">{{ loc['skos:prefLabel'] }}</a>{% if 'skos:broader' in loc %}{% for loc_broader in loc['skos:broader']|ensure_list|filter_type("dpv:Country", vocab="loc") %}, <a href="{{loc_broader['iri']}}">{{ loc_broader['skos:prefLabel'] }}</a>
+                    {% endfor %}{% endif %}
+                {{ "; " if not loop.last }}{% endfor %}</td>
+                <td>{% for page in law['foaf:homepage']|ensure_list_unique %}<a href="{{page}}">link</a>{{ ", " if not loop.first }}{% endfor %}</td>
+                <td>{{ law|expand_time_interval('dct:temporal') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endif %}
+
+{% if modules['legal']['classes']|filter_type('dpv:Authority')|length > 0 %}
+<section id="authorities">
+    <h2>Authorities</h2>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Jurisdictions</th>
+            <th>Laws</th>
+            <th>Webpage</th>
+        </thead>
+        <tbody>
+        {% for law in modules['legal']['classes']|filter_type('dpv:Authority')|ensure_list_unique|sort(attribute='iri') %}
+            <tr>
+                <td>
+                    {% if law['prefix'] != vocab_name %}<a href="#{{law['prefixed']}}"><code>{{ law['prefixed'] }}</code></a>
+                    {% else %}<a href="#{{law['term']}}"><code>{{ law['term'] }}</code></a>
+                {% endif %}</td>
+                <td>{{ law['skos:prefLabel'] }}</td>
+                <td>{% for loc in law['dpv:hasJurisdiction']|ensure_list_unique|sort(attribute='iri') %}
+                {% set loc=data[(loc|prefix_this).split(':')[0]][loc|prefix_this] %}
+                <a href="{{loc['iri']}}">{{ loc['skos:prefLabel'] }}</a>{% if 'skos:broader' in loc %}{% for loc_broader in loc['skos:broader']|ensure_list|filter_type("dpv:Country", vocab="loc") %}, <a href="{{loc_broader['iri']}}">{{ loc_broader['skos:prefLabel'] }}</a>
+                    {% endfor %}{% endif %}
+                {{ "; " if not loop.last }}{% endfor %}</td>
+                <td>{% for law in law['dpv:hasLaw']|ensure_list_unique|sort(attribute='iri') %}
+                {% set law=data[(law|prefix_this).split(':')[0]][law|prefix_this] %}
+                <a href="{{law['iri']}}">{{ law['prefixed'] }}</a>{{ ", " if not loop.last }}{% endfor %}</td>
+                <td>{% for page in law['foaf:homepage']|ensure_list_unique %}<a href="{{page}}">link</a>{{ ", " if not loop.first }}{% endfor %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endif %}
+
+{% if modules['legal']['classes']|filter_type('eu-gdpr:AdequacyDecision')|length > 0 %}
+<section id="adequacy-decisions">
+    <h2>Adequacy Decisions</h2>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Jurisdictions</th>
+            <th>Webpage</th>
+            <th>Start/End</th>
+        </thead>
+        <tbody>
+        {% for law in modules['legal']['classes']|filter_type('eu-gdpr:AdequacyDecision')|ensure_list_unique|sort(attribute='iri') %}
+            <tr>
+                <td>
+                    {% if law['prefix'] != vocab_name %}<a href="#{{law['prefixed']}}"><code>{{ law['prefixed'] }}</code></a>
+                    {% else %}<a href="#{{law['term']}}"><code>{{ law['term'] }}</code></a>
+                {% endif %}</td>
+                <td>{{ law['skos:prefLabel'] }}</td>
+                <td>{% for loc in law['dpv:hasJurisdiction']|ensure_list_unique|sort(attribute='iri') %}
+                {% set loc=data[(loc|prefix_this).split(':')[0]][loc|prefix_this] %}
+                <a href="{{loc['iri']}}">{{ loc['skos:prefLabel'] }}</a>{{ ", " if not loop.last }}{% endfor %}</td>
+                <td>{% for page in law['foaf:homepage']|ensure_list_unique|sort %}<a href="{{page}}">link</a>{{ ", " if not loop.first }}{% endfor %}</td>
+                <td>{{ law|expand_time_interval('dct:temporal') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endif %}
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    {{ index_concepts(vocab, vocab_name, filter="classes") }}
+  </section>
+  <section id="dpv-properties">
+    {{ index_concepts(vocab, vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>DPV uses the following terms from [[RDF]] and  [[RDFS]] with their defined meanings:</p>
+    <ul>
+      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+      </ul>
+    <p>The following external concepts are re-used within DPV:</p>
+    {{ index_concepts(vocab, vocab_name, filter="external") }}
+  </section>
+</section>
+  
+{% endblock VOCAB %}
+
+</body>
+</html>

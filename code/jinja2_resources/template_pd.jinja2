@@ -1,0 +1,185 @@
+{% from 'macro_term_table.jinja2' import index_concepts, list_items, list_hierarchy, table_properties, ref_dedicated_documentation, language_selector %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}}){% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "pd",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/pd",
+    canonicalUri: "https://w3id.org/dpv/pd",
+    edDraftURI: "https://w3id.org/dpv/pd",
+    github: "w3c/dpv",
+    subjectPrefix: "[pd]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+    }
+    ],
+    formerEditors: [
+    {
+      name: "Axel Polleres",
+      url: "https://www.polleres.net/",
+      "company": "{{ "Axel Polleres" | generate_author_affiliation }}",
+      retiredDate: "2019-12-31"
+    }
+    ],
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list %}
+      {
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../media/common.css">
+</head>
+<body>
+{% block ABSTRACT %}
+  <section id="abstract">
+    <p>DPV-PD extends the [[[DPV]]] to provide additional concepts regarding Personal Data categories.</p>
+    <p>The canonical URL for DPV-PD is <a href="https://w3id.org/dpv/dpv-pd">https://w3id.org/dpv/dpv-pd</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv/dpv-pd#"><code>https://w3id.org/dpv/dpv-pd#</code></a>, the suggested prefix is <code>dpv-pd</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+    {{ sotd() }}
+    {{ dpv_document_family(document='dpv-pd-spec') }}
+  </section>
+{% endblock ABSTRACT %}
+{% block INTRODUCTION %}
+
+{% endblock INTRODUCTION %}
+{% block VOCAB %}
+  <section id="vocab">
+    <h2>Core Taxonomy</h2>
+    <div class="issue" title="Content missing - Core taxonomy"></div>
+    {{ list_hierarchy(modules['core']['classes']) }}
+
+  </section>
+
+  <section>
+    <h2>Extended Taxonomy</h2>
+    <section>
+      <h3>External</h3>
+      <div class="issue" title="Content missing - External"></div>
+      {{ list_hierarchy(modules['extended']['classes'], head='pd:External') }}
+    </section>
+
+    <section>
+      <h3>Financial</h3>
+      <div class="issue" title="Content missing - Financial"></div>
+      {{ list_hierarchy(modules['extended']['classes'], head='pd:Financial') }}
+    </section>
+
+    <section>
+      <h3>Historical</h3>
+      <div class="issue" title="Content missing - Historical"></div>
+      {{ list_hierarchy(modules['extended']['classes'], head='pd:Historical') }}
+    </section>
+
+    <section>
+      <h3>Internal</h3>
+      <div class="issue" title="Content missing - Internal"></div>
+      {{ list_hierarchy(modules['extended']['classes'], head='pd:Internal') }}
+    </section>
+
+    <section>
+      <h3>Social</h3>
+      <div class="issue" title="Content missing - Social"></div>
+      {{ list_hierarchy(modules['extended']['classes'], head='pd:Social') }}
+    </section>
+
+    <section>
+      <h3>Tracking</h3>
+      <div class="issue" title="Content missing - Tracking"></div>
+      {{ list_hierarchy(modules['extended']['classes'], head='pd:Tracking') }}
+    </section>
+  </section>
+
+  <section>
+    <h2>Special Categories</h2>
+    <div class="issue" title="Content missing - Special Categories"></div>
+    {{ list_hierarchy(vocab, head='dpv:SpecialCategoryPersonalData') }}
+  </section>
+
+  <section id="external-vocabs">
+  <h2>Relation to Other Vocabularies</h2>
+  <div class="issue" title="express existence and relations to other vocabularies">
+  <p>DPV's list of concepts is not universal nor exhaustive. It also is opinionated in that there are other vocabularies with different perspectives on categorisation of personal data concepts. This section should list such other external vocabularies, and how they relate to DPV's PD extension for personal data categories.</p>
+  </div>
+  </section>
+
+  <section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    {{ index_concepts(vocab, vocab_name, filter="classes") }}
+  </section>
+  <section id="dpv-properties">
+    {{ index_concepts(vocab, vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>The following external concepts are re-used within PD:</p>
+    {{ index_concepts(vocab, vocab_name, filter="external") }}
+  </section>
+</section>
+  
+{% endblock VOCAB %}
+
+{% block ACKNOWLEDGEMENTS %}
+<section id="contributors">
+  <h2>Contributors</h2>
+  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
+  <ul>
+  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
+    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
+  {% endfor %}
+  </ul>
+</section>
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Piero Bonatti and Luigi Sauro to the DPVCG have been funded by the European Union’s Horizon 2020 research and innovation programme under grant agreement N. 731601 (<a href="https://specialprivacy.ercim.eu/">project SPECIAL</a>) until 2019, and under grant agreement N. 883464 (<a href="https://trapeze-project.eu/">project TRAPEZE</a>) from 2020 until 2023.</p>
+  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+
+</section>
+{% endblock ACKNOWLEDGEMENTS %}
+
+{% block PROPOSED %}
+{% if proposed %}
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  <ul>{% for term in proposed %}
+      <li>{{term}}</li>
+    {% endfor %}</ul>
+</section>
+{% endif %}
+{% endblock PROPOSED %}
+
+<section class="appendix" id="issue-summary"></section>
+
+{% block DEPRECATED %}
+<section class="appendix" id="appendix-deprecated">
+  <h2>Deprecated Terms</h2>
+</section>
+{% endblock DEPRECATED %}
+<script type="text/javascript" src="../media/common.js" defer></script>
+</body>
+</html>

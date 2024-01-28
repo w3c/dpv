@@ -1,0 +1,12 @@
+{% macro example_aside(exampleID) %}
+  {% set ex, ex_contents = exampleID|retrieve_example %}
+  <aside class="example" title="{{ex['dct:title']}}">
+    <p>{{ex['dct:description']|safe}}</p>
+    <pre><code>{{ex_contents}}</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="{{ex['iri']}}"><code>{{ex['term']}}</code></a>;
+      {% if 'dct:source' in ex %}link: <a href="{{ex['dct:source']}}">source file</a>;{% endif %}
+      contributor(s): {{ex['dct:contributor']}} ({{ex['dct:created']}}))
+    </small></p>
+  </aside>
+{% endmacro %}

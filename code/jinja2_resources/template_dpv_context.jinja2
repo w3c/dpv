@@ -1,0 +1,143 @@
+%{% from 'macro_term_table.jinja2' import index_concepts %}
+%{% from 'macro_term_table.jinja2' import list_hierarchy %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Context{% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "Context",
+    subtitle: "concepts in Data Privacy Vocabulary (DPV)",
+    publishDate: "2024-01-28",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/modules/context",
+    canonicalUri: "https://w3id.org/dpv/modules/context",
+    edDraftURI: "https://w3id.org/dpv/modules/context",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}",
+    }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../../media/common.css">
+</head>
+<body>
+{% block ABSTRACT %}
+    <section id="abstract">
+      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
+      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      {{ dpv_document_family(document='dpv-spec') }}
+      {{ sotd() }}
+    </section>
+{% endblock ABSTRACT %}
+  <section id="introduction">
+    <h2>Introduction</h2>
+    <blockquote>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</blockquote>
+    <div class="issue" title="Review section descriptions"></div>
+    <figure>
+    <img src="../../media/Context.png">
+    <figcaption></figcaption>
+  </figure>
+  </section>
+  <section>
+    <h2>Duration and Frequency</h2>
+    <p>To express the duration of events or operations, such as how long processing will take or the validity of consent, the concept [=Duration=] can be used. Duration is indicated using the relation [=hasDuration=], and has the following subtypes:</p>
+    <ul>
+    <li>[=TemporalDuration=] - indicating a relative temporal duration, e.g. 6 months.</li>
+    <li>[=UntilTimeDuration=] - indicating duration that occurs until the end of specified time, e.g. until 31 DEC 2022.</li>
+    <li>[=UntilEventDuration=] - indicating duration that occurs until the end of specified event, e.g. until account is closed.</li>
+    <li>[=FixedOccurencesDuration=] - a duration that is based on number of occurences, e.g. until you view it 3 times</li>
+    <li>[=EndlessDuration=] - indicating a duration without an end condition or temporal notation.</li>
+    </ul>
+    <p>[=Frequency=] indicates how frequently something occurs. Statistically, this can be expressed as the combination of number of occurences and a time period, which can further be expressed as a probabilitic value or a percentage. For example, for something occuring once every year, the frequency is: 1 or 100% for 1 year. While such <i>quantified</i> representations are important for determining metrics and performing operations, DPV focuses on the <i>qualitative</i> labelling of such representations within a specific context.</p>
+    <p>The relation [=hasFrequency=] associates a frequency with a context, and can be expressed using the following subtypes:</p>
+    <ul>
+      <li>[=ContinousFrequency=] - indicates things occuring continously, e.g. location collection happens continously.</li>
+      <li>[=SporadicFrequency=] - indicates things occuring sporadically or rarely or not often, e.g. collecting system usage logs every month.</li>
+      <li>[=OftenFrequency=] - indicates things happen often or regularly or commonly, e.g. online status is reported every 5 mins.</li>
+      <li>[=SingularFrequency=] - indicates things happen only once.</li>
+    </ul>
+    <p>DPV provides two subtypes of concepts to denote contextual - [=Importance=] and [=Necessity=], which can be applied to specific contexts such as [=PersonalDataHandling=], [=Purpose=], [=PersonalData=].</p>
+        <p>[=Importance=] is similar in application to [=Necessity=], and provides a way to indicate how <i>central</i> or <i>significant</i> the indicated operation(s) are to the context (e.g. to the Controller). Subtypes of importance are [=PrimaryImportance=] to indicate 'main' or 'central' or 'primary' importance, and [=SecondaryImportance=] to indicate 'auxiliary' or 'peripheral' or 'secondary' importance.</p>
+        <p>[=Necessity=] enables specifying whether the contextual information is [=Required=], is [=Optional=], or is [=NotRequired=]. These can be used to indicate, for example, which parts of processing operations (e.g. purposes, personal data) are optional, and whether a particular processing operation is required to be carried out.</i></p>
+
+    {{ list_hierarchy(modules['context']['classes']) }}
+  </section>
+
+  <section id="vocab-status">
+    <h2>Status</h2>
+    <p>To assist with expressing the state or status associated with various activities, DPV provides the [=Status=] concept that can be associated contextually using the [=hasStatus=] relation. Specific subtypes are provided as [=ActivityStatus=], [=ComplianceStatus=] including [=Lawfulness=], [=AuditStatus=], [=ConformanceStatus=], and [=RequestStatus=].</p>
+
+    <p><strong>[=ActivityStatus=]</strong> represents a state or status of an activity's operations and lifecycle, which includes [=ActivityProposed=], [=ActivityOngoing=], [=ActivityHalted=], [=ActivityCompleted=], and [=ActivityNotCompleted=].</p>
+
+    <p><strong>[=ComplianceStatus=]</strong> represents status associated with <i>compliance</i> with some norms, objectives, or requirements. Types include [=Compliant=], [=PartiallyCompliant=], [=NonCompliant=], [=ComplianceViolation=], [=ComplianceUnknown=], [=ComplianceIndeterminate=]. The association with a law or objective can be specified using [=hasApplicableLaw=] or [=hasPolicy=] directly for the status or indirectly through the concept whose status is being represented.</p>
+
+    <p><strong>[=Lawfulness=]</strong> represents a special type of [=ComplianceStatus=] which relates to legal compliance, or <i>lawfulness</i>, and has types [=Lawful=], [=Unlawful=], and [=LawfulnessUnkown=].</p>
+
+    <p><strong>[=AuditStatus=]</strong> represents the state or status of an audit, where the term <i>audit</i> is loosely defined, and may or may not relate to legal compliance - for e.g. for impact assessments, or as part of certification, or organisational quality assurance processes. Types of audits include [=AuditApproved=], [=AuditConditionallyApproved=], [=AuditRejected=], [=AuditRequested=], [=AuditNotRequired=], and [=AuditRequired=].</p>
+
+    <p><strong>[=ConformanceStatus=]</strong> represents the status of <i>conformance</i>, which is defined distinctly from <i>compliance</i> by considering voluntary association or following of a guideline, requirement, standard, or policy, and where compliance is related to the (legal or other systematically defined) <i>conformity</i> of a given system or use-case with <i>rules</i> which may dictate obligations and prohibitions that must be followed. To provide an illustrative example, consider <i>conformance</i> with a standard on best practices regarding security may assist in the demonstration of <i>compliance</i> with a legal norm requiring organisational measures of security. Types of conformance defined are: [=Conformant=] and [=NonConformant=].</p>
+
+    <p><strong>[=RequestStatus=]</strong> represents the state or status of <i>requests</i>, which can be between entities such as data subjects and controllers regarding exercising of rights, or between controllers and processors regarding processing operations, or between authorities and controllers regarding compliance related communications. Types of request statues are: [=RequestInitiated=], [=RequestAcknowledged=], [=RequestAccepted=], [=RequestRejected=], [=RequestFulfilled=], [=RequestUnfulfilled=], [=RequestRequiresAction=], [=RequestRequiredActionPerformed=], [=RequestActionDelayed=], and [=RequestStatusQuery=].</p>
+
+    {{ list_hierarchy(modules['context-status']['classes']) }}
+  </section>
+</section>
+
+<section id="vocab-jurisdiction">
+  <h2>Location &amp; Jurisdiction</h2>
+  <figure>
+    <img src="../../media/location.png">
+    <figcaption></figcaption>
+  </figure>
+  <p>To represent location, the concept [=Location=] along with relations [=hasLocation=] is provided. For geo-political locations, the concepts such as [=Country=] and [=SupraNationalUnion=] are subtyped, with [=hasCountry=] and [=ThirdCountry=] with [=hasThirdCountry=] provided for convenience in common uses (e.g. data storage, transfers).</p>
+  <p>To define contextual location concepts, such as there being several locations, or that the location is 'local' to an event, DPV provides two concepts. [=LocationFixture=] specifies whether the location is 'fixed' or 'deterministic', with subtypes for <i>fixed single</i>, <i>fixed multiple</i>, and <i>variable</i> locations. [=LocationLocality=] specifies whether the location is 'local' within the context, with subtypes for <i>local</i>, <i>remote</i>, <i>within a device</i>, or <i>in cloud</i>.</p>
+  <p>To represent locations as jurisdictions, the relation [=hasJurisdiction=] is provided. The concept [=Law=] represents an official or authoritative law or regulation created by a government or an authority. To indicate applicability of laws within a jurisdiction, the relation [=hasApplicableLaw=] is provided.</p>
+  <p>[[[LEGAL]]] provides taxonomies extending these concepts, such as to represent specific countries, their laws, authorities, memberships, adequacy decisions, and other information.</p>
+
+  {{ list_hierarchy(modules['context-jurisdiction']['classes']) }}
+</section>
+
+<section>
+  <h2>Vocabulary Index</h2>
+  <section id="classes">
+    {{ index_concepts(modules['context']['classes'], vocab_name, filter="classes") }}
+  </section>
+  <section id="properties">
+    {{ index_concepts(modules['context']['properties'], vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>DPV uses the following terms from [[RDF]] and  [[RDFS]] with their defined meanings:</p>
+    <ul>
+      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+      </ul>
+    <p>The following external concepts are re-used within DPV:</p>
+    {% set module_combined = modules['context']['classes'].copy() %}
+    {% set _ = module_combined.update(modules['context']['properties']) %}
+    {{ index_concepts(module_combined, vocab_name, filter="external") }}
+  </section>
+</section>
+<section class="appendix" id="issue-summary"></section>
+<script type="text/javascript" src="../../media/common.js" defer></script>
+</body>
+</html>

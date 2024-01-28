@@ -1,0 +1,564 @@
+{% from 'macro_term_table.jinja2' import index_concepts, list_items, list_hierarchy, table_properties %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, ref_dedicated_documentation, language_selector %}
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}}{% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}}",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
+    canonicalUri: "https://w3id.org/dpv/",
+    edDraftURI: "https://w3id.org/dpv/",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}",
+    }
+    ],
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list %}
+      {
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+  <link rel="stylesheet" type="text/css" href="../media/common.css">
+</head>
+<body>
+{% block ABSTRACT %}
+    {# {{ language_selector(lang) }} #}
+    <section id="abstract">
+      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
+      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      {{ sotd() }}
+      {{ dpv_document_family(document='dpv-spec') }}
+    </section>
+{% endblock ABSTRACT %}
+{% block INTRODUCTION %}
+  <section id="introduction">
+    <h2>Introduction</h2>
+    <section>
+      <h3>Semantics</h3>
+      <p><em>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</em></p>
+      
+      <p>DPV's terms are defined using [[RDFS]] &amp; [[SKOS]] semantics where all 'classes' and 'properties' are defined as <code>skos:Concept</code> in addition to <code>rdfs:Class</code> and <code>rdf:Property</code> respectively. For taxonomies or hierarchies, concepts are defined as 'instances' of a top-concept, and relationships within the hierarchy are defined using <code>skos:broader/skos:narrower</code>. For example, [=Purpose=] is the top concept within the purposes taxonomy, and all purposes are instances of it. [=ServiceProvision=] is the purpose associated with 'service provision', and [=RequestedServiceProvision=] as a more specific purpose is associated with it using <code>skos:broader</code>.</p>
+      
+      <p>[[OWL]] is an alternate serialisation of DPV where the same concepts are defined using [[OWL]] semantics for use with OWL-based reasoners. The conversion from SKOS to OWL follows the best practices and concerns outlined in [[[SKOS-OWL]]], e.g. by replacing <code>skos:Concept</code> with <code>owl:Class</code>, and using <code>rdfs:subClassOf</code> instead of <code>skos:broader/skos:narrower</code>.</p>
+
+      <p>DPV consists of certain 'core concepts' that are intended to be independent representations of specific information, and are distinct from other core concepts. For example, the [=Purpose=] refers only to the <i>purpose of why personal data is processed</i> and is independent as a concept from the other concepts (e.g. [=PersonalData=] or [=LegalBasis=]). The structuring of DPV is based on providing rich and comprehensive taxonomies that group concepts together based on each core concept, e.g. taxonomy of purposes, taxonomy of legal basis. 'Extensions' are a separate group of concepts that expand the 'core' vocabulary to represent specific information e.g. [[PD]] for personal data categories and [[RISK]] for risk management.</p>
+    </section>
+
+    <section id="vocab-base">
+      <h3>Core Vocabulary</h3>
+      <figure>
+        <img title="DPV Core Vocabulary" alt="DPV core vocabulary" src="../media/base.png">
+        <figcaption>Overview of concepts in DPV</figcaption>
+      </figure>
+      <p>The 'Core' concepts and relationships in DPV represent and associate relevant information regarding the what, how, where, who, why of personal data and its processing. These are:</p>
+      <table>
+      <tr>
+          <td>Concept</td>
+          <td>Relation</td>
+      </tr>
+      <tr>
+          <td>[=PersonalData=]</td>
+          <td>[=hasPersonalData=]</td>
+      </tr>
+      <tr>
+          <td>[=Purpose=]</td>
+          <td>[=hasPurpose=]</td>
+      </tr>
+      <tr>
+          <td>[=Processing=]</td>
+          <td>[=hasProcessing=]</td>
+      </tr>
+      <tr>
+          <td>[=DataController=]</td>
+          <td>[=hasDataController=]</td>
+      </tr>
+      <tr>
+          <td>[=DataSubject=]</td>
+          <td>[=hasDataSubject=]</td>
+      </tr>
+      <tr>
+          <td>[=Recipient=]</td>
+          <td>[=hasRecipient=]</td>
+      </tr>
+      <tr>
+          <td>[=TechnicalOrganisationalMeasure=]</td>
+          <td>[=hasTechnicalOrganisationalMeasure=]</td>
+      </tr>
+      <tr>
+          <td>[=LegalBasis=]</td>
+          <td>[=hasLegalBasis=]</td>
+      </tr>
+      <tr>
+          <td>[=Right=]</td>
+          <td>[=hasRight=]</td>
+      </tr>
+      <tr>
+          <td>[=Risk=]</td>
+          <td>[=hasRisk=]</td>
+      </tr>
+      <tr>
+          <td>[=Context=]</td>
+          <td>[=hasContext=]</td>
+      </tr>
+  </table>
+  <div class="issue" title="Review and update section descriptions"></div>
+      <p>To 'group' these concepts together within a specific use-case, the concept [=Process=] and relation [=hasProcess=] are useful (the concept [=PersonalDataHandling=] was used in earlier versions for the same). For example, a 'process' about a specific application can represent the associated purposes, personal data, legal basis, etc. using the relations and provided taxonomies. For a detailed representation, the following specialisations of processes are provided to indicate e.g. the process is or is not expected to involve personal data:</p>
+      {{ list_hierarchy(modules['process']['classes'], head='dpv:Process', lang=lang) }}
+  </section>
+
+  <section>
+    <h3>Taxonomies</h3>
+    <p>The rest of the document expands on the core concepts through the following taxonomies.</p>
+    <ul>
+      <li><a href="#vocab-entities"><strong>Entities</strong></a> - different kinds of entities and their categories (e.g. <a href="#vocab-entities-organisation">Organisations</a>, <a href="#vocab-entities-authority">Authorities</a>, and <a href="#vocab-entities-datasubject">Data Subjects</a>) and the <a href="#vocab-entities-legalrole">Legal Roles</a> they can take.</li>
+      <li><a href="#vocab-purposes"><strong>Purposes</strong></a> that justify the need or goal for which personal data is processd.</li>
+      <li><a href="#vocab-processing"><strong>Processing</strong></a> operations over personal data.</li>
+      <li><a href="#vocab-personal-data"><strong>Data and Personal Data</strong></a> categories.</li>
+      <li><a href="#vocab-TOM"><strong>Technical &amp; Organisational Measures</strong></a>.</li>
+      <li><a href="#vocab-legal-basis"><strong>Legal Bases</strong></a> that justify the processing (e.g. <a href="#vocab-legal-basis-consent">Consent</a>).</li>
+      <li><a href="#vocab-processing-context"><strong>Contextual information about Processing</strong></a> (e.g. <a href="#vocab-processing-context-storage-automation">Storage Conditions and Automation</a>, and <a href="#vocab-processing-context-scale">Scale of Processing</a>).</li>
+      <li><a href="#vocab-context"><strong>Contextual information</strong></a> (e.g. <a href="#vocab-context-duration-frequency">duration and frequency</a>, and <a href="#vocab-context-status">statuses associated with activities<.</li>
+      <li><a href="#vocab-context-jurisdiction"><strong>Locations &amp; Jurisdictions</strong></a> providing relevance to laws, authorities, and location contexts.</li>
+      <li><a href="#vocab-risk"><strong>Risk &amp; Impacts</strong></a> for risk assessment, management, and expression of consequences and impacts associated with processing.</li>
+      <li><a href="#vocab-rights"><strong>Rights and Rights Exercise</strong></a> for specifying what rights are applicable, how they can be exercised, and how to provide information associated with rights.</li>
+      <li><a href="#vocab-rules"><strong>Rules</strong></a> for expressing constraints, requirements, and other forms of rules that can specify or assist in interpreting what is permitted, prohibited, mandatory, etc.</li>
+    </ul>
+  </section>
+</section>
+{% endblock INTRODUCTION %}
+{% block VOCAB %}
+<section id="vocab-entities">
+  <h2>Entities</h2>
+  <figure>
+    <img src="../media/Entities.png" />
+    <figcaption></figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/entities", "entities") }}
+  <p>DPV relies on existing well-founded interpretations for its concepts, which in this case relate to <i>Entity</i> as a generic universal concept and <i>LegalEntity</i> specifically referring to roles defined legally or within legal norms. Expanding on these, DPV provides a taxonomy of entities based on their application within laws and use-cases in the form of <a href="#vocab-entities-legalrole"><i>Legal roles</i></a>, such as [=DataController=], [=DataSubject=], and [=Authority=]. Later, these concepts are expanded into taxonomies for different kinds of entities categorised under a common concept. For example, <a href="#vocab-entities-datasubject">categories of <i>Data Subjects</i></a> such as [=Adult=], [=User=], or [=Employee=]; or <a href="#vocab-entities-authority">kinds of <i>Authorities</i></a>, or <a href="#vocab-entities-organisation">categories of <i>Organisations</i></a>.</p>
+
+  {{ list_hierarchy(modules['entities']['classes'], head='dpv:Entity') }}
+
+  <section id="vocab-entities-legalrole">
+    <h3>Legal Roles</h3>
+    <p><i>Legal Role</i> is the role taken on by a legal entity based on definitions or criterias from laws, regulations, or other such normative sources. Legal roles assist in representing the role and responsibility of an entity within the context of processing, and from this to determine the requirements and obligations that should apply, and their compliance or conformance.</p>
+    {{ list_hierarchy(modules['entities-legalrole']['classes'], head='dpv:LegalEntity') }}
+  </section>
+
+  <section id="vocab-entities-authority">
+    <h3>Authorities</h3>
+    <p>The concept [=Authority=] is a specific Governmental Organisation authorised to enforce a law or regulation. Authorities can be associated with a specific domain, topic, or jurisdiction. DPV currently defines regional authorities for [=NationalAuthority=], [=RegionalAuthority=], and [=SupraNationalAuthority=], and [=DataProtectionAuthority=] represents authorities associated with data protection and privacy. To associate authorities with concepts, the relations [=hasAuthority=] and [=isAuthorityFor=] are provided.</p>
+    {{ list_hierarchy(modules['entities-authority']['classes'], head='dpv:Authority') }}
+  </section>
+
+  <section id="vocab-entities-organisation">
+    <h3>Organisation</h3>
+    {{ list_hierarchy(modules['entities-organisation']['classes'], head='dpv:Organisation') }}
+  </section>
+
+  <section id="vocab-entities-datasubject">
+    <h3>Data Subjects</h3>
+    <p>DPV provides a taxonomy of data subject types to assist with describing what kind of individuals or groups are associated with an use-case. Some examples of such types are agency-based roles: [=Adult=] and [=Child=], [=ParentOfDataSubject=], [=GuardianOfDataSubject=]; those associated with vulnerability: [=VulnerableDataSubject=], [=ElderlyDataSubject=], [=AsylumSeeker=]; domain-specific roles such as [=Patient=], [=Employee=], [=Student=], jurisdictional roles such as [=Citizen=], [=NonCitizen=], [=Immigrant=]; and general roles such as [=User=], [=Member=], [=Participant=], and [=Client=].</p>
+    {{ list_hierarchy(modules['entities-datasubject']['classes'], head='dpv:DataSubject') }}
+  </section>
+</section>
+
+<section id="vocab-purposes">
+  <h2>Purposes</h2>
+  <figure>
+    <a href="../media/purpose-2.png" target="_blank">
+      <img title="Overview of Purpose taxonomy in DPV" src="../media/purpose-2.png">
+    </a>
+    <figcaption>Overview of Purpose taxonomy in DPV (click to open in new window)</figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/purposes", "purposes") }}
+  <p>DPV’s taxonomy of purposes is used to represent the reason or justification for processing of personal data. For this, purposes are organised within DPV based on how they relate to the processing of personal data in terms of several factors, such as: management functions related to information (e.g. records, account, finance), fulfilment of objectives (e.g. delivery of goods), providing goods and services (e.g. service provision), intended benefits (e.g. optimisations for service provider or consumer), and legal compliance.</p>
+
+  <p>DPV provides a taxonomy of Purpose <i>instances</i> for use with [=hasPurpose=] relation. In addition, DPV also defines the concept [=Sector=] (associated using [=hasSector=]) to indicate a contextual interpretation of the purpose within a specified sector.</p>
+
+  {{ list_hierarchy(modules['purposes']['classes'], head='dpv:Purpose') }}
+
+</section>
+
+<section id="vocab-processing">
+  <h2>Processing</h2>
+  <figure>
+    <img src="../media/processing.png" />
+    <figcaption></figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/processing", "processing") }}
+  <p>DPV’s taxonomy of processing concepts reflects the variety of terms used to denote processing activities or operations involving personal data, such as those from [GDPR] Article.4-2 definition of processing. Real-world use of terms associated with processing rarely uses this same wording or terms, except in cases of specific domains and in legal documentation. On the other hand, common terms associated with processing are generally restricted to: collect, use, store, share, and delete.</p>
+  <p>DPV provides a taxonomy that aligns both the legal terminologies such as those defined by GDPR with those commonly used. For this, concepts are organised based on whether they subsume other concepts, e.g. Use is a broad concept indicating data is used, which DPV extends to define specific processing concepts for Analyse, Consult, Profiling, and Retrieving. Through this mechanism, whenever an use-case indicates it consults some data, it can be inferred that it also uses that data.</p>
+  <p>For concepts related to expressing contextual information associated with processing, such as storage conditions, automation, scale, see <a href="#vocab-processing-context">Processing Context</a> and <a href="#vocab-processing-context-scale">Processing Scale</a> sections.</p>
+  {{ list_hierarchy(modules['processing']['classes'], head='dpv:Processing') }}
+</section>
+
+<section id="vocab-personal-data">
+  <h2>Data &amp; Personal Data</h2>
+  <figure>
+    <img src="../media/PersonalData.png" />
+    <figcaption></figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/data", "data") }}
+  <div class="issue" title="Data module page is missing"></div>
+  <p>DPV provides the concept [=PersonalData=] and the relation [=hasPersonalData=] to indicate what categories or instances of personal data are being processed. The DPV specification only provides a structure for describing personal data, e.g. as being sensitive. For specific categories of personal data for use-cases, [[[PD]]] provides additional concepts that extend the DPV's personal data taxonomy. This separation is to enable adopters to decide whether the extension's concepts are useful to them, or to use other external vocabularies, or define their own.</p>
+  <p>In addition to <i>Personal Data</i>, there may be a need to represent <i>Non-Personal Data</i> within the same contextual use-cases. For this, DPV provides the concepts [=Data=], [=NonPersonalData=] and [=SyntheticData=].</p>
+  <p>To indicate data categorised based on [=DataSource=], e.g. as "collected personal data", DPV provides: [=CollectedPersonalData=], [=DerivedPersonalData=], [=InferredPersonalData=], [=GeneratedPersonalData=], and [=ObservedPersonalData=].</p>
+  <p>For indicating personal data which is sensitive, the concept [=SensitivePersonalData=] is provided. For indicating special categories of data, the concept [=SpecialCategoryPersonalData=] is provided. In this, the concept <i>sensitive</i> indicates that the data needs additional considerations (and perhaps caution) when processing, such as by increasing its security, reducing usage, or performing impact assessments. <i>Special categories</i>, by contrast, are a 'special' type of sensitive personal data requiring additional considerations or obligations defined in laws (or through other forms) that regulate how they should be used or prohibit their use until specific obligations are met.</p>
+  <p>To specify data is anonymised, DPV provides two concepts. [=AnonymisedData=] for when data is completely anonymised and cannot be de-anonymised, which is a subtype of [=NonPersonalData=]. And, [=PseudonymisedData=] for when data has only been partially anonymised or de-anonymisation is possible, which is a subtype of [=PersonalData=].</p>     
+  <p>DPV defines the following concepts for expressing information about data:</p>
+  {{ list_hierarchy(modules['personal_data']['classes'], head='dpv:Data') }}
+</section>
+<section id="vocab-TOM">
+  <h2>Tech/Org Measures</h2>
+  <figure>
+    <a href="../media/techorgmeasures-2.png" target="_blank">
+      <img title="Overview of Technical & Organisational Measures taxonomy in DPV" src="../media/techorgmeasures-2.png">
+    </a>
+    <figcaption>Overview of Technical & Organisational Measures taxonomy in DPV (click to open in new window)</figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/TOM", "Tech & Org measures") }}
+  <div class="issue" title="Add Legal/Physical measure to TOM"></div>
+  <p>DPV's taxonomy of tech/org measures are structured into two groups representing and [=TechnicalMeasure=] and [=OrganisationalMeasure=] along with specific properties for each. Each term has a dedicated taxonomy that expands upon the core idea to provide a rich list of technial and organisational measures that are intended to protect personal data (and its associated entities and consequences).</p>
+  <p>This taxonomy also includes relations that are associated with measures, such as [=hasNotice=] or [=hasPolicy=], which are generic and can be applied to other contexts (e.g. notice for consent, policy for data storage).</p>
+  {{ list_hierarchy(modules['TOM']['classes'], head='dpv:TechnicalOrganisationalMeasure') }}
+  
+  <section id="vocab-TOM-technical">
+    <h3>Technical Measures</h3>
+    <figure>
+    <a href="../media/techmeasures-2.png" target="_blank">
+      <img title="Overview of Technical Measures taxonomy in DPV" src="../media/techmeasures-2.png" style="width: auto; max-height: 500px;">
+    </a>
+    <figcaption>Overview of Technical Measures taxonomy in DPV (click to open in new window)</figcaption>
+  </figure>
+  {{ list_hierarchy(modules['TOM-technical']['classes'], head='dpv:TechnicalMeasure') }}
+    </section>
+  <section id="vocab-TOM-organisational">
+    <h3>Organisational Measures</h3>
+    <figure>
+    <a href="../media/orgmeasures-2.png" target="_blank">
+      <img title="Overview of Organisational Measures taxonomy in DPV" src="../media/orgmeasures-2.png">
+    </a>
+    <figcaption>Overview of Organisational Measures taxonomy in DPV (click to open in new window)</figcaption>
+  </figure>
+  {{ list_hierarchy(modules['TOM-organisational']['classes'], head='dpv:OrganisationalMeasure') }}
+  </section>
+</section>
+
+<section id="vocab-legal-basis">
+  <h2>Legal Bases</h2>
+  <figure>
+    <img src="../media/legal_bases.png">
+    <figcaption>Legal Bases in DPV</figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/legal_basis", "legal basis") }}
+  <p>DPV provides the following categories of legal bases based on [[GDPR]] Article 6: consent of the data subject, contract, compliance with legal obligation, protecting vital interests of individuals, legitimate interests, public interest, and official authorities. Though derived from GDPR, these concepts can be applied for other jurisdictions and general use-cases. The legal bases are represented by the concept [=LegalBasis=] and associated using the relation [=hasLegalBasis=].</p>
+
+  <p>When declaring a legal basis, it is important to denote under what law or jurisdiction that legal basis applies. For instance, using [=Consent=] as a legal basis has different obligations and requirements in EU (i.e. [[GDPR]]) as compared to other jurisdictions. Therefore, unless the information is to be implicitly interpreted through some specific legal lens or jurisdictional law, DPV recommends indicating the specific law or legal clause associated with the legal basis so as to scope its interpretation. This can be done using the relation [=hasJurisdiction=] or [=hasApplicableLaw=].</p>
+
+  <p>For GDPR, DPVCG provides the [[[EU-GDPR]]] which defines the legal bases within [[GDPR]] by extending them from relevant concepts within the DPV. We welcome similar contributions for extending the GDPR extension as well as creating extensions for other laws and domains.</p>
+
+  {{ list_hierarchy(modules['legal_basis']['classes'], head='dpv:LegalBasis') }}
+
+  <section id="vocab-legal-basis-consent">
+    <h3>Consent</h3>
+    <figure>
+      <a href="../media/Consent.png"><img src="../media/Consent.png"></a>
+      <figcaption></figcaption>
+    </figure>
+    <p>Consent in DPV is a specific legal basis representing <i>information associated with consent</i> rather than only <i>given consent</i>. Common information associated with consent includes tasks such as keeping track of whether "consent has been given/obtained", "issuing a consent request", and "withdrawing consent", as well as expressing requirements through terms such as "informed" and "explicit". To assist with representing these concepts as well as keeping records about how they are being applied, DPV provides the following consent concepts.</p>
+    <ul>
+      <li>[=Consent=] - a type of legal basis representing consent of the individual.</li>
+      <li><a href="#vocab-legal-basis-consent-types">Consent Types</a> - to represent criteria for consent, such as [=InformedConsent=] and [=ExplicitlyExpressedConsent=].</li>
+      <li><a href="#vocab-legal-basis-consent-status">Consent Status</a> - to represent and keep track of what state/status/stage the consenting process is at, for example indicating the journey or lifecycle from [=ConsentRequested=] to [=ConsentGiven=] and then [=ConsentWithdrawn=].</li>
+      <li><a href="vocab-consent-relations">Consent Relations</a> - to enable association of relevant information with consent, such as the notice used or provided, status of consent, or who indicated it.</li>
+    </ul>
+    <p>To indicate the duration or validity of a given consent instance, the existing contextual relation [=hasDuration=] along with specific forms of [=Duration=] can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype [=UntilEventDuration=] can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, [=UntilTimeDuration=] indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and [=TemporalDuration=] indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, [=EndlessDuration=] can be used.</p>
+    <p>To specify consent provided by delegation, such as in the case of a parent or guardian providing consent for/with a child, the [=isIndicatedBy=] relation can be used to associate the parent or guardian responsible for providing consent (or its affirmation). Since by default the consent is presumed to be provided by the individual, when such individuals are associated with their consent, i.e. through [=hasDataSubject=], the additional information provided by [=isIndicatedBy=] can be considered redundant and is often omitted.</p>
+
+    <section id="vocab-legal-basis-consent-types">
+      <h4>Consent Types</h4>
+      {{ list_hierarchy(modules['legal_basis-consent-types']['classes'], head='dpv:Consent') }}
+    </section>
+
+    <section id="vocab-legal-basis-consent-status">
+      <h4>Consent Status</h4>
+      {{ list_hierarchy(modules['legal_basis-consent-status']['classes'], head="dpv:ConsentStatus") }}
+    </section>
+
+  </section>
+</section>
+
+<section id="vocab-processing-context">
+  <h2>Context of Processing</h2>
+  <figure>
+    <img src="../media/Processing_Context.png">
+    <figcaption></figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/processing#vocab-processing-context", "processing context") }}
+  <section id="vocab-processing-context-storage-automation">
+    <h3>Storage Conditions, Automation</h3>
+    <p>This taxonomy provides concepts for representing information about storage conditions, e.g. how long the data will be stored for, its erasure, or its restoration. It also enables representing the source(s) of data, the use of automation, and the extent of human involvement within the automation.</p>
+    <p>The processing taxonomy uses the concept [=Store=] to indicate data is being stored. To specify additionally information such as its location, erasure or deletion, the generic concepts and relations associated with processing (i.e. <i>location</i> and <i>duration</i>) can be used. However, to emphasise that information about storage - such as policies, conditions, rules, or documentation - are critical on considerations of data protection and privacy as well as legal compliance, DPV provide specific concepts related to these.</p>
+    <p>The concept [=StorageCondition=] and the relation [=hasStorageCondition=] represent the general or abstract conditions associated with storage of data. This is specialised to indicate [=StorageDuration=], [=StorageDeletion=], [=StorageRestoration=], and [=StorageLocation=]. This enables a document to directly specify information such as: "storage duration is 6 months" or "storage restoration uses 3 geo-distinct backup servers".</p>
+    <p>For declaring the source of data, the [=DataSource=] concept along with [=hasDataSource=] relationship is provided to indicate where the data is collected or acquired from. For example, data can be obtained from the data subject directly (e.g. given via forms) or indirectly (e.g observed from activity, or inferred from existing data), or from another entity such as a third party.</p>
+    <div class="issue" title="Update Automation and Human Involvement concepts"></div>
+    <p>DPV provides <s>AutomationOfProcessing</s> to represent the degree of automation, and the relation <s>hasProcessingAutomation</s> to associate it with contextual concepts. The degrees of automation are represented by <s>FullyAutomatedProcessing</s>, <s>PartiallyAutomatedProcessing</s>, and <s>CompletelyManualProcessing</s>.</p>
+    <p>To represent how humans are involved, the concept [=HumanInvolvement=] and relation [=hasHumanInvolvement=] are provided. Specific types of  [=HumanInvolvement=] include [=HumanInvolvementForOversight=], and [=HumanInvolvementForVerification=].
+    <p>To indicate more specific applications: [=DecisionMaking=] and [=AutomatedDecisionMaking=] refer to use of processing to make decisions, [=AlgorithmicLogic=] for explaining the use of algorithms and specifics of processing logic, [=EvaluationScoring=] to indicate the processing evaluates or assigns scores (or metrics), [=InnovativeUseOfNewTechnologies=] to indicate there are innovative uses of novel technologies, and [=SystematicMonitoring=] to indicate the processing performs a systematic (or systemic) monitoring. These additional concepts are intended to model areas or topics that are considered sensitive or high-risk or require caution.</p>
+
+    {{ list_hierarchy(modules['processing-context']['classes'], head='dpv:ProcessingContext') }}
+  </section>
+
+  <section id="vocab-processing-context-scale">
+    <h3>Scale of Processing</h3>
+    <p>DPV provides (qualitative) scales for expressing <i>Data Volume</i>, <i>Data subjects</i>, and <i>Geographical Coverage</i> of processing. Along with these, DPV also provides a <i>Processing Scale</i> to express combinations of these. NOTE: The actual meaning or quantified amounts for each concept are not defined due to their interpretation based on contextual factors such as legislations, guidelines, domains, and variations across industries.</p>
+
+    {{ list_hierarchy(modules['processing-scale']['classes'], head='dpv:Scale') }}
+  </section>
+</section>
+
+<section id="vocab-context">
+  <h2>General Context</h2>
+  <figure>
+    <img src="../media/Context.png">
+    <figcaption></figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/context", "context") }}
+  <section id="vocab-context-duration-frequency">
+    <h3>Duration and Frequency</h3>
+    <p>To express the duration of events or operations, such as how long processing will take or the validity of consent, the concept [=Duration=] can be used. Duration is indicated using the relation [=hasDuration=], and has the following subtypes:</p>
+    <ul>
+    <li>[=TemporalDuration=] - indicating a relative temporal duration, e.g. 6 months.</li>
+    <li>[=UntilTimeDuration=] - indicating duration that occurs until the end of specified time, e.g. until 31 DEC 2022.</li>
+    <li>[=UntilEventDuration=] - indicating duration that occurs until the end of specified event, e.g. until account is closed.</li>
+    <li>[=FixedOccurencesDuration=] - a duration that is based on number of occurences, e.g. until you view it 3 times</li>
+    <li>[=EndlessDuration=] - indicating a duration without an end condition or temporal notation.</li>
+    </ul>
+    <p>[=Frequency=] indicates how frequently something occurs. Statistically, this can be expressed as the combination of number of occurences and a time period, which can further be expressed as a probabilitic value or a percentage. For example, for something occuring once every year, the frequency is: 1 or 100% for 1 year. While such <i>quantified</i> representations are important for determining metrics and performing operations, DPV focuses on the <i>qualitative</i> labelling of such representations within a specific context.</p>
+    <p>The relation [=hasFrequency=] associates a frequency with a context, and can be expressed using the following subtypes:</p>
+    <ul>
+      <li>[=ContinousFrequency=] - indicates things occuring continously, e.g. location collection happens continously.</li>
+      <li>[=SporadicFrequency=] - indicates things occuring sporadically or rarely or not often, e.g. collecting system usage logs every month.</li>
+      <li>[=OftenFrequency=] - indicates things happen often or regularly or commonly, e.g. online status is reported every 5 mins.</li>
+      <li>[=SingularFrequency=] - indicates things happen only once.</li>
+    </ul>
+    <p>DPV provides two subtypes of concepts to denote contextual - [=Importance=] and [=Necessity=], which can be applied to specific contexts such as [=PersonalDataHandling=], [=Purpose=], [=PersonalData=].</p>
+        <p>[=Importance=] is similar in application to [=Necessity=], and provides a way to indicate how <i>central</i> or <i>significant</i> the indicated operation(s) are to the context (e.g. to the Controller). Subtypes of importance are [=PrimaryImportance=] to indicate 'main' or 'central' or 'primary' importance, and [=SecondaryImportance=] to indicate 'auxiliary' or 'peripheral' or 'secondary' importance.</p>
+        <p>[=Necessity=] enables specifying whether the contextual information is [=Required=], is [=Optional=], or is [=NotRequired=]. These can be used to indicate, for example, which parts of processing operations (e.g. purposes, personal data) are optional, and whether a particular processing operation is required to be carried out.</i></p>
+
+    {{ list_hierarchy(modules['context']['classes'], head='dpv:Context') }}
+  </section>
+
+  <section id="vocab-context-status">
+    <h3>Status</h3>
+    <p>To assist with expressing the state or status associated with various activities, DPV provides the [=Status=] concept that can be associated contextually using the [=hasStatus=] relation. Specific subtypes are provided as [=ActivityStatus=], [=ComplianceStatus=] including [=Lawfulness=], [=AuditStatus=], [=ConformanceStatus=], and [=RequestStatus=].</p>
+
+    <p><strong>[=ActivityStatus=]</strong> represents a state or status of an activity's operations and lifecycle, which includes [=ActivityProposed=], [=ActivityOngoing=], [=ActivityHalted=], [=ActivityCompleted=], and [=ActivityNotCompleted=].</p>
+
+    <p><strong>[=ComplianceStatus=]</strong> represents status associated with <i>compliance</i> with some norms, objectives, or requirements. Types include [=Compliant=], [=PartiallyCompliant=], [=NonCompliant=], [=ComplianceViolation=], [=ComplianceUnknown=], [=ComplianceIndeterminate=]. The association with a law or objective can be specified using [=hasApplicableLaw=] or [=hasPolicy=] directly for the status or indirectly through the concept whose status is being represented.</p>
+
+    <p><strong>[=Lawfulness=]</strong> represents a special type of [=ComplianceStatus=] which relates to legal compliance, or <i>lawfulness</i>, and has types [=Lawful=], [=Unlawful=], and [=LawfulnessUnkown=].</p>
+
+    <p><strong>[=AuditStatus=]</strong> represents the state or status of an audit, where the term <i>audit</i> is loosely defined, and may or may not relate to legal compliance - for e.g. for impact assessments, or as part of certification, or organisational quality assurance processes. Types of audits include [=AuditApproved=], [=AuditConditionallyApproved=], [=AuditRejected=], [=AuditRequested=], [=AuditNotRequired=], and [=AuditRequired=].</p>
+
+    <p><strong>[=ConformanceStatus=]</strong> represents the status of <i>conformance</i>, which is defined distinctly from <i>compliance</i> by considering voluntary association or following of a guideline, requirement, standard, or policy, and where compliance is related to the (legal or other systematically defined) <i>conformity</i> of a given system or use-case with <i>rules</i> which may dictate obligations and prohibitions that must be followed. To provide an illustrative example, consider <i>conformance</i> with a standard on best practices regarding security may assist in the demonstration of <i>compliance</i> with a legal norm requiring organisational measures of security. Types of conformance defined are: [=Conformant=] and [=NonConformant=].</p>
+
+    <p><strong>[=RequestStatus=]</strong> represents the state or status of <i>requests</i>, which can be between entities such as data subjects and controllers regarding exercising of rights, or between controllers and processors regarding processing operations, or between authorities and controllers regarding compliance related communications. Types of request statues are: [=RequestInitiated=], [=RequestAcknowledged=], [=RequestAccepted=], [=RequestRejected=], [=RequestFulfilled=], [=RequestUnfulfilled=], [=RequestRequiresAction=], [=RequestRequiredActionPerformed=], [=RequestActionDelayed=], and [=RequestStatusQuery=].</p>
+
+    {{ list_hierarchy(modules['context-status']['classes'], head='dpv:Status') }}
+  </section>
+</section>
+
+<section id="vocab-context-jurisdiction">
+  <h2>Location &amp; Jurisdiction</h2>
+  <figure>
+    <img src="../media/location.png">
+    <figcaption></figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/context#vocab-jurisdiction", "location & jurisdiction") }}
+  <p>To represent location, the concept [=Location=] along with relations [=hasLocation=] is provided. For geo-political locations, the concepts such as [=Country=] and [=SupraNationalUnion=] are subtyped, with [=hasCountry=] and [=ThirdCountry=] with [=hasThirdCountry=] provided for convenience in common uses (e.g. data storage, transfers).</p>
+  <p>To define contextual location concepts, such as there being several locations, or that the location is 'local' to an event, DPV provides two concepts. [=LocationFixture=] specifies whether the location is 'fixed' or 'deterministic', with subtypes for <i>fixed single</i>, <i>fixed multiple</i>, and <i>variable</i> locations. [=LocationLocality=] specifies whether the location is 'local' within the context, with subtypes for <i>local</i>, <i>remote</i>, <i>within a device</i>, or <i>in cloud</i>.</p>
+  <p>To represent locations as jurisdictions, the relation [=hasJurisdiction=] is provided. The concept [=Law=] represents an official or authoritative law or regulation created by a government or an authority. To indicate applicability of laws within a jurisdiction, the relation [=hasApplicableLaw=] is provided.</p>
+  <p>The [[[LEGAL]]] provides taxonomies extending these concepts, such as to represent specific countries, their laws, authorities, memberships, adequacy decisions, and other information.</p>
+
+  {{ list_hierarchy(modules['context-jurisdiction']['classes']) }}
+</section>
+
+<section id="vocab-risk">
+  <h2>Risk and Impacts</h2>
+  <figure>
+    <img src="../media/risk.png">
+    <figcaption></figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/risk", "risk") }}
+  <p>For risk management, DPV's provides a lightweight risk ontology based on commonly utilised concepts regarding risk mitigation and risk management. While these concepts permit rudimentary association of risks and mitigations within a use-case, it is important to note that DPV (currently)
+    does not provide comprehensive concepts for risk management.</p>
+    <p>For more developed representations of risk assessment, mitigation, and management vocabularies, we suggest the adoption of relevant standards, such as the ISO/IEC 31000 series, and welcome contribution for their representation within DPV through [[[RISK]]].</p>
+
+    {{ list_hierarchy(modules['risk']['classes']) }}
+</section>
+
+<section id="vocab-rights">
+  <h2>Rights</h2>
+  <figure>
+    <img src="../media/rights.png">
+    <figcaption></figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/rights", "rights") }}
+  <p>The concept [=Right=] represents a normative concept for what is permissible or necessary in accordance with a system such as laws. To associate rights with concepts that are relevant or within which those rights occur, the relation [=hasRight=] is used. Rights can be <i>passive</i>, which means they are always applicable without requiring anything to be done, or <i>active</i> where they require some action to be taken to initiate or exercise them. To represent these concepts, DPV uses [=PassiveRight=] and [=ActiveRight=] respectively. Rights can be applicable to different contexts or entities. To differentiate rights applicable or afforded to data subjects, the concept [=DataSubjectRight=] is used.</p>
+  <p>The information regarding hwo to exercise a right is provided through [=RightExerciseNotice=] and associated using the [=isExercisedAt=] relation. This information can specify contextual information through use of other concepts such as [=PersonalDataHandling=] to denote a <i>necessary</i> [=Purpose=] of [=IdentityVerification=] as part of the rights exercise.</p>
+  <p>A [=RightExerciseActivity=] represents a concrete instance of a right being exercised. It can include contextual information such as timestamps, durations, entities, etc. that can be part of record-keeping. An activity can be a single <i>step</i> related to rights exercise -- such as the initial request to exercise that right, or its acknowledgement, or the final step taken to fulfil the right (e.g. provide some information), or it can also be a single activity describing the entire rights exercise process(es). To collate related activities associated with a rights exercise (e.g. associated with a specific data subject or a specific request), the concept [=RightExerciseRecord=] is useful. The information provided to describe or in fulfilment of a right exercise is represented by [=RightFulfilmentNotice=] and that associated when a right exercise cannot be fulfilled is represented by [=RightNonFulfilmentNotice=].</p>
+  <p>To indicate contextual information about Right Exercise activities, DPV suggests reuse of existing relations, such as those from DPV itself and [[[DCT]]]. For example, <code>dct:accessRights</code> can be used to specify constraints or requirements regarding access (e.g. log in required), or <code>dct:hasPart</code> and <code>dct:isPartOf</code> to express records and its contents, <code>dct:valid</code> to express validity constraints on the exercising being made available, <code>foaf:page</code> to specify the location or provision of notice, and [=hasStatus</code> with [=RequestStatus=] to represent the status of a rights exercise activity.</p>
+  <p>When rights require the provision of information which beyond a static common notice, for example a document personalised to the individual's information, or a dataset containing the individual's data, DPV recommends using [[[DCAT]]] to model the contents as a <code>dcat:Resource</code> or other relevant concepts from [[DCAT]] and [[DCT]] such as <code>dct:format</code>, <code>dct:accessRights</code>, and <code>dct:valid</code>.</p>
+
+  {{ list_hierarchy(modules['rights']['classes']) }}
+</section>
+
+<section id="vocab-rules">
+  <h2>Rules</h2>
+  {{ ref_dedicated_documentation("/dpv/modules/rules", "rules") }}
+  <p>DPV provides the concept [=Rule=] to specify requirements, constraints, and other forms of 'rules' that are associated with specific contexts (e.g., processing activities) using the relation [=hasRule=]. DPV provides three forms of Rules to represent [=Permission=], [=Prohibition=] and [=Obligation=], and their corresponding relations [=hasPermission=], [=hasProhibition=] and [=hasObligation=], to indicate a Rule that specifies whether something is permitted, prohibited or an obligation, respectively. DPV does not define additional semantics for rules and limits its scope and focus to provide a simple way to specify permissions, prohibitions, and obligations as common rules associated with personal data and its processing activities. For a more extensive and richer set of semantics and concepts to represent rules, DPVCG suggests looking towards other languages, such as [[ODRL]], [[SHACL]], and [[RuleML]] that have been developed with the specific goal of representing and applying rules. We welcome contributions for aligning DPV with these, and for providing guidance on how to complement DPV's rule-based concepts with external languages.</p>
+  <p>In representing Rules, DPV only provides the concept and does not express any inherent semantics on what those rules mean in relation to each other. For example, DPV does not express Permission to be non-compatible or disjoint from Prohibition. This is to separate the interpretation and application of rules based on the necessities of a use-case. For example, in a legal investigation it may be prudent to specify permission and prohibition can never occur together, but this may not be true if there are different legal requirements that allow a prohibition to be resolved or deferred, such as through another permission that overrides the prohibition.</p>
+  <p>DPV does not specify 'default' in relation to rules, i.e. it does not provide an interpretation of whether some rules apply automatically unless otherwise declared. For example, in declaring an instance of Personal Data Handling, the assumption is that the activities are modelled for what is happening or what is intended/planned to happen. The explicit annotation using a Permission rule adds information about whether some activity is permitted (and its associated information). Instead, if the use-case is using DPV to only document activities that are permitted, there is no need to explicitly specify the permissions. Similarly, just because something is happening or planned to happen, it cannot be assumed to be permitted (e.g., from evaluation of legal requirements). </p>
+  <p>To associate a rule with a specific context, which can be a PersonalDataHandling or PersonalData or Purposes, the relations [=hasPermission=], [=hasProhibition=] and [=hasObligation=] are provided. Additional types of rules can be added to DPV by extending the Rule Concept (e.g., <code>:MyRule rdfs:isSubClassOf dpv:Rule</code>).</p>
+
+  {{ list_hierarchy(modules['rules']['classes']) }}
+</section>
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <div class="issue" title="Resolve multiple creation dates in term definition e.g. isImplementedByEntity"></div>
+  <div class="issue" title="Resolve multiple contributors in term definition e.g. isImplementedByEntity"></div>
+  <section id="dpv-classes">
+    {{ index_concepts(vocab, vocab_name, filter="classes", lang=lang) }}
+  </section>
+  <section id="dpv-properties">
+    {{ index_concepts(vocab, vocab_name, filter="properties", lang=lang) }}
+  </section>
+  <section id="external-concepts">
+    <p>The following external concepts are re-used within DPV:</p>
+    {{ index_concepts(vocab, vocab_name, filter="external") }}
+  </section>
+</section>
+
+{% endblock VOCAB %}
+
+{% block ACKNOWLEDGEMENTS %}
+<section id="contributors">
+  <h2>Contributors</h2>
+  <div class="issue" title="Resolve duplicate contributors"></div>
+  <p>Former Editor(s): Axel Polleres ({{"Axel Polleres"|generate_author_affiliation}} - until 2019-12-31)</p>
+  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
+  <ul>
+  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
+    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
+  {% endfor %}
+  </ul>
+</section>
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Piero Bonatti and Luigi Sauro to the DPVCG have been funded by the European Union’s Horizon 2020 research and innovation programme under grant agreement N. 731601 (<a href="https://specialprivacy.ercim.eu/">project SPECIAL</a>) until 2019, and under grant agreement N. 883464 (<a href="https://trapeze-project.eu/">project TRAPEZE</a>) from 2020 until 2023.</p>
+  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+
+</section>
+{% endblock ACKNOWLEDGEMENTS %}
+{% block PROPOSED %}
+{% if proposed %}
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  {% for name, terms in proposed.items() %}
+    <strong>{{name}}</strong>
+    <ul>{% for term in terms %}
+      <li>{{term}}</li>
+    {% endfor %}</ul>
+  {% endfor %}
+</section>
+{% endif %}
+{% endblock PROPOSED %}
+
+<section id="serialisation-overview" class="appendix">
+  <h2>DPV concepts across serialisations</h2>
+  <p>The table provides an overview of the expression of concepts across the three DPV serialisations. These may be expanded in the future, including to non-semantic-web serialisations. </p>
+  <table>
+    <thead>
+      <th>Concept</th>
+      <th>Default</th>
+      <th>OWL</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Semantics</td>
+        <td>[[RDF]], [[RDFS]], [[SKOS]]</td>
+        <td>[[RDF]], [[RDFS]], [[OWL]]</td>
+      </tr>
+      <tr>
+        <td>Concept/Term</td>
+        </td><td><code>skos:Concept</code></td>
+        <td><code>owl:Class</code></td>
+      </tr>
+      <tr>
+        <td>subtype relation</td>
+        </td><td><code>skos:broader</code></td>
+        <td><code>owl:subClassOf</code></td>
+      </tr>
+      <tr>
+        <td>instance/type relation</td>
+        </td><td><code>rdf:type</code></td>
+        <td><code>rdf:type</code></td>
+      </tr>
+      <tr>
+        <td>relations/association</td>
+        </td><td><code>rdf:Property</code></td>
+        <td><code>owl:ObjectProperty</code></td>
+      </tr>
+      <tr>
+        <td>relation domain</td>
+        </td><td><code>rdfs:domain</code></td>
+        <td><code>rdfs:domain</code></td>
+      </tr>
+      <tr>
+        <td>relation range</td>
+        </td><td><code>rdfs:range</code></td>
+        <td><code>rdfs:range</code></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="changelog">
+  <h2>Changes from v1 to v2</h2>
+  <div class="issue" title="Statement on changes in v2"></div>
+</section>
+
+<section class="appendix" id="issue-summary"></section>
+<script type="text/javascript" src="../media/common.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+%{% from 'macro_term_table.jinja2' import index_concepts %}
+%{% from 'macro_term_table.jinja2' import list_hierarchy %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Legal Basis{% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "Legal Basis",
+    subtitle: "concepts in Data Privacy Vocabulary (DPV)",
+    publishDate: "2024-01-28",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/modules/legal_basis",
+    canonicalUri: "https://w3id.org/dpv/modules/legal_basis",
+    edDraftURI: "https://w3id.org/dpv/modules/legal_basis",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}",
+    }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../../media/common.css">
+</head>
+<body>
+{% block ABSTRACT %}
+    <section id="abstract">
+      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
+      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      {{ dpv_document_family(document='dpv-spec') }}
+      {{ sotd() }}
+    </section>
+{% endblock ABSTRACT %}
+  <section id="introduction">
+    <h2>Introduction</h2>
+    <blockquote>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</blockquote>
+    <div class="issue" title="Review section descriptions"></div>
+  <figure>
+    <img src="../../media/legal_bases.png">
+    <figcaption>Legal Bases in DPV</figcaption>
+  </figure>
+  <p>DPV provides the following categories of legal bases based on [[GDPR]] Article 6: consent of the data subject, contract, compliance with legal obligation, protecting vital interests of individuals, legitimate interests, public interest, and official authorities. Though derived from GDPR, these concepts can be applied for other jurisdictions and general use-cases. The legal bases are represented by the concept [=LegalBasis=] and associated using the relation [=hasLegalBasis=].</p>
+
+  <p>When declaring a legal basis, it is important to denote under what law or jurisdiction that legal basis applies. For instance, using [=Consent=] as a legal basis has different obligations and requirements in EU (i.e. [[GDPR]]) as compared to other jurisdictions. Therefore, unless the information is to be implicitly interpreted through some specific legal lens or jurisdictional law, DPV recommends indicating the specific law or legal clause associated with the legal basis so as to scope its interpretation. This can be done using the relation [=hasJurisdiction=] or [=hasApplicableLaw=].</p>
+
+  <p>For GDPR, DPVCG provides the [[[EU-GDPR]]] which defines the legal bases within [[GDPR]] by extending them from relevant concepts within the DPV. We welcome similar contributions for extending the GDPR extension as well as creating extensions for other laws and domains.</p>
+  
+  {{ list_hierarchy(modules['legal_basis']['classes']) }}
+
+  </section>
+
+  <section id="desc-contract">
+    <h3>Contract</h3>
+    <div class="issue" title="Content missing - Contract"></div>
+  </section>
+
+  <section id="desc-legal-obligation">
+    <h3>Legal Obligation</h3>
+    <div class="issue" title="Content missing - Legal Obligation"></div>
+  </section>
+
+  <section id="desc-consent">
+    <h3>Consent</h3>
+      <figure>
+      <a href="../../media/Consent.png"><img src="../../media/Consent.png"></a>
+      <figcaption></figcaption>
+    </figure>
+    <p>Consent in DPV is a specific legal basis representing <i>information associated with consent</i> rather than only <i>given consent</i>. Common information associated with consent includes tasks such as keeping track of whether "consent has been given/obtained", "issuing a consent request", and "withdrawing consent", as well as expressing requirements through terms such as "informed" and "explicit". To assist with representing these concepts as well as keeping records about how they are being applied, DPV provides the following consent concepts.</p>
+    <ul>
+      <li>[=Consent=] - a type of legal basis representing consent of the individual.</li>
+      <li><a href="#vocab-consent-types">Consent Types</a> - to represent criteria for consent, such as [=InformedConsent=] and [=ExplicitlyExpressedConsent=].</li>
+      <li><a href="#vocab-consent-status">Consent Status</a> - to represent and keep track of what state/status/stage the consenting process is at, for example indicating the journey or lifecycle from [=ConsentRequested=] to [=ConsentGiven=] and then [=ConsentWithdrawn=].</li>
+      <li><a href="vocab-consent-relations">Consent Relations</a> - to enable association of relevant information with consent, such as the notice used or provided, status of consent, or who indicated it.</li>
+    </ul>
+    <p>To indicate the duration or validity of a given consent instance, the existing contextual relation [=hasDuration=] along with specific forms of [=Duration=] can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype [=UntilEventDuration=] can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, [=UntilTimeDuration=] indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and [=TemporalDuration=] indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, [=EndlessDuration=] can be used.</p>
+    <p>To specify consent provided by delegation, such as in the case of a parent or guardian providing consent for/with a child, the [=isIndicatedBy=] relation can be used to associate the parent or guardian responsible for providing consent (or its affirmation). Since by default the consent is presumed to be provided by the individual, when such individuals are associated with their consent, i.e. through [=hasDataSubject=], the additional information provided by [=isIndicatedBy=] can be considered redundant and is often omitted.</p>
+    <div class="issue" title="Content missing - Consent usage and examples"></div>
+    <div class="issue" title="Content missing - Link to ISO 27560"></div>
+    {{ list_hierarchy(modules['legal_basis-consent']['classes']) }}
+
+    <section id="vocab-consent-types">
+      <h4>Consent Types</h4>
+      <div class="issue" title="Content missing - Consent Types"></div>
+      {{ list_hierarchy(modules['legal_basis-consent-types']['classes']) }}
+    </section>
+
+    <section id="vocab-consent-status">
+      <h4>Consent Status</h4>
+      <div class="issue" title="Content missing - Consent Status"></div>
+      {{ list_hierarchy(modules['legal_basis-consent-status']['classes']) }}
+    </section>
+
+  </section>
+
+  <section id="desc-legitimate-interest">
+    <h3>Legitimate Interest</h3>
+    <div class="issue" title="Content missing - Legitimate Interest"></div>
+  </section>
+
+  <section id="desc-official-authority">
+    <h3>Official Authority</h3>
+    <div class="issue" title="Content missing - Official Authority"></div>
+  </section>
+
+  <section id="desc-public-interest">
+    <h3>Public Interest</h3>
+    <div class="issue" title="Content missing - Public Interest"></div>
+  </section>
+
+  <section id="desc-vital-interest">
+    <h3>Protecting Vital Interests</h3>
+    <div class="issue" title="Content missing - Protecting Vital Interest"></div>
+  </section>
+
+<section>
+  <h2>Vocabulary Index</h2>
+  <div class="issue" title="Missing concepts for terms defined in main vocabulary e.g. dpv:Context"></div>
+  {% set module_combined = modules['legal_basis']['classes'].copy() %}
+  {% set _ = module_combined.update(modules['legal_basis']['properties']) %}
+  {% set _ = module_combined.update(modules['legal_basis-consent']['classes']) %}
+  {% set _ = module_combined.update(modules['legal_basis-consent']['properties']) %}
+  {% set _ = module_combined.update(modules['legal_basis-consent-types']['classes']) %}
+  {% set _ = module_combined.update(modules['legal_basis-consent-types']['properties']) %}
+  {% set _ = module_combined.update(modules['legal_basis-consent-status']['classes']) %}
+  {% set _ = module_combined.update(modules['legal_basis-consent-status']['properties']) %}
+  <section id="classes">
+    {{ index_concepts(module_combined, vocab_name, filter="classes") }}
+  </section>
+  <section id="properties">
+    {{ index_concepts(module_combined, vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>DPV uses the following terms from [[RDF]] and  [[RDFS]] with their defined meanings:</p>
+    <ul>
+      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+      </ul>
+    <p>The following external concepts are re-used within DPV:</p>
+    {{ index_concepts(module_combined, vocab_name, filter="external") }}
+  </section>
+</section>
+<section class="appendix" id="issue-summary"></section>
+<script type="text/javascript" src="../../media/common.js" defer></script>
+</body>
+</html>

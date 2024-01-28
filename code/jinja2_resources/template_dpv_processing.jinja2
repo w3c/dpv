@@ -1,0 +1,178 @@
+%{% from 'macro_term_table.jinja2' import index_concepts %}
+%{% from 'macro_term_table.jinja2' import list_hierarchy %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Processing{% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "Processing Operations",
+    subtitle: "concepts in Data Privacy Vocabulary (DPV)",
+    publishDate: "2024-01-28",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/modules/processing",
+    canonicalUri: "https://w3id.org/dpv/modules/processing",
+    edDraftURI: "https://w3id.org/dpv/modules/processing",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}",
+    }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../../media/common.css">
+</head>
+<body>
+{% block ABSTRACT %}
+    <section id="abstract">
+      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
+      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      {{ dpv_document_family(document='dpv-spec') }}
+      {{ sotd() }}
+    </section>
+{% endblock ABSTRACT %}
+  <section id="introduction">
+    <h2>Introduction</h2>
+    <blockquote>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</blockquote>
+    <div class="issue" title="Review section descriptions"></div>
+    <figure>
+    <img src="../../media/processing.png" />
+    <figcaption></figcaption>
+  </figure>
+  <p>DPV’s taxonomy of processing concepts reflects the variety of terms used to denote processing activities or operations involving personal data, such as those from [GDPR] Article.4-2 definition of processing. Real-world use of terms associated with processing rarely uses this same wording or terms, except in cases of specific domains and in legal documentation. On the other hand, common terms associated with processing are generally restricted to: collect, use, store, share, and delete.</p>
+  <p>DPV provides a taxonomy that aligns both the legal terminologies such as those defined by GDPR with those commonly used. For this, concepts are organised based on whether they subsume other concepts, e.g. Use is a broad concept indicating data is used, which DPV extends to define specific processing concepts for Analyse, Consult, Profiling, and Retrieving. Through this mechanism, whenever an use-case indicates it consults some data, it can be inferred that it also uses that data.</p>
+  <p>For concepts related to expressing contextual information associated with processing, such as storage conditions, automation, scale, see <a href="#vocab-processing-context">Processing Context</a> and <a href="#vocab-processing-scale">Processing Scale</a> sections.</p>
+  {{ list_hierarchy(modules['processing']['classes']) }}
+</section>
+
+<section id="desc-processing-categories">
+    <h2>Processing Operations</h2>
+    <div class="issue" title="Content missing - Processing operations"></div>
+
+    <section id="desc-processing-collect">
+      <h3>Obtain/Collect</h3>
+
+    </section>
+
+    <section id="desc-processing-store">
+      <h3>Store</h3>
+    </section>
+
+    <section id="desc-processing-use">
+      <h3>Use</h3>
+    </section>
+
+    <section id="desc-processing-share">
+      <h3>Transfer/Share</h3>
+    </section>
+
+    <section id="desc-processing-erase">
+      <h3>Remove/Erase</h3>
+    </section>
+  </section>
+
+<section id="vocab-processing-context">
+  <h2>Context of Processing</h2>
+  <figure>
+    <img src="../../media/Processing_Context.png">
+    <figcaption></figcaption>
+  </figure>
+  {{ list_hierarchy(modules['processing-context']['classes']) }}
+  <section>
+    <h3>Storage Conditions</h3>
+    <div class="issue" title="Content missing - Storage Conditions"></div>
+    <p>This taxonomy provides concepts for representing information about storage conditions, e.g. how long the data will be stored for, its erasure, or its restoration. It also enables representing the source(s) of data, the use of automation, and the extent of human involvement within the automation.</p>
+    <p>The processing taxonomy uses the concept [=Store=] to indicate data is being stored. To specify additionally information such as its location, erasure or deletion, the generic concepts and relations associated with processing (i.e. <i>location</i> and <i>duration</i>) can be used. However, to emphasise that information about storage - such as policies, conditions, rules, or documentation - are critical on considerations of data protection and privacy as well as legal compliance, DPV provide specific concepts related to these.</p>
+    <p>The concept [=StorageCondition=] and the relation [=hasStorageCondition=] represent the general or abstract conditions associated with storage of data. This is specialised to indicate [=StorageDuration=], [=StorageDeletion=], [=StorageRestoration=], and [=StorageLocation=]. This enables a document to directly specify information such as: "storage duration is 6 months" or "storage restoration uses 3 geo-distinct backup servers".</p>
+  </section>
+  <section>
+    <h3>Data Source</h3>
+    <div class="issue" title="Content missing - Data Source"></div>
+    <p>For declaring the source of data, the [=DataSource=] concept along with [=hasDataSource=] relationship is provided to indicate where the data is collected or acquired from. For example, data can be obtained from the data subject directly (e.g. given via forms) or indirectly (e.g observed from activity, or inferred from existing data), or from another entity such as a third party.</p>
+  </section>
+  <section>
+    <h3>Automation and Human Involvement</h3>
+    <div class="issue" title="Content missing - Automation and Human Involvement"></div>
+    <p>DPV provides [=AutomationOfProcessing=] to represent the degree of automation, and the relation [=hasProcessingAutomation=] to associate it with contextual concepts. The degrees of automation are represented by [=FullyAutomatedProcessing=], [=PartiallyAutomatedProcessing=], and [=CompletelyManualProcessing=].</p>
+    <p>To represent how humans are involved, the concept [=HumanInvolvement=] and relation [=hasHumanInvolvement=] are provided. Specific types of  [=HumanInvolvement=] include [=HumanInvolvementForOversight=], and [=HumanInvolvementForVerification=].</p>
+  </section>
+  <section>
+    <h3>Decision Making and its Logic</h3>
+    <div class="issue" title="Content missing - Decision Making"></div>
+    <p>To indicate more specific applications: [=DecisionMaking=] and [=AutomatedDecisionMaking=] refer to use of processing to make decisions, [=AlgorithmicLogic=] for explaining the use of algorithms and specifics of processing logic, [=EvaluationScoring=] to indicate the processing evaluates or assigns scores (or metrics), [=InnovativeUseOfNewTechnologies=] to indicate there are innovative uses of novel technologies, and [=SystematicMonitoring=] to indicate the processing performs a systematic (or systemic) monitoring. These additional concepts are intended to model areas or topics that are considered sensitive or high-risk or require caution.</p>
+  </section>
+  <section>
+    <h3>Innovative use of New Technologies</h3>
+    <div class="issue" title="Content missing - Innovative Use"></div>
+  </section>
+  </section>
+  <section id="vocab-processing-scale">
+    <h2>Scale of Processing</h2>
+    <div class="issue" title="Content missing - Processing Scale"></div>
+    <p>DPV provides (qualitative) scales for expressing <i>Data Volume</i>, <i>Data subjects</i>, and <i>Geographical Coverage</i> of processing. Along with these, DPV also provides a <i>Processing Scale</i> to express combinations of these. NOTE: The actual meaning or quantified amounts for each concept are not defined due to their interpretation based on contextual factors such as legislations, guidelines, domains, and variations across industries.</p>
+
+    {{ list_hierarchy(modules['processing-scale']['classes']) }}
+
+    <section id="desc-data-volume">
+      <h3>Data Volume</h3>
+    </section>
+
+    <section id="desc-geographic-coverage">
+      <h3>Geographic Coverage</h3>
+    </section>
+
+    <section id="desc-processing-scale">
+      <h3>Processing Scale</h3>
+    </section>
+
+    <section id="desc-data-subject-scale">
+      <h3>Scale of Data Subjects</h3>
+    </section>
+</section>
+
+<section>
+  <h2>Vocabulary Index</h2>
+  {% set module_combined = modules['processing']['classes'].copy() %}
+  {% set _ = module_combined.update(modules['processing']['properties']) %}
+  {% set _ = module_combined.update(modules['processing-context']['classes']) %}
+  {% set _ = module_combined.update(modules['processing-context']['properties']) %}
+  {% set _ = module_combined.update(modules['processing-scale']['classes']) %}
+  {% set _ = module_combined.update(modules['processing-scale']['properties']) %}
+  <section id="classes">
+    {{ index_concepts(module_combined, vocab_name, filter="classes") }}
+  </section>
+  <section id="properties">
+    {{ index_concepts(module_combined, vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>DPV uses the following terms from [[RDF]] and  [[RDFS]] with their defined meanings:</p>
+    <ul>
+      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+      </ul>
+    <p>The following external concepts are re-used within DPV:</p>
+    {{ index_concepts(module_combined, vocab_name, filter="external") }}
+  </section>
+</section>
+<section class="appendix" id="issue-summary"></section>
+<script type="text/javascript" src="../../media/common.js" defer></script>
+</body>
+</html>

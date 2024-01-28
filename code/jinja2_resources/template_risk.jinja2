@@ -1,0 +1,182 @@
+{% from 'macro_term_table.jinja2' import table_classes %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Risk Extension</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "risk",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "2024-01-28",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/risk",
+    canonicalUri: "https://w3id.org/dpv/risk",
+    edDraftURI: "https://w3id.org/dpv/risk",
+    github: "w3c/dpv",
+    subjectPrefix: "[risk]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+    }
+    ],
+    authors: [
+      {
+        "name": "Beatriz Esteves",
+        "company": "{{ "Beatriz Esteves" | generate_author_affiliation }}"
+      },
+      {
+        "name": "Georg P. Krog",
+        "company": "{{ "Georg P. Krog" | generate_author_affiliation }}"
+      },
+      {
+        "name": "Harshvardhan J. Pandit",
+        "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+      },
+      {
+        "name": "Julian Flake",
+        "company": "{{ "Julian Flake" | generate_author_affiliation }}"
+      },
+      {
+        "name": "Paul Ryan",
+        "company": "{{ "Paul Ryan" | generate_author_affiliation }}"
+      }     
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="../media/common.css">
+</head>
+<body>
+  <p>{{vocab_name}}</p>
+  <p>{{data['dpv-metadata'].keys()}}</p>
+  <p>{{ data[vocab_name+'-metadata'].keys() }}</p>
+  <section id="abstract">
+    <p>Risk concepts extend the [[[DPV]]] risk vocabulary to provide additional vocabularies specific to risk management, assessment, controls, and consequences. </p>
+    <p>The namespace for terms in risk is <a href="http://www.w3id.org/dpv/risk#"><code>https://www.w3id.org/dpv/risk#</code></a><br/>
+      The suggested prefix for the namespace is <code>risk</code><br/>
+      The risk vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+    <div class="issue" title="WARNING: unstable vocabulary">
+      <p><strong>WARNING</strong> This vocabulary will be undergoing major changes based on the necessity to specify risk assessment and risk management concepts and to ensure provided concepts are useful. There may be extensive removal/additions of concepts that changes the structure and semantics of this extension.</p>
+      </div>
+    {{ dpv_document_family(document='risk-spec') }}
+      {{ sotd() }}
+  </section>
+  <section id="motivation">
+    <h2>Introduction</h2>
+    
+    <div class="issue" title="Add Risk Management concepts" data-number="74"></div>
+  </section>
+
+  <section id="vocab-risk-levels">
+    <h2>Risk, Likelihood, Severity Levels</h2>
+    <div class="issue" title="Content missing - Risk, Likelihood, Severity Levels"></div>
+
+    {{ list_hierarchy(modules['risk_levels']['classes']) }}
+
+  </section>
+
+  <section id="vocab-risk-controls">
+    <h2>Risk Controls</h2>
+    <div class="issue" title="Content missing - Risk Controls"></div>
+
+    {{ list_hierarchy(modules['risk_controls']['classes']) }}
+
+  </section>
+
+  <section id="vocab-risk-consequences">
+    <h2>Consequences and Impacts</h2>
+    <div class="issue" title="Content missing - Consequences and Impacts"></div>
+
+    {{ list_hierarchy(modules['risk_consequences']['classes']) }}
+  </section>
+
+  <section id="vocab-risk-assessment">
+    <h2>Risk Assessment Techniques</h2>
+    <div class="issue" title="Content missing - Risk Assessment Techniques"></div>
+
+    {{ list_hierarchy(modules['risk_assessment']['classes']) }}
+
+  </section>
+
+  <section id="vocab-risk-methodology">
+    <h2>Risk Methodology</h2>
+    <div class="issue" title="Content missing - Risk Methodology"></div>
+
+    {{ list_hierarchy(modules['risk_methodology']['classes']) }}
+
+  </section>
+
+
+  <section id="vocab-risk-matrix">
+    <h2>RiskMatrix</h2>
+    <div class="issue" title="Content missing - RiskMatrix"></div>
+
+    {{ list_hierarchy(modules['risk_matrix']['classes']) }}
+
+  </section>
+
+{% if proposed %}
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  {% for name, terms in proposed.items() %}
+    <strong>{{name}}</strong>
+    <ul>{% for term in terms %}
+      <li>{{term}}</li>
+    {% endfor %}</ul>
+  {% endfor %}
+</section>
+{% endif %}
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+<div class="issue" title="Content missing - parent missing e.g. EBIOS ->    risk:RiskManagement"></div>
+<div class="issue" title="Content missing - parent missing e.g. EnvironmentalSafetyEndangerment -> dpv:Harm has wrong local href"></div>
+  <section id="dpv-classes">
+    {{ index_concepts(vocab, vocab_name, filter="classes") }}
+  </section>
+  <section id="dpv-properties">
+    {{ index_concepts(vocab, vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>DPV uses the following terms from [[RDF]] and  [[RDFS]] with their defined meanings:</p>
+    <ul>
+      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+      </ul>
+    <p>The following external concepts are re-used within DPV:</p>
+    {{ index_concepts(vocab, vocab_name, filter="external") }}
+  </section>
+</section>
+
+<section class="appendix" id="issue-summary">
+</section>
+
+<section id="funding-acknowledgements" class="noTOC">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  <p>The DPVCG and DPV were initiated as part of the <a href="https://specialprivacy.ercim.eu/">SPECIAL H2020 Project</a>, which received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No. 731601. The SPECIAL project ran over a 3-year period from 2017 to 2019.</p>
+  <p>Harshvardhan J. Pandit was funded by the Irish Research Council  Government of Ireland Postdoctoral Fellowship Grant#GOIPD/2020/790 for working within the DPVCG and contributing to the DPV. The fellowship lasted from 2020 to 2022.</p>
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Harshvardhan J. Pandit have received funding from the ADAPT SFI Centre for Digital Media Technology is funded by Science Foundation Ireland through the SFI Research Centres Programme and is co-funded under the European Regional Development Fund (ERDF) through Grant#13/RC/2106 (2018 to 2020) and Grant#13/RC/2106_P2 (2021 onwards)</p>
+
+</section>
+<script type="text/javascript" src="../media/common.js" defer></script>
+</body>
+</html>
