@@ -24,10 +24,10 @@ with open('../../meetings/index.html', 'w') as fd:
     <ol reversed>""")
     for f in files:
         f = f.lstrip('../')
-        date = f[8:18]
+        date = f[17:27]
         date = datetime.datetime.strptime(date, '%Y-%m-%d')
         date = date.strftime('%d %B %Y %A')
-        fd.write(f'<li><a href="https://w3id.org/dpv/meetings/{f}">DPVCG Meeting {date}</a></li>')
-    fd.write("</ol></body></html>")
+        fd.write(f'\n<li><a href="https://w3id.org/dpv/{f}">DPVCG Meeting {date}</a></li>')
+    fd.write("\n</ol></body></html>")
 
 #END
