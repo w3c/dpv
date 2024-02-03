@@ -1,12 +1,13 @@
-%{% from 'macro_term_table.jinja2' import index_concepts %}
-%{% from 'macro_term_table.jinja2' import list_hierarchy %}
-{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_term_table.jinja2' import index_concepts %}
+{% from 'macro_term_table.jinja2' import list_hierarchy %}
+{% from 'macro_term_table.jinja2' import table_properties, anchor %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Legal Basis{% endblock title %}</title>
+  <link rel="stylesheet" type="text/css" href="../../media/common.css">
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   {% block RESPEC %}
   <script class="remove">
@@ -34,9 +35,8 @@
     ],
     localBiblio: {%  include 'references.json' %}
   };
-</script>
-{% endblock RESPEC %}
-<link rel="stylesheet" type="text/css" href="../../media/common.css">
+  </script>
+  {% endblock RESPEC %}
 </head>
 <body>
 {% block ABSTRACT %}
@@ -57,7 +57,7 @@
   </figure>
   <p>DPV provides the following categories of legal bases based on [[GDPR]] Article 6: consent of the data subject, contract, compliance with legal obligation, protecting vital interests of individuals, legitimate interests, public interest, and official authorities. Though derived from GDPR, these concepts can be applied for other jurisdictions and general use-cases. The legal bases are represented by the concept [=LegalBasis=] and associated using the relation [=hasLegalBasis=].</p>
 
-  <p>When declaring a legal basis, it is important to denote under what law or jurisdiction that legal basis applies. For instance, using [=Consent=] as a legal basis has different obligations and requirements in EU (i.e. [[GDPR]]) as compared to other jurisdictions. Therefore, unless the information is to be implicitly interpreted through some specific legal lens or jurisdictional law, DPV recommends indicating the specific law or legal clause associated with the legal basis so as to scope its interpretation. This can be done using the relation [=hasJurisdiction=] or [=hasApplicableLaw=].</p>
+  <p>When declaring a legal basis, it is important to denote under what law or jurisdiction that legal basis applies. For instance, using {{anchor('dpv:Consent')}} as a legal basis has different obligations and requirements in EU (i.e. [[GDPR]]) as compared to other jurisdictions. Therefore, unless the information is to be implicitly interpreted through some specific legal lens or jurisdictional law, DPV recommends indicating the specific law or legal clause associated with the legal basis so as to scope its interpretation. This can be done using the relation {{anchor('dpv:hasJurisdiction')}} or {{anchor('dpv:hasApplicableLaw')}}.</p>
 
   <p>For GDPR, DPVCG provides the [[[EU-GDPR]]] which defines the legal bases within [[GDPR]] by extending them from relevant concepts within the DPV. We welcome similar contributions for extending the GDPR extension as well as creating extensions for other laws and domains.</p>
   
@@ -88,8 +88,8 @@
       <li><a href="#vocab-consent-status">Consent Status</a> - to represent and keep track of what state/status/stage the consenting process is at, for example indicating the journey or lifecycle from [=ConsentRequested=] to [=ConsentGiven=] and then [=ConsentWithdrawn=].</li>
       <li><a href="vocab-consent-relations">Consent Relations</a> - to enable association of relevant information with consent, such as the notice used or provided, status of consent, or who indicated it.</li>
     </ul>
-    <p>To indicate the duration or validity of a given consent instance, the existing contextual relation [=hasDuration=] along with specific forms of [=Duration=] can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype [=UntilEventDuration=] can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, [=UntilTimeDuration=] indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and [=TemporalDuration=] indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, [=EndlessDuration=] can be used.</p>
-    <p>To specify consent provided by delegation, such as in the case of a parent or guardian providing consent for/with a child, the [=isIndicatedBy=] relation can be used to associate the parent or guardian responsible for providing consent (or its affirmation). Since by default the consent is presumed to be provided by the individual, when such individuals are associated with their consent, i.e. through [=hasDataSubject=], the additional information provided by [=isIndicatedBy=] can be considered redundant and is often omitted.</p>
+    <p>To indicate the duration or validity of a given consent instance, the existing contextual relation {{anchor('dpv:hasDuration')}} along with specific forms of {{anchor('dpv:Duration')}} can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype {{anchor('dpv:UntilEventDuration')}} can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, {{anchor('dpv:UntilTimeDuration')}} indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and {{anchor('dpv:TemporalDuration')}} indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, {{anchor('dpv:EndlessDuration')}} can be used.</p>
+    <p>To specify consent provided by delegation, such as in the case of a parent or guardian providing consent for/with a child, the [=isIndicatedBy=] relation can be used to associate the parent or guardian responsible for providing consent (or its affirmation). Since by default the consent is presumed to be provided by the individual, when such individuals are associated with their consent, i.e. through {{anchor('dpv:hasDataSubject')}}, the additional information provided by [=isIndicatedBy=] can be considered redundant and is often omitted.</p>
     <div class="issue" title="Content missing - Consent usage and examples"></div>
     <div class="issue" title="Content missing - Link to ISO 27560"></div>
     {{ list_hierarchy(modules['legal_basis-consent']['classes']) }}

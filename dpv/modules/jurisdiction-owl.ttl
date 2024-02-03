@@ -39,8 +39,6 @@ dpv:Country a rdfs:Class,
     dct:created "2022-01-19"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf dpv:Location ;
-    rdfs:superClassOf dpv:Region,
-        dpv:ThirdCountry ;
     sw:term_status "accepted"@en ;
     skos:definition "A political entity indicative of a sovereign or non-sovereign territorial state comprising of distinct geographical areas"@en ;
     skos:prefLabel "Country"@en ;
@@ -88,8 +86,6 @@ dpv:FixedLocation a rdfs:Class,
     dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf dpv:LocationFixture ;
-    rdfs:superClassOf dpv:FixedMultipleLocations,
-        dpv:FixedSingularLocation ;
     sw:term_status "accepted"@en ;
     skos:definition "Location that is fixed i.e. known to occur at a specific place"@en ;
     skos:prefLabel "Fixed Location"@en .
@@ -136,11 +132,6 @@ dpv:LocalLocation a rdfs:Class,
     dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf dpv:LocationLocality ;
-    rdfs:superClassOf dpv:PrivateLocation,
-        dpv:PublicLocation,
-        dpv:WithinDevice,
-        dpv:WithinPhysicalEnvironment,
-        dpv:WithinVirtualEnvironment ;
     sw:term_status "accepted"@en ;
     skos:definition "Location is local"@en ;
     skos:prefLabel "Local Location"@en .
@@ -152,10 +143,6 @@ dpv:Location a rdfs:Class,
     vann:example dex:E0011 ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf rdfs:Class ;
-    rdfs:superClassOf dpv:Country,
-        dpv:EconomicUnion,
-        dpv:LocationLocality,
-        dpv:SupraNationalUnion ;
     sw:term_status "accepted"@en ;
     skos:definition "A location is a position, site, or area where something is located"@en ;
     skos:prefLabel "Location"@en ;
@@ -167,11 +154,6 @@ dpv:LocationFixture a rdfs:Class,
     dct:created "2022-06-15"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf rdfs:Class ;
-    rdfs:superClassOf dpv:DecentralisedLocations,
-        dpv:FederatedLocations,
-        dpv:FixedLocation,
-        dpv:RandomLocation,
-        dpv:VariableLocation ;
     sw:term_status "accepted"@en ;
     skos:definition "The fixture of location refers to whether the location is fixed"@en ;
     skos:prefLabel "Location Fixture"@en .
@@ -184,8 +166,6 @@ dpv:LocationLocality a rdfs:Class,
     dct:modified "2022-10-04"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf dpv:Location ;
-    rdfs:superClassOf dpv:LocalLocation,
-        dpv:RemoteLocation ;
     sw:term_status "accepted"@en ;
     skos:definition "Locality refers to whether the specified location is local within some context, e.g. for the user"@en ;
     skos:prefLabel "Location Locality"@en .
@@ -230,7 +210,6 @@ dpv:Region a rdfs:Class,
     dct:created "2022-01-19"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf dpv:Country ;
-    rdfs:superClassOf dpv:City ;
     sw:term_status "accepted"@en ;
     skos:definition "A region is an area or site that is considered a location"@en ;
     skos:prefLabel "Region"@en .
@@ -243,7 +222,6 @@ dpv:RemoteLocation a rdfs:Class,
     dct:modified "2020-10-05"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf dpv:LocationLocality ;
-    rdfs:superClassOf dpv:CloudLocation ;
     sw:term_status "accepted"@en ;
     skos:definition "Location is remote i.e. not local"@en ;
     skos:prefLabel "Remote Location"@en .
@@ -336,6 +314,18 @@ dpv:hasJurisdiction a rdf:Property,
     skos:prefLabel "has jurisdiction"@en ;
     schema:rangeIncludes dpv:Location .
 
+dpv:hasThirdCountry a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:rangeIncludes dpv:ThirdCountry ;
+    dct:contributor "Harshvardhan J. Pandit, Georg P Krog" ;
+    dct:created "2022-02-09"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    rdfs:subPropertyOf dpv:hasCountry ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates applicability or relevance of a 'third country'"@en ;
+    skos:prefLabel "has third country"@en ;
+    schema:rangeIncludes dpv:ThirdCountry .
+
 <https://w3id.org/dpv> a owl:Ontology ;
     dct:conformsTo <http://www.w3.org/2002/07/owl>,
         "http://www.w3.org/2000/01/rdf-schema",
@@ -357,31 +347,6 @@ dpv:hasJurisdiction a rdf:Property,
     vann:preferredNamespaceUri "https://w3id.org/dpv#" ;
     schema:version "2" .
 
-dpv:hasLocation a rdf:Property,
-        owl:ObjectProperty ;
-    dcam:rangeIncludes dpv:Location ;
-    dct:contributor "Axel Polleres, Rob Brennan, Harshvardhan J. Pandit, Mark Lizar" ;
-    dct:created "2019-04-05"^^xsd:date ;
-    dct:source "(SPECIAL Project,https://specialprivacy.ercim.eu/)"@en ;
-    rdfs:isDefinedBy dpv: ;
-    rdfs:superPropertyOf dpv:hasCountry ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates information about location"@en ;
-    skos:prefLabel "has location"@en ;
-    schema:rangeIncludes dpv:Location .
-
-dpv:hasThirdCountry a rdf:Property,
-        owl:ObjectProperty ;
-    dcam:rangeIncludes dpv:ThirdCountry ;
-    dct:contributor "Harshvardhan J. Pandit, Georg P Krog" ;
-    dct:created "2022-02-09"^^xsd:date ;
-    rdfs:isDefinedBy dpv: ;
-    rdfs:subPropertyOf dpv:hasCountry ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates applicability or relevance of a 'third country'"@en ;
-    skos:prefLabel "has third country"@en ;
-    schema:rangeIncludes dpv:ThirdCountry .
-
 dpv:hasCountry a rdf:Property,
         owl:ObjectProperty ;
     dcam:rangeIncludes dpv:Country ;
@@ -389,13 +354,20 @@ dpv:hasCountry a rdf:Property,
     dct:created "2022-01-19"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subPropertyOf dpv:hasLocation ;
-    rdfs:superPropertyOf dpv:hasThirdCountry ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates applicability of specified country"@en ;
     skos:prefLabel "has country"@en ;
     schema:rangeIncludes dpv:Country .
 
-rdfs:Class rdfs:superClassOf dpv:Law,
-        dpv:Location,
-        dpv:LocationFixture .
+dpv:hasLocation a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:rangeIncludes dpv:Location ;
+    dct:contributor "Axel Polleres, Rob Brennan, Harshvardhan J. Pandit, Mark Lizar" ;
+    dct:created "2019-04-05"^^xsd:date ;
+    dct:source "(SPECIAL Project,https://specialprivacy.ercim.eu/)"@en ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates information about location"@en ;
+    skos:prefLabel "has location"@en ;
+    schema:rangeIncludes dpv:Location .
 

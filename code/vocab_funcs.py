@@ -65,13 +65,16 @@ def construct_parent(item, data, namespace, header):
             triples.append((namespace[term], RDF.type, parent))
             if parent.startswith('https://w3id.org/dpv'):
                     triples.append((namespace[term], SKOS.broader, parent))
-                    triples.append((parent, SKOS.narrower, namespace[term]))
+                    if term.split(':')[0] == parent.split(':')[0]:
+                        triples.append((parent, SKOS.narrower, namespace[term]))
         elif data['ParentType'] == 'sc':
             triples.append((namespace[term], RDFS.subClassOf, parent))
-            triples.append((parent, RDFS.superClassOf, namespace[term]))
+            if term.split(':')[0] == item.split(':')[0]: 
+                triples.append((parent, RDFS.superClassOf, namespace[term]))
             if parent.startswith('https://w3id.org/dpv'):
                     triples.append((namespace[term], SKOS.broader, parent))
-                    triples.append((parent, SKOS.narrower, namespace[term]))
+                    if term.split(':')[0] == item.split(':')[0]:
+                        triples.append((parent, SKOS.narrower, namespace[term]))
     return triples
 
 
@@ -104,13 +107,16 @@ def construct_parent_taxonomy(item, data, namespace, header):
                 triples.append((namespace[term], RDF.type, parent))
                 if parent.startswith('https://w3id.org/dpv'):
                     triples.append((namespace[term], SKOS.broader, parent))
-                    triples.append((parent, SKOS.narrower, namespace[term]))
+                    if term.split(':')[0] == parent.split(':')[0]:
+                        triples.append((parent, SKOS.narrower, namespace[term]))
             elif item == 'sc': # subclass
                 triples.append((namespace[term], RDFS.subClassOf, parent))
-                triples.append((parent, RDFS.superClassOf, namespace[term]))
+                if term.split(':')[0] == parent.split(':')[0]:
+                    triples.append((parent, RDFS.superClassOf, namespace[term]))
                 if parent.startswith('https://w3id.org/dpv'):
                     triples.append((namespace[term], SKOS.broader, parent))
-                    triples.append((parent, SKOS.narrower, namespace[term]))
+                    if term.split(':')[0] == parent.split(':')[0]:
+                        triples.append((parent, SKOS.narrower, namespace[term]))
         return triples
     # parent is a topconcept
     prefix_top, topconcept = data['ParentType'].split(':')
@@ -119,12 +125,14 @@ def construct_parent_taxonomy(item, data, namespace, header):
     # parent non-empty means not a top concept, state relation
     if not parents:
         triples.append((namespace[term], SKOS.broader, topconcept))
-        triples.append((topconcept, SKOS.narrower, namespace[term]))
+        if term.split(':')[0] == topconcept.split(':')[0]:
+            triples.append((topconcept, SKOS.narrower, namespace[term]))
         # DEBUG(f'skos {term} <-> {topconcept} topconcept')
         return triples
     for parent in parents:
         triples.append((namespace[term], SKOS.broader, parent))
-        triples.append((parent, SKOS.narrower, namespace[term]))
+        if term.split(':')[0] == parent.split(':')[0]:
+            triples.append((parent, SKOS.narrower, namespace[term]))
         # DEBUG(f'skos {term} <-> {parent} parent')
     return triples
 
@@ -143,9 +151,10 @@ def construct_parent_property(item, data, namespace, header):
             prefix, parentterm = parent.split(':')
             parent = NAMESPACES[prefix][parentterm]
         triples.append((term, RDFS.subPropertyOf, parent))
-        triples.append((parent, RDFS.superPropertyOf, term))
         triples.append((term, SKOS.broader, parent))
-        triples.append((parent, SKOS.narrower, term))
+        # if term.split(':')[0] == parent.split(':')[0]:
+        #     triples.append((parent, RDFS.superPropertyOf, term))
+        #     triples.append((parent, SKOS.narrower, term))
     return triples
 
 
@@ -309,7 +318,8 @@ def construct_skos_narrower(term, data, namespace, header):
     for item in term.split(','):
         item = NAMESPACES[item.split(':')[0]][item.split(':')[1]]
         triples.append((namespace[data['Term']], SKOS.narrower, item))
-        triples.append((item, SKOS.broader, namespace[data['Term']]))
+        if term.split(':')[0] == item.split(':')[0]:
+            triples.append((item, SKOS.broader, namespace[data['Term']]))
     return triples
 
 

@@ -21,7 +21,6 @@ dpv:DataController a rdfs:Class,
         dex:E0020 ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf dpv:LegalEntity ;
-    rdfs:superClassOf dpv:JointDataControllers ;
     sw:term_status "accepted"@en ;
     skos:definition "The individual or organisation that decides (or controls) the purpose(s) of processing personal data."@en ;
     skos:prefLabel "Data Controller"@en ;
@@ -59,7 +58,6 @@ dpv:DataProcessor a rdfs:Class,
     vann:example dex:E0011 ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf dpv:Recipient ;
-    rdfs:superClassOf dpv:DataSubProcessor ;
     sw:term_status "accepted"@en ;
     skos:definition "A ‘processor’ means a natural or legal person, public authority, agency or other body which processes data on behalf of the controller."@en ;
     skos:prefLabel "Data Processor"@en .
@@ -107,9 +105,6 @@ dpv:Recipient a rdfs:Class,
     vann:example dex:E0019 ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subClassOf dpv:LegalEntity ;
-    rdfs:superClassOf dpv:DataImporter,
-        dpv:DataProcessor,
-        dpv:ThirdParty ;
     sw:term_status "accepted"@en ;
     skos:definition "Entities that receive data"@en ;
     skos:prefLabel "Recipient"@en ;
@@ -126,35 +121,6 @@ dpv:ThirdParty a rdfs:Class,
     sw:term_status "accepted"@en ;
     skos:definition "A ‘third party’ means a natural or legal person, public authority, agency or body other than the data subject, controller, processor and people who, under the direct authority of the controller or processor, are authorised to process personal data."@en ;
     skos:prefLabel "Third Party"@en .
-
-<https://w3id.org/dpv> a owl:Ontology ;
-    dct:conformsTo <http://www.w3.org/2002/07/owl>,
-        "http://www.w3.org/2000/01/rdf-schema",
-        "http://www.w3.org/2004/02/skos/core" ;
-    dct:contributor "Axel Polleres",
-        "Bud Bruegger",
-        "David Hickey",
-        "Georg Krog",
-        "Georg P. Krog",
-        "Harshvardhan J. Pandit",
-        "Harshvardhan Pandit",
-        "Javier Fernández",
-        "Mark Lizar",
-        "Paul Ryan",
-        "Rob Brennan" ;
-    dct:created "2022-08-18"@en ;
-    dct:creator "Harshvardhan J. Pandit"@en ;
-    dct:description "The Data Privacy Vocabulary (DPV) provides terms (classes and properties) to represent information about processing of personal data, for example - purposes, processing operations, personal data, technical and organisational measures."@en ;
-    dct:hasVersion <https://w3id.org/dpv> ;
-    dct:identifier "https://w3id.org/dpv" ;
-    dct:license <https://www.w3.org/copyright/document-license-2023/> ;
-    dct:modified "2024-01-01"@en ;
-    dct:title "Data Privacy Vocabulary (DPV)"@en ;
-    vann:preferredNamespacePrefix "dpv" ;
-    vann:preferredNamespaceUri "https://w3id.org/dpv#" ;
-    schema:version "2" .
-
-dpv:Representative rdfs:superClassOf dpv:DataProtectionOfficer .
 
 dpv:hasDataExporter a rdf:Property,
         owl:ObjectProperty ;
@@ -240,7 +206,32 @@ dpv:hasRecipientThirdParty a rdf:Property,
     skos:prefLabel "has recipient third party"@en ;
     schema:rangeIncludes dpv:ThirdParty .
 
-dpv:hasRepresentative rdfs:superPropertyOf dpv:hasDataProtectionOfficer .
+<https://w3id.org/dpv> a owl:Ontology ;
+    dct:conformsTo <http://www.w3.org/2002/07/owl>,
+        "http://www.w3.org/2000/01/rdf-schema",
+        "http://www.w3.org/2004/02/skos/core" ;
+    dct:contributor "Axel Polleres",
+        "Bud Bruegger",
+        "David Hickey",
+        "Georg Krog",
+        "Georg P. Krog",
+        "Harshvardhan J. Pandit",
+        "Harshvardhan Pandit",
+        "Javier Fernández",
+        "Mark Lizar",
+        "Paul Ryan",
+        "Rob Brennan" ;
+    dct:created "2022-08-18"@en ;
+    dct:creator "Harshvardhan J. Pandit"@en ;
+    dct:description "The Data Privacy Vocabulary (DPV) provides terms (classes and properties) to represent information about processing of personal data, for example - purposes, processing operations, personal data, technical and organisational measures."@en ;
+    dct:hasVersion <https://w3id.org/dpv> ;
+    dct:identifier "https://w3id.org/dpv" ;
+    dct:license <https://www.w3.org/copyright/document-license-2023/> ;
+    dct:modified "2024-01-01"@en ;
+    dct:title "Data Privacy Vocabulary (DPV)"@en ;
+    vann:preferredNamespacePrefix "dpv" ;
+    vann:preferredNamespaceUri "https://w3id.org/dpv#" ;
+    schema:version "2" .
 
 dpv:hasDataController a rdf:Property,
         owl:ObjectProperty ;
@@ -250,19 +241,10 @@ dpv:hasDataController a rdf:Property,
     dct:modified "2020-11-04"^^xsd:date ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subPropertyOf dpv:hasEntity ;
-    rdfs:superPropertyOf dpv:hasJointDataControllers ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates association with Data Controller"@en ;
     skos:prefLabel "has data controller"@en ;
     schema:rangeIncludes dpv:DataController .
-
-dpv:LegalEntity rdfs:superClassOf dpv:DataController,
-        dpv:DataExporter,
-        dpv:Recipient .
-
-dpv:hasEntity rdfs:superPropertyOf dpv:hasDataController,
-        dpv:hasDataExporter,
-        dpv:hasRecipient .
 
 dpv:hasRecipient a rdf:Property,
         owl:ObjectProperty ;
@@ -273,10 +255,6 @@ dpv:hasRecipient a rdf:Property,
     dct:source "(SPECIAL Project,https://specialprivacy.ercim.eu/)"@en ;
     rdfs:isDefinedBy dpv: ;
     rdfs:subPropertyOf dpv:hasEntity ;
-    rdfs:superPropertyOf dpv:hasDataImporter,
-        dpv:hasDataProcessor,
-        dpv:hasRecipientDataController,
-        dpv:hasRecipientThirdParty ;
     sw:term_status "accepted"@en ;
     skos:definition "Indicates Recipient of Data"@en ;
     skos:prefLabel "has recipient"@en ;

@@ -255,13 +255,13 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     # for classes, replace `skos:broader` with `rdfs:subClassOf`
     # and `skos:narrower` with `rdfs:superClassOf` (made up relation)
     graph.update("""
-        INSERT { ?s rdfs:subClassOf ?o . ?o rdfs:superClassOf ?s }
+        INSERT { ?s rdfs:subClassOf ?o . }
         WHERE { ?s a rdfs:Class . ?s skos:broader ?o }
         """)
     # for properties, replace `skos:broader` with `rdfs:subPropertyOf`
     # and `skos:narrower` with `rdfs:superPropertyOf` (made up relation)
     graph.update("""
-        INSERT { ?s rdfs:subPropertyOf ?o . ?o rdfs:superPropertyOf ?s }
+        INSERT { ?s rdfs:subPropertyOf ?o . }
         WHERE { ?s a rdf:Property . ?s skos:broader ?o }
         """)
     # Delete any hanging `skos:narrower` and `skos:broader`

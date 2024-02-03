@@ -57,57 +57,110 @@
         </tr>
        
         {# term parents #}
-        {% if concept['skos:broader'] %}
-        {% for parentlist in concept|get_parent_hierarchy %}<tr class="technical-detail">
+        {% if concept['skos:broader'] %}{% for parentlist in concept|get_parent_hierarchy %}
+        <tr class="technical-detail">
           <th>Broader/Parent types</th>
           <td>{% for parent in parentlist|resolve_concepts %}
-             <a href="{% if parent['prefix'] == vocab_name %}#{{parent['term']}}{% else %}{{parent['iri']}}{% endif %}">{{ parent['prefixed'] }}</a>{{ " → " if not loop.last }}
-            {% endfor %}</td>
-        {% endfor %}</tr>{% endif %}
+            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
+            {% else %}
+            <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
+            {% endif %}
+            {{ " → " if not loop.last }}{% endfor %}
+            </td>{% endfor %}
+        </tr>{% endif %}
       
         {# term children #}
         {% if concept['skos:narrower'] %}
         <tr class="technical-detail">
           <th>Narrower/Specialised types</th>
-          <td>{% for child in concept['skos:narrower']|ensure_list|sort %}<a href="{{child}}">{{ child|prefix_this }}</a>{{", " if not loop.last}}{% endfor %}</td>
+          <td>{% for child in concept['skos:narrower']|ensure_list|sort %}
+            {% set child_prefixed = child|prefix_this %}
+            {% if child_prefixed in vocab and vocab[child_prefixed]['vocab'] == vocab_name %}
+            <a href="#{{vocab[child_prefixed]['term']}}">{{ child_prefixed }}</a>
+            {% else %}
+            <a href="{{child}}">{{ child_prefixed }}</a>
+            {% endif %}
+            {{ ", " if not loop.last }}{% endfor %}
+          </td>
         </tr>{% endif %}
       
         {# properties where term is in domain #}
         {% if concept['_type'] == 'class' %}
         {% for prop in concept|get_prop_with_term_domain(vocab)|sort(attribute='iri') %}{% if loop.first %}<tr>
           <th>Subject of relation</th>
-          <td>{% endif %}<a href="{{prop['iri']}}">{{ prop['prefixed'] }}{{ ", " if not loop.last }}{% if loop.last %}</td>
+          <td>{% endif %}
+            {% if prop['prefixed'] in vocab and prop['vocab'] == vocab_name and prop['_dpvterm'] %}
+            <a href="#{{prop['term']}}">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
+            {% else %}
+            <a href="{{prop['iri']}}">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
+            {% endif %}
+          {% if loop.last %}</td>
         </tr>{% endif %}{% endfor %}
        
         {# properties where term is in range #}
         {% for prop in concept|get_prop_with_term_range(vocab)|sort(attribute='iri') %}{% if loop.first %}<tr>
           <th>Object of relation</th>
-          <td>{% endif %}<a href="{{prop['iri']}}">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}{% if loop.last %}</td>
+          <td>{% endif %}
+            {% if prop['prefixed'] in vocab and prop['vocab'] == vocab_name and prop['_dpvterm'] %}
+            <a href="#{{prop['term']}}">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
+            {% else %}
+            <a href="{{prop['iri']}}">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
+            {% endif %}
+          {% if loop.last %}</td>
         </tr>{% endif %}{% endfor %}
         {% endif %}
 
         {# sub-properties #}
         {% if concept['rdfs:subPropertyOf'] %}<tr class="technical-detail">
           <th>Sub-property of</th>
-          <td><i>{% for parent in concept['rdfs:subPropertyOf']|get_concept_list %}<a href="{{parent['iri']}}">{{parent['prefixed']}}</a>{{", " if not loop.last }}{% endfor %}</i></td>
+          <td>{% for parent in concept['rdfs:subPropertyOf']|get_concept_list %}
+            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
+            {% else %}
+            <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
+            {% endif %}
+            {{ " → " if not loop.last }}{% endfor %}
+            </td>
         </tr>{% endif %}
         
         {# super-properties #}
         {% if concept['rdfs:superPropertyOf'] %}<tr class="technical-detail">
           <th>Super-property of</th>
-          <td><i>{% for parent in concept['rdfs:superPropertyOf']|get_concept_list %}<a href="{{parent['iri']}}">{{parent['prefixed']}}</a>{{", " if not loop.last }}{% endfor %}</i></td>
+          <td>{% for parent in concept['rdfs:superPropertyOf']|get_concept_list %}
+            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
+            {% else %}
+            <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
+            {% endif %}
+            {{ " → " if not loop.last }}{% endfor %}
+          </td>
         </tr>{% endif %}
         
         {# property domain includes #}
         {% if concept['dcam:domainIncludes'] %}<tr class="technical-detail">
           <th>Domain includes</th>
-          <td><i>{% for parent in concept['dcam:domainIncludes']|get_concept_list %}<a href="{{parent['iri']}}">{{parent['prefixed']}}</a>{{", " if not loop.last }}{% endfor %}</i></td>
+          <td>{% for parent in concept['dcam:domainIncludes']|get_concept_list %}
+            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
+            {% else %}
+            <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
+            {% endif %}
+            {{ ", " if not loop.last }}{% endfor %}
+          </td>
         </tr>{% endif %}
         
         {# property range includes #}
         {% if concept['dcam:rangeIncludes'] %}<tr class="technical-detail">
           <th>Range includes</th>
-          <td><i>{% for parent in concept['dcam:rangeIncludes']|get_concept_list %}<a href="{{parent['iri']}}">{{parent['prefixed']}}</a>{{", " if not loop.last }}{% endfor %}</i></td>
+          <td>{% for parent in concept['dcam:rangeIncludes']|get_concept_list %}
+            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
+            {% else %}
+            <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
+            {% endif %}
+            {{ ", " if not loop.last }}{% endfor %}
+          </td>
         </tr>{% endif %}
         
         <tr class="table-separator"></tr>
@@ -216,4 +269,8 @@ concept. If top is None, then use all concepts. `lang` is used to retrieve the l
 {% endfor %}
 </ul>{% endif %}
 {% if first_iteration %}</div>{% endif %}
+{% endmacro %}
+
+{% macro anchor(term) %}
+{{ term|make_anchor_link|safe }}
 {% endmacro %}

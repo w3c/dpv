@@ -589,6 +589,18 @@ def translation_message(concept:dict, field:str, lang:str) -> str:
     return concept[f'{field}-{lang}']
 
 
+def make_anchor_link(concept:str|dict) -> str:
+    """
+    Generates an HTML anchor link using the given concept.
+    Can be passed a string (prefixed term) or a dict
+    """
+    if type(concept) == str:
+        concept = DATA.concepts[concept]
+    iri = concept['iri']
+    term = concept['term']
+    return f"<a href='{iri}'><code>{term}</code></a>"
+
+
 # == HTML Export ==
 
 # === Jinja setup ===
@@ -617,6 +629,7 @@ JINJA2_FILTERS = {
     'retrieve_example': retrieve_example,
     'retrieve_example_for_concept': retrieve_example_for_concept,
     'translation_message': translation_message,
+    'make_anchor_link': make_anchor_link,
 }
 template_env.filters.update(JINJA2_FILTERS)
 
@@ -717,7 +730,7 @@ import json
 # translations should exist and the paths to save the data
 with open(TRANSLATIONS_MISSING_FILE, 'r') as fd:
     data = json.load(fd)
-if ':' in list(data.keys())[0]: # hack to detect repeated script call
+if data and ':' in list(data.keys())[0]: # hack to detect repeated script call
     missing = {lang:{} for lang in IMPORT_TRANSLATIONS}
     # For each concept declared in the missing translations file,
     # collect the label, definition, and (if exists) scope note
