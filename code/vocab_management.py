@@ -421,6 +421,7 @@ RDF_VOCABS = {
         },
         'module-template': {
             'entities': 'template_dpv_entities.jinja2',
+            'personal_data': 'template_dpv_personal_data.jinja2',
             'purposes': 'template_dpv_purposes.jinja2',
             'processing': 'template_dpv_processing.jinja2',
             'TOM': 'template_dpv_TOM.jinja2',
