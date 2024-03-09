@@ -43,22 +43,24 @@ IGNORED_TERMS = ('rdf:type', 'rdfs:Class', 'rdf:Property', 'skos:Concept')
 
 # === namespaces ===
 NAMESPACE_CSV = (
-	'vocab_csv/Namespaces.csv',
-	'vocab_csv/Namespaces_Other.csv',
-	)
+    'vocab_csv/Namespaces.csv',
+    'vocab_csv/Namespaces_Other.csv',
+    )
 NAMESPACES = {}
 for csvfile in NAMESPACE_CSV:
-	# DEBUG(f'Extracting namespaces from {csvfile}')
-	with open(csvfile, 'r') as fd:
-		csvreader = csv.reader(fd)
-		next(csvreader)
-		for row in csvreader:
-			prefix, iri = row[0], row[1]
-			variable = prefix.upper().replace('-', '_')
-			namespace = Namespace(iri)
-			globals()[variable] = namespace
-			NAMESPACES[prefix] = namespace
-			# DEBUG(f'{prefix} namespace with IRI {iri}')
+    # DEBUG(f'Extracting namespaces from {csvfile}')
+    with open(csvfile, 'r') as fd:
+        csvreader = csv.reader(fd)
+        next(csvreader)
+        for row in csvreader:
+            prefix, iri = row[0], row[1]
+            variable = prefix.upper().replace('-', '_')
+            namespace = Namespace(iri)
+            globals()[variable] = namespace
+            NAMESPACES[prefix] = namespace
+            if iri.startswith('https://w3id.org/dpv'):
+                NAMESPACES[f'{prefix}-owl'] = Namespace(iri.replace('#', '/owl#'))
+            # DEBUG(f'{prefix} namespace with IRI {iri}')
 
 from rdflib import Graph
 NS = Graph()

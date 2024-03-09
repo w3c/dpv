@@ -1,0 +1,286 @@
+{% macro index_concepts(vocab, vocab_name, filter, skip_heading=False, lang="en", owl=None) %}
+  {# `skip_headings` if this isn't a section #}
+  {% if not skip_heading %}<h3>{{filter|title}}</h3>{% endif %}
+  {% for iri in vocab.keys()|sort %}
+    {% set concept=vocab[iri] %}
+    {% if filter == "external" %} {# only show external concepts? #}
+      {# filter external concepts - where external is defined as either
+      not belonging to DPVCG vocabs or not part of the current vocab  #}
+      {% set inscope = (not concept['_dpvterm']) or (concept['prefix'] != vocab_name)  %}
+      {% set inscope = inscope and concept['prefix'] != '_' and not concept['_ignored'] %}
+    {% else %}
+      {# internal/DPVCG defined concepts #}
+      {% set inscope = (concept['_dpvterm']) and (concept['prefix'] == vocab_name)  %}
+      {% if filter == "classes" %}
+        {% set inscope = inscope and concept['_type'] == "class" %}
+      {% elif filter == "properties" %}
+        {% set inscope = inscope and concept['_type'] == "property" %}
+      {% endif %}
+      {% set inscope = inscope and concept['prefix'] != '_' and not concept['_ignored'] %}
+    {% endif %}
+    {# Filter terms like ontology adn concept scheme #}
+    {% set is_ontology_term = [] %}
+    {% for parent in concept['rdf:type']|get_concept_list %}
+      {% if (parent['prefixed'] == "owl:Ontology")
+          or (parent['prefixed'] == 'skos:ConceptScheme') %}
+        {% if is_ontology_term.append(True) %}{% endif %} {# HACK: jinja2 scope to access variable outside loop #}
+      {% endif %}      
+    {% endfor %}
+    {% set inscope = inscope and is_ontology_term|length == 0 %}
+    {% if inscope %} {# if term is in scope (internal or external) #}
+    <section class="term-def" id="{% if filter=="external" %}{{concept['prefixed']}}{% else %}{{concept['term']}}{% endif %}">
+      <h4>{{ concept|translation_message('skos:prefLabel',lang) }}</h4>
+      <table class="term-contents">
+      <tbody>
+        {# term metadata #}
+        <tr>
+          <th>Term</th>
+          <td><dfn>{% if concept['prefix'] != vocab_name %}{{ concept['prefix']}}:{% endif %}{{ concept['term'] }}</dfn></td>
+          <th>Prefix</th>
+          <td>{{ concept['prefix'] }}-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>{{ concept|translation_message('skos:prefLabel',lang) }}</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="{{ concept|replace_iri_owl }}">{{ concept|replace_iri_owl }}</a> <br/>
+            <a href="{{ concept['iri'] }}">{{ concept['iri'] }}</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        {# term type #}
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>{% for parent in concept['rdf:type']|get_concept_list %}
+            {% if parent['prefixed'] == 'skos:Concept' %}
+              <a href="{{owl['Class']}}">owl:Class</a>
+            {% else %}
+              <a href="{{parent['iri']}}">{{parent|replace_prefix_owl}}</a>
+            {% endif %}
+            {{", " if not loop.last }}{% endfor %}
+          </td>
+        </tr>
+       
+        {# term parents #}
+        {% if concept['skos:broader'] %}{% for parentlist in concept|get_parent_hierarchy %}
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>{% for parent in parentlist|resolve_concepts %}
+            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            <a href="#{{parent['term']}}">{{ parent|replace_prefix_owl }}</a>
+            {% else %}
+            <a href="{{parent|replace_iri_owl}}">{{ parent|replace_prefix_owl }}</a>
+            {% endif %}
+            {{ " → " if not loop.last }}{% endfor %}
+            </td>{% endfor %}
+        </tr>{% endif %}
+      
+        {# term children #}
+        {% if concept['skos:narrower'] %}
+        <tr class="technical-detail">
+          <th>Parent-class of</th>
+          <td>{% for child in concept['skos:narrower']|ensure_list|sort %}
+            {% set child_prefixed = child|prefix_this %}
+            {% if child_prefixed in vocab and vocab[child_prefixed]['vocab'] == vocab_name %}
+            <a href="#{{vocab[child_prefixed]['term']}}">{{ child_prefixed }}</a>
+            {% else %}
+            <a href="{{child}}">{{ child_prefixed }}</a>
+            {% endif %}
+            {{ ", " if not loop.last }}{% endfor %}
+          </td>
+        </tr>{% endif %}
+      
+        {# properties where term is in domain #}
+        {% if concept['_type'] == 'class' %}
+        {% for prop in concept|get_prop_with_term_domain(vocab)|sort(attribute='iri') %}{% if loop.first %}<tr>
+          <th>in Domain of</th>
+          <td>{% endif %}
+            {% if prop['prefixed'] in vocab and prop['vocab'] == vocab_name and prop['_dpvterm'] %}
+            <a href="#{{prop['term']}}">{{ prop|replace_prefix_owl }}</a>{{ ", " if not loop.last }}
+            {% else %}
+            <a href="{{prop['iri']}}">{{ prop|replace_prefix_owl }}</a>{{ ", " if not loop.last }}
+            {% endif %}
+          {% if loop.last %}</td>
+        </tr>{% endif %}{% endfor %}
+       
+        {# properties where term is in range #}
+        {% for prop in concept|get_prop_with_term_range(vocab)|sort(attribute='iri') %}{% if loop.first %}<tr>
+          <th>in Range of</th>
+          <td>{% endif %}
+            {% if prop['prefixed'] in vocab and prop['vocab'] == vocab_name and prop['_dpvterm'] %}
+            <a href="#{{prop['term']}}">{{ prop|replace_prefix_owl }}</a>{{ ", " if not loop.last }}
+            {% else %}
+            <a href="{{prop['iri']}}">{{ prop|replace_prefix_owl }}</a>{{ ", " if not loop.last }}
+            {% endif %}
+          {% if loop.last %}</td>
+        </tr>{% endif %}{% endfor %}
+        {% endif %}
+
+        {# sub-properties #}
+        {% if concept['rdfs:subPropertyOf'] %}<tr class="technical-detail">
+          <th>Sub-property of</th>
+          <td>{% for parent in concept['rdfs:subPropertyOf']|get_concept_list %}
+            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            <a href="#{{parent['term']}}">{{ parent|replace_prefix_owl }}</a>
+            {% else %}
+            <a href="{{parent['iri']}}">{{ parent|replace_prefix_owl }}</a>
+            {% endif %}
+            {{ " → " if not loop.last }}{% endfor %}
+            </td>
+        </tr>{% endif %}
+        
+        {# super-properties #}
+        {% if concept['rdfs:superPropertyOf'] %}<tr class="technical-detail">
+          <th>Super-property of</th>
+          <td>{% for parent in concept['rdfs:superPropertyOf']|get_concept_list %}
+            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            <a href="#{{parent['term']}}">{{ parent|replace_prefix_owl }}</a>
+            {% else %}
+            <a href="{{parent['iri']}}">{{ parent|replace_prefix_owl }}</a>
+            {% endif %}
+            {{ " → " if not loop.last }}{% endfor %}
+          </td>
+        </tr>{% endif %}
+        
+        {# property domain includes #}
+        {% if concept['dcam:domainIncludes'] %}<tr class="technical-detail">
+          <th>Domain includes</th>
+          <td>{% for parent in concept['dcam:domainIncludes']|get_concept_list %}
+            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            <a href="#{{parent['term']}}">{{ parent|replace_prefix_owl }}</a>
+            {% else %}
+            <a href="{{parent['iri']}}">{{ parent|replace_prefix_owl }}</a>
+            {% endif %}
+            {{ ", " if not loop.last }}{% endfor %}
+          </td>
+        </tr>{% endif %}
+        
+        {# property range includes #}
+        {% if concept['dcam:rangeIncludes'] %}<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>{% for parent in concept['dcam:rangeIncludes']|get_concept_list %}
+            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            <a href="#{{parent['term']}}">{{ parent|replace_prefix_owl }}</a>
+            {% else %}
+            <a href="{{parent['iri']}}">{{ parent|replace_prefix_owl }}</a>
+            {% endif %}
+            {{ ", " if not loop.last }}{% endfor %}
+          </td>
+        </tr>{% endif %}
+        
+        <tr class="table-separator"></tr>
+
+        {# term description #}
+        {% if concept|translation_message('skos:definition',lang) %}<tr>
+          <th>Definition</th>
+          <td><i>{{ concept|translation_message('skos:definition',lang) }}</i></td>
+        </tr>{% endif %}
+        
+        {# term scope/usage note #}
+        {% if concept|translation_message('skos:scopeNote',lang) %}
+          {% for note in concept|translation_message('skos:scopeNote',lang)|ensure_list|sort %}<tr>
+          <th>Usage Note</th>
+          <td><i>{{note}}</i></td>
+        </tr>{% endfor %}{% endif %}
+       
+        {# term comment/note #}
+        {% if concept['skos:note'] %}<tr>
+          <th>Comment</th>
+          <td><i>{{ concept['skos:note'] }}</i></td>
+        </tr>{% endif %}
+       
+        {# examples where this term is the subject #}
+        {% if 'vann:example' in concept %}
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>{% for ex in concept|retrieve_example_for_concept %}
+            <a href="{{ex['iri']}}">{{ ex['dct:title'] }} <small>({{ ex['term'] }})</small></a>{{ "; " if not loop.last }}
+        {% endfor %}</td>
+        {% endif %}
+
+        <tr class="table-separator"></tr>
+        
+        {# term source #}
+        {% if concept['dct:source'] %}<tr>
+          <th>Source</th>
+          <td><i>{% for x,y in concept['dct:source']|get_sources %}<a href="{{x}}">{{ y}}</a>{{ "," if not loop.last }}{% endfor %}</i></td>
+        </tr>{% endif %}
+       
+        {# related terms #}
+        {% if concept['skos:related'] %}<tr>
+          <th>Related</th>
+          <td><i>{{ concept['skos:related'] }}</i></td>
+        </tr>{% endif %}
+        
+        <tr class="table-separator"></tr>
+
+        {# term created #}
+        {% if concept['dct:created'] %}<tr>
+          <th>Date Created</th>
+          <td><i>{{ concept['dct:created'] }}</i></td>
+        </tr>{% endif %}
+        
+        {# term modified #}
+        {% if concept['dct:modified'] %}<tr>
+          <th>Date Modified</th>
+          <td><i>{{ concept['dct:modified'] }}</i></td>
+        </tr>{% endif %}
+       
+        {# term contributors #}
+        {% if concept['dct:contributor'] %}<tr>
+          <th>Contributors</th>
+          <td><i>{{ concept['dct:contributor'] }}</i></td>
+        </tr>{% endif %}
+       
+        {# section the term is documented in #}
+        <tr>
+          <th>Documented in</th>
+          <td>{% for m in concept['module'] %}<a href="{{concept['namespace']}}vocab-{{m|replace('_','-')}}">{{concept['vocab']|capitalize}} {{m|title|replace('_','-')}}</a>{{", " if not loop.last}}{% endfor %}</td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+    {% endif %}
+{% endfor %}
+{% endmacro %}
+
+{% macro list_item_single(topconcepts, concepts, data, lang="en") %}
+{# stale code - doesn't seem to be used - check if it can be removed later #}
+  {% for term in topconcepts %}
+  <li>
+    <strong>{{term}}</strong>: {{data[term]|translation_message('skos:definition',lang)}} 
+      <small><a href="{{data[term]['iri']}}">go to full definition</a></small><br/>
+      data: {{ topconcepts[term] }}
+    {% if concepts[term]['children'] %}
+      <ul>
+        {{ list_item_single(concepts[term]['children'], concepts, data, lang) }}
+      </ul>
+    {% endif %}
+  </li>
+  {% endfor %}
+{% endmacro %}
+
+{% macro list_hierarchy(vocab, head=None, lang="en", first_iteration=True) %}
+{# for the given vocab, generate a hierarchical list with `head` as the top
+concept. If top is None, then use all concepts. `lang` is used to retrieve the label to show the concept. #}
+{% if first_iteration %}<div class="list-hierarchy">{% endif %}
+{% set concepts = vocab|organise_hierarchy(head) %}
+{% if concepts %}<ul class="concept-list">
+{% for term, data in concepts.items() %}
+  <li>
+    <strong>{{term}}</strong>: {{data|translation_message('skos:definition',lang)}} 
+      <small><a href="{% if term.split(':')[0] == vocab['prefix'] %}#{{data['term']}}{% else %}{{data['iri']}}{% endif %}">go to full definition</a></small>
+      {{ list_hierarchy(vocab, head=term, lang=lang, first_iteration=False) }}
+  </li>
+{% endfor %}
+</ul>{% endif %}
+{% if first_iteration %}</div>{% endif %}
+{% endmacro %}
+
+{% macro anchor(term) %}
+{{ term|make_anchor_link|safe }}
+{% endmacro %}

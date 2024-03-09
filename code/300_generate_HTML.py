@@ -138,15 +138,9 @@ class DATA(object):
                 else:
                     term[p] = [term[p], o]
                     term[rel] = [term[rel], o]
-                if term['prefixed'] == 'dpv:isImplementedByEntity' and rel == 'skos:scopeNote':
-                    DEBUG(f"{term['term']} added {rel} {o}")
-                    DEBUG(f"{term[rel]}")
             else:
                 term[p] = o
                 term[rel] = o
-                if term['prefixed'] == 'dpv:isImplementedByEntity' and rel == 'skos:scopeNote':
-                    DEBUG(f"{term['term']} addition {rel} {o}")
-                    DEBUG(f"{term[rel]}")
 
             # ==== parse-object ====
 
@@ -613,6 +607,28 @@ def make_anchor_link(concept:str|dict) -> str:
     return f"<a href='{iri}'><code>{term}</code></a>"
 
 
+def replace_iri_owl(concept:dict) -> str:
+    """
+    Replaces the given IRI (concept dict)
+    with its OWL variant. Only works for DPV concepts.
+    """
+    if not concept['_dpvterm']: return concept['iri']
+    iri = concept['iri']
+    term = '#' + concept['term']
+    return iri.replace(term, f'/owl/{term}')
+
+
+def replace_prefix_owl(concept:dict) -> str:
+    """
+    Replaces the given IRI (concept dict)
+    with its OWL variant. Only works for DPV concepts.
+    """
+    if not concept['_dpvterm']: return concept['prefixed']
+    prefix = concept['prefixed'].split(':')[0]
+    return f"{prefix}-owl:{concept['term']}"
+
+
+
 # == HTML Export ==
 
 # === Jinja setup ===
@@ -642,12 +658,14 @@ JINJA2_FILTERS = {
     'retrieve_example_for_concept': retrieve_example_for_concept,
     'translation_message': translation_message,
     'make_anchor_link': make_anchor_link,
+    'replace_iri_owl': replace_iri_owl,
+    'replace_prefix_owl': replace_prefix_owl,
 }
 template_env.filters.update(JINJA2_FILTERS)
 
 def _write_template(
     template:str, filepath:str, filename:str,
-    vocab:str, index:bool=False, lang:str="en"):
+    vocab:str, index:bool=False, owl:bool=True, lang:str="en"):
     """
     Helper function to refactor jinja output function.
     `template` is the name of the template to load.
@@ -685,6 +703,13 @@ def _write_template(
                 f'{filepath}/{filename}-{lang}.html', # src
                 f'{filepath}/index.html') # dest
             INFO(f'wrote {filename} spec at {filepath}/index.html')
+    if owl:
+        template = template_env.get_template('template_owl_generic_index.jinja2')
+        params['owl'] = OWL
+        with open(f'{filepath}/{filename}-owl.html', 'w+') as fd:
+            fd.write(template.render(**params))
+            INFO(f'wrote {filename} OWL spec at {filepath}/{filename}-owl.html')  
+
 
 
 # === Load RDF data ===
