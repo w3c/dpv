@@ -76,6 +76,8 @@ class DATA(object):
             # rather than using the full IRIs
             term = s.n3(graph.namespace_manager)
             if term not in DATA.concepts: # first occurence
+                if term == 'dpv:isImplementedByEntity':
+                    DEBUG(f'isImplementedByEntity added to DATA.concepts -> {vocab}')
                 # DATA.concepts is a dict holding all concepts that 
                 # are parsed. Keys are IRIs and prefixed notations -
                 # duplicates with reference to the same dict as value,
@@ -136,9 +138,15 @@ class DATA(object):
                 else:
                     term[p] = [term[p], o]
                     term[rel] = [term[rel], o]
+                if term['prefixed'] == 'dpv:isImplementedByEntity' and rel == 'skos:scopeNote':
+                    DEBUG(f"{term['term']} added {rel} {o}")
+                    DEBUG(f"{term[rel]}")
             else:
                 term[p] = o
                 term[rel] = o
+                if term['prefixed'] == 'dpv:isImplementedByEntity' and rel == 'skos:scopeNote':
+                    DEBUG(f"{term['term']} addition {rel} {o}")
+                    DEBUG(f"{term[rel]}")
 
             # ==== parse-object ====
 
@@ -197,18 +205,20 @@ class DATA(object):
             for prop in (
                     'skos:prefLabel', 'skos:definition', 'skos:scopeNote'):
                 if prop not in concept: continue # unsupported text
-                concept[prop] = ensure_list(concept[prop])
-                languages = {}
-                for prop_value in concept[prop]:
+                values = ensure_list(concept[prop])
+                languages = {'en': []}
+                for prop_value in values:
                     if prop_value.language is None: # default lang is EN
-                        concept[f'{prop}-en'] = concept[prop]
+                        languages['en'].append(prop_value)
                         continue
-                    if prop_value.language in languages: continue
-                    else:
-                        languages[prop_value.language] = prop_value
-                for language, value in languages.items():
-                    concept[f'{prop}-{language}'] = value
-                concept[prop] = languages['en']
+                    if prop_value.language not in languages: 
+                        continue # unsupported language
+                    languages[prop_value.language].append(prop_value)
+                for language, values in languages.items():
+                    if len(values) == 1: # single item, don't make a list
+                        concept[f'{prop}-{language}'] = values[0]
+                    else: # multiple items, keep the list
+                        concept[f'{prop}-{language}'] = values
 
     # ==== load-module ====
     @staticmethod
@@ -323,6 +333,7 @@ def get_hierarchy(term:dict, relation:str) -> list:
         # and delve deeper recursively for each parent
         parents = DATA.concepts[term][relation]
         if type(parents) is list:
+            parents.sort()
             for parent in parents:
                 ancestor_set.add(parent)
                 parentlist = ancestorlist.copy()
@@ -345,6 +356,7 @@ def get_hierarchy(term:dict, relation:str) -> list:
     ancestory = [] # retrieve parent concepts from DATA
     for parentlist in ancestorlist:
         ancestory.append([DATA.concepts[parent] for parent in parentlist])
+    ancestory.sort(key=lambda x: x[0]['term'])
     return ancestory
 
 
@@ -754,4 +766,3 @@ if data and ':' in list(data.keys())[0]: # hack to detect repeated script call
         INFO(F"missing translations collected in {TRANSLATIONS_MISSING_FILE}")
 
 INFO('*'*40)
-# DEBUG(DATA.data['dpv'].keys())
