@@ -217,6 +217,24 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     # Current implementation is #1 with the same IRI, where OWL is
     # generated at same filepath with extension {name}-owl.[ttl,owl]
 
+    # Going with #2 above - replace IRI with suffix /owl
+    graph_temp = Graph()
+    
+    def replace_iri_owl(iri):
+        if not type(iri) == URIRef: return iri
+        if not iri.startswith('https://w3id.org/dpv'): return iri
+        if not '#' in iri: return iri
+        # DEBUG(iri)
+        namespace, term = iri.split('#')
+        return URIRef(f"{namespace}/owl#{term}")
+
+    for s, p, o in graph:
+            graph_temp.add((
+                replace_iri_owl(s), replace_iri_owl(p), replace_iri_owl(o)))
+    graph = graph_temp
+    for prefix, namespace in NAMESPACES.items():
+        graph.namespace_manager.bind(prefix, namespace)
+
     ##### OWL semantics
     # For reference, see [Using OWL and SKOS (May 2008)
     # ](https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html)

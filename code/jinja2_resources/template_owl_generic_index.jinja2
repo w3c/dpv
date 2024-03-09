@@ -1,0 +1,68 @@
+{% from 'owl_macro_term_table.jinja2' import index_concepts, list_items, list_hierarchy, table_properties %}
+
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}}{% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}}",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}} - OWL serialisation",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
+    canonicalUri: "https://w3id.org/dpv/",
+    edDraftURI: "https://w3id.org/dpv/",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}",
+    }
+    ],
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list %}
+      {
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+  <link rel="stylesheet" type="text/css" href="../media/common.css">
+</head>
+<body>
+
+<section id="abstract">
+  <p>This document describes (only) the <strong><emph>OWL serialisation</emph> of {{data[vocab_name+'-metadata']['dct:title']}}</strong>. For information on the concepts, their usage, and further documentation, please consult the canonical page for the vocabulary at: <a href="{{data[vocab_name+'-metadata']['iri']}}">{{data[vocab_name+'-metadata']['iri']}}</a></p>
+</section>
+
+<section id="sotd"></section>
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    {{ index_concepts(vocab, vocab_name, filter="classes", lang=lang, owl=owl) }}
+  </section>
+  <section id="dpv-properties">
+    {{ index_concepts(vocab, vocab_name, filter="properties", lang=lang, owl=owl) }}
+  </section>
+  <section id="external-concepts">
+    <p>The following external concepts are re-used within DPV:</p>
+    {{ index_concepts(vocab, vocab_name, filter="external", owl=owl) }}
+  </section>
+</section>
+
+</body>
+</html>
