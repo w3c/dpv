@@ -244,6 +244,13 @@ DPV_FILES = {
             'DGA_properties',
             ),
     },
+    'eu-aiact': {
+        'name': 'eu-aiact',
+        'doc_id': '17WAXH7Bkzu2m2eeOSTyhJBeHp9nst988KYCSRES8xCE',
+        'sheets': (
+            'aiact-system',
+            ),
+    },
     # Sheets for Use-Cases, Requirements, and Examples
     'ucr': {
         'name': 'ucr',

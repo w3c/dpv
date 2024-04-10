@@ -323,6 +323,11 @@ CSVFILES = {
             'properties': f'{IMPORT_CSV_PATH}/DGA_properties.csv',
         },
     },
+    'eu-aiact': {
+        'system': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-system.csv',
+        }
+    },
     'eu-rights': {
         'fundamental': {
             'taxonomy': f'{IMPORT_CSV_PATH}/EUFundamentalRights.csv',
@@ -664,6 +669,22 @@ RDF_VOCABS = {
             "schema:version": "2",
         },
     },
+    'eu-aiact': {
+        'vocab': f'{IMPORT_PATH}/legal/eu/aiact/eu-aiact.ttl',
+        'template': 'template_legal_eu_aiact.jinja2',
+        'export': f'{EXPORT_PATH}/legal/eu/aiact',
+        'modules': {
+            'system': f'{IMPORT_PATH}/legal/eu/aiact/modules/system.ttl',
+        },
+        'metadata': {
+            "dct:title": "EU AI Act",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU AI Act",
+            "dct:created": "2024-04-10",
+            "dct:modified": "2024-04-10",
+            "dct:creator": "Delaram Golpayegani",
+            "schema:version": "1",
+        },
+    },
     'eu-rights': {
         'vocab': f'{IMPORT_PATH}/legal/eu/rights/eu-rights.ttl',
         'template': 'template_legal_eu_rights.jinja2',
@@ -733,6 +754,10 @@ RDF_STRUCTURE = {
     'eu-dga': {
         'main': f'{EXPORT_RDF_PATH}/legal/eu/dga',
         'modules': f'{EXPORT_RDF_PATH}/legal/eu/dga/modules',
+    },
+    'eu-aiact': {
+        'main': f'{EXPORT_RDF_PATH}/legal/eu/aiact',
+        'modules': f'{EXPORT_RDF_PATH}/legal/eu/aiact/modules',
     },
     'eu-rights': {
         'main': f'{EXPORT_RDF_PATH}/legal/eu/rights',
