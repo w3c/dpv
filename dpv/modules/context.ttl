@@ -11,6 +11,19 @@
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+dpv:Applicability a rdfs:Class,
+        skos:Concept ;
+    dct:contributor "Harshvardhan J. Pandit" ;
+    dct:created "2023-08-24"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    rdfs:subClassOf dpv:Context ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Context ;
+    skos:definition "Concept provided to represent indication of cases where the information or context is not applicable (N/A) or not available or this is not known or determined yet. If the information is applicable and available, this concept should not be used."@en ;
+    skos:inScheme dpv:context-classes ;
+    skos:prefLabel "Applicability"@en ;
+    skos:scopeNote "These concepts are useful in closed-world interpretations, for example in forms where a field must have a value to explicitly denote it is not applicable or the information is not available yet."@en .
+
 dpv:Context a rdfs:Class,
         skos:Concept ;
     dct:contributor "Harshvardhan J. Pandit, Javier Fernandez, Axel Polleres, Elmar Kiesling, Fajar Ekaputra, Simon Steyskal" ;
@@ -123,7 +136,7 @@ dpv:Justification a rdfs:Class,
     rdfs:subClassOf dpv:Context ;
     sw:term_status "accepted"@en ;
     skos:broader dpv:Context ;
-    skos:definition "A form of documentation providing reasons, explanations, or justifications"@en ;
+    skos:definition "A form of documentation providing reaosns, explanations, or justifications"@en ;
     skos:inScheme dpv:context-classes ;
     skos:prefLabel "Justification"@en .
 
@@ -140,6 +153,32 @@ dpv:Necessity a rdfs:Class,
     skos:inScheme dpv:context-classes ;
     skos:prefLabel "Necessity"@en ;
     skos:scopeNote "Necessity can be used to express need, essentiality, requirement, or compulsion."@en .
+
+dpv:NotApplicable a rdfs:Class,
+        skos:Concept,
+        dpv:Applicability ;
+    dct:contributor "Harshvardhan J. Pandit" ;
+    dct:created "2023-08-24"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Applicability ;
+    skos:definition "Concept indicating the information or context is not applicable"@en ;
+    skos:inScheme dpv:context-classes ;
+    skos:prefLabel "Not Applicable"@en ;
+    skos:scopeNote "This concept is useful when describing situations where information must be provided to indicate the context does not apply and leaving a blank field or having no value or triple is not an option. For example, if in a form a field asks about whether a process X was completed and the response to that would be \"not applicable (N/A)\" - then this is represented using the concept NotApplicable. If instead the value was left blank the open-world interpretation creates an ambiguity as to whether the information was not available or was it not provided as it is not applicable."@en .
+
+dpv:NotAvailable a rdfs:Class,
+        skos:Concept,
+        dpv:Applicability ;
+    dct:contributor "Harshvardhan J. Pandit" ;
+    dct:created "2023-08-24"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Applicability ;
+    skos:definition "Concept indicating the information or context is applicable but information is not yet available"@en ;
+    skos:inScheme dpv:context-classes ;
+    skos:prefLabel "Not Available"@en ;
+    skos:scopeNote "This concept is useful when describing situations where information is required but is not available (yet). For example, if in a form a field asks about whether a process X was completed, and it is correct to interpret that process X is applicable and must be completed, but the information is not yet available as to whether this was done - then NotAvailable is useful to represent this."@en .
 
 dpv:NotRequired a rdfs:Class,
         skos:Concept,
@@ -265,6 +304,19 @@ dpv:TemporalDuration a rdfs:Class,
     skos:inScheme dpv:context-classes ;
     skos:prefLabel "Temporal Duration"@en .
 
+dpv:UnknownApplicability a rdfs:Class,
+        skos:Concept,
+        dpv:Applicability ;
+    dct:contributor "Harshvardhan J. Pandit" ;
+    dct:created "2023-08-24"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Applicability ;
+    skos:definition "Concept indicating information or context availability is unknown i.e. it is not known if the information exists or is applicable and therefore statements about its availability cannot be made (yet)"@en ;
+    skos:inScheme dpv:context-classes ;
+    skos:prefLabel "Unknown Applicability"@en ;
+    skos:scopeNote "This concept is useful when describing situations where it cannot be stated whether the context applies or whether the information is not available yet. For example, if a form field asks about whether a process X was completed and it is not yet known whether X applies or not and therefore it is also unclear whether X was completed or not. Using UnknownApplicability is a signal that the applicability of X should be assessed, and if applicable, then information about X should be identified and used here."@en .
+
 dpv:UntilEventDuration a rdfs:Class,
         skos:Concept ;
     dct:contributor "Harshvardhan J. Pandit" ;
@@ -300,6 +352,7 @@ dpv:UntilTimeDuration a rdfs:Class,
         "Fajar Ekaputra",
         "Georg P Krog",
         "Georg P. Krog",
+        "Harshvardhan J Pandit",
         "Harshvardhan J. Pandit",
         "Harshvardhan J.Pandit",
         "Javier Fernandez",
@@ -318,6 +371,18 @@ dpv:UntilTimeDuration a rdfs:Class,
     vann:preferredNamespacePrefix "dpv" ;
     vann:preferredNamespaceUri "https://w3id.org/dpv#" ;
     schema:version "2" .
+
+dpv:hasApplicability a rdf:Property,
+        skos:Concept ;
+    dcam:rangeIncludes dpv:Applicability ;
+    dct:contributor "Harshvardhan J. Pandit" ;
+    dct:created "2023-08-24"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates situations where the context is not applicable, information is not available, or this is unknown. An appropriate instance of dpv:Applicability should be used with this relation to express the situation"@en ;
+    skos:inScheme dpv:context-properties ;
+    skos:prefLabel "has applicability"@en ;
+    schema:rangeIncludes dpv:Applicability .
 
 dpv:hasContext a rdf:Property,
         skos:Concept ;
@@ -365,6 +430,18 @@ dpv:hasIdentifier a rdf:Property,
     skos:inScheme dpv:context-properties ;
     skos:prefLabel "has identifier"@en .
 
+dpv:hasImportance a rdf:Property,
+        skos:Concept ;
+    dcam:rangeIncludes dpv:Importance ;
+    dct:contributor "Harshvardhan J. Pandit" ;
+    dct:created "2024-04-13"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the importance for specified context or criteria"@en ;
+    skos:inScheme dpv:context-properties ;
+    skos:prefLabel "has importance"@en ;
+    schema:rangeIncludes dpv:Importance .
+
 dpv:hasJustification a rdf:Property,
         skos:Concept ;
     dcam:rangeIncludes dpv:Justification ;
@@ -376,6 +453,18 @@ dpv:hasJustification a rdf:Property,
     skos:inScheme dpv:context-properties ;
     skos:prefLabel "has justification"@en ;
     schema:rangeIncludes dpv:Justification .
+
+dpv:hasNecessity a rdf:Property,
+        skos:Concept ;
+    dcam:rangeIncludes dpv:Necessity ;
+    dct:contributor "Harshvardhan J. Pandit" ;
+    dct:created "2024-04-13"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the necessity for specified context or criteria"@en ;
+    skos:inScheme dpv:context-properties ;
+    skos:prefLabel "has necessity"@en ;
+    schema:rangeIncludes dpv:Necessity .
 
 dpv:hasOutcome a rdf:Property,
         skos:Concept ;
@@ -409,6 +498,18 @@ dpv:isAfter a rdf:Property,
     skos:inScheme dpv:context-properties ;
     skos:prefLabel "is after"@en .
 
+dpv:isApplicableFor a rdf:Property,
+        skos:Concept ;
+    dcam:rangeIncludes dpv:Scope ;
+    dct:contributor "Harshvardhan J Pandit, Beatriz Esteves, Georg P Krog, Paul Ryan" ;
+    dct:created "2024-04-13"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the concept or information is applicable for specified context"@en ;
+    skos:inScheme dpv:context-properties ;
+    skos:prefLabel "is applicable for"@en ;
+    schema:rangeIncludes dpv:Scope .
+
 dpv:isBefore a rdf:Property,
         skos:Concept ;
     dct:contributor "Georg P. Krog, Harshvardhan J. Pandit, Julian Flake" ;
@@ -418,6 +519,18 @@ dpv:isBefore a rdf:Property,
     skos:definition "Indicates the specified concepts is 'before' this concept in some context"@en ;
     skos:inScheme dpv:context-properties ;
     skos:prefLabel "is before"@en .
+
+dpv:isNotApplicableFor a rdf:Property,
+        skos:Concept ;
+    dcam:rangeIncludes dpv:Scope ;
+    dct:contributor "Harshvardhan J Pandit, Beatriz Esteves, Georg P Krog, Paul Ryan" ;
+    dct:created "2024-04-13"^^xsd:date ;
+    rdfs:isDefinedBy dpv: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the concept or information is not applicable for specified context"@en ;
+    skos:inScheme dpv:context-properties ;
+    skos:prefLabel "is not applicable for"@en ;
+    schema:rangeIncludes dpv:Scope .
 
 dpv:context-properties a skos:ConceptScheme .
 
