@@ -61,7 +61,7 @@
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
           <td>{% for parent in parentlist|resolve_concepts %}
-            {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
+            {% if parent['prefixed'] in vocab %}
             <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
             {% else %}
             <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
@@ -229,8 +229,15 @@
        
         {# section the term is documented in #}
         <tr>
-          <th>Documented in</th>
-          <td>{% for m in concept['module'] %}<a href="{{concept['namespace']}}vocab-{{m|replace('_','-')}}">{{concept['vocab']|capitalize}} {{m|title|replace('_','-')}}</a>{{", " if not loop.last}}{% endfor %}</td>
+          <th>Documented in Section</th>
+          <td>{% for m in concept['module'] %}
+            {% if concept['prefixed'] in vocab %}
+              <a href="#vocab-{{m|replace('_','-')}}">{{concept['vocab']}} {{m|replace('_','-')}}</a>
+            {% else %}
+              <a href="{{concept['namespace']}}vocab-{{m|replace('_','-')}}">{{concept['vocab']}} {{m|replace('_','-')}}</a>
+            {% endif %}
+            {{", " if not loop.last}}{% endfor %}
+          </td>
         </tr>
         </tbody>
       </table>
