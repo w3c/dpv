@@ -132,13 +132,13 @@ class DATA(object):
                     # term's properties can be accessed using both
                     # the IRI and the prefixed forms as keys
                     term[p].append(o)
-                    term[rel].append(o)
+                    term[rel] = term[p]
                 else:
                     term[p] = [term[p], o]
-                    term[rel] = [term[rel], o]
+                    term[rel] = term[p]
             else:
                 term[p] = o
-                term[rel] = o
+                term[rel] = term[p]
 
             # ==== parse-object ====
 
@@ -191,6 +191,13 @@ class DATA(object):
         for concept in vocab_data.values():
             if '_type' not in concept: # term is neither class/property
                 concept['_type'] = 'notcp'
+            # Ensure there are no duplicate labels or annotations 
+            for prop in (
+                    'skos:prefLabel', 'dct:created', 'dct:contributor',
+                    'dct:modified',):
+                if prop not in concept: continue
+                if type(concept[prop]) is list and len(concept[prop]) > 1:
+                    concept[prop] = concept[prop][0]
             # For literals with text, there can be multiple languages.
             # For each term's properties with multiple languages,
             # construct `{prop: {'lang': 'value'}}`

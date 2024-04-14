@@ -229,7 +229,9 @@ DPV_FILES = {
             'GDPR_DataTransfers', 
             'GDPR_DPIA',
             'GDPR_DPIA_properties',
-            'GDPR_compliance'
+            'GDPR_compliance',
+            'GDPR_entities',
+            'GDPR_entities_properties',
             ),
     },
     # Sheets for EU-DGA extension
