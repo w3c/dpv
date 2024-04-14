@@ -76,8 +76,6 @@ class DATA(object):
             # rather than using the full IRIs
             term = s.n3(graph.namespace_manager)
             if term not in DATA.concepts: # first occurence
-                if term == 'dpv:isImplementedByEntity':
-                    DEBUG(f'isImplementedByEntity added to DATA.concepts -> {vocab}')
                 # DATA.concepts is a dict holding all concepts that 
                 # are parsed. Keys are IRIs and prefixed notations -
                 # duplicates with reference to the same dict as value,

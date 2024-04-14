@@ -97,6 +97,7 @@ DPV_FILES = {
             'OrganisationalMeasure',
             'LegalMeasure',
             'PhysicalMeasure',
+            'EntityControl',
             ),
     },
     # Sheets for Entities
