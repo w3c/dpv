@@ -110,6 +110,12 @@ CSVFILES = {
         'organisational_measures': {
             'taxonomy': f'{IMPORT_CSV_PATH}/OrganisationalMeasure.csv',
         },
+        'legal_measures': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/LegalMeasure.csv',
+        },
+        'physical_measures': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/PhysicalMeasure.csv',
+        },
         'entities': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Entities.csv',
             'properties': f'{IMPORT_CSV_PATH}/Entities_properties.csv',
@@ -408,6 +414,8 @@ RDF_VOCABS = {
             'TOM': f'{IMPORT_PATH}/dpv/modules/TOM.ttl',
             'TOM-technical': f'{IMPORT_PATH}/dpv/modules/technical_measures.ttl',
             'TOM-organisational': f'{IMPORT_PATH}/dpv/modules/organisational_measures.ttl',
+            'TOM-legal': f'{IMPORT_PATH}/dpv/modules/legal_measures.ttl',
+            'TOM-physical': f'{IMPORT_PATH}/dpv/modules/physical_measures.ttl',
             'entities': f'{IMPORT_PATH}/dpv/modules/entities.ttl',
             'entities-authority': f'{IMPORT_PATH}/dpv/modules/entities_authority.ttl',
             'entities-legalrole': f'{IMPORT_PATH}/dpv/modules/entities_legalrole.ttl',

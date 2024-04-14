@@ -95,7 +95,8 @@ DPV_FILES = {
             'TOM_properties', 
             'TechnicalMeasure', 
             'OrganisationalMeasure',
-            # TODO: Add sheets for Legal and Physical measure
+            'LegalMeasure',
+            'PhysicalMeasure',
             ),
     },
     # Sheets for Entities
