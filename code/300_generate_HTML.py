@@ -388,21 +388,33 @@ def organise_hierarchy(terms:list, top:str=None) -> dict:
     # the list of concepts - remove that.
     if 'prefix' in data:
         del data['prefix'] # this isn't a term
+
+    results = {}
     # From each term, populate parents and children lists
+    if top is None:
+        for key, term in terms.items():
+            if 'skos:broader' in term: # has parents
+                parents = term['skos:broader'] # get parents
+                parents = ensure_list(parents)
+                for parent in parents: # check parents are not present in terms
+                    # if parents are in terms, that means this isn't a top
+                    # concept and shouldn't be returned
+                    if prefix_from_iri(parent) in terms:
+                        break
+                else:
+                    results[key] = term
+            else:
+                results[key] = term
+        return {k:results[k] for k in sorted(results.keys(), key=str.casefold)}
+    # else: top is not None
     for key, term in terms.items():
         if 'skos:broader' in term: # has parents
             parents = term['skos:broader'] # get parents
             parents = ensure_list(parents)
-            for parent in parents: # check parents are not present in terms
-                if prefix_from_iri(parent) in terms:
-                    data[key]['parents'].append(prefix_from_iri(parent))
-                    data[prefix_from_iri(parent)]['children'].append(key)
-    # Based on top, filter out terms that are not under top (as parent)
-    if top is None:
-        results = {k:terms[k] for k,v in data.items() if not v['parents']}
-    else:
-        results = {k:terms[k] for k,v in data.items() if top in v['parents']}
-    # Sort the terms by IRI and return them.
+            for parent in parents: # only return those items where parent is top
+                if prefix_from_iri(parent) == top:
+                    results[key] = term
+                    break
     return {k:results[k] for k in sorted(results.keys(), key=str.casefold)}
 
 

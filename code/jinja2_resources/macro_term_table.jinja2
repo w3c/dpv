@@ -45,7 +45,7 @@
         </tr>
         <tr class="technical-detail">
           <th>IRI</th>
-          <td><a href="{{ concept['iri'] }}">{{ concept['iri'] }}</a></td>
+          <td><a href="{{ concept['iri'] }}" class="local-link">{{ concept['iri'] }}</a></td>
         </tr>
         
         <tr class="table-separator"></tr>
@@ -53,7 +53,7 @@
         {# term type #}
         <tr class="technical-detail">
           <th>Type</th>
-          <td>{% for parent in concept['rdf:type']|get_concept_list %}<a href="{{parent['iri']}}">{{parent['prefixed']}}</a>{{", " if not loop.last }}{% endfor %}</td>
+          <td>{% for parent in concept['rdf:type']|get_concept_list %}<a href="{{parent['iri']}}" class="local-link">{{parent['prefixed']}}</a>{{", " if not loop.last }}{% endfor %}</td>
         </tr>
        
         {# term parents #}
@@ -62,9 +62,9 @@
           <th>Broader/Parent types</th>
           <td>{% for parent in parentlist|resolve_concepts %}
             {% if parent['prefixed'] in vocab %}
-            <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
+            <a href="#{{parent['term']}}" class="local-link">{{ parent['prefixed'] }}</a>
             {% else %}
-            <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
+            <a href="{{parent['iri']}}" class="local-link">{{ parent['prefixed'] }}</a>
             {% endif %}
             {{ " → " if not loop.last }}{% endfor %}
             </td>{% endfor %}
@@ -77,9 +77,9 @@
           <td>{% for child in concept['skos:narrower']|ensure_list|sort %}
             {% set child_prefixed = child|prefix_this %}
             {% if child_prefixed in vocab and vocab[child_prefixed]['vocab'] == vocab_name %}
-            <a href="#{{vocab[child_prefixed]['term']}}">{{ child_prefixed }}</a>
+            <a href="#{{vocab[child_prefixed]['term']}}" class="local-link">{{ child_prefixed }}</a>
             {% else %}
-            <a href="{{child}}">{{ child_prefixed }}</a>
+            <a href="{{child}}" class="local-link">{{ child_prefixed }}</a>
             {% endif %}
             {{ ", " if not loop.last }}{% endfor %}
           </td>
@@ -91,9 +91,9 @@
           <th>Subject of relation</th>
           <td>{% endif %}
             {% if prop['prefixed'] in vocab and prop['vocab'] == vocab_name and prop['_dpvterm'] %}
-            <a href="#{{prop['term']}}">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
+            <a href="#{{prop['term']}}" class="local-link">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
             {% else %}
-            <a href="{{prop['iri']}}">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
+            <a href="{{prop['iri']}}" class="local-link">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
             {% endif %}
           {% if loop.last %}</td>
         </tr>{% endif %}{% endfor %}
@@ -103,9 +103,9 @@
           <th>Object of relation</th>
           <td>{% endif %}
             {% if prop['prefixed'] in vocab and prop['vocab'] == vocab_name and prop['_dpvterm'] %}
-            <a href="#{{prop['term']}}">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
+            <a href="#{{prop['term']}}" class="local-link">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
             {% else %}
-            <a href="{{prop['iri']}}">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
+            <a href="{{prop['iri']}}" class="local-link">{{ prop['prefixed'] }}</a>{{ ", " if not loop.last }}
             {% endif %}
           {% if loop.last %}</td>
         </tr>{% endif %}{% endfor %}
@@ -116,9 +116,9 @@
           <th>Sub-property of</th>
           <td>{% for parent in concept['rdfs:subPropertyOf']|get_concept_list %}
             {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
-            <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
+            <a href="#{{parent['term']}}" class="local-link">{{ parent['prefixed'] }}</a>
             {% else %}
-            <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
+            <a href="{{parent['iri']}}" class="local-link">{{ parent['prefixed'] }}</a>
             {% endif %}
             {{ " → " if not loop.last }}{% endfor %}
             </td>
@@ -129,9 +129,9 @@
           <th>Super-property of</th>
           <td>{% for parent in concept['rdfs:superPropertyOf']|get_concept_list %}
             {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
-            <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
+            <a href="#{{parent['term']}}" class="local-link">{{ parent['prefixed'] }}</a>
             {% else %}
-            <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
+            <a href="{{parent['iri']}}" class="local-link">{{ parent['prefixed'] }}</a>
             {% endif %}
             {{ " → " if not loop.last }}{% endfor %}
           </td>
@@ -142,9 +142,9 @@
           <th>Domain includes</th>
           <td>{% for parent in concept['dcam:domainIncludes']|get_concept_list %}
             {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
-            <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
+            <a href="#{{parent['term']}}" class="local-link">{{ parent['prefixed'] }}</a>
             {% else %}
-            <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
+            <a href="{{parent['iri']}}" class="local-link">{{ parent['prefixed'] }}</a>
             {% endif %}
             {{ ", " if not loop.last }}{% endfor %}
           </td>
@@ -155,9 +155,9 @@
           <th>Range includes</th>
           <td>{% for parent in concept['dcam:rangeIncludes']|get_concept_list %}
             {% if parent['prefixed'] in vocab and parent['vocab'] == vocab_name %}
-            <a href="#{{parent['term']}}">{{ parent['prefixed'] }}</a>
+            <a href="#{{parent['term']}}" class="local-link">{{ parent['prefixed'] }}</a>
             {% else %}
-            <a href="{{parent['iri']}}">{{ parent['prefixed'] }}</a>
+            <a href="{{parent['iri']}}" class="local-link">{{ parent['prefixed'] }}</a>
             {% endif %}
             {{ ", " if not loop.last }}{% endfor %}
           </td>
@@ -189,7 +189,7 @@
         <tr class="table-separator"></tr>
           <th>Examples</th>
           <td>{% for ex in concept|retrieve_example_for_concept %}
-            <a href="{{ex['iri']}}">{{ ex['dct:title'] }} <small>({{ ex['term'] }})</small></a>{{ "; " if not loop.last }}
+            <a href="{{ex['iri']}}" class="local-link">{{ ex['dct:title'] }} <small>({{ ex['term'] }})</small></a>{{ "; " if not loop.last }}
         {% endfor %}</td>
         {% endif %}
 
@@ -229,12 +229,12 @@
        
         {# section the term is documented in #}
         <tr>
-          <th>Documented in Section</th>
+          <th>See More</th>
           <td>{% for m in concept['module'] %}
             {% if concept['prefixed'] in vocab %}
-              <a href="#vocab-{{m|replace('_','-')}}">{{concept['vocab']}} {{m|replace('_','-')}}</a>
+              section <a href="#vocab-{{m|replace('_','-')}}"> {{m|replace('_','-')|upper}}</a> in <a href="concept['namespace']">{{concept['vocab']|upper}}</a>
             {% else %}
-              <a href="{{concept['namespace']}}vocab-{{m|replace('_','-')}}">{{concept['vocab']}} {{m|replace('_','-')}}</a>
+              section <a href="{{concept['namespace']}}vocab-{{m|replace('_','-')}}">{{m|replace('_','-')|upper}}</a> in <a href="concept['namespace']">{{concept['vocab']|upper}}</a>
             {% endif %}
             {{", " if not loop.last}}{% endfor %}
           </td>
@@ -251,7 +251,7 @@
   {% for term in topconcepts %}
   <li>
     <strong>{{term}}</strong>: {{data[term]|translation_message('skos:definition',lang)}} 
-      <small><a href="{{data[term]['iri']}}">go to full definition</a></small><br/>
+      <small><a href="{{data[term]['iri']}}" class="local-link">go to full definition</a></small><br/>
       data: {{ topconcepts[term] }}
     {% if concepts[term]['children'] %}
       <ul>
@@ -270,8 +270,8 @@ concept. If top is None, then use all concepts. `lang` is used to retrieve the l
 {% if concepts %}<ul class="concept-list">
 {% for term, data in concepts.items() %}
   <li>
-    <strong>{{term}}</strong>: {{data|translation_message('skos:definition',lang)}} 
-      <small><a href="{% if term.split(':')[0] == vocab['prefix'] %}#{{data['term']}}{% else %}{{data['iri']}}{% endif %}">go to full definition</a></small>
+    <strong>{{term}}</strong>: {{data|translation_message('skos:definition',lang)}} {{ data['vocab'] }};{{ vocab['prefix'] }}
+      <small><a href="{{data['iri']}}" class="local-link">go to full definition</a></small>
       {{ list_hierarchy(vocab, head=term, lang=lang, first_iteration=False) }}
   </li>
 {% endfor %}

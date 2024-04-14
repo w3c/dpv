@@ -1,4 +1,7 @@
 window.addEventListener("load", () => {
+
+  /* --- List Hierarchy management --- */
+
   for (let list of document.querySelectorAll(".concept-list ul li ul")) {
     let tog = document.createElement("div");
     tog.innerHTML = list.previousSibling.textContent;
@@ -38,5 +41,13 @@ window.addEventListener("load", () => {
     btn_div.appendChild(btn_expand);
     btn_div.appendChild(btn_collapse);
     list.insertBefore(btn_div, list.firstChild);
+  }
+
+  /* if term is defined on page - use local links, else - IRI (default) */
+  for(let item of document.querySelectorAll('.local-link')) {
+    let ref = item.href.split('#')[1];
+    if(document.getElementById(ref)) {
+      item.href = '#' + ref;
+    }
   }
 });
