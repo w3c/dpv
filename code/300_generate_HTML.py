@@ -645,6 +645,32 @@ def replace_prefix_owl(concept:dict) -> str:
     return f"{prefix}-owl:{concept['term']}"
 
 
+def get_additional_annotations(concept:dict) -> list:
+    """
+    Get additional annotations for the term table
+    other than those present/common for all terms
+    """
+    results = []
+    common_annotations = (
+            'rdf', 'rdfs', 'skos', 'dct', 'sw', 'vann', 'schema', 
+            'dcam', 'foaf',
+        )
+    for key, value in concept.items():
+        if key.startswith('http'): continue # only use prefixed forms
+        if ':' not in key: continue # not a RDF term
+        if '-' in key: continue # e.g. prefLabel-en
+        vocab = key.split(':')[0]
+        if vocab in common_annotations: continue
+        key = DATA.concepts[key]['skos:prefLabel']
+        values = []
+        for val in sorted(ensure_list(value)):
+            if val in DATA.concepts:
+                values.append(DATA.concepts[val])
+            else:
+                values.append(value)
+        results.append((key, values))
+    results.sort(key=lambda x: x[0])
+    return results
 
 # == HTML Export ==
 
@@ -677,6 +703,7 @@ JINJA2_FILTERS = {
     'make_anchor_link': make_anchor_link,
     'replace_iri_owl': replace_iri_owl,
     'replace_prefix_owl': replace_prefix_owl,
+    'get_additional_annotations': get_additional_annotations,
 }
 template_env.filters.update(JINJA2_FILTERS)
 

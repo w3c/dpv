@@ -116,7 +116,7 @@
                         {% endfor %}{% endif %}
                     {{ "; " if not loop.last }}{% endfor %}
                 </td>
-                <td>{% for law in law['dpv:hasLaw']|ensure_list_unique|sort_iris %}
+                <td>{% for law in law['dpv:hasApplicableLaw']|ensure_list_unique|sort_iris %}
                     {% set law=data[(law|prefix_this).split(':')[0]][law|prefix_this] %}
                     <a href="{{law['iri']}}">{{ law['prefixed'] }}</a>{{ "<br/>"|safe if not loop.last }}{% endfor %}
                 </td>
@@ -129,7 +129,7 @@
 {% endif %}
 
 {% if modules['legal']['classes']|filter_type('eu-gdpr:AdequacyDecision')|length > 0 %}
-<section id="adequacy-decisions">
+<section id="vocab-adequacy">
     <h2>Adequacy Decisions</h2>
     <table>
         <thead>

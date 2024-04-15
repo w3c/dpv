@@ -289,19 +289,27 @@ def _term_with_namespace(term, namespace):
 
 
 def construct_iso_3166_alpha2(term, data, namespace, header):
-    return [(namespace[data['Term']], DPV.iso_alpha2, Literal(term))]
+    results = [(namespace[data['Term']], LOC.iso_alpha2, Literal(term))]
+    results.append((
+        namespace[data['Term']], SKOS.exactMatch, 
+        Literal(f"https://www.iso.org/obp/ui/#iso:code:3166:{term}", datatype=XSD.anyURI)))
+    return results
 
 
 def construct_iso_3166_alpha3(term, data, namespace, header):
-    return [(namespace[data['Term']], DPV.iso_alpha3, Literal(term))]
+    results = [(namespace[data['Term']], LOC.iso_alpha3, Literal(term))]
+    results.append((
+        namespace[data['Term']], SKOS.exactMatch, 
+        Literal(f"https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/{term}", datatype=XSD.anyURI)))
+    return results
 
 
 def construct_iso_3166_numeric(term, data, namespace, header):
-    return [(namespace[data['Term']], DPV.iso_numeric, Literal(term))]
+    return [(namespace[data['Term']], LOC.iso_numeric, Literal(term))]
 
 
 def construct_un_m49(term, data, namespace, header):
-    return [(namespace[data['Term']], DPV.un_m49, Literal(term))]
+    return [(namespace[data['Term']], LOC.un_m49, Literal(term))]
 
 
 def construct_instance(term, data, namespace, header):
@@ -345,7 +353,7 @@ def construct_law(term, data, namespace, header):
     for law in term.split(','):
         law = NAMESPACES[law.split(':')[0]][law.split(':')[1]]
         triples.append((
-            namespace[data['Term']], DPV.hasLaw, law))
+            namespace[data['Term']], DPV.hasApplicableLaw, law))
     return triples
 
 

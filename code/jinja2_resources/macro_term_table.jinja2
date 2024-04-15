@@ -226,6 +226,26 @@
           <th>Contributors</th>
           <td><i>{{ concept['dct:contributor'] }}</i></td>
         </tr>{% endif %}
+
+        <tr class="table-separator"></tr>
+        {% set annotations=concept|get_additional_annotations %}
+        {% if annotations %}
+        {% for prop, value in annotations %}
+        <tr>
+          <th>{{prop}}</th>
+          <td>{% for val in value %}
+            {% if val is mapping %}
+            <a href="{{val['iri']}}" class="local-link">{{ val['skos:prefLabel'] }}</a>
+            {% elif val.startswith('http') %}
+            <a href="{{val}}">{{val}}</a>
+            {% else %}
+            {{ val }}
+            {% endif %}
+            {{ ", " if not loop.last }}
+          {% endfor %}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
        
         {# section the term is documented in #}
         <tr>
