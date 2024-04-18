@@ -1,0 +1,2926 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ISO/IEC TS 27560:2023 Implementation Guide</title>
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8' />
+    <script src='respec-w3c.js' async class='remove'></script>
+    <script type="text/javascript" class="remove">
+  var respecConfig = {
+    title: "ISO/IEC TS 27560:2023 Implementation Guide",
+    subtitle: "for Consent Records and Receipts using the Data Privacy Vocabulary (DPV)",
+    shortName: "guide-27560",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/guides/consent-27560",
+    canonicalUri: "https://w3id.org/dpv/guides/consent-27560",
+    edDraftURI: "https://w3id.org/dpv/ed/guides/consent-27560",
+    publishDate: "2024-04-12",
+    // isPreview: true,
+    subjectPrefix: "[ISO-27560]",
+    doJsonLd: true,
+    maxToclevel: 3,
+    github: "w3c/dpv",
+    editors: [{
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "Harshvardhan J. Pandit"
+    }],
+    authors: [{
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "Harshvardhan J. Pandit"
+    }],
+    localBiblio: {
+        "ISO-27560": {
+            "href": "https://www.iso.org/standard/80392.html",
+            "title": "ISO/IEC TS 27560:2023 Privacy technologies — Consent record information structure"
+        }, 
+        "DPV-27560": {
+            "href": "https://w3id.org/dpv/guides/DPV-27560",
+            "title": "ISO/IEC TS 27560:2023 Implementation Guide for Consent Records and Receipts using the Data Privacy Vocabulary (DPV)"
+        },
+        "ISO-29184": {
+            "href": "https://www.iso.org/standard/70331.html",
+            "title": "ISO/IEC 29184:2020 Information technology — Online privacy notices and consent"
+        }, 
+        "DPV-29184": {
+            "href": "https://w3id.org/dpv/guides/DPV-29184",
+            "title": "ISO/IEC TS 29184:2020 Implementation Guide for Consent Notice using the Data Privacy Vocabulary (DPV)"
+        },
+        "DPV": {
+            "href": "https://w3id.org/dpv",
+            "title": "Data Privacy Vocabulary (DPV)"
+        },
+        "GDPR": {
+            "href": "http://data.europa.eu/eli/reg/2016/679/oj",
+            "title": "General Data Protection Regulation (GDPR)"
+        }
+    }
+  };
+  </script>
+  <style type="text/css">
+  /* Table styles, March 2016 */
+  table {border-collapse:collapse}
+  th, td {
+    border:thin solid black;
+    padding: 0.3em;
+  }
+  figure {
+    margin: 2px;
+    padding: 2px;
+    border: 1px solid black;
+  }
+</style>
+  </head>
+<body>
+    <section id="abstract">
+        <p>The ISO/IEC TS 27560:2023 Privacy technologies — Consent record information structure provides guidance on the creation of information records for representing information about consent. It also provides guidance on the use of this information in the form of 'receipts' that can be provided to assert the information in records. This document is a guide for the implementation of ISO/IEC TS 27560:2023 by using the Data Privacy Vocabulary (DPV) to represent information. Additionally, this document also provides guidance on using ISO/IEC TS 27560:2023 for meeting GDPR requirements regarding consent records.</p>
+            <!-- The visibility of GDPR specific sections can be controlled: <button><label>GDPR guidance is shown</label></button> (click to change). -->
+        </p>
+    </section>
+
+    <section id="sotd">
+      <!-- sotd: Status of this document -->
+      <p>This document is published by the <a href="https://www.w3.org/community/dpvcg/">Data Privacy Vocabularies and Controls Community Group (DPVCG)</a> as a deliverable and report of its work in creating and maintaining the Data Privacy Vocabulary (DPV).</p>
+      <div class="note">
+        <p><strong>Contributing to the DPV and its extensions</strong> The DPVCG welcomes participation regarding the DPV, including expansion or refinement of its terms, addressing open issues, and welcomes suggestions on their resolution or mitigation. For further information, please see the <a href="https://github.com/w3c/dpv#contribution--participation">contribution section</a>.</p>
+      </div>
+
+  <section id="conformance"></section>
+
+  <section id="namespaces">
+    <h3>Namespaces</h3>
+    <p>The schemas or profiles defined by DPVCG for the implementation of [[ISO-27560]] are provided under the IRI <a href="https://w3id.org/dpv/schema/iso-27560">https://w3id.org/dpv/schema/iso-27560</a>, prefixed hereafter as <code>dpv-27560</code>:</p>
+    <ol>
+        <li><a href="https://w3id.org/dpv/schema/iso-27560#record">https://w3id.org/dpv/schema/iso-27560#record</a></code> for Consent Records</li>
+        <li><a href="https://w3id.org/dpv/schema/iso-27560#receipt-minimal">https://w3id.org/dpv/schema/iso-27560#receipt-minimal</a></code> for Consent Receipts with minimal information from corresponding consent record(s)</li>
+        <li><a href="https://w3id.org/dpv/schema/iso-27560#receipt-summary">https://w3id.org/dpv/schema/iso-27560#receipt-summary</a></code> for Consent Receipts with summary information from corresponding consent record(s)</li>
+        <li><a href="https://w3id.org/dpv/schema/iso-27560#receipt-full">https://w3id.org/dpv/schema/iso-27560#receipt-full</a></code> for Consent Receipts with full information from corresponding consent record(s)</li>
+        <li><a href="https://w3id.org/dpv/schema/iso-27560#record-GDPR">https://w3id.org/dpv/schema/iso-27560#record-GDPR</a></code> for Consent Records implemented as per GDPR's requirements for information to be maintained regarding processing of personal data</li>
+        <li><a href="https://w3id.org/dpv/schema/iso-27560#receipt-GDPR">https://w3id.org/dpv/schema/iso-27560#receipt-GDPR</a></code> for Consent Receipts implemented as per GDPR's requirements for information to be provided to the data subject</li>
+    </ol>
+    <p>The following namespaces and prefixes are used throughout this document:</p>
+<table>
+    <thead><td>prefix</td><td>URI</td></thead>
+    <tbody>
+        <tr><td>dpv</td> <td><a href="https://w3id.org/dpv">https://w3id.org/dpv#</a></td></tr>
+        <tr><td>dpv-gdpr</td> <td><a href="https://w3id.org/dpv/dpv-gdpr">https://w3id.org/dpv/dpv-gdpr#</a></td></tr>
+        <tr><td>dct</td> <td><a href="http://purl.org/dc/terms">http://purl.org/dc/terms/</a></td></tr>
+        <tr><td>ex</td> <td><a href="https://example.com">https://example.com/</a></td></tr>
+    </tbody>
+</table>
+    </section>
+</section>
+    <section id="introduction">
+    <h2>Introduction</h2>
+    <section>
+    <h3>Consent Records and Receipts</h3>
+    <p><i>(Given) Consent</i> is an important legal basis as it requires an affirmative action from data subjects or users that must fulfil certain conditions to be considered <i>Valid Consent</i>. Such requirements can be defined through regulations such as [[GDPR]] or through use of standards and codes of conduct. <i>Informed Consent</i> is one such requirement that requires information be provided, in the form of a <i>Consent Notice</i>, to inform the data subject about the processing that will occur based on the consent and to enable them to make an <i>informed choice or decision</i>.</p>
+    
+    <p>In order to assess whether an instance of given consent is valid thus requires keeping records of information regarding how the consent was obtained i.e. the notice, and how the consent is being utilised i.e. the processing enabled through that consent. This same information is also required for the organisation to determine whether its processing activities should continue, e.g. depending on whether a particular user has given consent, and where different systems require this information, e.g. different processes using their own technologies to store and check consent. Such information that is documented and maintained regarding consent is called a <i>Consent Record</i>.</p>
+
+    <p>Where the information is to be communicated to another entity, it can be provided in the form of a <i>Consent Receipt</i>, which is an authoritative copy of the consent record - similar to how a shopping transaction invovles a merchant's copy and a <i>receipt</i> provided to the customer. While consent records have been maintained by organisations for some time now, the issuing of consent receipts is a relatively new activity.</p>
+
+    <p>[[[ISO-27560]]] is a <a href="https://www.iso.org/deliverables-all.html#TS"><i>Technical Specification</i> (TS)</a> that "specifies an interoperable, open and extensible information structure" for recording the data subject's consent to processing of their personal data i.e. as consent records, and to provide this information i.e. as consent receipts. The specification lists <i>information fields</i> that represent specific information associated with consent, and requirements over the form this information can take e.g. format, number of values, and whether it is mandatory or optional to be present. A <i>[[ISO-27560]] conformant</i> implementation is one that fulfils all requirements by either storing information in the form prescribed by [[ISO-27560]], or by storing information in a form that can be converted or transformed to fulfil its requirements.</p>
+
+    <p>[[ISO-27560]] allows for changes to made to the fields, for example to suit and match domain-specific labels or descriptions, or to introduce additional fields or information types that are needed. Such changes, expressed as <i>schemas</i> or <i>profiles</i>, are still required to be compatible with the requirements of [[ISO-27560]], such as by requiring the same fields to be mandatory. This document, referred to as [[DPV-27560]], is a schema or profile of [[ISO-27560]], and is intended to enable the use of [[DPV]] to represent information for the implementation of consent records and receipts.</p>
+
+    </section>
+
+    <section id="objectives">
+        <h3>Objectives</h3>
+        <p>The following are the objectives of this document:</p>
+        <ol>
+            <li>To introduce [[[ISO-27560]]] for [[[DPV]]] audiences.</li>
+            <li>To provide a mapping of [[ISO-27560]] to [[DPV]] concepts.</li>
+            <li>To define [[DPV-27560]] as a schema or profile of [[ISO-27560]] that uses [[DPV]] concepts to represent information.</li>
+            <li>To provide examples and guidance for the use of [[DPV-27560]].</li>
+        </ol>
+    </section>
+
+    <section id="scope">
+        <h3>Scope</h3>
+        <p>The scope of this document is defined as follows:</p>
+        <ul>
+            <li>The implementation of [[DPV-27560]] is limited to information represented within a consent record, and the information on how a notice is provided or matching the contents of a notice to that of a consent record is outside the scope. Those interested in notices should refer to [[[DPV-29184]]].</li>
+            <li>[[DPV-27560]], like [[ISO-27560]] and [[DPV]] is intended to be jurisdiction-agnostic. Use of specific jurisdictional concepts and requirements such as those provided in this document for [[GDPR]] require the use of appropriate DPV extensions such as [[DPV-GDPR]].</li>
+            <li>[[DPV-27560]] is limited to the representation of information as defined by [[ISO-27560]]. The security, communication, and maintainence of this information is outside the scope of this document.</li>
+            <li>[[DPV-27560]], like [[ISO-27560]], is intended to facilitate interoperability of information and to ensure the required information is available in a form that can be used for its verification of conformance and compliance. Information described using [[DPV-27560]] can be maintained in a compatible form by an organisation for purposes such as alignment with internal terminology, processes, and technologies. Describing such compatible implementations beyond the guidance provided is outside the scope of this document.</li>
+        </ul>
+    </section>
+
+    <section id="terminology">
+        <h3>Terminology</h3>
+        <p>The terminology used in [[ISO-27560]], [[GDPR]], and [[DPV]] differ in <i>terms or labels</i> used, but largely represent the same <i>semantic concepts</i>. This guide uses the [[DPV]] terminology unless referring to specific fields or terms used in a particular document. To assist with understanding and applying the terminologies across these three sources, [[[#terms]]] provides a summary table mapping the terms.</p>
+    </section>
+
+</section>
+
+<section id="dpv-consent">
+    <h2>Overview of Consent in DPV</h2>
+    <p>The concepts <a href="https://w3id.org/dpv#ConsentRecord">`Consent Record`</a> and <a href="https://w3id.org/dpv#ConsentReceipt">`Consent Receipt`</a> are defined in [[DPV]] as <a href="https://w3id.org/dpv#OrganisationalMeasure">`Organisational Measures`</a> to indicate using these as a 'good practice' to safeguard processing of personal data following the principles of transparency and accountability.</p>
+    <div class="issue" title="How to express ConsentRecord and associate it?">
+        <p>If Consent Records are a type of `OrganisationalMeasure`, then they can be associated using `hasOrganisationalMeasure`. Should more granular relations of `hasConsentRecord` and `hasConsentReceipt` be defined? Or should abstract relations `hasProcessingRecord` and `hasReceipt` be defined to also be reusable for other records (e.g. ROPA) and receipts (e.g. rights exercise receipts)?</p>
+    </div>
+    <p><a href="https://w3id.org/dpv#Consent">`Consent`</a> is a category of <a href="https://w3id.org/dpv#LegalBasis">`Legal Basis`</a> in [[DPV]], with specialised concepts extending it to describe types of consent, such as <a href="https://w3id.org/dpv#ExpressedConsent">`Expressed Consent`</a> and <a href="https://w3id.org/dpv#ExplicitlyExpressedConsent">`Explicitly Expressed Consent`</a>. To associate consent as a legal basis, the relation <a href="https://w3id.org/dpv#hasLegalBasis">`has Legal Basis`</a> is used with the appropriate consent concept.</p>
+    <p><a href="https://w3id.org/dpv#ConsentStatus">`Consent Status`</a> represents information regarding the stage at which the process of obtaining, using, and maintaining consent is currently at. DPV provides categories of statuses based on practical requirements, for example - <a href="https://w3id.org/dpv#ConsentRequested">`Consent Requested`</a>, <a href="https://w3id.org/dpv#ConsentGiven">`Consent Given`</a>, and <a href="https://w3id.org/dpv#ConsentWithdrawn">`Consent Withdrawn`</a>. To indicate the status of consent, the relation <a href="https://w3id.org/dpv#hasConsentStatus">`has Consent Status`</a> is used with the appropriate consent status concept.</p>
+    <p>To express how consent or an action associated with consent was indicated (or given or obtained), the relation <a href="https://w3id.org/dpv#hasIndicationMethod">`has Indication Method`</a> is used. To express the time, the relation <a href="https://w3id.org/dpv#isIndicationTime">`is Indication Time`</a> is used. To express the entity expressing the action, the relation <a href="https://w3id.org/dpv#isIndicatedBy">`is Indicated By`</a> is used.</p>
+    <p>To indicate details about the consent, such as which data subject it is about, or the processing activities and entities associated with it, the relevant concepts and relations are to be reused. For example, <a href="https://w3id.org/dpv#hasDataSubject">`has Data Subject`</a> relation with <a href="https://w3id.org/dpv#DataSubject">`Data Subject`</a> concept indicates the data subject or individual who is the subject of the consent. Similarly, <a href="https://w3id.org/dpv#hasPurpose">`has Purpose`</a> with <a href="https://w3id.org/dpv#Purpose">`Purpose`</a> indicates the purpose of processing personal data, and <a href="https://w3id.org/dpv#hasDataController">`has Data Controller`</a> with <a href="https://w3id.org/dpv#DataController">`Data Controller`</a> indicates the entity responsible for the processing. Further information on the concepts and relations relevant to [[ISO-27560]] is summarised in [[[#terms]]], and is provided in [[DPV]] specification.</p>
+    <p>
+</section>
+
+<section id="27560-overview">
+    <h2>Overview of 27560</h2>
+
+    <h3>Goals &amp; Scope</h3>
+    <p>[[[ISO-27560]]] has two broad goals: to guide the recording of information about consent for processing of personal data in a form that is interoperable, open, and extendable, and to provide information to individuals. To supplement this, it defines several requirements (as <i>controls</i> in ISO terminology) for ensuring the required information is maintained and is supported by appropriate processes within the organisation. [[ISO-27560]] is stated as a supplement to the earlier [[[ISO-29184]]], where [[ISO-29184]] defines how information is provided via notices in order to request consent, and [[ISO-27560]] defines how information is recorded for given consent and provided back to the individual (as receipts).</p>
+    <p>The objective of [[ISO-27560]] is to define an information structure for consent record which contains information about: (1) Personal data associated with processing activities; (2) Notices describing the processing activities; (3) Sources of data with methods and timestamps for how it was obtained; and (4) When consent was given. It also defines the information structure for the optional provision of this information or a reference to this information - to the data subject in the form of a consent receipt.</p>
+    <p>Specific implementations and considerations are defined to be out of scope and as 'implementation details'. Annexes in [[ISO-27560]] provide informative guidance on: Performance and efficiency considerations (Annex C), Format and encoding structures (Annex D), Security of records and receipts (Annex E), and application in PIMS or privacy information management systems (Annex G). Further uses of consent records or receipts, such as how data subjects can obtain consent receipts or maintain their own consent records - it not within the scope of [[ISO-27560]].</p>
+
+    <h3>Structure</h3>
+    <p>Most of [[ISO-27560]] describes the information and fields in a <i>Consent Record</i>, which are reused in the section for <i>Consent Receipt</i>. A Consent Record contains four sections as described below and depicted visually in the figure:</p>
+    <ol>
+        <li><strong>Header:</strong> metadata about the record e.g. its unique identifier and timestamp of creation.</li>
+        <li><strong>Processing:</strong> information about the processing activities e.g. purposes, personal data.</li>
+        <li><strong>Parties:</strong> information about entities involved in the processing e.g. controllers.</li>
+        <li><strong>Events:</strong> information about <i>consent events</i> e.g. consent given, consent withdrawn.</li>
+    </ol>
+    <figure>
+        <img src="dpv-27560-summary.png">
+        <figcaption>Summary of fields in ISO/IEC TS 27560:2023. The field names have been modified for alignment with DPV concepts. Field names in bold are required to be present.</figcaption>
+    </figure>
+    <p>Each section contains fields which describe the information that must be represented along with the form (e.g. timestamp format) and its necessity (e.g. required or optional). Certain fields are expressed as references to other fields (e.g. controller in Processing is a reference to a value in Parties).</p>
+
+    <!-- <h3>Header section</h3> -->
+
+    <!-- <h3>Processing section</h3> -->
+
+    <!-- <h3>Parties section</h3> -->
+
+    <!-- <h3>Events section</h3> -->
+
+    <h3>Consent Receipt</h3>
+    <p>The Consent Receipt in [[ISO-27560]] contains only two required fields representing a unique identifier for the receipt and the schema version used for the structuring of information. The information and contents are undefined and left to each implementor to specify. A receipt can optionally contain the entirety of the information within a consent record or can also multiple records or contain other information not within a record. Alternatively, a receipt can contain references to information within a record without containing the information itself e.g. as the consent record identifier.</p>
+
+</section>
+
+<section id="terms">
+    <h2>Mapping 27560 to DPV and GDPR</h2>
+    <p>The table below provides a comparison between the terms and concepts used in [[ISO-27560]], [[GDPR]], and [[DPV]]. It is neither exhaustive nor authoritative, and is provided as an informative resource to better understand and apply the concepts as they are expressed in the two normative documents ([[ISO-27560]] and [[GDPR]]). The column <i>req.?</i> reflects whether maintaining information on the concept is mandatory or optional. Where the value of this is expressed as a dash (<tt>-</tt>) it means <i>not applicable</i> to reflect the concept is not present or is covered by another term in the table. Note that for GDPR, the table only reflects the information to be maintained - either directly associated with the consent or elsewhere, and does not cover any specific requirements such as the validity of consent as per Art.4-11 or application of principles in Art.6.</p>
+
+    <p class="issue" title="Express both DPV concepts and properties for Mappings"></p>
+    <p class="issue" title="Break mapping table into specific sections with text"></p>
+    <table>
+        <thead>
+            <td style="text-align: center;"><strong>27560 term</strong></td>
+            <td style="text-align: center;"><strong>req.?</strong></td>
+            <td style="text-align: center;"><strong>relevant GDPR clause</strong></td>
+            <td style="text-align: center;"><strong>req.?</strong></td>
+            <td style="text-align: center;"><strong>DPV concept</strong></td>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="100%" style="text-align: center;"><strong>definitions</strong></td>
+            </tr>
+            <tr>
+                <td>consent</td>
+                <td>-</td>
+                <td>4-11 consent</td>
+                <td>-</td>
+                <td>dpv:ExpressedConsent</td>
+            </tr>
+            <tr>
+                <td>consent record</td>
+                <td>-</td>
+                <td>7-1 demonstrate consent</td>
+                <td>-</td>
+                <td>dpv:ConsentRecord</td>
+            </tr>
+            <tr>
+                <td>consent receipt</td>
+                <td>-</td>
+                <td>13 info on legal basis</td>
+                <td>-</td>
+                <td>dpv:ConsentReceipt</td>
+            </tr>
+            <tr>
+                <td>consent type</td>
+                <td>-</td>
+                <td>4-11; 9-2a</td>
+                <td>-</td>
+                <td>dpv:Consent subtypes</td>
+            </tr>
+            <tr>
+                <td>PII Principal</td>
+                <td>-</td>
+                <td>4-1 data subject</td>
+                <td>-</td>
+                <td>dpv:DataSubject</td>
+            </tr>
+            <tr>
+                <td>PII Controller</td>
+                <td>-</td>
+                <td>4-7 controller; 26-1 joint controllers</td>
+                <td>-</td>
+                <td>dpv:DataController, dpv:JointDataControllers</td>
+            </tr>
+            <tr>
+                <td>PII Processor</td>
+                <td>-</td>
+                <td>4-8 processor; 28-2 processor appointed by processor</td>
+                <td>-</td>
+                <td>dpv:DataProcessor, dpv:DataSubProcessor</td>
+            </tr>
+            <tr>
+                <td>Third Party</td>
+                <td>-</td>
+                <td>4-10 third party</td>
+                <td>-</td>
+                <td>dpv:ThirdParty</td>
+            </tr>
+            <tr>
+                <td>Processing of PII</td>
+                <td>-</td>
+                <td>4-2 processing</td>
+                <td>-</td>
+                <td>dpv:Processing</td>
+            </tr>
+            <tr>
+                <td>Sensitive PII</td>
+                <td>-</td>
+                <td>9 special categories of data</td>
+                <td>-</td>
+                <td>dpv:SensitivePersonalData, dpv:SpecialCategoryPersonalData</td>
+            </tr>
+            <tr>
+                <td>PII</td>
+                <td>-</td>
+                <td>4-1 personal data</td>
+                <td>-</td>
+                <td>dpv:PersonalData</td>
+            </tr>
+            <tr>
+                <td colspan="100%" style="text-align: center;"><strong>metadata</strong></td>
+            </tr>
+            <tr>
+                <td>schema version</td>
+                <td>Y</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dct:conformsTo</td>
+            </tr>
+            <tr>
+                <td>record id</td>
+                <td>Y</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dct:identifier, dpv:hasIdentifier</td>
+            </tr>
+            <tr>
+                <td>receipt id</td>
+                <td>Y</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dct:identifier, dpv:hasIdentifier</td>
+            </tr>
+            <tr>
+                <td>pii principal id</td>
+                <td>Y</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dpv:DataSubject, or dpv:hasDataSubject with dct:identifier</td>
+            </tr>
+            <tr>
+                <td colspan="100%" style="text-align: center;"><strong>processing fields</strong></td>
+            </tr>
+            <tr>
+                <td>privacy notice</td>
+                <td>Y</td>
+                <td>13, 14 information to be provided</td>
+                <td>Y</td>
+                <td>dpv:PrivacyNotice, dpv:ConsentNotice</td>
+            </tr>
+            <tr>
+                <td>language</td>
+                <td>Y</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dct:language</td>
+            </tr>
+            <tr>
+                <td>purpose</td>
+                <td>Y</td>
+                <td>6-1a purpose</td>
+                <td>Y</td>
+                <td>dpv:Purpose</td>
+            </tr>
+            <tr>
+                <td>purpose type</td>
+                <td>N</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dpv:Purpose parent in taxonomy</td>
+            </tr>
+            <tr>
+                <td>lawful basis</td>
+                <td>N</td>
+                <td>6 legal basis</td>
+                <td>Y</td>
+                <td>dpv:LegalBasis</td>
+            </tr>
+            <tr>
+                <td>pii information</td>
+                <td>Y</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dpv:hasPersonalData (reference to information)</td>
+            </tr>
+            <tr>
+                <td>pii controllers</td>
+                <td>Y</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dpv:hasDataController (reference to information)</td>
+            </tr>
+            <tr>
+                <td>collection method</td>
+                <td>N</td>
+                <td>13-1 collected from data subject; 14-2f source</td>
+                <td>Y</td>
+                <td>dpv:DataSource, dpv:Collect</td>
+            </tr>
+            <tr>
+                <td>processing method</td>
+                <td>N</td>
+                <td>4-2 processing; 30-2b processing categories; 13-2f, 14-2g, 151-h automated decision making, logic, consequences; 35-1b large scale processing of special categories; 35-1c large scale of processing</td>
+                <td>Y</td>
+                <td>dpv:Processing and parent in taxonomy, dpv:AutomationOfProcessing, dpv:Profiling, dpv:AlgorithmicLogic, dpv:Consequence; dpv:DataVolume, dpv:ScaleOfProcessing</td>
+            </tr>
+            <tr>
+                <td>storage locations</td>
+                <td>Y</td>
+                <td>15-2 third country</td>
+                <td>Y</td>
+                <td>dpv:StorageLocation. dpv:Jurisdiction</td>
+            </tr>
+            <tr>
+                <td>retention period</td>
+                <td>Y</td>
+                <td>13-2a, 14-2a, 15-1d storage period or criteria; 30-1f erasure time limit</td>
+                <td>Y</td>
+                <td>dpv:StorageCondition, dpv:StorageDuration, dpv:StorageDeletion</td>
+            </tr>
+            <tr>
+                <td>processing location</td>
+                <td>N</td>
+                <td>13-1f, 14-1f, 15-2 transfer to third country</td>
+                <td>Y</td>
+                <td>dpv:Location, dpv:Jurisdiction</td>
+            </tr>
+            <tr>
+                <td>geographic restrictions</td>
+                <td>N</td>
+                <td>13-1f, 14-1f, 15-2, 30-1e, 30-2c, 44, 45, 46, 47, 48, 49-1a transfer to third country</td>
+                <td>Y</td>
+                <td>dpv:Location, dpv:Jurisdiction, dpv:Rule</td>
+            </tr>
+            <tr>
+                <td>service</td>
+                <td>N</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dpv:Service (proposed)</td>
+            </tr>
+            <tr>
+                <td>jurisdiction</td>
+                <td>Y</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dpv:Jurisdiction</td>
+            </tr>
+            <tr>
+                <td>recipient third parties</td>
+                <td>Y</td>
+                <td>4-9 recipient; 4-10 third party</td>
+                <td>Y</td>
+                <td>dpv:Recipient, dpv:ThirdParty</td>
+            </tr>
+            <tr>
+                <td>withdrawal method</td>
+                <td>Y</td>
+                <td>7-3, 13-2c, 14-2d withdrawing consent</td>
+                <td>Y</td>
+                <td>dpv:ConsetWithdrawalProcess (proposed Organisational measure)</td>
+            </tr>
+            <tr>
+                <td>privacy rights</td>
+                <td>N</td>
+                <td>13-22 rights</td>
+                <td>Y</td>
+                <td>dpv:DataSubjectRight, dpv:RightExerciseNotice</td>
+            </tr>
+            <tr>
+                <td>codes of conduct</td>
+                <td>N</td>
+                <td>24-3, 32-3, 35-8, 40 codes of conduct; 42 certification</td>
+                <td>N</td>
+                <td>dpv:CodeOfConduct, dpv:CertificationSeal</td>
+            </tr>
+            <tr>
+                <td>impact assessment</td>
+                <td>N</td>
+                <td>35 DPIA</td>
+                <td>N</td>
+                <td>dpv:ImpactAssessment</td>
+            </tr>
+            <tr>
+                <td>authority party</td>
+                <td>N</td>
+                <td>13-2d, 14-2e, 15-1f complaint to authority; 51 supervisory authority; 56 lead authority. </td>
+                <td>Y</td>
+                <td>dpv:Authority</td>
+            </tr>
+            <tr>
+                <td colspan="100%" style="text-align: center;"><strong>personal data fields</strong></td>
+            </tr>
+            <tr>
+                <td>pii type</td>
+                <td>Y</td>
+                <td>4-1, 14-1d, 15-1b personal data categories</td>
+                <td>Y</td>
+                <td>dpv:PersonalData</td>
+            </tr>
+            <tr>
+                <td>pii attribute id</td>
+                <td>N</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dct:identifier</td>
+            </tr>
+            <tr>
+                <td>pii optional</td>
+                <td>N</td>
+                <td>13-2e, 35 necessity of personal data</td>
+                <td>Y</td>
+                <td>dpv:Necessity</td>
+            </tr>
+            <tr>
+                <td>sensitive pii category</td>
+                <td>N</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dpv:SensitivePersonalData</td>
+            </tr>
+            <tr>
+                <td>special pii category</td>
+                <td>N</td>
+                <td>9 special categories of data</td>
+                <td>Y</td>
+                <td>dpv:SpecialCategoryPersonalData</td>
+            </tr>
+            <tr>
+                <td colspan="100%" style="text-align: center;"><strong>party fields</strong></td>
+            </tr>
+            <tr>
+                <td>party id</td>
+                <td>Y</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dct:identifier, dpv:hasIdentifier</td>
+            </tr>
+            <tr>
+                <td>party address</td>
+                <td>Y</td>
+                <td>13-1a, 14-1a identity of controller</td>
+                <td>Y</td>
+                <td>dpv:hasAddress</td>
+            </tr>
+            <tr>
+                <td>party email</td>
+                <td>N</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dpv:hasContact</td>
+            </tr>
+            <tr>
+                <td>party url</td>
+                <td>N</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dpv:hasContact</td>
+            </tr>
+            <tr>
+                <td>party phone</td>
+                <td>N</td>
+                <td>N/A</td>
+                <td>-</td>
+                <td>dpv:hasContact</td>
+            </tr>
+            <tr>
+                <td>party name</td>
+                <td>Y</td>
+                <td>13-1a, 14-1a identity of controller</td>
+                <td>Y</td>
+                <td>dpv:hasName</td>
+            </tr>
+            <tr>
+                <td>party role</td>
+                <td>N</td>
+                <td>4-1 data subject; 4-7 controller; 4-8 processor; 4-9 recipient; 4-10 third party; 4-17 representative; 4-21 supervisory authority</td>
+                <td>Y</td>
+                <td>dpv:DataSubject, dpv:DataController, dpv:DataProcessor, dpv:Recipient, dpv:ThirdParty, dpv:Representative; dpv:Authority</td>
+            </tr>
+            <tr>
+                <td>party contact</td>
+                <td>Y</td>
+                <td>13-1a, 14-1a contact details of controller</td>
+                <td>Y</td>
+                <td>dpv:hasContact</td>
+            </tr>
+            <tr>
+                <td>party type</td>
+                <td>Y</td>
+                <td>4-9 recipient, data importer and data  exporter (external concepts)</td>
+                <td>Y</td>
+                <td>dpv:Recipient, dpv:DataImporter, dpv:DataExporter, dpv:DataSource</td>
+            </tr>
+            <tr>
+                <td colspan="100%" style="text-align: center;"><strong>event fields</strong></td>
+            </tr>
+            <tr>
+                <td>event time</td>
+                <td>Y</td>
+                <td>7-1 demonstrate consent</td>
+                <td>Y</td>
+                <td>dct:date</td>
+            </tr>
+            <tr>
+                <td>validity duration</td>
+                <td>Y</td>
+                <td>N/A (external guidance requires validity)</td>
+                <td>Y</td>
+                <td>dct:valid</td>
+            </tr>
+            <tr>
+                <td>entity id</td>
+                <td>Y</td>
+                <td>N/A (assumed roles, e.g. data subject, controller)</td>
+                <td>Y</td>
+                <td>dpv:isImplementedByEntity</td>
+            </tr>
+            <tr>
+                <td>event type</td>
+                <td>Y</td>
+                <td>4-11 (regular or expressed) consent; 9-2a explicit consent</td>
+                <td>Y</td>
+                <td>dpv:Consent subtype</td>
+            </tr>
+            <tr>
+                <td>event state</td>
+                <td>Y</td>
+                <td>4-11, 9-2a consent given; 7-3 withdrawal of consent; 13, 14 notice for consent; (from derivations) lapsed validity, invalidation authorities, termination by controller</td>
+                <td></td>
+                <td>dpv:ConsentStatus</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section id="dpv-27560-record">
+    <h2>DPV-27560 Consent Record</h2>
+    <p>The IRI `https://w3id.org/dpv/schema/iso-27560` defines the [[DPV-27560]] as a schema or profile for [[ISO-27560]].</p>
+    <div class="note" title="DPV's modelling of information as graphs and absence of 27560 'sections'">
+        <p>Due to way DPV is utilised and expressed (e.g. RDF graph, JSON) - there is no necessity to replicate the four sections of [[ISO-27560]] as information is linked and expressed as a single graph. Therefore, the DPV implementation ignores the structuring into sections.</p>
+    </div>
+
+    <h3>Record Metadata</h3>
+    <p>Information representing the metadata in the header field containing information about the record.</p>
+    <table style="font-family: monospace;">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Cardinality</th>
+            <th>DPV Concept</th>
+            <th>DPV Property</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Schema Version</th>
+            <td>1</td>
+            <td>N/A</td>
+            <td>dct:conformsTo</td>
+        </tr>
+        <tr>
+            <th>Record Identifier</th>
+            <td>1..*</td>
+            <td>N/A</td>
+            <td>dpv:hasIdentifier</td>
+        </tr>
+        <tr>
+            <th>Data Subject</th>
+            <td>1</td>
+            <td>dpv:DataSubject</td>
+            <td>dpv:hasDataSubject</td>
+        </tr>
+    </tbody>
+</table>
+        <h4>Schema Version</h4>
+            <p>This field <strong>MUST</strong> be present.</p>
+            <p>The specific version of the schema (`schema_version` in [[ISO-27560]]) used to interpret the record and its information, indicated using <code>dct:conformsTo</code> with the corresponding IRI from [[[#namespaces]]]. Future changes to the schema will result in suffixes to this IRI e.g. `iso-27560-v2`. To indicate conformance with specific requirements such as from GDPR, a separate schema or profile IRI must be utilised, as seen in [[[#namespaces]]].</p>
+
+            <aside class="example" title="Example specifying schema version">
+                <p>Using the 'default' schema version representing conformance with [[ISO-27560]]:</p>
+                <pre><code>{
+    "@id": "https://example.com/UNIQUE-ID",
+    "@type": "dpv:ConsentRecord",
+    "dct:conformsTo": "https://w3id.org/dpv/schema/iso-27560"
+}</code></pre>
+                <p>Using the 'GDPR' schema version representing conformance with [[GDPR]] requirements e.g. information to be maintained as per Article 13 and Article 14:</p>
+                <pre><code>{
+    "@id": "https://example.com/UNIQUE-ID",
+    "@type": "dpv:ConsentRecord",
+    "dct:conformsTo": "https://w3id.org/dpv/schema/iso-27560-GDPR"
+}</code></pre>
+            </aside>
+
+        <h4>Record Identifier</h4>
+            <p>This field <strong>MUST</strong> be present.</p>
+            <p>The unique identifier (`record_id` in [[ISO-27560]]) associated with this record, indicated using <code>dct:identifier</code>. This can be a [[ISO-27560]] recommended UUID-4 string or an IRI.</p>
+            <div class="note" title="Identifier vs IRI">
+                <p>Even if the IRI or `@id` field represents a unique identifier, this information must be specified using `dct:identifier` as the IRI may refer to a copy or alternate location of the same record.</p>
+            </div>
+
+            <aside class="example" title="Example specifying unique record identifier">
+                <p>Using UUID-4 without IRI:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dct:identifier": "a6f58318-72e6-46a2-bfd7-f36d795e30cd"
+}</code></pre>
+                <p>Using UUID-4 with IRI:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dct:identifier": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd"
+}</code></pre>
+            </aside>
+
+        <h4>Data Subject</h4>
+            <p>This field <strong>MUST</strong> be present.</p>
+            <p>The data subject (`pii_principal_id` in [[ISO-27560]]) associated with the consent (record), indicated using <code>dpv:hasDataSubject</code>. The data subject can be represented by an instance of <code>dpv:DataSubject</code> or an identifier.</p>
+
+            <aside class="example" title="Example specifying data subject">
+                <p>Using an IRI referring to an instance of `dpv:DataSubject` (this is best practice):</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasDataSubject": "https://example.com/data-subject-id"
+}</code></pre>
+                <p>Using an ad-hoc instance of `dpv:DataSubject` that also specifies the email used to identify the data subject (this is best practice for portable self-contained records). Alternatively, the email may also be directly used as the identifier - though this is not recommended as it does not suit data protection by design:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasDataSubject": {
+        "@id": "https://example.com/data-subject-id",
+        "@type": "dpv:DataSubject",
+        "dct:identifier": "jane.doe@example.com"
+    }
+}</code></pre>
+                <p>Using an identifier that can be interpreted implicitly as an instance of `dpv:DataSubject`:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasDataSubject": "a6f58318-72e6-46a2-bfd7-f36d795e30cd"
+}</code></pre>
+            </aside>
+
+    <section id="additional-metadata">
+        <h4>Additional Metadata</h4>
+        <p>Information such as who maintains or published the record, when was it created or modified, and its provenance is not covered by [[ISO-27560]] as it is considered "implementation detail". To assist in maintaining this information, the following fields from [[DC-TERMS]] are suggested for documenting this information in an optional and non-normative manner:</p>
+        <ul>
+            <li><code>dct:accessRights</code>: information on who can access the consent record.</li>
+            <li><code>dct:contributor</code>: entity or entities that have contributed to the information within the consent record.</li>
+            <li><code>dct:created</code>: date/time for when the consent record was created.</li>
+            <li><code>dct:creator</code>: entity that created the consent record. NOTE: this entity may be different from the publisher of the consent record, e.g. a processor (creator) manages the record for a controller (publisher).</li>
+            <li><code>dct:hasPart</code> (with inverse <code>dct:isPartOf</code>): to associate with a part of the consent record, e.g. where the information in a consent record may be maintained separately or partitioned based on common information for efficiency.</li>
+            <li><code>dct:hasVersion</code> (with inverse <code>dct:isVersionOf</code>): to associate one consent record with its updated version, e.g. where each event in a consent record results in a new consent record.</li>
+            <li><code>dct:replaces</code> (with inverser <code>dct:isReplacedBy</code>): to associate the consent record which is being replaced, e.g. where the other consent record is no longer in use and this is a new consent record intended to replace it.</li>
+            <li><code>dct:issued</code>: date/time associated with 'formal issuance' of the consent record, e.g. where <code>dct:created</code> is a timestamp for when the record was generated by a machine agent and where <code>dct:issued</code> captures its formal acceptance as a legally relevant record.</li>
+            <li><code>dct:modified</code>: date/time for when the consent record was modified.</li>
+            <li><code>dct:provenance</code>: information about the provenance of the consent record, e.g. where the record has been transferred between entities.</li>
+            <li><code>dct:publisher</code>: entity or entities that 'publish' the consent record i.e. make it available within some contextual sense, e.g. to produce it within an audit or legal investigation.</li>
+            <li><code>dct:source</code>: information on the sources used within the consent record, e.g. other records or logs that should be associated to record the provenace of information.</li>
+            <li><code>dct:valid</code>: date/time until when this record can be considered valid. NOTE: this refers to assessing validity of the record as a whole and does NOT refer to validity of consent events or the processing specified within the record.</li>
+        </ul>
+    </section>
+    <section>
+        <h3>Notice Fields</h3>
+        <p>These fields refer to information about the notice that has been shown to request consent. In [[ISO-27560]], these fields are part of the Processing section.</p>
+        <table style="font-family: monospace;">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Cardinality</th>
+            <th>DPV Concept</th>
+            <th>DPV Property</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Notice</th>
+            <td>1..*</td>
+            <td>dpv:Notice</td>
+            <td>dpv:hasNotice</td>
+        </tr>
+        <tr>
+            <th>Notice Language</th>
+            <td>1..*</td>
+            <td>N/A</td>
+            <td>dct:language</td>
+        </tr>
+    </tbody>
+</table>
+        <h4>Notice</h4>
+        <p>This field <strong>MUST</strong> be present.</p>
+        <p>Reference to the specific version of the notice (`privacy_notice` in [[ISO-27560]]) associated with consent, indicated using `dpv:hasNotice` and a reference to the notice or an instance of `dpv:ConsentNotice`. If there are multiple notices - then each must be indicated separately. Multiple notices can be associated where such notices are part of the same context e.g. shown one after the other, or where they are associated over time, e.g. one notice shown initially when requesting and another when re-confirming it at a later time.</p>
+        <div class="note" title="Distinction between Privacy Notice and Consent Notice">
+            <p>In DPV, the concepts `dpv:PrivacyNotice` and `dpv:ConsentNotice` have different intended meanings - a consent notice is a specific privacy notice associated with consent, most commonly providing information in order to request consent. Whereas, a privacy notice can also refer to other documents providing information, such as what is commonly called as 'privacy policy'. For the purposes of the consent record, both documents can be included, but `dpv:ConsentNotice` MUST be used when referring to the notice used for providing information for consent.</p>
+        </div>
+        <aside class="example" title="Example specifying notice associated with a consent record">
+                <p>Using a UUID-4 reference to the notice:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasNotice": "a6f58318-72e6-46a2-bfd7-f36d795e30cd"
+}</code></pre>
+                <p>Using an ad-hoc instance of `dpv:ConsentNotice`. This has the benfit of representing other information such as the language used, date of validity for the notice, as well as the interactions performed by the data subject (out of scope for this document). A benefit of providing such information is its use in determining validity of consent e.g. where a notice's temporal coverage has expired and a new notice must be shown to confirm the existing consent (see next example):</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasNotice": {
+        "@id": "https://example.com/notices/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+        "@type": "dpv:ConsentNotice",
+        "dct:date": "2023-01-01",
+        "dct:language": "EN",
+        "dct:coverage": "2023-01-01/P12M"
+    }
+}</code></pre>
+                <p>Multiple instances of notices with different timestamps:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasNotice": {
+        "@id": "https://example.com/notices/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+        "@type": "dpv:ConsentNotice",
+        "dct:date": "2022-01-01",
+        "dct:language": "EN",
+        "dct:coverage": "2022-01-01/P12M"
+    }, 
+    "dpv:hasNotice": {
+        "@id": "https://example.com/notices/a6f58318-72e6-46a2-bfd7-f36d795e30cd-2",
+        "@type": "dpv:ConsentNotice",
+        "dct:date": "2023-01-01",
+        "dct:language": "EN",
+        "dct:coverage": "2023-01-01/P12M"
+    }
+}</code></pre>
+            <p>Notices declared in the context of consent events (or statuses in DPV). The first status of `dpv:ConsentGiven` states the notice shown when first consent was given. The last status of `dpv:RenewedConsentGiven` states another notice shown when renewing or re-confirming the earlier given consent:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasStatus": {
+        "@type": "dpv:ConsentGiven"
+        "dct:date": "2022-01-01",
+        "dpv:hasNotice": {
+            "@id": "https://example.com/notices/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+            "@type": "dpv:ConsentNotice",
+            "dct:language": "EN"
+        }
+    }, 
+    "dpv:hasStatus": {
+        "@type": "dpv:RenewedConsentGiven"
+        "dct:date": "2023-01-01",
+        "dpv:hasNotice": {
+            "@id": "https://example.com/notices/a6f58318-72e6-46a2-bfd7-f36d795e30cd-2",
+            "@type": "dpv:ConsentNotice",
+            "dct:language": "EN"
+        }
+    }
+}</code></pre>
+            </aside>
+
+        <h4>Notice Language</h4>
+        <p>This field <strong>MUST</strong> be present.</p>
+        <p>The language used in the communications regarding consent, such as the information provided within a notice. The language is indicated using `dct:language`, and it is recommende to use standardised notations for representing langauges such as the <a href="https://www.iso.org/iso-639-language-codes.html">ISO 639</a>.</p>
+        <p>For examples, please refer to [[[#notice]]] section.</p>
+
+    </section>
+    <h3>Processing Fields</h3> 
+    <p>[[ISO-27560]] contains 22 fields related to processing activities, and 5 additional fields regarding personal data involved in processing. The structuring of these fields within [[ISO-27560]] is of the form where the "PII Processing" section contains an array of "purposes" where each "purpose" is expressed with its own fields regarding legal basis, collection method, storage locations, and so on. Within the DPV implementation, this is replaced with <code>dpv:PersonalDataHandling</code> so that each instance represents a distinct processing activity with its fields e.g. purposes, personal data, recipients.</p>
+    <table style="font-family: monospace;">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Cardinality</th>
+            <th>DPV Concept</th>
+            <th>DPV Property</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Personal Data Handling</th>
+            <td>1..*</td>
+            <td>dpv:PersonalDataHandling</td>
+            <td>dpv:hasPersonalDataHandling</td>
+        </tr>
+        <tr>
+            <th>Purpose</th>
+            <td>1..*</td>
+            <td>dpv:Purpose</td>
+            <td>dpv:hasPurpose</td>
+        </tr>
+        <tr>
+            <th>Personal Data</th>
+            <td>1..*</td>
+            <td>dpv:PersonalData</td>
+            <td>dpv:hasPersonalData</td>
+        </tr>
+        <tr>
+            <th>Personal Data Type</th>
+            <td>1..*</td>
+            <td>Personal Data taxonomy</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <th>Personal Data Identifier</th>
+            <td>0..*</td>
+            <td>N/A</td>
+            <td>dct:identifier</td>
+        </tr>
+        <tr>
+            <th>Personal Data Necessity</th>
+            <td>0..*</td>
+            <td>dpv:Necessity</td>
+            <td>dpv:hasNecessity</td>
+        </tr>
+        <tr>
+            <th>Sensitive/Special Category</th>
+            <td>0..*</td>
+            <td>dpv:SensitivePersonalData, dpv:SpecialCategoryPersonalData</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <th>Processing Operations</th>
+            <td>0..*</td>
+            <td>dpv:Processing</td>
+            <td>dpv:hasProcessing</td>
+        </tr>
+        <tr>
+            <th>Data Source</th>
+            <td>0..*</td>
+            <td>dpv:DataSource</td>
+            <td>dpv:hasDataSource</td>
+        </tr>
+        <tr>
+            <th>Storage Condition</th>
+            <td>1..*</td>
+            <td>dpv:StorageCondition, dpv:StorageLocation, dpv:StorageDuration, dpv:StorageDeletion</td>
+            <td>dpv:hasStorageCondition</td>
+        </tr>
+        <tr>
+            <th>Processing Condition</th>
+            <td>0..*</td>
+            <td>dpv:ProcessingCondition, dpv:ProcessingLocation, dpv:ProcessingDuration</td>
+            <td>dpv:hasProcessingCondition</td>
+        </tr>
+        <tr>
+            <th>Geographic Restriction</th>
+            <td>0..*</td>
+            <td>dpv:Rule</td>
+            <td>dpv:hasRule</td>
+        </tr>
+        <tr>
+            <th>Data Controller</th>
+            <td>1..*</td>
+            <td>dpv:DataController</td>
+            <td>dpv:hasDataController</td>
+        </tr>
+        <tr>
+            <th>Legal Basis</th>
+            <td>0..*</td>
+            <td>dpv:LegalBasis</td>
+            <td>dpv:hasLegalBasis</td>
+        </tr>
+        <tr>
+            <th>Recipients</th>
+            <td>1..*</td>
+            <td>dpv:Recipient</td>
+            <td>dpv:hasRecipient</td>
+        </tr>
+        <tr>
+            <th>Consent Change &amp; Withdrawal</th>
+            <td>1..*</td>
+            <td>dpv:ConsentManagement, dpv:ProvideConsent, dpv:ChangeConsent, dpv:WithdrawConsent</td>
+            <td>dpv:hasConsentManagement</td>
+        </tr>
+        <tr>
+            <th>Jurisdiction</th>
+            <td>1..*</td>
+            <td>dpv:Jurisdiction</td>
+            <td>dpv:hasJurisdiction</td>
+        </tr>
+        <tr>
+            <th>Rights</th>
+            <td>1..*</td>
+            <td>dpv:Right</td>
+            <td>dpv:hasRight</td>
+        </tr>
+        <tr>
+            <th>Services</th>
+            <td>0..*</td>
+            <td>dpv:Service</td>
+            <td>dpv:hasService</td>
+        </tr>
+        <tr>
+            <th>Code of Conduct</th>
+            <td>0..*</td>
+            <td>dpv:CodeOfConduct</td>
+            <td>dpv:hasOrganisationalMeasure</td>
+        </tr>
+        <tr>
+            <th>Impact Assessment</th>
+            <td>0..*</td>
+            <td>dpv:ImpactAssessment</td>
+            <td>dpv:hasAssessment</td>
+        </tr>
+    </tbody>
+</table>
+        <h4>Personal Data Handling</h4>
+        <p>This field <strong>MUST</strong> be present.</p>
+        <p>`dpv:PersonalDataHandling` is a concept that represents a process or 'unit' for combining relevant details such as purposes, processing, personal data categories, recipients, and so on. Instances of `dpv:PersonalDataHandling` can be used to differentiate between information regarding processing - such as where different purposes are used or that lead to different recipients. Such instances can also be nested within other instances to create a 'modular' structuring of processing activities.</p>
+        <div class="note" title="Benefits of using `dpv:PersonalDataHandling`">
+            <p>Following the [[ISO-27560]] model requires creating a concept called 'purposes' and to utilise an array or a list to hold the associated 'purpose' instances. Given that DPV prefers a strict taxonomy expressed in a graph representation, following the same model would lead to non-intuitive structures. Further, other similar lists such as those for 'pii_type' also require creation of new concepts to represent groups or collections of the actual intended concepts.</p>
+        </div>
+        <div class="issue" title="Create Process as a subtype of PersonalDataHandling">
+            <p>The term 'Personal Data Handling' is non-intuitive and difficult to grasp. By contrast, the term 'Process' is commonly used and is intuitive. Therefore, a new concept called `Process` should be added, and for backwards compatibility be declared as a subtype of `PersonalDataHandling`. The existing relations benefit from this by use of phrasing such as "personal data associated with a process".</p>
+        </div>
+        <aside class="example" title="Example using Personal Data Handling">
+                <p>A single instance of Personal Data Handling:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:Marketing",
+        "dpv:hasPersonalData": "dpv-pd:EmailAddress"
+    }
+}</code></pre>
+                <p>Using multiple instances of Personal Data Handling to separate purposes and associated personal data:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:PaymentManagement",
+        "dpv:hasPersonalData": "dpv-pd:EmailAddress"
+    },
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:IdentityVerification",
+        "dpv:hasPersonalData": "dpv-pd:OfficialID"
+    }
+}</code></pre>
+                <p>Using nested instances of Personal Data Handling to separate purposes and associated personal data within the larger instance. In this case, the processing activity is for the same purpose, but the personal data are being sent to different recipients. Alternatively, the same information could have been repeated within each instance to avoid nesting:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:PaymentManagement",
+        "dpv:hasPersonalDataHandling": {
+            "@type": "dpv:PersonalDataHandling",
+            "dpv:hasPersonalData": "dpv-pd:EmailAddress",
+            "dpv:hasRecipient": "ex:CompanyA"
+        },
+        "dpv:hasPersonalDataHandling": {
+            "@type": "dpv:PersonalDataHandling",
+            "dpv:hasPurpose": "dpv:IdentityVerification",
+            "dpv:hasPersonalData": "dpv-pd:OfficialID",
+            "dpv:hasRecipient": "ex:CompanyB"
+        }
+    }
+}</code></pre>
+            </aside>
+
+        <h4>Purpose</h4>
+        <p>This field <strong>MUST</strong> be present.</p>
+            <p>The purpose of processing personal data, expressed in DPV using <code>hasPurpose</code> as an instance of <code>Purpose</code>.</p>
+            <p>[[ISO-27560]] has an additional field called 'purpose_type' that describes the category of the purpose. In DPV, this is declared by using concepts from the purpose along with `rdf:type`. For additional information, such as descriptions, relevant DCT relations should be used.</p>
+            <div class="note" title="Interpreting multiple purposes within a single context">
+                <p>Where multiple purposes are present within the same or single context, for example the consent record or a personal data handling instance, the interpretation is that they are all applicable for that context. For example, if a personal data handling instance contains 3 purposes - then it is presumed that the consent is for carrying out each of the 3 purposes.</p>
+                <p>To declare that ALL purposes must occur together i.e. they cannot be carried out independently, the appropriate semantic relations should be used to express this information - for e.g. by declaring the 3 required purposes as the 'type' for a new combined purpose.</p>
+                <p>Caution is advised when modelling consent as jurisdictional requirements such as those from GDPR e.g. Recital 32 states "Consent should cover all processing activities carried out for the same purpose or purposes. When the processing has multiple purposes, consent should be given for all of them.". This means all purposes listed within a record pertaining to a single consent are to be used with that single consent as the legal basis.</p>
+            </div>
+            <aside class="example" title="Example specifying Purpose">
+                <p>Specifying the purpose with type based on the DPV Purpose taxonomy and a description</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": {
+            "@type": "dpv:Marketing",
+            "dct:description": "Sending newsletters to the customer"
+        },
+        "dpv:hasPersonalData": "dpv-pd:EmailAddress"
+    }
+}</code></pre>
+                <p>Specifying multiple purposes with separate types to indicate they both are applicable independently</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": {
+            "@type": "dpv:Marketing",
+            "dct:description": "Sending newsletters to the customer"
+        },
+        "dpv:hasPurpose": {
+            "@type": "dpv:CommunicationManagement"
+        },
+        "dpv:hasPersonalData": "dpv-pd:EmailAddress"
+    }
+}</code></pre>
+                <p>Specifying a combined purpose with multiple types to indicate the purpose is required for all indicated categories:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": {
+            "@type": [ "dpv:Marketing", "dpv:CommunicationManagement" ],
+            "dct:description": "Sending newsletters to the customer"
+        },
+        "dpv:hasPersonalData": "dpv-pd:EmailAddress"
+    }
+}</code></pre>
+            </aside>
+
+        <h4>Personal Data</h4>
+            <p>This field <strong>MUST</strong> be present.</p>
+            <p>The personal data ('pii information' in [[ISO-27560]]) involved in processing activities, associated using <code>dpv:hasPersonalData</code> and instances of <code>dpv:PersonalData</code>.</p>
+            <p>In [[ISO-27560]], the personal data fields are used to describe aspects of personal data as - type, identifier, optionality, being sensitive and being special category. In the DPV implementation, these are described as annotations or additional relations over the personal data instance.</p>
+            <h5>Personal Data Type</h5>
+            <p>This field <strong>MUST</strong> be present.</p>
+            <p>The type or category of personal data ('pii type' in [[ISO-27560]]), expressed in DPV using <code>rdf:type</code>, and optionally using concepts from the [[DPV-PD]] taxonomy. The value for this field must use a data category from DPV either through an explicit declaration i.e. using <code>rdf:type</code> or through an implicit definition e.g. [[DPV-PD]] taxonomy. </p>
+            <aside class="example" title="Example specifying personal data and its type">
+                <p>Personal data specified using [[DPV-PD]] concept</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPersonalData": "dpv-pd:EmailAddress"
+    }
+}</code></pre>
+                <p>Personal data specified with type explicitly declared using [[DPV-PD]] concept. The benefit of this approach is that it enables additional annotations such as a description of the data, as well as associating identifiers with the data category.</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPersonalData": {
+            "@type": "dpv-pd:EmailAddress",
+            "dct:description": "The customer's email address"
+        }
+    }
+}</code></pre>
+            </aside>
+            <h5>Personal Data Identifier</h5>
+            <p>This field MAY be present.</p>
+            <p>The identifier representing the data values or instances e.g. within a database, expressed in DPV using <code>dct:identifier</code>. </p>
+            <aside class="example" title="Example specifying identifier of personal data">
+                <p>Here, the identifier refers to a row ID within some internal database. The use of identifier in this case is to avoid exposing the actual email address within the consent record.</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPersonalData": {
+            "@type": "dpv-pd:EmailAddress",
+            "dct:identifier": "MDA5-hashed-email-address"
+        }
+    }
+}</code></pre>
+            </aside>
+            <h5>Personal Data Necessity</h5>
+            <p>This field MAY be present.</p>
+            <p>The necessity or optionality of this data ('pii optional' in [[ISO-27560]]) for the processing, expressed in DPV using <code>hasNecessity</code> and one of the provided instances of <code>Necessity</code>. If this field is absent, it should be inferred as the data being necessary.</p>
+            <aside class="example" title="Example specifying identifier of personal data">
+                <p>Here, the identifier refers to a row ID within some internal database. The use of identifier in this case is to avoid exposing the actual email address within the consent record.</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPersonalData": [{
+            "@type": "dpv-pd:EmailAddress",
+            "dpv:hasNecessity": "dpv:Required"
+        }, {
+            "@type": "dpv-pd:Name",
+            "dpv:hasNecessity": "dpv:Optional"
+        }]
+    }
+}</code></pre>
+                <p>Necessity (or Optionality) can also be expressed at broader contexts, such as for the entire personal data handling instance. This has the advantage over [[ISO-27560]] in that some purpose or processing could also be stated to be necessary or optional. In such cases, the expressed necessity is to be applied to ALL concepts within that instance. In the below example, the first instance has both purpose (communication) and personal data (email) as required or necessary, and the second has both (marketing, name) as optional.</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasNecessity": "dpv:Required",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:EmailAddress"}
+    }, {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasNecessity": "dpv:Optional",
+        "dpv:hasPurpose": "dpv:Marketing",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:Name"}
+    }]
+}</code></pre>
+                <p>In the absence of a necessity statement, the default interpretation should be that the necessity is <code>dpv:Required</code>. In the below example, both instances have the necessity required even when only one of them explicitly declares it. As good practice, it is always better to specify the necessity explicitly to avoid confusion.</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasNecessity": "dpv:Required",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:EmailAddress"}
+    }, {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:Marketing",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:Name"}
+    }]
+}</code></pre>
+            </aside>
+            <h5>Sensitive and Special Category</h5>
+            <p>This field MAY be present.</p>
+            <p>Indicates whether the personal data is considered sensitive ('sensitive pii category' in [[ISO-27560]]), and separately whether it is also of special category ('special pii category' in [[ISO-27560]]). Declaring either in DPV is done using <code>rdf:type</code> with value <code>SensitivePersonalData</code> or <code>SpecialCategoryPersonalData</code>. Its absence indicates the data does not belong to either sensitive or special categories.</p>
+            <aside class="example" title="Example specifying personal data belonging to sensitive and special categories">
+                <p>Being sensitive or special category is equivalent to defining it as the 'type' of data in DPV. Therefore, the notation for declaring type and sensitive is the same. In the below example, the first instance is sensitive, the second of special category, and the third is neither.</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPersonalData": [{
+            "@type": ["dpv-pd:Location","dpv:SensitivePersonalData"],
+            "dct:identifier": "The user's real-time GPS location"
+        }, {
+            "@type": ["dpv-pd:MedicalHealth","dpv:SpecialCategoryPersonalData"],
+            "dct:identifier": "The user's health records from their local GP"
+        }, {
+            "@type": "dpv-pd:Email",
+            "dct:identifier": "The user's provided email address"
+        }]
+    }
+}</code></pre>
+            </aside>
+
+        <h4>Processing Operations</h4>
+        <p>This field <strong>MAY</strong> be present.</p>
+        <p>Indicates the processing operations or activities carried out over the specific personal data, and indicated using <code>dpv:hasProcessing</code> with instances of <code>dpv:Processing</code>. In [[ISO-27560]], this field also represents information about automated decision making - which is represented in DPV through the <code>dpv:AutomationOfProcessing</code> concepts and associated with <code>dpv:hasProcessingAutomation</code>, as well as large scale of processing which is represented through <code>dpv:ScaleOfProcessing</code> and associated using <code>dpv:hasScale</code>.</p>
+
+        <aside class="example" title="Example specifying processing operations over personal data">
+            <p>Processing operations specified by using the DPV taxonomy, and associated with personal data and purposes using <code>PersonalDataHandling</code>. In this example, the email address is collected, stored, and used.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:EmailAddress"},
+        "dpv:hasProcessing": ["dpv:Collect", "dpv:Store", "dpv:Use"]
+    }]
+}</code></pre>
+            <p>Processing specified with automated decision making, profiling, and large scale of processing. In DPV, profiling is a processing operation, whereas automated decision making and scale of processing are separate concepts.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:EmailAddress"},
+        "dpv:hasProcessing": ["dpv:Collect", "dpv:Store", "dpv:Use"],
+        "dpv:hasProcessingAutomation": "dpv:FullyAutomatedProcessing",
+        "dpv:hasScale": "dpv:LargeScaleProcessing"
+    }]
+}</code></pre>
+            <p>Another similar example to showcase the range of processing context concepts in DPV - here the processing is a semi-automated decision making with human involvement, and involves a small scale of processing for a large scale of data subjects.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:EmailAddress"},
+        "dpv:hasProcessing": ["dpv:Collect", "dpv:Store", "dpv:Use", "dpv:Profiling"],
+        "dpv:hasProcessingAutomation": "dpv:SemiAutomatedProcessing",
+        "dpv:hasHumanInvolvement": "dpv:HumanInvolvementForOversight",
+        "dpv:hasScale": ["dpv:SmallScaleProcessing", "dpv:LargeScaleOfDataSubjects"]
+    }]
+}</code></pre>
+            <p>Another similar example with more specific associations between processing operations and contextual information such as full automation, large scale, and no human involvement.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:EmailAddress"},
+        "dpv:hasProcessing": [{
+            "@type": "dpv:Use",
+            "dpv:hasScale": ["dpv:LargeScaleProcessing", "dpv:LargeScaleOfDataSubjects"],
+            "dpv:hasProcessingAutomation": "dpv:FullyAutomatedProcessing",
+            "dpv:hasHumanInvolvement": "dpv:NotApplicable"
+        }]
+    }]
+}</code></pre>
+        </aside>
+
+        <h5>Data Source(s)</h5>
+        <p>This field MAY be present.</p>
+        <p>This field represents the source of data being processed. In [[ISO-27560]], this field is called <i>collection method</i> and can be about The data provided by or observed from activities of the data subjects, be inferred from existing data, or be collected from another entity or third party. In DPV, this information is represented using <code>dpv:DataSource</code> and associated using <code>dpv:hasDataSource</code>.</p>
+        <p>Concepts within the DPV taxonomy have an exact meaning - for example data being obtained through observation should not be stated as being <i>collected</i>, but as <i>observed</i> - even if the data source is still the same data subject. Therefore, it is best to separate the data source <i>entity</i> and the <i>processing operation</i>.</p>
+        <aside class="example" title="Example specifying sources of data used in processing operations">
+            <p>The following examples state the data subject as a data source as stated in [[ISO-27560]] for direct data collection, indirect obervation or derivation, and inferred.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:Location"},
+        "dpv:hasDataSource": [{
+            "@type": "dpv:DataSubject",
+            "dpv:hasProcessing": "dpv:Collect"
+        }, {
+            "@type": "dpv:DataSubject",
+            "dpv:hasProcessing": "dpv:Observe"
+        }, {
+            "@type": "dpv:DataSubject",
+            "dpv:hasProcessing": ["dpv:Collect", "dpv:Derive"],
+            "dpv:hasPersonalData": "dpv-pd:IPAddress"
+        }, {
+            "@type": "dpv:DataSubject",
+            "dpv:hasProcessing": "dpv:Infer",
+            "dpv:hasPersonalData": "dpv-pd:BrowserBehavior"
+        }
+    }]
+}</code></pre>
+            <p>The following example states non- data subject entities as a data source as stated in [[ISO-27560]], where the entities are of type Processor and Third Party respectively. The example also shows how processing operations can directly specify their data sources.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:Location"},
+        "dpv:hasProcessing": [{
+            "@type": "dpv:Transfer",
+            "dpv:hasDataSource": {
+                "@type": "dpv:DataProcessor",
+                "@id": "https://example.com/Acme"
+            }
+        }, {
+            "@type": ["dpv:Collect", "dpv:Acquire"],
+            "dpv:hasDataSource": {
+                "@type": "dpv:ThirdParty",
+                "@id": "https://example.com/Beta"   
+            }
+        }]
+    }]
+}</code></pre>
+            <p>The following example shows how data sources can be specified in terms of devices and technologies using concepts from (work-in-progress) [[DPV-TECH]].</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:Location"},
+        "dpv:hasDataSource": {
+            "@type": "dpv:DataSubject",
+            "dpv:hasProcessing": "dpv:Collect",
+            "dpv:isImplementedUsingTechnology": {
+                "@type": "tech:Device",
+                "tech:hasCommunicationMechanism": ["tech:GPS", "tech:WiFi"]
+            }
+        }
+    }]
+}</code></pre>
+</aside>
+
+        <h5>Storage Condition(s)</h5>
+        <p>This field <strong>MUST</strong> be present.</p>
+        <p>Indicates information about the storage of personal data such as regarding its duration, location, and erasure, represented using <code>dpv:StorageCondition</code> and associated using <code>dpv:hasStorageCondition</code>. The existence of Storage Condition implies storing data as a processing operation. In [[ISO-27560]], this information is represented through two fields - <i>storage locations</i> and <i>retention period</i> - both of which are required to be present.</p>
+        <aside class="example" title="Example specifying conditions regarding storage of data in terms of location, duration, and retention">
+            <p>The following example shows how information about storage conditions can be associated using the DPV concepts. It associates three conditions with the personal data handling instance representing location, duration, and retention.</p>
+            <p>The first example shows locations expressed using the DPV-Locations extension (work in progress), and indicate that data will be stored in Ireland, France, and Germany - with another example showing EU as a (jurisdiction-based) location. The other examples show how non-geopolitical locations can be represented using DPV.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:Location"},
+        "dpv:hasDataStorageCondition": [{
+            "@type": "dpv:StorageLocation",
+            "dpv:hasLocation": ["loc:IE", "loc:FR", "loc:DE"],
+        }, {
+            "@type": "dpv:StorageLocation",
+            "dpv:hasLocation": "loc:EU"
+        }, {
+            "@type": "dpv:StorageLocation",
+            "dpv:hasLocation": "dpv:WithinDevice"
+        }, {
+            "@type": "dpv:StorageLocation",
+            "dpv:hasLocation": {
+                "@type": ["dpv:FederatedLocation", 
+                    "dpv:WithinDevice", "dpv:CloudLocation"]
+            }
+        }]
+    }]
+}</code></pre>
+            <p>The following example shows the duration associated with storage of data. Duration implies that data will be removed or erased after the duration.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:Location"},
+        "dpv:hasStorageCondition": [{
+            "@type": "dpv:StorageDuration",
+            "rdfs:comment": "6 Months using ISO 8601",
+            "dpv:hasDuration": "P6M",
+            "dpv:hasDuration": {
+                "@type": ["dpv:TemporalDuration", "xsd:duration"],
+                "rdf:value": "P6M"
+            }
+        }, {
+            "@type": "dpv:StorageDuration",
+            "rdfs:comment": "duration lapsing at the end of year",
+            "dpv:hasDuration": "2023-12-31",
+            "dpv:hasDuration": {
+                "@type": ["dpv:UntilTimeDuration", "xsd:date"],
+                "rdf:value": "2023-12-31"
+            }
+        }, {
+            "@type": "dpv:StorageDuration",
+            "dpv:hasDuration": {
+                "@type": "dpv:FixedOccurencesDuration",
+                "rdf:value": "12"
+            }
+        }, {
+            "@type": "dpv:StorageDuration",
+            "dpv:hasDuration": {
+                "@type": "dpv:UntilEventDuration",
+                "rdf:value": "Account Closure"
+            }
+        }]
+    }]
+}</code></pre>
+            <p>The following example shows erasure as a distinct condition separate from the storage duration. In [[ISO-27560]], the field for <i>retention period</i> refers to both the retention and erasure of data. In DPV, this is separated as data may get scheduled for deletion and may remain stored for a duration before its actual erasure. In the example, the data is to be stored for 6 months and then deleted by 1 month following this period.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:Location"},
+        "dpv:hasStorageCondition": [{
+            "@type": "dpv:StorageDuration",
+            "dpv:hasDuration": "P6M"
+        }, {
+            "@type": "dpv:StorageDeletion",
+            "dpv:hasDuration": "P1M"
+        }]
+    }]
+}</code></pre>
+</aside>
+
+        <h5>Processing Condition(s)</h5>
+        <p>This field MAY be present.</p>
+        <p>Indicates information about conditions regarding the processing operations, such as regarding its duration and location, represented using <code>dpv:ProcessingCondition</code> and associated using <code>dpv:hasProcessingCondition</code>. Given that storing data is a specific type of processing operation, this field is useful for other processing activities such as collection of data. In [[ISO-27560]], the field only relates to <i>processing locations</i>.</p>
+        <aside class="example" title="Example specifying conditions regarding processing data in terms of location and duration">
+            <p>The examples show various combinations of processing location and duration, using the same concepts and patterns as those used in the examples for Storage Condition. In addition, it also shows the possibility to express the <i>frequency</i> of processing using <code>dpv:Frequency</code> and associated using <code>dpv:hasFrequency</code>. To express combinations of duration, location, and frequencies - their respective concepts can be combined as shown explicitly last example.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:CommunicationManagement",
+        "dpv:hasPersonalData": {"@type": "dpv-pd:Location"},
+        "dpv:hasDataProcessingCondition": [{
+            "@type": "dpv:ProcessingLocation",
+            "dpv:hasLocation": "dpv:WithinDevice",
+        }, {
+            "@type": "dpv:ProcessingLocation",
+            "dpv:hasLocation": "loc:EU"
+        }, {
+            "@type": "dpv:ProcessingDuration",
+            "dpv:hasDuration": "P6M"
+        }, {
+            "@type": "dpv:ProcessingFrequency",
+            "dpv:hasFrequency": "dpv:SingularFrequency"
+        }, {
+            "@type": "dpv:ProcessingFrequency",
+            "dpv:hasFrequency": "dpv:ContinousFrequency"
+        }, {
+            "@type": ["dpv:ProcessingLocation", 
+                    "dpv:ProcessingDuration", "dpv:ProcessingFrequency"],
+            "dpv:hasLocation": "dpv:WithinDevice",
+            "dpv:hasDuration": "P1D",
+            "dpv:hasFrequency": "dpv:SporadicFrequency"
+        }]
+    }]
+}</code></pre>
+</aside>
+
+        <h5>Geographic Restriction(s)</h5>
+        <p>This field MAY be present.</p>
+        <p>Geographic restrictions are defined in [[ISO-27560]] as restrictions related to geo-locations or jurisdictions. While DPV prefers a declarative interpretation where, for e.g., if processing location is mentioned as EU then it implies that processing will only take place within EU since no other locations are mentioned. If the intention is to explicitly state this as a restriction, it can utilise the <code>dpv:Rule</code> concept which provides (simplified) Permissions, Prohibitions, and Obligations. For further expressivity or complexity, specifications such as [[[odrl-model]]] should be considered.</p>
+        <p>Note that while [[ISO-27560]] only considers restrictions over geographic locations for processing (including storing), DPV (and ODRL)support specifying information and restrictions over a much wider range of concepts. In theory, restrictions can be expressed over any concept or combination of concepts.</p>
+        <aside class="example" title="Example specifying geographic restrictions on the processing of personal data">
+            <p>The below example expresses that data must be stored within EU. Note that DPV's concepts do not support expressing negations i.e. we cannot state data must <i>not</i> be stored within <i>non-EU</i> locations. Also note the ambiguity in interpreting DPV's obligation as meaning either data must only be stored in EU or must at least be stored in EU (in addition to elsewhere). An alternative to this is to utilise an appropriate vocabulary such as [[ODRL]] - as in the second rule below, or as a last resort to use plain text - which is less desirable.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasRule": [{
+            "@type": "dpv:Obligation",
+            "dpv:hasLocation": "loc:EU",
+            "dpv:hasProcessing": "dpv:Store",
+        }, {
+            "@type": ["dpv:Prohibition", "odrl:Prohibition"],
+            "rdfs:comment": "Use ODRL concepts here"
+        }, {
+            "@type": "dpv:Prohibition",
+            "dpv:hasProcessing": "dpv:Store"
+            "dct:description": "Storing in Non-EU locations is NOT allowed"
+        }]
+    }
+}</code></pre>
+</aside>
+
+        <h4>Data Controller(s)</h4>
+        <p>This field <strong>MUST</strong> be present.</p>
+        <p>Indicates the Data Controllers (pii controllers in [[ISO-27560]]) responsible for the specified processing activities, expressed in DPV  using <code>hasDataController</code> with instances of <code>DataController</code>.</p>
+        <p>Note that the notion of a 'Controller' is regarding accountability, and does not necessarily correlate with who performs the processing or has access to data - for example in GDPR. To indicate who performs the processing, DPV provides <code>dpv:isImplementedByEntity</code>.</p>
+        <p>Information about the Data Controller, such as its name or address, is described through the <i>Entity Fields</i> later in the document based on a similar structure in [[ISO-27560]].</p>
+        <aside class="example" title="Example specifying Data Controllers">
+            <p>The below examples show processing where a single entity acts as the data controller for all of the processing (represented using <code>PersonalDataHandling</code>, and extends it to show how  different controllers can be associated for different processing activities.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:IdentityVerification",
+        "dpv:hasDataController": "ex:Acme"
+    }, {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:ServiceProvision",
+        "dpv:hasDataController": "ex:Beta"
+    }]
+}</code></pre>
+            <p>In case of multiple controller, these can be stated as a list of controllers, or - in the case of GDPR - be also declared as a joint controller using <code>dpv:JointDataController</code>.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:IdentityVerification",
+        "dpv:hasDataController": ["ex:Acme", "ex:Beta"]
+    }
+}</code></pre>
+</aside>
+
+        <h4>Legal Basis</h4>
+            <p>This field MAY be present.</p>
+            <p>The legal basis (lawful basis in [[ISO-27560]] for processing of personal data. Though the lawful basis for a consent record would always be consent, the presence of the field enables extensions of the record to other legal bases (e.g. contract) in the future. In DPV, the legal basis is associated using <code>hasLegalBasis</code> with a concept from the <code>LegalBasis</code> taxonomy.</p>
+            <p>In addition to defining consent as a legal basis, DPV also provides a taxonomy to express various categories of consent - such as <code>InformedConsent</code> and <code>ExpressedConsent</code> which provide a more granular and accurate definition of the legal basis being utilised. For expressing specific consent based on specific jurisdictions and regulations, the appropriate extended concept should be used, for e.g. [[DPV-GDPR]] defines consent as a legal basis based on the specific clauses and requirements of the [[GDPR]].</p>
+            <aside class="example" title="Example specifying consent as a legal basis">
+            <p>Consent is directly associated with the first <code>PersonalDataHandling</code> as the legal basis. Such use is commonly interpreted as meaning consent according to some obligations and requirements to be considered valid, for example being informed and expressed rather than assumed. The second <code>PersonalDataHandling</code> uses the specific type of consent required which clearly indicates which requirements it is expected to fulfil to be considered valid.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasLegalBasis": "dpv:Consent"
+    }, {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasLegalBasis": "dpv:ExplicitlyExpressedConsent"
+    }]
+}</code></pre>
+        <p>To indicate that a GDPR-defined consent is being used as the legal basis, the [[DPV-GDPR]] concept is used by itself or in combination with a core consent type to explicitly indicate the level of consent. Note that in the second example, [[DPV-GDPR]] already defines <code>A9-2-a</code> as a subtype of <code>dpv:ExplicitlyExpressedConsent</code>, so the combined use does not lead to contradictions.</p>
+        <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasLegalBasis": "dpv-gdpr:A6-1-a"
+    }, {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasLegalBasis": ["dpv:ExplicitlyExpressedConsent", "dpv-gdpr:A9-2-a"]
+    }]
+}</code></pre>
+</aside>
+        
+        <h4>Recipients</h4>
+        <p>This field <strong>MUST</strong> be present.</p>
+        <p>Indicates the recipients of personal data associated with the specific processing activities, expressed as <code>dpv:Recipient</code> and associated using <code>dpv:hasRecipient</code>. In [[ISO-27560]], this field is only limited to Recipients who are Third Parties, which excludes the Data Controllers and Processors. In DPV, recipients can be any of Data Controllers, or Processors, or Third Parties.</p>
+        <p>Note that recipients can be specific entities i.e. their identity is known, or groups or categories of entities - for example as in GDPR's Article 13-1e. However, [[ISO-27560]] only considered explicitly indicated third parties for the recipients field.</p>
+        <p>In [[ISO-27560]], the recipient field is also associated with information regarding the geo-location of data being transferred to the recipient third party's and whether this constitutes a jurisdictional change. To represent this in DPV, the location of the transfer should be indicated within the processing information along with the recipient entity. The jurisdiction can also be represented in the same context - to indicate the transfer to that jurisdiction, or it can be specified in association with the recipient entity.</p>
+        <aside class="example" title="Example specifying recipients of personal data">
+            <p>Recipients can be indicated separately for the entirety of <code>PersonalDataHandling</code> which indicates all data is being received by the specified recipient.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPersonalData": ["dpv-pd:Email", "dpv-pd:Name"],
+        "dpv:hasDataController": "ex:Acme",
+        "dpv:hasRecipient": "ex:Beta"
+    }
+}</code></pre>
+            <p>Recipients can be also be indicated contextually within each <code>PersonalDataHandling</code> or <code>Processing</code> to indicate the recipient entity for that specific context - which allows to separate the recipients based on what data and processing they are associated with. In the below example, the first activity has Acme receiving the Email, and the second activity has Beta collecting the Name and transferring it to Gamma.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPersonalData": "dpv-pd:Email",
+        "dpv:hasRecipient": "ex:Acme"
+    }, {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPersonalData": "dpv-pd:Name",
+        "dpv:hasProcessing": [{
+            "@type": "dpv:Collect",
+            "dpv:hasRecipient": "ex:Beta"
+        }, {
+            "@type": "dpv:Transfer",
+            "dpv:hasRecipient": "ex:Gamma"
+        }
+    }
+}</code></pre>
+            <p>To specify the locations and jurisdictions of recipients, the appropriate DPV concepts and relations are used. In the below example, the first activity states Acme is a Recipient and also the Data Controller whose location is Ireland, and the second activity states that the transfer to Beta has location France and jurisdiction EU.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPersonalData": "dpv-pd:Email",
+        "dpv:hasDataController": "ex:Acme",
+        "dpv:hasRecipient": {
+            "@type": "dpv:Recipient",
+            "@id": "ex:Acme",
+            "dpv:hasLocation": "loc:IE"
+        }
+    }, {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPersonalData": "dpv-pd:Name",
+        "dpv:hasProcessing": {
+            "@type": "dpv:Transfer",
+            "dpv:hasRecipient": "ex:Beta",
+            "dpv:hasLocation": "loc:France",
+            "dpv:hasJurisdiction": "loc:EU"
+        }
+    }]
+}</code></pre>
+</aside>
+        
+        <h4>Consent Change &amp; Withdrawal</h4>
+            <p>This field <strong>MUST</strong> be present.</p>
+            <div class="issue" data-number="115"></div>
+            <p>Indicates the information on how the data subject can change or withdraw the specified consent, expressed using processes part of <code>ConsentManagement</code> and associated using <code>hasConsentManagement</code>. To indicate how the data subject should take action, the relation <code>isExercisedAt</code> is to be used.</p>
+            <p>In [[ISO-27560]], this field is specific to the withdrawal method or a link to the information on withdrawal. It also allows this field to be associated with the Data Controller (in the Party/Entity section) rather than per-processing activity.</p>
+            
+            <aside class="example" title="Example specifying change and withdrawal of consent">
+            <p>To express how the data subject can withdraw consent.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasConsentManagement": {
+            "@type": "dpv:WithdrawConsent",
+            "dpv:isExercisedAt": "https://example.com/manage-consent"
+        }
+    }
+}</code></pre>
+            <p>To express how the data subject can change, withdraw, or (re-)confirm their existing consent. Here, <code>ChangeConsent</code> is the broader consent and includes processes to withdraw and reaffirm consent.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasConsentManagement": {
+            "@type": "dpv:ChangeConsent",
+            "dpv:isExercisedAt": "https://example.com/manage-consent"
+        }
+    }
+}</code></pre>
+            <p>To express how the data subject can provide and change their consent.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasConsentManagement": [{
+            "@type": "dpv:ProvideConsent",
+            "dpv:isExercisedAt": "https://example.com/manage-consent"
+        }, {
+            "@type": "dpv:ChangeConsent",
+            "dpv:isExercisedAt": "https://example.com/manage-consent"
+        }]
+    }
+}</code></pre>
+</aside>
+
+        <h4>Jurisdiction(s)</h4>
+            <p>This field <strong>MUST</strong> be present.</p>
+            <p>Indicates the applicable jurisdiction for the processing indicated within the receipt. The acknolwedgement of jurisdiction(s) is necessary to convey applicable laws and requirements regarding consent validity and applicable rights as well as indicating the obligations on parties involved. To indicate the jurisdiction, the concept <code>Location</code> is to be associated using <code>hasJurisdiction</code>.</p>
+            <p>In [[ISO-27560]], this field can also be associated with the Data Controller (in the Party/Entity section) rather than per-processing activity.</p>
+
+            <aside class="example" title="Example specifying jurisdiction">
+            <p>To express how the data subject can withdraw consent.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasJurisdiction": "loc:EU"
+    }
+}</code></pre>
+</aside>
+
+        <h4>Rights</h4>
+        <p>This field <strong>MUST</strong> be present.</p>
+        <p>Indicates the applicable rights and provides information on how to avail or exercise them. The rights are indicated using <code>DataSubjectRight</code> and associated using <code>hasRight</code>. To indicate how to exercise them, the relation <code>isExercisedAt</code> is to be used. To indicate provision of information regarding rights exercise, the concept <code>RightExerciseNotice</code> is to be used and associated using <code>hasNotice</code>.</p>
+        <p>In [[ISO-27560]], this field is <i>optional</i>, and is used to provide a link to information on how to exercise rights. It also allows this field to allow changes to the consent conditions such as the retention period. In [[ISO-27560]], this field can also be associated with the Data Controller (in the Party/Entity section) rather than per-processing activity.</p>
+        <aside class="example" title="Example specifying rights exercise information">
+            <p>Expressing rights exercise information using DPV is done using the <code>DataSubjectRight</code> instance and associated using <code>hasRight</code>. The contents of this information can include annotations, such as using <code>dct:title</code> to summarise the right, and <code>dpv:isExercisedAt</code> to indicate how/where it is to be exercised.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasRight": {
+            "@type": "dpv:DataSubjectRight",
+            "dct:title": "Right to Obtain Information",
+            "dct:description": "To obtain information, go to the specified link",
+            "dpv:isExercisedAt": "https://example.com/rights"
+        }
+    }
+}</code></pre>
+            <p>To indicate specific rights under a particular jurisdiction or regulation, the appropriate concepts have to be declared and used. In this example, GDPR's Right to Withdraw Consent (Art.7-3) and Right to Data Portability (Art.20) are described with information on how to exercise them. This can be done with explicit acknolwedgement of GDPR as the regulation using <code>dpv:hasApplicableLaw</code>, and EU as the jurisdiction using <code>hasJurisdiction</code>.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasRight": [{
+            "@type": ["dpv:DataSubjectRight", "dpv-gdpr:A7-3"],
+            "dct:title": "Right to Withdraw Consent",
+            "dpv:isExercisedAt": "https://example.com/rights",
+            "dpv:hasApplicableLaw": "dpv-gdpr:GDPR",
+            "dpv:hasJurisdiction": "loc:EU"
+        }, {
+            "@type": ["dpv:DataSubjectRight", "dpv-gdpr:A20"],
+            "dct:title": "Right to Data Portability",
+            "dpv:isExercisedAt": "https://example.com/rights",
+            "dpv:hasApplicableLaw": "dpv-gdpr:GDPR",
+            "dpv:hasJurisdiction": "loc:EU"
+        }]
+    }
+}</code></pre>
+            <p>The same or similar right can be applicable under multiple jurisdictions and/or regulations. In this example, the Right to Withdraw Consent is expressed as being applicable under multiple jurisdictions using <code>hasJurisdiction</code>.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasRight": {
+            "@type": "dpv:DataSubjectRight",
+            "dct:title": "Right to Withdraw Consent",
+            "dpv:isExercisedAt": "https://example.com/rights",
+            "dpv:hasJurisdiction": ["loc:EU", "loc:EEA"]
+        }
+    }
+}</code></pre>
+            <p>To indicate information required for exercise of rights, DPV's existing properties such as <code>hasPersonalData</code> and necessity concepts such as <code>Required</code> can be used. This example shows the right to data portability requires collecting an email for exercising it.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasRight": {
+            "@type": ["dpv:DataSubjectRight", "dpv-gdpr:A20"],
+            "dct:title": "Right to Data Portability",
+            "dpv:isExercisedAt": "https://example.com/rights",
+            "dpv:hasPersonalDataHandling": {
+                "@type": "dpv:PersonalDataHandling",
+                "dpv:hasPersonalData": "dpv:Email",
+                "dpv:hasProcessing": "dpv:Collect",
+                "dpv:hasPurpose": "dpv:FulfilmentOfObligation",
+                "dpv:hasNecessity": "dpv:Required"
+} } } }</code></pre>
+            <p>To indicate what will be the resulting action from exercising the right, existing concepts and external vocabularies such as schema.org or DCAT can be used. This example shows the resulting obligation from exercising the right to data portability being the provision of a dataset containing collected personal data.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasRight": {
+            "@type": ["dpv:DataSubjectRight", "dpv-gdpr:A20"],
+            "dct:title": "Right to Data Portability",
+            "dpv:isExercisedAt": "https://example.com/rights",
+            "dpv:hasPersonalDataHandling": {
+                "@type": "dpv:PersonalDataHandling",
+                "dpv:hasPersonalData": "dpv:Email",
+                "dpv:hasProcessing": "dpv:Collect",
+                "dpv:hasPurpose": "dpv:FulfilmentOfObligation",
+                "dpv:hasNecessity": "dpv:Required"
+            },
+            "dpv:hasObligation": {
+                "@type": "schema:SendAction",
+                "schema:recipient": "dpv:DataSubject",
+                "schema:object": {
+                    "@type": "schema:Dataset",
+                    "dpv:hasPersonalData": "dpv:CollectedData",
+                    "schema:distribution": {
+                        "schema:encodingFormat": "iana:CSV",
+
+} } } } } }</code></pre>
+</aside>
+
+        <h4>Service(s)</h4>
+            <p>This field <i>MAY</i> be present.
+            <p>Indicates the services the described processing activities are a part of or assist with, expressed as an instance of <code>dpv:Service</code> and associated using <code>dpv:hasService</code>.</p>
+            <p>In [[ISO-27560]], a Service can be as broad or granular as desired. A service is related to a purpose by providing a context through which the specific purpose can be understood within their context, and also to enable related purposes and activities to be associated and explained with a common service being provided.</p>
+            <div class="issue" data-number="124"></div>
+            <aside class="example" title="Example specifying service">
+            <p>To indicate processing activities are associated with a specific service, an instance of <code>dpv:Service</code> is associated using <code>dpv:hasService</code>. In this example, the expression of a service provides important context for the interpretation of the purpose of <code>dpv:ServiceProvision</code>.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasPurpose": "dpv:ServiceProvision",
+        "dpv:hasService": {
+            "@type": "dpv:Service",
+            "dct:title": "Movie Streaming"
+        }
+    }
+}</code></pre>
+</aside>
+
+        <h4>Code of conduct(s)</h4>
+        <p>This field MAY be present.</p>
+        <p>Indicates the applicability of a <i>Code of Conduct</i> for the specified processing activity. A code of conduct is a voluntary set of rules and responsibilities undertaken by an organisation. It is indicated using an instance of <code>dpv:CodeOfConduct</code> and associated using <code>dpv:hasOrganisationalMeasure</code>.</p>
+        <p>In [[ISO-27560]], this field is described as providing information regarding the name of the code of conduct and a publicly accessible reference to it. A code of conduct can also be associated with the Data Controller (in the Party/Entity section) rather than per-processing activity.</p>
+        <aside class="example" title="Example specifying Code of Conduct">
+            <p>To express the code of conduct applicable to processing.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasOrganisationalMeasure": {
+            "@type": "dpv:CodeOfConduct",
+            "dct:title": "Code of Conduct on Processing Personal Data",
+            "schema:url": "https://example.com/CoC"
+        }
+    }
+}</code></pre>
+</aside>
+
+        <h4>Impact assessment(s)</h4>
+        <p>This field MAY be present.</p>
+        <p>Indicates the existence of an <i>Impact Assessment</i> for the specified processing activity. An impact assessment in this record refers to the impact of the specified processing activities on the data subject. Impact assessments are indicated using instances of <code>dpv:ImpactAssessment</code> and associated using <code>dpv:hasAssessment</code>. DPV provides concepts for specific types of impact assessments, such as <code>dpv:PIA</code> for Privacy Impact Assessment and <code>dpv:DPIA</code> for Data Protection Impact Assessment.</p>
+        <p>In [[ISO-27560]], this field is limited to assessments of privacy risks and potential impacts of "non-compliance" on the data subjects, whereas in common practice assessments such as PIA and DPIA concern the impact of the processing on the data subject - which is what DPV and this specification considers. Impact assessments can also be associated with the Data Controller (in the Party/Entity section) rather than per-processing activity.</p>
+        <aside class="example" title="Example specifying impact assessment">
+            <p>To express an impact assessment applicable for the processing.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasAssessment": {
+            "@type": "dpv:DPIA",
+            "schema:url": "https://example.com/DPIA"
+        }
+    }
+}</code></pre>
+</aside>
+
+    <h3>Entity Fields</h3>
+    <p>[[ISO-27560]] refers to <i>Entity</i> as <i>Party</i>.</p>
+    <p>Entities are expressed using instances of <code>dpv:Entity</code> and associated using <code>dpv:hasEntity</code>.</p>
+    <table style="font-family: monospace;">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Cardinality</th>
+            <th>DPV Concept</th>
+            <th>DPV Property</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <td>1..*</td>
+            <td>N/A</td>
+            <td>dpv:hasName</td>
+        </tr>
+        <tr>
+            <th>Identifier</th>
+            <td>1..*</td>
+            <td>N/A</td>
+            <td>dpv:hasIdentifier</td>
+        </tr>
+        <tr>
+            <th>Role</th>
+            <td>1..*</td>
+            <td>dpv:DataController, dpv:DataProcessor, dpv:ThirdParty, dpv:Authority, dpv:DataSubject</td>
+            <td>rdf:type, dpv:hasDataController, dpv:hasDataProcessor, dpv:hasThirdParty, dpv:hasAuthority, dpv:hasDataSubject</td>
+        </tr>
+        <tr>
+            <th>Contact</th>
+            <td>1..*</td>
+            <td>schema:ContactPoint</td>
+            <td>schema:contactPoint</td>
+        </tr>
+        <tr>
+            <th>Postal Address</th>
+            <td>1..*</td>
+            <td>schema:PostalAddress</td>
+            <td>schema:contactPoint</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>0..*</td>
+            <td>N/A</td>
+            <td>schema:email</td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td>0..*</td>
+            <td>N/A</td>
+            <td>schema:telephone</td>
+        </tr>
+        <tr>
+            <th>URL</th>
+            <td>0..*</td>
+            <td>N/A</td>
+            <td>schema:url</td>
+        </tr>
+    </tbody>
+</table>
+    <h4>Name</h4>
+    <p>This field MUST be present.</p>
+    <p>Indicates the <i>legal name</i> and <i>identity</i> of the Entity, expressed using <code>dpv:hasLegalName</code> and a string.</p>
+    <aside class="example" title="Example specifying entity name">
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:Entity",
+        "dpv:hasName": "Example Inc."
+    }
+}</code></pre>
+    <p>DPV provides a taxonomy of different entity types, such as organisations, which can also be used to indicate what the entity is. In this example, the entity is declared to be a non-profit organisation.</p>
+    <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:NonProfitOrganisation",
+        "dpv:hasName": "Example Inc."
+    }
+}</code></pre>
+</aside>
+    <h4>Identifier</h4>
+    <p>This field MUST be present.</p>
+    <p>Indicates the <i>unique identifier</i> for the entity within the record. In linked data and semantic web methods of expressing information, the IRI already acts as an unique identifier. To support interoperability, the IRI identifier MUST be declared explicitly using <code>dpv:hasIdentifier</code>. To denote other (unique or otherwise) identifiers as a reference to the entity, <code>dct:identifier</code> should be used.</p>
+    <p>In this specification and in [[ISO-27560]], the (IRI) identifier is used to associate the entity with specific processing roles, which is described in the next section.</p>
+    <aside class="example" title="Example specifying entity identifier">
+            <p>The IRI of the entity is an identifier through which it can be uniquely identified. In this example, the entity has an <code>id</code> field which specifies its unique identifier, which is explicitly declared also using <code>dpv:hasIdentifier</code> to enable interoperability when converting between formats and schemas.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:Entity",
+        "@id": "https://example.com/AcmeInc",
+        "dpv:hasIdentifier": "https://example.com/AcmeInc"
+    }
+}</code></pre>
+            <p>In this example, the entity has another identifier other than its IRI which should be considered as the unique identifier to identify this entity. It is therefore associated using <code>dpv:hasIdentifier</code> while the IRI is declared as an alternate identifier using <code>dct:identifier</code></p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:Entity",
+        "@id": "https://example.com/AcmeInc",
+        "dpv:hasIdentifier": "IE-0760c9ba",
+        "dct:identifier": "https://example.com/AcmeInc"
+    }
+}</code></pre>
+            <p>In this example, the entity's tax registration number is indicated as an additional identifier, with an explicit declaration of its meaning by using <a href="https://schema.org/PropertyValue"><code>schema:PropertyValue</code></a>. The example also shows the same information expressed using an appropriate domain specific ontology such as <a href="https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/TaxIdentifier"><code>fibo:TaxIdentifier</code></a> - as best practice.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:Entity",
+        "@id": "https://example.com/AcmeInc",
+        "dpv:hasIdentifier": [{
+            "@type": "schema:PropertyValue",
+            "name": "Tax Identifier",
+            "value": "IE-0760c9ba"
+        }, {
+            "@type": "fibo:TaxIdentifier",
+            "fibo:hasTextValue": "IE-0760c9ba"
+        }]
+    }
+}</code></pre>
+</aside>
+    <h4>Role</h4>
+    <p>This field MUST be present.</p>
+    <p>Indicates the role of the entity within the process activities, indicated using <code>rdf:type</code> and an appropriate role such as <code>dpv:DataController</code>, <code>dpv:DataProcessor</code>, <code>dpv:ThirdParty</code>, <code>dpv:Authority</code>, and <code>dpv:DataSubject</code>.</p>
+    <p>In [[ISO-27560]], the entity (party) fields are separate from the processing section and therefore the role of the entity is expressed separate from processing. In DPV, the role MUST be expressed contextually within the processing fields by using an appropriate property e.g. <code>dpv:hasDataController</code> and the identifier of the entity. Optionally, the entity description field can also contain an explicit acknowledgement of the role by stating the entity is of type e.g. <code>dpv:DataController</code>.</p>
+    <aside class="example" title="Example specifying entity role">
+            <p>The role of the entity can be declared contextually using properties such as <code>dpv:hasDataController</code> and <code>dpv:hasDataSubject</code> within the processing section, and explicitly using <code>rdf:type</code> within entity section. This example shows both uses for data controller and data subject entities. The (IRI) identifier of the entity is used within the processing section which points to the declared information within the entities section. The identifier for the data subject is a local identifier within the record and known to the data controller to minimise identifying information within the record.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasDataController": "ex:Acme",
+        "dpv:hasDataSubject": "0760c9ba"
+    },
+    "dpv:hasEntity": [{
+        "@id": "ex:Acme",
+        "@type": "dpv:DataController"
+    }, {
+        "@id": "0760c9ba",
+        "@type": "dpv:DataSubject"
+    }]
+}</code></pre>
+</aside>
+    <h4>Contact</h4>
+    <p>This field MUST be present.</p>
+    <p>Indicates the contact for an entity for communication purposes, indicated using <code>schema:contactPoint</code> and an instance of <code>schema:ContactPoint</code>.</p>
+    <p><strong>NOTE:</strong> As in [[ISO-27560]], this field MUST be present for all entities EXCEPT data subjects as in a record it may not be necessary to record the contact for data subjects. This follows best practices regarding data minimisation and purpose limitation.</p>
+    <aside class="example" title="Example specifying entity contact">
+            <p>The entitie's contact point expressed using <code>schema:contactPoint</code> and an instance of <code>schema:ContactPoint</code>. In this example, the contact point is a 'direct message' service for the entity's social media handle.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:Entity",
+        "schema:contactPoint": {
+            "@type": "schema:contactPoint",
+            "schema:contactType": "DM",
+            "url": "https://example.com/social-media/DM"
+        }
+    }
+}</code></pre>
+</aside>
+    <h5>Postal Address</h5>
+    <p>This field MUST be present.</p>
+    <p>Indicates the potal address of the entity, expressed using <code>schema:address</code> and an instance of <code>schema:PostalAddress</code>.</p>
+    <p><strong>NOTE:</strong> As in [[ISO-27560]], this field MUST be present for all entities EXCEPT data subjects as in a record it may not be necessary to record the postal address of data subjects. This follows best practices regarding data minimisation and purpose limitation.</p>
+    <aside class="example" title="Example specifying entity postal address">
+            <p>The entitie's postal address expressed using <code>schema:contactPoint</code> and an instance of <code>schema:PostalAddress</code>.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:Entity",
+        "schema:contactPoint": {
+            "@type": "schema:PostalAddress",
+            "schema:streetAddress": "Example Avenue, Example, 000-000"
+        }
+    }
+}</code></pre>
+</aside>
+    <h5>Email</h5>
+    <p>This field MAY be present.</p>
+    <p>Indicates the email of the entity, expressed using <code>schema:email</code>.</p>
+    <aside class="example" title="Example specifying entity email">
+            <p>The entitie's email expressed using <code>schema:email</code>.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:Entity",
+        "schema:contactPoint": {
+            "@type": "schema:ContactPoint",
+            "schema:email": "contact@example.com"
+        }
+    }
+}</code></pre>
+</aside>
+    <h5>Phone</h5>
+    <p>This field MAY be present.</p>
+    <p>Indicates the telephone of the entity, expressed using <code>schema:telephone</code>.</p>
+    <aside class="example" title="Example specifying entity email">
+            <p>The entitie's email expressed using <code>schema:telephone</code>.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:Entity",
+        "schema:contactPoint": {
+            "@type": "schema:ContactPoint",
+            "schema:telephone": "+00-000-000"
+        }
+    }
+}</code></pre>
+</aside>
+    <h4>URL</h4>
+    <p>This field MAY be present.</p>
+    <p>Indicates the url of the entity, expressed using <code>schema:url</code>. The type of the page can be expressed using appropriate concepts, such as <code>dpv:PrivacyNotice</code>.</p>
+    <aside class="example" title="Example specifying entity url">
+            <p>The entity's url expressed using <code>schema:url</code>.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:Entity",
+        "schema:url": "https://example.com/"
+    }
+}</code></pre>
+            <p>The entity's privacy notice expressed using <code>schema:PropertyValue</code> and <code>dpv:PrivacyNotice</code>. While notices can also be associated using <code>dpv:hasNotice</code>, it is suggested to use <code>schema:url</code> in this case for consistency in associating urls.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasEntity": {
+        "@type": "dpv:Entity",
+        "schema:url": {
+            "@type": "schema:PropertyValue",
+            "name": "dpv:PrivacyNotice"
+            "https://example.com/privacy-policy"
+    }
+}</code></pre>
+</aside>
+    <h3>Consent Event Fields</h3>
+    <p>[[ISO-27560]] contains 5 fields to describe events associated with consent.</p>
+    <table style="font-family: monospace;">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Cardinality</th>
+            <th>DPV Concept</th>
+            <th>DPV Property</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Consent Type</th>
+            <td>1..*</td>
+            <td>dpv:Consent taxonomy</td>
+            <td>dpv:hasLegalBasis</td>
+        </tr>
+        <tr>
+            <th>Consent State</th>
+            <td>1..*</td>
+            <td>dpv:ConsentStatus taxonomy</td>
+            <td>dpv:hasConsentStatus</td>
+        </tr>
+        <tr>
+            <th>Event Time</th>
+            <td>1..*</td>
+            <td>N/A</td>
+            <td>dpv:isIndicatedAtTime</td>
+        </tr>
+        <tr>
+            <th>Event Duration</th>
+            <td>1..*</td>
+            <td>dpv:Duration</td>
+            <td>dpv:hasDuration</td>
+        </tr>
+        <tr>
+            <th>Expression by Entity</th>
+            <td>1..*</td>
+            <td>dpv:Entity</td>
+            <td>dpv:isIndicatedBy</td>
+        </tr>
+        <tr>
+            <th>Expression Method</th>
+            <td>0..*</td>
+            <td>N/A</td>
+            <td>dpv:hasIndicationMethod</td>
+        </tr>
+    </tbody>
+</table>
+    <h4>Consent Type</h4>
+    <p>This field MUST be present.</p>
+    <p>Indicates the type of consent (e.g. Implicit, Expressed, Explicit) expressed by the data subject. In [[ISO-27560]], this field is called <i>event type</i>.</p>
+    <p>In DPV, <code>dpv:ConsentType</code> represents consent types to be used as a legal basis (<code>dpv:hasLegalBasis</code>) and has the following different types:
+        <code>dpv:InformedConsent</code> and <code>dpv:UninformedConsent</code> to indicate whether the consent is informed or not. Informed consent is further specialised as: <code>dpv:ImpliedConsent</code> for consent indicated through an implied or indirect action (e.g. merely browsing a website), <code>dpv:ExpressedConsent</code> for consent indicated through a direct expressed action (e.g. a checkbox), and <code>dpv:ExplicitlyExpressedConsent</code> for consent indicated through a direct action concerning solely the consent in context.</p>
+    <p>Consent types are also dependent on jurisdictional requirements, such as GDPR's various consent types. These can be represented by expanding on the relevant DPV concepts. For GDPR, the following consent types are provided in [[DPV-GDPR]]: <code>dpv-gdpr:A6-1-a</code> expressed consent and <code>dpv-gdpr:A9-2-a</code> explicit consent.</p>
+    <p>Best practice for choosing approprite consent types concern expressing the correct legal basis for a specific jurisdiction where possible (e.g. GDPR A.6-1a) or to indicate the type of consent (e.g. Expressed Consent) where the jurisdiction is explicitly provided or is understood from available context. Following this, the most appropriate consent types for most cases would be <code>dpv:ExpressedConsent</code> and <code>dpv:ExplicitlyExpressedConsent</code>.</p>
+    <aside class="example" title="Example specifying consent types">
+            <p>This example shows the consent type <code>dpv:ExplicitlyExpressedConsent</code> used as a legal basis. Since no jurisdiction is specified here, the interpretation of its validity depends on external context, or alternatively it indicates the interpretation of consent validity should be as per the intpretation of "explicitly expressed" in whatever jurisdiction is chosen.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasLegalBasis": "dpv:ExplicitlyExpressedConsent"
+    }
+}</code></pre>
+            <p>This example shows two uses of consent types both concerning <code>dpv:ExplicitlyExpressedConsent</code>. The first explicitly declares the jurisdiction as EU and the law being applicable as GDPR, and the second uses the GDPR clause Art.9-2a which indicates explicitly expressed consent. The advantage of the first approach is that the same consent type (explicitly expressed consent) can be used with different jurisdictions and laws, and the advantage of the second approach is in explicitly linking to a legal clause which is desirable for compliance evaluation and demonstration processes.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasPersonalDataHandling": [{
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasLegalBasis": "dpv:ExplicitlyExpressedConsent",
+        "dpv:hasJurisdiction": "loc:EU",
+        "dpv:hasApplicableLaw": "dpv-gdpr:GDPR"
+    }, {
+        "@type": "dpv:PersonalDataHandling",
+        "dpv:hasLegalBasis": "dpv-gdpr:A9-2-a"
+    }]
+}</code></pre>
+</aside>
+    <h4>Consent State</h4>
+    <p>This field MUST be present.</p>
+    <p>Indicate the <i>state</i> or <i>status</i> of consent reflecting its applicability or suitability to be used as a legal basis to justify the specified processing. In DPV, it is represented through <code>dpv:ConsentStatus</code> and associated using <code>dpv:hasConsentStatus</code>. Instances of consent states represent specific events concerning the use of consent as a legal basis, e.g. requesting consent, giving consent, withdrawing consent. Each event may have corresponding processes, such as giving consent enables the processing to take place and withdrawing consent stops the processing taking place.</p>
+    <p>DPV provides several states broadly categorised under those valid for processing and those that are not. These are:</p>
+    <ul>
+        <li>The consent states that are considered valid for processing (<code>dpv:ConsentStatusValidForProcessing</code>) are: <code>dpv:ConsentGiven</code>, <code>dpv:RenewedConsentGiven</code>.</li>
+        <li>The consent states that are NOT considered valid for processing (<code>dpv:ConsentStatusInvalidForProcessing</code>) are: <code>dpv:ConsentUnknown</code>, <code>dpv:ConsentRequested</code>, <code>dpv:ConsentRequestDeferred</code>, <code>dpv:ConsentRefused</code>, <code>dpv:ConsentWithdrawn</code>, <code>dpv:ConsentExpired</code>, <code>dpv:ConsentTerminated</code>, <code>dpv:ConsentInvalidated</code>.
+    </ul>
+    <aside class="example" title="Example specifying consent state">
+            <p>This example specifies the association of consent states within the consent record. It shows that consent has been given for processing that had explicitly expressed consent as its legal basis. It can be inferred that the given consent is expected to be of type "explicitly expressed". Note that this example does not show when the consent was given as well as any other contextual information (e.g. expressed where, how).</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasLegalBasis": "dpv:ExplicitlyExpressedConsent",
+    "dpv:hasConsentStatus": "dpv:ConsentGiven"
+}</code></pre>
+            <p>This example shows that consent has been given for processing witha declaration that it is of type explicitly expressed consent (same as its legal basis). Note that this example does not show when the consent was given as well as any other contextual information (e.g. expressed where, how).</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasLegalBasis": "dpv:ExplicitlyExpressedConsent",
+    "dpv:hasConsentStatus": {
+        "@type": ["dpv:ConsentGiven", "dpv:ExplicitlyExpressedConsent"]
+    }
+}</code></pre>
+</aside>
+
+    <h4>Event Time</h4>
+    <p>This field MUST be present.</p>
+    <p>The time of the associated event (e.g. giving consent, withdrawing consent), indicated using <code>dpv:isIndicatedAtTime</code>. [[ISO-27560]] defines this field as the time the event was expressed or exercised by the specified entity (e.g. when data subject gave consent), and requires this field use a value as per [[ISO 8601]] UTC time to declare the timestamp associated with the event.</p>
+    <aside class="example" title="Example specifying consent event time">
+            <p>To express how the data subject can withdraw consent.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedAtTime": "2023-11-05T16:08:50"
+    }
+}</code></pre>
+</aside>
+
+    <h4>Event Duration</h4>
+    <p>This field MUST be present.</p>
+    <p>Indicates the duration or the condition for determining validity of the duration for the event. It is indicated using <code>dpv:Duration</code> and associated using <code>dpv:hasDuration</code>. DPV provides the following duration concepts: </p>
+    <ul>
+        <li><code>TemporalDuration</code> for indicating a relative temporal duration, e.g. 6 months from the indicated event date.</li>
+        <li><code>UntilTimeDuration</code> for indicating duration that occurs until the end of specified time, e.g. until 31 DEC 2023.</li>
+        <li><code>UntilEventDuration</code> for indicating duration that occurs until the end of specified event, e.g. until account is closed.</li>
+        <li><code>FixedOccurencesDuration</code> for a duration that is based on number of occurences, e.g. using it 3 times</li>
+        <li><code>EndlessDuration</code> for indicating a duration without an end condition or temporal notation. Note that endless duration is not considered best practice and is considered invalid in several jurisdictions.</li>
+    </ul>
+    <p>[[ISO-27560]] specifies that where the duration relates to the validity of given consent, the duration also indicates that the Data Controller should request the data subject to confirm or 'refresh' their consent without which the consent cannot be valid for processing.</p>
+    <aside class="example" title="Example specifying consent state duration">
+            <p>This example specifies the duration for the given consent is 6 months (expressed using [[ISO 8601]] from the indicated time, after which it can no longer be considered valid.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedAtTime": "2023-11-05T16:18:25",
+        "dpv:hasDuration": {
+            "@type": "dpv:TemporalDuration",
+            "rdf:value": "P6M"
+        }
+    }
+}</code></pre>
+            <p>This example specifies the duration for the given consent is until the end of the 2023 year, which is independent of the time the consent was expressed.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedAtTime": "2023-11-05T16:18:25",
+        "dpv:hasDuration": {
+            "@type": "dpv:UntilTimeDuration",
+            "rdf:value": "2023-12-31T23:59:59"
+        }
+    }
+}</code></pre>
+            <p>This example specifies the duration for the given consent is until the specified event of closing the associated user account.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedAtTime": "2023-11-05T16:18:25",
+        "dpv:hasDuration": {
+            "@type": "dpv:UntilEventDuration",
+            "rdf:value": "Closure of User Account"
+        }
+    }
+}</code></pre>
+            <p>This example specifies the duration for the given consent is limited to its use a single time (number of occurences = 1), after which it can no longer be considered valid. This is relevant for contexts such as when data is being collected and the consent is used to perform such collection and processing a single time. The corresponding DPV concept of <code>dpv:SingularFrequency</code> can be used to depict this explicitly.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedAtTime": "2023-11-05T16:18:25",
+        "dpv:hasDuration": {
+            "@type": "dpv:FixedOccurencesDuration",
+            "rdf:value": "1"
+        }
+    }
+}</code></pre>
+</aside>
+
+    <h4>Expression by Entity</h4>
+    <p>This field MUST be present.</p>
+    <p>Indicates which entity or agent (party in [[ISO-27560]]) exercised or expressed the specified event. For example, if it was the data subject or their guardian who expressed the given consent. In DPV, this is indicated using the appropriate <code>dpv:Entity</code> concept and associated using <code>dpv:isIndicatedBy</code>.</p>
+    <p>In [[ISO-27560]], this field is called <i>entity id</i> and is used to link to the relevant entity through their identifier (e.g. data subject identifier or to an entry in the party section). As this field MUST be present in [[ISO-27560]], the most common value expected here will be a reference to the data subject. In DPV, this can also be indicated using <code>dpv:DataSubject</code> instead of the identifier.</p>
+    <aside class="example" title="Example specifying entity expressing consent">
+            <p>This example specifies that the consent request was expressed by Acme Inc. (as the data controller), while the given consent and its withdrawal were both expressed by the data subject.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasConsentStatus": [{
+        "@type": "dpv:ConsentRequested",
+        "dpv:isIndicatedBy": "ex:AcmeInc"
+    }, {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedBy": "dpv:DataSubject"
+    }, {
+        "@type": "dpv:ConsentWithdrawn",
+        "dpv:isIndicatedBy": "dpv:DataSubject"
+    }],
+    "dpv:hasEntity": {
+        "@type": ["dpv:Organisation", "dpv:DataController"],
+        "@id": "ex:AcmeInc"
+    }
+}</code></pre>
+            <p>This example specifies that the consent request was implemented by Beta Inc. (as the data processor) operating on behalf of Acme Inc. (as the data controller)</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasConsentStatus": [{
+        "@type": "dpv:ConsentRequested",
+        "dpv:isIndicatedBy": "ex:AcmeInc",
+        "dpv:isImplementedBy": "ex:BetaInc"
+    }, {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedBy": "dpv:DataSubject"
+    }, {
+        "@type": "dpv:ConsentWithdrawn",
+        "dpv:isIndicatedBy": "dpv:DataSubject"
+    }],
+    "dpv:hasEntity": [{
+        "@type": ["dpv:Organisation", "dpv:DataController"],
+        "@id": "ex:AcmeInc"
+    }, {
+        "@type": ["dpv:Organisation", "dpv:DataProcessor"],
+        "@id": "ex:BetaInc"
+    }]
+}</code></pre>
+            <p>This example specifies that the consent concerning the data subject (a child) was expressed by the data subject as well as by their parent. An additional optional annotation is provided using <code>dpv:hasJustification</code> to justify the necessity of parent involvement. Such justifications are useful to indicate relevant context in cases such as where the data subject is not involved or where only the parental or guardian consent is required.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasDataSubject": {
+        "@id": "0760c9ba",
+        "type": "dpv:Child"
+    },
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedBy": [
+            "dpv:DataSubject",
+            {
+                "@type": "dpv:ParentOfDataSubject",
+                "dpv:hasJustification": "The processing also requires parental consent"
+            }
+        ]
+    }
+}</code></pre>
+</aside>
+    <h4>Expression Method</h4>
+    <p>This field MAY be present.</p>
+    <p>Indicates how the specified entity expressed or exercisde the indicated event, e.g. a data subject clicked the button to give consent. This field is not present in [[ISO-27560]], but is considered best practice to document so as to record information relevant to the assessment of consent validity and legal compliance. In DPV, it is associated using <code>dpv:hasIndicationMethod</code>.</p>
+    <aside class="example" title="Example specifying entity expression method">
+            <p>This example specifies that the consent given by the data subject was expressed by clicking a button within the presented dialogue.</p>
+            <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedBy": "dpv:DataSubject",
+        "dpv:hasIndicationMethod": "Agree button in dialogue"
+    }
+}</code></pre>
+</aside>
+
+    <h3>Examples</h3>
+    <aside class="example" title="Example of a Consent Record with only the required fields">
+        <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedBy": "dpv:DataSubject",
+        "dpv:hasIndicationMethod": "Agree button in dialogue"
+    }
+}</code></pre>
+    </aside>
+    <aside class="example" title="Example of a Consent Record with both required and optional fields">
+        <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentRecord",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedBy": "dpv:DataSubject",
+        "dpv:hasIndicationMethod": "Agree button in dialogue"
+    }
+}</code></pre>
+    </aside>
+
+</section>
+
+<section id="27560-dpv-receipt">
+    <h2>DPV-27560 Consent Receipts</h2>
+    <p class="issue" title="summary of 27560 receipt fields"></p>
+    <h3>Header Fields</h3>
+    <table style="font-family: monospace;">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Cardinality</th>
+            <th>DPV Concept</th>
+            <th>DPV Property</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Schema Version</th>
+            <td>1</td>
+            <td>N/A</td>
+            <td>dct:conformsTo</td>
+        </tr>
+        <tr>
+            <th>Record Identifier</th>
+            <td>1..*</td>
+            <td>N/A</td>
+            <td>dpv:hasIdentifier</td>
+        </tr>
+    </tbody>
+</table>
+        <h4>Schema Version</h4>
+            <p>This field <strong>MUST</strong> be present.</p>
+            <p>The specific version of the schema (`schema_version` in [[ISO-27560]]) used to interpret the record and its information, indicated using <code>dct:conformsTo</code> with the corresponding IRI from [[[#namespaces]]]. Future changes to the schema will result in suffixes to this IRI e.g. `iso-27560-v2`. To indicate conformance with specific requirements such as from GDPR, a separate schema or profile IRI must be utilised, as seen in [[[#namespaces]]].</p>
+
+            <aside class="example" title="Example specifying consent receipt schema version">
+                <p>Using the 'default' schema version representing conformance with [[ISO-27560]]:</p>
+                <pre><code>{
+    "@id": "https://example.com/UNIQUE-ID",
+    "@type": "dpv:ConsentReceipt",
+    "dct:conformsTo": "https://w3id.org/dpv/schema/iso-27560"
+}</code></pre>
+                <p>Using the 'GDPR' schema version representing conformance with [[GDPR]] requirements e.g. information to be maintained as per Article 13 and Article 14:</p>
+                <pre><code>{
+    "@id": "https://example.com/UNIQUE-ID",
+    "@type": "dpv:ConsentReceipt",
+    "dct:conformsTo": "https://w3id.org/dpv/schema/iso-27560-GDPR"
+}</code></pre>
+            </aside>
+
+        <h4>Record Identifier</h4>
+            <p>This field <strong>MUST</strong> be present.</p>
+            <p>The unique identifier (`record_id` in [[ISO-27560]]) associated with this consent receipt, indicated using <code>dpv:hasIdentifier</code>. This can be a ([[ISO-27560]] recommended) UUID-4 string or an IRI.</p>
+            <aside class="example" title="Example specifying unique consent receipt identifier">
+                <p>Using UUID-4 without IRI:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentReceipt",
+    "dpv:hasIdentifier": "a6f58318-72e6-46a2-bfd7-f36d795e30cd"
+}</code></pre>
+                <p>Using UUID-4 with IRI:</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentReceipt",
+    "dpv:hasIdentifier": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd"
+}</code></pre>
+            </aside>
+    <h4>Associated Consent Record</h4>
+    <p>This field MUST be present.</p>
+    <p>The information to be provided within a consent receipt is in the form of consent records, which are associated using <code>dpv:hasConsentRecord</code>.</p>
+    <aside class="example" title="Example specifying consent receipt with information structured as consent records">
+                <p>In this example, the consent receipt contains two consent records, and demonstrates that the receipt can be used to provide information on more than one instance of consent.</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentReceipt",
+    "dpv:hasIdentifier": "a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "dpv:hasConsentRecord": [{
+        "@type": "dpv:ConsentRecord",
+        "id": "782c2fab-8bca-4ff9-b5c6-52f7d79f4095"
+    }, {
+        "@type": "dpv:ConsentRecord",
+        "id": "38bef3e8-d074-477f-8eca-ef28bf341162"
+    }]
+}</code></pre>
+</aside>
+    <h4>Creation Timestamp</h4>
+    <p>This field MUST be present.</p>
+    <p>Indicates the date/time for when the receipt was generated, indicated using <code>dct:created</code>. NOTE: This field is not present in [[ISO-27560]].</p>
+    <aside class="example" title="Example specifying consent receipt creation timestamp">
+                <p>The timestamp is associated with the consent receipt using <code>dct:created</code> and using the [[ISO 8601]] format.</p>
+                <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentReceipt",
+    "dpv:hasIdentifier": "a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "dct:created": "2023-11-06T10:49:58"
+}</code></pre>
+</aside>
+    <h4>Additional Metadata</h4>
+        <p>Information such as who maintains or published the receipt, when was it created or modified, and its provenance is not covered by [[ISO-27560]] as it is considered "implementation detail". To assist in maintaining this information, the following fields from [[DC-TERMS]] are suggested for documenting this information in an optional and non-normative manner:</p>
+        <ul>
+            <li><code>dct:audience</code>: information on entity or entities for whom the receipt is intended or produced for - this will typically be the Data Subject.</li>
+            <li><code>dct:accessRights</code>: information on who can access the consent receipt, or to specify information regarding the security measures in place restricting access to information within the receipt.</li>
+            <li><code>dct:contributor</code>: entity or entities that have contributed to the information within the consent receipt.</li>
+            <li><code>dct:creator</code>: entity that created the consent receipt. NOTE: this entity may be different from the publisher of the consent receipt, e.g. a processor (creator) manages the receipt for a controller (publisher).</li>
+            <li><code>dct:hasPart</code> (with inverse <code>dct:isPartOf</code>): to associate with a part of the consent receipt, e.g. where the information in a consent receipt may be maintained separately or partitioned based on common information for efficiency.</li>
+            <li><code>dct:hasVersion</code> (with inverse <code>dct:isVersionOf</code>): to associate one consent receipt with its updated version, e.g. where each event in a consent receipt results in a new consent receipt.</li>
+            <li><code>dct:replaces</code> (with inverser <code>dct:isReplacedBy</code>): to associate the consent receipt which is being replaced, e.g. where the other consent receipt is no longer in use and this is a new consent receipt intended to replace it.</li>
+            <li><code>dct:issued</code>: date/time associated with 'formal issuance' of the consent receipt, e.g. where <code>dct:created</code> is a timestamp for when the receipt was generated by a machine agent and where <code>dct:issued</code> captures its formal acceptance as a legally relevant receipt.</li>
+            <li><code>dct:modified</code>: date/time for when the consent receipt was modified.</li>
+            <li><code>dct:provenance</code>: information about the provenance of the consent receipt, e.g. where the receipt has been transferred between entities.</li>
+            <li><code>dct:publisher</code>: entity or entities that 'publish' the consent receipt i.e. make it available within some contextual sense, e.g. to produce it within an audit or legal investigation.</li>
+            <li><code>dct:source</code>: information on the sources used within the consent receipt, e.g. other receipts or logs that should be associated to receipt the provenace of information.</li>
+            <li><code>dct:valid</code>: date/time until when this receipt can be considered valid. NOTE: this refers to assessing validity of the receipt as a whole and does NOT refer to validity of consent events or the processing specified within the receipt.</li>
+        </ul>
+    <h3>Information in Receipt</h3>
+    <p>[[ISO-27560]] states the receipt can contain and provide the same information as the consent record it is associated with. It also states that the fields indicated as required for consent records are also required within consent receipts. Since receipts are intended to provide information already documented within a consent record, the same fields and information can also be used to create and provide a receipt. However, to enable the receipt to be a broader communication mechanism also capable of providing relevant information in future (e.g. exercised rights), the DPV's receipts are instead a 'wrapper' around a consent record.
+        <aside class="example" title="Example of a Consent Receipt providing multiple consent records">
+        <p>This example shows a consent receipt providing information on two separate consent records by using <code>dct:hasPart</code>.</p>
+        <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentReceipt",
+    "dct:hasPart": [{
+        "@type": "dpv:ConsentRecord",
+        "dpv:hasPurpose": "dpv:ServiceProvision",
+        "dpv:hasConsentStatus": "dpv:ConsentGiven"
+    }, {
+        "@type": "dpv:ConsentRecord",
+        "dpv:hasPurpose": "dpv:Analytics",
+        "dpv:hasConsentStatus": "dpv:ConsentRefused"
+    }]
+}</code></pre>
+    </aside>
+    <h3>Examples</h3>
+    <aside class="example" title="Example of a Consent Receipt containing only entities, purposes, and latest consent status">
+        <p style="background-color: RED;">TODO</p>
+        <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentReceipt",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedBy": "dpv:DataSubject",
+        "dpv:hasIndicationMethod": "Agree button in dialogue"
+    }
+}</code></pre>
+    </aside>
+    <aside class="example" title="Example of a Consent Receipt with information from required fields in a consent record">
+        <p style="background-color: RED;">TODO</p>
+        <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentReceipt",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedBy": "dpv:DataSubject",
+        "dpv:hasIndicationMethod": "Agree button in dialogue"
+    }
+}</code></pre>
+    </aside>
+    <aside class="example" title="Example of a Consent Receipt with information from required and optional fields in a consent record">
+        <p style="background-color: RED;">TODO</p>
+        <pre><code>{
+    "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
+    "@type": "dpv:ConsentReceipt",
+    "dpv:hasConsentStatus": {
+        "@type": "dpv:ConsentGiven",
+        "dpv:isIndicatedBy": "dpv:DataSubject",
+        "dpv:hasIndicationMethod": "Agree button in dialogue"
+    }
+}</code></pre>
+    </aside>
+    <p class="issue" title="Create receipt schema to provide information as per GDPR Art.13/Art.14/Art.15"></p>
+</section>
+
+<section>
+    <h2>Extending with Profiles</h2>
+    
+</section>
+<!-- <section id="examples">
+    <h2>examples</h2>
+    <p>source - <a href="https://github.com/coolharsh55/dpv-consent-record">github repo</a></p>
+    <h3>simple record + minimal receipt</h3>
+    <p class="issue" title="write simple record+receipt example"></p>
+    <pre><code>{
+  "@context": {
+    "@vocab": "https://w3id.org/dpv#",
+    "dpv": "https://w3id.org/dpv#",
+    "dpv-gdpr": "https://w3id.org/dpv/dpv-gdpr#",
+    "dct": "http://purl.org/dc/terms/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "ex": "https://example.com/"
+  },
+  "@id": "ex:63ded36f-4acd-4f3c-991e-6cb636698523",
+  "@type": "dpv:ConsentRecord",
+  "dct:conformsTo": "27560-CIB",
+  "hasDataSubject": { "@id": "ex:96121fde-199f-4848-8942-4436e270513a" },
+  "hasPersonalDataHandling": {
+    "hasNotice": { "@id": "https://example.com/notice/29184" },
+    "dct:language": "en",
+    "hasAuthority": { "@id": "https://www.dataprotection.ie/" },
+    "hasPurpose": [{
+      "dct:title": "Send Newsletters with Seasonal Offers",
+      "@type": "dpv:Marketing",
+      "hasLegalBasis": { "@id": "dpv:Consent" },
+      "hasPersonalData": [
+        { "@type": "dpv:pd_Email", 
+          "hasContext": "dpv:Optional" },
+        { "@type": "dpv:pd_Passport", 
+          "@type": "dpv:SpecialCategoryPersonalData",
+          "hasContext": "dpv:Required" } 
+      ],
+      "hasDataController": [ { "@id": "ex:C01" }, { "@id": "ex:C02" }],
+      "hasDataSource": [ 
+        { "hasProcessing": "dpv:Collect", 
+          "hasDataSource": "dpv:DataSubject" }, 
+        { "hasProcessing": "dpv:Infer",
+          "hasPersonalData": "ServiceUsage" }
+      ],
+      "hasProcessing": {
+        "@type": [ "dpv:Obtain", "dpv:Store" ],
+        "hasLocation": "IE" },
+      "hasStorageCondition": {
+        "hasLocation": "IE",
+        "hasDuration": 63115200
+      },
+      "hasJurisdiction": "EU",
+      "dct:subject": [ "News Website XYZ Subscription" ],
+      "hasRecipient": [ { "@id": "ex:T01" }, { "@id": "ex:T02" } ],
+      "hasRight": [
+        {
+          "@type": [ "dpv-gdpr:A7-3", "dpv-gdpr:A20" ],
+          "isExercisedAt": "ex:notice"
+        }
+      ],
+      "hasOrganisationalMeasure": [
+        {
+          "@id": "ex:CoC-news-media",
+          "@type": "dpv:CodeOfConduct"
+        }, {
+          "@id": "ex:dpia",
+          "@type": "dpv:DPIA"
+        }
+      ]
+    }]
+  },
+  "hasEntity": [
+    {
+      "@id": "ex:C01",
+      "hasAddress": "Dublin, Ireland",
+      "foaf:mbox": "acme@example.com",
+      "foaf:page": "https://example.com/AcmeInc",
+      "foaf:name": "Acme Inc.",
+      "@type": [ "dpv:DataController", "dpv:ServiceProvider" ],
+      "foaf:OnlineAccount": { 
+        "foaf:name": "SocialMedia", 
+        "foaf:accountName": "@acme" 
+      }
+    },
+    {
+      "@id": "ex:C02",
+      "hasAddress": "Frankfurt, Germany",
+      "foaf:page": "https://example.com/BetaInc",
+      "foaf:name": "Beta Inc.",
+      "@type": [ "dpv:DataController", "dpv:ServiceProvider" ]
+    },
+    {
+      "@id": "ex:T01",
+      "hasAddress": "Paris, France",
+      "foaf:page": "https://example.com/Delta",
+      "foaf:name": "Delta",
+      "@type": [ "dpv:DataProcessor", "dpv:Recipient" ]
+    },
+    {
+      "@id": "ex:T02",
+      "hasAddress": "Dublin, Ireland",
+      "foaf:page": "https://example.com/Epsilon",
+      "foaf:name": "Epsilon Co.",
+      "@type": [ "dpv:ThirdParty", "dpv:Recipient" ]
+    },
+    {
+      "@id": "https://www.dataprotection.ie/",
+      "hasAddress": "Dublin, Ireland",
+      "foaf:page": "https://www.dataprotection.ie/",
+      "foaf:name": "Data Protection Commission",
+      "@type": [ "dpv:DataProtectionAuthority", "dpv-gdpr:LeadSA" ]
+    }
+  ],
+  "dct:hasPart": [
+    {
+      "dct:date": "2021-05-28T12:24:00",
+      "hasDuration": 63115200,
+      "hasEntity": {
+        "@id": "ex:96121fde-199f-4848-8942-4436e270513a",
+        "@type": "dpv:DataSubject"
+      },
+      "@type": "dpv:ExplicitlyExpressedConsent",
+      "hasConsentStatus": "dpv:ConsentGiven"
+    },
+    {
+      "dct:date": "2022-02-21T20:44:00",
+      "hasDuration": 0,
+      "hasEntity": {
+        "@id": "ex:96121fde-199f-4848-8942-4436e270513a",
+        "@type": "dpv:DataSubject"
+      },
+      "@type": "dpv:ExplicitlyExpressedConsent",
+      "hasConsentStatus": "dpv:ConsentWithdrawn"
+    }
+  ]
+}</code></pre>
+<pre><code>{
+  "@context": {
+    "@vocab": "https://w3id.org/dpv#",
+    "dpv": "https://w3id.org/dpv#",
+    "dpv-gdpr": "https://w3id.org/dpv/dpv-gdpr#",
+    "dct": "http://purl.org/dc/terms/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "ex": "https://example.com/"
+  },
+  "@id": "ex:a1368f5d-0d26-453c-bd55-b7abacc286fa",
+  "@type": "dpv:ConsentReceipt",
+  "dct:conformsTo": "27560-CIB",
+  "dct:subject": {
+    "@id": "ex:63ded36f-4acd-4f3c-991e-6cb636698523",
+    "@type": "dpv:ConsentRecord",
+    "hasPersonalDataHandling": {
+      "hasNotice": { "@id": "https://example.com/notice/29184" },
+      "hasAuthority": { "@id": "https://www.dataprotection.ie/" },
+      "hasPurpose": [{
+        "dct:title": "Send Newsletters with Seasonal Offers",
+        "@type": "dpv:Marketing",
+        "hasLegalBasis": { "@id": "dpv:Consent" },
+        "hasPersonalData": [
+          { "@type": "dpv:pd_Email", 
+            "hasContext": "dpv:Optional" },
+          { "@type": "dpv:pd_Passport", 
+            "@type": "dpv:SpecialCategoryPersonalData",
+            "hasContext": "dpv:Required" } 
+        ],
+        "hasDataController": [ { "@id": "ex:C01" }, { "@id": "ex:C02" }],
+        "hasStorageCondition": {
+          "hasLocation": "IE",
+          "hasDuration": 63115200
+        },
+        "hasJurisdiction": "EU",
+        "dct:subject": [ "News Website XYZ Subscription" ],
+        "hasRecipient": [ { "@id": "ex:T01" }, { "@id": "ex:T02" } ],
+        "hasRight": [
+          {
+            "@type": [ "dpv-gdpr:A7-3", "dpv-gdpr:A20" ],
+            "isExercisedAt": "ex:notice"
+          }
+        ],
+        "hasOrganisationalMeasure": [
+          {
+            "@id": "ex:CoC-news-media",
+            "@type": "dpv:CodeOfConduct"
+          }, {
+            "@id": "ex:dpia",
+            "@type": "dpv:DPIA"
+          }
+        ]
+      }]
+    },
+    "hasEntity": [
+      {
+        "@id": "ex:C01",
+        "foaf:mbox": "acme@example.com",
+        "foaf:page": "https://example.com/AcmeInc",
+        "foaf:name": "Acme Inc.",
+        "@type": [ "dpv:DataController", "dpv:ServiceProvider" ],
+        "foaf:OnlineAccount": { 
+          "foaf:name": "SocialMedia", 
+          "foaf:accountName": "@acme" 
+        }
+      },
+      {
+        "@id": "ex:C02",
+        "foaf:page": "https://example.com/BetaInc",
+        "foaf:name": "Beta Inc.",
+        "@type": [ "dpv:DataController", "dpv:ServiceProvider" ]
+      },
+      {
+        "@id": "ex:T01",
+        "foaf:page": "https://example.com/Delta",
+        "foaf:name": "Delta",
+        "@type": [ "dpv:DataProcessor", "dpv:Recipient" ]
+      },
+      {
+        "@id": "ex:T02",
+        "foaf:page": "https://example.com/Epsilon",
+        "foaf:name": "Epsilon Co.",
+        "@type": [ "dpv:ThirdParty", "dpv:Recipient" ]
+      },
+      {
+        "@id": "https://www.dataprotection.ie/",
+        "foaf:page": "https://www.dataprotection.ie/",
+        "foaf:name": "Data Protection Commission",
+        "@type": [ "dpv:DataProtectionAuthority", "dpv-gdpr:LeadSA" ]
+      }
+    ],
+    "dct:hasPart": [
+      {
+        "dct:date": "2021-05-28T12:24:00",
+        "hasDuration": 63115200,
+        "@type": "dpv:ExplicitlyExpressedConsent",
+        "hasConsentStatus": "dpv:ConsentGiven"
+      },
+      {
+        "dct:date": "2022-02-21T20:44:00",
+        "hasDuration": 0,
+        "@type": "dpv:ExplicitlyExpressedConsent",
+        "hasConsentStatus": "dpv:ConsentWithdrawn"
+      }
+    ]
+  }
+}</code></pre>
+    <h3>complex record + minimal receipt</h3>
+    <p class="issue" title="write complex record + simple receipt example"></p>
+    <h3>complex record + full receipt</h3>
+    <p class="issue" title="write complex record+receipt example"></p>
+</section> -->
+
+<section id="considerations" class="informative">
+    <h2>Considerations</h2>
+<section id="security-considerations" >
+    <h3>Security and Privacy</h3>
+    <p class="issue" title="write security considerations"></p>
+    <ul>
+    <li>record is personal data - information within a consent record and the record itself also constitutes personal data, therefore appropriate measures are required to safeguard it</li>
+    <li>identification for record/receipt - each consent must be attributed to the data subject it is about, however this does not mean records and receipts require additional identification procedures to get this information. Where no identity or identifier is available, a new identifier should be created for the purposes of record/receipt only e.g. visitors to the website</li>
+    <li>integrity of contents - mechanisms such as using cryptographic hashes to provide integrity checks for information, ensuring storage retains accuracy of information, and any changes to structure of information should be assessed to ensure interpretation of contents of records/receipts is not changed</li>
+    <li>verification of contents - disputes on changes in contents and discrepancies between records or receipts held by two or more entities are possible; mechanisms to cryptopgraphically 'sign' the information using verifiable means can assist in preventing such issues. The current norm within 27560 is Controllers creating records and providing receipts to the data subjects who can then use it to keep their own records. This guide does not presume this is the only possible use-case, and considers any entity</li>
+    <li>transmission / communication - between controllers</li>
+    <li>communication of receipt to data subjects</li>
+    </ul>
+</section>
+
+<section id="modelling-considerations" >
+    <h3>Information Modelling</h3>
+    <p class="issue" title="write information modeling considerations"></p>
+    <ul>
+    <li>for controllers - storing full records/receipts is not required</li>
+    <li>for controllers - separate records or single records</li>
+    <li>for controllers - updating vs appending</li>
+    <li>for data subjects - creating own records</li>
+    <li>for data subjects - storing and using receipts</li>
+    </ul>
+</section>
+
+<section id="privacy-signals" >
+    <h3>Recording Privacy Signals</h3>
+    <p class="issue" title="write recording privacy signals"></p>
+    <ul>
+    <li>recording use of signals</li>
+    <li>DNT, GPC</li>
+    <li>DNT (full), P3P, ADPC</li>
+    </ul>
+</section>
+
+<section id="future-developments" >
+    <h3>Additional Schemas and Profiles</h3>
+    <p class="issue" title="write possible future schemas"></p>
+    <ul>
+    <li>records - GDPR specific, notice only i.e. only mention the notice and record
+    consent events (the notice has to be 27560 conformant) </li>
+    <li>receipts - A13/A14, signals only, full+explicit i.e. mention not applicable
+    in fields instead of blanks</li>
+    </ul>
+</section>
+
+</section>
+
+<section  id="issue-summary">
+  <!-- A list of issues will magically appear here -->
+</section>
+
+</body>
+</html>
+
+    <h3>Lifecycle of Consent</h3>
+    <p>Processing of personal data utilises <i>Consent</i> as one of the possible legal bases. In the current regulatory environment, such consent has to be <i>valid</i> according to several criterion such as <i>being informed</i>, <i>freely given</i>, and <i>being unambiguous</i>. For consent to be informed, the data subject must have been provided or be aware of relevant information regarding the processing of personal data, typically through a <i>Consent Notice</i>, which describes the effect of their decision i.e. if consent is given which processing activities will take place, over which data, and who is involved in terms of entities. Other criterion, such as freely given and being unambiguous is determined through the manner in which this information is presented to request consent and how that consent is expressed.</p>
+    <p>Once a consent has been given by the individual, they may also have the ability to regulate its use by withdrawing it at a later time. Such termination of consent results in the halting of its associated processing activities. Other causes of termination can be the expiry of duration for which the consent would be considered valid, termination by the Controller, or the consent being declared invalid by an authority such as the court.</p>
+    <p>Based on these, a lifecycle can be charted regarding the various states that 'consent' can be stated to be in, which is essential to understand which states can be considered 'valid' for the processing of personal data. In the diagram below, consent states begin with a notice being shown to inform the individual and request their consent. Following this, the individual may make the decision to give or grant their consent, or to refuse it. If consent has been given, it can be re-confirmed or re-affirmed to assert its validity, or it can be terminated for several reasons such as its withdrawal by the individual. In all these, only when consent continues to be in a 'given' state can it be used to justify processing.</p>
+    <figure>
+        <img src="https://github.com/coolharsh55/dpv-consent-record/blob/master/lifecycle.png?raw=true">
+    </figure>
+
+    <p>Therefore, when creating records of consent - such as to demonstrate compliance, it is essential to not only have information regarding the processing activities governed by that consent, but to also have information which relates to determination of it being valid at a given time. This includes how the notice was provided, the <i>type</i> of consent that was expressed, and to associate these with relevant regulatory requirements that dictate the requirements for validity. In addition, changes to consent must also be recorded, whether they relate to an update to information resulting in a new notice, or the confirmation of an existing consent, or the termination of consent for reasons such as being withdrawn.</p>
+    
+    <h3>Consent Records</h3>
+    <p>[[[ISO-27560]]] defines <i>Consent Record</i> as the documentation of information about a data subject's consent for the processing of their personal data in terms of the details about the processing as well as the interactions related to consent (e.g. giving or withdrawing it). Consent Records are an essential part of keeping records regarding whether consent has been obtained and is valid for processing, and to keep this information for correctly conducting processing relying on it. [[ISO-27560]] as well as regulatory requirements such as [[GDPR]] Article 7-1 require maintaining consent records where consent is used as the legal basis. While GDPR Article 7-1 only states that consent should be demonstrable, [[ISO-27560]] provides an information structure for how this information should be maintained and what processes should exist within an organisation in connection with it.</p>
+    <p>It is important to distinguish between a <i>Consent Record</i> with several relevant but distinct concepts. A consent record only refers to the information recorded regarding consent, whereas a <i>Consent Notice</i> refers to the notice and information provided to the data subject in order to inform them about the processing - such as while requesting consent. While there is a significant overlap between a consent record and a consent notice, there are key differences such as notices orienting information for human consumption (e.g. layering of dialogues to provide summaries and detailed descriptions) and dictating the manner in which consent is expressed (e.g. checkboxes for options and confirmation by clicking a button). In contrast, a consent record is not required to accurately reflect the manner in which this information was presented to the user, but to only record it in a manner that enables assessing whether the consent is given and if so for which processing activities.</p>
+    <p>This distinction is evident in [[[ISO-29184]]] being the standard for consent notices - which specifies what information should be present in a notice and the manner in which it is presented. In turn, [[ISO-27560]] only refers to notices to limit its scope to representing information necessary within a consent record. Therefore a consent record, despite containing a link to the notice, is not by itself sufficient to determine the <i>validity</i> of consent, and instead acts as the primary record containing information or links to information for conducting such assessments. Its primary purpose is therefore limited to provide an indication of the state of consent (e.g. request, given, terminated) for specific processing activities (e.g. which purpose, what recipients) and to document where additional information can be found on specific matters such as the notice shown when requesting consent.</p>
+    <p>A [[ISO-27560]] conformant consent record typically has the following sections representing relevant information:</p>
+    <ol>
+        <li>metadata about the consent record such as its identifier</li>
+        <li>the individual associated with the consent i.e. data subject</li>
+        <li>the subject of consent i.e. specifics of the processing of personal data</li>
+        <li>entities involved e.g. data controller and third parties</li>
+        <li>relevant contextual information e.g. notice, rights, restrictions</li>
+        <li>provenance of events associated with the consent e.g. given, withdrawn</li>
+    </ol>
+    <p>Under GDPR, the obligation to maintain records of consent is explicitly stated in Article 7-1 and Recital 42. This information includes, at a minimum, the identity of the Controller and the purposes of processing (Recital 42). Further Articles 13 and 14 dictate the information that must be provided to the data subject which includes recipients, transfers to third countries, data storage periods and conditions, existence of rights (including consent withdrawal), and specific information regarding processing such as the use of automated decision making or profiling.</p>
+
+    <h3>Consent Receipts</h3>
+    <p>[[ISO-27560]] defines a consent receipt as an authoritative document that is used to communicate the existence of a consent record or to provide information contained within it. It is effectively an 'authoritative copy' of a consent record provided by one entity to another, where it may contain all, some, or no information from the consent record regarding the consent and its relevance to processing activities. Such receipts may be useful to communicate the existence of consent decisions, or enable entities to exercise of rights or raise issues and complaint regarding processing activities.</p>
+    <p>Consent receipts are a relatively newer and under-utilised practice, with no legal requirements existing that refer to the concept (or receipts) or state how they should be used. [[ISO-27560]] follows this by leaving it up to the organisations to decide how they want to implement receipts and what information is be provided through it. It defines a minimal structure consisting of some fields representing the receipt metadata, but does not have any requirements on the information within the receipt or its correspondence to fields within the record.</p>
+    <p>A [[ISO-27560]] conformant consent receipt only requires a metadata section providing information about the consent receipt such as its identifier. Deciding on which additional information is to be provided and in what forms and using which structures is left up to implementing entities. In this guide, we presume that the consent receipt is intended for providing a copy of all information within the consent record.</p>
+    <div class="note" title="Can only Controllers maintain Consent Records and provide Consent Receipts?">
+        <p>According to [[ISO-27560]], records are generated and maintained by organisations (Controller, Third Party), and are utilised to provide receipts to a Data Subject. In contrast, the Kantara Consent Receipts specification [ref], upon which [[ISO-27560]] is based, defines Consent Receipts as being provided by a Data Subject to a Controller.</p>
+        <p>For this document and the general use of DPV, we make no presumptions or enact restrictions on the use of records and receipts. Any entity, be it a Controller or a Data Subject, can maintain their own consent record or issue receipts. Though the phrasing of some sections may imply the Controller as the implementing entity, it does not preclude another entity from also implementing [[[ISO-27560]]].<p>
+    </div>
