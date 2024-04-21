@@ -193,8 +193,7 @@ class DATA(object):
                 concept['_type'] = 'notcp'
             # Ensure there are no duplicate labels or annotations 
             for prop in (
-                    'skos:prefLabel', 'dct:created', 'dct:contributor',
-                    'dct:modified',):
+                    'skos:prefLabel', 'dct:created', 'dct:modified',):
                 if prop not in concept: continue
                 if type(concept[prop]) is list and len(concept[prop]) > 1:
                     concept[prop] = concept[prop][0]
