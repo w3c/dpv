@@ -1,0 +1,180 @@
+{% from 'macro_term_table.jinja2' import table_classes %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Justifications Extension</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "justifications",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "2024-04-21",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/justifications",
+    canonicalUri: "https://w3id.org/dpv/justifications",
+    edDraftURI: "https://w3id.org/dpv/justifications",
+    github: "w3c/dpv",
+    subjectPrefix: "[justifications]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+    },
+    {
+      "name": "Beatriz Esteves",
+      "company": "{{ "Beatriz Esteves" | generate_author_affiliation }}"
+    }
+    ],
+    authors: [
+      {
+        "name": "Beatriz Esteves",
+        "company": "{{ "Beatriz Esteves" | generate_author_affiliation }}"
+      },
+      {
+        "name": "Georg P. Krog",
+        "company": "{{ "Georg P. Krog" | generate_author_affiliation }}"
+      },
+      {
+        "name": "Harshvardhan J. Pandit",
+        "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+      },
+      {
+        "name": "Paul Ryan",
+        "company": "{{ "Paul Ryan" | generate_author_affiliation }}"
+      }     
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="../media/common.css">
+</head>
+<body>
+  <section id="abstract">
+    <p>Justification extension provides a taxonomy extending the [[[DPV]]] concept <code>Justification</code> to enable representing specific justifications associated with non-fulfilment, non-requirement, delays, and exercising reasons involved in processes.</p>
+    <p>The namespace for terms in justifications is <a href="http://www.w3id.org/dpv/justifications#"><code>https://www.w3id.org/dpv/justifications#</code></a><br/>
+      The suggested prefix for the namespace is <code>justifications</code><br/>
+      The justifications vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+    {{ dpv_document_family(document='justifications-spec') }}
+      {{ sotd() }}
+  </section>
+  <section id="motivation">
+    <h2>Introduction</h2>
+    
+    <div class="issue" title="Explain structure and concepts"></div>
+  </section>
+
+  <section id="vocab-justificaitons">
+    <h2>Justification Types</h2>
+
+    <section id="vocab-justifications-notrequired">
+      <h3>Not-Required</h3>
+
+      {{ list_hierarchy(modules['justifications_notrequired']['classes']) }}
+
+    </section>
+      
+    <section id="vocab-justifications-nonfulfilment">
+      <h3>Non-Fulfilment</h3>
+
+      {{ list_hierarchy(modules['justifications_nonfulfilment']['classes']) }}
+
+    </section>
+
+    <section id="vocab-justifications-delay">
+      <h3>Delay</h3>
+
+      {{ list_hierarchy(modules['justifications_delay']['classes']) }}
+
+    </section>
+
+    <section id="vocab-justifications-exercise">
+      <h3>Exercise</h3>
+
+      {{ list_hierarchy(modules['justifications_exercise']['classes']) }}
+
+    </section>
+  </section>
+
+  <section id="rights-exercise-justifications">
+    <h2>Justifications for Rights Exercise</h2>
+    <div class="issue" title="Explain how justifications can be used with rights exercises"></div>
+
+    <section id="rights-exercise-justifications-notrequired">
+      <h3>Right Not Required</h3>
+    </section>
+
+    <section id="rights-exercise-justifications-nonfulfilment">
+      <h3>Right Non-Fulfilment</h3>
+    </section>
+
+    <section id="rights-exercise-justifications-delay">
+      <h3>Right Exercise Delayed</h3>
+    </section>
+
+    <section id="rights-exercise-justifications-exercise">
+      <h3>Right Exercised</h3>
+    </section>
+  </section>
+
+{% if proposed %}
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  {% for name, terms in proposed.items() %}
+    <strong>{{name}}</strong>
+    <ul>{% for term in terms %}
+      <li>{{term}}</li>
+    {% endfor %}</ul>
+  {% endfor %}
+</section>
+{% endif %}
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    {{ index_concepts(vocab, vocab_name, filter="classes") }}
+  </section>
+  <section id="dpv-properties">
+    {{ index_concepts(vocab, vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>DPV uses the following terms from [[RDF]] and  [[RDFS]] with their defined meanings:</p>
+    <ul>
+      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+      </ul>
+    <p>The following external concepts are re-used within DPV:</p>
+    {{ index_concepts(vocab, vocab_name, filter="external") }}
+  </section>
+</section>
+
+<section class="appendix" id="issue-summary">
+  <h2>Issues</h2>
+</section>
+
+<section id="funding-acknowledgements" class="noTOC">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  <p>The DPVCG and DPV were initiated as part of the <a href="https://specialprivacy.ercim.eu/">SPECIAL H2020 Project</a>, which received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No. 731601. The SPECIAL project ran over a 3-year period from 2017 to 2019.</p>
+  <p>Harshvardhan J. Pandit was funded by the Irish Research Council  Government of Ireland Postdoctoral Fellowship Grant#GOIPD/2020/790 for working within the DPVCG and contributing to the DPV. The fellowship lasted from 2020 to 2022.</p>
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Harshvardhan J. Pandit have received funding from the ADAPT SFI Centre for Digital Media Technology is funded by Science Foundation Ireland through the SFI Research Centres Programme and is co-funded under the European Regional Development Fund (ERDF) through Grant#13/RC/2106 (2018 to 2020) and Grant#13/RC/2106_P2 (2021 onwards)</p>
+
+</section>
+<script type="text/javascript" src="../media/common.js" defer></script>
+</body>
+</html>

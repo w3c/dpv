@@ -248,6 +248,20 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskMethodology.csv',
         },
     },
+    'justifications': {
+        'justifications_notrequired': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_NotRequired.csv',
+        },
+        'justifications_nonfulfilment': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_NonFulfilment.csv',
+        },
+        'justifications_delay': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_Delay.csv',
+        },
+        'justifications_exercise': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_Exercise.csv',
+        },
+    },
     'loc': {
         'locations': {
             'locations': f'{IMPORT_CSV_PATH}/location.csv',
@@ -527,6 +541,25 @@ RDF_VOCABS = {
             "schema:version": "0.8.2",
         },
     },
+    'justifications': {
+        'vocab': f'{IMPORT_PATH}/justifications/justifications.ttl',
+        'template': 'template_justifications.jinja2',
+        'export': f'{EXPORT_PATH}/justifications',
+        'modules': {
+            'justifications_notrequired': f'{IMPORT_PATH}/justifications/modules/justifications_notrequired.ttl',
+            'justifications_nonfulfilment': f'{IMPORT_PATH}/justifications/modules/justifications_nonfulfilment.ttl',
+            'justifications_delay': f'{IMPORT_PATH}/justifications/modules/justifications_delay.ttl',
+            'justifications_exercise': f'{IMPORT_PATH}/justifications/modules/justifications_exercise.ttl',
+        },
+        'metadata': {
+            "dct:title": "Justification Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information about justifications",
+            "dct:created": "2024-04-21",
+            "dct:modified": "2024-04-21",
+            "dct:creator": "Beatriz Esteves, Harshvardhan J. Pandit, Georg P Krog, Paul Ryan",
+            "schema:version": "0.5",
+        },
+    },
     'loc': {
         'vocab': f'{IMPORT_PATH}/loc/loc.ttl',
         'template': 'template_locations.jinja2',
@@ -736,6 +769,10 @@ RDF_STRUCTURE = {
     'risk': {
         'main': f'{EXPORT_RDF_PATH}/risk',
         'modules': f'{EXPORT_RDF_PATH}/risk/modules',
+    },
+    'justifications': {
+        'main': f'{EXPORT_RDF_PATH}/justifications',
+        'modules': f'{EXPORT_RDF_PATH}/justifications/modules',
     },
     'loc': {
         'main': f'{EXPORT_RDF_PATH}/loc',

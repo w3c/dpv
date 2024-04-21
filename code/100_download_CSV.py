@@ -174,7 +174,7 @@ DPV_FILES = {
             'RiskAssessment', 
             'RiskManagement', 
             'RiskMethodology',
-            'Justifications',
+            # 'Justifications',
             ),
     },
     # Sheets for Rights extension
@@ -202,6 +202,17 @@ DPV_FILES = {
         'doc_id': '1z-qaB2m6lD1ROmPVf9yhfG05D68Z7H4glYLERj6ZCRk',
         'sheets': (
             'Standards_ISO',
+            ),
+    },
+    # Sheets for Justifications extension
+    'justifications': {
+        'name': 'justifications',
+        'doc_id': '1fZu0J-Z18NZDNZusmmYPGoek5Q0zjKioIrdzqlBO00E',
+        'sheets': (
+            'Justifications_NotRequired',
+            'Justifications_NonFulfilment',
+            'Justifications_Delay',
+            'Justifications_Exercise',
             ),
     },
     # Sheets for Legal extension
@@ -232,6 +243,7 @@ DPV_FILES = {
             'GDPR_compliance',
             'GDPR_entities',
             'GDPR_entities_properties',
+            # 'GDPR_Justificiations',
             ),
     },
     # Sheets for EU-DGA extension
