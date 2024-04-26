@@ -353,7 +353,31 @@ CSVFILES = {
     'eu-aiact': {
         'system': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-system.csv',
-        }
+        },
+        'purpose': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-purpose.csv',
+        },
+        'risk': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-risk.csv',
+        },
+        'data': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-data.csv',
+        },
+        'roles': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-roles.csv',
+        },
+        'docs': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-docs.csv',
+        },
+        'status': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-status.csv',
+        },
+        'misc': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-misc.csv',
+        },
+        'assessment': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-assessment.csv',
+        },
     },
     'eu-rights': {
         'fundamental': {
@@ -725,6 +749,14 @@ RDF_VOCABS = {
         'export': f'{EXPORT_PATH}/legal/eu/aiact',
         'modules': {
             'system': f'{IMPORT_PATH}/legal/eu/aiact/modules/system.ttl',
+            'purpose': f'{IMPORT_PATH}/legal/eu/aiact/modules/purpose.ttl',
+            'risk': f'{IMPORT_PATH}/legal/eu/aiact/modules/risk.ttl',
+            'data': f'{IMPORT_PATH}/legal/eu/aiact/modules/data.ttl',
+            'roles': f'{IMPORT_PATH}/legal/eu/aiact/modules/roles.ttl',
+            'docs': f'{IMPORT_PATH}/legal/eu/aiact/modules/docs.ttl',
+            'status': f'{IMPORT_PATH}/legal/eu/aiact/modules/status.ttl',
+            'misc': f'{IMPORT_PATH}/legal/eu/aiact/modules/misc.ttl',
+            'assessment': f'{IMPORT_PATH}/legal/eu/aiact/modules/assessment.ttl',
         },
         'metadata': {
             "dct:title": "EU AI Act",

@@ -265,6 +265,14 @@ DPV_FILES = {
         'doc_id': '17WAXH7Bkzu2m2eeOSTyhJBeHp9nst988KYCSRES8xCE',
         'sheets': (
             'aiact-system',
+            'aiact-purpose',
+            'aiact-risk',
+            'aiact-data',
+            'aiact-roles',
+            'aiact-docs',
+            'aiact-status',
+            'aiact-misc',
+            'aiact-assessment',
             ),
     },
     # Sheets for Use-Cases, Requirements, and Examples
