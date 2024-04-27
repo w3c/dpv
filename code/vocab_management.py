@@ -292,6 +292,11 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-ie.csv',
         },
     },
+    'legal-in': {
+        'in': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-in.csv',
+        },
+    },
     'legal-us': {
         'us': {
             'laws': f'{IMPORT_CSV_PATH}/legal-us.csv',
@@ -665,6 +670,22 @@ RDF_VOCABS = {
             "schema:version": "2",
         },
     },
+    'legal-in': {
+        'vocab': f'{IMPORT_PATH}/legal/in/legal-in.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/in',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/in/legal-in.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for India",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for India as jurisdiction",
+            "dct:created": "2024-04-27",
+            # "dct:modified": "2024-01-01",
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": "2",
+        },
+    },
     'legal-us': {
         'vocab': f'{IMPORT_PATH}/legal/us/legal-us.ttl',
         'template': 'template_legal_jurisdiction.jinja2',
@@ -829,6 +850,10 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/ie',
         'modules': f'{EXPORT_RDF_PATH}/legal/ie/modules',
     },
+    'legal-in': {
+        'main': f'{EXPORT_RDF_PATH}/legal/in',
+        'modules': f'{EXPORT_RDF_PATH}/legal/in/modules',
+    },
     'legal-us': {
         'main': f'{EXPORT_RDF_PATH}/legal/us',
         'modules': f'{EXPORT_RDF_PATH}/legal/us/modules',
@@ -862,6 +887,7 @@ RDF_COLLATIONS = ({
         f'{EXPORT_RDF_PATH}/legal/eu/legal-eu.ttl',
         f'{EXPORT_RDF_PATH}/legal/de/legal-de.ttl',
         f'{EXPORT_RDF_PATH}/legal/ie/legal-ie.ttl',
+        f'{EXPORT_RDF_PATH}/legal/in/legal-in.ttl',
         f'{EXPORT_RDF_PATH}/legal/gb/legal-gb.ttl',
         f'{EXPORT_RDF_PATH}/legal/us/legal-us.ttl',
         ),

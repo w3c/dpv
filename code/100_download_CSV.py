@@ -225,6 +225,7 @@ DPV_FILES = {
             'legal-gb',
             'legal-ie',
             'legal-us',
+            'legal-in',
             )
     },
     # Sheets for EU-GDPR extension
