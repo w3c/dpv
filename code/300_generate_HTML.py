@@ -127,6 +127,7 @@ class DATA(object):
                 # If there are multiple values for a given property,
                 # then they are stored as a list under the same key.
                 if type(term[p]) is list:
+                    if o in term[p]: continue # duplicate triple
                     # There are two variations for the keys,
                     # full IRI and prefixed form - so that the
                     # term's properties can be accessed using both
@@ -134,6 +135,7 @@ class DATA(object):
                     term[p].append(o)
                     term[rel] = term[p]
                 else:
+                    if o == term[p]: continue # duplicate triple 
                     term[p] = [term[p], o]
                     term[rel] = term[p]
             else:
