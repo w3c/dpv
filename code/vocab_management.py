@@ -228,6 +228,23 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-tools.csv',
         }, 
     },
+    'ai': {
+        'core': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-core.csv'
+        },
+        'techniques': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-techniques.csv'
+        },
+        'capabilities': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-capabilities.csv'
+        },
+        'risks': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-risks.csv'
+        },
+        'measures': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-measures.csv'
+        }
+    },
     'risk': {
         'risk_consequences': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
@@ -549,6 +566,25 @@ RDF_VOCABS = {
             "schema:version": "0.8.2",
         },
     },
+    'ai': {
+        'vocab': f'{IMPORT_PATH}/ai/ai.ttl',
+        'template': 'template_ai.jinja2',
+        'export': f'{EXPORT_PATH}/ai',
+        'modules': {
+            'core': f'{IMPORT_PATH}/ai/modules/core.ttl',
+            'techniques': f'{IMPORT_PATH}/ai/modules/techniques.ttl',
+            'capabilities': f'{IMPORT_PATH}/ai/modules/capabilities.ttl',
+            'risks': f'{IMPORT_PATH}/ai/modules/risks.ttl',
+            'measures': f'{IMPORT_PATH}/ai/modules/measures.ttl',
+        },
+        'metadata': {
+            "dct:title": "AI Technology Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information about AI technologies",
+            "dct:created": "2024-04-28",
+            "dct:creator": "Delaram Golpayegani, Harshvardhan J. Pandit",
+            "schema:version": "0.1",
+        },
+    },
     'risk': {
         'vocab': f'{IMPORT_PATH}/risk/risk.ttl',
         'template': 'template_risk.jinja2',
@@ -818,6 +854,10 @@ RDF_STRUCTURE = {
     'tech': {
         'main': f'{EXPORT_RDF_PATH}/tech',
         'modules': f'{EXPORT_RDF_PATH}/tech/modules',
+    },
+    'ai': {
+        'main': f'{EXPORT_RDF_PATH}/ai',
+        'modules': f'{EXPORT_RDF_PATH}/ai/modules',
     },
     'risk': {
         'main': f'{EXPORT_RDF_PATH}/risk',

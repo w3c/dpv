@@ -160,6 +160,17 @@ DPV_FILES = {
             'tech-algorithms',
             ),
     },
+    'ai': {
+        'name': 'ai',
+        'doc_id': '1H3nSZ6Z4GL5ZdaVKrH2_oZPc8sRvNg-MiiosZE-qAOo',
+        'sheets': (
+            'ai-core',
+            'ai-techniques',
+            'ai-capabilities',
+            'ai-risks',
+            'ai-measures',
+            ),
+    },
     # Sheets for Risk extension
     'risk': {
         'name': 'risk',
