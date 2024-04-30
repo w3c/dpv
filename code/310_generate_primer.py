@@ -2,6 +2,9 @@
 
 from vocab_management import generate_author_affiliation, generate_authors_affiliations
 
+# Concise primer, filpath ../primer/primer-concise.html, is to be directly generated
+# and won't have the respec templates. 
+
 OUTPUT_FILE = '../primer/index.html'
 with open(OUTPUT_FILE, 'w') as fd:
     from jinja2 import FileSystemLoader, Environment
