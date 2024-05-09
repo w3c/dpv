@@ -197,21 +197,8 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-core.csv',
             'properties': f'{IMPORT_CSV_PATH}/tech-core-properties.csv',
         },
-        'data': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/tech-data.csv',
-        },
-        'ops': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/tech-ops.csv',
-        },
-        'security': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/tech-security.csv',
-        },
-        'surveillance': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/tech-surveillance.csv',
-        },
         'provision': {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-provision.csv',
-            'properties': f'{IMPORT_CSV_PATH}/tech-provision-properties.csv',
         },
         'actors': {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-actors.csv',
@@ -220,9 +207,12 @@ CSVFILES = {
         'comms': {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-comms.csv',
         },
-        'provision': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/tech-provision.csv',
-            'properties': f'{IMPORT_CSV_PATH}/tech-provision-properties.csv',
+        'docs': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/tech-docs.csv',
+        },
+        'status': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/tech-status.csv',
+            'properties': f'{IMPORT_CSV_PATH}/tech-status-properties.csv',
         },
         'tools': {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-tools.csv',
@@ -547,22 +537,19 @@ RDF_VOCABS = {
         'export': f'{EXPORT_PATH}/tech',
         'modules': {
             'core': f'{IMPORT_PATH}/tech/modules/core.ttl',
-            'data': f'{IMPORT_PATH}/tech/modules/data.ttl',
-            'ops': f'{IMPORT_PATH}/tech/modules/ops.ttl',
-            'security': f'{IMPORT_PATH}/tech/modules/security.ttl',
-            'surveillance': f'{IMPORT_PATH}/tech/modules/surveillance.ttl',
             'provision': f'{IMPORT_PATH}/tech/modules/provision.ttl',
             'actors': f'{IMPORT_PATH}/tech/modules/actors.ttl',
             'comms': f'{IMPORT_PATH}/tech/modules/comms.ttl',
-            'provision': f'{IMPORT_PATH}/tech/modules/provision.ttl',
+            'docs': f'{IMPORT_PATH}/tech/modules/docs.ttl',
+            'status': f'{IMPORT_PATH}/tech/modules/status.ttl',
             'tools': f'{IMPORT_PATH}/tech/modules/tools.ttl',
         },
         'metadata': {
             "dct:title": "Technology Concepts",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information about technologies and its provision",
-            "dct:created": "2022-06-15",
-            "dct:modified": "2024-01-01",
-            "dct:creator": "Harshvardhan J. Pandit, Georg P Krog, Paul Ryan, Julian Flake",
+            "dct:created": "2024-05-09",
+            "dct:modified": "2024-05-09",
+            "dct:creator": "Harshvardhan J. Pandit, Georg P Krog, Paul Ryan, Julian Flake, Delaram Golpayegani",
             "schema:version": "0.8.2",
         },
     },
