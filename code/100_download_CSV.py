@@ -138,6 +138,7 @@ DPV_FILES = {
             'ConsentTypes', 
             'ConsentStatus', 
             'Consent_properties',
+            'ConsentControls',
             ),
     },
     # Sheets for Tech extension

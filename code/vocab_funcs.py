@@ -59,6 +59,7 @@ def construct_parent(item, data, namespace, header):
         if parent == 'dpv:Concept':
             parent = NAMESPACES['skos']['Concept']
         else:
+            # DEBUG(data)
             prefix, parentterm = parent.split(':')
             parent = NAMESPACES[prefix][parentterm]
         if data['ParentType'] == 'a':
@@ -94,6 +95,7 @@ def construct_parent_taxonomy(item, data, namespace, header):
         if not parent:
             continue
         if parent != 'dpv:Concept':
+            # DEBUG(data)
             prefix, parentterm = parent.split(':')
             parent = NAMESPACES[prefix][parentterm]
         else:

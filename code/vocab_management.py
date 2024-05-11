@@ -151,6 +151,9 @@ CSVFILES = {
         'consent_status': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ConsentStatus.csv',
         },
+        'consent_controls': {
+            'classes': f'{IMPORT_CSV_PATH}/ConsentControls.csv',
+        },
         'context': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Context.csv',
             'properties': f'{IMPORT_CSV_PATH}/Context_properties.csv',
@@ -483,6 +486,7 @@ RDF_VOCABS = {
             'legal_basis-consent': f'{IMPORT_PATH}/dpv/modules/consent.ttl',
             'legal_basis-consent-types': f'{IMPORT_PATH}/dpv/modules/consent_types.ttl',
             'legal_basis-consent-status': f'{IMPORT_PATH}/dpv/modules/consent_status.ttl',
+            'legal_basis-consent-controls': f'{IMPORT_PATH}/dpv/modules/consent_controls.ttl',
             'processing-context': f'{IMPORT_PATH}/dpv/modules/processing_context.ttl',
             'processing-scale': f'{IMPORT_PATH}/dpv/modules/processing_scale.ttl',
             'context': f'{IMPORT_PATH}/dpv/modules/context.ttl',
