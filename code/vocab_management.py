@@ -342,7 +342,10 @@ CSVFILES = {
         'entities': {
             'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_entities.csv',
             'properties': f'{IMPORT_CSV_PATH}/GDPR_entities_properties.csv',
-        }
+        },
+        'principles': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_principles.csv',
+        },
     },
     'eu-dga': {
         'legal_basis': {
@@ -760,6 +763,7 @@ RDF_VOCABS = {
             'compliance': f'{IMPORT_PATH}/legal/eu/gdpr/modules/compliance.ttl',
             'legal_basis-rights_mapping': f'{IMPORT_PATH}/legal/eu/gdpr/modules/legal_basis_rights_mapping.ttl',
             'entities': f'{IMPORT_PATH}/legal/eu/gdpr/modules/entities.ttl',
+            'principles': f'{IMPORT_PATH}/legal/eu/gdpr/modules/principles.ttl',
         },
         'metadata': {
             "dct:title": "EU General Data Protection Regulation (GDPR)",

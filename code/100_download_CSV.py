@@ -254,6 +254,7 @@ DPV_FILES = {
             'GDPR_compliance',
             'GDPR_entities',
             'GDPR_entities_properties',
+            'GDPR_principles',
             # 'GDPR_Justificiations',
             ),
     },
