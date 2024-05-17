@@ -2,24 +2,15 @@
 @prefix dex: <https://w3id.org/dpv/examples#> .
 @prefix dpv: <https://w3id.org/dpv#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix profile: <http://www.w3.org/ns/dx/prof/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix role: <http://www.w3.org/ns/dx/prof/role/> .
 @prefix schema: <https://schema.org/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-dpv:AILiteracy a rdfs:Class,
-        skos:Concept,
-        dpv:OrganisationalMeasure ;
-    dct:contributor "Harshvardhan J. Pandit" ;
-    dct:created "2024-05-17"^^xsd:date ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:DigitalLiteracy ;
-    skos:definition "Providing skills, knowledge, and understanding to enable reading, writing, analysing, reasoning, and communicating regarding AI"@en ;
-    skos:inScheme dpv:organisational-measures-classes ;
-    skos:prefLabel "AI Literacy"@en .
 
 dpv:Assessment a rdfs:Class,
         skos:Concept,
@@ -407,18 +398,6 @@ dpv:DataJurisdictionPolicy a rdfs:Class,
     skos:prefLabel "Data Jurisdiction Policy"@en ;
     skos:scopeNote "Jurisdictional requirements can refer to data being stored within specific jurisdictions, or that data must be in line with jurisdictional laws and norms"@en .
 
-dpv:DataLiteracy a rdfs:Class,
-        skos:Concept,
-        dpv:OrganisationalMeasure ;
-    dct:contributor "Harshvardhan J. Pandit" ;
-    dct:created "2024-05-17"^^xsd:date ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:DigitalLiteracy ;
-    skos:definition "Providing skills, knowledge, and understanding to enable reading, writing, analysing, reasoning, and communicating regarding data"@en ;
-    skos:inScheme dpv:organisational-measures-classes ;
-    skos:prefLabel "Data Literacy"@en .
-
 dpv:DataProcessingPolicy a rdfs:Class,
         skos:Concept,
         dpv:OrganisationalMeasure ;
@@ -596,18 +575,6 @@ dpv:DesignStandard a rdfs:Class,
     skos:definition "A set of rules or guidelines outlining criterias for design"@en ;
     skos:inScheme dpv:organisational-measures-classes ;
     skos:prefLabel "Design Standard"@en .
-
-dpv:DigitalLiteracy a rdfs:Class,
-        skos:Concept,
-        dpv:OrganisationalMeasure ;
-    dct:contributor "Harshvardhan J. Pandit" ;
-    dct:created "2024-05-17"^^xsd:date ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:OrganisationalMeasure ;
-    skos:definition "Providing skills, knowledge, and understanding to enable reading, writing, analysing, reasoning, and communicating regarding digital technologies and their implications"@en ;
-    skos:inScheme dpv:organisational-measures-classes ;
-    skos:prefLabel "Digital Literacy"@en .
 
 dpv:DisasterRecoveryProcedures a rdfs:Class,
         skos:Concept,
@@ -974,19 +941,6 @@ dpv:RecordsOfActivities a rdfs:Class,
     skos:prefLabel "Records of Activities"@en ;
     skos:scopeNote "Records can be any information associated with the activity e.g. logs, summaries."@en .
 
-dpv:RegulatorySandbox a rdfs:Class,
-        skos:Concept,
-        dpv:OrganisationalMeasure ;
-    dct:contributor "Harshvardhan J. Pandit" ;
-    dct:created "2024-05-17"^^xsd:date ;
-    dct:source "(EU Council Regulatory sandboxes and experimentation clauses as tools for better regulation,https://www.consilium.europa.eu/en/press/press-releases/2020/11/16/regulatory-sandboxes-and-experimentation-clauses-as-tools-for-better-regulation-council-adopts-conclusions/)"@en ;
-    rdfs:isDefinedBy dpv: ;
-    sw:term_status "accepted"@en ;
-    skos:broader dpv:Safeguard ;
-    skos:definition "Mechanism used by regulators and businesses for gauging the compatibility of regulations and innovative products, particularly in the context of digitalisation, in a controlled real-world environment with appropriate safeguards in place"@en ;
-    skos:inScheme dpv:organisational-measures-classes ;
-    skos:prefLabel "Regulatory Sandbox"@en .
-
 dpv:ReviewImpactAssessment a rdfs:Class,
         skos:Concept,
         dpv:OrganisationalMeasure ;
@@ -1239,7 +1193,8 @@ dpv:ThirdPartySecurityProcedures a rdfs:Class,
     skos:inScheme dpv:organisational-measures-classes ;
     skos:prefLabel "Third Party Security Procedures"@en .
 
-<https://w3id.org/dpv> a owl:Ontology ;
+<https://w3id.org/dpv> a owl:Ontology,
+        profile:Profile ;
     dct:conformsTo "http://www.w3.org/2000/01/rdf-schema",
         "http://www.w3.org/2004/02/skos/core" ;
     dct:contributor "Axel Polleres",
@@ -1260,7 +1215,54 @@ dpv:ThirdPartySecurityProcedures a rdfs:Class,
     dct:title "Data Privacy Vocabulary (DPV)"@en ;
     vann:preferredNamespacePrefix "dpv" ;
     vann:preferredNamespaceUri "https://w3id.org/dpv#" ;
+    profile:hasResource dpv:serialisation-n3,
+        dpv:serialisation-rdf,
+        dpv:serialisation-ttl,
+        <https://w3id.org/dpv/examples>,
+        <https://w3id.org/dpv/guides>,
+        <https://w3id.org/dpv/primer> ;
+    profile:isProfileOf rdfs:,
+        skos: ;
     schema:version "2" .
+
+dpv:serialisation-n3 a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TeamSubmission/n3/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/n3> ;
+    dct:title "Data Privacy Vocabulary (DPV) - N3 serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/dpv.n3> ;
+    profile:hasRole role:vocabulary .
+
+dpv:serialisation-rdf a profile:ResourceDescriptor ;
+    dct:conformsTo rdf: ;
+    dct:format <https://www.iana.org/assignments/media-types/application/rdf+xml> ;
+    dct:title "Data Privacy Vocabulary (DPV) - RDF/XML serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/dpv.rdf> ;
+    profile:hasRole role:vocabulary .
+
+dpv:serialisation-ttl a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TR/turtle/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/turtle> ;
+    dct:title "Data Privacy Vocabulary (DPV) - Turtle serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/dpv.ttl> ;
+    profile:hasRole role:vocabulary .
+
+<https://w3id.org/dpv/examples> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Examples for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/examples> ;
+    profile:hasRole role:guidance .
+
+<https://w3id.org/dpv/guides> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Guides for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/guides> ;
+    profile:hasRole role:guidance .
+
+<https://w3id.org/dpv/primer> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Primer for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/primer> ;
+    profile:hasRole role:guidance .
 
 dpv:organisational-measures-classes a skos:ConceptScheme .
 

@@ -31,6 +31,38 @@ OWL_SERIALIZATIONS = {
     'n3': 'n3',
     'jsonld': 'json-ld'
     }
+IANA_TYPES = {
+    'html': {
+        'title': 'HTML',
+        'format': 'https://www.iana.org/assignments/media-types/text/html',
+        'standard': 'https://www.w3.org/TR/html/',
+    },
+    'rdf': {
+        'title': 'RDF/XML',
+        'format': 'https://www.iana.org/assignments/media-types/application/rdf+xml',
+        'standard': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+    },
+    'ttl': {
+        'title': 'Turtle',
+        'format': 'https://www.iana.org/assignments/media-types/text/turtle',
+        'standard': 'https://www.w3.org/TR/turtle/',
+    },
+    'n3': {
+        'title': 'N3',
+        'format': 'https://www.iana.org/assignments/media-types/text/n3',
+        'standard': 'https://www.w3.org/TeamSubmission/n3/',
+    },
+    'jsonld': {
+        'title': 'JSON-LD',
+        'format': 'https://www.iana.org/assignments/media-types/application/ld+json',
+        'standard': 'https://www.w3.org/TR/json-ld11/',
+    },
+    'owl': {
+        'title': 'OWL',
+        'format': 'https://www.iana.org/assignments/media-types/application/rdf+xml',
+        'standard': 'http://www.w3.org/2002/07/owl#',
+    },
+}
 
 
 ## === term-statuses ===
@@ -452,6 +484,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "",
         # Automatically added when serialising:
             # dct:identifier - the IRI
             # dct:conformsTo - for default serialisation: RDFS, SKOS; for OWL: OWL2
@@ -518,6 +551,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "",
         },
     },
     # EXTENSIONS
@@ -536,6 +570,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit, Axel Polleres",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'tech': {
@@ -558,6 +593,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-05-09",
             "dct:creator": "Harshvardhan J. Pandit, Georg P Krog, Paul Ryan, Julian Flake, Delaram Golpayegani",
             "schema:version": "0.8.2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'ai': {
@@ -577,6 +613,7 @@ RDF_VOCABS = {
             "dct:created": "2024-04-28",
             "dct:creator": "Delaram Golpayegani, Harshvardhan J. Pandit",
             "schema:version": "0.1",
+            "profile:isProfileOf": "tech",
         },
     },
     'risk': {
@@ -598,6 +635,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit, Georg P Krog, Paul Ryan, Beatriz Esteves, Julian Flake",
             "schema:version": "0.8.2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'justifications': {
@@ -617,6 +655,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-04-21",
             "dct:creator": "Beatriz Esteves, Harshvardhan J. Pandit, Georg P Krog, Paul Ryan",
             "schema:version": "0.5",
+            "profile:isProfileOf": "dpv",
         },
     },
     'loc': {
@@ -633,6 +672,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     # LEGAL VOCABS
@@ -650,6 +690,7 @@ RDF_VOCABS = {
             # "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'legal-de': {
@@ -666,6 +707,7 @@ RDF_VOCABS = {
             # "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'legal-gb': {
@@ -682,6 +724,7 @@ RDF_VOCABS = {
             # "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'legal-ie': {
@@ -698,6 +741,7 @@ RDF_VOCABS = {
             # "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'legal-in': {
@@ -714,6 +758,7 @@ RDF_VOCABS = {
             # "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'legal-us': {
@@ -730,6 +775,7 @@ RDF_VOCABS = {
             # "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'legal': {
@@ -746,6 +792,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     # EU Laws
@@ -772,6 +819,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit, Axel Polleres",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'eu-dga': {
@@ -793,6 +841,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-01-01",
             "dct:creator": "Beatriz Esteves, Harshvardhan J. Pandit, Georg P Krog",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
     'eu-aiact': {
@@ -817,6 +866,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-04-10",
             "dct:creator": "Delaram Golpayegani",
             "schema:version": "1",
+            "profile:isProfileOf": "dpv",
         },
     },
     'eu-rights': {
@@ -831,6 +881,7 @@ RDF_VOCABS = {
             "dct:modified": "2024-01-01",
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": "2",
+            "profile:isProfileOf": "dpv",
         },
     },
 }

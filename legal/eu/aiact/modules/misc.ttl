@@ -1,32 +1,29 @@
 @prefix dct: <http://purl.org/dc/terms/> .
-@prefix dpv: <https://w3id.org/dpv#> .
 @prefix eu-aiact: <https://w3id.org/dpv/legal/eu/aiact#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix profile: <http://www.w3.org/ns/dx/prof/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix risk: <https://w3id.org/dpv/risk#> .
+@prefix role: <http://www.w3.org/ns/dx/prof/role/> .
 @prefix schema: <https://schema.org/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 
 eu-aiact:AILiteracy a rdfs:Class,
-        skos:Concept,
-        dpv:OrganisationalMeasure ;
+        skos:Concept ;
     dct:source "AIA (Art. 3(bh))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:AILiteracy ;
     skos:definition "Skills, knowledge and understanding that allows providers, users and affected persons, taking into account their respective rights and obligations in the context of this Regulation, to make an informed deployment of AI systems, as well as to gain awareness about the opportunities and risks of AI and possible harm it can cause."@en ;
     skos:inScheme eu-aiact:misc-classes ;
     skos:prefLabel "AI Literacy"@en .
 
 eu-aiact:CriticalInfrastructure a rdfs:Class,
-        skos:Concept,
-        dpv:Sector ;
+        skos:Concept ;
     dct:source "AIA(Art. 3(44h))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Sector ;
     skos:definition "An asset, a facility, equipment, a network or a system, or a part of thereof, which is necessary for the provision of an essential service within the meaning of Article 2(4) of Directive (EU) 2022/2557"@en ;
     skos:inScheme eu-aiact:misc-classes ;
     skos:prefLabel "Critical Infrastructure"@en .
@@ -35,32 +32,26 @@ eu-aiact:IntendedPurpose a rdfs:Class,
         skos:Concept ;
     dct:source "AIA (Art. 3(12))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
-    rdfs:subClassOf dpv:Purpose ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Purpose ;
     skos:definition "The use for which an AI system is intended by the provider, including the specific context and conditions of use, as specified in the information supplied by the provider in the instructions for use, promotional or sales materials and statements, as well as in the technical documentation"@en ;
     skos:inScheme eu-aiact:misc-classes ;
     skos:prefLabel "Intended Purpose"@en ;
     skos:scopeNote "Note: definition of dpv:Purpose needs to be amended to include Technology and AI."@en .
 
 eu-aiact:LawEnforcement a rdfs:Class,
-        skos:Concept,
-        dpv:Sector ;
+        skos:Concept ;
     dct:source "AIA(Art. 3(41))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:Sector ;
     skos:definition "Activities carried out by law enforcement authorities or on their behalf for the prevention, investigation, detection or prosecution of criminal offences or the execution of criminal penalties, including the safeguarding against and the prevention of threats to public security."@en ;
     skos:inScheme eu-aiact:misc-classes ;
     skos:prefLabel "LawEnforcement"@en .
 
 eu-aiact:PubliclyAccessibleSpace a rdfs:Class,
-        skos:Concept,
-        dpv:Location ;
+        skos:Concept ;
     dct:source "AIA(Art. 3(39))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
     sw:term_status "accepted"@en ;
-    skos:broader dpv:PublicLocation ;
     skos:definition "Any publicly or privately owned physical place accessible to an undetermined number of natural persons, regardless of whether certain conditions for access may apply, and regardless of the potential capacity restrictions."@en ;
     skos:inScheme eu-aiact:misc-classes ;
     skos:prefLabel "Publicly Accessible Space"@en .
@@ -69,9 +60,7 @@ eu-aiact:ReasonablyForeseeableMisuse a rdfs:Class,
         skos:Concept ;
     dct:source "AIA (Art. 3(13))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
-    rdfs:subClassOf risk:Misuse ;
     sw:term_status "accepted"@en ;
-    skos:broader risk:Misuse ;
     skos:definition "The use of an AI system in a way that is not in accordance with its intended purpose, but which may result from reasonably foreseeable human behaviour or interaction with other systems, including other AI systems"@en ;
     skos:inScheme eu-aiact:misc-classes ;
     skos:prefLabel "Reasonably Foreseeable Misuse"@en ;
@@ -92,7 +81,8 @@ eu-aiact:other a rdfs:Class,
     sw:term_status "accepted"@en ;
     skos:inScheme eu-aiact:misc-classes .
 
-<https://w3id.org/dpv/legal/eu/aiact> a owl:Ontology ;
+<https://w3id.org/dpv/legal/eu/aiact> a owl:Ontology,
+        profile:Profile ;
     dct:conformsTo "http://www.w3.org/2000/01/rdf-schema",
         "http://www.w3.org/2004/02/skos/core" ;
     dct:created "2024-04-10"@en ;
@@ -104,7 +94,47 @@ eu-aiact:other a rdfs:Class,
     dct:title "EU AI Act"@en ;
     vann:preferredNamespacePrefix "eu-aiact" ;
     vann:preferredNamespaceUri "https://w3id.org/dpv/legal/eu/aiact#" ;
+    profile:hasResource <https://w3id.org/dpv/examples>,
+        <https://w3id.org/dpv/guides>,
+        eu-aiact:serialisation-rdf,
+        eu-aiact:serialisation-ttl,
+        <https://w3id.org/dpv/primer> ;
+    profile:isProfileOf rdfs:,
+        skos:,
+        <https://w3id.org/dpv> ;
     schema:version "1" .
+
+eu-aiact:serialisation-rdf a profile:ResourceDescriptor ;
+    dct:conformsTo rdf: ;
+    dct:format <https://www.iana.org/assignments/media-types/application/rdf+xml> ;
+    dct:title "EU AI Act - RDF/XML serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/legal/eu/aiact/eu-aiact.rdf> ;
+    profile:hasRole role:vocabulary .
+
+eu-aiact:serialisation-ttl a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TR/turtle/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/turtle> ;
+    dct:title "EU AI Act - Turtle serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/legal/eu/aiact/eu-aiact.ttl> ;
+    profile:hasRole role:vocabulary .
+
+<https://w3id.org/dpv/examples> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Examples for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/examples> ;
+    profile:hasRole role:guidance .
+
+<https://w3id.org/dpv/guides> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Guides for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/guides> ;
+    profile:hasRole role:guidance .
+
+<https://w3id.org/dpv/primer> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Primer for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/primer> ;
+    profile:hasRole role:guidance .
 
 eu-aiact:misc-classes a skos:ConceptScheme .
 

@@ -3,8 +3,10 @@
 @prefix dex: <https://w3id.org/dpv/examples#> .
 @prefix dpv: <https://w3id.org/dpv#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix profile: <http://www.w3.org/ns/dx/prof/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix role: <http://www.w3.org/ns/dx/prof/role/> .
 @prefix schema: <https://schema.org/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
@@ -1245,7 +1247,8 @@ dpv:Verification a rdfs:Class,
     skos:inScheme dpv:purposes-classes ;
     skos:prefLabel "Verification"@en .
 
-<https://w3id.org/dpv> a owl:Ontology ;
+<https://w3id.org/dpv> a owl:Ontology,
+        profile:Profile ;
     dct:conformsTo "http://www.w3.org/2000/01/rdf-schema",
         "http://www.w3.org/2004/02/skos/core" ;
     dct:contributor "Arthit Suriyawongkul",
@@ -1272,6 +1275,13 @@ dpv:Verification a rdfs:Class,
     dct:title "Data Privacy Vocabulary (DPV)"@en ;
     vann:preferredNamespacePrefix "dpv" ;
     vann:preferredNamespaceUri "https://w3id.org/dpv#" ;
+    profile:hasResource dpv:serialisation-rdf,
+        dpv:serialisation-ttl,
+        <https://w3id.org/dpv/examples>,
+        <https://w3id.org/dpv/guides>,
+        <https://w3id.org/dpv/primer> ;
+    profile:isProfileOf rdfs:,
+        skos: ;
     schema:version "2" .
 
 dpv:hasPurpose a rdf:Property,
@@ -1299,7 +1309,39 @@ dpv:hasSector a rdf:Property,
     skos:prefLabel "has sector"@en ;
     schema:rangeIncludes dpv:Sector .
 
+dpv:serialisation-rdf a profile:ResourceDescriptor ;
+    dct:conformsTo rdf: ;
+    dct:format <https://www.iana.org/assignments/media-types/application/rdf+xml> ;
+    dct:title "Data Privacy Vocabulary (DPV) - RDF/XML serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/dpv.rdf> ;
+    profile:hasRole role:vocabulary .
+
+dpv:serialisation-ttl a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TR/turtle/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/turtle> ;
+    dct:title "Data Privacy Vocabulary (DPV) - Turtle serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/dpv.ttl> ;
+    profile:hasRole role:vocabulary .
+
 dpv:purposes-properties a skos:ConceptScheme .
+
+<https://w3id.org/dpv/examples> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Examples for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/examples> ;
+    profile:hasRole role:guidance .
+
+<https://w3id.org/dpv/guides> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Guides for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/guides> ;
+    profile:hasRole role:guidance .
+
+<https://w3id.org/dpv/primer> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Primer for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/primer> ;
+    profile:hasRole role:guidance .
 
 dpv:purposes-classes a skos:ConceptScheme .
 

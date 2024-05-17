@@ -191,10 +191,49 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
         URIRef('https://www.w3.org/copyright/document-license-2023/')))
     graph.add((vocab_iri, VANN.preferredNamespacePrefix, Literal(vocab)))
     graph.add((vocab_iri, VANN.preferredNamespaceUri, Literal(NAMESPACES[vocab])))
+    # Profile metadata
+    graph.add((vocab_iri, RDF.type, PROFILE.Profile))
+    graph.add((vocab_iri, PROFILE.isProfileOf, RDFS['']))
+    graph.add((vocab_iri, PROFILE.isProfileOf, SKOS['']))
+    if metadata['profile:isProfileOf']:
+        graph.add((vocab_iri, PROFILE.isProfileOf, URIRef(str(NAMESPACES[metadata['profile:isProfileOf']])[:-1])))
+    # Add links to guides, primer, examples
+    graph.add((vocab_iri, PROFILE.hasResource, URIRef('https://w3id.org/dpv/primer')))
+    graph.add((URIRef('https://w3id.org/dpv/primer'), PROFILE.hasRole, ROLE.guidance))
+    graph.add((URIRef('https://w3id.org/dpv/primer'), PROFILE.hasArtifact, URIRef('https://w3id.org/dpv/primer')))
+    graph.add((URIRef('https://w3id.org/dpv/primer'), DCTERMS.title, Literal("Primer for Data Privacy Vocabulary")))
+    graph.add((URIRef('https://w3id.org/dpv/primer'), DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/text/html")))
+    graph.add((URIRef('https://w3id.org/dpv/primer'), DCTERMS.conformsTo, URIRef("https://www.w3.org/TR/html/")))
+
+    graph.add((vocab_iri, PROFILE.hasResource, URIRef('https://w3id.org/dpv/guides')))
+    graph.add((URIRef('https://w3id.org/dpv/guides'), PROFILE.hasRole, ROLE.guidance))
+    graph.add((URIRef('https://w3id.org/dpv/guides'), PROFILE.hasArtifact, URIRef('https://w3id.org/dpv/guides')))
+    graph.add((URIRef('https://w3id.org/dpv/guides'), DCTERMS.title, Literal("Guides for Data Privacy Vocabulary")))
+    graph.add((URIRef('https://w3id.org/dpv/guides'), DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/text/html")))
+    graph.add((URIRef('https://w3id.org/dpv/guides'), DCTERMS.conformsTo, URIRef("https://www.w3.org/TR/html/")))
+
+    graph.add((vocab_iri, PROFILE.hasResource, URIRef('https://w3id.org/dpv/examples')))
+    graph.add((URIRef('https://w3id.org/dpv/examples'), PROFILE.hasRole, ROLE.guidance))
+    graph.add((URIRef('https://w3id.org/dpv/examples'), PROFILE.hasArtifact, URIRef('https://w3id.org/dpv/examples')))
+    graph.add((URIRef('https://w3id.org/dpv/examples'), DCTERMS.title, Literal("Examples for Data Privacy Vocabulary")))
+    graph.add((URIRef('https://w3id.org/dpv/examples'), DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/text/html")))
+    graph.add((URIRef('https://w3id.org/dpv/examples'), DCTERMS.conformsTo, URIRef("https://www.w3.org/TR/html/")))
+
 
     # Serialise the graph in specific formats defined in `RDF_SERIALIZATIONS`
     # from [[vocab_management.py]]
     for ext, format in RDF_SERIALIZATIONS.items():
+        artifact = URIRef(vocab_iri + f'#serialisation-{ext}')
+        graph.add((vocab_iri, PROFILE.hasResource, artifact))
+        graph.add((artifact, RDF.type, PROFILE.ResourceDescriptor))
+        if ext == "html":
+            graph.add((artifact, PROFILE.hasRole, ROLE.specification))
+        else:
+            graph.add((artifact, PROFILE.hasRole, ROLE.vocabulary))
+        graph.add((artifact, PROFILE.hasArtifact, URIRef(f'{vocab_iri}/{vocab}.{ext}')))
+        graph.add((artifact, DCTERMS.format, URIRef(IANA_TYPES[ext]['format'])))
+        graph.add((artifact, DCTERMS.conformsTo, URIRef(IANA_TYPES[ext]['standard'])))
+        graph.add((artifact, DCTERMS.title, Literal(f"{metadata['dct:title']} - {IANA_TYPES[ext]['title']} serialiation")))
         graph.serialize(f'{filepath}.{ext}', format=format)
     INFO(f'wrote {filepath}.[{",".join(RDF_SERIALIZATIONS)}]')
 
@@ -291,6 +330,22 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
         DELETE { ?s skos:broader ?o }
         WHERE { ?s skos:broader ?o }
         """)
+    # Update profile metadata
+    graph.update(f"""
+        DELETE {{ ?s profile:isProfileOf ?o }}
+        INSERT {{ 
+            ?s profile:isProfileOf <{str(OWL)[:-1]}> .
+            ?s profile:isProfileOf <{str(vocab_iri)}> .
+        }}
+        WHERE {{ ?s profile:isProfileOf ?o }}
+        """)
+    if metadata['profile:isProfileOf']:
+        graph.update(f"""
+            INSERT {{ 
+                ?s profile:isProfileOf <{str(NAMESPACES[metadata['profile:isProfileOf']+'-owl'])[:-1]}>
+            }}
+            WHERE {{ ?s profile:isProfileOf ?o }}
+            """)
 
     # For domain/range, the semantically correct use would be to
     # declare `owl:unionOf` with a `rdf:Collection` containing all

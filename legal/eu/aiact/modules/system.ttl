@@ -1,8 +1,10 @@
-@prefix ai: <https://w3id.org/dpv/ai#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix eu-aiact: <https://w3id.org/dpv/legal/eu/aiact#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix profile: <http://www.w3.org/ns/dx/prof/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix role: <http://www.w3.org/ns/dx/prof/role/> .
 @prefix schema: <https://schema.org/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
@@ -16,9 +18,9 @@ eu-aiact:AISystem a rdfs:Class,
     dct:created "2024-04-10"^^xsd:date ;
     dct:source "AIA (Art. 3(1))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
-    rdfs:subClassOf ai:System ;
+    rdfs:subClassOf tech:AISystem ;
     sw:term_status "accepted"@en ;
-    skos:broader ai:System ;
+    skos:broader tech:AISystem ;
     skos:definition "A machine-based system designed to operate with varying levels of autonomy and that may exhibit adaptiveness after deployment and that, for explicit or implicit objectives, infers, from the input it receives, how to generate outputs such as predictions, content, recommendations, or decisions that can influence physical or virtual environments"@en ;
     skos:inScheme eu-aiact:system-classes ;
     skos:prefLabel "AI System"@en ;
@@ -58,9 +60,9 @@ eu-aiact:GPAIModel a rdfs:Class,
     dct:created "2024-04-10"^^xsd:date ;
     dct:source "AIA(Art. 3(44b))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
-    rdfs:subClassOf ai:Model ;
+    rdfs:subClassOf tech:AIModel ;
     sw:term_status "accepted"@en ;
-    skos:broader ai:Model ;
+    skos:broader tech:AIModel ;
     skos:definition "An AI model, including when trained with a large amount of data using self-supervision at scale, that displays significant generality and is capable to competently perform a wide range of distinct tasks regardless of the way the model is placed on the market and that can be integrated into a variety of downstream systems or applications. This does not cover AI models that are used before release on the market for research, development and prototyping activities"@en ;
     skos:inScheme eu-aiact:system-classes ;
     skos:prefLabel "General Purpose AI Model"@en .
@@ -71,9 +73,9 @@ eu-aiact:GPAISystem a rdfs:Class,
     dct:created "2024-04-10"^^xsd:date ;
     dct:source "AIA(Art.3 (44e))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
-    rdfs:subClassOf eu-aiact:AISystem ;
+    rdfs:subClassOf tech:GPAISystem ;
     sw:term_status "accepted"@en ;
-    skos:broader eu-aiact:AISystem ;
+    skos:broader tech:GPAISystem ;
     skos:definition "An AI system which is based on a general-purpose AI model, that has the capability to serve a variety of purposes, both for direct use as well as for integration in other AI systems"@en ;
     skos:inScheme eu-aiact:system-classes ;
     skos:prefLabel "General Purpose AI System"@en .
@@ -133,7 +135,8 @@ eu-aiact:SafetyComponent a rdfs:Class,
     skos:inScheme eu-aiact:system-classes ;
     skos:prefLabel "Safety Component"@en .
 
-<https://w3id.org/dpv/legal/eu/aiact> a owl:Ontology ;
+<https://w3id.org/dpv/legal/eu/aiact> a owl:Ontology,
+        profile:Profile ;
     dct:conformsTo "http://www.w3.org/2000/01/rdf-schema",
         "http://www.w3.org/2004/02/skos/core" ;
     dct:contributor "Delaram Golpayegani" ;
@@ -146,7 +149,47 @@ eu-aiact:SafetyComponent a rdfs:Class,
     dct:title "EU AI Act"@en ;
     vann:preferredNamespacePrefix "eu-aiact" ;
     vann:preferredNamespaceUri "https://w3id.org/dpv/legal/eu/aiact#" ;
+    profile:hasResource <https://w3id.org/dpv/examples>,
+        <https://w3id.org/dpv/guides>,
+        eu-aiact:serialisation-rdf,
+        eu-aiact:serialisation-ttl,
+        <https://w3id.org/dpv/primer> ;
+    profile:isProfileOf rdfs:,
+        skos:,
+        <https://w3id.org/dpv> ;
     schema:version "1" .
+
+eu-aiact:serialisation-rdf a profile:ResourceDescriptor ;
+    dct:conformsTo rdf: ;
+    dct:format <https://www.iana.org/assignments/media-types/application/rdf+xml> ;
+    dct:title "EU AI Act - RDF/XML serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/legal/eu/aiact/eu-aiact.rdf> ;
+    profile:hasRole role:vocabulary .
+
+eu-aiact:serialisation-ttl a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TR/turtle/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/turtle> ;
+    dct:title "EU AI Act - Turtle serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/legal/eu/aiact/eu-aiact.ttl> ;
+    profile:hasRole role:vocabulary .
+
+<https://w3id.org/dpv/examples> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Examples for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/examples> ;
+    profile:hasRole role:guidance .
+
+<https://w3id.org/dpv/guides> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Guides for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/guides> ;
+    profile:hasRole role:guidance .
+
+<https://w3id.org/dpv/primer> dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Primer for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/primer> ;
+    profile:hasRole role:guidance .
 
 eu-aiact:system-classes a skos:ConceptScheme .
 
