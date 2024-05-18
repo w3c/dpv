@@ -280,11 +280,11 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
 
     # remove conformance with SKOS, replace with conformance to OWL2
     graph.update(f"""
-        DELETE {{ ?s dct:conformsTo <{str(SKOS)[:-1]}> }}
+        DELETE {{ <{str(vocab_iri)}> dct:conformsTo <{str(SKOS)[:-1]}> }}
         INSERT {{ 
-            ?s dct:conformsTo <{str(OWL)[:-1]}> . 
-            ?s dct:hasVersion <{str(vocab_iri)}> }}
-        WHERE {{ ?s dct:conformsTo ?o }}
+            <{str(vocab_iri)}> dct:conformsTo <{str(OWL)[:-1]}> . 
+            <{str(vocab_iri)}> dct:hasVersion <{str(vocab_iri)}> }}
+        WHERE {{ <{str(vocab_iri)}> dct:conformsTo ?o }}
         """)
 
     # for classes, `skos:Concept` is converted to `owl:Class`
@@ -346,6 +346,13 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
             }}
             WHERE {{ ?s profile:isProfileOf ?o }}
             """)
+    # replace main vocab iri with owl vocab iri
+    vocab_owl_iri = URIRef(NAMESPACES[vocab+'-owl'][:-1])
+    graph.update(f"""
+        DELETE {{ <{str(vocab_iri)}> ?p ?o }}
+        INSERT {{ <{str(vocab_owl_iri)}> ?p ?o }}
+        WHERE {{  <{str(vocab_iri)}> ?p ?o }}
+        """)
 
     # For domain/range, the semantically correct use would be to
     # declare `owl:unionOf` with a `rdf:Collection` containing all
