@@ -203,8 +203,8 @@ CSVFILES = {
             'properties': f'{IMPORT_CSV_PATH}/Status_properties.csv',
         },
         'risk': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/Risk.csv',
-            'properties': f'{IMPORT_CSV_PATH}/Risk_properties.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/dpv-Risk.csv',
+            'properties': f'{IMPORT_CSV_PATH}/dpv-Risk_properties.csv',
         },
         'jurisdiction': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Jurisdiction.csv',
@@ -271,8 +271,9 @@ CSVFILES = {
         }
     },
     'risk': {
-        'risk_consequences': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
+        'core': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Risk.csv',
+            'properties': f'{IMPORT_CSV_PATH}/Risk_properties.csv',
         },
         'risk_levels': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskLevels.csv',
@@ -283,12 +284,15 @@ CSVFILES = {
         'risk_controls': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskControls.csv',
         },
-        'risk_assessment': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/RiskAssessment.csv',
+        'risk_consequences': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
         },
-        'risk_methodology': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/RiskMethodology.csv',
+        'incident': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Incident.csv',
         },
+        'incident_status': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/IncidentStatus.csv',
+        }
     },
     'justifications': {
         'justifications_notrequired': {
@@ -364,6 +368,9 @@ CSVFILES = {
         'dpia': {
             'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_DPIA.csv',
             'properties': f'{IMPORT_CSV_PATH}/GDPR_DPIA_properties.csv',
+        },
+        'data_breach': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_DataBreach.csv',
         },
         'compliance': {
             'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_compliance.csv',
@@ -621,12 +628,13 @@ RDF_VOCABS = {
         'template': 'template_risk.jinja2',
         'export': f'{EXPORT_PATH}/risk',
         'modules': {
+            'core': f'{IMPORT_PATH}/risk/modules/core.ttl',
             'risk_consequences': f'{IMPORT_PATH}/risk/modules/risk_consequences.ttl',
             'risk_levels': f'{IMPORT_PATH}/risk/modules/risk_levels.ttl',
             'risk_matrix': f'{IMPORT_PATH}/risk/modules/risk_matrix.ttl',
             'risk_controls': f'{IMPORT_PATH}/risk/modules/risk_controls.ttl',
-            'risk_assessment': f'{IMPORT_PATH}/risk/modules/risk_assessment.ttl',
-            'risk_methodology': f'{IMPORT_PATH}/risk/modules/risk_methodology.ttl',
+            'incident': f'{IMPORT_PATH}/risk/modules/incident.ttl',
+            'incident_status': f'{IMPORT_PATH}/risk/modules/incident_status.ttl',
         },
         'metadata': {
             "dct:title": "Risk Concepts",
@@ -807,6 +815,7 @@ RDF_VOCABS = {
             'rights': f'{IMPORT_PATH}/legal/eu/gdpr/modules/rights.ttl',
             'data_transfers': f'{IMPORT_PATH}/legal/eu/gdpr/modules/data_transfers.ttl',
             'dpia': f'{IMPORT_PATH}/legal/eu/gdpr/modules/dpia.ttl',
+            'data_breach': f'{IMPORT_PATH}/legal/eu/gdpr/modules/data_breach.ttl',
             'compliance': f'{IMPORT_PATH}/legal/eu/gdpr/modules/compliance.ttl',
             'legal_basis-rights_mapping': f'{IMPORT_PATH}/legal/eu/gdpr/modules/legal_basis_rights_mapping.ttl',
             'entities': f'{IMPORT_PATH}/legal/eu/gdpr/modules/entities.ttl',

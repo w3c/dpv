@@ -200,12 +200,14 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     # Add links to guides, primer, examples
     graph.add((vocab_iri, PROFILE.hasResource, URIRef('https://w3id.org/dpv/primer')))
     graph.add((URIRef('https://w3id.org/dpv/primer'), PROFILE.hasRole, ROLE.guidance))
+    graph.add((URIRef('https://w3id.org/dpv/primer'), RDF.type, PROFILE.ResourceDescriptor))
     graph.add((URIRef('https://w3id.org/dpv/primer'), PROFILE.hasArtifact, URIRef('https://w3id.org/dpv/primer')))
     graph.add((URIRef('https://w3id.org/dpv/primer'), DCTERMS.title, Literal("Primer for Data Privacy Vocabulary")))
     graph.add((URIRef('https://w3id.org/dpv/primer'), DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/text/html")))
     graph.add((URIRef('https://w3id.org/dpv/primer'), DCTERMS.conformsTo, URIRef("https://www.w3.org/TR/html/")))
 
     graph.add((vocab_iri, PROFILE.hasResource, URIRef('https://w3id.org/dpv/guides')))
+    graph.add((URIRef('https://w3id.org/dpv/guides'), RDF.type, PROFILE.ResourceDescriptor))
     graph.add((URIRef('https://w3id.org/dpv/guides'), PROFILE.hasRole, ROLE.guidance))
     graph.add((URIRef('https://w3id.org/dpv/guides'), PROFILE.hasArtifact, URIRef('https://w3id.org/dpv/guides')))
     graph.add((URIRef('https://w3id.org/dpv/guides'), DCTERMS.title, Literal("Guides for Data Privacy Vocabulary")))
@@ -213,6 +215,7 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     graph.add((URIRef('https://w3id.org/dpv/guides'), DCTERMS.conformsTo, URIRef("https://www.w3.org/TR/html/")))
 
     graph.add((vocab_iri, PROFILE.hasResource, URIRef('https://w3id.org/dpv/examples')))
+    graph.add((URIRef('https://w3id.org/dpv/examples'), RDF.type, PROFILE.ResourceDescriptor))
     graph.add((URIRef('https://w3id.org/dpv/examples'), PROFILE.hasRole, ROLE.guidance))
     graph.add((URIRef('https://w3id.org/dpv/examples'), PROFILE.hasArtifact, URIRef('https://w3id.org/dpv/examples')))
     graph.add((URIRef('https://w3id.org/dpv/examples'), DCTERMS.title, Literal("Examples for Data Privacy Vocabulary")))

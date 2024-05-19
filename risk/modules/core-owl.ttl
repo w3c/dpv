@@ -1,0 +1,231 @@
+@prefix dcam: <http://purl.org/dc/dcam/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dpv-owl: <https://w3id.org/dpv/owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix profile: <http://www.w3.org/ns/dx/prof/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix risk-owl: <https://w3id.org/dpv/risk/owl#> .
+@prefix role: <http://www.w3.org/ns/dx/prof/role/> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+
+risk-owl:Incident a rdfs:Class,
+        owl:Class ;
+    dct:contributor "Rob Brennan, Harshvardhan J. Pandit, Delaram Golpayegani, Julio Fernandez" ;
+    rdfs:isDefinedBy risk-owl: ;
+    rdfs:subClassOf rdfs:Class ;
+    sw:term_status "accepted"@en ;
+    skos:definition "An actual or occured event"@en ;
+    skos:prefLabel "Incident"@en ;
+    skos:scopeNote "Incident is realised or materialised risk"@en .
+
+risk-owl:RiskSource a rdfs:Class,
+        owl:Class ;
+    rdfs:isDefinedBy risk-owl: ;
+    rdfs:subClassOf rdfs:Class ;
+    sw:term_status "accepted"@en ;
+    skos:definition "The 'cause' or 'source', which by itself or with another source has the potential to give rise to risk"@en ;
+    skos:prefLabel "Risk Source"@en .
+
+risk-owl:Threat a rdfs:Class,
+        owl:Class ;
+    rdfs:isDefinedBy risk-owl: ;
+    rdfs:subClassOf risk-owl:RiskSource ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Risk source event which causes Risk"@en ;
+    skos:prefLabel "Threat"@en .
+
+risk-owl:ThreatSource a rdfs:Class,
+        owl:Class ;
+    rdfs:isDefinedBy risk-owl: ;
+    rdfs:subClassOf risk-owl:Threat ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Source of threat event, including both agent and non-agent sources"@en ;
+    skos:prefLabel "Threat Source"@en .
+
+risk-owl:Vulnerability a rdfs:Class,
+        owl:Class ;
+    rdfs:isDefinedBy risk-owl: ;
+    rdfs:subClassOf rdfs:Class ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Intrinsic property of a system or asset that is utilised by the Threat Source in a Threat event to cause Risk"@en ;
+    skos:prefLabel "Vulnerability"@en .
+
+risk-owl:causedByThreat a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:rangeIncludes risk-owl:Threat ;
+    rdfs:isDefinedBy risk-owl: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the cause of associated context (subject) was the indicated threat (object)"@en ;
+    skos:prefLabel "caused by threat"@en ;
+    schema:rangeIncludes risk-owl:Threat .
+
+risk-owl:causedByVulnerability a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:rangeIncludes risk-owl:Vulnerability ;
+    rdfs:isDefinedBy risk-owl: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the associated context (subject) is caused by the indicated vulnerability (object)"@en ;
+    skos:prefLabel "caused by vulnerability"@en ;
+    schema:rangeIncludes risk-owl:Vulnerability .
+
+risk-owl:exploitsVulnerability a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:domainIncludes risk-owl:Threat ;
+    dcam:rangeIncludes risk-owl:Vulnerability ;
+    rdfs:isDefinedBy risk-owl: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the threat (subject) exploits the indicated vulnerability (object)"@en ;
+    skos:prefLabel "exploits vulnerability"@en ;
+    schema:domainIncludes risk-owl:Threat ;
+    schema:rangeIncludes risk-owl:Vulnerability .
+
+risk-owl:hasRiskSource a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:domainIncludes dpv-owl:Risk ;
+    dcam:rangeIncludes risk-owl:RiskSource ;
+    rdfs:isDefinedBy risk-owl: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the risk (subject) has the indicated risk source (object)"@en ;
+    skos:prefLabel "has risk source"@en ;
+    schema:domainIncludes dpv-owl:Risk ;
+    schema:rangeIncludes risk-owl:RiskSource .
+
+risk-owl:hasThreatSource a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:domainIncludes risk-owl:Threat ;
+    dcam:rangeIncludes risk-owl:ThreatSource ;
+    rdfs:isDefinedBy risk-owl: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the threat (subject) has the indicated source (object)"@en ;
+    skos:prefLabel "has threat source"@en ;
+    schema:domainIncludes risk-owl:Threat ;
+    schema:rangeIncludes risk-owl:ThreatSource .
+
+risk-owl:hasVulnerability a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:rangeIncludes risk-owl:Vulnerability ;
+    rdfs:isDefinedBy risk-owl: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the associated context (subject) has indicated vulnerability (object)"@en ;
+    skos:prefLabel "has vulnerability"@en ;
+    schema:rangeIncludes risk-owl:Vulnerability .
+
+risk-owl:isExploitedBy a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:domainIncludes risk-owl:Vulnerability ;
+    dcam:rangeIncludes risk-owl:Threat ;
+    rdfs:isDefinedBy risk-owl: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the vulnerability (subject) is exploited by the indicated threat (object)"@en ;
+    skos:prefLabel "is exploited by"@en ;
+    schema:domainIncludes risk-owl:Vulnerability ;
+    schema:rangeIncludes risk-owl:Threat .
+
+risk-owl:isVulnerabilityOf a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:domainIncludes risk-owl:Vulnerability ;
+    rdfs:isDefinedBy risk-owl: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the vulnerability (subject) is associated with indicated context (object)"@en ;
+    skos:prefLabel "is vulnerability of"@en ;
+    schema:domainIncludes risk-owl:Vulnerability .
+
+risk-owl:refersToRisk a rdf:Property,
+        owl:ObjectProperty ;
+    dcam:domainIncludes dpv-owl:Incident ;
+    dcam:rangeIncludes dpv-owl:Risk ;
+    rdfs:isDefinedBy risk-owl: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the incident (subject) is a materialisation of the indicated risk (object)"@en ;
+    skos:prefLabel "refers to risk"@en ;
+    schema:domainIncludes dpv-owl:Incident ;
+    schema:rangeIncludes dpv-owl:Risk .
+
+risk-owl:serialisation-jsonld a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
+    dct:format <https://www.iana.org/assignments/media-types/application/ld+json> ;
+    dct:title "Risk Concepts - JSON-LD serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/risk/risk.jsonld> ;
+    profile:hasRole role:vocabulary .
+
+risk-owl:serialisation-n3 a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TeamSubmission/n3/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/n3> ;
+    dct:title "Risk Concepts - N3 serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/risk/risk.n3> ;
+    profile:hasRole role:vocabulary .
+
+risk-owl:serialisation-rdf a profile:ResourceDescriptor ;
+    dct:conformsTo rdf: ;
+    dct:format <https://www.iana.org/assignments/media-types/application/rdf+xml> ;
+    dct:title "Risk Concepts - RDF/XML serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/risk/risk.rdf> ;
+    profile:hasRole role:vocabulary .
+
+risk-owl:serialisation-ttl a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TR/turtle/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/turtle> ;
+    dct:title "Risk Concepts - Turtle serialiation" ;
+    profile:hasArtifact <https://w3id.org/dpv/risk/risk.ttl> ;
+    profile:hasRole role:vocabulary .
+
+<https://w3id.org/dpv/examples> a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Examples for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/examples> ;
+    profile:hasRole role:guidance .
+
+<https://w3id.org/dpv/guides> a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Guides for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/guides> ;
+    profile:hasRole role:guidance .
+
+<https://w3id.org/dpv/primer> a profile:ResourceDescriptor ;
+    dct:conformsTo <https://www.w3.org/TR/html/> ;
+    dct:format <https://www.iana.org/assignments/media-types/text/html> ;
+    dct:title "Primer for Data Privacy Vocabulary" ;
+    profile:hasArtifact <https://w3id.org/dpv/primer> ;
+    profile:hasRole role:guidance .
+
+risk-owl: a owl:Ontology,
+        profile:Profile ;
+    dct:conformsTo <http://www.w3.org/2002/07/owl>,
+        "http://www.w3.org/2000/01/rdf-schema",
+        "http://www.w3.org/2004/02/skos/core" ;
+    dct:contributor "Delaram Golpayegani",
+        "Harshvardhan J. Pandit",
+        "Julio Fernandez",
+        "Rob Brennan" ;
+    dct:created "2022-08-14"@en ;
+    dct:creator "Beatriz Esteves"@en,
+        "Georg P Krog"@en,
+        "Harshvardhan J. Pandit"@en,
+        "Julian Flake"@en,
+        "Paul Ryan"@en ;
+    dct:description "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information about risk assessment and risk management"@en ;
+    dct:hasVersion <https://w3id.org/dpv/risk> ;
+    dct:identifier "https://w3id.org/dpv/risk" ;
+    dct:license <https://www.w3.org/copyright/document-license-2023/> ;
+    dct:modified "2024-01-01"@en ;
+    dct:title "Risk Concepts"@en ;
+    vann:preferredNamespacePrefix "risk" ;
+    vann:preferredNamespaceUri "https://w3id.org/dpv/risk#" ;
+    profile:hasResource <https://w3id.org/dpv/examples>,
+        <https://w3id.org/dpv/guides>,
+        <https://w3id.org/dpv/primer>,
+        risk-owl:serialisation-jsonld,
+        risk-owl:serialisation-n3,
+        risk-owl:serialisation-rdf,
+        risk-owl:serialisation-ttl ;
+    profile:isProfileOf <http://www.w3.org/2002/07/owl>,
+        <https://w3id.org/dpv/owl>,
+        <https://w3id.org/dpv/risk> ;
+    schema:version "0.8.2" .
+

@@ -69,6 +69,21 @@ class DATA(object):
         for s, p, o in graph:
             # ==== parse-subject ====
 
+            # skip profile metadata
+            if p.startswith(NAMESPACES['profile']) or p.startswith(NAMESPACES['role']):
+                continue
+            elif s.startswith('https://w3id.org/dpv/guides') or s.startswith('https://w3id.org/dpv/primer'):
+                continue
+            elif o.startswith('https://w3id.org/dpv/guides') or o.startswith('https://w3id.org/dpv/primer'):
+                continue
+            elif s.startswith('https://w3id.org/dpv/examples') and vocab != 'dex':
+                continue
+            elif o.startswith('https://w3id.org/dpv/examples') and vocab != 'dex':
+                continue
+
+            # elif o.startswith(NAMESPACES['profile']) or o.startswith(NAMESPACES['role']):
+            #     continue
+
             # check if this is the vocab IRI
             # if len(s) < len(NAMESPACES[vocab]): continue
             # n3 gets prefix:term using the n3 notation
@@ -259,6 +274,10 @@ class DATA(object):
             if len(s) < len(NAMESPACES[vocab]): continue # vocab IRI
             term = s.n3(graph.namespace_manager)
             if term.startswith('_'): # BNode
+                continue
+            elif s.startswith('https://w3id.org/dpv/guides') or s.startswith('https://w3id.org/dpv/primer'):
+                continue
+            elif s.startswith('https://w3id.org/dpv/guides') and vocab != 'dex':
                 continue
             term = DATA.concepts[term]
             # Each term records which modules it belongs to via `module`
@@ -474,6 +493,7 @@ def filter_type(itemlist:list, itemtype:str, vocab:str=None) -> list:
         if vocab != itemvocab or 'rdf:type' not in item:
             if vocab is not None:
                 continue
+        # DEBUG(item)
         parents = ensure_list(item['rdf:type'])
         for p in parents:
             prefixed = prefix_from_iri(p)
