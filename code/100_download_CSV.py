@@ -288,6 +288,13 @@ DPV_FILES = {
             'aiact-assessment',
             ),
     },
+    'eu-nis2': {
+        'name': 'eu-nis2',
+        'doc_id': '1uh14-RUYQuKiouu2Cahi-voaKBCw5D4lPE4w5NaqDPc',
+        'sheets': (
+            'NIS2_Notice',
+            ),
+    },
     # Sheets for Use-Cases, Requirements, and Examples
     'ucr': {
         'name': 'ucr',

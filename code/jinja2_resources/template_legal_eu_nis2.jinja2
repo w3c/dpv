@@ -1,0 +1,116 @@
+{% from 'macro_term_table.jinja2' import table_classes %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}EU NIS2 Extension{% endblock title%}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "eu-nis2",
+    title: "EU NIS2 Extension",
+    subtitle: "Data Privacy Vocabulary (DPV)",
+    publishDate: "2024-05-19",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/legal/eu/nis2",
+    canonicalUri: "https://w3id.org/dpv/legal/eu/nis2",
+    edDraftURI: "https://w3id.org/dpv/ed/legal/eu/nis2",
+    github: "w3c/dpv",
+    subjectPrefix: "[eu-nis2]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+    }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../../../media/common.css">
+</head>
+<body>
+{% block ABSTRACT %}
+  <section id="abstract">
+    <p>NIS2 stub</p>
+    {{ dpv_document_family(document='dpv-dga-spec') }}
+      {{ sotd() }}
+  </section>
+{% endblock ABSTRACT %}
+{% block INTRODUCTION %}
+  <section id="motivation">
+    <h2>Introduction</h2>
+    <div class="issue" title="Content missing - Introduction"></div>
+  </section>
+{% endblock INTRODUCTION %}
+{% block VOCAB %}
+
+  <section id="vocab-notice">
+    <h2>Notices</h2>
+    <div class="issue" title="Content missing - Entities"></div>
+    
+    {{ list_hierarchy(modules['notice']['classes']) }}
+  </section>
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    {{ index_concepts(vocab, vocab_name, filter="classes") }}
+  </section>
+  <section id="dpv-properties">
+    {{ index_concepts(vocab, vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>DPV uses the following terms from [[RDF]] and  [[RDFS]] with their defined meanings:</p>
+    <ul>
+      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+      </ul>
+    <p>The following external concepts are re-used within DPV:</p>
+    {{ index_concepts(vocab, vocab_name, filter="external") }}
+  </section>
+</section>
+{% endblock VOCAB %}
+
+{% block ACKNOWLEDGEMENTS %}
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+</section>
+{% endblock ACKNOWLEDGEMENTS %}
+{% block PROPOSED %}
+{% if proposed %}
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  {% for name, terms in proposed.items() %}
+    <strong>{{name}}</strong>
+    <ul>{% for term in terms %}
+      <li>{{term}}</li>
+    {% endfor %}</ul>
+  {% endfor %}
+</section>
+{% endif %}
+{% endblock PROPOSED %}
+
+<section class="appendix" id="issue-summary"></section>
+
+{% block DEPRECATED %}
+<section class="appendix" id="appendix-deprecated">
+  <h2>Deprecated Terms</h2>
+</section>
+{% endblock DEPRECATED %}
+<script type="text/javascript" src="../../../media/common.js" defer></script>
+</body>
+</html>

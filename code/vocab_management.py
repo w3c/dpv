@@ -436,6 +436,11 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-assessment.csv',
         },
     },
+    'eu-nis2': {
+        'notice': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/NIS2_Notice.csv',
+        }
+    },
     'eu-rights': {
         'fundamental': {
             'taxonomy': f'{IMPORT_CSV_PATH}/EUFundamentalRights.csv',
@@ -878,6 +883,23 @@ RDF_VOCABS = {
             "profile:isProfileOf": "dpv",
         },
     },
+    'eu-nis2': {
+        'vocab': f'{IMPORT_PATH}/legal/eu/nis2/eu-nis2.ttl',
+        'template': 'template_legal_eu_nis2.jinja2',
+        'export': f'{EXPORT_PATH}/legal/eu/nis2',
+        'modules': {
+            'notice': f'{IMPORT_PATH}/legal/eu/nis2/modules/notice.ttl',
+        },
+        'metadata': {
+            "dct:title": "EU NIS2",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU NIS2",
+            "dct:created": "2024-05-19",
+            "dct:modified": "2024-05-19",
+            "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog",
+            "schema:version": "0.1",
+            "profile:isProfileOf": "dpv",
+        },
+    },
     'eu-rights': {
         'vocab': f'{IMPORT_PATH}/legal/eu/rights/eu-rights.ttl',
         'template': 'template_legal_eu_rights.jinja2',
@@ -964,6 +986,10 @@ RDF_STRUCTURE = {
     'eu-aiact': {
         'main': f'{EXPORT_RDF_PATH}/legal/eu/aiact',
         'modules': f'{EXPORT_RDF_PATH}/legal/eu/aiact/modules',
+    },
+    'eu-nis2': {
+        'main': f'{EXPORT_RDF_PATH}/legal/eu/nis2',
+        'modules': f'{EXPORT_RDF_PATH}/legal/eu/nis2/modules',
     },
     'eu-rights': {
         'main': f'{EXPORT_RDF_PATH}/legal/eu/rights',
