@@ -2,11 +2,12 @@
 Data Privacy Vocabularies and Controls Community Group (DPVCG) repository
 
 [Community Group](https://www.w3.org/community/dpvcg/) | [(W3C) wiki](https://www.w3.org/community/dpvcg/wiki/Main_Page)
-
-> [!WARNING]  
-> **NOTICE OF PLANNED MAJOR CHANGES**
+  
+> **MAJOR CHANGES introduced in v2**
 >
-> Major changes as described by: 1) #99 including non-personal data; and 2) #107 repo restructuring -- are planned to be implemented from **30 SEP 2023**. If you wish to raise issues or objections, please do so before then.
+> The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. Read more in [v2 changelog](wiki-link). 
+
+> The draft article [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Pandit et al. (2024) describes DPV v2 in terms of its contents, methodology, current adoptions and uses, and future potential. It also describes the relevance and role of DPV in acting as a common vocabulary to support various regulatory (e.g. EU's DGA and AI Act) and community initiatives (e.g. Solid) emerging across the globe
 
 The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to develop a taxonomy of privacy and data protection related terms, which include in particular terms from the new European General Data Protection Regulation (GDPR), such as a taxonomy of personal data as well as a classification of purposes (i.e., purposes for data collection), and events of disclosures, consent, and processing such personal data.
 
@@ -14,23 +15,83 @@ The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to d
 
 License: All work produced by DPVCG and provided through this repo or elsewhere is provided by contributors under the [W3C Document License](https://www.w3.org/Consortium/Legal/2015/doc-license). A copy of the license is provided in the [LICENSE.md](./LICENSE.md) file.
 
-Contributing: See [contributing.md](./contributing.md)
+[Guidelines for contributing](https://github.com/w3c/dpv/wiki/contributing)
+
+## Specifications
+### Data Privacy Vocabulary (DPV)
+The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) provides an ontology (classes and properties) and taxonomies of concepts to represent information regarding how personal data is processed in the form of an ontology or a knowledge graph. For example, it provides taxonomies associated with:
+
+* purposes of processing
+* personal data categories involved
+* processing operations
+* technical and organisational measures or restrictions applied
+* legal basis used to justify processing
+* information about legal basis for processing
+* rights as applicable
+* risks as applicable
+
+The namespace for DPV terms is `http://w3id.org/dpv#` with suggested prefix `dpv`, and serialisations are provided in RDF/XML, Turtle, JSON-LD, and N3 formats. The default serialisations are defined using RDFS/SKOS semantics, with an [alternate serialisation](https://w3id.org/dpv/dpv-owl) defined using OWL2 semantics.
+
+### Extensions
+These extensions provide additional concepts that extend the concepts and scope of the main DPV specification:
+- [Personal Data (PD)](https://w3id.org/dpv/pd) provides a taxonomy of personal data categories
+- [Location (LOC)](https://w3id.org/dpv/loc) provides a taxonomy of location concepts based on ISO 3166 (countries, regions)
+- [Technology (TECH)](https://w3id.org/dpv/tech) provides a taxonomy of technology concepts
+- [AI](https://w3id.org/dpv/ai) provides a taxonomy of AI concepts extending the TECH extension
+- [Justifications](https://w3id.org/dpv/justifications) provides concepts for representing justifications i.e. why something must be done or could not be done
+- [Risk](https://w3id.org/dpv/risk) provides concepts for risk assessment and management
+
+### Extensions for Jurisdictions and Regulations
+The legal extensions provide concepts associated with specific jurisdictions and the laws, authorities, and treaties within them. The [Legal](https://w3id.org/dpv/legal) page provides an overview of these. The jurisdictions are represented by using their ISO 3166-2 codes.
+
+- [European Union (EU)](https://w3id.org/dpv/legal/eu)
+    - [GDPR](https://w3id.org/dpv/legal/eu/gdpr)
+    - [DGA](https://w3id.org/dpv/legal/eu/dga)
+    - [AI Act](https://w3id.org/dpv/legal/eu/aiact)
+    - [Charter of Fundamental Rights](https://w3id.org/dpv/legal/eu/rights)
+- [Germany (DE)](https://w3id.org/dpv/legal/de)
+- [Ireland (IE)](https://w3id.org/dpv/legal/ie)
+- [India (IN)](https://w3id.org/dpv/legal/in)
+- [United Kingdom (GB)](https://w3id.org/dpv/legal/gb)
+- [United States of America (USA)](https://w3id.org/dpv/legal/usa)
+
+### Other Resources
+The [NACE Taxonomy serialised in RDFS](https://w3id.org/dpv/dpv-nace) provides a serialisation of the NACE v2 taxonomy in RDFS for use with DPV terms. Since then, NACE v3 has been published with an updated taxonomy. The DPVCG is looking into whether the NACE v3 should be similarly provided.
+
+
+## Guides
+- The [Primer](https://w3id.org/dpv/primer) is an introductory document for newcomers to understand the DPV and its concepts. A [2 Page Short Primer](https://w3id.org/dpv/primer/short) provides a succint introduction to the DPV. 
+- The [Use-Cases and Requirements](https://w3id.org/dpv/use-cases/) document lists the use-cases and requirements that led to the development of DPV. 
+- The [Examples](https://w3id.org/dpv/examples/) page provides an index of examples describing the use of DPV concepts.
+- The [Guides](https://w3id.org/dpv/guides) page lists guides for use of DPV in specific domains and applications
+    - [Using DPV in OWL2](https://w3id.org/dpv/guides/dpv-owl) 
+    - [Implementing ISO/IEC 27560:2023 Consent Records and Receipts](https://w3id.org/dpv/guides/consent-27560)
+    - [Implementing ISO/IEC 29184:2020 Privacy Notices and Consent](https://w3id.org/dpv/guides/notice-29184) - Work in Progress
+    - [Data Breach Management for GDPR](https://w3id.org/dpv/guides/gdpr-data-breach) - Work in Progress
+    - [Data Protection Impact Assessment (DPIA) for GDPR](https://w3id.org/dpv/guides/gdpr-dpia) - Work in Progress
+    - [Records of Processing Activities (ROPA) for GDPR](https://w3id.org/dpv/guides/gdpr-ropa) - Work in Progress
+
+## Acknowledgements and Citation
+
+*  For use of DPV up to v1 and v1.1, **Cite as:** The peer-reviewed article “[Creating A Vocabulary for Data Privacy](https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44)” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed [here](http://hdl.handle.net/2262/91581), [here](http://doras.dcu.ie/23801/), and [here](https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf).
+* For use of DPV from v2 onwards, **Cite as:** [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Pandit et al. (2024)
 
 ## Releases
 
-> [latest release](https://github.com/w3c/dpv/releases/latest)
+> [go to latest release](https://github.com/w3c/dpv/releases/latest)
 
-Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/releases](https://github.com/w3c/dpv/releases). These contained zipped collections of DPV specifications, modules, extensions, and accompanying documents, categorised by serialisation. Currently, the following types of releases are provided:
+Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/releases](https://github.com/w3c/dpv/releases) and contain zipped collections of DPV specifications, modules, extensions, and accompanying documents, categorised by serialisation. 
 
-- dpv (`dpv.zip`) : The core and canocical DPV specification serialised as a SKOS collection of terms
-- dpv-skos (`dpv-skos.zip`) : DPV serialised using RDFS and SKOS semantics
-- dpv-owl (`dpv-owl.zip`) : DPV serialised using OWL2 semantics
+- dpv (`dpv.zip`) : canocical specifications serialised in RDFS/SKOS
+- dpv-owl (`dpv-owl.zip`) : alternate serialisation with OWL2 semantics
 - dpv (`dpv.xlsx`) : DPV's terms provided in a spreadsheet
 
 ### Final Reports
 
-The following vocabularies are being published as v1 and final reports of the group:
-
+The following are final reports i.e. formally published by the W3C:
+#### v2
+TBA
+#### v1
 - Primer [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-primer-20221205)
 - DPV [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-20221205)
 - DPV-GDPR [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-gdpr-20221205)
@@ -43,61 +104,9 @@ The following vocabularies are being published as v1 and final reports of the gr
 - DPV-SKOS-GDPR [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-skos-gdpr-20221205)
 - DPV-SKOS-PD [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-skos-pd-20221205)
 
-## DPV Family of Documents
+## Participating and Getting assistance
 
-**Core documents:**
+If you're unsure about something, or would like clarifications, or suggestions - please communicate with us or open an issue. We would be happy to help. You can view the [current open issues](https://github.com/w3c/dpv/issues) and the [public mailing list](https://lists.w3.org/Archives/Public/public-dpvcg/).
 
-* [Primer for Data Privacy Vocabulary](https://www.w3id.org/dpv/primer): introductory document to DPV concepts
-    
-> **Note:** Newcomers to the DPV are **strongly recommended to first read through the Primer** to familiarise themselves with the semantics and concepts of DPV.
-    
-*   [Data Privacy Vocabulary (DPV) Specification](https://www.w3id.org/dpv): (this document) formal and normative description of DPV and its concepts.
-*   [Use-Cases and Requirements](https://w3id.org/dpv/use-cases/)
-*   [Examples](https://w3id.org/dpv/examples/)
+Membership to the group is open to all interested individuals and organisations. To join the group, you need a valid W3C account – which is free to get and can be [requested here](https://www.w3.org/accounts/request). The group meets usually through online meeting calls - see [meetings calendar](https://www.w3.org/groups/cg/dpvcg/calendar) and [minutes](https://w3id.org/dpv/meetings/).
 
-**Serialisations of DPV:**
-
--   [Data Privacy Vocabulary serialised using SKOS+RDFS (DPV-SKOS)](https://www.w3id.org/dpv/dpv-skos): serialisation of DPV with SKOS and RDFS semantics
--   [Data Privacy Vocabulary serialised using OWL2 (DPV-OWL)](https://www.w3id.org/dpv/dpv-owl): serialisation of DPV using OWL2 semantics
-
-**Extensions to Concepts:**
--   [GDPR Extension for Data Privacy Vocabulary (DPV-GDPR)](https://www.w3id.org/dpv/dpv-gdpr): extends DPV concepts for GDPR
--   [Personal Data Categories Extension for Data Privacy Vocabulary (DPV-PD)](https://www.w3id.org/dpv/dpv-pd)
--   [Legal Extension providing Jurisdictions, Laws, and Authorities for Data Privacy Vocabulary (DPV-LEGAL)](https://www.w3id.org/dpv/dpv-legal)
--   [Risk Extension providing concepts related to risk assessment and management (RISK)](https://www.w3id.org/dpv/risk)
--   [Rights Extension providing concepts related to rights (RIGHTS)](https://www.w3id.org/dpv/rights)
-
-**Guides and Tutorials**
--   [Guidelines for Adoption and Use of DPV](https://w3id.org/dpv/guides): [Using DPV in OWL2](https://w3id.org/dpv/guides/dpv-owl)
-
-**Other Resources:**
--   [NACE Taxonomy serialised in RDFS](https://www.w3id.org/dpv/dpv-nace)
-
-**Related Links**
-*   For a general overview of the Data Protection Vocabularies and Controls Community Group \[[DPVCG](#bib-dpvcg "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)")\], its history, deliverables, and activities - refer to [DPVCG Website](https://www.w3.org/community/dpvcg/).
-*   **Cite as:** The peer-reviewed article “[Creating A Vocabulary for Data Privacy](https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44)” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed [here](http://hdl.handle.net/2262/91581), [here](http://doras.dcu.ie/23801/), and [here](https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf).
-
-## Data Privacy Vocabulary (DPV)
-
-The Data Privacy Vocabulary provides terms (classes and properties) to annotate and categorize instances of legally compliant personal data handling according to the EU General Data Protection Regulation. This scope could be extended by later versions to other data and privacy protection regulations. 
-
-The vocabulary provides terms to describe:
-
-* purposes of processing
-* personal data categories involved
-* processing operations
-* technical and organisational measures or restrictions applied
-* legal basis used to justify processing
-* information about legal basis for processing
-* rights as applicable
-* risks as applicable
-
-The namespace for DPV terms is `http://www.w3id.org/dpv#` with suggested prefix `dpv`. The IRI for DPV is currently redirected to serve the files hosted in this repository from GitHub pages i.e. `https://w3c.github.io/dpv/dpv/` (thanks to @bert-github for setting this up). Content-negotiation should therefore be supported for all files/serialisations of the DPV and its modules.
-
-### DPV and Modules
-
-The term 'DPV' represents the entire vocabulary - with its concepts and terms as defined in the specification. Serialisations for this in `rdf+xml`, `json-ld`, and `turtle` are provided. The 'modules' in DPV are separate files for each of the hierarchies and concept taxonomies - for example 'purposes'. These are defined in the `rdf` folder with serialisations for each module. The `core` or `base` vocabulary or ontology is defined containing the top-level classes and data model (i.e. `PersonalDataHandling`).
-
-## Getting help and assistance
-
-If you're unsure about something, or would like clarifications, or suggestions - please communicate with us or open an issue. We would be happy to help.
