@@ -222,21 +222,31 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     graph.add((URIRef('https://w3id.org/dpv/examples'), DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/text/html")))
     graph.add((URIRef('https://w3id.org/dpv/examples'), DCTERMS.conformsTo, URIRef("https://www.w3.org/TR/html/")))
 
-
-    # Serialise the graph in specific formats defined in `RDF_SERIALIZATIONS`
-    # from [[vocab_management.py]]
+    # HTML specification
+    artifact = URIRef(vocab_iri + f'#serialisation-html')
+    graph.add((artifact, RDF.type, PROFILE.ResourceDescriptor))
+    graph.add((vocab_iri, PROFILE.hasResource, artifact))
+    graph.add((artifact, PROFILE.hasRole, ROLE.specification))
+    graph.add((artifact, PROFILE.hasArtifact, URIRef(f'{vocab_iri}/{vocab}.html')))
+    graph.add((artifact, DCTERMS.format, URIRef(IANA_TYPES['html']['format'])))
+    graph.add((artifact, DCTERMS.conformsTo, URIRef(IANA_TYPES['html']['standard'])))
+    graph.add((artifact, DCTERMS.title, Literal(f"{metadata['dct:title']} - {IANA_TYPES['html']['title']} serialiation")))
+    # RDF resources
     for ext, format in RDF_SERIALIZATIONS.items():
         artifact = URIRef(vocab_iri + f'#serialisation-{ext}')
         graph.add((vocab_iri, PROFILE.hasResource, artifact))
         graph.add((artifact, RDF.type, PROFILE.ResourceDescriptor))
-        if ext == "html":
-            graph.add((artifact, PROFILE.hasRole, ROLE.specification))
+        graph.add((artifact, PROFILE.hasRole, ROLE.vocabulary))
+        if vocab == 'dpv':
+            graph.add((artifact, PROFILE.hasArtifact, URIRef(f'{vocab_iri}/{vocab}/{vocab}.{ext}')))
         else:
-            graph.add((artifact, PROFILE.hasRole, ROLE.vocabulary))
-        graph.add((artifact, PROFILE.hasArtifact, URIRef(f'{vocab_iri}/{vocab}.{ext}')))
+            graph.add((artifact, PROFILE.hasArtifact, URIRef(f'{vocab_iri}/{vocab}.{ext}')))
         graph.add((artifact, DCTERMS.format, URIRef(IANA_TYPES[ext]['format'])))
         graph.add((artifact, DCTERMS.conformsTo, URIRef(IANA_TYPES[ext]['standard'])))
         graph.add((artifact, DCTERMS.title, Literal(f"{metadata['dct:title']} - {IANA_TYPES[ext]['title']} serialiation")))
+    # Serialise the graph in specific formats defined in `RDF_SERIALIZATIONS`
+    # from [[vocab_management.py]]
+    for ext, format in RDF_SERIALIZATIONS.items():
         graph.serialize(f'{filepath}.{ext}', format=format)
     INFO(f'wrote {filepath}.[{",".join(RDF_SERIALIZATIONS)}]')
 
