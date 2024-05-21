@@ -33,9 +33,9 @@ DPV_FILES = {
     # of 'sheets' in a single document
     # The documents in Google Drive are organised per 
     # topic already, so this mapping reflects that.
-    'process': { 
+    'namespaces': { 
     # The name is the document name the downloaded file is saved as
-        'name': 'process', 
+        'name': 'namespaces', 
     # The ID of the document through which it is downloaded
     # (obtained by copying the info in
     # link where https://docs.google.com/spreadsheets/d/`<DOC_ID>`)
@@ -45,6 +45,12 @@ DPV_FILES = {
             # > Note: the 'name' of the 'sheet' MUST be exact
             'Namespaces', 
             'Namespaces_Other', 
+            ),
+    },
+    'process': { 
+        'name': 'process', 
+        'doc_id': '17wwwFpE11KzWAkmWkrJDqUMZq2AhStcAqBjcWE2wMEM',
+        'sheets': ( 
             'Process', 
             'Process_properties',
             ),
