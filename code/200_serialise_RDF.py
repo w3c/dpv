@@ -366,6 +366,14 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
         INSERT {{ <{str(vocab_owl_iri)}> ?p ?o }}
         WHERE {{  <{str(vocab_iri)}> ?p ?o }}
         """)
+    # replace artifact iris
+    # graph.update(f"""
+    #     DELETE {{ ?s profile:hasArtifact ?o }}
+    #     WHERE {{  ?s profile:hasArtifact ?o }}
+    #     """)
+    for s, p, o in graph.triples((None, PROFILE.hasArtifact, None)):
+        graph.remove((s, p, o))
+        graph.add((s, p, URIRef(o.replace(f'{vocab}.', f'{vocab}-owl.'))))
 
     # For domain/range, the semantically correct use would be to
     # declare `owl:unionOf` with a `rdf:Collection` containing all
