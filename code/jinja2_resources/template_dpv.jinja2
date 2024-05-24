@@ -16,9 +16,9 @@
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
     specStatus: "CG-DRAFT",
     group: "dpvcg",
-    latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
-    canonicalUri: "https://w3id.org/dpv/",
-    edDraftURI: "https://w3id.org/dpv/",
+    // latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
+    latestVersion: "https://w3id.org/dpv/",
+    edDraftURI: "https://dev.dpvcg.org/dpv",
     github: "w3c/dpv",
     subjectPrefix: "[dpv]",
     doJsonLd: true,
@@ -30,12 +30,25 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}",
     }
     ],
-    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list %}
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
       {
         "name": "{{person}}",
         "company": "{{ person | generate_author_affiliation }}"
       }{{"," if not loop.last}}
       {% endfor %}],
+    otherLinks: [{
+      "key": "Publications",
+      "data": [
+          {
+            "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+            "href": "https://arxiv.org/abs/2404.13426"
+          },
+          {
+            "value": "Creating a Vocabulary for Data Privacy (2019)",
+            "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
+          }
+      ]
+    }],
     localBiblio: {%  include 'references.json' %}
   };
 </script>
@@ -291,6 +304,7 @@
   </figure>
   {{ list_hierarchy(modules['TOM-physical']['classes'], head='dpv:PhysicalMeasure') }}
   </section>
+</section>
 
 <section id="vocab-legal-basis">
   <h2>Legal Bases</h2>
@@ -348,7 +362,7 @@
 </section>
 
 <section id="vocab-processing-context">
-  <h2>Context of Processing</h2>
+  <h2>Processing Context</h2>
   <figure>
     <img src="../media/Processing_Context.png">
     <figcaption></figcaption>
@@ -482,6 +496,10 @@
   <p>To associate a rule with a specific context, which can be a PersonalDataHandling or PersonalData or Purposes, the relations [=hasPermission=], [=hasProhibition=] and [=hasObligation=] are provided. Additional types of rules can be added to DPV by extending the Rule Concept (e.g., <code>:MyRule rdfs:isSubClassOf dpv:Rule</code>).</p>
 
   {{ list_hierarchy(modules['rules']['classes']) }}
+</section>
+
+<section id="extensions">
+  <h2>Extensions</h2>
 </section>
 
 <section id="vocabulary">

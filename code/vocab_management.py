@@ -561,7 +561,7 @@ RDF_VOCABS = {
             "dct:description": "The Data Privacy Vocabulary (DPV) provides terms (classes and properties) to represent information about processing of personal data, for example - purposes, processing operations, personal data, technical and organisational measures.",
             "dct:created": "2022-08-18",
             "dct:modified": "2024-01-01",
-            "dct:creator": "Harshvardhan J. Pandit",
+            "dct:creator": "Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake",
             "schema:version": "2",
             "profile:isProfileOf": "",
         },
