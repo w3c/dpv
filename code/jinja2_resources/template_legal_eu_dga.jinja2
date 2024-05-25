@@ -1,26 +1,26 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}EU-DGA Extension{% endblock title%}</title>
+  <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}}{% endblock title %}</title>
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   {% block RESPEC %}
   <script class="remove">
    // All config options at https://respec.org/docs/ 
    var respecConfig = {
     shortName: "eu-dga",
-    title: "EU DGA Extension",
-    subtitle: "Data Privacy Vocabulary (DPV)",
-    publishDate: "2023-11-13",
-    specStatus: "CG-DRAFT",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/legal/eu/dga",
     canonicalUri: "https://w3id.org/dpv/legal/eu/dga",
-    edDraftURI: "https://w3id.org/dpv/ed/legal/eu/dga",
+    edDraftURI: "https://dev.dpvcg.org//legal/eu/dga",
     github: "w3c/dpv",
     subjectPrefix: "[eu-dga]",
     doJsonLd: true,
@@ -36,18 +36,25 @@
         "company": "{{ "Beatriz Esteves" | generate_author_affiliation }}"
     }
     ],
-    authors: [
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
       {
-        "name": "Beatriz Esteves",
-        "company": "{{ "Beatriz Esteves" | generate_author_affiliation }}"
-      },
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    otherLinks: [
       {
-        "name": "Georg P. Krog",
-        "company": "{{ "Georg P. Krog" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Harshvardhan J. Pandit",
-        "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Semantics for Implementing Data Reuse and Altruism under EU's Data Governance Act (2023)",
+              "href": "https://doi.org/10.3233/SSW230015"
+            }
+        ]
       }
     ],
     localBiblio: {%  include 'references.json' %}
@@ -59,11 +66,10 @@
 <body>
 {% block ABSTRACT %}
   <section id="abstract">
-    <p>DPV-DGA extends the [[[DPV]]] to provide taxonomies of concepts such as legal bases, rights, other relevant concepts as defined within the [[[DGA]]].</p>
-    <p>The canonical URL for DPV-DGA is <a href="https://w3id.org/dpv/dpv-dga">https://w3id.org/dpv/dpv-dga</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv/dpv-dga#"><code>https://w3id.org/dpv/dpv-dga#</code></a>, the suggested prefix is <code>dpv-dga</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
-    <p>This work is based on the article "Semantics for Implementing Data Reuse and Altruism under EU's Data Governance Act" by Beatriz Esteves, Victor Rodriguez Doncel, Harshvardhan J. Pandit, and Dave Lewis, accepted for presentation at SEMANTiCS 2023. Preprint is <a href="https://doi.org/10.5281/zenodo.8301900">here</a>.</p>
-    {{ dpv_document_family(document='dpv-dga-spec') }}
-      {{ sotd() }}
+    <p>The EU-DGA extension extends the [[[DPV]]] to provide concepts such as entities, rights, other relevant concepts based on the [[[DGA]]]. The canonical URL for the EU-DGA extension is <a href="https://w3id.org/dpv/legal/eu/dga">https://w3id.org/dpv/legal/eu/dga</a>, the namespace for EU-DGA terms is <a href="https://w3id.org/dpv/legal/eu/dga#"><code>https://w3id.org/dpv/legal/eu/dga#</code></a>, the suggested prefix is <code>eu-dga</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+    <p>This work was first presented in the article "<a href="https://doi.org/10.3233/SSW230015"><i>Semantics for Implementing Data Reuse and Altruism under EU's Data Governance Act</i></a>" by Beatriz Esteves, Victor Rodriguez Doncel, Harshvardhan J. Pandit, and Dave Lewis.</p>
+    {{ sotd() }}
+    {{ dpv_document_family(document='eu-dga-spec') }}
   </section>
 {% endblock ABSTRACT %}
 {% block INTRODUCTION %}
@@ -90,7 +96,7 @@
   <section id="vocab-legal-rights">
     <h2>Rights under DGA</h2>
     <p>DGA provides several rights to the data subject, whose applicability depends on the context and nature of processing taking place. DPV lists these rights at an abstract level as concepts along with their origin in specific clauses of the DGA.</p>
-    <p>In addition to DPV's concepts regarding exercise of rights, DPV-DGA provides additional concepts specific to the implementation of its rights.</p>
+    <p>In addition to DPV's concepts regarding exercise of rights, EU-DGA provides additional concepts specific to the implementation of its rights.</p>
 
     {{ list_hierarchy(modules['legal_rights']['classes']) }}
   </section>
@@ -140,10 +146,24 @@
 {% endblock VOCAB %}
 
 {% block ACKNOWLEDGEMENTS %}
+<section id="contributors">
+  <h2>Contributors</h2>
+  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
+  <ul>
+  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
+    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
+  {% endfor %}
+  </ul>
+</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
-  
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+  <p>The contributions of Harshvardhan J. Pandit and Dave Lewis have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
@@ -162,13 +182,6 @@
 {% endif %}
 {% endblock PROPOSED %}
 
-<section class="appendix" id="issue-summary"></section>
-
-{% block DEPRECATED %}
-<section class="appendix" id="appendix-deprecated">
-  <h2>Deprecated Terms</h2>
-</section>
-{% endblock DEPRECATED %}
 <script type="text/javascript" src="../../../media/common.js" defer></script>
 </body>
 </html>

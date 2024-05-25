@@ -1,26 +1,26 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}EU NIS2 Extension{% endblock title%}</title>
+  <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}}{% endblock title %}</title>
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   {% block RESPEC %}
   <script class="remove">
    // All config options at https://respec.org/docs/ 
    var respecConfig = {
     shortName: "eu-nis2",
-    title: "EU NIS2 Extension",
-    subtitle: "Data Privacy Vocabulary (DPV)",
-    publishDate: "2024-05-19",
-    specStatus: "CG-DRAFT",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/legal/eu/nis2",
     canonicalUri: "https://w3id.org/dpv/legal/eu/nis2",
-    edDraftURI: "https://w3id.org/dpv/ed/legal/eu/nis2",
+    edDraftURI: "https://dev.dpvcg.org/legal/eu/nis2",
     github: "w3c/dpv",
     subjectPrefix: "[eu-nis2]",
     doJsonLd: true,
@@ -32,6 +32,23 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }
     ],
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
+      {
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    otherLinks: [
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            }
+        ]
+      }
+    ],
     localBiblio: {%  include 'references.json' %}
   };
 </script>
@@ -42,8 +59,8 @@
 {% block ABSTRACT %}
   <section id="abstract">
     <p>NIS2 stub</p>
-    {{ dpv_document_family(document='dpv-dga-spec') }}
-      {{ sotd() }}
+    {{ sotd() }}
+    {{ dpv_document_family(document='eu-nis2-spec') }}
   </section>
 {% endblock ABSTRACT %}
 {% block INTRODUCTION %}
@@ -84,11 +101,27 @@
 {% endblock VOCAB %}
 
 {% block ACKNOWLEDGEMENTS %}
+<section id="contributors">
+  <h2>Contributors</h2>
+  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
+  <ul>
+  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
+    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
+  {% endfor %}
+  </ul>
+</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
+
 {% block PROPOSED %}
 {% if proposed %}
 <section id="proposed-terms" class="appendix">
@@ -104,13 +137,6 @@
 {% endif %}
 {% endblock PROPOSED %}
 
-<section class="appendix" id="issue-summary"></section>
-
-{% block DEPRECATED %}
-<section class="appendix" id="appendix-deprecated">
-  <h2>Deprecated Terms</h2>
-</section>
-{% endblock DEPRECATED %}
 <script type="text/javascript" src="../../../media/common.js" defer></script>
 </body>
 </html>

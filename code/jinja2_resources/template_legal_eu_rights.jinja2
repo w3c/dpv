@@ -1,27 +1,27 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>EU Fundamental Rights Extension</title>
+  <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}}{% endblock title %}</title>
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   <script class="remove">
    // All config options at https://respec.org/docs/ 
    var respecConfig = {
     shortName: "eu-rights",
-    title: "EU Fundamental Rights",
-    subtitle: "Data Privacy Vocabulary (DPV)",
-    publishDate: "2023-11-13",
-    specStatus: "CG-DRAFT",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/legal/eu/rights",
     canonicalUri: "https://w3id.org/dpv/legal/eu/rights",
-    edDraftURI: "https://w3id.org/dpv/ed/legal/eu/rights",
+    edDraftURI: "https://dev.dpvcg.org/dpv/legal/eu/rights",
     github: "w3c/dpv",
-    subjectPrefix: "[eu-rights]",
+    subjectPrefix: "[rights]",
     doJsonLd: true,
     lint: { "no-unused-dfns": false },
     editors: [
@@ -31,10 +31,21 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }
     ],
-    authors: [
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
       {
-        "name": "Harshvardhan J. Pandit",
-        "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    otherLinks: [
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            }
+        ]
       }
     ],
     localBiblio: {%  include 'references.json' %}
@@ -44,18 +55,14 @@
 </head>
 <body>
   <section id="abstract">
-    <p>This vocabulary provides concepts representing the EU Fundamental Rights for use with [[[DPV]]] to provide additional concepts regarding <i>DataSubjectRights</i>.</p>
-    <p>The namespace for terms in RIGHTS-EU is <a href="http://w3id.org/dpv/rights/eu#"><code>https://w3id.org/dpv/rights/eu#</code></a><br/>
-      The suggested prefix for the namespace is <code>rights-eu</code><br/>
-      The RIGHTS-EU vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
-      <div class="issue" title="WARNING: Unstable concepts" data-number="75"></div>
-    {{ dpv_document_family(document='rights-eu-spec') }}
+    <p>The EU-RIGHTS extension provides concepts representing the EU Fundamental Rights for use as <i>DataSubjectRights</i> in [[[DPV]]]. The namespace for terms in EU-RIGHTS is <a href="http://w3id.org/dpv/rights/eu#"><code>https://w3id.org/dpv/rights/eu#</code></a>, the suggested prefix for the namespace is <code>eu-rights</code>, and the EU-RIGHTS vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
     {{ sotd() }}
+    {{ dpv_document_family(document='rights-eu-spec') }}
   </section>
   <section id="vocab">
     <h2>Taxonomy</h2>
 
-    {{ list_hierarchy(vocab) }}
+    {{ list_hierarchy(vocab, head='eu-rights:EUFundamentalRights') }}
 
   </section>
 
@@ -90,20 +97,28 @@
 </section>
 {% endif %}
 
-<section class="appendix" id="issue-summary">
+{% block ACKNOWLEDGEMENTS %}
+<section id="contributors">
+  <h2>Contributors</h2>
+  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
+  <ul>
+  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
+    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
+  {% endfor %}
+  </ul>
 </section>
-
-<section id="funding-acknowledgements" class="noTOC">
+<section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
   <h3>Funding Sponsors</h3>
-  <p>The DPVCG and DPV were initiated as part of the <a href="https://specialprivacy.ercim.eu/">SPECIAL H2020 Project</a>, which received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No. 731601. The SPECIAL project ran over a 3-year period from 2017 to 2019.</p>
-  <p>Harshvardhan J. Pandit was funded by the Irish Research Council  Government of Ireland Postdoctoral Fellowship Grant#GOIPD/2020/790 for working within the DPVCG and contributing to the DPV. The fellowship lasted from 2020 to 2022.</p>
+  {{ funding_acknowledgements() }}
 
   <h3>Funding Acknowledgements for Contributors</h3>
-  <p>The contributions of Harshvardhan J. Pandit have received funding from the ADAPT SFI Centre for Digital Media Technology is funded by Science Foundation Ireland through the SFI Research Centres Programme and is co-funded under the European Regional Development Fund (ERDF) through Grant#13/RC/2106 (2018 to 2020) and Grant#13/RC/2106_P2 (2021 onwards)</p>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
+{% endblock ACKNOWLEDGEMENTS %}
+
 <script type="text/javascript" src="../media/common.js" defer></script>
 </body>
 </html>

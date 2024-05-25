@@ -1,4 +1,4 @@
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,12 +10,12 @@
    var respecConfig = {
     shortName: "ucr",
     title: "DPV Use-Cases and Requirements",
-    publishDate: "2022-10-10",
-    specStatus: "CG-DRAFT",
+    publishDate: "2024-05-31",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/use-cases",
     canonicalUri: "https://w3id.org/dpv/use-cases",
-    edDraftURI: "https://w3id.org/dpv/ed/use-cases",
+    edDraftURI: "https://dev.dpvcg.org/use-cases",
     github: "w3c/dpv",
     subjectPrefix: "[ucr]",
     doJsonLd: true,
@@ -27,6 +27,21 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }
     ],
+    otherLinks: [
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
+            }
+        ]
+      }
+    ],
     localBiblio: {%  include 'references.json' %}
   };
   </script>
@@ -35,8 +50,8 @@
 <body>
   <section id="abstract">
     <p>This document lists the use-cases and requirements that motivate the development and provision of resources within the [[[DPVCG]]]. Specifically, it lists the background information that feeds into the continued development of the [[[DPV]]] and its associated resources. It draws inspiration (and methodology) from [[[SHACL-UseCases]]]. The vocabulary, and instances of use-cases and requirements are available in DPVCG GitHub repo under <i>./use-cases</i> path.</p>
-    {{ dpv_document_family(document='dpv-spec') }}
     {{ sotd() }}
+    {{ dpv_document_family(document='dpv-spec') }}
     <p>The namespaces used in this document are as follows:</p>
     <table>
       <tr><td><code>: </code></td><td><code><&lt;https://w3id.org/dpv/use&#45;cases/vocab#&gt;</code></td></tr>
@@ -137,7 +152,7 @@
       {% endfor %}
     </section>
 
-    <section id='concept-mappings' class='appendix'>
+    {# <section id='concept-mappings' class='appendix'>
       <h2>Concept Mappings</h2>
       <ul>
       {% for concept, data in mappings.items()|sort(attribute=0) %}
@@ -150,7 +165,20 @@
           </ul></li>
       {% endfor %}
       </ul>
+    </section> #}
+
+    {% block ACKNOWLEDGEMENTS %}
+    <section id="funding-acknowledgements" class="notoc">
+      <h2>Funding Acknowledgements</h2>
+
+      <h3>Funding Sponsors</h3>
+      {{ funding_acknowledgements() }}
+
+      <h3>Funding Acknowledgements for Contributors</h3>
+      <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+
     </section>
+    {% endblock ACKNOWLEDGEMENTS %}
     <script type="text/javascript" src="../media/common.js" defer></script>
   </body>
   </html>

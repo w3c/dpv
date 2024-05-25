@@ -1,7 +1,7 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,14 +12,14 @@
    // All config options at https://respec.org/docs/ 
    var respecConfig = {
     shortName: "tech",
-    title: "Technology Concepts",
-    subtitle: "extending Data Privacy Vocabulary (DPV)",
-    publishDate: "2024-05-09",
-    specStatus: "CG-DRAFT",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/tech",
     canonicalUri: "https://w3id.org/dpv/tech",
-    edDraftURI: "https://w3id.org/dpv/tech",
+    edDraftURI: "https://dev.dpvcg.org/tech",
     github: "w3c/dpv",
     subjectPrefix: "[tech]",
     doJsonLd: true,
@@ -31,30 +31,21 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }
     ],
-    authors: [
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
       {
-        "name": "Beatriz Esteves",
-        "company": "{{ "Beatriz Esteves" | generate_author_affiliation }}"
-      },
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    otherLinks: [
       {
-        "name": "Georg P. Krog",
-        "company": "{{ "Georg P. Krog" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Harshvardhan J. Pandit",
-        "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Julian Flake",
-        "company": "{{ "Julian Flake" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Paul Ryan",
-        "company": "{{ "Paul Ryan" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Delaram Golpayegani",
-        "company": "{{ "Delaram Golpayegani" | generate_author_affiliation }}"
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            }
+        ]
       }
     ],
     localBiblio: {%  include 'references.json' %}
@@ -63,15 +54,14 @@
 <link rel="stylesheet" type="text/css" href="../media/common.css">
 </head>
 <body>
+  {% block ABSTRACT %}
   <section id="abstract">
-    <p>The [[[DPV]]] provides a rich taxonomy of concepts which includes <i>Technology</i>. While it enables expression of how some technology is applied within the context of personal data and its processing, there is a need for further specific details regarding technologies, their management, and relevance to actual real-world tools and systems. TECH provides such concepts associated with Technologies as an extension to DPV concepts.</p>
-    <p>The namespace for terms in tech is <a href="http://w3id.org/dpv/tech#"><code>https://w3id.org/dpv/tech#</code></a><br/>
-      The suggested prefix for the namespace is <code>tech</code><br/>
-      The TECH vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+    <p>The [[[DPV]]] provides a rich taxonomy of concepts which includes <i>Technology</i>. While it enables expression of how some technology is applied within the context of personal data and its processing, there is a need for further specific details regarding technologies, their management, and relevance to actual real-world tools and systems. TECH provides such concepts associated with Technologies as an extension to DPV concepts. The namespace for terms in tech is <a href="http://w3id.org/dpv/tech#"><code>https://w3id.org/dpv/tech#</code></a>. The suggested prefix for the namespace is <code>tech</code>. The TECH vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
 
-    {{ dpv_document_family(document='tech-spec') }}
     {{ sotd() }}
+    {{ dpv_document_family(document='tech-spec') }}
   </section>
+  {% endblock ABSTRACT %}
   <section id="vocab-core">
     <h2>Core Concepts</h2>
     
@@ -168,21 +158,29 @@
 </section>
 {% endif %}
 
-<section class="appendix" id="issue-summary">
+{% block ACKNOWLEDGEMENTS %}
+<section id="contributors">
+  <h2>Contributors</h2>
+  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
+  <ul>
+  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
+    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
+  {% endfor %}
+  </ul>
 </section>
-
-<section id="funding-acknowledgements" class="noTOC">
+<section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
-  <h2>Funding Sponsors</h2>
-  <p>The DPVCG and DPV were initiated as part of the <a href="https://specialprivacy.ercim.eu/">SPECIAL H2020 Project</a>, which received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No. 731601. The SPECIAL project ran over a 3-year period from 2017 to 2019.</p>
-  <p>Harshvardhan J. Pandit was funded by the Irish Research Council  Government of Ireland Postdoctoral Fellowship Grant#GOIPD/2020/790 for working within the DPVCG and contributing to the DPV. The fellowship lasted from 2020 to 2022.</p>
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
 
-  <h2>Funding Acknowledgements for Contributors</h2>
+  <h3>Funding Acknowledgements for Contributors</h3>
   <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
-  <p>The contributions of Harshvardhan J. Pandit have received funding from the ADAPT SFI Centre for Digital Media Technology is funded by Science Foundation Ireland through the SFI Research Centres Programme and is co-funded under the European Regional Development Fund (ERDF) through Grant#13/RC/2106 (2018 to 2020) and Grant#13/RC/2106_P2 (2021 onwards)</p>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
+{% endblock ACKNOWLEDGEMENTS %}
+
 <script type="text/javascript" src="../media/common.js" defer></script>
 </body>
 </html>

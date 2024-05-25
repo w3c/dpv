@@ -1,7 +1,7 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,14 +13,14 @@
    // All config options at https://respec.org/docs/ 
    var respecConfig = {
     shortName: "legal",
-    title: "",
-    subtitle: "extending Data Privacy Vocabulary (DPV)",
-    publishDate: "2024-01-28",
-    specStatus: "CG-DRAFT",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
-    latestVersion: "https://w3id.org/dpv/loc",
-    canonicalUri: "https://w3id.org/dpv/loc",
-    edDraftURI: "https://w3id.org/dpv/loc",
+    latestVersion: "{{RDF_VOCABS[vocab_name]['metadata']['iri']}}",
+    canonicalUri: "{{RDF_VOCABS[vocab_name]['metadata']['iri']}}",
+    edDraftURI: "{{RDF_VOCABS[vocab_name]['metadata']['iri'].replace('w3id.org/dpv', 'dev.dpvcg.org')}}",
     github: "w3c/dpv",
     subjectPrefix: "[loc]",
     doJsonLd: true,
@@ -32,6 +32,23 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }
     ],
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
+      {
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    otherLinks: [
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            },
+        ]
+      }
+    ],
     localBiblio: {%  include 'references.json' %}
   };
 </script>
@@ -41,19 +58,25 @@
 <body>
 {% block ABSTRACT %}
   <section id="abstract">
-    <p>DPV-PD extends the [[[DPV]]] to provide additional concepts regarding Personal Data categories.</p>
-    <p>The canonical URL for DPV-PD is <a href="https://w3id.org/dpv/dpv-pd">https://w3id.org/dpv/dpv-pd</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv/dpv-pd#"><code>https://w3id.org/dpv/dpv-pd#</code></a>, the suggested prefix is <code>dpv-pd</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
-    {{ dpv_document_family(document='dpv-pd-spec') }}
+    <p>The {{vocab_name|upper}} extension extends the [[[DPV]]] to represent laws, authorities, and other legal concepts in {% if '-' in vocab_name %} {{vocab_name.split('-')[1]|upper}} jurisdiction{% else %}various jurisdictions{% endif %}.</p>
+    <p>The canonical URL for {{vocab_name|upper}} extension is <a href="{{RDF_VOCABS[vocab_name]['metadata']['iri']}}">{{RDF_VOCABS[vocab_name]['metadata']['iri']}}</a>, the namespace is <a href="{{RDF_VOCABS[vocab_name]['metadata']['iri']}}#"><code>{{RDF_VOCABS[vocab_name]['metadata']['iri']}}#</code></a>, the suggested prefix is <code>{{vocab_name}}</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
     {{ sotd() }}
+    {{ dpv_document_family(document='dpv-pd-spec') }}
   </section>
 {% endblock ABSTRACT %}
 {% block INTRODUCTION %}
 
 {% endblock INTRODUCTION %}
 {% block VOCAB %}
-<section id="overview">
+<section id="vocab-legal">
     <h2>Overview</h2>
 </section>
+
+{% if vocab_name == 'legal' %}
+    <section id="dpv-extensions">
+        <h2>DPV Extensions</h2>
+    </section>
+{% endif %}
 
 {% if modules['legal']['classes']|filter_type('dpv:Law')|length > 0 %}
 <section id="laws">
@@ -179,7 +202,29 @@
     {{ index_concepts(vocab, vocab_name, filter="external") }}
   </section>
 </section>
-  
+
+{% block ACKNOWLEDGEMENTS %}
+<section id="contributors">
+  <h2>Contributors</h2>
+  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
+  <ul>
+  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
+    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
+  {% endfor %}
+  </ul>
+</section>
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+
+</section>
+{% endblock ACKNOWLEDGEMENTS %}
+
 {% endblock VOCAB %}
 
 </body>

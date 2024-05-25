@@ -1,4 +1,4 @@
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,6 +30,21 @@
         "company": "{{ "Luigi Sauro" | generate_author_affiliation }}"
       }
     ],
+    otherLinks: [
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
+            }
+        ]
+      }
+    ],
     localBiblio: {%  include 'references.json' %}
   };
 </script>
@@ -38,8 +53,8 @@
 <body>
 <section id="abstract">
     <p>This document acts as a guide presenting how [[[DPV]]], through its OWL2 encoding (i.e. [[DPV-OWL]]) can be used as an OWL2 vocabulary by easily encoding it in a low-complexity profile of OWL2 called <em>OWL2-PL</em>. </p>
+    {{ sotd() }}
     {{ dpv_document_family(document='dpv-guide-owl2') }}
-      {{ sotd() }}
 </section>
 <section id="introduction">
     <h2>Introduction</h2>
@@ -166,10 +181,19 @@ EquivalentTo:
     <p>As it should be expected, modeling the GDPR is more complex, but its encoding into OWL2 and OWL2-PL is the responsibility of knowledge engineers, and it does not concern end users. The interested reader may find more details about the OWL2 encoding of the GDPR in several papers and documents, such as [1] and [2].</p>
     <p>The complete grammar of the policy language of OWL2-PL can be found in [3], together with a corresponding JSON version designed for the developers that are not familiar with OWL2.</p>
 </section>
-<section id="acknowledgements">
-    <h2>Acknowledgments</h2>
-    <p>OWL2-PL and the semantic policy framework have been developed by the H2020 projects SPECIAL and TRAPEZE, funded by the European Union under grants n. 731601 and 883464, respectively.</p>
+
+{% block ACKNOWLEDGEMENTS %}
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>OWL2-PL and the semantic policy framework have been developed by the H2020 projects SPECIAL and TRAPEZE, funded by the European Union under grants n. 731601 and 883464, respectively.</p>
 </section>
+{% endblock ACKNOWLEDGEMENTS %}
+
 <section id="references">
     <p>[1] Piero A. Bonatti, Sabrina Kirrane, Iliana M. Petrova, Luigi Sauro: <em>Machine Understandable Policies and GDPR Compliance Checking</em>. Künstliche Intell. 34(3): 303-315 (2020)</p>
     <p>[2] P.A. Bonatti, L. Ioffredo, G. Luongo, S. Mosi, I.M. Petrova, L. Sauro: <em>Formalization of the GDPR and of the Pilots’ Policies</em>. SPECIAL Report D5. Available at: <a href="https://specialprivacy.ercim.eu/images/documents/report-D5.pdf">https://specialprivacy.ercim.eu/images/documents/report-D5.pdf</a></p>

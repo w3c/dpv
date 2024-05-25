@@ -14,10 +14,10 @@
     title: "{{data[vocab_name+'-metadata']['dct:title']}}",
     subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
-    specStatus: "CG-DRAFT",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
-    // latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
     latestVersion: "https://w3id.org/dpv/",
+    canonicalUri: "https://w3id.org/dpv/",
     edDraftURI: "https://dev.dpvcg.org/dpv",
     github: "w3c/dpv",
     subjectPrefix: "[dpv]",
@@ -36,19 +36,30 @@
         "company": "{{ person | generate_author_affiliation }}"
       }{{"," if not loop.last}}
       {% endfor %}],
-    otherLinks: [{
-      "key": "Publications",
-      "data": [
-          {
-            "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
-            "href": "https://arxiv.org/abs/2404.13426"
-          },
-          {
-            "value": "Creating a Vocabulary for Data Privacy (2019)",
-            "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
-          }
-      ]
-    }],
+    otherLinks: [
+      {
+        "key": "Previous Release",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary v1 (2022)",
+              "href": "https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-20221205/"
+            }
+        ]
+      },
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
+            }
+        ]
+      }
+    ],
     localBiblio: {%  include 'references.json' %}
   };
 </script>
@@ -59,8 +70,7 @@
 {% block ABSTRACT %}
     {# {{ language_selector(lang) }} #}
     <section id="abstract">
-      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
-      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model. The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
       {{ sotd() }}
       {{ dpv_document_family(document='dpv-spec') }}
     </section>
@@ -220,18 +230,6 @@
 
 </section>
 
-<section id="vocab-processing">
-  <h2>Processing</h2>
-  <figure>
-    <img src="../media/processing.png" />
-    <figcaption></figcaption>
-  </figure>
-  {{ ref_dedicated_documentation("/dpv/modules/processing", "processing") }}
-  <p>DPV’s taxonomy of processing concepts reflects the variety of terms used to denote processing activities or operations involving personal data, such as those from [GDPR] Article.4-2 definition of processing. Real-world use of terms associated with processing rarely uses this same wording or terms, except in cases of specific domains and in legal documentation. On the other hand, common terms associated with processing are generally restricted to: collect, use, store, share, and delete.</p>
-  <p>DPV provides a taxonomy that aligns both the legal terminologies such as those defined by GDPR with those commonly used. For this, concepts are organised based on whether they subsume other concepts, e.g. Use is a broad concept indicating data is used, which DPV extends to define specific processing concepts for Analyse, Consult, Profiling, and Retrieving. Through this mechanism, whenever an use-case indicates it consults some data, it can be inferred that it also uses that data.</p>
-  <p>For concepts related to expressing contextual information associated with processing, such as storage conditions, automation, scale, see <a href="#vocab-processing-context">Processing Context</a> and <a href="#vocab-processing-scale">Processing Scale</a> sections.</p>
-  {{ list_hierarchy(modules['processing']['classes'], head='dpv:Processing') }}
-</section>
 
 <section id="vocab-personal-data">
   <h2>Data &amp; Personal Data</h2>
@@ -248,6 +246,51 @@
   <p>DPV defines the following concepts for expressing information about data:</p>
   {{ list_hierarchy(modules['personal_data']['classes'], head='dpv:Data') }}
 </section>
+
+
+<section id="vocab-processing">
+  <h2>Processing</h2>
+  <figure>
+    <img src="../media/processing.png" />
+    <figcaption></figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/processing", "processing") }}
+  <p>DPV’s taxonomy of processing concepts reflects the variety of terms used to denote processing activities or operations involving personal data, such as those from [GDPR] Article.4-2 definition of processing. Real-world use of terms associated with processing rarely uses this same wording or terms, except in cases of specific domains and in legal documentation. On the other hand, common terms associated with processing are generally restricted to: collect, use, store, share, and delete.</p>
+  <p>DPV provides a taxonomy that aligns both the legal terminologies such as those defined by GDPR with those commonly used. For this, concepts are organised based on whether they subsume other concepts, e.g. Use is a broad concept indicating data is used, which DPV extends to define specific processing concepts for Analyse, Consult, Profiling, and Retrieving. Through this mechanism, whenever an use-case indicates it consults some data, it can be inferred that it also uses that data.</p>
+  <p>For concepts related to expressing contextual information associated with processing, such as storage conditions, automation, scale, see <a href="#vocab-processing-context">Processing Context</a> and <a href="#vocab-processing-scale">Processing Scale</a> sections.</p>
+  {{ list_hierarchy(modules['processing']['classes'], head='dpv:Processing') }}
+</section>
+
+<section id="vocab-processing-context">
+  <h2>Processing Context</h2>
+  <figure>
+    <img src="../media/Processing_Context.png">
+    <figcaption></figcaption>
+  </figure>
+  {{ ref_dedicated_documentation("/dpv/modules/processing#vocab-processing-context", "processing context") }}
+  <section id="vocab-processing-context-storage-automation">
+    <h3>Storage Conditions, Automation</h3>
+    <p>This taxonomy provides concepts for representing information about storage conditions, e.g. how long the data will be stored for, its erasure, or its restoration. It also enables representing the source(s) of data, the use of automation, and the extent of human involvement within the automation.</p>
+    <p>The processing taxonomy uses the concept [=Store=] to indicate data is being stored. To specify additionally information such as its location, erasure or deletion, the generic concepts and relations associated with processing (i.e. <i>location</i> and <i>duration</i>) can be used. However, to emphasise that information about storage - such as policies, conditions, rules, or documentation - are critical on considerations of data protection and privacy as well as legal compliance, DPV provide specific concepts related to these.</p>
+    <p>The concept [=StorageCondition=] and the relation [=hasStorageCondition=] represent the general or abstract conditions associated with storage of data. This is specialised to indicate [=StorageDuration=], [=StorageDeletion=], [=StorageRestoration=], and [=StorageLocation=]. This enables a document to directly specify information such as: "storage duration is 6 months" or "storage restoration uses 3 geo-distinct backup servers".</p>
+    <p>For declaring the source of data, the [=DataSource=] concept along with [=hasDataSource=] relationship is provided to indicate where the data is collected or acquired from. For example, data can be obtained from the data subject directly (e.g. given via forms) or indirectly (e.g observed from activity, or inferred from existing data), or from another entity such as a third party.</p>
+    <div class="issue" title="Update Automation and Human Involvement concepts"></div>
+    <p>DPV provides <s>AutomationOfProcessing</s> to represent the degree of automation, and the relation <s>hasProcessingAutomation</s> to associate it with contextual concepts. The degrees of automation are represented by <s>FullyAutomatedProcessing</s>, <s>PartiallyAutomatedProcessing</s>, and <s>CompletelyManualProcessing</s>.</p>
+    <p>To represent how humans are involved, the concept [=HumanInvolvement=] and relation [=hasHumanInvolvement=] are provided. Specific types of  [=HumanInvolvement=] include [=HumanInvolvementForOversight=], and [=HumanInvolvementForVerification=].
+    <p>To indicate more specific applications: [=DecisionMaking=] and [=AutomatedDecisionMaking=] refer to use of processing to make decisions, [=AlgorithmicLogic=] for explaining the use of algorithms and specifics of processing logic, [=EvaluationScoring=] to indicate the processing evaluates or assigns scores (or metrics), [=InnovativeUseOfNewTechnologies=] to indicate there are innovative uses of novel technologies, and [=SystematicMonitoring=] to indicate the processing performs a systematic (or systemic) monitoring. These additional concepts are intended to model areas or topics that are considered sensitive or high-risk or require caution.</p>
+
+    {{ list_hierarchy(modules['processing-context']['classes'], head='dpv:ProcessingContext') }}
+  </section>
+
+  <section id="vocab-processing-scale">
+    <h3>Scale of Processing</h3>
+    <p>DPV provides (qualitative) scales for expressing <i>Data Volume</i>, <i>Data subjects</i>, and <i>Geographical Coverage</i> of processing. Along with these, DPV also provides a <i>Processing Scale</i> to express combinations of these. NOTE: The actual meaning or quantified amounts for each concept are not defined due to their interpretation based on contextual factors such as legislations, guidelines, domains, and variations across industries.</p>
+
+    {{ list_hierarchy(modules['processing-scale']['classes'], head='dpv:Scale') }}
+  </section>
+</section>
+
+
 <section id="vocab-TOM">
   <h2>Tech/Org Measures</h2>
   <figure>
@@ -358,35 +401,6 @@
       </ol>
     </section>
 
-  </section>
-</section>
-
-<section id="vocab-processing-context">
-  <h2>Processing Context</h2>
-  <figure>
-    <img src="../media/Processing_Context.png">
-    <figcaption></figcaption>
-  </figure>
-  {{ ref_dedicated_documentation("/dpv/modules/processing#vocab-processing-context", "processing context") }}
-  <section id="vocab-processing-context-storage-automation">
-    <h3>Storage Conditions, Automation</h3>
-    <p>This taxonomy provides concepts for representing information about storage conditions, e.g. how long the data will be stored for, its erasure, or its restoration. It also enables representing the source(s) of data, the use of automation, and the extent of human involvement within the automation.</p>
-    <p>The processing taxonomy uses the concept [=Store=] to indicate data is being stored. To specify additionally information such as its location, erasure or deletion, the generic concepts and relations associated with processing (i.e. <i>location</i> and <i>duration</i>) can be used. However, to emphasise that information about storage - such as policies, conditions, rules, or documentation - are critical on considerations of data protection and privacy as well as legal compliance, DPV provide specific concepts related to these.</p>
-    <p>The concept [=StorageCondition=] and the relation [=hasStorageCondition=] represent the general or abstract conditions associated with storage of data. This is specialised to indicate [=StorageDuration=], [=StorageDeletion=], [=StorageRestoration=], and [=StorageLocation=]. This enables a document to directly specify information such as: "storage duration is 6 months" or "storage restoration uses 3 geo-distinct backup servers".</p>
-    <p>For declaring the source of data, the [=DataSource=] concept along with [=hasDataSource=] relationship is provided to indicate where the data is collected or acquired from. For example, data can be obtained from the data subject directly (e.g. given via forms) or indirectly (e.g observed from activity, or inferred from existing data), or from another entity such as a third party.</p>
-    <div class="issue" title="Update Automation and Human Involvement concepts"></div>
-    <p>DPV provides <s>AutomationOfProcessing</s> to represent the degree of automation, and the relation <s>hasProcessingAutomation</s> to associate it with contextual concepts. The degrees of automation are represented by <s>FullyAutomatedProcessing</s>, <s>PartiallyAutomatedProcessing</s>, and <s>CompletelyManualProcessing</s>.</p>
-    <p>To represent how humans are involved, the concept [=HumanInvolvement=] and relation [=hasHumanInvolvement=] are provided. Specific types of  [=HumanInvolvement=] include [=HumanInvolvementForOversight=], and [=HumanInvolvementForVerification=].
-    <p>To indicate more specific applications: [=DecisionMaking=] and [=AutomatedDecisionMaking=] refer to use of processing to make decisions, [=AlgorithmicLogic=] for explaining the use of algorithms and specifics of processing logic, [=EvaluationScoring=] to indicate the processing evaluates or assigns scores (or metrics), [=InnovativeUseOfNewTechnologies=] to indicate there are innovative uses of novel technologies, and [=SystematicMonitoring=] to indicate the processing performs a systematic (or systemic) monitoring. These additional concepts are intended to model areas or topics that are considered sensitive or high-risk or require caution.</p>
-
-    {{ list_hierarchy(modules['processing-context']['classes'], head='dpv:ProcessingContext') }}
-  </section>
-
-  <section id="vocab-processing-scale">
-    <h3>Scale of Processing</h3>
-    <p>DPV provides (qualitative) scales for expressing <i>Data Volume</i>, <i>Data subjects</i>, and <i>Geographical Coverage</i> of processing. Along with these, DPV also provides a <i>Processing Scale</i> to express combinations of these. NOTE: The actual meaning or quantified amounts for each concept are not defined due to their interpretation based on contextual factors such as legislations, guidelines, domains, and variations across industries.</p>
-
-    {{ list_hierarchy(modules['processing-scale']['classes'], head='dpv:Scale') }}
   </section>
 </section>
 
@@ -523,7 +537,6 @@
 {% block ACKNOWLEDGEMENTS %}
 <section id="contributors">
   <h2>Contributors</h2>
-  <div class="issue" title="Resolve duplicate contributors"></div>
   <p>Former Editor(s): Axel Polleres ({{"Axel Polleres"|generate_author_affiliation}} - until 2019-12-31)</p>
   <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
   <ul>
@@ -540,7 +553,8 @@
 
   <h3>Funding Acknowledgements for Contributors</h3>
   <p>The contributions of Piero Bonatti and Luigi Sauro to the DPVCG have been funded by the European Union’s Horizon 2020 research and innovation programme under grant agreement N. 731601 (<a href="https://specialprivacy.ercim.eu/">project SPECIAL</a>) until 2019, and under grant agreement N. 883464 (<a href="https://trapeze-project.eu/">project TRAPEZE</a>) from 2020 until 2023.</p>
-  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+  <p>The contributions of Beatriz Esteves, Delaram Golpayegani, and Rana Saniei have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+  <p>The contributions of Harshvardhan J. Pandit, Arthit Suriyawongkul, Delaram Golpayegani, and Rob Brennan have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}

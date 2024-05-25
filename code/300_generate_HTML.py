@@ -748,6 +748,7 @@ def _write_template(
         'vocab_name': vocab,
         'lang': lang,
         'template': template_env.get_template(template),
+        'RDF_VOCABS': RDF_VOCABS,
     }
     template = template_env.get_template(template)
     with open(f'{filepath}/{filename}-{lang}.html', 'w+') as fd:

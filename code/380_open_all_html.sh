@@ -9,9 +9,9 @@
 # The easiest way to do this is using python3 -m http.server
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-	COMMAND=xdg-open
+    COMMAND=xdg-open
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-	COMMAND=open
+    COMMAND=open
 fi
 
 ## Choose Mode for live or local version
@@ -19,42 +19,66 @@ fi
 MODE="http://localhost:8000"
 
 FILES=(
-	# core specs
-	"$MODE/dpv"
-	"$MODE/dpv-gdpr"
-	"$MODE/dpv-pd"
-	"$MODE/dpv-legal"
-	"$MODE/dpv-tech"
-	"$MODE/risk"
-	"$MODE/rights"
-	"$MODE/rights/eu"
-	# dpv-skos
-	"$MODE/dpv-skos/"
-	"$MODE/dpv-skos/dpv-gdpr"
-	"$MODE/dpv-skos/dpv-pd"
-	"$MODE/dpv-skos/dpv-legal"
-	"$MODE/dpv-skos/dpv-tech"
-	"$MODE/dpv-skos/risk"
-	"$MODE/dpv-skos/rights"
-	"$MODE/dpv-skos/rights/eu"
-	# dpv-owl
-	"$MODE/dpv-owl"
-	"$MODE/dpv-owl/dpv-gdpr"
-	"$MODE/dpv-owl/dpv-pd"
-	"$MODE/dpv-owl/dpv-legal"
-	"$MODE/dpv-owl/dpv-tech"
-	"$MODE/dpv-owl/risk"
-	"$MODE/dpv-owl/rights"
-	"$MODE/dpv-owl/rights/eu"
-	# misc
-	"$MODE/primer"
-	"$MODE/use-cases"
-	"$MODE/examples"
-	"$MODE/guides"
-	"$MODE/guides/dpv-owl.html"
-	)
+    # core specs
+    "$MODE/dpv/index.html"
+    # # extensions
+    # "$MODE/pd/index.html"
+    # "$MODE/tech/index.html"
+    # "$MODE/risk/index.html"
+    # "$MODE/ai/index.html"
+    # "$MODE/justifications/index.html"
+    # "$MODE/loc/index.html"
+    # # legal
+    # "$MODE/legal/index.html"
+    # "$MODE/legal/eu/index.html"
+    # "$MODE/legal/eu/gdpr/index.html"
+    # "$MODE/legal/eu/dga/index.html"
+    # "$MODE/legal/eu/aiact/index.html"
+    # "$MODE/legal/eu/nis2/index.html"
+    # "$MODE/legal/eu/rights/index.html"
+    # # misc
+    # "$MODE/primer/index.html"
+    # "$MODE/use-cases/index.html"
+    # "$MODE/examples/index.html"
+    # "$MODE/guides/index.html"
+    # "$MODE/guides/dpv-owl.html"
+    # "$MODE/guides/consent-27560.html"
+    # "$MODE/guides/gdpr-data-breach.html"
+    # "$MODE/guides/gdpr-dpia.html"
+    # "$MODE/guides/gdpr-ropa.html"
+    # "$MODE/guides/notice-29184.html"
+    # "$MODE/guides/rights.html"
+    # "$MODE/guides/dpv-misc.html"
+    # "$MODE/guides/dpv-odrl.html"
+    # "$MODE/guides/dpv-skos.html"
+    )
+
+DPV_MODULES=(
+    "$MODE/dpv/modules/context.html"
+    "$MODE/dpv/modules/entities.html"
+    "$MODE/dpv/modules/legal_basis.html"
+    "$MODE/dpv/modules/personal_data.html"
+    "$MODE/dpv/modules/processing.html"
+    "$MODE/dpv/modules/purposes.html"
+    "$MODE/dpv/modules/rights.html"
+    "$MODE/dpv/modules/risk.html"
+    "$MODE/dpv/modules/rules.html"
+    "$MODE/dpv/modules/TOM.html"
+    )
+
+for i in "$@"; do
+    case $i in
+        -m)
+            for i in "${!DPV_MODULES[@]}"
+            do
+                $COMMAND ${DPV_MODULES[i]}
+            done
+            exit 1
+            ;;
+    esac
+done
 
 for i in "${!FILES[@]}"
 do
-	$COMMAND ${FILES[i]}
+    $COMMAND ${FILES[i]}
 done

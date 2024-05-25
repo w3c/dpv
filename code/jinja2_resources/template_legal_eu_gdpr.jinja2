@@ -1,26 +1,26 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}EU-GDPR Extension{% endblock title%}</title>
+  <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}}{% endblock title %}</title>
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   {% block RESPEC %}
   <script class="remove">
    // All config options at https://respec.org/docs/ 
    var respecConfig = {
     shortName: "eu-gdpr",
-    title: "EU GDPR Extension",
-    subtitle: "Data Privacy Vocabulary (DPV)",
-    publishDate: "2023-11-13",
-    specStatus: "CG-DRAFT",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/legal/eu/gdpr",
     canonicalUri: "https://w3id.org/dpv/legal/eu/gdpr",
-    edDraftURI: "https://w3id.org/dpv/ed/legal/eu/gdpr",
+    edDraftURI: "https://dev.dpvcg.org/legal/eu/gdpr",
     github: "w3c/dpv",
     subjectPrefix: "[eu-gdpr]",
     doJsonLd: true,
@@ -32,90 +32,34 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }
     ],
-    formerEditors: [
-    {
-      name: "Axel Polleres",
-      url: "https://www.polleres.net/",
-      "company": "{{ "Axel Polleres" | generate_author_affiliation }}",
-      retiredDate: "2019-12-31"
-    }
-    ],
-    authors: [
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
       {
-        "name": "Axel Polleres",
-        "company": "{{ "Axel Polleres" | generate_author_affiliation }}"
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    otherLinks: [
+      {
+        "key": "Previous Release",
+        "data": [
+            {
+              "value": "EU-GDPR: GDPR Extension for DPV v1 (2022)",
+              "href": "https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-gdpr-20221205/"
+            }
+        ]
       },
       {
-        "name": "Beatriz Esteves",
-        "company": "{{ "Beatriz Esteves" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Bert Bos",
-        "company": "{{ "Bert Bos" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Bud Bruegger",
-        "company": "{{ "Bud Bruegger" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Elmar Kiesling",
-        "company": "{{ "Elmar Kiesling" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Eva Schlehahn",
-        "company": "{{ "Eva Schlehahn" | generate_author_affiliation }}"
-      },
-      {
-        "name": "David Hickey",
-        "company": "{{ "David Hickey" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Fajar J. Ekaputra",
-        "company": "{{ "Fajar J. Ekaputra" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Georg P. Krog",
-        "company": "{{ "Georg P. Krog" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Harshvardhan J. Pandit",
-        "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Javier D. Fernández",
-        "company": "{{ "Javier D. Fernández" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Julian Flake",
-        "company": "{{ "Julian Flake" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Mark Lizar",
-        "company": "{{ "Mark Lizar" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Paul Ryan",
-        "company": "{{ "Paul Ryan" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Piero Bonatti",
-        "company": "{{ "Piero Bonatti" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Ramisa Gachpaz Hamed",
-        "company": "{{ "Ramisa Gachpaz Hamed" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Rigo Wenning",
-        "company": "{{ "Rigo Wenning" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Rob Brennan",
-        "company": "{{ "Rob Brennan" | generate_author_affiliation }}"
-      },
-      {
-        "name": "Simon Steyskal",
-        "company": "{{ "Simon Steyskal" | generate_author_affiliation }}"
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
+            }
+        ]
       }
     ],
     localBiblio: {%  include 'references.json' %}
@@ -127,10 +71,9 @@
 <body>
 {% block ABSTRACT %}
   <section id="abstract">
-    <p>DPV-GDPR extends the [[[DPV]]] to provide taxonomies of concepts such as legal bases, rights, and data transfer tools as defined within the [[[GDPR]]].</p>
-    <p>The canonical URL for DPV-GDPR is <a href="https://w3id.org/dpv/dpv-gdpr">https://w3id.org/dpv/dpv-gdpr</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv/dpv-gdpr#"><code>https://w3id.org/dpv/dpv-gdpr#</code></a>, the suggested prefix is <code>dpv-gdpr</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
-    {{ dpv_document_family(document='dpv-gdpr-spec') }}
-      {{ sotd() }}
+    <p>The EU-GDPR extension extends the [[[DPV]]] to provide concepts such as legal bases, rights, and data transfer tools based on the [[[GDPR]]]. The canonical URL for EU-GDPR extension is <a href="https://w3id.org/dpv/legal/eu/gdpr">https://w3id.org/dpv/legal/eu/gdpr</a>, the namespace for terms is <a href="https://w3id.org/dpv/legal/eu/gdpr#"><code>https://w3id.org/dpv/legal/eu/gdpr#</code></a>, the suggested prefix is <code>eu-gdpr</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+    {{ sotd() }}
+    {{ dpv_document_family(document='eu-gdpr-spec') }}
   </section>
 {% endblock ABSTRACT %}
 {% block INTRODUCTION %}
@@ -138,7 +81,7 @@
     <h2>Introduction</h2>
     <div class="issue" title="Review section descriptions"></div>
     <p>The Data Privacy Vocabulary (DPV) provides terms to annotate and categorise instances of legally compliant personal data handling. In particular, the vocabulary provides <code>LegalBasis</code> and <code>DataSubjectRight</code> as top-level concepts representing the various legal bases for justifying processing of personal data and rights provided to the data subject respectively. Since these concepts are specifically defined within the scope of jurisdictional laws, their implementation is provided as a separate vocabulary that extends the DPV, thereby permitting continued usage of DPV as a jurisdiction-agnostic and generic vocabulary.</p>
-    <p>The DPV-GDPR vocabulary extends the concepts within DPV regarding <a href="#vocab-legal-basis">legal bases</a>, <a href="#vocab-rights">data subject rights</a>, <a href="#vocab-data-transfers">data transfer tools</a>, <a href="#vocab-dpia">data protection impact assessment (DPIA)</a>, and <a href="#vocab-compliance">compliance</a>, and provides a compatible extension to be used in combination with the DPV to represent GDPR-specific information.</p>
+    <p>The EU-GDPR vocabulary extends the concepts within DPV regarding <a href="#vocab-legal-basis">legal bases</a>, <a href="#vocab-rights">data subject rights</a>, <a href="#vocab-data-transfers">data transfer tools</a>, <a href="#vocab-dpia">data protection impact assessment (DPIA)</a>, and <a href="#vocab-compliance">compliance</a>, and provides a compatible extension to be used in combination with the DPV to represent GDPR-specific information.</p>
   </section>
 {% endblock INTRODUCTION %}
 {% block VOCAB %}
@@ -146,7 +89,7 @@
     <h2>Legal Basis under GDPR</h2>
     <p>The GDPR Article 6 specifies that it is mandatory for every processing to have one (or more) legal basis that justifies its compliance. These are represented as <a href="#vocab-legal-basis-GDPR">Core Legal Basis</a>. In addition, Articles 9 legal basis are represented as <a href="#vocab-legal-basis-special">legal basis for Special Category Personal Data</a>, and those from Articles 45, 46, and 49 are represented as <a href="#vocab-legal-basis-data-transfer">legal basis for Data Transfer</a>.</p>
     <div class="note" title="DPV does not define validity of legal basis">
-      <p>DPV and DPV-GDPR only define the legal basis as concepts, and do not define or provide information associated with their validity. For example, determining whether consent is valid, or the appropriateness of a legal basis for its application in a use-case. The DPVCG is interested in providing such "helpful assistance" through semantics, and welcomes discussions and contributions for the same.</p>
+      <p>DPV and EU-GDPR only define the legal basis as concepts, and do not define or provide information associated with their validity. For example, determining whether consent is valid, or the appropriateness of a legal basis for its application in a use-case. The DPVCG is interested in providing such "helpful assistance" through semantics, and welcomes discussions and contributions for the same.</p>
     </div>
     </section>
 
@@ -178,7 +121,7 @@
   <section id="vocab-rights">
     <h2>Rights under GDPR</h2>
     <p>GDPR provides several rights to the data subject, whose applicability depends on the context and nature of processing taking place. DPV lists these rights at an abstract level as concepts along with their origin in specific clauses of the GDPR.</p>
-    <p>In addition to DPV's concepts regarding exercise of rights, DPV-GDPR provides additional concepts specific to the implementation of its rights. For example, [=SARNotice=] refers to the information provided in fulfilment of [=A15=] Right of Access, or using [=dcat:Resource=] to represent the dataset provided in fulfilment of [=A20=] Right to Data Portability.</p>
+    <p>In addition to DPV's concepts regarding exercise of rights, EU-GDPR provides additional concepts specific to the implementation of its rights. For example, [=SARNotice=] refers to the information provided in fulfilment of [=A15=] Right of Access, or using [=dcat:Resource=] to represent the dataset provided in fulfilment of [=A20=] Right to Data Portability.</p>
 
     {{ list_hierarchy(modules['rights']['classes']) }}
   </section>
@@ -210,10 +153,10 @@
 
   <section id="vocab-data-transfers">
     <h2>Data Transfer Tools</h2>
-    <p>GDPR regulates data transfers outside the EU/EEA based on jurisdictions the transfer is occurring within and the guarantees available regarding the protection of personal data and fundamental rights. To indicate the sufficiency of a data transfer being compatible and adherent to these requirements, the European Commission provides various 'data transfer tools' based on the legal bases provided within the GDPR. DPV-GDPR models these as follows.</p>
+    <p>GDPR regulates data transfers outside the EU/EEA based on jurisdictions the transfer is occurring within and the guarantees available regarding the protection of personal data and fundamental rights. To indicate the sufficiency of a data transfer being compatible and adherent to these requirements, the European Commission provides various 'data transfer tools' based on the legal bases provided within the GDPR. EU-GDPR models these as follows.</p>
 
     <div class="note" title="Providing implementations of Data Transfer Tools">
-      <p>The DPV-GDPR's concepts for transfer tools are currently symbolic, and do not provide a way to actually implement those tools. For example, to represent the information contained within a SCC or BCR. The DPVCG is interested in providing such implementations, and welcomes discussions and contributions for the same.</p>
+      <p>The EU-GDPR's concepts for transfer tools are currently symbolic, and do not provide a way to actually implement those tools. For example, to represent the information contained within a SCC or BCR. The DPVCG is interested in providing such implementations, and welcomes discussions and contributions for the same.</p>
     </div>
 
     {{ list_hierarchy(modules['data_transfers']['classes']) }}
@@ -221,18 +164,18 @@
 
   <section id="vocab-dpia">
     <h2>DPIA</h2>
-    <p>[[GDPR]] Article 35 specifies the conditions and requirements associated with Data Protection Impact Assessments. DPV-GDPR expands on the <code>DPIA</code> concept defined as an Organisational Measure within DPV by considering a DPIA as consisting of the following iterative process, and providing statuses for documenting their progression and outputs:</p>
+    <p>[[GDPR]] Article 35 specifies the conditions and requirements associated with Data Protection Impact Assessments. EU-GDPR expands on the <code>DPIA</code> concept defined as an Organisational Measure within DPV by considering a DPIA as consisting of the following iterative process, and providing statuses for documenting their progression and outputs:</p>
     <ol>
-      <li>Identifying activities for which a DPIA is to be undertaken (represented using DPV and DPV-GDPR)</li>
+      <li>Identifying activities for which a DPIA is to be undertaken (represented using DPV and EU-GDPR)</li>
       <li>Checking whether a DPIA is needed as per GDPR Art.35 and other jurisdictional requirements: the activitiy is [=DPIANecessityAssessment=] and its output is denoted using [=DPIANecessityStatus=]</li>
       <li>Conducting the DPIA to identify risks and impacts: the activity is [=DPIAProcedure=] and its output is denoted using [=DPIARiskStatus=]</li>
       <li>Determining the outcome based on risk mitigation: the activity is [=DPIAOutcome=] and its output is denoted using [=DPIAOutcomeStatus=]</li>
       <li>Determining whether processing should be permitted to continue or be carried out, with the outcome being denote using [=DPIAProcessingRecommendation=]</li>
       <li>Assessing whether processing is carried out in conformance with the DPIA, with the outcome being denoted using [=DPIAConformity=]</li>
     </ol>
-    <p>In addition to DPV's concepts for representing information about processing of personal data, DPV-GDPR also recommends using [[[DCT]]] concepts to represent <a href="#external-concepts">relevant metadata</a>, such as dates, identifiers, validity, etc.</p>
-    <div class="note" title="Guidance on documenting DPIAs using DPV and DPV-GDPR">
-      <p>The DPVCG is working on updating the [[[GUIDE-GDPR-DPIA]]] based on recent updates in DPV and DPV-GDPR. In addition to these, we are also working on providing concepts for expressing impacts and risk management within [[[RISK]]].</p>
+    <p>In addition to DPV's concepts for representing information about processing of personal data, EU-GDPR also recommends using [[[DCT]]] concepts to represent <a href="#external-concepts">relevant metadata</a>, such as dates, identifiers, validity, etc.</p>
+    <div class="note" title="Guidance on documenting DPIAs using DPV and EU-GDPR">
+      <p>The DPVCG is working on updating the [[[GUIDE-GDPR-DPIA]]] based on recent updates in DPV and EU-GDPR. In addition to these, we are also working on providing concepts for expressing impacts and risk management within [[[RISK]]].</p>
     </div>
 
     {{ list_hierarchy(modules['dpia']['classes']) }}
@@ -285,20 +228,29 @@
 {% endblock VOCAB %}
 
 {% block ACKNOWLEDGEMENTS %}
+<section id="contributors">
+  <h2>Contributors</h2>
+  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
+  <ul>
+  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
+    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
+  {% endfor %}
+  </ul>
+</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
   <h3>Funding Sponsors</h3>
-  <p>The DPVCG and DPV were initiated as part of the <a href="https://specialprivacy.ercim.eu/">SPECIAL H2020 Project</a>, which received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No. 731601. The SPECIAL project ran over a 3-year period from 2017 to 2019.</p>
-  <p>Harshvardhan J. Pandit was funded by the Irish Research Council  Government of Ireland Postdoctoral Fellowship Grant#GOIPD/2020/790 for working within the DPVCG and contributing to the DPV. The fellowship lasted from 2020 to 2022.</p>
+  {{ funding_acknowledgements() }}
 
   <h3>Funding Acknowledgements for Contributors</h3>
-  <p>The contributions of Piero Bonatti and Luigi Sauro to the DPVCG have been funded by the European Union’s Horizon 2020 research and innovation programme under grant agreement N. 731601 (<a href="https://specialprivacy.ercim.eu/">project SPECIAL</a>) until 2019, and under grant agreement N. 883464 (<a href="https://trapeze-project.eu/">project TRAPEZE</a>) from 2020 until 2023.</p>
+  <p>The contributions of Axel Polleres, Javier Fernandez, Piero Bonatti, and Luigi Sauro to the DPVCG have been funded by the European Union’s Horizon 2020 research and innovation programme under grant agreement N. 731601 (<a href="https://specialprivacy.ercim.eu/">project SPECIAL</a>) until 2019, and that for Piero Bonatti and Luigi Sauro were under grant agreement N. 883464 (<a href="https://trapeze-project.eu/">project TRAPEZE</a>) from 2020 until 2023.</p>
   <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
-  <p>The contributions of Harshvardhan J. Pandit have received funding from the ADAPT SFI Centre for Digital Media Technology is funded by Science Foundation Ireland through the SFI Research Centres Programme and is co-funded under the European Regional Development Fund (ERDF) through Grant#13/RC/2106 (2018 to 2020) and Grant#13/RC/2106_P2 (2021 onwards)</p>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
+
 {% block PROPOSED %}
 {% if proposed %}
 <section id="proposed-terms" class="appendix">
@@ -314,13 +266,6 @@
 {% endif %}
 {% endblock PROPOSED %}
 
-<section class="appendix" id="issue-summary"></section>
-
-{% block DEPRECATED %}
-<section class="appendix" id="appendix-deprecated">
-  <h2>Deprecated Terms</h2>
-</section>
-{% endblock DEPRECATED %}
 <script type="text/javascript" src="../../../media/common.js" defer></script>
 </body>
 </html>
