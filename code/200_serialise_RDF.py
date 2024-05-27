@@ -218,7 +218,8 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     graph.add((URIRef('https://w3id.org/dpv/examples'), RDF.type, PROFILE.ResourceDescriptor))
     graph.add((URIRef('https://w3id.org/dpv/examples'), PROFILE.hasRole, ROLE.guidance))
     graph.add((URIRef('https://w3id.org/dpv/examples'), PROFILE.hasArtifact, URIRef('https://w3id.org/dpv/examples')))
-    graph.add((URIRef('https://w3id.org/dpv/examples'), DCTERMS.title, Literal("Examples for Data Privacy Vocabulary")))
+    if vocab != 'dex':
+        graph.add((URIRef('https://w3id.org/dpv/examples'), DCTERMS.title, Literal(RDF_VOCABS['dex']['metadata']['dct:title'])))
     graph.add((URIRef('https://w3id.org/dpv/examples'), DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/text/html")))
     graph.add((URIRef('https://w3id.org/dpv/examples'), DCTERMS.conformsTo, URIRef("https://www.w3.org/TR/html/")))
 
