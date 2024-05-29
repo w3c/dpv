@@ -326,10 +326,20 @@ def construct_instance(term, data, namespace, header):
 def construct_skos_narrower(term, data, namespace, header):
     triples = []
     for item in term.split(','):
-        item = NAMESPACES[item.split(':')[0]][item.split(':')[1]]
-        triples.append((namespace[data['Term']], SKOS.narrower, item))
+        item_iri = NAMESPACES[item.split(':')[0]][item.split(':')[1]]
+        triples.append((namespace[data['Term']], SKOS.narrower, item_iri))
         if term.split(':')[0] == item.split(':')[0]:
-            triples.append((item, SKOS.broader, namespace[data['Term']]))
+            triples.append((item_iri, SKOS.broader, namespace[data['Term']]))
+    return triples
+
+
+def construct_skos_broader(term, data, namespace, header):
+    triples = []
+    for item in term.split(','):
+        item_iri = NAMESPACES[item.split(':')[0]][item.split(':')[1]]
+        triples.append((namespace[data['Term']], SKOS.broader, item_iri))
+        if term.split(':')[0] == item.split(':')[0]:
+            triples.append((item_iri, SKOS.narrower, namespace[data['Term']]))
     return triples
 
 

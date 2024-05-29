@@ -64,12 +64,22 @@
   </section>
 {% endblock ABSTRACT %}
 {% block INTRODUCTION %}
-
+<section>
+  <h2>Introduction</h2>
+  <p>The Locations ([[LOC]]) extension extends the [[DPV]] to provide concepts representing locations based on the <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> and <a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a> standards. At the moment, it only provides country codes with plans for future iterations to provide additional concepts representing subdivisions in countries such as provinces and cities. In addition to ISO 3166 countries and subdivisions, the extension also provides a representation of geo-political supraunions such as the EU with a list of its member countries. Through these concepts, the [[LOC]] extension enables representation and use of locations with other DPV concepts, such as to indicate where the data is being stored or processed, or to indicate the data subjects are from a particular location. The [[[LEGAL]]] extensions use these concepts to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities.</p>
+  <p>To express the ISO and UN codes for specific locations, the following properties have been introduced:</p>
+  <ol>
+    <li>[=iso_alpha2=] to represent the 2-letter ISO 3166 alpha2 codes</li>
+    <li>[=iso_alpha3=] to represent the 3-letter ISO 3166 alpha3 codes</li>
+    <li>[=iso_numeric=] to represent the ISO 3166 numberic codes</li>
+    <li>[=un_m49=] to represent the 2-letter UN M49 codes</li>
+  </ol>
+  <p>To express unions and memberships such as for [=EEA=] and [=EU=], the [[SKOS]] relations <i>narrower/broader</i> are used, with the union expressed as an instance of <code>dpv:SupraNationalUnion</code>.</p>
+</section>
 {% endblock INTRODUCTION %}
 {% block VOCAB %}
   <section id="vocab-locations">
-    <h2>Overview</h2>
-    <div class="issue" title="Content missing - Overview"></div>
+    <h2>Countries</h2>
     <table style="font-size: 0.75rem;">
         <thead>
             <th>ID</th>
@@ -86,14 +96,14 @@
             <tr>
                 <td><a href="#{{loc['term']}}"><code>{{ loc['prefixed'] }}</code></a></td>
                 <td>{{ loc['skos:prefLabel'] }}</td>
-                <td><code>{{ loc['dpv:iso_alpha2'] }}</code></td>
-                <td><code>{{ loc['dpv:iso_alpha3'] }}</code></td>
-                <td><code>{{ loc['dpv:iso_numeric'] }}</code></td>
-                <td><code>{{ loc['dpv:un_m49'] }}</code></td>
-                <td>{% if 'skos:narrower' in loc %}<a href="subdivisions-{{loc['term']}}">{{ loc['skos:narrower']|length }} divisions</a>{% else %}N/A{% endif %}</td>
+                <td><code>{{ loc['loc:iso_alpha2'] }}</code></td>
+                <td><code>{{ loc['loc:iso_alpha3'] }}</code></td>
+                <td><code>{{ loc['loc:iso_numeric'] }}</code></td>
+                <td><code>{{ loc['loc:un_m49'] }}</code></td>
+                <td>{% if 'skos:narrower' in loc %}<a href="#subdivisions-{{loc['term']}}">{{ loc['skos:narrower']|length }} divisions</a>{% else %}N/A{% endif %}</td>
                 <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:{{loc['term']}}">ISO</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/{{loc['dpv:iso_alpha3']}}">EU Vocabularies</a></td>
+                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:{{loc['term']}}">ISO OBP</a>; 
+                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/{{loc['dpv:iso_alpha3']}}">EU Vocab</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -102,7 +112,9 @@
 
   <section id="subdivisions">
     <h2>Subdivisions/Regions</h2>
-    <div class="issue" title="Content missing - Subdivisions"></div>
+    <aside class="note" title="Extending location taxonomy with ISO 3166-2 subdivision codes">
+      <p>The LOC extension will be extended in fututre iterations by adding ISO 3166-2 subdivision codes for representing provinces, regions, cities, and other subdivisions.</p>
+    </aside>
       {% for country in vocab.values()|filter_type('dpv:Country',vocab='loc')|sort(attribute='iri') if 'skos:narrower' in country %}
       <section id="subdivisions-{{country['term']}}">
         <h3>{{ country['skos:prefLabel'] }}</h3>
@@ -118,7 +130,7 @@
               <tr>
                   <td><a href="#{{loc['term']}}"><code>{{ loc['prefixed'] }}</code></a></td>
                   <td>{{ loc['skos:prefLabel'] }}</td>
-                  <td><code>{{ loc['dpv:iso_alpha2'] }}</code></td>
+                  <td><code>{{ loc['loc:iso_alpha2'] }}</code></td>
               </tr>
               {% endfor %}
             </tbody>
@@ -126,6 +138,19 @@
       </section>
       {% endfor %}
     </section>
+
+  <section id="vocab-memberships">
+    <h2>Unions and Memberships</h2>
+    {% for union in vocab.values()|filter_type('dpv:SupraNationalUnion',vocab='loc')|sort(attribute='iri') %}
+    <h3>{{ union['skos:prefLabel'] }}</h3>
+    <p>{{ union['skos:definition'] }}.</p>
+    <p>The following countries are members of this union:
+      {% for country in union['skos:narrower']|get_concept_list %}
+        <a href="#{{country['loc:iso_alpha2']}}">{{ country['skos:prefLabel'] }} ({{ country['loc:iso_alpha2'] }})</a>{{ ", " if not loop.last }}
+      {% endfor %}
+    </p>
+    {% endfor %}
+  </section>
 
   <section id="vocabulary">
 <h2>Vocabulary Index</h2>

@@ -88,7 +88,8 @@ SCHEMA['legal_basis_rights_mapping'] = {
 SCHEMA['locations'] = {
     'Term': vocab_funcs.construct_class,
     'Label': vocab_funcs.construct_label,
-    'ParentTerm': None,
+    'Definition': vocab_funcs.contruct_definition,
+    'ParentTerm': vocab_funcs.construct_skos_broader,
     'ParentType': vocab_funcs.construct_parent_taxonomy,
     'ISO-3166-Alpha2': vocab_funcs.construct_iso_3166_alpha2,
     'ISO-3166-Alpha3': vocab_funcs.construct_iso_3166_alpha3,
@@ -104,6 +105,7 @@ SCHEMA['locations'] = {
 SCHEMA['memberships'] = {
     'Term': vocab_funcs.construct_class,
     'Label': vocab_funcs.construct_label,
+    'Definition': vocab_funcs.contruct_definition,
     'ParentTerm': None,
     'ParentType': vocab_funcs.construct_parent_taxonomy,
     'Members': vocab_funcs.construct_skos_narrower,

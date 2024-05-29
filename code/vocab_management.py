@@ -677,6 +677,7 @@ RDF_VOCABS = {
         'export': f'{EXPORT_PATH}/loc',
         'modules': {
             'locations': f'{IMPORT_PATH}/loc/modules/locations.ttl',
+            'memberships': f'{IMPORT_PATH}/loc/modules/memberships.ttl',
         },
         'metadata': {
             "dct:title": "Location Concepts",
