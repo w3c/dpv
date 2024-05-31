@@ -67,18 +67,147 @@
 {% endblock ABSTRACT %}
   <section id="motivation">
     <h2>Introduction</h2>
-    
-    <div class="issue" title="Add Risk Management concepts" data-number="74"></div>
+    <p>[[DPV]] provides a minimal set of risk assessment concepts that include <code>dpv:RiskAssessment</code> <code>dpv:Risk</code>, <code>dpv:RiskMitigation</code>, <code>dpv:Severity</code>, <code>dpv:Likelihood</code>, <code>dpv:Consequence</code>, and <code>dpv:Impact</code> along with relations or properties to use them. To further assist tasks and representation of information regarding risk assessments, as well as to support the implementation of risk management, the [[RISK]] extension provide additional concepts and taxonomies through which risks and impacts can be defined - such as to describe incidents, data breaches, their associate reports and notices, risk matrices, and other risk management processes.</p>
+    <p>The RISK extension utilises the following sources to guide and define its concepts and taxonomies:</p>
+    <ol>
+      <li>ISO 31000 series, which includes: 
+        <ol type="a">
+          <li>ISO 31073:2022 Risk management — Vocabulary</li>
+          <li>ISO 31000:2018 Risk management — Guidelines</li>
+          <li>IEC 31010:2019 Risk management – Risk assessment techniques</li>
+        </ol>
+        </li>
+      <li>Requirements from regulations to perform risk and impact assessments, which includes:
+        <ol type="a">
+          <li>[[[GDPR]]]</li>
+          <li>[[[NIS2]]]</li>
+          <li>[[[AIAct]]]</li>
+        </ol>
+        </li>
+    </ol>
   </section>
 
   <section id="vocab-core">
     <h2>Core Concepts</h2>
+    <p>The core concepts involves reuse of the following concepts from [[DPV]]:</p>
+    <ul>
+      <li><a href="https://w3id.org/dpv#Risk"><code>dpv:Risk</code></a> represents the concept of 'risk' i.e. a possibility or potential of negative events to occur, and is indicated using the relation <a href="https://w3id.org/dpv#hasRisk"><code>dpv:hasRisk</code></a>.</li>
+      <li><a href="https://w3id.org/dpv#RiskMitigation"><code>dpv:RiskMitigationMeasure</code></a> represents a method or process or control to mitigate the risk, and is associated using the relation <a href="https://w3id.org/dpv#hasRiskMitigationMeasure"><code>dpv:isMitigatedByMeasure</code></a></li>
+      <aside class="note" title="Risk Mitigation and Risk Treatment">
+        <p>DPV uses the term 'risk mitigation' based on its use in legal documents to indicate addressing risks. In risk management, the term 'risk treatment' refers to addressing risks, and includes specific approaches such as: avoidance, reduction, transfer, acceptance, and sharing. The DPVCG invites discussions and contributions to represent these concepts in its RISK extension.</p>
+      </aside>
+      <li><a href="https://w3id.org/dpv#Consequence"><code>dpv:Consequence</code></a> represents the consequences of risks and incidents, and is associated using the relation <a href="https://w3id.org/dpv#hasConsequence"><code>dpv:hasConsequence</code></a>. To indicate who or what the consequence affects, the relation <a href="https://w3id.org/dpv#hasConsequenceOn"><code>hasConsequenceOn</code></a> is used. The [[RISK]] extension provides a <a href="#vocab-risk-consequences">taxonomy of consequences and impacts</a>.</li>
+      <li><a href="https://w3id.org/dpv#Impact"><code>dpv:Impact</code></a> represents the impacts of the risks and incidents on entities, and is associated using the relation <a href="https://w3id.org/dpv#hasImpact"><code>dpv:hasImpact</code></a>. To indicate who the impact affects, the relation <a href="https://w3id.org/dpv#hasImpactOn"><code>hasImpactOn</code></a> is used.</li>
+      <aside class="note" title="Consequences and Impacts">
+        <p>DPV uses the terms <i>Consequence</i> and <i>Impact</i> to enable legally relevant tasks which concern impacts on entities as compared to systems and technologies. For example, if an incident takes place and as a result a machine stops working - this is a consequence of the event. If due to the machine stopping there is harm to an individual, this is an impact arising from that consequence.</p>
+      </aside>
+      <li><a href="https://w3id.org/dpv#Severity"><code>dpv:Severity</code></a> represents the severity of risks and incidents, and is indicated using <a href="https://w3id.org/dpv#hasSeverity"><code>dpv:hasSeverity</code></a>.</li>
+      <li><a href="https://w3id.org/dpv#Likelihood"><code>dpv:Likelihood</code></a> represents the likelihood of risks and incidents, and is indicated using <a href="https://w3id.org/dpv#hasLikelihood"><code>dpv:hasLikelihood</code></a>.</li>
+      <li><a href="https://w3id.org/dpv#RiskLevel"><code>dpv:RiskLevel</code></a> represents the level of risks and incidents, and is indicated using <a href="https://w3id.org/dpv#hasRiskLevel"><code>dpv:hasRiskLevel</code></a>. The [[RISK]] extension provides a <a href="#vocab-risk-levels">taxonomy of risk levels</a>.</li>
+    </ul>
+    <p>The new concepts introduced in this extension include the following:</p>
+    <ul>
+      <li>[=Incident=] to represent an actual occurence of the risk i.e. to indicate a risk has materialised, which is associated with the risk with relation [=refersToRisk=]. To associate an incident with a context, such as a process or a system, the relation [=hasIncident=] is provided.</li>
+      <li>[=IncidentStatus=] to indicate the state or status of an incident, such as whether it is ongoing or has concluded. It is associated using the relation <a href="https://w3id.org/dpv#hasStatus"><code>dpv:hasStatus</code></a>.</li>
+      <li>[=RiskSource=] to represent the source or origin of risk, which is indicated using [=hasRiskSource=].</li>
+      <li>[=Threat=] is a [=RiskSource=] which causes the risk, and is indicated by the relation [=causedByThreat=].</li>
+      <li>[=ThreatSource=] is the agent or non-agent cause of the [=Threat=], and is indicated by the relation [=hasThreatSource=].</li>
+      <li>[=Vulnerability=] to describe the weakness of a process, system, or entity, which is exploited by the [=ThreatSource=] in a [=Threat=] event to give rise to risk and cause an incident. [=Vulnerability=] is associated using the relation [=hasVulnerability=], and the relation [=isVulnerabilityOf=] indicates what the vulnerability is associated with.</li>
+      <li>The relation [=exploitsVulnerability=] indicates a [=Threat=] exploits a [=Vulnerability=], and the relation [=isExploitedBy=] indicates how a [=Vulnerability=] is associated with a [=Threat=]. The relation [=causedByVulnerability=] indicates an incident is caused by a vulnerability.</li>
+      <li>[=RiskControl=] to represent specific controls used in risk mitigation such as changing likelihoods or removing the risk source. The relation [=hasControl=] is used to associate them.</li>
+      <li>[=RiskMatrix=] to represent the popular risk analysis method for calculating risk levels based on likelihood and severity.</li>
+    </ul>
     {{ list_hierarchy(modules['core']['classes']) }}    
+    <aside class="example" title="Using DPV and RISK extension to represent risks">
+      <p>This example shows the use of risk concepts in DPV and RISK extension to represent a risk of data breach associated with a process along with its potential consequences and impacts on the data subject. The scenario consists of a risk of data breach with high likelihood and severity, and whose potential consequence includes a loss of data which can lead to financial loss for the data controller and misuse of breached information to cause identity fraud for the data subject. The risk has a mitigation measure, which is to secure the data using the encryption. The residual risk if this measure is applied is shown to have a lower risk level.</p>
+      <pre class="nohighlight"><code>ex:PDH a dpv:Process;
+  dpv:hasRisk ex:R1DB .
+
+ex:R1DB a dpv:Risk ;
+  skos:broader risk:DataBreach ;
+  skos:prefLabel "Risk of Data Breach for Process"@en ;
+  dpv:hasLikelihood risk:HighLikelihood ;
+  dpv:hasSeverity risk:HighSeverity ;
+  dpv:hasRiskLevel risk:HighRisk ;
+  dpv:hasConsequence [
+    a dpv:Risk, dpv:LossOfData ;
+    dpv:hasLikelihood risk:HighLikelihood ;
+    dpv:hasSeverity risk:HighSeverity ;
+    dpv:isMitigatedByMeasure dpv:DataBackupProtocols, dpv:Encryption ;
+    dpv:hasImpact [
+      a risk:FinancialLoss ;
+      skos:prefLabel "Loss suffered due to breach"@en ;
+      dpv:hasImpactOn dpv:DataController ;
+      dpv:hasLikelihood risk:LowLikelihood ;
+      dpv:hasSeverity risk:HighSeverity ;
+    ] ;
+    dpv:hasImpact [
+      a dpv:Risk, risk:MisuseBreachedInformation, risk:IdentityFraud ;
+      skos:prefLabel "Breached information may be misued in identity fraud"@en ;
+      dpv:hasImpactOn dpv:DataSubject ;
+      dpv:hasLikelihood risk:LowLikelihood ;
+      dpv:hasSeverity risk:HighSeverity ;
+    ] ;
+  ] ;
+  dpv:hasResidualRisk ex:R2DB .
+
+ex:R2DB a dpv:ResidualRisk ;
+  dpv:isResidualRiskOf ex:R1DB ;
+  dpv:hasLikelihood risk:HighLikelihood ;
+  dpv:hasSeverity risk:LowSeverity ;
+  dpv:hasRiskLevel risk:LowRisk .
+  </code></pre>
+    </aside>
+    <aside class="example" title="Using DPV and RISK extension to represent incidents">
+      <p>This example shows the use of incident concepts in DPV and RISK extension to represent a data breach incident along with its potential and actual (i.e. occured) consequences and impacts on the data subject. It shows the consequences of the incident as loss of data, and which is being misused to cause identity fraud. It also refers to the further risk of financial loss, and associates the incident with a previously identified risk (not elaborated in this example). Note that incident details such as timestamps and durations are not shown in this example.</p>
+      <pre class="nohighlight"><code>ex:IN11 a risk:Incident ;
+  skos:broader risk:DataBreach ;
+  dpv:hasStatus risk:IncidentConcluded ;
+  dpv:hasConsequence [
+    a dpv:Incident, dpv:LossOfData ;
+    dpv:hasStatus risk:IncidentConcluded ;
+    dpv:hasImpact [
+      a risk:Incident, risk:MisuseBreachedInformation, risk:IdentityFraud ;
+      dpv:hasStatus risk:IncidentOngoing ;
+      skos:prefLabel "Breached information may be misued in identity fraud"@en ;
+      dpv:hasImpactOn dpv:DataSubject ;
+      dpv:hasSeverity risk:HighSeverity ;
+    ] ;
+    dpv:hasImpact [
+      a dpv:Risk, risk:FinancialLoss ;
+      skos:prefLabel "Loss suffered due to breach"@en ;
+      dpv:hasImpactOn dpv:DataController ;
+      dpv:hasLikelihood risk:LowLikelihood ;
+      dpv:hasSeverity risk:HighSeverity ;
+    ] ;
+  ] ;
+  risk:refersToRisk ex:R2DB .</code></pre>
+    </aside>
   </section>
 
   <section id="vocab-risk-levels">
     <h2>Likelihood, Severity, and Levels</h2>
-    <div class="issue" title="Content missing - Risk, Likelihood, Severity Levels"></div>
+    <p>To express likelihoods, severities, and levels in a convenient manner, the RISK extension provides the following groups of concepts. Each concept is associated with a suggested value to represent the extent or degree of the concept between <code>0..1</code> using <code>rdf:value</code> e.g. [=ExtremelyLowRisk=] has a value of <code>0.01</code> and [=HighLikelihood=] has a value of <code>0.75</code>. Each group uses these values to express a range within a group e.g. in [=3LikelihoodLevels=] the [=LowLikelihood=] (0.25) covers the range 0 to 0.25, while in [=7LikelihoodLevels=] it covers the range from 0.1 ([=VeryLowLikelihood=]) to 0.25. Adopters can thus choose the appropriate ranges, and as the values are suggestions - they can be changed to match the requirements of the use-case.</p>
+    <ul>
+      <li>Likelihood:
+        <ul>
+          <li>[=3LikelihoodLevels=] which contains 3 likelihood levels of [=HighLikelihood=] (0.75), [=ModerateLikelihood=] (0.5), and [=LowLikelihood=] (0.25)</li>
+          <li>[=5LikelihoodLevels=] which contains the 3 likelihood levels from [=3LikelihoodLevels=] as well as [=VeryHighLikelihood=] (0.9) and [=VeryLowLikelihood=] (0.1) </li>
+          <li>[=7LikelihoodLevels=] which contains the 5 likelihood levels from [=5LikelihoodLevels=] as well as [=ExtremelyHighLikelihood=] (0.99) and [=ExtremelyLowLikelihood=] (0.01)</li>
+        </ul></li>
+      <li>Severity:
+        <ul>
+          <li>[=3SeverityLevels=] which contains 3 Severity levels of [=HighSeverity=] (0.75), [=ModerateSeverity=] (0.5), and [=LowSeverity=] (0.25)</li>
+          <li>[=5SeverityLevels=] which contains the 3 Severity levels from [=3SeverityLevels=] as well as [=VeryHighSeverity=] (0.9) and [=VeryLowSeverity=] (0.1) </li>
+          <li>[=7SeverityLevels=] which contains the 5 Severity levels from [=5SeverityLevels=] as well as [=ExtremelyHighSeverity=] (0.99) and [=ExtremelyLowSeverity=] (0.01)</li>
+        </ul></li>
+      <li>RiskLevel:
+        <ul>
+          <li>[=3RiskLevels=] which contains 3 RiskLevel levels of [=HighRisk=] (0.75), [=ModerateRisk=] (0.5), and [=LowRisk=] (0.25)</li>
+          <li>[=5RiskLevels=] which contains the 3 RiskLevel levels from [=3RiskLevels=] as well as [=VeryHighRisk=] (0.9) and [=VeryLowRisk=] (0.1) </li>
+          <li>[=7RiskLevels=] which contains the 5 RiskLevel levels from [=5RiskLevels=] as well as [=ExtremelyHighRisk=] (0.99) and [=ExtremelyLowRisk=] (0.01)</li>
+        </ul></li>
+    </ul>
 
     {{ list_hierarchy(modules['risk_levels']['classes']) }}
 
@@ -86,33 +215,84 @@
 
   <section id="vocab-incident">
     <h2>Incident</h2>
+    <p>To represent details about an [=Incident=] such as what personal data was involved, what technical measures were present before the incident occured, who were data subjects involved, and other pertinent details, the [[DPV]] concepts and relations should be reused.</p>
+    <p>To indicate the duration of the incident, the [[DPV]] concept <code>dpv:Duration</code> and relation <code>dpv:hasRelation</code> can be used, or <code>dct:temporal</code> from [[DCT]] can be used, or other means such as the [[TIME]] ontology or XSD types. If this information is unknown, then <code>dpv:NotAvailable</code> should be used. If the incident is ongoing, only the start would be available (also see [=IncidentStatus=]).</li>
+    </ul>
+    <p>To indicate whether the incident is ongoing or concluded (on its own) or it was terminated due to some action taken, the concept [=IncidentStatus=] is provided along with a <a href="#vocab-incident-status">taxonomy of statuses</a> which are indicated using the relation <code>dpv:hasStatus</code>.</p>
+    <aside class="example" title="Indicating personal data involved in an incident">
+      <p>This example shows how existing DPV concepts and relations are used to describe what personal data a data breach incident affected and how the data was secured before the incident.</p>
+      <pre class="nohighlight"><code>ex:IN12 a risk:Incident ;
+  dpv:hasPersonalData pd:EmailAddress ;
+  dpv:hasTechnicalMeasure dpv:Encryption ;
+  # Expressing duration using method 1: DPV concepts
+  dpv:hasDuration [
+    a dpv:UntilEventDuration ;
+    dct:description "Incident continued until we shut down power"@en ;
+  ];
+  # Expressing duration using method 2: DCT concepts
+  dct:temporal "2023-05-24/2023-05-26" ; # start and end
+dpv:hasStatus risk:IncidentConcluded .</code></pre>
+</aside>
     {{ list_hierarchy(modules['incident']['classes']) }}
-  </section>
 
-  <section id="vocab-incident-status">
-    <h2>Incident Status</h2>
-    {{ list_hierarchy(modules['incident_status']['classes']) }}
+    <section id="vocab-incident-status">
+      <h2>Incident Status</h2>
+      {{ list_hierarchy(modules['incident_status']['classes']) }}
+    </section>
   </section>
 
   <section id="vocab-risk-controls">
     <h2>Controls</h2>
-    <div class="issue" title="Content missing - Risk Controls"></div>
-
+    <p>[=RiskControl=] allows expressing how [[DPV]] technical and organisational measures address the risk or incident. They are associated using the relation [=hasControl=]. For example, [=ConsequenceControl=] is applied to consequences and impacts to either change them ([=ChangeConsequence=]) such as by reducing their likelihood or severity, or removing them ([=RemoveConsequence=]) completely. [=MonitorControl=] represents controls used to monitor events or effectiveness, such as to detect impacts ([=MonitorImpact=]) or identify vulnerabilities ([=MonitorVulnerabilities=]).</p>
+    <aside class="example" title="Using risk controls to express how tech/org measures address the risk">
+      <p>In this example, risk controls are used to indicate the technical measure of encryption is used to remove the consequence of misusing the data if it is breached.</p>
+      <pre class="nohighlight"><code>ex:R3DB a dpv:Risk ;
+  skos:broader risk:DataBreach ;
+  dpv:hasRiskLevel risk:LowRisk ;
+  dpv:hasConsequence [
+    a dpv:Risk, dpv:MisuseBreachedInformation ;
+    dpv:isMitigatedByMeasure dpv:DataBackupProtocols, dpv:Encryption ;
+    risk:hasRiskControl risk:RemoveConsequence ;
+  ] .</code></pre>
+</aside>
     {{ list_hierarchy(modules['risk_controls']['classes']) }}
 
   </section>
 
   <section id="vocab-risk-consequences">
     <h2>Consequences and Impacts</h2>
-    <div class="issue" title="Content missing - Consequences and Impacts"></div>
-
+    <aside class="note" title="Planned changes to Consequence and Impacts taxonomy" style="color: red;">
+      <p>The DPVCG is planning major changes to the way consequences and impacts are represented as concepts, and welcomes participation and contributions in this discussions.</p>
+    </aside>
+    <p>The RISK extension provides a taxonomy to expand upon the [[DPV]] concepts of <code>dpv:Consequence</code> and <code>dpv:Impact</code>. In [[DPV]], consequence is in general an outcome of an event, while impacts are a specific subset of consequences which affect entities (as compared to systems and technologies). The intent of this distinction is to support regulatory requirements such as impact assessments which are focused on how processes affect entities such as individuals and societal groups.</p>
+    <p>Broadly, the taxonomy is based on the following commonly required concepts:</p>
+    <ol>
+      <li>Consequences:
+        <ol type="a">
+        <li>[=Benefit=]</li>
+        <li>[=Detriment=]</li>
+        <li>[=Damage=]</li>
+        </ol></li>
+      <li>Impacts:
+        <ol type="b">
+        <li>[=MaterialDamage=]</li>
+        <li>[=NonMaterialDamage=]</li>
+        <li>[=Harm=]</li>
+        <li>[=Compensation=]</li>
+        <li>[=Reward=]</li>
+        <li>[=Payment=]</li>
+        <li>[=Fee=]</li>
+        <li>[=Renumeration=]</li>
+        </ol></li>
+    </ol>
     {{ list_hierarchy(modules['risk_consequences']['classes']) }}
   </section>
 
 
   <section id="vocab-risk-matrix">
     <h2>Risk Matrix</h2>
-    <div class="issue" title="Content missing - RiskMatrix"></div>
+    <p><a href="https://en.wikipedia.org/wiki/Risk_matrix">Risk Matrix</a> is a popularly used technique for qualitative risk analysis, through which a risk's likelihood and severity are used to obtain an overall risk level. To support its use, the RISK taxonomy provides concepts representing risk matrices of the format 3x3, 5x5, and 7x7. The concepts are expressed as combinations of Severity (<code>Sx</code>) and Likelihood (<code>Lx</code>) levels, and the resulting Risk Level (<code>Lx</code>) being used as its label. For example, the concept [=RM3x3S1L3=] represents a node in a 3x3 matrix with Severity and Likelihood level low (n=1) and Likelihood level high (n=3) with a resulting Risk Level of 'Moderate'. Similarly, [=RM7x7S4L7=] represents a node in a 7x7 risk matrix with Severity level moderate (n=4) and Likelihood level extremely high (n=7) with the resulting Risk Level of 'Very High Risk'.</p>
+    <p>It is possible to change the risk levels for the risk matrix by replacing the supplied labels with a custom one. For example, to indicate that the concept [=RM3x3S1L3=] should be 'Low Risk' instead of 'Moderate'.</p>
 
     {{ list_hierarchy(modules['risk_matrix']['classes']) }}
 
@@ -133,7 +313,6 @@
 
 <section id="vocabulary">
 <h2>Vocabulary Index</h2>
-<div class="issue" title="Content missing - parent missing e.g. EnvironmentalSafetyEndangerment -> dpv:Harm has wrong local href"></div>
   <section id="dpv-classes">
     {{ index_concepts(vocab, vocab_name, filter="classes") }}
   </section>

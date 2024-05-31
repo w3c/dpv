@@ -191,6 +191,7 @@ DPV_FILES = {
             'RiskSource',
             'Incident',
             'IncidentStatus',
+            'RiskConsequences',
             ),
     },
     # Sheets for Rights extension
