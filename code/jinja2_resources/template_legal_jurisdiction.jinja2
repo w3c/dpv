@@ -70,17 +70,34 @@
 {% block VOCAB %}
 <section id="vocab-legal">
     <h2>Overview</h2>
+    <p>This page provides the following legal concepts:</p>
+    <ol>
+        {% if modules['legal']['classes']|filter_type('dpv:Law')|length > 0 %}
+        <li><a href="#laws">Laws</a></li>{% endif %}
+        {% if modules['legal']['classes']|filter_type('dpv:Authority')|length > 0 %}
+        <li><a href="#authorities">Authorities</a></li>{% endif %}
+        {% if vocab_name == 'legal-eu' and modules['legal']['classes']|filter_type('eu-gdpr:AdequacyDecision')|length > 0 %}
+        <li><a href="#vocab-adequacy">Adequacy Decisions</a></li>{% endif %}
+    </ol>
 </section>
 
-{% if vocab_name == 'legal' %}
+{% if vocab_name == 'legal' or vocab_name == 'legal-eu' %}
     <section id="dpv-extensions">
-        <h2>DPV Extensions</h2>
+        <h2>DPV Extensions for Laws</h2>
+        <p>The following extensions to the [[DPV]] exist for modelling concepts from laws and regulations:</p>
+        <ul>
+            <li>[[[EU-GDPR]]]</li>
+            <li>[[[EU-DGA]]]</li>
+            <li>[[[EU-NIS2]]]</li>
+            <li>[[[EU-AIAct]]]</li>
+        </ul>
     </section>
 {% endif %}
 
 {% if modules['legal']['classes']|filter_type('dpv:Law')|length > 0 %}
 <section id="laws">
     <h2>Laws</h2>
+    <p>Laws are represented as instances of <code>dpv:Law</code>, and are associated with their jurisdictions using the [[LOC]] taxonomy and <code>dpv:hasJurisdiction</code> relation. The webpage for the law, if available, is indicated using <code>foaf:homepage</code>, and the temporal start and end if available, is represented using <code>dct:temporal</code> relation with an instance of <code>time:ProperInterval</code>.</p> 
     <table>
         <thead>
             <th>ID</th>
@@ -117,6 +134,7 @@
 {% if modules['legal']['classes']|filter_type('dpv:Authority')|length > 0 %}
 <section id="authorities">
     <h2>Authorities</h2>
+    <p>Authorities are represented as instances of <code>dpv:Authority</code>, and are associated with specific jurisdictions using <code>dpv:hasJurisdiction</code>. The law which the authorities enforce is indicated by <code>dpv:hasApplicableLaw</code>. The webpage for the authority, if available, is indicated using <code>foaf:homepage</code>.</p>
     <table>
         <thead>
             <th>ID</th>
@@ -151,9 +169,10 @@
 </section>
 {% endif %}
 
-{% if modules['legal']['classes']|filter_type('eu-gdpr:AdequacyDecision')|length > 0 %}
+{% if vocab_name =='legal-eu' and modules['legal']['classes']|filter_type('eu-gdpr:AdequacyDecision')|length > 0 %}
 <section id="vocab-adequacy">
     <h2>Adequacy Decisions</h2>
+    <p>Adequacy decisions representing agreements between jurisdictions such as for free flow of data, are currently only defined in [[GDPR]]. They are represented as instances of <code>eu-gdpr:AdequacyDecision</code>, and are associated with relevant jurisdictions using <code>dpv:hasJurisdiction</code>. The start and end, if available, is represented using <code>dct:temporal</code> with an instance of <code>time:ProperInterval</code>. The webpage, if available, is indicated using <code>foaf:homepage</code>.</p>
     <table>
         <thead>
             <th>ID</th>
