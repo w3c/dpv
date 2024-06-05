@@ -20,6 +20,7 @@ with open('../../meetings/index.html', 'w') as fd:
   </head>
   <body>
     <h1>DPVCG Meeting Minutes</h1>
+    <p>purl: <a href="https://w3id.org/dpv/meetings">https://w3id.org/dpv/meetings</a></p>
     <p>See <a href="https://www.w3.org/groups/cg/dpvcg/calendar">W3C DPVCG Calendar</a> for upcoming meetings, agenda, and joining instructions.</p>
     <ol reversed>""")
     for f in files:
