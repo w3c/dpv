@@ -1,21 +1,40 @@
 #!/usr/bin/env python3
 
 from vocab_management import generate_author_affiliation, generate_authors_affiliations
+from jinja2 import FileSystemLoader, Environment
+import logging
+logging.basicConfig(
+    level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
+DEBUG = logging.debug
+INFO = logging.info
 
-# Concise primer, filpath ../primer/primer-concise.html, is to be directly generated
-# and won't have the respec templates. 
+OUTPUT_PATH = '../primer/'
 
-OUTPUT_FILE = '../primer/index.html'
-with open(OUTPUT_FILE, 'w') as fd:
-    from jinja2 import FileSystemLoader, Environment
-    template_loader = FileSystemLoader(searchpath='jinja2_resources')
-    template_env = Environment(
-        loader=template_loader, 
-        autoescape=True, trim_blocks=True, lstrip_blocks=True)
-    template_env.filters.update({
-        'generate_author_affiliation': generate_author_affiliation,
-        'generate_authors_affiliations': generate_authors_affiliations,
-        })
-    template = template_env.get_template('template_primer.jinja2')
-    with open(f'{OUTPUT_FILE}', 'w+') as fd:
+GUIDES = {
+    'index': {
+        'template': 'template_primer.jinja2',
+        'output': 'index.html',
+    },
+    # 'concise': {
+    #     'template': 'template_primer_short.jinja2',
+    #     'output': 'concise.html',
+    # },
+}
+
+template_loader = FileSystemLoader(searchpath='jinja2_resources')
+template_env = Environment(
+    loader=template_loader, 
+    autoescape=True, trim_blocks=True, lstrip_blocks=True)
+template_env.filters.update({
+    'generate_author_affiliation': generate_author_affiliation,
+    'generate_authors_affiliations': generate_authors_affiliations,
+    })
+
+for doc, data in GUIDES.items():
+    DEBUG(f'generating primer document {doc}')
+    template = data['template']
+    filepath = f"{OUTPUT_PATH}{data['output']}"
+    with open(filepath, 'w') as fd:
+        template = template_env.get_template(template)
         fd.write(template.render())
+    INFO(f"wrote primer document {doc} at {filepath}")
