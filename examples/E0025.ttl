@@ -1,19 +1,6 @@
-# Approach 1: specify notice for an instance of consent
-ex:UserConsent rdf:type dpv:Consent ;
-    dpv:hasDataSubject ex:User12345 ;
-    # notice can be references in different forms, e.g. URL, string
-    dpv:hasNotice ex:AcmeConsentNotice ; # RDF
-    dpv:hasNotice "https://example.com/AcmeConsentNotice" ; # URL
-    dpv:hasNotice "Notice-v3.456" . # identifier
-
-# Approach 2: specify notice for a group of activities
-ex:PDH rdf:type dpv:PersonalDataHandling ;
-    dpv:hasPurpose ... ;
-    dpv:hasProcessing ... ;
-    dpv:hasPersonalData ... ;
-    dpv:hasLegalBasis dpv:Consent ;
-    dpv:hasNotice ex:AcmeConsentNotice .
-ex:UserConsent rdf:type dpv:Consent ;
-    dpv:hasDataSubject ex:User12345 ;
-    # notice is part of PDH, not declared for each consent instance
-    dpv:hasPersonalDataHandling ex:PDH .
+ex:TransferPolicy a dpv:ControllerProcessorAgreement, 
+                    dpv:DataTransferSafeguard ;
+    dpv:hasTechnicalMeasure dpv:Encryption ;
+    dpv:hasOrganisationalMeasure dpv-gdpr:SCCsByCommission ;
+    dpv:hasDataExporter ex:Acme ;
+    dpv:hasDataImporter ex:Beta .

@@ -382,9 +382,824 @@
     <section id="examples">
       <h2>Examples</h2>
       
+        <section id="E0001">
+          <h4><strong><i>E0001</i>:</strong> Implications of using SKOS vs OWL</h4>
+            <aside class="example" title="Implications of using SKOS vs OWL">
+<p>This example highlights the implications of using DPV with RDFS+SKOS and OWL semantics. The RDFS+SKOS model is suitable for when DPV concepts have to be used 'directly' e.g. an use-case wants to use 'Encryption' from DPV as a technical measure without creating a specific 'instance' representing their implementation of the encryption. RDFS+SKOS model is also suitable for when an use-case wants to further create an hierarchical taxonomy of the different 'Encryption' concepts they are using. Such use of DPV concepts covers both T-box and A-box, and does not restrict or require the underlying ontology/schema to be constantly changed as new concepts are identified in an use-case.</p>
+      <p>In comparison, the OWL2 model defines concepts as classes and instances with a clear separation between the two i.e. the Tbox and Abox are separate. This means the concept 'Encryption' cannot be directly used with OWL2 semantics and an instance of it must first be created. If instead DPV had provided 'Encryption' as an instance (of Technical Measure) then the further expansion and creation of a hierarchy of encryption concepts described earlier is not feasible in OWL2 as it results in a complex graph which is not efficient for reasoning. Further, making changes such as promoting 'Encryption' from instance to class requires changing the ontology/schema - which may not always be possible or feasible in use-cases.</p>
+      <p>Thus, the relative strengths and weaknesses of RDFS+SKOS and OWL2 serialisations dictate which should be used. RDFS+SKOS is 'lightweight' and better if the use-case only requires rudimentary or simple reasoning. OWL2 is  better suited for semantic reasoners that can perform complex discovery and validation processes but require more strict and restricted use of concepts. By providing both serialisations, DPV enables the adopters to choose the most suitable serialisation that supports their use-case and/or existing implementations, and retains semantic interoperability based on converting between SKOS and OWL2 (see <a href="https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html">Using OWL and SKOS (2008)</a>).</p>    <pre class="nohighlight"><code># Example: A Company is running &#39;Direct Marketing&#39; campaigns for
+# a purpose (CampaignA), within which it runs another special
+# campaign (CampaignB). This may envolve into another campaign C.
+# RDFS+SKOS modelling
+dpv:Marketing a rdfs:Class, dpv:Purpose .
+dpv:DirectMarketing a dpv:Purpose; skos:broader dpv:Marketing .
+ex:CampaignA a dpv:Purpose; skos:broader dpv:DirectMarketing .
+ex:CampaignB a dpv:Purpose; skos:broader ex:CampaignA .
+# valid statements as all objects are instances of dpv:Purpose
+ex:Documentation a dpv:Process; dpv:hasPurpose dpv:DirectMarketing .
+
+# OWL2 modelling
+dpv:Marketing a owl:Class; rdfs:subClassOf dpv:Purpose .
+dpv:DirectMarketing a owl:Class; rdfs:subClassOf dpv:Marketing .
+ex:CampaignA a dpv:DirectMarketing .
+# problem: instance of instance
+ex:CampaignB a ex:CampaignA .
+# solution: change CampaignA to subclass 
+ex:CampaignA rdfs:subClassOf dpv:DirectMarketing .
+# problem: DirectMarketing is not an instance of dpv:Purpose
+ex:Documentation a dpv:Process; dpv:hasPurpose dpv:DirectMarketing .
+# solution: blank nodes, but not a good solution
+ex:Documentation a dpv:Process; dpv:hasPurpose [ a dpv:DirectMarketing ] .
+# solution: use the instances rather than the class
+ex:Documentation a dpv:Process; dpv:hasPurpose ex:CampaignA .
+# problem: does not reflect the terminology used by Company/Law
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0001"><code>E0001</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0001.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0002">
+          <h4><strong><i>E0002</i>:</strong> Extending concepts to represent use-case specific information</h4>
+            <aside class="example" title="Extending concepts to represent use-case specific information">
+<p>DPV defines the (broad) concept of <a href="https://w3id.org/dpv#Marketing"><code>Marketing</code></a> in its <code>Purpose</code> hierarchy to represent information about (purposes related to) marketing activities and topics. For a use-case which requires representing purposes (note: plural) related to <i>marketing of new products</i>, the broad <code>Marketing</code> concept is extended as a <i>child</i> or <i>subclass</i> concept for representing the intended purpose as, e.g. <code>MarketingNewProducts</code>.</p>
+      <p><strong>Note:</strong> Here the prefix <code>ex:</code> represents <code>http://example.com#</code> - which is a convention for representing additional examples or concepts, such as those created as part of the use-case. The rest of the document follows this nomenclature and convention.</p>    <pre class="nohighlight"><code># Example using DPV (RDFS+SKOS)
+# Case1: Where further categories are required to &#39;group&#39; related purposes
+# creating a new subclass or category of Marketing for use-case
+ex:MarketingOfNewProducts a dpv:Purpose ;
+    skos:broader dpv:Marketing ;
+    skos:prefLabel “Marketing of New Products” .
+
+# more specific purposes under group ‘Marketing of New Products’
+ex:NewslettersOffers a dpv:Purpose ;
+    skos:broader ex:MarketingOfNewProducts ;
+    skos:prefLabel “Newsletters about Offers” .
+ex:EmailsSeasonalOffers a dpv:Purpose ;
+    skos:broader ex:MarketingOfNewProducts ;
+    skos:prefLabel “Emails about Seasonal Offers” .
+
+# Case2: A single final and definite purpose within EmailSeasonalOffers
+ex:MarketingSeasonalOffer2021 a dpv:Purpose ;
+    skos:broader dpv:Marketing ;
+    skos:prefLabel &#34;Sending Email Newsletters with Seasonal Offers&#34; .
+
+# Example using DPV-OWL (OWL2)
+# Case1: Where further categories are required to &#39;group&#39; related purposes
+# creating a new subclass or category of Marketing for use-case
+ex:MarketingOfNewProducts rdfs:subClassOf dpv:Marketing ;
+    skos:prefLabel “Marketing of New Products” .
+
+# more specific categories of group ‘Marketing of New Products’
+ex:NewslettersOffers rdfs:subClassOf ex:MarketingOfNewProducts ;
+    skos:prefLabel “Newsletters about Offers” .
+ex:EmailsSeasonalOffers rdfs:subClassOf ex:MarketingOfNewProducts ;
+    skos:prefLabel “Emails about Seasonal Offers” .
+
+# Case2: A single final and definite purpose within EmailSeasonalOffers
+ex:MarketingSeasonalOffer rdf:type dpv:Marketing ;
+    skos:prefLabel &#34;Sending Email Newsletters with Seasonal Offers&#34; .&lt;F25&gt;
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0002"><code>E0002</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0002.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0003">
+          <h4><strong><i>E0003</i>:</strong> Extending multiple concepts</h4>
+            <aside class="example" title="Extending multiple concepts">
+<p>For example, two TV companies (<code>AliceCo</code> and <code>BobCo</code>) extend the concept <code>Optimisation</code> to reflect their respective purposes. When exchanging information about their use-cases with each other (or with a third party), by following the chain of use-case specific concepts it is possible to deduce that both <code>AliceCo</code> and <code>BobCo</code> are doing optimisations for consumers. Thus a common language or interface can be developed based on using DPV as a point of interoperability and commonality which can be used by adopters to define the specifics of their use-case. For example, in the above use-case, a common notice generation algorithm could be created and used to inform users of both services the purposes each company is using data for.</p>    <pre class="nohighlight"><code># Example in DPV (RDFS+SKOS)
+# Method 1: Ambiguous regarding independence of Collect and Use
+ex:ActivityA a dpv:Process ;
+    dpv:hasProcessing ex:Collect, ex:Use .
+
+# Method 2: Accuracy regarding combination of Collect and Use
+ex:CollectAndUse a dpv:Processing
+    # rdfs:subClassOf dpv:Collect, dpv:Use ; # -- RDFS+SKOS permits this
+    skos:broader ex:Collect, ex:Use ;
+    skos:prefLabel “Collect and Use data using User Device” .
+ex:Activity a dpv:Process ;
+    dpv:hasProcessing ex:CollectAndUse . # -- property range is correct
+
+# Example in DPV-OWL
+ex:CollectAndUse rdfs:subClassOf dpv:Collect, dpv:Use ;
+    skos:prefLabel “Collect and Use data using User Device” .
+ex:Activity a dpv:Process ;
+    # dpv:hasProcessing ex:CollectAndUse  # -- property range is incorrect
+    dpv:hasProcessing ex:CU1 . # hence, an instance is needed for OWL2
+ex:CU1 a ex:CollectAndUse .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0003"><code>E0003</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0003.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0004">
+          <h4><strong><i>E0004</i>:</strong> Interoperability of extended concepts across use-cases</h4>
+            <aside class="example" title="Interoperability of extended concepts across use-cases">
+<p>For example, two TV companies (<code>AliceCo</code> and <code>BobCo</code>) extend the concept <code>Optimisation</code> to reflect their respective purposes as follows:</p>    <pre class="nohighlight"><code># Example in DPV (RDFS+SKOS)
+# AliceCo’s optimisation related to better services for users’ infrastructure
+exA:TVServiceOptimisaion a dpv:Purpose;
+    skos:broader dpv:OptimisationForConsumer ;
+    skos:prefLabel “Optimise Service for Users’ Infrastructure” .
+
+# BobCo’s optimisation related to more efficient signals for users’ TV sets
+exB:TVSignalOptimisation a dpv:Purpose;
+    skos:broader dpv:OptimisationForConsumer ;
+    skos:prefLabel “Optimise Signal for Consumer TV Set” .
+
+# Example in DPV-OWL
+# the common ancestor is:dpv:OptimisationForConsumer ; 
+# Using this as context to compare:
+# (either manually, or based on data used, etc.)
+
+# 1: BobCo&#39;s optimisations are found to be broader than AliceCo&#39;s
+exA:TVServiceOptimisation skos:broader exB:TVServiceOptimisation .
+
+# 2: BobCo&#39;s optimisations are found to be the same as AliceCo&#39;s
+exA:TVServiceOptimisation skos:exactMatch exB:TVServiceOptimisation .
+
+# 3: BobCo&#39;s optimisations are found to be similar to AliceCo&#39;s
+exA:TVServiceOptimisation skos:closeMatch exB:TVServiceOptimisation .&lt;F25&gt;
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0004"><code>E0004</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0004.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0005">
+          <h4><strong><i>E0005</i>:</strong> Process used to combine core concepts and represent an use-case</h4>
+            <aside class="example" title="Process used to combine core concepts and represent an use-case">
+<p>An example of how <code>Process</code> brings together the core concepts, consider the example where <code>Acme</code> is a <code>DataController</code> that <code>Collect</code>(s) and <code>Use</code>(s) <code>Email</code> for <code>ServiceProvision</code>. Note that the <code>pd:EmailAddress</code> is a concept from the [[[PD]]] extension.</p>    <pre class="nohighlight"><code>ex:Acme rdf:type dpv:DataController .
+ex:AcmeMarketing rdf:type dpv:Process ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Collect, dpv:Use ;
+    dpv:hasPurpose dpv:ServiceProvision ;
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0005"><code>E0005</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0005.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0006">
+          <h4><strong><i>E0006</i>:</strong> Nesting Processes</h4>
+            <aside class="example" title="Nesting Processes">
+<p>Consider the example where <em>Acme</em>, as a <em>DataController</em>, maintains records of its processing activities using <code>Process</code> to represent one of its services. In this, it collects email, uses it for internal analyses based on <em>Legitimate Interests</em>, and also sends marketing information by using a processor based on the data subject's consent. Using nesting of processes, the information can be expressed at a granular level representing service, individual purposes, and so on.</p>    <pre class="nohighlight"><code>ex:Acme rdf:type dpv:DataController .
+ex:AcmeMarketing rdf:type dpv:Process ;
+    dpv:hasProcess ex:InternalAnalytics ;
+    dpv:hasProcess ex:SendingNewsletters .
+
+ex:InternalAnalytics rdf:type dpv:Process ;
+    dpv:hasPersonalData pd:Email ;
+    dpv:hasProcessing dpv:Collect, dpv:Store ;
+    dpv:hasPurpose dpv:InternalResourceOptimisation ;
+    dpv:hasLegalBasis dpv:LegitimateInterestOfController .
+
+ex:FooTech rdf:type dpv:DataProcessor .
+ex:SendingNewsletters rdf:type dpv:Process ;
+    dpv:hasPersonalData pd:Email ;
+    dpv:hasProcessing dpv:Share ;
+    dpv:hasPurpose dpv:Marketing ;
+    dpv:hasDataProcessor ex:FooTech ;
+    dpv:hasLegalBasis dpv:Consent .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0006"><code>E0006</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0006.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0007">
+          <h4><strong><i>E0007</i>:</strong> Extending Purposes and adding human-readable descriptions</h4>
+            <aside class="example" title="Extending Purposes and adding human-readable descriptions">
+<p>In this example, a new purpose is created by extending <code>dpv:FraudPreventionAndDetection</code> and annotated with human-readable information. The interpretation of this purpose is thus more clear in relation to how it is applied or used within that use-case, and also serves to compare it with other purposes within the same category.</p>    <pre class="nohighlight"><code>ex:PreventTransactionFraud a dpv:Purpose ;
+  skos:broader dpv:FraudPreventionAndDetection ;
+  skos:prefLabel &#34;Prevent Transaction and Payment Frauds&#34; .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0007"><code>E0007</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0007.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0008">
+          <h4><strong><i>E0008</i>:</strong> Using NACE codes to restrict Purposes</h4>
+            <aside class="example" title="Using NACE codes to restrict Purposes">
+<p>For example, the following purpose concerns implementing access control with the domain specified as scientific research using its corresponding NACE code &lt;code&gt;M72&lt;/code&gt; to indicate sectorial implications for what &#34;access control&#34; and &#34;enforce security&#34; are expected to imply.    <pre class="nohighlight"><code>:RestrictPersonnelAccess a dpv:Purpose ;
+  skos:broader dpv:EnforceSecurity ;
+  skos:prefLabel “Limit access to lab by checking personnel identity&#34; ;
+  dpv:hasSector dpv-nace:M72 .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0008"><code>E0008</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0008.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0009">
+          <h4><strong><i>E0009</i>:</strong> Derivation and inference of personal data</h4>
+            <aside class="example" title="Derivation and inference of personal data">
+<p>This use-case collects browser fingerprint and IP Address to identify the country one is visiting from, and to infer language to be used for personalisation. Note that this example uses [[PD]] for personal data concepts.</p>    <pre class="nohighlight"><code>ex:PersonaliseWebsiteForVisitors rdf:type dpv:Process ;
+      dpv:hasPurpose dpv:Personalisation ;
+      dpv:hasPersonalData pd:BrowserFingerprint,
+                          pd:IPAddress ;
+      dpv:hasProcessing dpv:Collect, dpv:Use ;
+      dpv:hasProcess ex:DeriveVisitorCountry ;
+      dpv:hasProcess ex:InferVisitorLanguage .
+
+  ex:DeriveVisitorCountry rdf:type dpv:Process ;
+      dpv:hasProcessing dpv:Derive ;
+      dpv:hasPersonalData ex:VisitorCountry .
+  ex:VisitorCountry rdf:type dpv:DerivedPersonalData ;
+      skos:broader pd:Country .
+
+  ex:InferVisitorLanguage rdf:type dpv:Process ;
+      dpv:hasProcessing dpv:Infer ;
+      dpv:hasPersonalData ex:VisitorLanguage .
+  ex:VisitorLanguage rdf:type dpv:InferredPersonalData ;
+      skos:broader pd:Language .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0009"><code>E0009</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0009.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0010">
+          <h4><strong><i>E0010</i>:</strong> Indicating personal data is sensitive or special category</h4>
+            <aside class="example" title="Indicating personal data is sensitive or special category">
+<p>In a medical study involving genetic data, the person's collected blood samples are considered to be 'special category' personal data under the GDPR. In addition to this, the person's identifier associated with that dataset to enable monitoring future appointments is considered sensitive within the medical centre. Note that the examples use the [[PD]] extension to represent some concepts.</p>
+        <p>In this example, the knowledge that blood samples are of type 'special category' can be inferred from the fact that they are a form of <i>Medical Health</i> which is a 'special category'. However, the example considers best practices that suggest explicitly identifying and denoting that blood samples are also of type 'special category'.</p>    <pre class="nohighlight"><code>ex:PatientStudy rdf:type dpv:Process ;
+  dpv:hasPersonalData ex:BloodSamples, ex:PatientIdentifier .
+
+ex:BloodSamples rdf:type dpv:SpecialCategoryPersonalData ;
+  skos:broader pd:MedicalHealth ;
+  skos:narrower pd:BloodType .
+
+ex:PatientIdentifier rdf:type dpv:SensitivePersonalData ;
+  skos:broader pd:Identifying .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0010"><code>E0010</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0010.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0011">
+          <h4><strong><i>E0011</i>:</strong> Indicating Storage Conditions</h4>
+            <aside class="example" title="Indicating Storage Conditions">
+<p>This example includes Acme as a Data Processor that stores data within servers located in Ireland for a period of one year. The temporal information is represented using [[[TIME]]], and the location is specified using [[[LOC]]].</p><p>In this example, the <code>StorageCondition</code> is expressed as a separate policy applicable. It is also possible to directly express it over other concepts such as a service, technology, or a processing operation, e.g. to say <code>ex:AcmeStore dpv:hasStorageCondition ...</code>.</p>    <pre class="nohighlight"><code>ex:ServerInfo a dpv:Process ;
+    dpv:hasDataProcessor ex:Acme ;
+    dpv:hasProcessing dpv:Store ;
+    dpv:hasStorageCondition ex:DataStoragePolicy .
+
+ex:DataStoragePolicy a dpv:StorageCondition ;
+    dpv:hasLocation loc:IE ;
+    dpv:hasDuration [
+        rdf:type time:Duration, dpv:Duration ;
+        time:numericDuration &#34;1&#34;^^xsd:decimal ;
+        time:unitType time:unitYear ;
+      ] .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0011"><code>E0011</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0011.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0012">
+          <h4><strong><i>E0012</i>:</strong> Indicating Data Sources</h4>
+            <aside class="example" title="Indicating Data Sources">
+<p>Data sources can be the data subject (direct or indirect), the data controller or processor (itself), or another entity (third party). The below example provides an overview of these with distinctions between source and method of generation.</p>
+        <p>In this example, <code>ex:S01</code> represents direct collection of data from the data subject, while <code>ex:S02</code> represents indirect collection where data is derived or observed - or undergoes any operation that still points to the data subject as the source. <code>ex:S03</code> infers data, which means the inferring entity (the Controller in this case) is the source of this data - even if the inferred data is based on data collected from the Data Subject. <code>ex:S04</code> has data sourced from another entity - such as a Third Party, but could also refer to a Data Processor. <code>ex:S05</code> represents collection of data from a public dataset that has been published by the data subject themselves.</p>
+        <p>Note that the above example is illustrative - it may be pertinent to provide documentation about each data source to ensure sufficient information is recorded for intended purposes. For example, the method of collection (e.g. forms), or inference (e.g. algorithm), or public dataset (e.g. link, license).</p>    <pre class="nohighlight"><code>ex:S01 dpv:hasDataSource dpv:DataSubject .
+ex:S01 dpv:hasProcessing dpv:Collect .
+
+ex:S02 dpv:hasDataSource dpv:DataSubject .
+ex:S02 dpv:hasProcessing dpv:Derive, dpv:Observe .
+
+ex:S03 dpv:hasDataSource dpv:DataController .
+ex:S03 dpv:hasProcessing dpv:Infer .
+
+ex:S04 dpv:hasDataSource ex:Acme .
+ex:Acme a dpv:ThirdParty .
+
+ex:S05 dpv:hasDataSource dpv:DataPublishedByDataSubject .
+ex:S05 dpv:hasProcessing dpv:Collect .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0012"><code>E0012</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0012.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0013">
+          <h4><strong><i>E0013</i>:</strong> Spam filter as Automated Decision Making with Human Involvement</h4>
+            <aside class="example" title="Spam filter as Automated Decision Making with Human Involvement">
+<p>Consider the use of a spam filter that is based on automated processing operations where humans provide inputs, have oversight of the operation, and results in automated decision making for whether communications should be propagated. A new separate filter is developed that utilises a novel spam detection criteria that also takes into account communications other than emails for the sender and makes automated decisions whether to permit communication to proceed. Such explicit annotation of several high-risk operations assists in performing impact assessments for this technology, as well as understanding the extent and effectiveness of human involvement to mitigate risks and issues.</p>
+        <p>In this example, the Spam Filter process allows the users to reverse the effects (i.e. emails marked as spam) but does not allow opting out from the process (i.e. stop spam filtering). The spam detection algorithm performs automated decision making (by deciding which emails to accept), systemic monitoring (of communications), and evaluation and scoring (by scoring contents of emails and senders/recipients). The spam detection algorithm also indicates what human involvement is expected - to provide input (e.g. mark emails as spam) and intervention (e.g. change spam criterias).</p>    <pre class="nohighlight"><code>ex:SpamFilter rdf:type dpv:Process ;
+	dpv:hasProcessing dpv:Analyse ;
+	dpv:hasAutomationLevel dpv:FullAutomation ;
+	dpv:hasEntityInvolvement [
+		a dpv:EntityInvolvement ;
+		dpv:isImplementedByEntity dpv:User ;
+		dpv:ReversingProcessEffects,
+		dpv:CannotOptOutFromProcess ;
+	] ;
+	dpv:hasAlgorithmicLogic ex:SpamDetection .
+
+ex:SpamDetection rdf:type dpv:AlgorithmicLogic ;
+	skos:broader dpv:InnovativeUseOfNewTechnologies ;
+	dpv:hasProcessingContext dpv:AutomatedDecisionMaking, 
+        dpv:SystemicMonitoring, 
+        dpv:EvaluationScoring  ;
+	dpv:hasHumanInvolvement dpv:HumanInvolvementForInput,
+        dpv:HumanInvolvementForIntervention ;
+        dpv:hasPersonalData pd:Communication ;
+        dpv:hasDataSource ex:EmailSender .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0013"><code>E0013</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0013.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0014">
+          <h4><strong><i>E0014</i>:</strong> Denoting Legal Basis within a Process</h4>
+            <aside class="example" title="Denoting Legal Basis within a Process">
+<p>The <code>LegalBasis</code> can be associated with any concept using the relation <code>hasLegalBasis</code>. Such associations are of three types: (1) where the legal basis refers to an instance, such as the consent or contract associated with a particular data subject; (2)  where the legal basis refers to the category that will be used to justify processing, such as the concept <i>consent</i> to denote consent will be the basis for indicated processing; and lastly (3) where the legal basis is defined with a context, such as <i>consent of service consumers</i>.</p>    <pre class="nohighlight"><code># 1: instance of legal basis
+# interpretation: consent of user #00145667 is the legal basis
+ex:PDH1 rdf:type dpv:Process ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasDataSubject ex:ServiceConsumers ;
+    dpv:hasLegalBasis ex:ConsentUserN00145667 .
+ex:ConsentUserN00145667 rdf:type dpv:LegalBasis, dpv:Consent ;
+    dpv:hasDataSubject ex:UserN00145667 .
+
+# 2: category of legal basis
+# interpretation: consent is the legal basis
+ex:PDH1 rdf:type dpv:Process ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasDataSubject ex:ServiceConsumers ;
+    dpv:hasLegalBasis dpv:Consent .
+
+# 3: category of legal basis with contextual information
+# interpretation: consent of service consumers is the legal basis
+ex:PDH1 rdf:type dpv:Process ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasDataSubject ex:ServiceConsumers ;
+    dpv:hasLegalBasis ex:UserConsent .
+ex:UserConsent rdf:type dpv:LegalBasis ;
+    skos:broader dpv:Consent ;
+    dpv:hasDataSubject ex:ServiceConsumers .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0014"><code>E0014</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0014.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0015">
+          <h4><strong><i>E0015</i>:</strong> Indicating consent as a legal basis</h4>
+            <aside class="example" title="Indicating consent as a legal basis">
+<p>Here, a process instance represents some context (e.g. a service, or a product, or some operation), and the example specifies that the legal basis for these is the use of consent.</p>    <pre class="nohighlight"><code>ex:PDH rdf:type dpv:Process ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasDataSubject ex:ServiceConsumers ;
+    dpv:hasPersonalData dpv:Email ;
+    dpv:hasLegalBasis dpv:Consent .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0015"><code>E0015</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0015.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0016">
+          <h4><strong><i>E0016</i>:</strong> Indicating details about an individual&#39;s consent</h4>
+            <aside class="example" title="Indicating details about an individual&#39;s consent">
+<p>In this example, an individual's consent is recorded with abstraction in the form of linking to a common process instance from the previous example. This 'common' process represents processing taking place for all data subjects, whereas the consent instance refers only to the individual with a link to this common information. This is to present an alternative method for storing information as compared to extensive consent records.</p>    <pre class="nohighlight"><code>ex:UserConsent rdf:type dpv:Consent ;
+    dpv:hasConsentStatus dpv:ConsentGiven ;
+    dpv:hasDataSubject ex:User12345 ;
+    dpv:isIndicatedAtTime &#34;2022-09-06T15:36:07&#34;^^xsd:dateTime .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0016"><code>E0016</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0016.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0017">
+          <h4><strong><i>E0017</i>:</strong> Representing notice, provision, expiry, and withdrawal information for consent</h4>
+            <aside class="example" title="Representing notice, provision, expiry, and withdrawal information for consent">
+<p>This example first specifies a privacy notice as a document is being used in the context of a service as represented using a personal data handling instance. Then it provides an alternative representation where the contents of a notice are described using DPV.    <pre class="nohighlight"><code># Approach 1: specify notice for an instance of consent
+ex:UserConsent rdf:type dpv:Consent ;
+    dpv:hasDataSubject ex:User12345 ;
+    # notice can be references in different forms, e.g. URL, string
+    dpv:hasNotice ex:AcmeConsentNotice ; # RDF
+    dpv:hasNotice &#34;https://example.com/AcmeConsentNotice&#34; ; # URL
+    dpv:hasNotice &#34;Notice-v3.456&#34; . # identifier
+
+# Approach 2: specify notice for a group of activities
+ex:PDH rdf:type dpv:Process ;
+    dpv:hasPurpose ... ;
+    dpv:hasProcessing ... ;
+    dpv:hasPersonalData ... ;
+    dpv:hasLegalBasis dpv:Consent ;
+    dpv:hasNotice ex:AcmeConsentNotice .
+ex:UserConsent rdf:type dpv:Consent ;
+    dpv:hasDataSubject ex:User12345 ;
+    # notice is part of PDH, not declared for each consent instance
+    dpv:hasProcess ex:PDH .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0017"><code>E0017</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0017.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0018">
+          <h4><strong><i>E0018</i>:</strong> Using consent types</h4>
+            <aside class="example" title="Using consent types">
+<p>This example shows use of DPV consent types to distinguish between &#39;expressed&#39; and &#39;explicitly expressed&#39; consent    <pre class="nohighlight"><code># Approach 1: specifying a specific consent type is required as legal basis
+ex:PDH a dpv:Process ;
+    dpv:hasLegalBasis dpv:ExplicitlyExpressedConsent .
+
+# Approach 2: creating instances of consent
+ex:UserConsent a dpv:ExpressedConsent .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0018"><code>E0018</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0018.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0019">
+          <h4><strong><i>E0019</i>:</strong> Indicating Entity Information, including DPO and Representatives</h4>
+            <aside class="example" title="Indicating Entity Information, including DPO and Representatives">
+<p>This example shows how information about representatives can be associated with an entity    <pre class="nohighlight"><code>ex:Acme rdf:type dpv:LegalEntity ;
+    dpv:hasName &#34;Acme&#34;@en ;
+    dpv:hasAddress &#34;Dublin, Ireland&#34;@en ;
+    dpv:hasContact &#34;acme@example.com&#34; ;
+    dpv:hasRepresentative ex:AcmeDPO,  # internal DPO
+                          ex:AcmeEUOrg ; # EU Representative
+    dpv:hasLocation iso:IE, # if an ISO vocabulary for country-codes is used
+                    dpv-juris:Ireland, # dpv-juris proposed vocabulary
+                    &#34;Ireland&#34;@en . # plain strings
+
+ex:AcmeDPO rdf:type dpv:Representative ;
+    dpv:hasEntity ex:Acme .
+ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
+    dpv:hasEntity ex:Acme ;
+    dpv:hasLocation &#34;EU&#34;@en .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0019"><code>E0019</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0019.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0020">
+          <h4><strong><i>E0020</i>:</strong> Using technical measure: Protecting data using encryption and access control</h4>
+            <aside class="example" title="Using technical measure: Protecting data using encryption and access control">
+<p>To indicate data is encrypted using the <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">Rivest-Shamir-Adleman (RSA) method</a>, one would extend the <a href="https://w3id.org/dpv#Encryption"><code>Encryption</code></a> concept within DPV to represent <code>RSA</code>, and then instantiate it with the specific implementation used (e.g. to indicate key size). Access to this data is further restricted by requiring a password or credential.</p>    <pre class="nohighlight"><code>ex:RSAEncryption rdf:type dpv:TechnicalMeasure ;
+    skos:broader dpv:Encryption ;
+    skos:scopeNote &#34;Key size: 2048, Custom Implementation&#34;@en .
+ex:RBACCredential rdf:type dpv:TechnicalMeasure ;
+    skos:broader dpv:AccessControlMethod .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0020"><code>E0020</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0020.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0021">
+          <h4><strong><i>E0021</i>:</strong> Using organisational measure: Indicating staff training for use of Credentials</h4>
+            <aside class="example" title="Using organisational measure: Indicating staff training for use of Credentials">
+<p>To indicate staff are trained in the use of credentials, and that a policy exists regarding this, the use of <code>OrganisationalMeasure</code> concepts can be combined in several ways. Note that the interpretations for how staff training is associated with credentials, or contains training regarding credentials is arbitrary in notation. It is intended to demonstrate how different perspectives can be represented so as to be suitable to the organisation's documentation practices.</p>    <pre class="nohighlight"><code># 1: directly associating staff training with credentials used
+ex:StaffCredentialsTraining rdf:type dpv:OrganistionalMeasure ;
+    skos:broader dpv:StaffTraining .
+ex:RBACCredential dpv:hasOrganisationalMeasure ex:StaffCredentialTraining .
+
+# 2: security policy containing staff training and access control
+ex:SecurityPolicy rdf:type dpv:OrganisationalMeasure ;
+    skos:broader dpv:Policy ;
+    dpv:hasOrganisationalMeasure dpv:StaffTraining ;
+    dpv:hasTechnicalMeasure dpv:AccessControlMethod .
+
+# 3: indicating staff training contains access control methods
+ex:StaffCredentialsTraining rdf:type dpv:OrganistionalMeasure ;
+    skos:broader dpv:StaffTraining ;
+    dpv:hasTechnicalMeasure ex:RBACCredential .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0021"><code>E0021</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0021.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0022">
+          <h4><strong><i>E0022</i>:</strong> Privacy Notice used in an activity</h4>
+            <aside class="example" title="Privacy Notice used in an activity">
+<p>This example first specifies a privacy notice as a document is being used in the context of a service as represented using a process instance. Then it provides an alternative representation where the contents of a notice are described using DPV.</p>    <pre class="nohighlight"><code># Associating a Notice with DPV metadata
+ex:Service rdf:type dpv:Process ;
+    dpv:hasNotice ex:AcmePrivacyPolicy .
+ex:AcmePrivayPolicy rdf:type dpv:PrivacyNotice ;
+    dct:title &#34;Acme&#39;s Privacy Policy&#34;@en ;
+    foaf:page &#34;https://example.com/&#34;^^xsd:anyURI .
+
+# Describing a Notice using DPV metadata
+ex:AcmePrivacyPolicy rdf:type dpv:PrivacyNotice ;
+    # Approach 1: delegate contents to a PDH instance
+    dpv:hasProcess ex:Service ;
+    # Approach 2: declare specifics directly
+    dpv:hasPurpose dpv:ServiceProvision ;
+    dpv:hasPersonalData pd:Email ;
+    dpv:hasProcessing dpv:Collect ;
+    # Specifying location of notice
+    # In this case, as a website, or could be a domain
+    dpv:hasLocation &#34;https://example.com&#34;^^xsd:anyURI .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0022"><code>E0022</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0023">
+          <h4><strong><i>E0023</i>:</strong> Consent record example</h4>
+            <aside class="example" title="Consent record example">
+<p>This (simplified) example shows a consent record containing the topic of consent (i.e. which processing activities it was about), its current status, and when it was given by the data subject. The structure of a record is highly dependent on the requirements of the use-case, and can vary across implementations. In this case, it is based on the ISO/IEC TS 27560:2023 Privacy technologies — Consent record information structure, for which we provide the implementation guide [[[GUIDE-Consent-27560]]].</p><p>The example uses the <a href="https://dublincore.org/specifications/dublin-core/dcmi-terms/">DCMI Metadata Terms (dct)</a> vocabulary to indicate metadata such as title and timestamps. Other vocabularies such as <a href="https://www.w3.org/TR/prov-o/">PROV-O</a> can be used to also indicate provenance information such as when it was generated and how it was produced.</p>    <pre class="nohighlight"><code>:63ded36f-4acd-4f3c-991e-6cb636698523 a dpv:ConsentRecord ;
+    dct:hasVersion &#34;27560-WD5&#34; ;
+    dpv:hasIdentifier &#34;63ded36f-4acd-4f3c-991e-6cb636698523&#34; ;
+    dpv:hasDataSubject &#34;96121fde-199f-4848-8942-4436e270513a&#34; ;
+    dpv:hasNotice &lt;https://example.com/notice/WD5&gt; ;
+    dpv:hasProcess [
+        a dpv:Process ;
+        dct:title &#34;Send Newsletters with Seasonal Offers&#34;@en ;
+        dpv:hasPurpose dpv:Marketing ;
+        dpv:hasLegalBasis dpv:Consent ;
+        dpv:hasPersonalData pd:Email ;
+        dpv:hasDataController ex:Acme ;
+        dpv:hasProcessing dpv:Collect, dpv:Store ;
+        dpv:hasStorageCondition [ 
+            dpv:hasLocation loc:IE ;
+            dpv:hasDuration 63115200 ;
+        ] ;
+        dpv:hasJurisdiction loc:EU ;
+        dpv:hasRecipient ex:Beta, ex:Epsilon ;
+    ] ;
+    dpv:hasConsentStatus dpv:ConsentGiven ;
+    dct:hasPart [
+        a dpv:ConsentGiven, dpv:ExplicitlyExpressedConsent ;
+        dpv:isIndicatedAtTime &#34;2021-05-28T12:24:00&#34;^^xsd:dateTime ;
+        dpv:hasDuration 63115200 ;
+        dpv:hasEntity &#34;96121fde-199f-4848-8942-4436e270513a&#34;
+    ] .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0023"><code>E0023</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0023.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0024">
+          <h4><strong><i>E0024</i>:</strong> Controller-Processor agreement denoting processing to be carried out</h4>
+            <aside class="example" title="Controller-Processor agreement denoting processing to be carried out">
+<p>Acme is the Data Controller that contracts BetaInc as a Data Processor to analyse raw call logs and provide statistical patterns.</p>    <pre class="nohighlight"><code>ex:Acme rdf:type dpv:DataController .
+ex:BetaInc rdf:type dpv:DataProcessor .
+
+ex:AcmeBetaContract rdf:type dpv:ControllerProcessorAgreement ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasDataProcessor ex:Beta ;
+    # part1: acme sends data to beta
+    dpv:hasProcess ex:AcmeProvision ;
+    # part2: beta sends data to acme
+    dpv:hasProcess ex:BetaProvision .
+
+ex:AcmeProvision rdf:type dpv:Process ;
+    skos:note &#34;Acme transfers call logs to Beta&#34;@en ;
+    dpv:hasPersonalData ex:CallLogs ;
+    dpv:hasProcessing ex:TransferCallLogs ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasDataProcessor ex:BetaInc .
+
+ex:BetaProvision rdf:type dpv:Process ;
+    skos:note &#34;Beta analyses and transfers call statistics to Acme&#34;@en ;
+    dpv:hasPersonalData ex:CallStatistics ;
+    dpv:hasProcessing ex:AnalyseCalls, dpv:TransferStatistics ;
+    dpv:hasDataProcessor ex:BetaInc ;
+    dpv:hasRecipientDataController ex:Acme ;
+    # alternative way to explicitly indicate who is implementing this
+    dpv:isImplementedByEntity ex:BetaInc .
+
+ex:CallLogs rdf:type dpv:PersonalData ;
+    skos:broader pd:CallLog ;
+    # denoting source of data as part of agreement
+    dpv:hasDataSource ex:Acme .
+ex:CallStatistics rdf:type dpv:DerivedData ;
+    skos:broader ex:CallLogs ;
+    dpv:hasDataSource ex:BetaInc .
+
+ex:TransferCallLogs rdf:type dpv:Processing ;
+    skos:broader dpv:Transfer ;
+    dpv:hasPersonalData ex:CallLogs ;
+    # alternative 1 - based on implementation and recipient
+    dpv:isImplementedByEntity ex:Acme ;
+    dpv:hasRecipient ex:BetaInc ; 
+    # alternative 2 - based on data exporter/importer roles
+    dpv:hasDataExporter ex:Acme ;
+    dpv:hasDataImporter ex:BetaInc .
+
+ex:AnalyseCalls rdf:type dpv:Processing ;
+    skos:broader dpv:Analyse ;
+    # no recipients, data is analysed by BetaInc
+    dpv:isImplementedByEntity ex:BetaInc .
+
+ex:TransferStatistics rdf:type dpv:Processing ;
+    skos:broader dpv:Transfer ;
+    dpv:hasPersonalData ex:CallStatistics ;
+    # using alternative 2 from above
+    dpv:hasDataExporter ex:BetaInc ;
+    dpv:hasDataImporter ex:Acme .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0024"><code>E0024</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0024.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0025">
+          <h4><strong><i>E0025</i>:</strong> Data transfer safeguards</h4>
+            <aside class="example" title="Data transfer safeguards">
+<p>This example represents a contractual agreement between a controller and a processor indicating the use of encryption and EU commission approved Standard Contractual Clauses as specific measures to safeguard data transfers between them.</p>    <pre class="nohighlight"><code>ex:TransferPolicy a dpv:ControllerProcessorAgreement, 
+                    dpv:DataTransferSafeguard ;
+    dpv:hasTechnicalMeasure dpv:Encryption ;
+    dpv:hasOrganisationalMeasure dpv-gdpr:SCCsByCommission ;
+    dpv:hasDataExporter ex:Acme ;
+    dpv:hasDataImporter ex:Beta .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0025"><code>E0025</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0026">
+          <h4><strong><i>E0026</i>:</strong> Example of Contextual Necessity</h4>
+            <aside class="example" title="Example of Contextual Necessity">
+<p>In this example, a <code>Process</code> instance consists of two nested <code>Process</code> instances for each of the optional and required parts. The personal data category 'Account Identifier' is indicated as being required for 'Communication for Customer Care', while the use of 'Email' is optional for the same purpose.</p>    <pre class="nohighlight"><code>:PDH1 a dpv:Process ;
+  # optionally also declare data and purpose for PDH1
+  dpv:hasPersonalData pd:Email, pd:AccountIdentifier ;
+  dpv:hasPurpose dpv:CommunicationForCustomerCare ;
+  dpv:hasProcess :PDH2, :PDH3 .
+
+:PDH2 a dpv:Process ;
+  dpv:hasContext dpv:Optional ;
+  dpv:hasPersonalData pd:Email ;
+  dpv:hasPurpose dpv:CommunicationForCustomerCare .
+
+:PDH3 a dpv:Process ;
+  dpv:hasContext dpv:Required ;
+  dpv:hasPersonalData pd:AccountIdentifier ;
+  dpv:hasPurpose dpv:CommunicationForCustomerCare .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0026"><code>E0026</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0026.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0027">
+          <h4><strong><i>E0027</i>:</strong> Indicating risks, consequences, and impacts</h4>
+            <aside class="example" title="Indicating risks, consequences, and impacts">
+<p>In this example, we consider <i>Risk</i> can be associated with any  concept given its broad existence and applicability, and that its mitigation is a technical and organisational measure. Using this, the implemented or adopted technical and organisational measures within an use-case are annotated with the risks they address or mitigate, along with specific impacts that may occur if the risk were to occur. For example, the storage of personal data within a database has an implementation of access control that mitigates the consequence of unauthorised access and its impact to cause harm.</p>    <pre class="nohighlight"><code># 1: annotating implementations with risks involved
+  ex:DataStore rdf:type dpv:Technology ;
+      dpv:hasTechnicalMeasure ex:RBACCredential ;
+      dpv:hasRisk ex:UnAuthorisedAccess . 
+
+  # 2: risk registry denoting risks and mitigations
+  ex:UnAuthorisedAccess rdf:type dpv:Risk ;
+      dpv:hasConsequence &#34;Unauthorised Access to Data Store&#34;@en ;
+      dpv:hasImpact dpv:Harm ;
+      dpv:isMitigatedByMeasure ex:RBACCredential .
+
+  # 3: annotating measures with risks mitigated
+  ex:RBACCredential rdf:type dpv:TechnicalMeasure, dpv:RiskMitigationMeasure ;
+      skos:broader dpv:AccessControlMethod ;
+      dpv:mitigatesRisk ex:UnAuthorisedAccess .
+
+  # 4: policies and training as risk mitigations
+  ex:SecurityPolicy rdf:type dpv:OrganisationalMeasure ;
+      skos:broader dpv:Policy ;
+      dpv:hasOrganisationalMeasure dpv:StaffTraining ;
+      dpv:mitigatesRisk ex:UnAuthorisedAccess .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0027"><code>E0027</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0027.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0028">
+          <h4><strong><i>E0028</i>:</strong> Rule specifying permission</h4>
+            <aside class="example" title="Rule specifying permission">
+<p>In this example, a Process which consists of using an email address for service provision using the legal basis as Consent is permitted</p>    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    dpv:hasRule dpv:Permission ;
+    dpv:hasPurpose dpv:ServiceProvision ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasLegalBasis dpv:Consent .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0028"><code>E0028</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0028.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0029">
+          <h4><strong><i>E0029</i>:</strong> Rule specifying prohibition</h4>
+            <aside class="example" title="Rule specifying prohibition">
+<p>In this example, the hasProhibition relation is directly used to assert a prohibition to handle Health data within a Process:</p>    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    dpv:hasProhibition pd:Health .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0029"><code>E0029</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0029.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0030">
+          <h4><strong><i>E0030</i>:</strong> Rule combining DPV with ODRL</h4>
+            <aside class="example" title="Rule combining DPV with ODRL">
+<p>In this example, DPV is complemented with ODRL, following the ODRL implementation best practices, to assert an obligation to Anonymise data in order to use it:</p>    <pre class="nohighlight"><code>ex:Policy a dpv:Obligation, odrl:Policy ;
+    odrl:profile new-profile: ;
+    odrl:uid &lt;https://example.com/policy:1&gt; ;
+    odrl:obligation [
+        odrl:action new-profile:Use ;
+        odrl:duty [
+            odrl:action new-profile:Anonymise
+        ]
+    ] .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0030"><code>E0030</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0030.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0031">
+          <h4><strong><i>E0031</i>:</strong> Using Service to group related processes</h4>
+            <aside class="example" title="Using Service to group related processes">
+<p>This example shows the use of Service concept to represent a &#39;service&#39; provided by an organisation, which includes two processes for data collection and service provision    <pre class="nohighlight"><code># Service
+ex:StreamingService a dpv:Service ;
+    dpv:hasProcess ex:SS1, ex:SS2 ;
+    dpv:hasLegalBasis dpv:Contract ; # covering service
+    dpv:hasServiceProvider ex:CompanyA ; 
+    dpv:hasDataController ex:CompanyA ;
+    dpv:hasServiceConsumer ex:Consumers .
+
+ex:SS1 a dpv:Process ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Collect, dpv:Store, dpv:Use ;
+    dpv:hasPurpose dpv:ServiceProvision, dpv:ServiceRegistration .
+
+ex:SS2 a dpv:Process ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Use ;
+    dpv:hasPurpose dpv:FraudPreventionDetection .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0031"><code>E0031</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
     </section>
 
-    <section id="contributors">
     <section id="funding-acknowledgements" class="notoc">
       <h2>Funding Acknowledgements</h2>
 

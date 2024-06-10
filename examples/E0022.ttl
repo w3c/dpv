@@ -1,25 +1,18 @@
-# 1: instance of legal basis
-# interpretation: consent of user #00145667 is the legal basis
-ex:PDH1 rdf:type dpv:PersonalDataHandling ;
-    dpv:hasDataController ex:Acme ;
-    dpv:hasDataSubject ex:ServiceConsumers ;
-    dpv:hasLegalBasis ex:ConsentUserN00145667 .
-ex:ConsentUserN00145667 rdf:type dpv:Consent ;
-    dpv:hasDataSubject ex:UserN00145667 .
+# Associating a Notice with DPV metadata
+ex:Service rdf:type dpv:Process ;
+    dpv:hasNotice ex:AcmePrivacyPolicy .
+ex:AcmePrivayPolicy rdf:type dpv:PrivacyNotice ;
+    dct:title "Acme's Privacy Policy"@en ;
+    foaf:page "https://example.com/"^^xsd:anyURI .
 
-# 2: category of legal basis
-# interpretation: consent is the legal basis
-ex:PDH1 rdf:type dpv:PersonalDataHandling ;
-    dpv:hasDataController ex:Acme ;
-    dpv:hasDataSubject ex:ServiceConsumers ;
-    dpv:hasLegalBasis dpv:Consent .
-
-# 3: category of legal basis with contextual information
-# interpretation: consent of service consumers is the legal basis
-ex:PDH1 rdf:type dpv:PersonalDataHandling ;
-    dpv:hasDataController ex:Acme ;
-    dpv:hasDataSubject ex:ServiceConsumers ;
-    dpv:hasLegalBasis ex:UserConsent .
-ex:UserConsent rdf:type dpv:LegalBasis ;
-    skos:broader dpv:Consent ;
-    dpv:hasDataSubject ex:ServiceConsumers .
+# Describing a Notice using DPV metadata
+ex:AcmePrivacyPolicy rdf:type dpv:PrivacyNotice ;
+    # Approach 1: delegate contents to a PDH instance
+    dpv:hasProcess ex:Service ;
+    # Approach 2: declare specifics directly
+    dpv:hasPurpose dpv:ServiceProvision ;
+    dpv:hasPersonalData pd:Email ;
+    dpv:hasProcessing dpv:Collect ;
+    # Specifying location of notice
+    # In this case, as a website, or could be a domain
+    dpv:hasLocation "https://example.com"^^xsd:anyURI .

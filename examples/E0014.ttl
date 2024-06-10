@@ -1,21 +1,25 @@
-ex:PersonaliseWebsiteForVisitors rdf:type dpv:PersonalDataHandling ;
-    dpv:hasPurpose dpv:Personalisation ;
-    dpv:hasPersonalData dpv-pd:BrowserFingerprint,
-                      dpv-pd:IPAddress ;
-    dpv:hasProcessing dpv:Collect, dpv:Use ;
-    dpv:hasPersonalDataHandling ex:DeriveVisitorCountry ;
-    dpv:hasPersonalDataHandling ex:InferVisitorLanguage .
+# 1: instance of legal basis
+# interpretation: consent of user #00145667 is the legal basis
+ex:PDH1 rdf:type dpv:Process ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasDataSubject ex:ServiceConsumers ;
+    dpv:hasLegalBasis ex:ConsentUserN00145667 .
+ex:ConsentUserN00145667 rdf:type dpv:LegalBasis, dpv:Consent ;
+    dpv:hasDataSubject ex:UserN00145667 .
 
-ex:DeriveVisitorCountry rdf:type dpv:PersonalDataHandling ;
-    dpv:hasProcessing dpv:Derive ;
-    dpv:hasPersonalData ex:VisitorCountry .
+# 2: category of legal basis
+# interpretation: consent is the legal basis
+ex:PDH1 rdf:type dpv:Process ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasDataSubject ex:ServiceConsumers ;
+    dpv:hasLegalBasis dpv:Consent .
 
-ex:VisitorCountry rdf:type dpv:DerivedPersonalData ;
-    skos:broader dpv-pd:Country .
-
-ex:InferVisitorLanguage rdf:type dpv:PersonalDataHandling ;
-    dpv:hasProcessing dpv:Infer ;
-    dpv:hasPersonalData ex:VisitorLanguage .
-
-ex:VisitorLanguage rdf:type dpv:InferredPersonalData ;
-    skos:broader dpv-pd:Language .
+# 3: category of legal basis with contextual information
+# interpretation: consent of service consumers is the legal basis
+ex:PDH1 rdf:type dpv:Process ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasDataSubject ex:ServiceConsumers ;
+    dpv:hasLegalBasis ex:UserConsent .
+ex:UserConsent rdf:type dpv:LegalBasis ;
+    skos:broader dpv:Consent ;
+    dpv:hasDataSubject ex:ServiceConsumers .

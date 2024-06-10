@@ -1,5 +1,26 @@
-dpv:PersonalData a dpv:Concept ;
-	rdfs:label "Personal Data"@en .
+# Example: A Company is running 'Direct Marketing' campaigns for
+# a purpose (CampaignA), within which it runs another special
+# campaign (CampaignB). This may envolve into another campaign C.
+# RDFS+SKOS modelling
+dpv:Marketing a rdfs:Class, dpv:Purpose .
+dpv:DirectMarketing a dpv:Purpose; skos:broader dpv:Marketing .
+ex:CampaignA a dpv:Purpose; skos:broader dpv:DirectMarketing .
+ex:CampaignB a dpv:Purpose; skos:broader ex:CampaignA .
+# valid statements as all objects are instances of dpv:Purpose
+ex:Documentation a dpv:Process; dpv:hasPurpose dpv:DirectMarketing .
 
-dpv:hasPersonalData a dpv:Relation ;
-	rdfs:label "has personal data"@en .
+# OWL2 modelling
+dpv:Marketing a owl:Class; rdfs:subClassOf dpv:Purpose .
+dpv:DirectMarketing a owl:Class; rdfs:subClassOf dpv:Marketing .
+ex:CampaignA a dpv:DirectMarketing .
+# problem: instance of instance
+ex:CampaignB a ex:CampaignA .
+# solution: change CampaignA to subclass 
+ex:CampaignA rdfs:subClassOf dpv:DirectMarketing .
+# problem: DirectMarketing is not an instance of dpv:Purpose
+ex:Documentation a dpv:Process; dpv:hasPurpose dpv:DirectMarketing .
+# solution: blank nodes, but not a good solution
+ex:Documentation a dpv:Process; dpv:hasPurpose [ a dpv:DirectMarketing ] .
+# solution: use the instances rather than the class
+ex:Documentation a dpv:Process; dpv:hasPurpose ex:CampaignA .
+# problem: does not reflect the terminology used by Company/Law

@@ -1,6 +1,15 @@
-# Approach 1: specifying a specific consent type is required as legal basis
-ex:PDH a dpv:PersonalDataHandling ;
-    dpv:hasLegalBasis dpv:ExplicitlyExpressedConsent .
+:PDH1 a dpv:Process ;
+  # optionally also declare data and purpose for PDH1
+  dpv:hasPersonalData pd:Email, pd:AccountIdentifier ;
+  dpv:hasPurpose dpv:CommunicationForCustomerCare ;
+  dpv:hasProcess :PDH2, :PDH3 .
 
-# Approach 2: creating instances of consent
-ex:UserConsent a dpv:ExpressedConsent .
+:PDH2 a dpv:Process ;
+  dpv:hasContext dpv:Optional ;
+  dpv:hasPersonalData pd:Email ;
+  dpv:hasPurpose dpv:CommunicationForCustomerCare .
+
+:PDH3 a dpv:Process ;
+  dpv:hasContext dpv:Required ;
+  dpv:hasPersonalData pd:AccountIdentifier ;
+  dpv:hasPurpose dpv:CommunicationForCustomerCare .

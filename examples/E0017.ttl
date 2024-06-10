@@ -1,16 +1,19 @@
-# 1: directly associating staff training with credentials used
-ex:StaffCredentialsTraining rdf:type dpv:OrganistionalMeasure ;
-    skos:broader dpv:StaffTraining .
+# Approach 1: specify notice for an instance of consent
+ex:UserConsent rdf:type dpv:Consent ;
+    dpv:hasDataSubject ex:User12345 ;
+    # notice can be references in different forms, e.g. URL, string
+    dpv:hasNotice ex:AcmeConsentNotice ; # RDF
+    dpv:hasNotice "https://example.com/AcmeConsentNotice" ; # URL
+    dpv:hasNotice "Notice-v3.456" . # identifier
 
-ex:RBACCredential dpv:hasOrganisationalMeasure ex:StaffCredentialTraining .
-
-# 2: security policy containing staff training and access control
-ex:SecurityPolicy rdf:type dpv:OrganisationalMeasure ;
-    skos:broader dpv:Policy ;
-    dpv:hasOrganisationalMeasure dpv:StaffTraining ;
-    dpv:hasTechnicalMeasure dpv:AccessControlMethod .
-
-# 3: indicating staff training contains access control methods
-ex:StaffCredentialsTraining rdf:type dpv:OrganistionalMeasure ;
-    skos:broader dpv:StaffTraining ;
-    dpv:hasTechnicalMeasure ex:RBACCredential .
+# Approach 2: specify notice for a group of activities
+ex:PDH rdf:type dpv:Process ;
+    dpv:hasPurpose ... ;
+    dpv:hasProcessing ... ;
+    dpv:hasPersonalData ... ;
+    dpv:hasLegalBasis dpv:Consent ;
+    dpv:hasNotice ex:AcmeConsentNotice .
+ex:UserConsent rdf:type dpv:Consent ;
+    dpv:hasDataSubject ex:User12345 ;
+    # notice is part of PDH, not declared for each consent instance
+    dpv:hasProcess ex:PDH .
