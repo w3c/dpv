@@ -1,12 +1,12 @@
 {% macro example_aside(exampleID) %}
   {% set ex, ex_contents = exampleID|retrieve_example %}
   <aside class="example" title="{{ex['dct:title']}}">
-    <p>{{ex['dct:description']|safe}}</p>
-    <pre><code>{{ex_contents}}</code></pre>
+    {% if ex['dct:description'].startswith("<p>") %}{{ex['dct:description']|safe}}{% else %}<p>{{ ex['dct:description'] }}{% endif %}
+    <pre class="nohighlight"><code>{{ex_contents}}</code></pre>
     <p><small>(<em>META</em> 
       Example ID: <a href="{{ex['iri']}}"><code>{{ex['term']}}</code></a>;
-      {% if 'dct:source' in ex %}link: <a href="{{ex['dct:source']}}">source file</a>;{% endif %}
-      contributor(s): {{ex['dct:contributor']}} ({{ex['dct:created']}}))
+      {% if 'dct:source' in ex %}link: <a href="https://w3id.org/dpv/examples/{{ex['dct:source']}}">source file</a>;{% endif %}
+      contributed by {{ex['dct:contributor']}} on {{ex['dct:created']}})
     </small></p>
   </aside>
 {% endmacro %}

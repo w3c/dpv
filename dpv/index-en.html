@@ -382,24 +382,54 @@
 </section>
 
     </section>
+  <div class="issue" title="ALL diagrams are to be updated"></div>
   <section id="introduction">
     <h2>Introduction</h2>
+     <p>The motivation of DPV is to provide a '<i>data model</i>' or an '<i>ontology</i>' of concepts for interoperable representation and exchange of information about processing of (personal) data and the use of technologies. For this, the DPV specification defines concepts and relationships using the [[RDF]] standard, and which can additionally be implemented and applied using technologies appropriate to a use-case's specific requirements.</p>
+     <p>The DPV specification contains several distinct groups of concepts, some of which are provided with a taxonomy of concepts to support practical use-cases. In addition to these, 'extensions' to the DPV are also provided which further extend one or more DPV concepts or enable separation of concepts - such as for distinguishing between different jurisdictions and laws. The figure below shows an overview of the DPV concepts along with its extensions.</p>
+     <figure id="overview-2">
+       <img src="../media/overview-2.png">
+       <figcaption>Overview of DPV v2 showing core concepts and relationships with their further expansion as taxonomies and extensions</figcaption>
+     </figure>
     <section>
       <h3>Semantics</h3>
       <p><em>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</em></p>
       
-      <p>DPV's terms are defined using [[RDFS]] &amp; [[SKOS]] semantics where all 'classes' and 'properties' are defined as <code>skos:Concept</code> in addition to <code>rdfs:Class</code> and <code>rdf:Property</code> respectively. For taxonomies or hierarchies, concepts are defined as 'instances' of a top-concept, and relationships within the hierarchy are defined using <code>skos:broader/skos:narrower</code>. For example, [=Purpose=] is the top concept within the purposes taxonomy, and all purposes are instances of it. [=ServiceProvision=] is the purpose associated with 'service provision', and [=RequestedServiceProvision=] as a more specific purpose is associated with it using <code>skos:broader</code>.</p>
+      <p>DPV's terms are defined using [[RDFS]] &amp; [[SKOS]] semantics where all 'classes' and 'properties' are defined as <code>skos:Concept</code> in addition to <code>rdfs:Class</code> and <code>rdf:Property</code> respectively. For taxonomies or hierarchies, concepts are defined as 'instances' of a top-concept, and relationships within the hierarchy are defined using <code>skos:broader/skos:narrower</code>. For example, [=Purpose=] is the top concept within the purposes taxonomy, and all concepts in the purpose taxonomy are instances of it, and are related to each other using <code>skos:broader/narrower</code> relations, such as  [=ServiceProvision=] and its more specific form [=RequestedServiceProvision=] are both instances of [=Purpose=] while being related to each other using <code>skos:broader/narrower</code>.</p>
       
-      <p>[[OWL]] is an alternate serialisation of DPV where the same concepts are defined using [[OWL]] semantics for use with OWL-based reasoners. The conversion from SKOS to OWL follows the best practices and concerns outlined in [[[SKOS-OWL]]], e.g. by replacing <code>skos:Concept</code> with <code>owl:Class</code>, and using <code>rdfs:subClassOf</code> instead of <code>skos:broader/skos:narrower</code>.</p>
+      <p>[[[DPV-OWL]]] is an alternate serialisation of DPV that contains the same concepts but is provided under a different namespace with the semantics defined using [[OWL]]. The conversion from SKOS to OWL follows the best practices and concerns outlined in [[[SKOS-OWL]]], e.g. by replacing <code>skos:Concept</code> with <code>owl:Class</code>, and using <code>rdfs:subClassOf</code> instead of <code>skos:broader/skos:narrower</code>. See the <a href="../primer/#example-implications-of-using-skos-vs-owl">example showing implications of using SKOS vs OWL</a> in the [[PRIMER]].</p>
 
       <p>DPV consists of certain 'core concepts' that are intended to be independent representations of specific information, and are distinct from other core concepts. For example, the [=Purpose=] refers only to the <i>purpose of why personal data is processed</i> and is independent as a concept from the other concepts (e.g. [=PersonalData=] or [=LegalBasis=]). The structuring of DPV is based on providing rich and comprehensive taxonomies that group concepts together based on each core concept, e.g. taxonomy of purposes, taxonomy of legal basis. 'Extensions' are a separate group of concepts that expand the 'core' vocabulary to represent specific information e.g. [[PD]] for personal data categories and [[RISK]] for risk management.</p>
     </section>
 
-    <section id="vocab-base">
-      <h3>Core Vocabulary</h3>
+    <section id="scope-change">
+      <h3>Scope Change in v2</h3>
+      <p>In DPV v1, the scope of the DPV and the DPVCG was limited to 'privacy', 'data protection', and the 'processing of personal data', including technologies used to perform it. Under this scope, the DPVCG discussed and modelled regulations such as the [[EU-GDPR]] which also share the same scope. Newer laws such as the [[EU-DGA]] and [[EU-AIAct]] share a significant overlap with this scope and necessitate their inclusion in DPVCG's activities. However, such laws utilise the same legal framework to model both personal and non-personal data (for DGA) or regulate a technology that goes beyond 'personal data' (DGA and AI Act). To enable their inclusion and representation as extensions to the DPV, and to enable adopters to utilise a single consistent framework to represent information, the scope of DPVCG and the DPV has been expanded as follows:</p>
+      <ol>
+        <li>Expansion of scope to include 'data' and 'technologies' instead of only 'personal data' - this means concepts such as [=Purpose=] which were defined as purpose associated with 'personal data' are now defined as purpose associated with 'data or technologies'.</li>
+        <li>Creation of concepts to represent expanded scope - such as [=Data=] as the broader concept for both [=PersonalData=] and [=NonPersonalData=].</li>
+        <li>Changing the scope of associated extensions such as [[TECH]] and [[RISK]] to be useful for any technology and activities and not just personal data related technologies and activities.</li>
+        <li>Creating [[AI]] as a new extension to specifically provide concepts associated with AI technologies.</li>
+        <li>Creating extensions to represent concepts from laws regarding 'data and technologies' based on the new concepts and extensions created e.g. [[EU-DGA]] and [[EU-AIAct]] extensions.</li>
+        <li>Creating new namespaces such as <code>/legal/eu/gdpr</code> instead of <code>/dpv-gdpr</code> to enable consisting and unambigious representation of legal extensions</li>
+        <li>Restructuring the <a href="https://github.com/w3c/dpv">GitHub repository</a> to accommodate the changed structure of DPV extensions</li>
+      </ol>
+      <p>In addition to the above, the v2 scope change also includes removal of the bespoke 'DPV serialisation' which was based on a custom extension of [[SKOS]]. Instead, the RDFS+SKOS serialisation has been made the default serialisation, and the alternate OWL2 serialisation is continued as before.</p>
+      <aside class="note" title="Focus of DPVCG on privacy and data protection">
+        <p>Though the scope of DPVCG has expanded significantly from 'personal data' to also include 'any data and technologies', the primary focus of the group remains on privacy and data protection. Therefore, while the group is developing work such as the [[AI]] and [[EU-AIAct]] extensions, it is also interested in understanding how these involve personal data and affect privacy and data protection, and how the DPV and its extensions can help address concerns - such as through taxonomies to support risk and impact assessments in [[RISK]] extension.</p>
+        <p>The DPVCG welcomes work associated with [[AI]] or [[EU-AIAct]] and other similar activities which go beyond privacy and data protection, such as AI specific risks and impacts. Such additions are useful to support the group's primary objectives as they help discuss and determine when risks and impacts involve personal data and have an effect on privacy and data protection.</p>
+      </aside>
+      <aside class="note" title="DPV v2 is backwards-compatible with DPV v1">
+        <p>The redefinition of concepts in DPV v2 is backwards compatible as there has only been a scope 'increase' i.e. use of [=Purpose=] in DPV v1 regarding 'personal data' is compatible with [=Purpose=] in DPV v2 regarding 'data and technologies'.</p>
+        <p>Specific changes in concepts result in limited breaking of compatibility as these concepts have been removed or remodelled. See the <a href="#changelog">Changelog</a> for more specific information.</p>
+      </aside>
+    </section>
+
+    <section id="vocab-core">
+      <h3>Core Concepts</h3>
       <figure>
-        <img title="DPV Core Vocabulary" alt="DPV core vocabulary" src="../media/base.png">
-        <figcaption>Overview of concepts in DPV</figcaption>
+        <img title="DPV Core Vocabulary" alt="DPV core vocabulary" src="../media/uml-class-diagram-core.png">
+        <figcaption>Overview of concepts in DPV - those in red have been added in v2, those in blue have had their scope expanded to include data and technologies</figcaption>
       </figure>
       <p>The 'Core' concepts and relationships in DPV represent and associate relevant information regarding the what, how, where, who, why of personal data and its processing. These are:</p>
       <table>
@@ -408,8 +438,8 @@
           <td>Relation</td>
       </tr>
       <tr>
-          <td>[=PersonalData=]</td>
-          <td>[=hasPersonalData=]</td>
+          <td>[=Data=] and [=PersonalData=]</td>
+          <td>[=hasData=] and [=hasPersonalData=]</td>
       </tr>
       <tr>
           <td>[=Purpose=]</td>
@@ -418,6 +448,10 @@
       <tr>
           <td>[=Processing=]</td>
           <td>[=hasProcessing=]</td>
+      </tr>
+      <tr>
+        <td>[=Entity=]</td>
+        <td>[=hasEntity=]</td>
       </tr>
       <tr>
           <td>[=DataController=]</td>
@@ -432,8 +466,12 @@
           <td>[=hasRecipient=]</td>
       </tr>
       <tr>
-          <td>[=TechnicalOrganisationalMeasure=]</td>
-          <td>[=hasTechnicalOrganisationalMeasure=]</td>
+          <td>[=TechnicalMeasure=]</td>
+          <td>[=hasTechnicalMeasure=]</td>
+      </tr>
+      <tr>
+          <td>[=OrganisationalMeasure=]</td>
+          <td>[=hasOrganisationalMeasure=]</td>
       </tr>
       <tr>
           <td>[=LegalBasis=]</td>
@@ -451,55 +489,42 @@
           <td>[=Context=]</td>
           <td>[=hasContext=]</td>
       </tr>
+      <tr>
+          <td>[=Technology=]</td>
+          <td>[=isImplementedUsingTechnology=]</td>
+      </tr>
   </table>
-  <div class="issue" title="Review and update section descriptions"></div>
-      <p>To 'group' these concepts together within a specific use-case, the concept [=Process=] and relation [=hasProcess=] are useful (the concept [=PersonalDataHandling=] was used in earlier versions for the same). For example, a 'process' about a specific application can represent the associated purposes, personal data, legal basis, etc. using the relations and provided taxonomies. For a detailed representation, the following specialisations of processes are provided to indicate e.g. the process is or is not expected to involve personal data:</p>
-      <div class="list-hierarchy"><ul class="concept-list">
-  <li>
-    <strong>dpv:NonPersonalDataProcess</strong>: An action, activity, or method involving non-personal data, and asserting that no personal data is involved
-      <small><a href="https://w3id.org/dpv#NonPersonalDataProcess" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:PersonalDataHandling</strong>: An abstract concept describing &#39;personal data handling&#39;
-      <small><a href="https://w3id.org/dpv#PersonalDataHandling" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:PersonalDataProcess</strong>: An action, activity, or method involving personal data
-      <small><a href="https://w3id.org/dpv#PersonalDataProcess" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:Service</strong>: A service is a process where one entity provides some benefit or assistance to another entity
-      <small><a href="https://w3id.org/dpv#Service" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul></div>
   </section>
 
   <section>
     <h3>Taxonomies</h3>
     <p>The rest of the document expands on the core concepts through the following taxonomies.</p>
     <ul>
-      <li><a href="#vocab-entities"><strong>Entities</strong></a> - different kinds of entities and their categories (e.g. <a href="#vocab-entities-organisation">Organisations</a>, <a href="#vocab-entities-authority">Authorities</a>, and <a href="#vocab-entities-datasubject">Data Subjects</a>) and the <a href="#vocab-entities-legalrole">Legal Roles</a> they can take.</li>
-      <li><a href="#vocab-purposes"><strong>Purposes</strong></a> that justify the need or goal for which personal data is processd.</li>
-      <li><a href="#vocab-processing"><strong>Processing</strong></a> operations over personal data.</li>
+      <li><a href="#vocab-entities"><strong>Entities</strong></a> - different categories of entities (e.g. <a href="#vocab-entities-organisation">Organisations</a>, <a href="#vocab-entities-authority">Authorities</a>, and <a href="#vocab-entities-datasubject">Data Subjects</a>) and various <a href="#vocab-entities-legalrole">Legal Roles</a> they can take (e.g. [=DataController=] or [=DataProcessor=]).</li>
+      <li><a href="#vocab-purposes"><strong>Purposes</strong></a> that justify the need or goal for which personal data is processed.</li>
       <li><a href="#vocab-personal-data"><strong>Data and Personal Data</strong></a> categories.</li>
+      <li><a href="#vocab-processing"><strong>Processing</strong></a> operations over personal data.</li>
+      <li><a href="#vocab-processing-context"><strong>Contextual information about Processing</strong></a> (e.g. <a href="#vocab-processing-context-processing">Processing and Storage Conditions</a>, <a href="#vocab-processing-context-automation">Automation</a>, <a href="#vocab-processing-context-involvement">Entity and Human Invovlement</a>, <a href="#vocab-processing-context-data-source">Data Source</a>, and <a href="#vocab-processing-scale">Scale of Processing</a>).</li>
+      <li><a href="#vocab-context"><strong>General Contextual information</strong></a> (e.g. <a href="#vocab-context-duration-frequency">duration and frequency</a>, and <a href="#vocab-context-status">statuses</a> associated with activities.</li>
       <li><a href="#vocab-TOM"><strong>Technical &amp; Organisational Measures</strong></a>.</li>
       <li><a href="#vocab-legal-basis"><strong>Legal Bases</strong></a> that justify the processing (e.g. <a href="#vocab-legal-basis-consent">Consent</a>).</li>
-      <li><a href="#vocab-processing-context"><strong>Contextual information about Processing</strong></a> (e.g. <a href="#vocab-processing-context-storage-automation">Storage Conditions and Automation</a>, and <a href="#vocab-processing-scale">Scale of Processing</a>).</li>
-      <li><a href="#vocab-context"><strong>Contextual information</strong></a> (e.g. <a href="#vocab-context-duration-frequency">duration and frequency</a>, and <a href="#vocab-context-status">statuses associated with activities<.</li>
       <li><a href="#vocab-context-jurisdiction"><strong>Locations &amp; Jurisdictions</strong></a> providing relevance to laws, authorities, and location contexts.</li>
       <li><a href="#vocab-risk"><strong>Risk &amp; Impacts</strong></a> for risk assessment, management, and expression of consequences and impacts associated with processing.</li>
       <li><a href="#vocab-rights"><strong>Rights and Rights Exercise</strong></a> for specifying what rights are applicable, how they can be exercised, and how to provide information associated with rights.</li>
       <li><a href="#vocab-rules"><strong>Rules</strong></a> for expressing constraints, requirements, and other forms of rules that can specify or assist in interpreting what is permitted, prohibited, mandatory, etc.</li>
     </ul>
+    <p>In addition to these the <a href="#extensions">Extensions</a> section describes the available extensions which also provide additional taxonomies for specific concepts within the DPV.</p>
   </section>
 </section>
 
 <section id="vocab-process">
   <h2>Process</h2>
+  <p>To 'group' the core concepts together within a specific use-case, the concept [=Process=] and relation [=hasProcess=] are useful (the concept [=PersonalDataHandling=] was used in earlier versions for the same). For example, a 'process' about a specific application can represent the associated purposes, personal data, legal basis, etc. using the relations and provided taxonomies. Involvement or association of a process is indicated with the relation [=hasProcess=].</p>
+  <aside class="note" title="PersonalDataHandling in v1 is replaced with Process in v2">
+    <p>The concept [=PersonalDataHandling=] in DPV v1 was defined to perform the role of combining other concepts in to 'unit', similar to what [=Process=] is described above. From DPV v2 onwards, <i>Process</i> is recommended to be used instead of <i>PersonalDataHandling</i> as it better suits the terminology used in use-cases and is an existing well-defined concept. The concept <i>PersonalDataHandling</i> and relation [=hasPersonalDataHandling=] will be deprecated in future iterations of DPV.</p>
+    <p>Existing uses of [=PersonalDataHandling=] and [=hasPersonalDataHandling=] can be safely replaced with [=Process=] and [=hasProcess=] respectively. Semantically, [=Process=] is the super-class of [=PersonalDataHandling=] which makes instances of [=PersonalDataHandling=] also an instance of [=Process=].</p>
+  </aside>
+  <p>The following processes categories are provided to indicate e.g. the process is or is not expected to involve personal data:</p>
   <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:Process</strong>: An action, activity, or method
@@ -528,6 +553,85 @@
 </ul>
   </li>
 </ul></div>
+    <aside class="example" title="Process used to combine core concepts and represent an use-case">
+<p>An example of how <code>Process</code> brings together the core concepts, consider the example where <code>Acme</code> is a <code>DataController</code> that <code>Collect</code>(s) and <code>Use</code>(s) <code>Email</code> for <code>ServiceProvision</code>. Note that the <code>pd:EmailAddress</code> is a concept from the [[[PD]]] extension.</p>    <pre class="nohighlight"><code>ex:Acme rdf:type dpv:DataController .
+ex:AcmeMarketing rdf:type dpv:Process ;
+    dpv:hasDataController ex:Acme ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Collect, dpv:Use ;
+    dpv:hasPurpose dpv:ServiceProvision ;
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0005"><code>E0005</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0005.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+  <section id="vocab-process-nested">
+    <h3>Nested Processes</h3>
+    <p>Instances of <code>Process</code> can be nested, which means one instance can contain other instances, much like a box with several smaller boxes inside. This permits breaking down complex or dense use-cases into more granular ones and representing them in a more precise and modular fashion. Such a representation also facilitates reuse of the granular or modular processes, or in defining 'templates' and 'patterns', for example to craft a single process representing collecting and storing email addresses and using it in different processes for different purposes.</p>
+    <p>From the earlier example, consider the situation where a single <code>Process</code> instance consists of two additional instances representing: (i) data is stored using a data processor, (ii) data is used for Marketing. While it is certainly possible to represent all of this information within one single instance of <code>Process</code>, the adopter may decide to create separate instances of <code>Process</code> based on requirements such as reflecting similar separations for legal documentation or accountability purposes.</p>
+      <aside class="example" title="Nesting Processes">
+<p>Consider the example where <em>Acme</em>, as a <em>DataController</em>, maintains records of its processing activities using <code>Process</code> to represent one of its services. In this, it collects email, uses it for internal analyses based on <em>Legitimate Interests</em>, and also sends marketing information by using a processor based on the data subject's consent. Using nesting of processes, the information can be expressed at a granular level representing service, individual purposes, and so on.</p>    <pre class="nohighlight"><code>ex:Acme rdf:type dpv:DataController .
+ex:AcmeMarketing rdf:type dpv:Process ;
+    dpv:hasProcess ex:InternalAnalytics ;
+    dpv:hasProcess ex:SendingNewsletters .
+
+ex:InternalAnalytics rdf:type dpv:Process ;
+    dpv:hasPersonalData pd:Email ;
+    dpv:hasProcessing dpv:Collect, dpv:Store ;
+    dpv:hasPurpose dpv:InternalResourceOptimisation ;
+    dpv:hasLegalBasis dpv:LegitimateInterestOfController .
+
+ex:FooTech rdf:type dpv:DataProcessor .
+ex:SendingNewsletters rdf:type dpv:Process ;
+    dpv:hasPersonalData pd:Email ;
+    dpv:hasProcessing dpv:Share ;
+    dpv:hasPurpose dpv:Marketing ;
+    dpv:hasDataProcessor ex:FooTech ;
+    dpv:hasLegalBasis dpv:Consent .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0006"><code>E0006</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0006.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+  </section>
+  
+  <section id="vocab-process-service">
+    <h3>Services</h3>
+    <p>The concept [=Service=] is a general concept that represents the legal and social notion of 'service', similar to provided 'product' or 'application' or 'process', and does not represent the technical notion of services such as those associated with operating systems or 'cloud services'. Service is useful to indicate a logical grouping of processes into a single 'unit' which has legal relevance - such as a contract covering the service or the provision of a service.</p>
+    <aside class="note" title="Service does not refer to technical service concepts">
+      <p>Adopters are cautioned against using [=Service=] to represent technical concepts such as those used for operating systems or the technical concept of a 'cloud service' architecture or infrastructure. Adopters should use the [[TECH]] extension which provides such technical concepts.</p>
+    </aside>
+    <p>To indicate the entities involved in services, the concepts [=ServiceProvider=] and [=ServiceConsumer=] are defined along with the relations [=hasServiceProvider=] and [=hasServiceConsumer=]. Entities acting as providers and consumers can also be controllers or processors or data subjects. For example, a controller or processor may be the service provider for another controller who is the service consumer. Similarly, a processor may be the service provider for data subjects under the instructions of a data controller.</p>
+      <aside class="example" title="Using Service to group related processes">
+<p>This example shows the use of Service concept to represent a &#39;service&#39; provided by an organisation, which includes two processes for data collection and service provision    <pre class="nohighlight"><code># Service
+ex:StreamingService a dpv:Service ;
+    dpv:hasProcess ex:SS1, ex:SS2 ;
+    dpv:hasLegalBasis dpv:Contract ; # covering service
+    dpv:hasServiceProvider ex:CompanyA ; 
+    dpv:hasDataController ex:CompanyA ;
+    dpv:hasServiceConsumer ex:Consumers .
+
+ex:SS1 a dpv:Process ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Collect, dpv:Store, dpv:Use ;
+    dpv:hasPurpose dpv:ServiceProvision, dpv:ServiceRegistration .
+
+ex:SS2 a dpv:Process ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Use ;
+    dpv:hasPurpose dpv:FraudPreventionDetection .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0031"><code>E0031</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+  </section>
 </section>
 
 <section id="vocab-entities">
@@ -537,7 +641,7 @@
     <figcaption></figcaption>
   </figure>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/entities">entities page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the entities concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/entities.html">entities page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the entities concepts.</p>
 </div>
 
   <p>DPV relies on existing well-founded interpretations for its concepts, which in this case relate to <i>Entity</i> as a generic universal concept and <i>LegalEntity</i> specifically referring to roles defined legally or within legal norms. Expanding on these, DPV provides a taxonomy of entities based on their application within laws and use-cases in the form of <a href="#vocab-entities-legalrole"><i>Legal roles</i></a>, such as [=DataController=], [=DataSubject=], and [=Authority=]. Later, these concepts are expanded into taxonomies for different kinds of entities categorised under a common concept. For example, <a href="#vocab-entities-datasubject">categories of <i>Data Subjects</i></a> such as [=Adult=], [=User=], or [=Employee=]; or <a href="#vocab-entities-authority">kinds of <i>Authorities</i></a>, or <a href="#vocab-entities-organisation">categories of <i>Organisations</i></a>.</p>
@@ -650,6 +754,7 @@
 
   <section id="vocab-entities-organisation">
     <h3>Organisation</h3>
+    <p>DPV provides a taxonomy of organisations based on aspects such as whether they are non-profit, international, or governmental. These concepts are useful to accurately represent the nature of organisations.</p>
     <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:AcademicScientificOrganisation</strong>: Organisations related to academia or scientific pursuits e.g. Universities, Schools, Research Bodies
@@ -692,6 +797,9 @@
   <section id="vocab-entities-datasubject">
     <h3>Data Subjects</h3>
     <p>DPV provides a taxonomy of data subject types to assist with describing what kind of individuals or groups are associated with an use-case. Some examples of such types are agency-based roles: [=Adult=] and [=Child=], [=ParentOfDataSubject=], [=GuardianOfDataSubject=]; those associated with vulnerability: [=VulnerableDataSubject=], [=ElderlyDataSubject=], [=AsylumSeeker=]; domain-specific roles such as [=Patient=], [=Employee=], [=Student=], jurisdictional roles such as [=Citizen=], [=NonCitizen=], [=Immigrant=]; and general roles such as [=User=], [=Member=], [=Participant=], and [=Client=].</p>
+    <aside class="note" title="Data Subject is specific to personal data processing">
+      <p>The concept [=DataSubject=] is specific to the processing of (their) personal data. To indicate subjects involved in other activities, such as use of technologies, different concepts must be defined and utilised. The [[TECH]] extension defines the concept <code>Subject</code> to refer to this notion of 'subject of technology'.</p>
+    </aside>
     <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:Adult</strong>: A natural person that is not a child i.e. has attained some legally specified age of adulthood
@@ -833,10 +941,10 @@
     <figcaption>Overview of Purpose taxonomy in DPV (click to open in new window)</figcaption>
   </figure>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/purposes">purposes page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the purposes concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/purposes.html">purposes page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the purposes concepts.</p>
 </div>
 
-  <p>DPV’s taxonomy of purposes is used to represent the reason or justification for processing of personal data. For this, purposes are organised within DPV based on how they relate to the processing of personal data in terms of several factors, such as: management functions related to information (e.g. records, account, finance), fulfilment of objectives (e.g. delivery of goods), providing goods and services (e.g. service provision), intended benefits (e.g. optimisations for service provider or consumer), and legal compliance.</p>
+  <p>DPV’s taxonomy of purposes is used to represent the reason or justification associated with processing of personal data or use of technologies. For this, purposes are organised within DPV based on several factors such as: management functions related to information (e.g. records, account, finance), fulfilment of objectives (e.g. delivery of goods), providing goods and services (e.g. service provision), intended benefits (e.g. optimisations for service provider or consumer), and legal compliance.</p>
 
   <p>DPV provides a taxonomy of Purpose <i>instances</i> for use with [=hasPurpose=] relation. In addition, DPV also defines the concept [=Sector=] (associated using [=hasSector=]) to indicate a contextual interpretation of the purpose within a specified sector.</p>
 
@@ -1417,11 +1525,11 @@
     <figcaption></figcaption>
   </figure>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/personal_data">personal data page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the personal data concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/personal_data.html">personal data page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the personal data concepts.</p>
 </div>
 
-  <p>DPV provides the concept [=PersonalData=] and the relation [=hasPersonalData=] to indicate what categories or instances of personal data are being processed. The DPV specification only provides a structure for describing personal data, e.g. as being sensitive. For specific categories of personal data for use-cases, [[[PD]]] provides additional concepts that extend the DPV's personal data taxonomy. This separation is to enable adopters to decide whether the extension's concepts are useful to them, or to use other external vocabularies, or define their own.</p>
-  <p>In addition to <i>Personal Data</i>, there may be a need to represent <i>Non-Personal Data</i> within the same contextual use-cases. For this, DPV provides the concepts [=Data=], [=NonPersonalData=] and [=SyntheticData=].</p>
+  <p>DPV provides the concept [=Data=] and relation [=hasData=] to indicate involvement or association of any data. The concept [=PersonalData=] and the relation [=hasPersonalData=] are provided to indicate what categories or instances of personal data are being processed. The DPV specification only provides a structure for describing personal data, e.g. as being sensitive. For specific categories of personal data for use-cases, [[[PD]]] provides additional concepts that extend the DPV's personal data taxonomy. This separation is to enable adopters to decide whether the extension's concepts are useful to them, or to use other external vocabularies, or define their own.</p>
+  <p>In addition to <i>Personal Data</i>, there may be a need to represent <i>Non-Personal Data</i> within the same contextual use-cases. For this, DPV provides the concepts [=NonPersonalData=] and [=SyntheticData=].</p>
   <p>To indicate data categorised based on [=DataSource=], e.g. as "collected personal data", DPV provides: [=CollectedPersonalData=], [=DerivedPersonalData=], [=InferredPersonalData=], [=GeneratedPersonalData=], and [=ObservedPersonalData=].</p>
   <p>For indicating personal data which is sensitive, the concept [=SensitivePersonalData=] is provided. For indicating special categories of data, the concept [=SpecialCategoryPersonalData=] is provided. In this, the concept <i>sensitive</i> indicates that the data needs additional considerations (and perhaps caution) when processing, such as by increasing its security, reducing usage, or performing impact assessments. <i>Special categories</i>, by contrast, are a 'special' type of sensitive personal data requiring additional considerations or obligations defined in laws (or through other forms) that regulate how they should be used or prohibit their use until specific obligations are met.</p>
   <p>To specify data is anonymised, DPV provides two concepts. [=AnonymisedData=] for when data is completely anonymised and cannot be de-anonymised, which is a subtype of [=NonPersonalData=]. And, [=PseudonymisedData=] for when data has only been partially anonymised or de-anonymisation is possible, which is a subtype of [=PersonalData=].</p>     
@@ -1638,18 +1746,18 @@
 
 
 <section id="vocab-processing">
-  <h2>Processing</h2>
+  <h2>Processing Operations</h2>
   <figure>
     <img src="../media/processing.png" />
     <figcaption></figcaption>
   </figure>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/processing">processing page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the processing concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/processing.html">processing page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the processing concepts.</p>
 </div>
 
   <p>DPV’s taxonomy of processing concepts reflects the variety of terms used to denote processing activities or operations involving personal data, such as those from [GDPR] Article.4-2 definition of processing. Real-world use of terms associated with processing rarely uses this same wording or terms, except in cases of specific domains and in legal documentation. On the other hand, common terms associated with processing are generally restricted to: collect, use, store, share, and delete.</p>
   <p>DPV provides a taxonomy that aligns both the legal terminologies such as those defined by GDPR with those commonly used. For this, concepts are organised based on whether they subsume other concepts, e.g. Use is a broad concept indicating data is used, which DPV extends to define specific processing concepts for Analyse, Consult, Profiling, and Retrieving. Through this mechanism, whenever an use-case indicates it consults some data, it can be inferred that it also uses that data.</p>
-  <p>For concepts related to expressing contextual information associated with processing, such as storage conditions, automation, scale, see <a href="#vocab-processing-context">Processing Context</a> and <a href="#vocab-processing-scale">Processing Scale</a> sections.</p>
+  <p>For concepts related to expressing contextual information associated with processing, such as storage conditions, automation, scale, see <a href="#vocab-processing-context">Processing Context</a> section.</p>
   <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:Copy</strong>: to produce an exact reproduction of the data
@@ -1933,30 +2041,68 @@
     <figcaption></figcaption>
   </figure>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/processing#vocab-processing-context">processing context page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the processing context concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/processing#vocab-processing-context.html">processing context page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the processing context concepts.</p>
 </div>
 
-  <section id="vocab-processing-context-storage-automation">
-    <h3>Storage Conditions, Automation</h3>
-    <p>This taxonomy provides concepts for representing information about storage conditions, e.g. how long the data will be stored for, its erasure, or its restoration. It also enables representing the source(s) of data, the use of automation, and the extent of human involvement within the automation.</p>
-    <p>The processing taxonomy uses the concept [=Store=] to indicate data is being stored. To specify additionally information such as its location, erasure or deletion, the generic concepts and relations associated with processing (i.e. <i>location</i> and <i>duration</i>) can be used. However, to emphasise that information about storage - such as policies, conditions, rules, or documentation - are critical on considerations of data protection and privacy as well as legal compliance, DPV provide specific concepts related to these.</p>
-    <p>The concept [=StorageCondition=] and the relation [=hasStorageCondition=] represent the general or abstract conditions associated with storage of data. This is specialised to indicate [=StorageDuration=], [=StorageDeletion=], [=StorageRestoration=], and [=StorageLocation=]. This enables a document to directly specify information such as: "storage duration is 6 months" or "storage restoration uses 3 geo-distinct backup servers".</p>
-    <p>For declaring the source of data, the [=DataSource=] concept along with [=hasDataSource=] relationship is provided to indicate where the data is collected or acquired from. For example, data can be obtained from the data subject directly (e.g. given via forms) or indirectly (e.g observed from activity, or inferred from existing data), or from another entity such as a third party.</p>
-    <div class="issue" title="Update Automation and Human Involvement concepts"></div>
-    <p>DPV provides <s>AutomationOfProcessing</s> to represent the degree of automation, and the relation <s>hasProcessingAutomation</s> to associate it with contextual concepts. The degrees of automation are represented by <s>FullyAutomatedProcessing</s>, <s>PartiallyAutomatedProcessing</s>, and <s>CompletelyManualProcessing</s>.</p>
-    <p>To represent how humans are involved, the concept [=HumanInvolvement=] and relation [=hasHumanInvolvement=] are provided. Specific types of  [=HumanInvolvement=] include [=HumanInvolvementForOversight=], and [=HumanInvolvementForVerification=].
-    <p>To indicate more specific applications: [=DecisionMaking=] and [=AutomatedDecisionMaking=] refer to use of processing to make decisions, [=AlgorithmicLogic=] for explaining the use of algorithms and specifics of processing logic, [=EvaluationScoring=] to indicate the processing evaluates or assigns scores (or metrics), [=InnovativeUseOfNewTechnologies=] to indicate there are innovative uses of novel technologies, and [=SystematicMonitoring=] to indicate the processing performs a systematic (or systemic) monitoring. These additional concepts are intended to model areas or topics that are considered sensitive or high-risk or require caution.</p>
-
+  <section id="vocab-processing-context-processing">
+    <h3>Processing &amp; Storage Conditions</h3>
+    <p>To describe conditions associated with processing, such as its duration, or specific locations, the concept [=ProcessingCondition=] provided and extended as [=ProcessingDuration=] and [=ProcessingLocation=] along with the relation [=hasProcessingCondition=]. Storage, which is a specific form of processing, has additional dedicated concepts as [=StorageCondition=] as it is a commonly used concept. The concepts are useful to describe processing and storage conditions in  policies, conditions, rules, or documentation - which are important tools for implementing and determining data protection and privacy considerations as well as legal compliance.</p>
+    <p>The concept [=StorageCondition=] and the relation [=hasStorageCondition=] represent the general or abstract conditions associated with storage of data. This is specialised to indicate [=StorageDuration=], [=StorageDeletion=], [=StorageRestoration=], and [=StorageLocation=].</p>
     <div class="list-hierarchy"><ul class="concept-list">
   <li>
-    <strong>dpv:AlgorithmicLogic</strong>: The algorithmic logic applied or used
-      <small><a href="https://w3id.org/dpv#AlgorithmicLogic" class="local-link">go to full definition</a></small>
+    <strong>dpv:ProcessingDuration</strong>: Conditinos regarding duration or temporal limitation for processing
+      <small><a href="https://w3id.org/dpv#ProcessingDuration" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:StorageDuration</strong>: Duration or temporal limitation on storage of data
+      <small><a href="https://w3id.org/dpv#StorageDuration" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:ProcessingLocation</strong>: Conditions regarding location or geospatial scope where processing takes places
+      <small><a href="https://w3id.org/dpv#ProcessingLocation" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:StorageLocation</strong>: Location or geospatial scope where the data is stored
+      <small><a href="https://w3id.org/dpv#StorageLocation" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:StorageCondition</strong>: Conditions required or followed regarding storage of data
+      <small><a href="https://w3id.org/dpv#StorageCondition" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:StorageDeletion</strong>: Deletion or Erasure of data including any deletion guarantees
+      <small><a href="https://w3id.org/dpv#StorageDeletion" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:AutomationLevel</strong>: Indication of degree or level of automation associated with specified context
-      <small><a href="https://w3id.org/dpv#AutomationLevel" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
+    <strong>dpv:StorageDuration</strong>: Duration or temporal limitation on storage of data
+      <small><a href="https://w3id.org/dpv#StorageDuration" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:StorageLocation</strong>: Location or geospatial scope where the data is stored
+      <small><a href="https://w3id.org/dpv#StorageLocation" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:StorageRestoration</strong>: Regularity and temporal span of data restoration/backup mechanisms that guarantee that data is preserved
+      <small><a href="https://w3id.org/dpv#StorageRestoration" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+</ul></div>
+  </section>
+  <section id="vocab-processing-context-automation">
+    <h3>Automation</h3>
+    <p>To indicate processing involves automation, the concept [=AutomationLevel=] and relation [=hasAutomationLevel=] are provided to specify the extent to which automation is implemented or applies. These levels are defined based on [[[ISO-22989]]].</p>
+    <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:AssistiveAutomation</strong>: Level of automation corresponding to Level 1 in ISO/IEC 22989:2022 where automation is limited to parts of the system or a specific part of the system in a manner that does not change the control of the human in using/driving the system
       <small><a href="https://w3id.org/dpv#AssistiveAutomation" class="local-link">go to full definition</a></small>
@@ -1992,60 +2138,13 @@
       <small><a href="https://w3id.org/dpv#PartialAutomation" class="local-link">go to full definition</a></small>
       
   </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:DataSource</strong>: The source or origin of data
-      <small><a href="https://w3id.org/dpv#DataSource" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:DataControllerDataSource</strong>: Data Sourced from Data Controller(s), e.g. a Controller inferring data or generating data
-      <small><a href="https://w3id.org/dpv#DataControllerDataSource" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:DataSubjectDataSource</strong>: Data Sourced from Data Subject(s), e.g. when data is collected via a form or observed from their activities
-      <small><a href="https://w3id.org/dpv#DataSubjectDataSource" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:DataPublishedByDataSubject</strong>: Data is published by the data subject
-      <small><a href="https://w3id.org/dpv#DataPublishedByDataSubject" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:NonPublicDataSource</strong>: A source of data that is not publicly accessible or available
-      <small><a href="https://w3id.org/dpv#NonPublicDataSource" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:PublicDataSource</strong>: A source of data that is publicly accessible or available
-      <small><a href="https://w3id.org/dpv#PublicDataSource" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ThirdPartyDataSource</strong>: Data Sourced from a Third Party, e.g. when data is collected from an entity that is neither the Controller nor the Data Subject
-      <small><a href="https://w3id.org/dpv#ThirdPartyDataSource" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:DecisionMaking</strong>: Processing that involves decision making
-      <small><a href="https://w3id.org/dpv#DecisionMaking" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:AutomatedDecisionMaking</strong>: Processing that involves automated decision making
-      <small><a href="https://w3id.org/dpv#AutomatedDecisionMaking" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:EntityInvolvement</strong>: Involvement of an entity in specific context
-      <small><a href="https://w3id.org/dpv#EntityInvolvement" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
+</ul></div>
+  </section>
+  <section id="vocab-processing-context-involvement">
+    <h3>Entity/Human Involvement</h3>
+    <p>To specify how entities are involved in processing and technologies, including humans, the concept [=EntityInvolvement=] is provided along with the relation [=hasEntityInvolvement=]. Involvement of entities is categorised as 'permissive' for entities being able to perform an activity, and 'non-permissive' for when entities cannot perform an activity. A taxonomy of concepts is provided for permissive and non-permissive involvements to describe scenarios such as entity being able to opt-in or not being able to opt-out, or being able to reverse the output of a process. Involvement is also categorised as 'passive' and 'active' based on whether the entity passively or actively interacts with a 'process' or 'technology'.</p>
+    <p>To specifically indicate how humans are involved, the concept [=HumanInvolvement=] is provided. The existing terms used such as 'human in/on/out-of the loop' are not used directly as they have conflicting and ambiguous definitions and uses across different documents. Instead, the DPV concepts provide an explicit and unambiguous indication of human involvement - such as whether they are involved to provide inputs, make decisions, have oversight, or verify processes.</p>
+    <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:EntityActiveInvolvement</strong>: Involvement where entity is &#39;actively&#39; involved
       <small><a href="https://w3id.org/dpv#EntityActiveInvolvement" class="local-link">go to full definition</a></small>
@@ -2244,94 +2343,52 @@
   </li>
 </ul>
   </li>
-</ul>
+</ul></div>
+  </section>
+  <section id="vocab-processing-context-data-source">
+    <h3>Data Source</h3>
+    <p>The concept [=DataSource=] and relation [=hasDataSource=] indicate the source of data. Here, it is important to note that 'source' is distinct from 'origin', where source is where the data came from and origin refers to where the data originated from. Data originated from a data subject can be collected and shared one entity to another, where each entity has as its source the previous entity it obtained the data from.</p>
+    <div class="list-hierarchy"><ul class="concept-list">
+  <li>
+    <strong>dpv:DataControllerDataSource</strong>: Data Sourced from Data Controller(s), e.g. a Controller inferring data or generating data
+      <small><a href="https://w3id.org/dpv#DataControllerDataSource" class="local-link">go to full definition</a></small>
+      
   </li>
   <li>
-    <strong>dpv:EvaluationScoring</strong>: Processing that involves evaluation and scoring of individuals
-      <small><a href="https://w3id.org/dpv#EvaluationScoring" class="local-link">go to full definition</a></small>
+    <strong>dpv:DataSubjectDataSource</strong>: Data Sourced from Data Subject(s), e.g. when data is collected via a form or observed from their activities
+      <small><a href="https://w3id.org/dpv#DataSubjectDataSource" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
   <li>
-    <strong>dpv:EvaluationOfIndividuals</strong>: Processing that involves evaluation of individuals
-      <small><a href="https://w3id.org/dpv#EvaluationOfIndividuals" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ScoringOfIndividuals</strong>: Processing that involves scoring of individuals
-      <small><a href="https://w3id.org/dpv#ScoringOfIndividuals" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:AutomatedScoringOfIndividuals</strong>: Processing that involves automated scoring of individuals
-      <small><a href="https://w3id.org/dpv#AutomatedScoringOfIndividuals" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:InnovativeUseOfTechnology</strong>: Indicates that technology is being used in an innovative manner
-      <small><a href="https://w3id.org/dpv#InnovativeUseOfTechnology" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:InnovativeUseOfExistingTechnology</strong>: Involvement of existing technologies used in an innovative manner
-      <small><a href="https://w3id.org/dpv#InnovativeUseOfExistingTechnology" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:InnovativeUseOfNewTechnologies</strong>: Involvement of a new (innovative) technologies
-      <small><a href="https://w3id.org/dpv#InnovativeUseOfNewTechnologies" class="local-link">go to full definition</a></small>
+    <strong>dpv:DataPublishedByDataSubject</strong>: Data is published by the data subject
+      <small><a href="https://w3id.org/dpv#DataPublishedByDataSubject" class="local-link">go to full definition</a></small>
       
   </li>
 </ul>
   </li>
   <li>
-    <strong>dpv:ProcessingCondition</strong>: Conditions required or followed regarding processing of data or use of technologies
-      <small><a href="https://w3id.org/dpv#ProcessingCondition" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:ProcessingDuration</strong>: Duration or temporal limitation for processing
-      <small><a href="https://w3id.org/dpv#ProcessingDuration" class="local-link">go to full definition</a></small>
+    <strong>dpv:NonPublicDataSource</strong>: A source of data that is not publicly accessible or available
+      <small><a href="https://w3id.org/dpv#NonPublicDataSource" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:ProcessingLocation</strong>: Location or geospatial scope where processing takes places
-      <small><a href="https://w3id.org/dpv#ProcessingLocation" class="local-link">go to full definition</a></small>
+    <strong>dpv:PublicDataSource</strong>: A source of data that is publicly accessible or available
+      <small><a href="https://w3id.org/dpv#PublicDataSource" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:StorageCondition</strong>: Conditions required or followed regarding storage of data
-      <small><a href="https://w3id.org/dpv#StorageCondition" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:StorageDeletion</strong>: Deletion or Erasure of data including any deletion guarantees
-      <small><a href="https://w3id.org/dpv#StorageDeletion" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:StorageDuration</strong>: Duration or temporal limitation on storage of data
-      <small><a href="https://w3id.org/dpv#StorageDuration" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:StorageLocation</strong>: Location or geospatial scope where the data is stored
-      <small><a href="https://w3id.org/dpv#StorageLocation" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:StorageRestoration</strong>: Regularity and temporal span of data restoration/backup mechanisms that guarantee that data is preserved
-      <small><a href="https://w3id.org/dpv#StorageRestoration" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:SystematicMonitoring</strong>: Processing that involves systematic monitoring of individuals
-      <small><a href="https://w3id.org/dpv#SystematicMonitoring" class="local-link">go to full definition</a></small>
+    <strong>dpv:ThirdPartyDataSource</strong>: Data Sourced from a Third Party, e.g. when data is collected from an entity that is neither the Controller nor the Data Subject
+      <small><a href="https://w3id.org/dpv#ThirdPartyDataSource" class="local-link">go to full definition</a></small>
       
   </li>
 </ul></div>
+  </section>
+  <section id="vocab-processing-context-misc">
+    <h3>Monitoring, Scoring, Decision Making</h3>
+    <p>To indicate the processing or technology is performing some kind of decision making, the concept [=DecisionMaking=] is provided. If the processing or technology is automated, the concept  [=AutomatedDecisionMaking=] is provided. To describe the logic involved in decision making, the concept [=AlgorithmicLogic=] is provided. If the processing or technology is performing some evaluation or scoring (e.g. of individuals), the concept [=EvaluationScoring=] is provided. If the processing or technologies are performing 'systematic monitoring' of individuals, the concept [=SystematicMonitoring=] is provided.</p>
+    <p>If the processing involves technologies that are being used 'innovatively', the concept [=InnovativeUseOfTechnology=] is provided. Innovative uses can be for existing technologies, described using [=InnovativeUseOfExistingTechnology=] or for new technologies which are described using [=InnovativeUseOfNewTechnologies=].
+    <aside class="note" title="Concepts assisting in determining 'sensitive' and 'high-risk' applications">
+      <p>These concepts associated with monitoring, scoring, decision making, and innovative uses are intended to model areas or topics that are considered sensitive or high-risk or require caution - such as those defined in [[GDPR]].</p>
+    </aside>
   </section>
 
   <section id="vocab-processing-scale">
@@ -2478,6 +2535,492 @@
 </section>
 
 
+<section id="vocab-context">
+  <h2>General Context</h2>
+  <figure>
+    <img src="../media/Context.png">
+    <figcaption></figcaption>
+  </figure>
+  <div class="note">
+  <p><strong>Please refer to <a href="/dpv/modules/context.html">context page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the context concepts.</p>
+</div>
+
+  <section id="vocab-context-duration-frequency">
+    <h3>Duration, Frequency, Necessity</h3>
+    <p>These concepts enable expressing information about [=Duration=], [=Frequency=], [=Applicability=], [=Importance=], and [=Necessity=] of a [=Context=] (which can be any other concept). In addition to these, the concept [=Justification=] is useful to provide justifications or reasons or explanations - such as for why something must take place or could not take place.</p>
+    <p>Each of these concepts has a corresponding relation to express them - [=hasDuration=], [=hasFrequency=], [=hasApplicability=], [=hasImportance=], =hasNecessity=] with [=hasContext=] being the super-relation for these. Justifications are associated with using the relation [=hasJustification=].</p>
+
+    <div class="list-hierarchy"><ul class="concept-list">
+  <li>
+    <strong>dpv:Applicability</strong>: Concept provided to represent indication of cases where the information or context is not applicable (N/A) or not available or this is not known or determined yet. If the information is applicable and available, this concept should not be used.
+      <small><a href="https://w3id.org/dpv#Applicability" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:NotApplicable</strong>: Concept indicating the information or context is not applicable
+      <small><a href="https://w3id.org/dpv#NotApplicable" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:NotAvailable</strong>: Concept indicating the information or context is applicable but information is not yet available
+      <small><a href="https://w3id.org/dpv#NotAvailable" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:UnknownApplicability</strong>: Concept indicating information or context availability is unknown i.e. it is not known if the information exists or is applicable and therefore statements about its availability cannot be made (yet)
+      <small><a href="https://w3id.org/dpv#UnknownApplicability" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:Duration</strong>: The duration or temporal limitation
+      <small><a href="https://w3id.org/dpv#Duration" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:EndlessDuration</strong>: Duration that is (known or intended to be) open ended or without an end
+      <small><a href="https://w3id.org/dpv#EndlessDuration" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:FixedOccurencesDuration</strong>: Duration that takes place a fixed number of times e.g. 3 times
+      <small><a href="https://w3id.org/dpv#FixedOccurencesDuration" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:IndeterminateDuration</strong>: Duration that is indeterminate or cannot be determined
+      <small><a href="https://w3id.org/dpv#IndeterminateDuration" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:TemporalDuration</strong>: Duration that has a fixed temporal duration e.g. 6 months
+      <small><a href="https://w3id.org/dpv#TemporalDuration" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:UntilEventDuration</strong>: Duration that takes place until a specific event occurs e.g. Account Closure
+      <small><a href="https://w3id.org/dpv#UntilEventDuration" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:UntilTimeDuration</strong>: Duration that has a fixed end date e.g. 2022-12-31
+      <small><a href="https://w3id.org/dpv#UntilTimeDuration" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:Frequency</strong>: The frequency or information about periods and repetitions in terms of recurrence.
+      <small><a href="https://w3id.org/dpv#Frequency" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:ContinousFrequency</strong>: Frequency where occurences are continous
+      <small><a href="https://w3id.org/dpv#ContinousFrequency" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:OftenFrequency</strong>: Frequency where occurences are often or frequent, but not continous
+      <small><a href="https://w3id.org/dpv#OftenFrequency" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:SingularFrequency</strong>: Frequency where occurences are singular i.e. they take place only once
+      <small><a href="https://w3id.org/dpv#SingularFrequency" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:SporadicFrequency</strong>: Frequency where occurences are sporadic or infrequent or sparse
+      <small><a href="https://w3id.org/dpv#SporadicFrequency" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:Importance</strong>: An indication of &#39;importance&#39; within a context
+      <small><a href="https://w3id.org/dpv#Importance" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:PrimaryImportance</strong>: Indication of &#39;primary&#39; or &#39;main&#39; or &#39;core&#39; importance
+      <small><a href="https://w3id.org/dpv#PrimaryImportance" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:SecondaryImportance</strong>: Indication of &#39;secondary&#39; or &#39;minor&#39; or &#39;auxiliary&#39; importance
+      <small><a href="https://w3id.org/dpv#SecondaryImportance" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:Justification</strong>: A form of documentation providing reaosns, explanations, or justifications
+      <small><a href="https://w3id.org/dpv#Justification" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:Necessity</strong>: An indication of &#39;necessity&#39; within a context
+      <small><a href="https://w3id.org/dpv#Necessity" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:NotRequired</strong>: Indication of neither being required nor optional i.e. not relevant or needed
+      <small><a href="https://w3id.org/dpv#NotRequired" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:Optional</strong>: Indication of &#39;optional&#39; or &#39;voluntary&#39;
+      <small><a href="https://w3id.org/dpv#Optional" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:Required</strong>: Indication of &#39;required&#39; or &#39;necessary&#39;
+      <small><a href="https://w3id.org/dpv#Required" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:Scope</strong>: Indication of the extent or range or boundaries associated with(in) a context
+      <small><a href="https://w3id.org/dpv#Scope" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul></div>
+  </section>
+
+  <section id="vocab-context-status">
+    <h3>Status</h3>
+    <p>To assist with expressing the state or status associated with various activities, DPV provides the [=Status=] concept that can be associated contextually using the [=hasStatus=] relation. Specific subtypes are provided as [=ActivityStatus=], [=ComplianceStatus=] including [=Lawfulness=], [=AuditStatus=], [=ConformanceStatus=], [=RequestStatus=], [=EntityInformedStatus=], [=IntentionStatus=], [=ExpectationStatus=], [=InvolvementStatus=], and [=NotificationStatus=]. The corresponding relations provided are:  [=hasActivityStatus=], [=hasComplianceStatus=], [=hasLawfulness=], [=hasAuditStatus=], [=hasConformanceStatus=], [=hasRequestStatus=], [=hasInformedStatus=], [=hasIntention=], [=hasExpectation=], [=hasInvolvement=], and [=hasNotificationStatus=].</p>
+
+    <div class="list-hierarchy"><ul class="concept-list">
+  <li>
+    <strong>dpv:ActivityStatus</strong>: Status associated with activity operations and lifecycles
+      <small><a href="https://w3id.org/dpv#ActivityStatus" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:ActivityCompleted</strong>: State of an activity that has completed i.e. is fully in the past
+      <small><a href="https://w3id.org/dpv#ActivityCompleted" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ActivityHalted</strong>: State of an activity that was occuring in the past, and has been halted or paused or stoped
+      <small><a href="https://w3id.org/dpv#ActivityHalted" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ActivityNotCompleted</strong>: State of an activity that could not be completed, but has reached some end state
+      <small><a href="https://w3id.org/dpv#ActivityNotCompleted" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ActivityOngoing</strong>: State of an activity occuring in continuation i.e. currently ongoing
+      <small><a href="https://w3id.org/dpv#ActivityOngoing" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ActivityPlanned</strong>: State of an activity being planned with concrete plans for implementation
+      <small><a href="https://w3id.org/dpv#ActivityPlanned" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ActivityProposed</strong>: State of an activity being proposed without any concrete plans for implementation
+      <small><a href="https://w3id.org/dpv#ActivityProposed" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:AuditStatus</strong>: Status associated with Auditing or Investigation
+      <small><a href="https://w3id.org/dpv#AuditStatus" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:AuditApproved</strong>: State of being approved through the audit
+      <small><a href="https://w3id.org/dpv#AuditApproved" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:AuditConditionallyApproved</strong>: State of being conditionally approved through the audit
+      <small><a href="https://w3id.org/dpv#AuditConditionallyApproved" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:AuditNotRequired</strong>: State where an audit is determined as not being required
+      <small><a href="https://w3id.org/dpv#AuditNotRequired" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:AuditRejected</strong>: State of not being approved or being rejected through the audit
+      <small><a href="https://w3id.org/dpv#AuditRejected" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:AuditRequested</strong>: State of an audit being requested whose outcome is not yet known
+      <small><a href="https://w3id.org/dpv#AuditRequested" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:AuditRequired</strong>: State where an audit is determined as being required but has not been conducted
+      <small><a href="https://w3id.org/dpv#AuditRequired" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:ComplianceStatus</strong>: Status associated with Compliance with some norms, objectives, or requirements
+      <small><a href="https://w3id.org/dpv#ComplianceStatus" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:ComplianceIndeterminate</strong>: State where the status of compliance has not been fully assessed, evaluated, or determined
+      <small><a href="https://w3id.org/dpv#ComplianceIndeterminate" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ComplianceUnknown</strong>: State where the status of compliance is unknown
+      <small><a href="https://w3id.org/dpv#ComplianceUnknown" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ComplianceViolation</strong>: State where compliance cannot be achieved due to requirements being violated
+      <small><a href="https://w3id.org/dpv#ComplianceViolation" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:Compliant</strong>: State of being fully compliant
+      <small><a href="https://w3id.org/dpv#Compliant" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:Lawfulness</strong>: Status associated with expressing lawfullness or legal compliance
+      <small><a href="https://w3id.org/dpv#Lawfulness" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:Lawful</strong>: State of being lawful or legally compliant
+      <small><a href="https://w3id.org/dpv#Lawful" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:LawfulnessUnkown</strong>: State of the lawfulness not being known
+      <small><a href="https://w3id.org/dpv#LawfulnessUnkown" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:Unlawful</strong>: State of being unlawful or legally non-compliant
+      <small><a href="https://w3id.org/dpv#Unlawful" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:NonCompliant</strong>: State of non-compliance where objectives have not been met, but have not been violated
+      <small><a href="https://w3id.org/dpv#NonCompliant" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:PartiallyCompliant</strong>: State of partially being compliant i.e. only some objectives have been met, and others have not been in violation
+      <small><a href="https://w3id.org/dpv#PartiallyCompliant" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:ConformanceStatus</strong>: Status associated with conformance to a standard, guideline, code, or recommendation
+      <small><a href="https://w3id.org/dpv#ConformanceStatus" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:Conformant</strong>: State of being conformant
+      <small><a href="https://w3id.org/dpv#Conformant" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:NonConformant</strong>: State of being non-conformant
+      <small><a href="https://w3id.org/dpv#NonConformant" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:EntityInformedStatus</strong>: Status indicating whether an entity is informed or uninformed about specified context
+      <small><a href="https://w3id.org/dpv#EntityInformedStatus" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:EntityInformed</strong>: Status indicating entity has been informed about specified context
+      <small><a href="https://w3id.org/dpv#EntityInformed" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:AuthorityInformed</strong>: Status indicating Authority has been informed about the specified context
+      <small><a href="https://w3id.org/dpv#AuthorityInformed" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ControllerInformed</strong>: Status indicating Controller has been informed about the specified context
+      <small><a href="https://w3id.org/dpv#ControllerInformed" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:DataSubjectInformed</strong>: Status indicating DataSubject has been informed about the specified context
+      <small><a href="https://w3id.org/dpv#DataSubjectInformed" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RecipientInformed</strong>: Status indicating Recipient has been informed about the specified context
+      <small><a href="https://w3id.org/dpv#RecipientInformed" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:EntityUninformed</strong>: Status indicating entity is uninformed i.e. has been not been informed about specified context
+      <small><a href="https://w3id.org/dpv#EntityUninformed" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:AuthorityUninformed</strong>: Status indicating Authority is uninformed i.e. has not been informed about the specified context
+      <small><a href="https://w3id.org/dpv#AuthorityUninformed" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ControllerUninformed</strong>: Status indicating Controller is uninformed i.e. has not been informed about the specified context
+      <small><a href="https://w3id.org/dpv#ControllerUninformed" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:DataSubjectUninformed</strong>: Status indicating DataSubject is uninformed i.e. has not been informed about the specified context
+      <small><a href="https://w3id.org/dpv#DataSubjectUninformed" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RecipientUninformed</strong>: Status indicating Recipient is uninformed i.e. has not been informed about the specified context
+      <small><a href="https://w3id.org/dpv#RecipientUninformed" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:IntentionStatus</strong>: Status indicating whether the specified context was intended or unintended
+      <small><a href="https://w3id.org/dpv#IntentionStatus" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:Intended</strong>: Status indicating the specified context was intended
+      <small><a href="https://w3id.org/dpv#Intended" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:Unintended</strong>: Status indicating the specified context was unintended i.e. not intended
+      <small><a href="https://w3id.org/dpv#Unintended" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:InvolvementStatus</strong>: Status indicating whether the involvement of specified context
+      <small><a href="https://w3id.org/dpv#InvolvementStatus" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:ActivelyInvolved</strong>: Status indicating the specified context is &#39;actively&#39; involved
+      <small><a href="https://w3id.org/dpv#ActivelyInvolved" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:NotInvolved</strong>: Status indicating the specified context is &#39;not&#39; involved
+      <small><a href="https://w3id.org/dpv#NotInvolved" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:PassivelyInvolved</strong>: Status indicating the specified context is &#39;passively&#39; involved
+      <small><a href="https://w3id.org/dpv#PassivelyInvolved" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:NotificationStatus</strong>: Status indicating whether notification(s) are planned, completed, or failed
+      <small><a href="https://w3id.org/dpv#NotificationStatus" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:NotificationCompleted</strong>: Status indicating notification(s) are completed
+      <small><a href="https://w3id.org/dpv#NotificationCompleted" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:NotificationFailed</strong>: Status indicating notification(s) could not be completed due to a failure
+      <small><a href="https://w3id.org/dpv#NotificationFailed" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:NotificationNotNeeded</strong>: Status indicating notification(s) are not needed
+      <small><a href="https://w3id.org/dpv#NotificationNotNeeded" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:NotificationOngoing</strong>: Status indicating notification(s) are ongoing
+      <small><a href="https://w3id.org/dpv#NotificationOngoing" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:NotificationPlanned</strong>: Status indicating notification(s) are planned
+      <small><a href="https://w3id.org/dpv#NotificationPlanned" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:RequestStatus</strong>: Status associated with requests
+      <small><a href="https://w3id.org/dpv#RequestStatus" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:RequestAccepted</strong>: State of a request being accepted towards fulfilment
+      <small><a href="https://w3id.org/dpv#RequestAccepted" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RequestAcknowledged</strong>: State of a request being acknowledged
+      <small><a href="https://w3id.org/dpv#RequestAcknowledged" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RequestActionDelayed</strong>: State of a request being delayed towards fulfilment
+      <small><a href="https://w3id.org/dpv#RequestActionDelayed" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RequestFulfilled</strong>: State of a request being fulfilled
+      <small><a href="https://w3id.org/dpv#RequestFulfilled" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RequestInitiated</strong>: State of a request being initiated
+      <small><a href="https://w3id.org/dpv#RequestInitiated" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RequestRejected</strong>: State of a request being rejected towards non-fulfilment
+      <small><a href="https://w3id.org/dpv#RequestRejected" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RequestRequiredActionPerformed</strong>: State of a request&#39;s required action having been performed by the other party
+      <small><a href="https://w3id.org/dpv#RequestRequiredActionPerformed" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RequestRequiresAction</strong>: State of a request requiring an action to be performed from another party
+      <small><a href="https://w3id.org/dpv#RequestRequiresAction" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RequestStatusQuery</strong>: State of a request&#39;s status being queried
+      <small><a href="https://w3id.org/dpv#RequestStatusQuery" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RequestUnfulfilled</strong>: State of a request being unfulfilled
+      <small><a href="https://w3id.org/dpv#RequestUnfulfilled" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+</ul></div>
+  </section>
+</section>
+
+
 <section id="vocab-TOM">
   <h2>Tech/Org Measures</h2>
   <figure>
@@ -2487,12 +3030,12 @@
     <figcaption>Overview of Technical & Organisational Measures taxonomy in DPV (click to open in new window)</figcaption>
   </figure>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/TOM">Tech &amp; Org measures page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the Tech &amp; Org measures concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/TOM.html">Tech &amp; Org measures page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the Tech &amp; Org measures concepts.</p>
 </div>
 
   <div class="issue" title="Add Legal/Physical measure to TOM"></div>
-  <p>DPV's taxonomy of tech/org measures are structured into two groups representing and [=TechnicalMeasure=] and [=OrganisationalMeasure=] along with specific properties for each. Each term has a dedicated taxonomy that expands upon the core idea to provide a rich list of technial and organisational measures that are intended to protect personal data (and its associated entities and consequences).</p>
-  <p>This taxonomy also includes relations that are associated with measures, such as [=hasNotice=] or [=hasPolicy=], which are generic and can be applied to other contexts (e.g. notice for consent, policy for data storage).</p>
+  <p>DPV's taxonomy of tech/org measures are structured into four groups representing [=TechnicalMeasure=] such as encryption or deidentification which operate at a technical level, [=OrganisationalMeasure=] such as policies and training which operate at an organisational level, [=LegalMeasure=] which are organisational measures with legal enforcement such as contracts and NDAs, and [=PhysicalMeasure=] which are associated with physical aspects such as environmental protection and physical security. Each of these is provided with a taxonomy that expands upon the core idea to provide a rich list of measures that are intended to protect personal data and technologies (and its associated entities and consequences).</p>
+  <p>To indicate applicability of measures, the relations [=hasTechnicalMeasure=], [=hasOrganisationalMeasure=], [=hasLegalMeasure=], and [=hasPhysicalMeasure=] are provided. In addition to these, specific relations are also provided for concepts commonly used or which are important for legal considerations - such as [=hasNotice=] and [=hasPolicy=].</p>
   <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:LegalMeasure</strong>: Legal measures used to safeguard and ensure good practices in connection with data and technologies
@@ -3534,14 +4077,16 @@
     <figcaption>Legal Bases in DPV</figcaption>
   </figure>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/legal_basis">legal basis page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the legal basis concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/legal_basis.html">legal basis page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the legal basis concepts.</p>
 </div>
 
   <p>DPV provides the following categories of legal bases based on [[GDPR]] Article 6: consent of the data subject, contract, compliance with legal obligation, protecting vital interests of individuals, legitimate interests, public interest, and official authorities. Though derived from GDPR, these concepts can be applied for other jurisdictions and general use-cases. The legal bases are represented by the concept [=LegalBasis=] and associated using the relation [=hasLegalBasis=].</p>
 
   <p>When declaring a legal basis, it is important to denote under what law or jurisdiction that legal basis applies. For instance, using [=Consent=] as a legal basis has different obligations and requirements in EU (i.e. [[GDPR]]) as compared to other jurisdictions. Therefore, unless the information is to be implicitly interpreted through some specific legal lens or jurisdictional law, DPV recommends indicating the specific law or legal clause associated with the legal basis so as to scope its interpretation. This can be done using the relation [=hasJurisdiction=] or [=hasApplicableLaw=].</p>
 
-  <p>For GDPR, DPVCG provides the [[[EU-GDPR]]] which defines the legal bases within [[GDPR]] by extending them from relevant concepts within the DPV. We welcome similar contributions for extending the GDPR extension as well as creating extensions for other laws and domains.</p>
+  <p>Extensions enable further extending the legal bases with jurisdiction-specific concepts. For example, the [[EU-GDPR]] and [[EU-DGA]] extensions provide legal bases from [[GDPR]] and [[DGA]] respectively. We welcome similar contributions for extending the GDPR extension as well as creating extensions for other laws and domains.</p>
+
+  <aside class="issue" data-number="111"></aside>
 
   <div class="list-hierarchy"><ul class="concept-list">
   <li>
@@ -3620,10 +4165,16 @@
       <li>[=Consent=] - a type of legal basis representing consent of the individual.</li>
       <li><a href="#vocab-legal-basis-consent-types">Consent Types</a> - to represent criteria for consent, such as [=InformedConsent=] and [=ExplicitlyExpressedConsent=].</li>
       <li><a href="#vocab-legal-basis-consent-status">Consent Status</a> - to represent and keep track of what state/status/stage the consenting process is at, for example indicating the journey or lifecycle from [=ConsentRequested=] to [=ConsentGiven=] and then [=ConsentWithdrawn=].</li>
-      <li><a href="vocab-consent-relations">Consent Relations</a> - to enable association of relevant information with consent, such as the notice used or provided, status of consent, or who indicated it.</li>
+      <li><a href="#vocab-legal-basis-consent-controls">Consent Controls</a> - to indicate information about how to obtain or provide or reaffirm consent.</li>
     </ul>
-    <p>To indicate the duration or validity of a given consent instance, the existing contextual relation [=hasDuration=] along with specific forms of [=Duration=] can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype [=UntilEventDuration=] can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, [=UntilTimeDuration=] indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and [=TemporalDuration=] indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, [=EndlessDuration=] can be used.</p>
+    <p>To indicate the duration or validity of a given consent instance, the existing contextual relation [=hasDuration=] along with specific forms of [=Duration=] can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype [=UntilEventDuration=] can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, [=UntilTimeDuration=] indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and [=TemporalDuration=] indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, [=EndlessDuration=] can be used. To indicate the notice used for informed consent, the concept [=ConsentNotice=] is provided, which can be used with the relation [=hasNotice=].</p>
     <p>To specify consent provided by delegation, such as in the case of a parent or guardian providing consent for/with a child, the [=isIndicatedBy=] relation can be used to associate the parent or guardian responsible for providing consent (or its affirmation). Since by default the consent is presumed to be provided by the individual, when such individuals are associated with their consent, i.e. through [=hasDataSubject=], the additional information provided by [=isIndicatedBy=] can be considered redundant and is often omitted.</p>
+    <p>[=ConsentControl=] represents information about how to exercise a control regarding consent. To indicate how an organisation obtains consent, the concept [=ObtainConsent=] is provided. Its corresponding concept [=ProvideConsent=] specifies how a data subject can indicate their consent (decision). The concept [=ReaffirmConsent=] is used to indicate how to perform reaffirmation or confirmation of a previous control (e.g. provide or obtain consent). To associate consent controls, the relation [=hasConsentControl=] is provided. Consent controls are defined by extending relevant [=EntityInvolvement=] concepts [=OptingIntoProcess=] and [=WithdrawingFromProcess=].</p>
+
+    <aside class="note" title="Guide on implementing consent records as per ISO/IEC TS 27560:2023">
+      <p>The [[[DPV-27560]]] provides guidance on creation of consent records following the [[[ISO-27560]]] standard.</p>
+    </aside>
+    <aside class="issue" data-number="91"></aside>
 
     <section id="vocab-legal-basis-consent-types">
       <h4>Consent Types</h4>
@@ -3728,7 +4279,6 @@
 
     <section id="vocab-legal-basis-consent-controls">
       <h4>Consent Controls</h4>
-      <p>controls associated with consent, use [=isExercisedAt=] to indicate how to exercise them</p>
       <ol>
         <li>[=ObtainConsent=] for controllers to obtain consent</li>
         <li>[=ProvideConsent=] for data subjects to provide consent</li>
@@ -3740,520 +4290,6 @@
   </section>
 </section>
 
-<section id="vocab-context">
-  <h2>General Context</h2>
-  <figure>
-    <img src="../media/Context.png">
-    <figcaption></figcaption>
-  </figure>
-  <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/context">context page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the context concepts.</p>
-</div>
-
-  <section id="vocab-context-duration-frequency">
-    <h3>Duration and Frequency</h3>
-    <p>To express the duration of events or operations, such as how long processing will take or the validity of consent, the concept [=Duration=] can be used. Duration is indicated using the relation [=hasDuration=], and has the following subtypes:</p>
-    <ul>
-    <li>[=TemporalDuration=] - indicating a relative temporal duration, e.g. 6 months.</li>
-    <li>[=UntilTimeDuration=] - indicating duration that occurs until the end of specified time, e.g. until 31 DEC 2022.</li>
-    <li>[=UntilEventDuration=] - indicating duration that occurs until the end of specified event, e.g. until account is closed.</li>
-    <li>[=FixedOccurencesDuration=] - a duration that is based on number of occurences, e.g. until you view it 3 times</li>
-    <li>[=EndlessDuration=] - indicating a duration without an end condition or temporal notation.</li>
-    </ul>
-    <p>[=Frequency=] indicates how frequently something occurs. Statistically, this can be expressed as the combination of number of occurences and a time period, which can further be expressed as a probabilitic value or a percentage. For example, for something occuring once every year, the frequency is: 1 or 100% for 1 year. While such <i>quantified</i> representations are important for determining metrics and performing operations, DPV focuses on the <i>qualitative</i> labelling of such representations within a specific context.</p>
-    <p>The relation [=hasFrequency=] associates a frequency with a context, and can be expressed using the following subtypes:</p>
-    <ul>
-      <li>[=ContinousFrequency=] - indicates things occuring continously, e.g. location collection happens continously.</li>
-      <li>[=SporadicFrequency=] - indicates things occuring sporadically or rarely or not often, e.g. collecting system usage logs every month.</li>
-      <li>[=OftenFrequency=] - indicates things happen often or regularly or commonly, e.g. online status is reported every 5 mins.</li>
-      <li>[=SingularFrequency=] - indicates things happen only once.</li>
-    </ul>
-    <p>DPV provides two subtypes of concepts to denote contextual - [=Importance=] and [=Necessity=], which can be applied to specific contexts such as [=PersonalDataHandling=], [=Purpose=], [=PersonalData=].</p>
-        <p>[=Importance=] is similar in application to [=Necessity=], and provides a way to indicate how <i>central</i> or <i>significant</i> the indicated operation(s) are to the context (e.g. to the Controller). Subtypes of importance are [=PrimaryImportance=] to indicate 'main' or 'central' or 'primary' importance, and [=SecondaryImportance=] to indicate 'auxiliary' or 'peripheral' or 'secondary' importance.</p>
-        <p>[=Necessity=] enables specifying whether the contextual information is [=Required=], is [=Optional=], or is [=NotRequired=]. These can be used to indicate, for example, which parts of processing operations (e.g. purposes, personal data) are optional, and whether a particular processing operation is required to be carried out.</i></p>
-
-    <div class="list-hierarchy"><ul class="concept-list">
-  <li>
-    <strong>dpv:Applicability</strong>: Concept provided to represent indication of cases where the information or context is not applicable (N/A) or not available or this is not known or determined yet. If the information is applicable and available, this concept should not be used.
-      <small><a href="https://w3id.org/dpv#Applicability" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:NotApplicable</strong>: Concept indicating the information or context is not applicable
-      <small><a href="https://w3id.org/dpv#NotApplicable" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:NotAvailable</strong>: Concept indicating the information or context is applicable but information is not yet available
-      <small><a href="https://w3id.org/dpv#NotAvailable" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:UnknownApplicability</strong>: Concept indicating information or context availability is unknown i.e. it is not known if the information exists or is applicable and therefore statements about its availability cannot be made (yet)
-      <small><a href="https://w3id.org/dpv#UnknownApplicability" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:Duration</strong>: The duration or temporal limitation
-      <small><a href="https://w3id.org/dpv#Duration" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:EndlessDuration</strong>: Duration that is (known or intended to be) open ended or without an end
-      <small><a href="https://w3id.org/dpv#EndlessDuration" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:FixedOccurencesDuration</strong>: Duration that takes place a fixed number of times e.g. 3 times
-      <small><a href="https://w3id.org/dpv#FixedOccurencesDuration" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:IndeterminateDuration</strong>: Duration that is indeterminate or cannot be determined
-      <small><a href="https://w3id.org/dpv#IndeterminateDuration" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:TemporalDuration</strong>: Duration that has a fixed temporal duration e.g. 6 months
-      <small><a href="https://w3id.org/dpv#TemporalDuration" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:UntilEventDuration</strong>: Duration that takes place until a specific event occurs e.g. Account Closure
-      <small><a href="https://w3id.org/dpv#UntilEventDuration" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:UntilTimeDuration</strong>: Duration that has a fixed end date e.g. 2022-12-31
-      <small><a href="https://w3id.org/dpv#UntilTimeDuration" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:Frequency</strong>: The frequency or information about periods and repetitions in terms of recurrence.
-      <small><a href="https://w3id.org/dpv#Frequency" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:ContinousFrequency</strong>: Frequency where occurences are continous
-      <small><a href="https://w3id.org/dpv#ContinousFrequency" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:OftenFrequency</strong>: Frequency where occurences are often or frequent, but not continous
-      <small><a href="https://w3id.org/dpv#OftenFrequency" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:SingularFrequency</strong>: Frequency where occurences are singular i.e. they take place only once
-      <small><a href="https://w3id.org/dpv#SingularFrequency" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:SporadicFrequency</strong>: Frequency where occurences are sporadic or infrequent or sparse
-      <small><a href="https://w3id.org/dpv#SporadicFrequency" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:Importance</strong>: An indication of &#39;importance&#39; within a context
-      <small><a href="https://w3id.org/dpv#Importance" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:PrimaryImportance</strong>: Indication of &#39;primary&#39; or &#39;main&#39; or &#39;core&#39; importance
-      <small><a href="https://w3id.org/dpv#PrimaryImportance" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:SecondaryImportance</strong>: Indication of &#39;secondary&#39; or &#39;minor&#39; or &#39;auxiliary&#39; importance
-      <small><a href="https://w3id.org/dpv#SecondaryImportance" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:Justification</strong>: A form of documentation providing reaosns, explanations, or justifications
-      <small><a href="https://w3id.org/dpv#Justification" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:Necessity</strong>: An indication of &#39;necessity&#39; within a context
-      <small><a href="https://w3id.org/dpv#Necessity" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:NotRequired</strong>: Indication of neither being required nor optional i.e. not relevant or needed
-      <small><a href="https://w3id.org/dpv#NotRequired" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:Optional</strong>: Indication of &#39;optional&#39; or &#39;voluntary&#39;
-      <small><a href="https://w3id.org/dpv#Optional" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:Required</strong>: Indication of &#39;required&#39; or &#39;necessary&#39;
-      <small><a href="https://w3id.org/dpv#Required" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:Scope</strong>: Indication of the extent or range or boundaries associated with(in) a context
-      <small><a href="https://w3id.org/dpv#Scope" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul></div>
-  </section>
-
-  <section id="vocab-context-status">
-    <h3>Status</h3>
-    <p>To assist with expressing the state or status associated with various activities, DPV provides the [=Status=] concept that can be associated contextually using the [=hasStatus=] relation. Specific subtypes are provided as [=ActivityStatus=], [=ComplianceStatus=] including [=Lawfulness=], [=AuditStatus=], [=ConformanceStatus=], and [=RequestStatus=].</p>
-
-    <p><strong>[=ActivityStatus=]</strong> represents a state or status of an activity's operations and lifecycle, which includes [=ActivityProposed=], [=ActivityOngoing=], [=ActivityHalted=], [=ActivityCompleted=], and [=ActivityNotCompleted=].</p>
-
-    <p><strong>[=ComplianceStatus=]</strong> represents status associated with <i>compliance</i> with some norms, objectives, or requirements. Types include [=Compliant=], [=PartiallyCompliant=], [=NonCompliant=], [=ComplianceViolation=], [=ComplianceUnknown=], [=ComplianceIndeterminate=]. The association with a law or objective can be specified using [=hasApplicableLaw=] or [=hasPolicy=] directly for the status or indirectly through the concept whose status is being represented.</p>
-
-    <p><strong>[=Lawfulness=]</strong> represents a special type of [=ComplianceStatus=] which relates to legal compliance, or <i>lawfulness</i>, and has types [=Lawful=], [=Unlawful=], and [=LawfulnessUnkown=].</p>
-
-    <p><strong>[=AuditStatus=]</strong> represents the state or status of an audit, where the term <i>audit</i> is loosely defined, and may or may not relate to legal compliance - for e.g. for impact assessments, or as part of certification, or organisational quality assurance processes. Types of audits include [=AuditApproved=], [=AuditConditionallyApproved=], [=AuditRejected=], [=AuditRequested=], [=AuditNotRequired=], and [=AuditRequired=].</p>
-
-    <p><strong>[=ConformanceStatus=]</strong> represents the status of <i>conformance</i>, which is defined distinctly from <i>compliance</i> by considering voluntary association or following of a guideline, requirement, standard, or policy, and where compliance is related to the (legal or other systematically defined) <i>conformity</i> of a given system or use-case with <i>rules</i> which may dictate obligations and prohibitions that must be followed. To provide an illustrative example, consider <i>conformance</i> with a standard on best practices regarding security may assist in the demonstration of <i>compliance</i> with a legal norm requiring organisational measures of security. Types of conformance defined are: [=Conformant=] and [=NonConformant=].</p>
-
-    <p><strong>[=RequestStatus=]</strong> represents the state or status of <i>requests</i>, which can be between entities such as data subjects and controllers regarding exercising of rights, or between controllers and processors regarding processing operations, or between authorities and controllers regarding compliance related communications. Types of request statues are: [=RequestInitiated=], [=RequestAcknowledged=], [=RequestAccepted=], [=RequestRejected=], [=RequestFulfilled=], [=RequestUnfulfilled=], [=RequestRequiresAction=], [=RequestRequiredActionPerformed=], [=RequestActionDelayed=], and [=RequestStatusQuery=].</p>
-
-    <div class="list-hierarchy"><ul class="concept-list">
-  <li>
-    <strong>dpv:ActivityStatus</strong>: Status associated with activity operations and lifecycles
-      <small><a href="https://w3id.org/dpv#ActivityStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:ActivityCompleted</strong>: State of an activity that has completed i.e. is fully in the past
-      <small><a href="https://w3id.org/dpv#ActivityCompleted" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ActivityHalted</strong>: State of an activity that was occuring in the past, and has been halted or paused or stoped
-      <small><a href="https://w3id.org/dpv#ActivityHalted" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ActivityNotCompleted</strong>: State of an activity that could not be completed, but has reached some end state
-      <small><a href="https://w3id.org/dpv#ActivityNotCompleted" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ActivityOngoing</strong>: State of an activity occuring in continuation i.e. currently ongoing
-      <small><a href="https://w3id.org/dpv#ActivityOngoing" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ActivityPlanned</strong>: State of an activity being planned with concrete plans for implementation
-      <small><a href="https://w3id.org/dpv#ActivityPlanned" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ActivityProposed</strong>: State of an activity being proposed without any concrete plans for implementation
-      <small><a href="https://w3id.org/dpv#ActivityProposed" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:AuditStatus</strong>: Status associated with Auditing or Investigation
-      <small><a href="https://w3id.org/dpv#AuditStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:AuditApproved</strong>: State of being approved through the audit
-      <small><a href="https://w3id.org/dpv#AuditApproved" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:AuditConditionallyApproved</strong>: State of being conditionally approved through the audit
-      <small><a href="https://w3id.org/dpv#AuditConditionallyApproved" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:AuditNotRequired</strong>: State where an audit is determined as not being required
-      <small><a href="https://w3id.org/dpv#AuditNotRequired" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:AuditRejected</strong>: State of not being approved or being rejected through the audit
-      <small><a href="https://w3id.org/dpv#AuditRejected" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:AuditRequested</strong>: State of an audit being requested whose outcome is not yet known
-      <small><a href="https://w3id.org/dpv#AuditRequested" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:AuditRequired</strong>: State where an audit is determined as being required but has not been conducted
-      <small><a href="https://w3id.org/dpv#AuditRequired" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:ComplianceStatus</strong>: Status associated with Compliance with some norms, objectives, or requirements
-      <small><a href="https://w3id.org/dpv#ComplianceStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:ComplianceIndeterminate</strong>: State where the status of compliance has not been fully assessed, evaluated, or determined
-      <small><a href="https://w3id.org/dpv#ComplianceIndeterminate" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ComplianceUnknown</strong>: State where the status of compliance is unknown
-      <small><a href="https://w3id.org/dpv#ComplianceUnknown" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ComplianceViolation</strong>: State where compliance cannot be achieved due to requirements being violated
-      <small><a href="https://w3id.org/dpv#ComplianceViolation" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:Compliant</strong>: State of being fully compliant
-      <small><a href="https://w3id.org/dpv#Compliant" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:Lawfulness</strong>: Status associated with expressing lawfullness or legal compliance
-      <small><a href="https://w3id.org/dpv#Lawfulness" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:Lawful</strong>: State of being lawful or legally compliant
-      <small><a href="https://w3id.org/dpv#Lawful" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:LawfulnessUnkown</strong>: State of the lawfulness not being known
-      <small><a href="https://w3id.org/dpv#LawfulnessUnkown" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:Unlawful</strong>: State of being unlawful or legally non-compliant
-      <small><a href="https://w3id.org/dpv#Unlawful" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:NonCompliant</strong>: State of non-compliance where objectives have not been met, but have not been violated
-      <small><a href="https://w3id.org/dpv#NonCompliant" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:PartiallyCompliant</strong>: State of partially being compliant i.e. only some objectives have been met, and others have not been in violation
-      <small><a href="https://w3id.org/dpv#PartiallyCompliant" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:ConformanceStatus</strong>: Status associated with conformance to a standard, guideline, code, or recommendation
-      <small><a href="https://w3id.org/dpv#ConformanceStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:Conformant</strong>: State of being conformant
-      <small><a href="https://w3id.org/dpv#Conformant" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:NonConformant</strong>: State of being non-conformant
-      <small><a href="https://w3id.org/dpv#NonConformant" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:EntityInformedStatus</strong>: Status indicating whether an entity is informed or uninformed about specified context
-      <small><a href="https://w3id.org/dpv#EntityInformedStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:EntityInformed</strong>: Status indicating entity has been informed about specified context
-      <small><a href="https://w3id.org/dpv#EntityInformed" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:AuthorityInformed</strong>: Status indicating Authority has been informed about the specified context
-      <small><a href="https://w3id.org/dpv#AuthorityInformed" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ControllerInformed</strong>: Status indicating Controller has been informed about the specified context
-      <small><a href="https://w3id.org/dpv#ControllerInformed" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:DataSubjectInformed</strong>: Status indicating DataSubject has been informed about the specified context
-      <small><a href="https://w3id.org/dpv#DataSubjectInformed" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RecipientInformed</strong>: Status indicating Recipient has been informed about the specified context
-      <small><a href="https://w3id.org/dpv#RecipientInformed" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:EntityUninformed</strong>: Status indicating entity is uninformed i.e. has been not been informed about specified context
-      <small><a href="https://w3id.org/dpv#EntityUninformed" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:AuthorityUninformed</strong>: Status indicating Authority is uninformed i.e. has not been informed about the specified context
-      <small><a href="https://w3id.org/dpv#AuthorityUninformed" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:ControllerUninformed</strong>: Status indicating Controller is uninformed i.e. has not been informed about the specified context
-      <small><a href="https://w3id.org/dpv#ControllerUninformed" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:DataSubjectUninformed</strong>: Status indicating DataSubject is uninformed i.e. has not been informed about the specified context
-      <small><a href="https://w3id.org/dpv#DataSubjectUninformed" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RecipientUninformed</strong>: Status indicating Recipient is uninformed i.e. has not been informed about the specified context
-      <small><a href="https://w3id.org/dpv#RecipientUninformed" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:IntentionStatus</strong>: Status indicating whether the specified context was intended or unintended
-      <small><a href="https://w3id.org/dpv#IntentionStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:Intended</strong>: Status indicating the specified context was intended
-      <small><a href="https://w3id.org/dpv#Intended" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:Unintended</strong>: Status indicating the specified context was unintended i.e. not intended
-      <small><a href="https://w3id.org/dpv#Unintended" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:InvolvementStatus</strong>: Status indicating whether the involvement of specified context
-      <small><a href="https://w3id.org/dpv#InvolvementStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:ActivelyInvolved</strong>: Status indicating the specified context is &#39;actively&#39; involved
-      <small><a href="https://w3id.org/dpv#ActivelyInvolved" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:NotInvolved</strong>: Status indicating the specified context is &#39;not&#39; involved
-      <small><a href="https://w3id.org/dpv#NotInvolved" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:PassivelyInvolved</strong>: Status indicating the specified context is &#39;passively&#39; involved
-      <small><a href="https://w3id.org/dpv#PassivelyInvolved" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:NotificationStatus</strong>: Status indicating whether notification(s) are planned, completed, or failed
-      <small><a href="https://w3id.org/dpv#NotificationStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:NotificationCompleted</strong>: Status indicating notification(s) are completed
-      <small><a href="https://w3id.org/dpv#NotificationCompleted" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:NotificationFailed</strong>: Status indicating notification(s) could not be completed due to a failure
-      <small><a href="https://w3id.org/dpv#NotificationFailed" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:NotificationNotNeeded</strong>: Status indicating notification(s) are not needed
-      <small><a href="https://w3id.org/dpv#NotificationNotNeeded" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:NotificationOngoing</strong>: Status indicating notification(s) are ongoing
-      <small><a href="https://w3id.org/dpv#NotificationOngoing" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:NotificationPlanned</strong>: Status indicating notification(s) are planned
-      <small><a href="https://w3id.org/dpv#NotificationPlanned" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:RequestStatus</strong>: Status associated with requests
-      <small><a href="https://w3id.org/dpv#RequestStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
-  <li>
-    <strong>dpv:RequestAccepted</strong>: State of a request being accepted towards fulfilment
-      <small><a href="https://w3id.org/dpv#RequestAccepted" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RequestAcknowledged</strong>: State of a request being acknowledged
-      <small><a href="https://w3id.org/dpv#RequestAcknowledged" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RequestActionDelayed</strong>: State of a request being delayed towards fulfilment
-      <small><a href="https://w3id.org/dpv#RequestActionDelayed" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RequestFulfilled</strong>: State of a request being fulfilled
-      <small><a href="https://w3id.org/dpv#RequestFulfilled" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RequestInitiated</strong>: State of a request being initiated
-      <small><a href="https://w3id.org/dpv#RequestInitiated" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RequestRejected</strong>: State of a request being rejected towards non-fulfilment
-      <small><a href="https://w3id.org/dpv#RequestRejected" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RequestRequiredActionPerformed</strong>: State of a request&#39;s required action having been performed by the other party
-      <small><a href="https://w3id.org/dpv#RequestRequiredActionPerformed" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RequestRequiresAction</strong>: State of a request requiring an action to be performed from another party
-      <small><a href="https://w3id.org/dpv#RequestRequiresAction" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RequestStatusQuery</strong>: State of a request&#39;s status being queried
-      <small><a href="https://w3id.org/dpv#RequestStatusQuery" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:RequestUnfulfilled</strong>: State of a request being unfulfilled
-      <small><a href="https://w3id.org/dpv#RequestUnfulfilled" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul>
-  </li>
-</ul></div>
-  </section>
-</section>
-
 <section id="vocab-context-jurisdiction">
   <h2>Location &amp; Jurisdiction</h2>
   <figure>
@@ -4261,10 +4297,10 @@
     <figcaption></figcaption>
   </figure>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/context#vocab-jurisdiction">location &amp; jurisdiction page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the location &amp; jurisdiction concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/context.html#vocab-jurisdiction.html">location &amp; jurisdiction page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the location &amp; jurisdiction concepts.</p>
 </div>
 
-  <p>To represent location, the concept [=Location=] along with relations [=hasLocation=] is provided. For geo-political locations, the concepts such as [=Country=] and [=SupraNationalUnion=] are subtyped, with [=hasCountry=] and [=ThirdCountry=] with [=hasThirdCountry=] provided for convenience in common uses (e.g. data storage, transfers).</p>
+  <p>To represent location, the concept [=Location=] along with relations [=hasLocation=] is provided. For geo-political locations, the concepts such as [=Country=] and [=SupraNationalUnion=] are provided, with [=hasCountry=] and [=ThirdCountry=] with [=hasThirdCountry=] provided for convenience in common uses (e.g. data storage, transfers).</p>
   <p>To define contextual location concepts, such as there being several locations, or that the location is 'local' to an event, DPV provides two concepts. [=LocationFixture=] specifies whether the location is 'fixed' or 'deterministic', with subtypes for <i>fixed single</i>, <i>fixed multiple</i>, and <i>variable</i> locations. [=LocationLocality=] specifies whether the location is 'local' within the context, with subtypes for <i>local</i>, <i>remote</i>, <i>within a device</i>, or <i>in cloud</i>.</p>
   <p>To represent locations as jurisdictions, the relation [=hasJurisdiction=] is provided. The concept [=Law=] represents an official or authoritative law or regulation created by a government or an authority. To indicate applicability of laws within a jurisdiction, the relation [=hasApplicableLaw=] is provided.</p>
   <p>The [[[LEGAL]]] provides taxonomies extending these concepts, such as to represent specific countries, their laws, authorities, memberships, adequacy decisions, and other information.</p>
@@ -4413,7 +4449,7 @@
     <figcaption></figcaption>
   </figure>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/risk">risk page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the risk concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/risk.html">risk page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the risk concepts.</p>
 </div>
 
   <p>For risk management, DPV's provides a lightweight risk ontology based on commonly utilised concepts regarding risk mitigation and risk management. While these concepts permit rudimentary association of risks and mitigations within a use-case, it is important to note that DPV (currently)
@@ -4601,7 +4637,7 @@
     <figcaption></figcaption>
   </figure>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/rights">rights page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the rights concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/rights.html">rights page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the rights concepts.</p>
 </div>
 
   <p>The concept [=Right=] represents a normative concept for what is permissible or necessary in accordance with a system such as laws. To associate rights with concepts that are relevant or within which those rights occur, the relation [=hasRight=] is used. Rights can be <i>passive</i>, which means they are always applicable without requiring anything to be done, or <i>active</i> where they require some action to be taken to initiate or exercise them. To represent these concepts, DPV uses [=PassiveRight=] and [=ActiveRight=] respectively. Rights can be applicable to different contexts or entities. To differentiate rights applicable or afforded to data subjects, the concept [=DataSubjectRight=] is used.</p>
@@ -4668,7 +4704,7 @@
 <section id="vocab-rules">
   <h2>Rules</h2>
   <div class="note">
-  <p><strong>Please refer to <a href="/dpv/modules/rules">rules page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the rules concepts.</p>
+  <p><strong>Please refer to <a href="/dpv/modules/rules.html">rules page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the rules concepts.</p>
 </div>
 
   <p>DPV provides the concept [=Rule=] to specify requirements, constraints, and other forms of 'rules' that are associated with specific contexts (e.g., processing activities) using the relation [=hasRule=]. DPV provides three forms of Rules to represent [=Permission=], [=Prohibition=] and [=Obligation=], and their corresponding relations [=hasPermission=], [=hasProhibition=] and [=hasObligation=], to indicate a Rule that specifies whether something is permitted, prohibited or an obligation, respectively. DPV does not define additional semantics for rules and limits its scope and focus to provide a simple way to specify permissions, prohibitions, and obligations as common rules associated with personal data and its processing activities. For a more extensive and richer set of semantics and concepts to represent rules, DPVCG suggests looking towards other languages, such as [[ODRL]], [[SHACL]], and [[RuleML]] that have been developed with the specific goal of representing and applying rules. We welcome contributions for aligning DPV with these, and for providing guidance on how to complement DPV's rule-based concepts with external languages.</p>
@@ -4703,12 +4739,132 @@
 
 <section id="extensions">
   <h2>Extensions</h2>
+  <p>To supplement the concepts and taxonomies in [[DPV]] for specific applications, use-cases, or to provide separation for better management of terms, we provide several extensions to the DPV.</p>
+  <section id="extension-pd">
+    <h3>Personal Data (PD)</h3>
+      <p>[[[PD]]] provides additional concepts that extend the DPV's personal data taxonomy based on an opinionated structure contributed by R. Jason Cronk from <a href="https://enterprivacy.com/">EnterPrivacy</a>. This separation is to enable adopters to decide whether the extension's concepts are useful to them, or to use other external vocabularies, or define their own.</p>
+      <p>Concepts within [[PD]] are broadly structured in top-down fashion by utilising their relevance and origin as:</p>
+      <ul>
+        <li>Internal (within the person): e.g. Preferences, Knowledge, Beliefs</li>
+        <li>External (visible to others): e.g. Behavioural, Demographics, Physical, Sexual, Identifying</li>
+        <li>Household: e.g. personal or household activities</li>
+        <li>Social: e.g. Family, Friends, Professional, Public Life, Communication</li>
+        <li>Financial: e.g. Transactional, Ownership, Financial Account</li>
+        <li>Tracking: e.g. Location, Device based, Contact</li>
+        <li>Historical: e.g. Life History</li>
+      </ul>
+  </section>
+
+  <section id="extension-loc">
+    <h3>Locations (LOC)</h3>
+    <p>[[[LOC]]] provides additional concepts regarding locations such as countries and regions based on the ISO 3166 standards. It enables representing information such as processing takes place within Ireland, represented by <code>loc:IE</code>, or within European Union (EU) by using <code>loc:EU</code>. We are working on expanding this list to also specify regions, cities, and other pertinent location details, and welcome participation and contributions for this.</p>
+  </section>
+
+  <section id="extension-risk">
+    <h3>Risk Management (RISK)</h3>
+    <p>[[[RISK]]] builds on top of the lightweight risk framework within DPV by providing the following extensive concepts related to risk assessment and management. We are in the process of identifying additional concepts and taxonomies for the risk extension, such as for risk management procedures and the creation of a risk ontology based on ISO standards.</p>
+    <ul>
+      <li><strong>Risk Controls</strong> - categories of measures such as those related to risk source, likelihood, consequence, vulnerability, as well as the intended effect in terms of monitoring, controlling, halting, removing, or reducing.</li>
+      <li><strong>Consequences and Impacts</strong> - list of consequences such as data breaches, costs, identity theft and several others that are categorised based on DPV's impact framework i.e. damage, harm, or detriment.</li>
+      <li><strong>Scale for Risk Levels, Severity, and Likelihood</strong> - a 7 point qualitative scale to express concepts associated with levels, severity, and likelihood of risk and its consequences.</li>
+      <li><strong>Risk Matrix</strong> - an encoded form of risk matrices based on combinations of severity and likelihood along with the resulting risk level. Risk matrix nodes and values are provided for dimensions 3x3, 5x5, and 7x7.</li>
+      <li><strong>Incidents, Reports, and Notices</strong> - specifying incidents such as security incidents or data breaches, documenting information about them, and notices used to communicate with other relevant entities such as authorities and data subjects.</li>
+      <li><strong>Risk Management</strong> - risk management concepts based on ISO 31000 series.</li>
+    </ul>
+  </section>
+
+  <section id="extension-tech">
+    <h3>Technologies (TECH)</h3>
+    <p>[[[TECH]]] extends the DPV's terms to represent further specific details regarding technologies, their management, and relevance to actual real-world tools and systems. It provides concepts for the following:</p>
+    <ul>
+      <li><strong>Provision method</strong>: System, Component, Algorithm, Service, Goods, Product, Subscription, Fixed Use</li>
+      <li><strong>Communication method</strong>: WiFi, Bluetooth, GPS, Cellular Network</li>
+      <li><strong>Actors</strong>: Developer, Provider, User, Subject, etc.</li>
+      <li><strong>Intended Use</strong>: what the technology was/is intended to be used for</li>
+      <li><strong>Documentation</strong>: technical and user manuals and other documentation</li>
+      <li><strong>Status</strong>: whether the technology has been released, has been provided, and other statuses</li>
+      <li><strong>Tools</strong>: databases, cookies, etc.</li>
+    </ul>
+    <p>The intention and aim of developing the TECH extension is to describe real-world tools and services, such as a specific cloud storage provider, and provide categorisation and metadata to connect it to DPV's concepts, such as to indicate the cloud storage instance features encryption at rest as a technical measure. Through these, the management and documentation of use-cases can be made easier by providing the relationships between tools/services and technical measures as a 'knowledge graph'.</p>
+  </section>
+
+  <section id="extension-ai">
+    <h3>Artificial Intelligence (AI)</h3>
+    <p>[[[AI]]] is an extension under development which will further extend the [[TECH]] extension to represent concepts associated with AI. These will include representation of:</p>
+    <ul>
+      <li><strong>Techniques</strong> such as machine learning and natural language programming</li>
+      <li><strong>Capabilities</strong> such as image recognition and text generation</li>
+      <li><strong>Lifecycle</strong> such as data collection, training, fine-tuning, etc.</li>
+      <li><strong>Risks</strong> such as data poisoning, statistical noise and bias, etc.</li>
+      <li><strong>Risk Measures</strong> to address the AI specific risks</li>
+      <li><strong>Documentation</strong> such as Data Sheets and Model Cards</li>
+      <li><strong>Actors</strong> such as AI Developer and AI Deployer</li>
+      <li><strong>Status</strong> associated with AI development</li>
+    </ul>
+  </section>
+
+  <section id="extension-justifications">
+    <h3>Justifications</h3>
+    <p>[[[JUSTIFICATIONS]]] provides concepts for use as 'justifications' with DPV. For example, where a right cannot be fulfilled, a justification such as 'identity could not be verified' is represented using a specific concept.</p>
+  </section>
+
+  <section id="extension-legal">
+    <h3>Legal Concepts (LEGAL)</h3>
+    <p>[[[LEGAL]]] provides concepts to represent laws, authorities, and other legal concepts in various jurisdictions. It is structured to create a separate namespace for each country or jurisdiction by using the ISO 3166-2 code, for example <code>IE</code> represents Ireland and <code>EU</code> represents the European Union. Within this namespace, the specific laws and authorities for that jurisdiction are defined.</p>
+    <p>At the moment, the following jurisdictions are defined:</p>
+    <ul>
+      <li>[[[LEGAL-DE]]]</li>
+      <li>[[[LEGAL-EU]]]</li>
+      <li>[[[LEGAL-GB]]]</li>
+      <li>[[[LEGAL-IE]]]</li>
+      <li>[[[LEGAL-IN]]]</li>
+      <li>[[[LEGAL-US]]]</li>
+    </ul>
+    <p>At the moment, the following EU laws are defined:</p>
+    <section id="extension-eu-gdpr">
+      <h4>EU GDPR</h4>
+      <p>While several of DPV's concepts are inspired from the GDPR, the use of DPV itself does not point towards specific concepts from GDPR such as legal bases in Article.6. This is to enable use of DPV with different jurisdictional and domain terminologies through the use of extensions. [[[EU-GDPR]]] provides an extension of DPV's concepts for the [[GDPR]] for the following non-exhaustive list of concepts:</p>
+      <ul>
+        <li><strong>Legal Bases (Art.6)</strong> - DPV's legal bases are extended to represent specific clauses from GDPR Art.6 (e.g. A.6-1a consent).</li>
+        <li><strong>Legal Bases (Art.9)</strong> - DPV's legal bases are extended to represent specific clauses from GDPR Art.9 (e.g. A.9-2a explicit consent).</li>
+        <li><strong>Legal Bases (Data Transfers)</strong> - DPV's <code>DataTransferLegalBasis</code> is extended to represent GDPR's Articles 45, 46, and 49.</li>
+        <li><strong>Data Transfer Tools</strong> - Mechanisms defined by the GDPR for data transfers, e.g. contractual clauses.</li>
+        <li><strong>DPIA</strong> - Statuses for representing DPIA related procedures and outcomes, e.g. necessity, high-risk, and consultation required.</li>
+      </ul>
+    </section>
+    <section id="extension-eu-dga">
+      <h4>EU DGA</h4>
+      <p>The [[[EU-DGA]]] extension provides concepts for the [[[DGA]]].</p>
+    </section>
+    <section id="extension-eu-aiact">
+      <h4>EU AI Act</h4>
+      <p>The [[[EU-AIAct]]] extension provides concepts for the [[[AIAct]]].</p>
+    </section>
+    <section id="extension-eu-nis2">
+      <h4>EU NIS2</h4>
+      <p>The [[[EU-NIS2]]] extension provides concepts for the [[[NIS2]]].</p>
+    </section>
+  </section>
 </section>
 
+  <section id="working-notes" class="notoc">
+    <h3>Notes</h3>
+    <p>This document is based on inspiration from the following:</p>
+    <ul>
+      <li>
+        <p>RDF 1.1 Primer <a href="https://www.w3.org/TR/rdf11-primer/"><u>https://www.w3.org/TR/rdf11-primer/</u></a></p>
+      </li>
+      <li>
+        <p>OWL 2 Primer <a href="https://www.w3.org/TR/owl2-primer/"><u>https://www.w3.org/TR/owl2-primer/</u></a></p>
+      </li>
+      <li>
+        <p>PROV Model Primer <a href="https://www.w3.org/TR/prov-primer/"><u>https://www.w3.org/TR/prov-primer/</u></a></p>
+      </li>
+    </ul>
+  </section>
+  
 <section id="vocabulary">
 <h2>Vocabulary Index</h2>
-  <div class="issue" title="Resolve multiple creation dates in term definition e.g. isImplementedByEntity"></div>
-  <div class="issue" title="Resolve multiple contributors in term definition e.g. isImplementedByEntity"></div>
   <section id="dpv-classes">
     <h3>Classes</h3>       
       
@@ -5254,7 +5410,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasInvolvementStatus" class="local-link">dpv:hasInvolvementStatus</a>, 
+            <a href="#hasInvolvement" class="local-link">dpv:hasInvolvement</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -9390,7 +9546,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-processing-context"> PROCESSING-CONTEXT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-processing-context"> PROCESSING-CONTEXT</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -11768,7 +11924,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -13530,7 +13686,8 @@
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+          <td>            <a href="#hasConformanceStatus" class="local-link">dpv:hasConformanceStatus</a>, 
+            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -13611,7 +13768,8 @@
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+          <td>            <a href="#hasConformanceStatus" class="local-link">dpv:hasConformanceStatus</a>, 
+            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -14767,7 +14925,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-consent-status"> LEGAL-BASIS-CONSENT-STATUS</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-legal-basis-consent-status"> LEGAL-BASIS-CONSENT-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -16090,7 +16248,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-context"> CONTEXT</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-context"> CONTEXT</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -19236,7 +19394,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-entities-legalrole"> ENTITIES-LEGALROLE</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-entities-legalrole"> ENTITIES-LEGALROLE</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -20670,7 +20828,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-entities-legalrole"> ENTITIES-LEGALROLE</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-entities-legalrole"> ENTITIES-LEGALROLE</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -23772,7 +23930,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-personal-data"> PERSONAL-DATA</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-personal-data"> PERSONAL-DATA</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -25506,7 +25664,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-context"> CONTEXT</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-context"> CONTEXT</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -26760,7 +26918,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-entities"> ENTITIES</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-entities"> ENTITIES</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -27902,7 +28060,7 @@
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasExpecation" class="local-link">dpv:hasExpecation</a>
+          <td>            <a href="#hasExpectation" class="local-link">dpv:hasExpectation</a>
 </td>
         </tr>
         
@@ -27983,7 +28141,7 @@
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasExpecation" class="local-link">dpv:hasExpecation</a>
+          <td>            <a href="#hasExpectation" class="local-link">dpv:hasExpectation</a>
 </td>
         </tr>
         
@@ -28102,7 +28260,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-consent-types"> LEGAL-BASIS-CONSENT-TYPES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-consent-types"> LEGAL-BASIS-CONSENT-TYPES</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -28267,7 +28425,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-consent-types"> LEGAL-BASIS-CONSENT-TYPES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-consent-types"> LEGAL-BASIS-CONSENT-TYPES</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -30664,12 +30822,14 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-risk"> RISK</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-risk"> RISK</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
       </table>
     </section>
+      
+      
       
       
       
@@ -30915,6 +31075,12 @@
         </tbody>
       </table>
     </section>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -31550,7 +31716,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-processing-context"> PROCESSING-CONTEXT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-processing-context"> PROCESSING-CONTEXT</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -34148,7 +34314,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-personal-data"> PERSONAL-DATA</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-personal-data"> PERSONAL-DATA</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -35186,7 +35352,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasInvolvementStatus" class="local-link">dpv:hasInvolvementStatus</a>, 
+            <a href="#hasInvolvement" class="local-link">dpv:hasInvolvement</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -37718,7 +37884,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-context-jurisdiction"> CONTEXT-JURISDICTION</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-context-jurisdiction"> CONTEXT-JURISDICTION</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -41008,7 +41174,8 @@
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+          <td>            <a href="#hasConformanceStatus" class="local-link">dpv:hasConformanceStatus</a>, 
+            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -42021,6 +42188,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasNotificationStatus" class="local-link">dpv:hasNotificationStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -42102,6 +42270,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasNotificationStatus" class="local-link">dpv:hasNotificationStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -42183,6 +42352,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasNotificationStatus" class="local-link">dpv:hasNotificationStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -42264,6 +42434,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasNotificationStatus" class="local-link">dpv:hasNotificationStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -42345,6 +42516,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasNotificationStatus" class="local-link">dpv:hasNotificationStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -42424,6 +42596,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasNotificationStatus" class="local-link">dpv:hasNotificationStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -42505,7 +42678,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasInvolvementStatus" class="local-link">dpv:hasInvolvementStatus</a>, 
+            <a href="#hasInvolvement" class="local-link">dpv:hasInvolvement</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -44080,7 +44253,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-TOM"> TOM</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-TOM"> TOM</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -44958,7 +45131,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasInvolvementStatus" class="local-link">dpv:hasInvolvementStatus</a>, 
+            <a href="#hasInvolvement" class="local-link">dpv:hasInvolvement</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -45576,7 +45749,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -45839,7 +46012,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-process"> PROCESS</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-process"> PROCESS</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -47488,7 +47661,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-TOM-organisational"> TOM-ORGANISATIONAL</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-TOM-organisational"> TOM-ORGANISATIONAL</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -48300,7 +48473,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-process"> PROCESS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-process"> PROCESS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -48385,7 +48558,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -48434,7 +48607,8 @@
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>
+          <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasProcessingCondition" class="local-link">dpv:hasProcessingCondition</a>
 </td>
         </tr>
         
@@ -48592,7 +48766,8 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasDuration" class="local-link">dpv:hasDuration</a>
+            <a href="#hasDuration" class="local-link">dpv:hasDuration</a>, 
+            <a href="#hasProcessingCondition" class="local-link">dpv:hasProcessingCondition</a>
 </td>
         </tr>
         
@@ -48603,7 +48778,7 @@
 
 <tr>
           <th>Definition</th>
-          <td><i>Duration or temporal limitation for processing</i></td>
+          <td><i>Conditinos regarding duration or temporal limitation for processing</i></td>
         </tr>        
        
        
@@ -48676,7 +48851,8 @@
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
             <a href="#hasJurisdiction" class="local-link">dpv:hasJurisdiction</a>, 
-            <a href="#hasLocation" class="local-link">dpv:hasLocation</a>
+            <a href="#hasLocation" class="local-link">dpv:hasLocation</a>, 
+            <a href="#hasProcessingCondition" class="local-link">dpv:hasProcessingCondition</a>
 </td>
         </tr>
         
@@ -48687,7 +48863,7 @@
 
 <tr>
           <th>Definition</th>
-          <td><i>Location or geospatial scope where processing takes places</i></td>
+          <td><i>Conditions regarding location or geospatial scope where processing takes places</i></td>
         </tr>        
        
        
@@ -49036,7 +49212,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -51206,7 +51382,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-entities-legalrole"> ENTITIES-LEGALROLE</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-entities-legalrole"> ENTITIES-LEGALROLE</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -52551,7 +52727,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-entities"> ENTITIES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-entities"> ENTITIES</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -52597,6 +52773,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -52678,6 +52855,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -52759,6 +52937,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -52922,6 +53101,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -53003,6 +53183,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -53084,6 +53265,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -53165,6 +53347,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -53246,6 +53429,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -53325,6 +53509,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -53406,6 +53591,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -53487,6 +53673,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasRequestStatus" class="local-link">dpv:hasRequestStatus</a>, 
             <a href="#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -55443,7 +55630,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-risk"> RISK</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-risk"> RISK</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -55695,7 +55882,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -56668,7 +56855,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-purposes"> PURPOSES</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-purposes"> PURPOSES</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -58224,7 +58411,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-process"> PROCESS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-process"> PROCESS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -58635,7 +58822,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-purposes"> PURPOSES</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-purposes"> PURPOSES</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -60391,6 +60578,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasProcessingCondition" class="local-link">dpv:hasProcessingCondition</a>, 
             <a href="#hasStorageCondition" class="local-link">dpv:hasStorageCondition</a>
 </td>
         </tr>
@@ -60472,6 +60660,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasProcessingCondition" class="local-link">dpv:hasProcessingCondition</a>, 
             <a href="#hasStorageCondition" class="local-link">dpv:hasStorageCondition</a>
 </td>
         </tr>
@@ -60543,7 +60732,14 @@
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#Duration" class="local-link">dpv:Duration</a>
+          <td>            <a href="#ProcessingDuration" class="local-link">dpv:ProcessingDuration</a>
+             →             <a href="#Duration" class="local-link">dpv:Duration</a>
+             →             <a href="#Context" class="local-link">dpv:Context</a>
+                        </td>        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProcessingDuration" class="local-link">dpv:ProcessingDuration</a>
+             →             <a href="#ProcessingCondition" class="local-link">dpv:ProcessingCondition</a>
+             →             <a href="#ProcessingContext" class="local-link">dpv:ProcessingContext</a>
              →             <a href="#Context" class="local-link">dpv:Context</a>
                         </td>        <tr class="technical-detail">
           <th>Broader/Parent types</th>
@@ -60558,6 +60754,7 @@
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
             <a href="#hasDuration" class="local-link">dpv:hasDuration</a>, 
+            <a href="#hasProcessingCondition" class="local-link">dpv:hasProcessingCondition</a>, 
             <a href="#hasStorageCondition" class="local-link">dpv:hasStorageCondition</a>
 </td>
         </tr>
@@ -60629,7 +60826,14 @@
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#Location" class="local-link">dpv:Location</a>
+          <td>            <a href="#ProcessingLocation" class="local-link">dpv:ProcessingLocation</a>
+             →             <a href="#Location" class="local-link">dpv:Location</a>
+                        </td>        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProcessingLocation" class="local-link">dpv:ProcessingLocation</a>
+             →             <a href="#ProcessingCondition" class="local-link">dpv:ProcessingCondition</a>
+             →             <a href="#ProcessingContext" class="local-link">dpv:ProcessingContext</a>
+             →             <a href="#Context" class="local-link">dpv:Context</a>
                         </td>        <tr class="technical-detail">
           <th>Broader/Parent types</th>
           <td>            <a href="#StorageCondition" class="local-link">dpv:StorageCondition</a>
@@ -60644,6 +60848,7 @@
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
             <a href="#hasJurisdiction" class="local-link">dpv:hasJurisdiction</a>, 
             <a href="#hasLocation" class="local-link">dpv:hasLocation</a>, 
+            <a href="#hasProcessingCondition" class="local-link">dpv:hasProcessingCondition</a>, 
             <a href="#hasStorageCondition" class="local-link">dpv:hasStorageCondition</a>
 </td>
         </tr>
@@ -60725,6 +60930,7 @@
 <tr>
           <th>Object of relation</th>
           <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="#hasProcessingCondition" class="local-link">dpv:hasProcessingCondition</a>, 
             <a href="#hasStorageCondition" class="local-link">dpv:hasStorageCondition</a>
 </td>
         </tr>
@@ -62269,7 +62475,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-TOM"> TOM</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-TOM"> TOM</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -63256,7 +63462,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DEX</a>
+          <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -63627,7 +63833,7 @@
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasExpecation" class="local-link">dpv:hasExpecation</a>
+          <td>            <a href="#hasExpectation" class="local-link">dpv:hasExpectation</a>
 </td>
         </tr>
         
@@ -67651,7 +67857,7 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
         
@@ -68181,7 +68387,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#AutomationLevel" class="local-link">dpv:AutomationLevel</a>
+          <td>            <a href="https://w3id.org/dpv#AutomationLevel" class="local-link">dpv:AutomationLevel</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -68285,6 +68491,79 @@
 <tr>
           <th>Date Created</th>
           <td><i>2022-05-18</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-context-status"> CONTEXT-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+     <section class="term-def" id="hasConformanceStatus">
+      <h4>has conformance status</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>hasConformanceStatus</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>has conformance status</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#hasConformanceStatus" class="local-link">https://w3id.org/dpv#hasConformanceStatus</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+      
+      
+
+        
+        
+        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="#ConformanceStatus" class="local-link">dpv:ConformanceStatus</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Indicates the status of being conformant or non-conformant</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-06-10</i></td>
         </tr>        
        
 <tr>
@@ -68407,7 +68686,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#ConsentStatus" class="local-link">dpv:ConsentStatus</a>
+          <td>            <a href="#ConsentStatus" class="local-link">dpv:ConsentStatus</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -68631,7 +68910,7 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
         
@@ -68705,7 +68984,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+          <td>            <a href="#Context" class="local-link">dpv:Context</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -68935,7 +69214,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#DataController" class="local-link">dpv:DataController</a>
+          <td>            <a href="#DataController" class="local-link">dpv:DataController</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -69180,7 +69459,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#DataProcessor" class="local-link">dpv:DataProcessor</a>
+          <td>            <a href="#DataProcessor" class="local-link">dpv:DataProcessor</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -69650,7 +69929,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Duration" class="local-link">dpv:Duration</a>
+          <td>            <a href="#Duration" class="local-link">dpv:Duration</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -69726,7 +70005,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -69918,13 +70197,13 @@
     </section>
       
       
-     <section class="term-def" id="hasExpecation">
+     <section class="term-def" id="hasExpectation">
       <h4>has expectation</h4>
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>hasExpecation</dfn></td>
+          <td><dfn>hasExpectation</dfn></td>
           <th>Prefix</th>
           <td>dpv</td>
         </tr>
@@ -69934,7 +70213,7 @@
         </tr>
         <tr class="technical-detail">
           <th>IRI</th>
-          <td><a href="https://w3id.org/dpv#hasExpecation" class="local-link">https://w3id.org/dpv#hasExpecation</a></td>
+          <td><a href="https://w3id.org/dpv#hasExpectation" class="local-link">https://w3id.org/dpv#hasExpectation</a></td>
         </tr>
         
         <tr class="table-separator"></tr>
@@ -69981,7 +70260,10 @@
           <th>Date Created</th>
           <td><i>2024-05-10</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-06-10</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit</i></td>
@@ -70191,7 +70473,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#HumanInvolvement" class="local-link">dpv:HumanInvolvement</a>
+          <td>            <a href="https://w3id.org/dpv#HumanInvolvement" class="local-link">dpv:HumanInvolvement</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -70846,23 +71128,23 @@
     </section>
       
       
-     <section class="term-def" id="hasInvolvementStatus">
-      <h4>has involvement status</h4>
+     <section class="term-def" id="hasInvolvement">
+      <h4>has involvement</h4>
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>hasInvolvementStatus</dfn></td>
+          <td><dfn>hasInvolvement</dfn></td>
           <th>Prefix</th>
           <td>dpv</td>
         </tr>
         <tr>
           <th>Label</th>
-          <td><i>has involvement status</i></td>
+          <td><i>has involvement</i></td>
         </tr>
         <tr class="technical-detail">
           <th>IRI</th>
-          <td><a href="https://w3id.org/dpv#hasInvolvementStatus" class="local-link">https://w3id.org/dpv#hasInvolvementStatus</a></td>
+          <td><a href="https://w3id.org/dpv#hasInvolvement" class="local-link">https://w3id.org/dpv#hasInvolvement</a></td>
         </tr>
         
         <tr class="table-separator"></tr>
@@ -71041,7 +71323,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Location" class="local-link">dpv:Location</a>
+          <td>            <a href="#Location" class="local-link">dpv:Location</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -71503,7 +71785,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Location" class="local-link">dpv:Location</a>
+          <td>            <a href="#Location" class="local-link">dpv:Location</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -71578,7 +71860,7 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
         
@@ -71915,6 +72197,79 @@
     </section>
       
       
+     <section class="term-def" id="hasNotificationStatus">
+      <h4>has notification status</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>hasNotificationStatus</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>has notification status</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#hasNotificationStatus" class="local-link">https://w3id.org/dpv#hasNotificationStatus</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+      
+      
+
+        
+        
+        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="#NotificationStatus" class="local-link">dpv:NotificationStatus</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Indicates the status associated with a notice</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-06-10</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-context-status"> CONTEXT-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
      <section class="term-def" id="hasObligation">
       <h4>has obligation</h4>
       <table class="term-contents">
@@ -71955,7 +72310,7 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+          <td>            <a href="#Context" class="local-link">dpv:Context</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
@@ -72040,7 +72395,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
+          <td>            <a href="https://w3id.org/dpv#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -72258,12 +72613,12 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+          <td>            <a href="#Context" class="local-link">dpv:Context</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#Permission" class="local-link">dpv:Permission</a>
+          <td>            <a href="https://w3id.org/dpv#Permission" class="local-link">dpv:Permission</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -72416,7 +72771,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#PersonalDataHandling" class="local-link">dpv:PersonalDataHandling</a>
+          <td>            <a href="#PersonalDataHandling" class="local-link">dpv:PersonalDataHandling</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -72646,7 +73001,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Policy" class="local-link">dpv:Policy</a>
+          <td>            <a href="#Policy" class="local-link">dpv:Policy</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -72719,7 +73074,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#Process" class="local-link">dpv:Process</a>
+          <td>            <a href="https://w3id.org/dpv#Process" class="local-link">dpv:Process</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -72792,7 +73147,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Processing" class="local-link">dpv:Processing</a>
+          <td>            <a href="#Processing" class="local-link">dpv:Processing</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -72830,6 +73185,79 @@
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+     <section class="term-def" id="hasProcessingCondition">
+      <h4>has processing condition</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>hasProcessingCondition</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>has processing condition</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#hasProcessingCondition" class="local-link">https://w3id.org/dpv#hasProcessingCondition</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+      
+      
+
+        
+        
+        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="#ProcessingCondition" class="local-link">dpv:ProcessingCondition</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Indicates information about processing condition</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2023-12-10</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-processing-context"> PROCESSING-CONTEXT</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -72877,12 +73305,12 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+          <td>            <a href="#Context" class="local-link">dpv:Context</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#Prohibition" class="local-link">dpv:Prohibition</a>
+          <td>            <a href="https://w3id.org/dpv#Prohibition" class="local-link">dpv:Prohibition</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -73045,7 +73473,7 @@
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Recipient" class="local-link">dpv:Recipient</a>
+          <td>            <a href="#Recipient" class="local-link">dpv:Recipient</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -73136,7 +73564,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#DataController" class="local-link">dpv:DataController</a>
+          <td>            <a href="#DataController" class="local-link">dpv:DataController</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -73377,7 +73805,7 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
         
@@ -73457,12 +73885,12 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#Representative" class="local-link">dpv:Representative</a>
+          <td>            <a href="https://w3id.org/dpv#Representative" class="local-link">dpv:Representative</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -73494,6 +73922,79 @@
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-entities"> ENTITIES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+     <section class="term-def" id="hasRequestStatus">
+      <h4>has request status</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>hasRequestStatus</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>has request status</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#hasRequestStatus" class="local-link">https://w3id.org/dpv#hasRequestStatus</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+      
+      
+
+        
+        
+        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="#RequestStatus" class="local-link">dpv:RequestStatus</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Indicates the status associated with a request</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-06-10</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-context-status"> CONTEXT-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -73619,7 +74120,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -73996,12 +74497,12 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+          <td>            <a href="#Context" class="local-link">dpv:Context</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#Rule" class="local-link">dpv:Rule</a>
+          <td>            <a href="https://w3id.org/dpv#Rule" class="local-link">dpv:Rule</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -74220,7 +74721,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Sector" class="local-link">dpv:Sector</a>
+          <td>            <a href="#Sector" class="local-link">dpv:Sector</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -74363,7 +74864,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#Service" class="local-link">dpv:Service</a>
+          <td>            <a href="https://w3id.org/dpv#Service" class="local-link">dpv:Service</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -74442,7 +74943,7 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="#Service" class="local-link">dpv:Service</a>
+          <td>            <a href="https://w3id.org/dpv#Service" class="local-link">dpv:Service</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
@@ -74526,7 +75027,7 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="#Service" class="local-link">dpv:Service</a>
+          <td>            <a href="https://w3id.org/dpv#Service" class="local-link">dpv:Service</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
@@ -74750,10 +75251,19 @@
           <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
         </tr>
        
-      
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProcessingCondition" class="local-link">dpv:ProcessingCondition</a>
+             →             <a href="#ProcessingContext" class="local-link">dpv:ProcessingContext</a>
+             →             <a href="#Context" class="local-link">dpv:Context</a>
+                        </td>        </tr>      
       
 
-        
+<tr class="technical-detail">
+          <th>Sub-property of</th>
+          <td>            <a href="#ProcessingCondition" class="local-link">dpv:ProcessingCondition</a>
+                        </td>
+        </tr>        
         
         
 <tr class="technical-detail">
@@ -74925,7 +75435,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#TechnicalMeasure" class="local-link">dpv:TechnicalMeasure</a>
+          <td>            <a href="https://w3id.org/dpv#TechnicalMeasure" class="local-link">dpv:TechnicalMeasure</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -75610,7 +76120,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -75764,7 +76274,7 @@
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -75995,7 +76505,7 @@
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -76079,7 +76589,7 @@
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#RiskMitigationMeasure" class="local-link">dpv:RiskMitigationMeasure</a>
+          <td>            <a href="#RiskMitigationMeasure" class="local-link">dpv:RiskMitigationMeasure</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -76224,7 +76734,7 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#Policy" class="local-link">dpv:Policy</a>
+          <td>            <a href="#Policy" class="local-link">dpv:Policy</a>
                       </td>
         </tr>        
         
@@ -76304,12 +76814,12 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="#Representative" class="local-link">dpv:Representative</a>
+          <td>            <a href="https://w3id.org/dpv#Representative" class="local-link">dpv:Representative</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="https://w3id.org/dpv#Entity" class="local-link">dpv:Entity</a>
+          <td>            <a href="#Entity" class="local-link">dpv:Entity</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -76681,7 +77191,7 @@
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="https://w3id.org/dpv#RiskMitigationMeasure" class="local-link">dpv:RiskMitigationMeasure</a>
+          <td>            <a href="#RiskMitigationMeasure" class="local-link">dpv:RiskMitigationMeasure</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
@@ -79113,9 +79623,17 @@
       
        
       
+       
+      
       
        
       
+      
+       
+      
+       
+      
+       
       
        
       

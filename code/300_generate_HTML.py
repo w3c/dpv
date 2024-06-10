@@ -693,6 +693,7 @@ def get_additional_annotations(concept:dict) -> list:
     results.sort(key=lambda x: x[0])
     return results
 
+
 # == HTML Export ==
 
 # === Jinja setup ===
@@ -855,5 +856,29 @@ if data and ':' in list(data.keys())[0]: # hack to detect repeated script call
     with open(TRANSLATIONS_MISSING_FILE, 'w') as fd:
         json.dump(missing, fd, indent=2)
         INFO(F"missing translations collected in {TRANSLATIONS_MISSING_FILE}")
+
+INFO('*'*40)
+
+INFO('Generating PRIMER')
+OUTPUT_PATH = '../primer/'
+
+GUIDES = {
+    'index': {
+        'template': 'template_primer.jinja2',
+        'output': 'index.html',
+    },
+    # 'concise': {
+    #     'template': 'template_primer_short.jinja2',
+    #     'output': 'concise.html',
+    # },
+}
+for doc, data in GUIDES.items():
+    DEBUG(f'generating primer document {doc}')
+    template = data['template']
+    filepath = f"{OUTPUT_PATH}{data['output']}"
+    with open(filepath, 'w') as fd:
+        template = template_env.get_template(template)
+        fd.write(template.render())
+    INFO(f"wrote primer document {doc} at {filepath}")
 
 INFO('*'*40)
