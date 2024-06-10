@@ -1198,6 +1198,220 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
   </aside>
 
         </section>
+        <section id="E0032">
+          <h4><strong><i>E0032</i>:</strong> Indicating Controller identity and details of representative</h4>
+            <aside class="example" title="Indicating Controller identity and details of representative">
+<p>This example describes a controller with details for name, address, and contact, and its representatives for EU and US jurisdictions    <pre class="nohighlight"><code>ex:Alpha a dpv:Controller ;
+    dpv:hasName &#34;Alpha&#34; ;
+    dpv:hasAddress &#34;Somewhere, somewhere, somewhere&#34; ;
+    dpv:hasContact &#34;email@example.com&#34; ;
+    dpv:hasRepresentative ex:RepA, ex:RepB .
+
+ex:RepA a dpv:Representative, dpv:Organisation ;
+    dpv:hasName &#34;CompanyA Inc.&#34; ;
+    dpv:isRepresentativeFor ex:Alpha ;
+    dpv:hasJurisdiction loc:EU .
+
+ex:RepB a dpv:Representative, dpv:Organisation ;
+    dpv:hasName &#34;CompanyB Inc.&#34; ;
+    dpv:isRepresentativeFor ex:Alpha ;
+    dpv:hasJurisdiction loc:US .
+
+ex:PDH a dpv:Process ;
+    dpv:hasDataController ex:Alpha .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0032"><code>E0032</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0032.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0033">
+          <h4><strong><i>E0033</i>:</strong> Indicating Processor as the implementing entity in a process</h4>
+            <aside class="example" title="Indicating Processor as the implementing entity in a process">
+<p>This example shows a process with its controller and processor, and the explicit statement for the processor doing the collection and storing of personal data    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    dpv:hasProcessing dpv:Collect, dpv:Store ;
+    dpv:hasDataController ex:Alpha ;
+    dpv:hasDataProcessor ex:Beta ;
+    # explicitly specifying which entity is implementing
+    dpv:isImplementedByEntity ex:Beta .
+    
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0033"><code>E0033</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0033.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0034">
+          <h4><strong><i>E0034</i>:</strong> Specifying recipients of data</h4>
+            <aside class="example" title="Specifying recipients of data">
+<p>This example first shows a process where the processor is denoted as the data recipient, and then another process where a third party is denoted as the recipient. A joint controller agreement is then shown which specifies that only one of the controllers involved is a data recipient.    <pre class="nohighlight"><code>ex:PDH1 a dpv:Process ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Collect ;
+    dpv:hasPurpose dpv:ServiceRegistration ;
+    dpv:hasDataController ex:CompanyA ;
+    dpv:hasDataProcessor ex:CompanyB ;
+    # explicitly indicating entity receiving data
+    dpv:hasRecipient ex:CompanyB .
+
+ex:PDH2 a dpv:Process ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Share ;
+    dpv:hasPurpose dpv:FraudPreventionDetection ;
+    dpv:hasThirdPartyRecipient ex:CompanyC .
+
+ex:JC a dpv:JointControllerAgreement ;
+    dpv:hasDataController ex:Company1, ex:Company2 ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Share ;
+    dpv:hasRecipientDataController ex:Company1 .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0034"><code>E0034</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0034.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0035">
+          <h4><strong><i>E0035</i>:</strong> Specifying data exporters and importers</h4>
+            <aside class="example" title="Specifying data exporters and importers">
+<p>This example shows how data exporters and importers for a transfer can be indicated using DPV. It also shows how the locations associated with exporters and importers are relevant to determine cross-border transfers.    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    dpv:hasProcessing dpv:Transfer ;
+    dpv:hasDataExporter dpv:CompanyA ;
+    dpv:hasDataImporter dpv:CompanyB .
+
+ex:CompanyA a dpv:DataExporter ;
+    dpv:hasLocation loc:IE .
+ex:CompanyB a dpv:DataImporter ;
+    dpv:hasLocation loc:US . 
+
+# cross-border IE -&gt; US inference:
+ex:PDH dpv:hasProcessing dpv:CrossBorderTransfer
+
+# Transfers can also be specified with only recipients
+# If the exporter is known in existing context
+# since the importer is always a recipient
+# e.g. CompanyA is the controller and the sender/exporter
+ex:PDH dpv:hasRecipient dpv:CompanyB . 
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0035"><code>E0035</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0035.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0036">
+          <h4><strong><i>E0036</i>:</strong> Indicate relevant authority for processing</h4>
+            <aside class="example" title="Indicate relevant authority for processing">
+<p>This example shows how a DPA can be associated with processing, and the use of LEGAL extensions to obtain DPA information. It also shows how DPAs can be &#39;discovered&#39; by using the location (jurisdiction) and applicable law concepts.    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    dpv:hasAuthority legal-ie:DPA-IE .
+
+# in LEGAL-IE extension:
+legal-ie:DPA-IE a dpv:DataProtectionAuthority ;
+	skos:prefLabel &#34;Data Protection Commission (DPC)&#34;@en ;
+    foaf:homepage &#34;https://www.dataprotection.ie/&#34;^^xsd:anyURI ;
+    dpv:hasApplicableLaw legal-eu:law-GDPR,
+        legal-ie:law-DPA ;
+    dpv:hasJurisdiction loc:IE .
+
+# Authorities can also be &#39;discovered&#39; using location or law
+ex:PDH a dpv:Process ;
+	dpv:hasApplicableLaw legal-eu:GDPR ;
+	dpv:hasLocation loc:IE . # Get GDPR authority for IE
+ex:PDH a dpv:Process ;
+	dpv:hasJurisdiction loc:IE . # Get authority for IE
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0036"><code>E0036</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0036.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0037">
+          <h4><strong><i>E0037</i>:</strong> Indicating type of organisation and involvement of specific orgnisational units</h4>
+            <aside class="example" title="Indicating type of organisation and involvement of specific orgnisational units">
+<p>This example involves an organisation that is a NGO, and that it has Marketing, HR, and IT departments. The HR and IT departments are responsible for specific processes.    <pre class="nohighlight"><code>ex:CompanyA rdf:type dpv:NonGovernmentalOrganisation ;
+    dpv:hasOrganisationalUnit ex:Marketing, ex:HR, ex:IT .
+
+ex:Marketing a dpv:OrganisationalUnit ;
+    dpv:hasName &#34;Marketing Department&#34;@en ;
+    dpv:isOrganisationalUnitOf ex:CompanyA .
+
+ex:HR a dpv:OrganisationalUnit ;
+    dpv:hasName &#34;HR Department&#34;@en ;
+    dpv:isOrganisationalUnitOf ex:CompanyA .
+
+ex:IT a dpv:OrganisationalUnit ;
+    dpv:hasName &#34;IT Department&#34;@en ;
+    dpv:isOrganisationalUnitOf ex:CompanyA .
+
+ex:PDH1 a dpv:Process ;
+    dpv:hasPurpose dpv:IdentityAuthentication ;
+    dpv:isImplementedByEntity ex:IT .
+
+ex:PDH2 a dpv:Process ;
+    dpv:hasPurpose dpv:HumanResourceManagement ;
+    dpv:isImplementedByEntity ex:HR .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0037"><code>E0037</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0037.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0038">
+          <h4><strong><i>E0038</i>:</strong> Indicating subsidiaries of an organisation</h4>
+            <aside class="example" title="Indicating subsidiaries of an organisation">
+<p>This example shows the existence of two subsidiaries associated with an organisation and their locations    <pre class="nohighlight"><code>ex:CompanyA a dpv:Organisation ;
+    dpv:hasSubsidiary ex:CompanyM, ex:CompanyN .
+
+ex:CompanyM a dpv:Organisation, dpv:Subsidiary ;
+    dpv:isSubsidiaryOf ex:CompanyA ;
+    dpv:hasLocation loc:IE .
+
+ex:CompanyN a dpv:Organisation, dpv:Subsidiary ;
+    dpv:isSubsidiaryOf ex:CompanyA ;
+    dpv:hasLocation loc:NL .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0038"><code>E0038</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0038.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0039">
+          <h4><strong><i>E0039</i>:</strong> Indicating involvement of data subjects</h4>
+            <aside class="example" title="Indicating involvement of data subjects">
+<p>This example shows the different ways in which data subjects can be indicated in a process. It also shows how the DPV taxonomy of data subjects can be used to combine concepts to accurately represent the data subject involved. And it also shows how information associated with specific data subjects such as identifiers can be indicated.    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    dpv:hasDataSubject dpv:Consumer ; # consumer as subjects
+    dpv:hasDataSubject dpv:AsylumSeeker ; # vulnerable subject
+    dpv:hasDataSubject dpv:Child ; # minor or children
+    dpv:hasDataSubject [
+        a dpv:DataSubject ;
+        skos:broader dpv:Customer, dpv:Student ;
+        skos:description &#34;Customers that are Students&#34;@en ;
+    ] ;
+    dpv:hasDataSubject [
+        a dpv:DataSubject, dpv:Patient ;
+        dpv:hasIdentifier &#34;X1n31123knf3&#34; ;
+    ] .
+
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0039"><code>E0039</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+        </section>
     </section>
 
     <section id="funding-acknowledgements" class="notoc">
