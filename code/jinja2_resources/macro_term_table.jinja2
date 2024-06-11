@@ -186,11 +186,11 @@
         </tr>{% endif %}
        
         {# examples where this term is the subject #}
-        {% if 'vann:example' in concept %}
+        {% if concept['vann:example'] %}
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>{% for ex in concept|retrieve_example_for_concept %}
-            <a href="{{ex['iri']}}" class="local-link">{{ ex['dct:title'] }} <small>({{ ex['term'] }})</small></a>{{ "; " if not loop.last }}
+          <td>{% for ex in concept['vann:example']|ensure_list|sort|resolve_concepts %}
+            <a href="{{ex['iri']}}" class="local-link">{{ ex['dct:title'] }} <small>({{ ex['term'] }})</small></a>{% if not loop.last %}<br/>{% endif %}
         {% endfor %}</td>
         {% endif %}
 
@@ -199,13 +199,15 @@
         {# term source #}
         {% if concept['dct:source'] %}<tr>
           <th>Source</th>
-          <td><i>{% for x,y in concept['dct:source']|get_sources %}<a href="{{x}}">{{ y}}</a>{{ "," if not loop.last }}{% endfor %}</i></td>
+          <td><i>{% for x,y in concept['dct:source']|get_sources %}<a href="{{x}}">{{ y}}</a>{{ ", " if not loop.last }}{% endfor %}</i></td>
         </tr>{% endif %}
        
         {# related terms #}
         {% if concept['skos:related'] %}<tr>
           <th>Related</th>
-          <td><i>{{ concept['skos:related'] }}</i></td>
+          <td>{% for subconcept in concept['skos:related']|ensure_list %}
+            {% if subconcept.startswith('http') %}<a href="{{subconcept}}"><i>{{ subconcept|prefix_this }}</i></a>{% else %}<i>{{ subconcept }}</i>{% endif %}{{ ", " if not loop.last }}
+            {% endfor %}</td>
         </tr>{% endif %}
         
         <tr class="table-separator"></tr>

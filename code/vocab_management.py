@@ -411,8 +411,8 @@ CSVFILES = {
         'system': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-system.csv',
         },
-        'purpose': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-purpose.csv',
+        'capability': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-capability.csv',
         },
         'risk': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-risk.csv',
@@ -872,7 +872,7 @@ RDF_VOCABS = {
         'export': f'{EXPORT_PATH}/legal/eu/aiact',
         'modules': {
             'system': f'{IMPORT_PATH}/legal/eu/aiact/modules/system.ttl',
-            'purpose': f'{IMPORT_PATH}/legal/eu/aiact/modules/purpose.ttl',
+            'capability': f'{IMPORT_PATH}/legal/eu/aiact/modules/capability.ttl',
             'risk': f'{IMPORT_PATH}/legal/eu/aiact/modules/risk.ttl',
             'data': f'{IMPORT_PATH}/legal/eu/aiact/modules/data.ttl',
             'roles': f'{IMPORT_PATH}/legal/eu/aiact/modules/roles.ttl',

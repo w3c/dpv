@@ -76,10 +76,10 @@ class DATA(object):
                 continue
             elif o.startswith('https://w3id.org/dpv/guides') or o.startswith('https://w3id.org/dpv/primer'):
                 continue
-            elif s.startswith('https://w3id.org/dpv/examples') and vocab != 'dex':
-                continue
-            elif o.startswith('https://w3id.org/dpv/examples') and vocab != 'dex':
-                continue
+            # elif s.startswith('https://w3id.org/dpv/examples') and vocab != 'dex':
+            #     continue
+            # elif o.startswith('https://w3id.org/dpv/examples') and vocab != 'dex':
+            #     continue
 
             # elif o.startswith(NAMESPACES['profile']) or o.startswith(NAMESPACES['role']):
             #     continue
@@ -445,17 +445,23 @@ def organise_hierarchy(terms:list, top:str=None) -> dict:
 
 # === Other Helper Functions
 
-def get_sources(sourcestring:str) -> list:
+def get_sources(sources:str|list) -> list:
     """
     Source strings are organised as (link,label),(link2,label2)...
     This function extracts them and returns them as a list of tuples
     containing (link,label) for each
     """
-    sourcestring = sourcestring.replace('(', '').replace(')', '').split(',')
-    sources = []
-    for i in range(1, len(sourcestring), 2):
-        sources.append((sourcestring[i], sourcestring[i-1]))
-    return sources
+    sources = ensure_list(sources)
+    returnval = []
+    for source in sources:
+        if type(source) is str: 
+            DEBUG(source)
+            returnval.append([source, sources])
+        if type(source) is BNode: 
+            returnval.append([ # order is x=url, y=label
+                DATA.concepts[source]['schema:url'],
+                DATA.concepts[source]['schema:name']])
+    return returnval
 
 
 def ensure_list(item) -> list:

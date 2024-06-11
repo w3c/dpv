@@ -1412,6 +1412,123 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
   </aside>
 
         </section>
+        <section id="E0040">
+          <h4><strong><i>E0040</i>:</strong> Extending a purpose and using human-readable descriptions</h4>
+            <aside class="example" title="Extending a purpose and using human-readable descriptions">
+<p>This example describes how a purpose can be made clearer and accurate by two methods: (1) providing a human-readable description - which is always recommended; and (2) by extending a DPV concept    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    # issue: lack of details for what kind of Personalisation
+    dpv:hasPurpose dpv:Personalisation ;
+    # choose concept as specific as possible
+    dpv:hasPurpose dpv:ProvidePersonalisedRecommendations .
+    # human-readable information is not provided here,
+    # which can be okay if it is sufficient to simply state the purpose
+    # and further descriptions are not necessary for the use-case.
+
+ex:PDH a dpv:Process ;
+    dpv:hasPurpose ex:HolidayCampaign .
+ex:HolidayCampaign a dpv:Purpose ;
+    # align purpose with DPV taxonomy
+    skos:broader dpv:DirectMarketing ;
+    # provide human readable information
+    dct:title &#34;Holiday Campaign 2024&#34;@en ;
+    dct:description &#34;Marketing associated with holiday season&#34;@en ;
+    dct:identifier &#34;MH2024-A&#34; . # internal campaign identifier 
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0040"><code>E0040</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0040.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0041">
+          <h4><strong><i>E0041</i>:</strong> Indicating purposes associated with a Service</h4>
+            <aside class="example" title="Indicating purposes associated with a Service">
+<p>This example describes how the different purposes and information associated with a service can be expressed in a modular and clear manner    <pre class="nohighlight"><code>ex:MyProduct a dpv:Service ;
+    dct:title &#34;My Product Streaming Service&#34;@en ;
+    dpv:hasProcess ex:Register, ex:Service, ex:FraudManagement .
+
+ex:Register a dpv:Process ;
+    dpv:hasPurpose dpv:ServiceRegistration ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Collect, dpv:Store, dpv:Use ;
+    dpv:hasLegalBasis dpv:EnterIntoContract .
+
+ex:Service a dpv:Process ;
+    dpv:hasPurpose dpv:ServiceProvision ;
+    dpv:hasProcess [
+        a dpv:Process ;
+        dpv:hasPersonalData pd:EmailAddress ;
+        dpv:hasProcessing dpv:Use ;
+        dpv:hasPurpose dpv:IdentityVerification ;
+    ];
+    dpv:hasLegalBasis dpv:ContractPerformance .
+
+ex:FraudManagement a dpv:Process ;
+    dpv:hasPurpose dpv:FraudPreventionDetection ;
+    dpv:hasLegalBasis dpv:LegitimateInterest .
+
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0041"><code>E0041</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0041.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0042">
+          <h4><strong><i>E0042</i>:</strong> Indicating legal compliance as a purpose along with the relevant law</h4>
+            <aside class="example" title="Indicating legal compliance as a purpose along with the relevant law">
+<p>This example describes a purpose for performing &#39;KYC&#39; identity verification as part of legal compliance with anti-money laundering laws    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    dpv:hasPurpose [
+        a dpv:Purpose ;
+        skos:broader dpv:IdentityVerification,
+            dpv:LegalCompliance ;
+        skos:prefLabel &#34;KYC: Know Your Customer&#34;@en ;
+    ] ;
+    dpv:hasLegalBasis [
+        a dpv:LegalObligation ;
+        dpv:hasApplicableLaw ex:CJA2010 ;
+    ] .
+
+ex:CJA2010 a dpv:Law ;
+    dct:title &#34;Money Laundering and Terrorist Financing Act 2010&#34; ;
+    dpv:hasJuridiction loc:IE .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0042"><code>E0042</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0042.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0043">
+          <h4><strong><i>E0043</i>:</strong> Indicating sector or domain and associating it with a purpose</h4>
+            <aside class="example" title="Indicating sector or domain and associating it with a purpose">
+<p>This example uses the NACE taxonomy to indicate the domain or sectorial relevance of the purpose    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    # expressing Sector using NACE
+    dpv:hasPurpose [
+        a dpv:Purpose ;
+        skos:broader dpv:NonCommercialResearch ;
+        # Sector defined as R&amp;D on social sciences and humanities
+        # using NACE Rev 2.1 concept 72.20
+        dpv:hasSector &lt;http://data.europa.eu/ux2/nace2.1/7220&gt; ;
+    ] ;
+    # expressing Sector as a &#39;domain&#39; or &#39;sector&#39; label and IRI
+    dpv:hasPurpose [
+        a dpv:Purpose ;
+        skos:broader dpv:AcademicResearch ;
+        # NACE Rev 2.1 concept 85 Education
+        dpv:hasSector &lt;http://data.europa.eu/ux2/nace2.1/85&gt; ;
+    ] .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0043"><code>E0043</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0043.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
     </section>
 
     <section id="funding-acknowledgements" class="notoc">

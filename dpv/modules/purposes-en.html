@@ -1,4 +1,4 @@
-%%<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -329,8 +329,7 @@
 </head>
 <body>
     <section id="abstract">
-      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
-      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      <p>This document provides additional details and examples for purpose concepts in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
       <section id="sotd">
     <p style="color: red; font-weight: bold;">The DPVCG is currently updating the specifications to v2. This document is a draft and may change as part of this process.</p>
     <p><strong>Contributing:</strong> The DPVCG welcomes participation to improve the DPV and associated resources, including expansion or refinement of concepts, requesting information and applications, and addressing open issues. <a href="https://github.com/w3c/dpv/blob/master/contributing.md">See contributing page</a> for further information.</p>
@@ -346,17 +345,15 @@
 
       
     </section>
-  <section id="introduction">
+  <section id="vocab-purposes">
     <h2>Introduction</h2>
-    <blockquote>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</blockquote>
-    <div class="issue" title="Review section descriptions"></div>
   <figure>
     <a href="../../media/purpose-2.png" target="_blank">
       <img title="Overview of Purpose taxonomy in DPV" src="../../media/purpose-2.png">
     </a>
     <figcaption>Overview of Purpose taxonomy in DPV (click to open in new window)</figcaption>
   </figure>
-  <p>DPV’s taxonomy of purposes is used to represent the reason or justification for processing of personal data. For this, purposes are organised within DPV based on how they relate to the processing of personal data in terms of several factors, such as: management functions related to information (e.g. records, account, finance), fulfilment of objectives (e.g. delivery of goods), providing goods and services (e.g. service provision), intended benefits (e.g. optimisations for service provider or consumer), and legal compliance.</p>
+  <p>DPV’s taxonomy of purposes is used to represent the goal or reason associated with processing of personal data and use of technologies. For this, purposes are organised within DPV based on several factors such as: management functions related to information (e.g. records, account, finance), fulfilment of objectives (e.g. delivery of goods), providing goods and services (e.g. service provision), intended benefits (e.g. optimisations for service provider or consumer), and legal compliance.</p>
 
   <p>DPV provides a taxonomy of Purpose <i>instances</i> for use with [=hasPurpose=] relation. In addition, DPV also defines the concept [=Sector=] (associated using [=hasSector=]) to indicate a contextual interpretation of the purpose within a specified sector.</p>
 
@@ -947,47 +944,129 @@
 
   <section id="desc-purpose-guidelines">
     <h2>Guidelines on Purposes</h2>
-    <div class="issue" title="Content missing - Guidelines on Purposes"></div>
+    <p>DPV's purpose taxonomy enables expressing the <i>category</i> of purpose i.e the broader goal or reason. To enable accurate representation of purposes, we recommend further describing the purposes in a contextual manner where relevant. For example, the concept [=Marketing=] refers to the broad purpose of 'marketing', which may not be sufficient to represent information such as the marketing is about a specific campaign associated with the holiday season. Such additional details are necessary to understand where the 'initial' purpose may differ with 'subsequent' purposes of data. For example, if consent was given only for the use of personal data for marketing during holiday seasons, other non-holiday marketing purposes would not be compatible with it. Additional details can be added to DPV purposes by two methods: (1) extending the DPV taxonomy; and (2) adding annotations containing human-readable descriptions. We recommend always using (2), and using (1) where necessary or relevant.</p>
+    <p>To enable the accurate representations of purposes, we also recommend choosing the most relevant or closest concept from purpose taxonomy so that the purpose is as specific as possible. For example, choosing [=ProvidePersonalisedRecommendations=] instead of [=Personalisation=] allows communicating that the personalisation is of a specific kind and that other kinds of personalisations such as for UI/UX or advertising are not part of this purpose.</p>
+      <aside class="example" title="Extending a purpose and using human-readable descriptions">
+<p>This example describes how a purpose can be made clearer and accurate by two methods: (1) providing a human-readable description - which is always recommended; and (2) by extending a DPV concept    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    # issue: lack of details for what kind of Personalisation
+    dpv:hasPurpose dpv:Personalisation ;
+    # choose concept as specific as possible
+    dpv:hasPurpose dpv:ProvidePersonalisedRecommendations .
+    # human-readable information is not provided here,
+    # which can be okay if it is sufficient to simply state the purpose
+    # and further descriptions are not necessary for the use-case.
+
+ex:PDH a dpv:Process ;
+    dpv:hasPurpose ex:HolidayCampaign .
+ex:HolidayCampaign a dpv:Purpose ;
+    # align purpose with DPV taxonomy
+    skos:broader dpv:DirectMarketing ;
+    # provide human readable information
+    dct:title &#34;Holiday Campaign 2024&#34;@en ;
+    dct:description &#34;Marketing associated with holiday season&#34;@en ;
+    dct:identifier &#34;MH2024-A&#34; . # internal campaign identifier 
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0040"><code>E0040</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0040.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
   </section>
 
   <section id="desc-service-provision">
     <h2>Service Provision</h2>
-    <div class="issue" title="Content missing - Service Provision"></div>
-  </section>
+    <p>For purposes associated with [=ServiceProvision=], DPV provides concepts such as [=PaymentManagement=], [=ServiceOptimisation=], and [=ServiceRegistration=] amongst others. To associate these with services, the `Service` concept can be used similar to how `Process` is used to structure related information together. In this manner, a service can be expressed in terms of the different purposes and processes it contains - which may have their own separate legal basis.</p>
+      <aside class="example" title="Indicating purposes associated with a Service">
+<p>This example describes how the different purposes and information associated with a service can be expressed in a modular and clear manner    <pre class="nohighlight"><code>ex:MyProduct a dpv:Service ;
+    dct:title &#34;My Product Streaming Service&#34;@en ;
+    dpv:hasProcess ex:Register, ex:Service, ex:FraudManagement .
+
+ex:Register a dpv:Process ;
+    dpv:hasPurpose dpv:ServiceRegistration ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasProcessing dpv:Collect, dpv:Store, dpv:Use ;
+    dpv:hasLegalBasis dpv:EnterIntoContract .
+
+ex:Service a dpv:Process ;
+    dpv:hasPurpose dpv:ServiceProvision ;
+    dpv:hasProcess [
+        a dpv:Process ;
+        dpv:hasPersonalData pd:EmailAddress ;
+        dpv:hasProcessing dpv:Use ;
+        dpv:hasPurpose dpv:IdentityVerification ;
+    ];
+    dpv:hasLegalBasis dpv:ContractPerformance .
+
+ex:FraudManagement a dpv:Process ;
+    dpv:hasPurpose dpv:FraudPreventionDetection ;
+    dpv:hasLegalBasis dpv:LegitimateInterest .
+
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0041"><code>E0041</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0041.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+   </section>
 
   <section id="desc-legal-obligation">
     <h2>Legal Obligation/Compliance</h2>
-    <div class="issue" title="Content missing - Legal Obligation/Compliance"></div>
+    <p>To express the purpose is associated with a legal obligation or a requirement for compliance such as in a contract, the concept [=FulfilmentOfObligation=] is provided with further concepts [=FulfilmentOfContractualObligation=], [=LegalCompliance=], and [=ProtectionOfIPR=]. When such purposes are required by law i.e. their implementation is necessary to comply with a legal obligation, the legal basis `LegalObligation` should be used along with details of the law and the obligation.</p>
+      <aside class="example" title="Indicating legal compliance as a purpose along with the relevant law">
+<p>This example describes a purpose for performing &#39;KYC&#39; identity verification as part of legal compliance with anti-money laundering laws    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    dpv:hasPurpose [
+        a dpv:Purpose ;
+        skos:broader dpv:IdentityVerification,
+            dpv:LegalCompliance ;
+        skos:prefLabel &#34;KYC: Know Your Customer&#34;@en ;
+    ] ;
+    dpv:hasLegalBasis [
+        a dpv:LegalObligation ;
+        dpv:hasApplicableLaw ex:CJA2010 ;
+    ] .
+
+ex:CJA2010 a dpv:Law ;
+    dct:title &#34;Money Laundering and Terrorist Financing Act 2010&#34; ;
+    dpv:hasJuridiction loc:IE .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0042"><code>E0042</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0042.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
   </section>
 
-  <section id="desc-marketing">
-    <h2>Marketing</h2>
-    <div class="issue" title="Content missing - Marketing"></div>
-  </section>
-
-  <section id="desc-personalisation">
-    <h2>Personalisation</h2>
-    <div class="issue" title="Content missing - Personalisation"></div>
-  </section>
-
-  <section id="desc-maintaining-security">
-    <h2>Maintaining Security</h2>
-    <div class="issue" title="Content missing - Maintaining Security"></div>
-  </section>
-
-  <section id="desc-communication">
-    <h2>Communication</h2>
-    <div class="issue" title="Content missing - Communication"></div>
-  </section>
-
-  <section id="desc-organisation-governance">
-    <h2>Organisational Governance</h2>
-    <div class="issue" title="Content missing - Organisational Governance"></div>
-  </section>
 
   <section id="desc-sector">
     <h2>Sector of Operation</h2>
-    <div class="issue" title="Content missing - Sector of Operation"></div>
+    <p>To indicate the purpose is associated with a specific sector or domain of operation, the concept [=Sector=] and relation [=hasSector=] can be used. Sectors can be expressed using normative taxonomies such as [[[NACE]]] for EU, [[[NAICS]]] for USA, [[[ISIC]]] for UN, or [[[GICS]]]. The EU maintains a mapping between [[NACE]] and [[NAICS]] as [[[NACE-NAICS]]]. Note that NACE has been updated from v2 to v2.1 - <a href="https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/wdn-20230210-1">see more details</a>.</p>
+      <aside class="example" title="Indicating sector or domain and associating it with a purpose">
+<p>This example uses the NACE taxonomy to indicate the domain or sectorial relevance of the purpose    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    # expressing Sector using NACE
+    dpv:hasPurpose [
+        a dpv:Purpose ;
+        skos:broader dpv:NonCommercialResearch ;
+        # Sector defined as R&amp;D on social sciences and humanities
+        # using NACE Rev 2.1 concept 72.20
+        dpv:hasSector &lt;http://data.europa.eu/ux2/nace2.1/7220&gt; ;
+    ] ;
+    # expressing Sector as a &#39;domain&#39; or &#39;sector&#39; label and IRI
+    dpv:hasPurpose [
+        a dpv:Purpose ;
+        skos:broader dpv:AcademicResearch ;
+        # NACE Rev 2.1 concept 85 Education
+        dpv:hasSector &lt;http://data.europa.eu/ux2/nace2.1/85&gt; ;
+    ] .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0043"><code>E0043</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0043.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
   </section>
 
 <section>
@@ -1052,7 +1131,8 @@
        
 <tr>
           <th>Related</th>
-          <td><i>svpu:Education</i></td>
+          <td><a href="https://specialprivacy.ercim.eu/vocabs/purposes#Education"><i>svpu:Education</i></a>
+</td>
         </tr>        
         <tr class="table-separator"></tr>
 
@@ -1538,7 +1618,8 @@
        
 <tr>
           <th>Related</th>
-          <td><i>svpu:Develop</i></td>
+          <td><a href="https://specialprivacy.ercim.eu/vocabs/purposes#Develop"><i>svpu:Develop</i></a>
+</td>
         </tr>        
         <tr class="table-separator"></tr>
 
@@ -2031,7 +2112,8 @@
        
 <tr>
           <th>Related</th>
-          <td><i>svpu:Feedback</i></td>
+          <td><a href="https://specialprivacy.ercim.eu/vocabs/purposes#Feedback"><i>svpu:Feedback</i></a>
+</td>
         </tr>        
         <tr class="table-separator"></tr>
 
@@ -2112,7 +2194,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -2272,7 +2354,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -2433,7 +2515,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -2599,7 +2681,8 @@
        
 <tr>
           <th>Related</th>
-          <td><i>svpu:Delivery</i></td>
+          <td><a href="https://specialprivacy.ercim.eu/vocabs/purposes#Delivery"><i>svpu:Delivery</i></a>
+</td>
         </tr>        
         <tr class="table-separator"></tr>
 
@@ -2759,7 +2842,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -2845,7 +2928,8 @@
        
 <tr>
           <th>Related</th>
-          <td><i>svpu:Login</i></td>
+          <td><a href="https://specialprivacy.ercim.eu/vocabs/purposes#Login"><i>svpu:Login</i></a>
+</td>
         </tr>        
         <tr class="table-separator"></tr>
 
@@ -3087,7 +3171,8 @@
        
 <tr>
           <th>Related</th>
-          <td><i>svpu:Government</i></td>
+          <td><a href="https://specialprivacy.ercim.eu/vocabs/purposes#Government"><i>svpu:Government</i></a>
+</td>
         </tr>        
         <tr class="table-separator"></tr>
 
@@ -3327,7 +3412,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -4543,7 +4628,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -4870,7 +4955,8 @@
        
 <tr>
           <th>Related</th>
-          <td><i>svpu:Custom</i></td>
+          <td><a href="https://specialprivacy.ercim.eu/vocabs/purposes#Custom"><i>svpu:Custom</i></a>
+</td>
         </tr>        
         <tr class="table-separator"></tr>
 
@@ -5193,7 +5279,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -5763,7 +5849,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -6434,7 +6520,8 @@
        
 <tr>
           <th>Related</th>
-          <td><i>svpu:Marketing</i></td>
+          <td><a href="https://specialprivacy.ercim.eu/vocabs/purposes#Marketing"><i>svpu:Marketing</i></a>
+</td>
         </tr>        
         <tr class="table-separator"></tr>
 
@@ -6672,7 +6759,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -6747,6 +6834,9 @@
           <td><i>The purpose or goal here is intended to sufficiently describe the intention or objective of why the data or technology is being used, and should be broader than mere technical descriptions of achieving a capability. For example, &#34;Analyse Data&#34; is an abstract purpose with no indication of what the analyses is for as compared to a purpose such as &#34;Marketing&#34; or &#34;Service Provision&#34; which provide clarity and comprehension of the &#39;purpose&#39; and can be enhanced with additional descriptions. Such modelling is in line with regulatory requirements regarding the specificity of purposes, for example in GDPR</i></td>
         </tr>       
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0003" class="local-link">Extending multiple concepts <small>(E0003)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0004" class="local-link">Interoperability of extended concepts across use-cases <small>(E0004)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0007" class="local-link">Extending Purposes and adding human-readable descriptions <small>(E0007)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0008" class="local-link">Using NACE codes to restrict Purposes <small>(E0008)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0040" class="local-link">Extending a purpose and using human-readable descriptions <small>(E0040)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0041" class="local-link">Indicating purposes associated with a Service <small>(E0041)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0042" class="local-link">Indicating legal compliance as a purpose along with the relevant law <small>(E0042)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0043" class="local-link">Indicating sector or domain and associating it with a purpose <small>(E0043)</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -6756,7 +6846,8 @@
         </tr>       
 <tr>
           <th>Related</th>
-          <td><i>spl:AnyPurpose</i></td>
+          <td><a href="https://specialprivacy.ercim.eu/langs/usage-policy#AnyPurpose"><i>spl:AnyPurpose</i></a>
+</td>
         </tr>        
         <tr class="table-separator"></tr>
 
@@ -7396,6 +7487,9 @@
           <td><i>There are various sector codes used commonly to indicate the domain of an organisation or business. Examples include NACE (EU), ISIC (UN), SIC and NAICS (USA).</i></td>
         </tr>       
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0043" class="local-link">Indicating sector or domain and associating it with a purpose <small>(E0043)</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -7416,7 +7510,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-purposes"> PURPOSES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-purposes"> PURPOSES</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -8552,7 +8646,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -8634,7 +8728,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -8716,7 +8810,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>
@@ -8798,7 +8892,7 @@
         
 <tr>
           <th>Source</th>
-          <td><i><a href=" https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
+          <td><i><a href="https://www.privacycommission.be/nl/model-voor-een-register-van-de-verwerkingsactiviteiten">Belgian DPA ROPA Template</a></i></td>
         </tr>       
         
         <tr class="table-separator"></tr>

@@ -203,9 +203,10 @@ def construct_value(item, data, namespace, header):
 
 def construct_related_terms(item, data, namespace, header):
     triples = []
-    # TODO: make related be a URI
+    items = item.split(',')
     term = _term_with_namespace(data['Term'], namespace)
-    triples.append((term, SKOS.related, Literal(item, lang='en')))
+    for item in items:
+        triples.append((term, SKOS.related, _term_with_namespace(item, None)))
     return triples
 
 
@@ -219,8 +220,25 @@ def construct_scope_note(item, data, namespace, header):
 def construct_source(item, data, namespace, header):
     triples = []
     term = _term_with_namespace(data['Term'], namespace)
-    # TODO: make source be a URI or a Literal (if startswith http)
-    triples.append((term, DCT.source, Literal(item, lang='en')))
+    items = item.split(',')
+    if 'http' in item:
+        iteritem = iter(items)
+        for item in iteritem:
+            label, url = item, next(iteritem)
+            label = label.strip()
+            url = url.strip()
+            if label.startswith('('):
+                label = label.replace('(', '', 1)
+            if url.endswith(')'):
+                url = url[::-1].replace(')', '', 1)[::-1] # reverse string
+            node = BNode()
+            triples.append((node, RDF.type, SCHEMA.WebPage))
+            triples.append((node, SCHEMA.name, Literal(label)))
+            triples.append((node, SCHEMA.url, Literal(url)))
+            triples.append((term, DCT.source, node))
+    else:
+        for item in items:
+            triples.append((term, DCT.source, Literal(item, lang='en')))
     return triples
 
 
@@ -283,8 +301,8 @@ def _get_term_from_prefix_notation(term, namespace):
 
 def _term_with_namespace(term, namespace):
     if ':' in term:
-        namespace = NAMESPACES[term.split(':')[0]]
-        term = namespace[term.split(':')[1]]
+        namespace = NAMESPACES[term.split(':')[0].strip()]
+        term = namespace[term.split(':')[1].strip()]
     else:
         term = namespace[term]
     return term

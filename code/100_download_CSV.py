@@ -285,7 +285,7 @@ DPV_FILES = {
         'doc_id': '17WAXH7Bkzu2m2eeOSTyhJBeHp9nst988KYCSRES8xCE',
         'sheets': (
             'aiact-system',
-            'aiact-purpose',
+            'aiact-capability',
             'aiact-risk',
             'aiact-data',
             'aiact-roles',
