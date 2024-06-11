@@ -1,0 +1,31 @@
+ex:PDH a dpv:Process ;
+    # method 1: directly use concept from PD
+    dpv:hasPersonalData pd:EmailAddress ;
+    # method 2: extend concept from PD
+    dpv:hasPersonalData [
+        a dpv:PersonalData ;
+        skos:broader pd:EmailAddress ;
+        skos:prefLabel "Work Email"@en ;
+    ] ;
+    # method 3: specify an exact value i.e. an instance
+    dpv:hasPersonalData [
+        a dpv:PersonalData, pd:EmailAddress ;
+        rdf:value "work@example.com" ;
+    ] ;
+    # method 4: use another appropriate vocabulary e.g. schema.org
+    dpv:hasPersonalData [
+        a schema:ContactPoint ;
+        a dpv:PersonalData ; # strongly recommended for interop
+        a pd:EmailAddress ; # strongly recommended for interop
+        schema:email "work@example.com" ;
+    ] ;
+    # Note: Email Address can be an identifier
+    # So good practice is to also declare it when used as an identifier
+    dpv:hasPersonalData [
+        a dpv:PersonalData ;
+        skos:broader pd:EmailAddress, pd:Identifier ;
+    ] ;
+    dpv:hasPersonalData [
+        a dpv:PersonalData, pd:EmailAddress, dpv:Identifier ;
+        rdf:value "work@example.com" ;
+    ] .

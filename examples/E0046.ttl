@@ -1,0 +1,26 @@
+ex:PDH a dpv:Process ;
+    dpv:hasProcess [
+        a dpv:Process ; 
+        # Collects email addresses from data subjects
+        # The statements about processing, data category, and data source
+        # are aligned but represent different concepts
+        dpv:hasProcessing dpv:Collect ;
+        dpv:hasPersonalData [ 
+            a dpv:PersonalData ;
+            a dpv:ProvidedPersonalData ;
+            skos:broader pd:EmailAddress ;
+        ] ;
+        dpv:hasDataSource dpv:DataSubjectDataSource ;
+    ] ;
+    dpv:hasProcess [
+        a dpv:Process ;
+        # The existing email address is used to derive an account id
+        # (not mentioned here, but occurs in the same broader process)
+        # e.g. by using a MD5 hash technique (not mentioned here)
+        dpv:hasProcessing dpv:Derive;
+        dpv:hasPersonalData [
+            a dpv:PersonalData ;
+            a dpv:DerivedPersonalData ;
+            skos:broader pd:AccountIdentifier ;
+        ] ;
+    ] . 
