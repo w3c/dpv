@@ -59,24 +59,24 @@
 </head>
 <body>
   <section id="abstract">
-    <p>Justification extension provides a taxonomy extending the [[[DPV]]] concept <code>Justification</code> to enable representing specific justifications associated with non-fulfilment, non-requirement, delays, and exercising reasons involved in processes. The namespace for terms in justifications is <a href="http://www.w3id.org/dpv/justifications#"><code>https://www.w3id.org/dpv/justifications#</code></a>, the suggested prefix  is <code>justifications</code>, and the justifications vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+    <p>The Justification extension provides a taxonomy extending the [[[DPV]]] concept <code>Justification</code> to enable representing specific justifications associated with non-fulfilment, non-requirement, delays, and exercising reasons involved in processes. The namespace for terms in justifications is <a href="http://www.w3id.org/dpv/justifications#"><code>https://www.w3id.org/dpv/justifications#</code></a>, the suggested prefix  is <code>justifications</code>, and the justifications vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
     {{ sotd() }}
     {{ dpv_document_family(document='justifications-spec') }}
   </section>
   <section id="motivation">
     <h2>Introduction</h2>
-    <p>DPV provides the concept <a href="https://w3id.org/dpv#Justification"><code>Justification</code></a> and relation <a href="https://w3id.org/dpv#hasJustification"><code>hasJustification</code></a> to provide reasons or explanations in specific contexts. For example, where a right could not be fulfilled due to the identity of the individual not being established or where a request was deemed as being too excessive and burdensome to undertake. Justifications also represent reasons why a process must be undertaken, for example why a particular objection is being made or why a specific activity is asked to be undertaken. To support expression of such specific justifications, this extension provides concepts extending <code>dpv:Justification</code>.</p>
+    <p>DPV provides the concept <a href="https://w3id.org/dpv#Justification"><code>Justification</code></a> and relation <a href="https://w3id.org/dpv#hasJustification"><code>hasJustification</code></a> to provide reasons or explanations in specific contexts. For example, where a right could not be fulfilled due to the identity of the individual not being established or where a request was deemed as being too excessive and burdensome to undertake. Justifications also represent reasons why a process must be undertaken, for example why a particular objection is being made or why a specific activity is asked to be undertaken. To support the expression of such specific justifications, this extension provides concepts extending <code>dpv:Justification</code>.</p>
     <p>Justifications can be found in regulations as exceptions to obligations - for example in GDPR Article 12-5 the justification "requests ... are manifestly unfounded or excessive" is mentioned. Justifications can also be identified through practical applications and use-cases, such as where organisations and data subjects commonly need to state reasons or explanations. As such, the DPVCG strives to provide a rich and comprehensive taxonomy of justifications and welcomes contributions for the same.</p>
     <aside class="example" title="Associating justifications with right exercise non-fulfilment">
       <p>The following example represents a notice outlining a failure to complete a GDPR Data Portability request due to identity verification failure.</p>
-      <pre class="nohighlight"><code>ex:PDH a dpv:RightNonFulfilmentNotice;
+      <pre class="nohighlight"><code>ex:PDH a dpv:RightNonFulfilmentNotice ;
   dct:dateSubmitted "2024-01-01"^^xsd:date ;
   dct:publisher ex:SomeController ;
   dpv:hasRight eu-gdpr:A20 ;
   dpv:hasJustification justifications:IdentityVerificationFailure .</code></pre>
     </aside>
-    <aside class="note" title="Associating justifications with regulations e.g. GDPR">
-      <p>This extension does not provide any association or indication of the use of justifications towards regulatory requirements, nor provide knowledge of where justifications can be used within specific regulatory obligations. Such associations and knowledge should be provided within the respective extensions for that regulation, e.g. [[EU-GDPR]] extension for [[GDPR]].</p>
+    <aside class="note" title="Associating justifications with regulations, e.g., GDPR">
+      <p>This extension does not provide any association or indication of the use of justifications towards regulatory requirements, nor provide knowledge of where justifications can be used within specific regulatory obligations. Such associations and knowledge should be provided within the respective extensions for that regulation, e.g., [[EU-GDPR]] extension for [[GDPR]].</p>
     </aside>
   </section>
 
@@ -84,15 +84,15 @@
     <h2>Justification Types</h2>
     <p>Justifications are broadly categorised as:</p>
     <ul>
-      <li><code>NotRequiredJustification</code>: Justification to reject or not complete a process as it is not required or isn't applicable</li>
+      <li><code>NotRequiredJustification</code>: Justification to reject or not complete a process as it is not required or is not applicable</li>
       <li><code>NonFulfilmentJustification</code>: Justification for not fulfilling a process or requirement or obligation</li>
       <li><code>DelayJustification</code>: Justification to delay a process</li>
       <li><code>ExerciseJustification</code>: Justification for why the process should be carried out</li>
     </ul>
     <p>This categorisation is not exact and mutually exclusive, but is provided as a convenience to organise the concepts in a comprehensible hierarchy. For example, a justification concept declared as <code>DelayJustification</code> can still be used as a <code>NonFulfilmentJustification</code> within a use-case.</p>
     <aside class="example" title="Using justifications across categories">
-      <p>The justification concept <code>ComplexityOfProcess</code> represents a reason to delay a process due to the complexity in fulfilling it. To instead use it as a justification for not fulfilling the process, we create a new justification that combines the complexity of process and non-fulfilment categories.</p>
-      <pre class="nohighlight"><code>ex:PDH a dpv:Process;
+      <p>The justification concept <code>ComplexityOfProcess</code> represents a reason to delay a process due to the complexity of fulfilling it. To instead use it as a justification for not fulfilling the process, we create a new justification that combines the complexity of process and non-fulfilment categories.</p>
+      <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
   dpv:hasJustification [
     a dpv:Justification ;
     skos:broader justifications:ComplexityOfProcess ;
@@ -106,7 +106,7 @@
       <p>Situations where a particular process is not-required or applicable have justifications of type <code>NotRequiredJustification</code>.</p>
     <aside class="example" title="Expressing data breach notifications to data subjects are not required using a justification">
       <p>The justification <code>RightsFreedomsImpactUnlikely</code> represents an unlikely impact on rights and freedoms, which can be used as a justification to not provide data subjects with a notification about a data breach involving their personal data as per GDPR Article 35-3b.</p>
-      <pre class="nohighlight"><code>ex:PDH a risk:DataBreachReport;
+      <pre class="nohighlight"><code>ex:PDH a risk:DataBreachReport ;
   dpv:hasStatus eu-gdpr:BreachNotificationNotNeeded ;
   dpv:hasJustification justifications:RightsFreedomsImpactUnlikely .</code></pre>
     </aside>
@@ -120,7 +120,7 @@
       <p>Where a particular process cannot be fulfilled, the relevant justification or reason is expressed using the concept <code>NonFulfilmentJustification</code>.</p>
     <aside class="example" title="Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure">
       <p>The following example describes a GDPR Article 20 Data Portability request not being fulfilled due to identity verification failure. The <code>dpv:RequestRequiresAction</code> concept indicates further action is required - specifically to provide identity documents.</p>
-      <pre class="nohighlight"><code>ex:PDH a dpv:RightExerciseRecord;
+      <pre class="nohighlight"><code>ex:PDH a dpv:RightExerciseRecord ;
   dpv:hasStatus dpv:RequestRequiresAction ;
   dpv:hasJustification justifications:IdentityVerificationFailure ;
   dpv:hasProcess [
@@ -136,10 +136,10 @@
 
     <section id="vocab-justifications-delay">
       <h3>Delay</h3>
-      <p>Where a particular process is delayed, the justifications are represented through concept <code>DelayJustification</code>.</p>
+      <p>Where a particular process is delayed, the justifications are represented through the concept <code>DelayJustification</code>.</p>
     <aside class="example" title="Expressing a right exercise request is delayed due to high volume of requests">
-      <p>The following example uses the justification <code>HighVolumeOfProcesses</code> to represent a high volume of similar processes or requests is causing a delay in fulfilling the rights request. The concept <code>dpv:hasDuration</code> is used to indicate the duration of the delay.</p>
-      <pre class="nohighlight"><code>ex:PDH a dpv:RightNonFulfilmentNotice;
+      <p>The following example uses the justification <code>HighVolumeOfProcesses</code> to represent a high volume of similar processes or requests causing a delay in fulfilling the rights request. The concept <code>dpv:hasDuration</code> is used to indicate the duration of the delay.</p>
+      <pre class="nohighlight"><code>ex:PDH a dpv:RightNonFulfilmentNotice ;
   dpv:hasStatus dpv:RequestActionDelayed ;
   dpv:hasJustification justifications:HighVolumeOfProcesses ;
   dpv:hasDuration "P6M" .  # ISO 8601 6 Months</code></pre>
@@ -151,9 +151,9 @@
     <section id="vocab-justifications-exercise">
       <h3>Exercise</h3>
       <p>To indicate why a particular process must be undertaken or is being requested, the justifications are represented using the concept <code>ExerciseJustification</code>.</p>
-    <aside class="example" title="Excercising the right to rectification with contesting accuracy of information as justification">
+    <aside class="example" title="Exercising the right to rectification with contesting accuracy of information as justification">
       <p>The following example shows the justification <code>ContestAccuracy</code> representing contesting the accuracy of information or process to justify why the right to rectification as per GDPR Article 16 is being exercised. The information in question is represented using <code>dpv:hasPersonalData</code>, with two processes indicating which data should be deleted and the correction.</p>
-      <pre class="nohighlight"><code>ex:PDH a dpv:RightExerciseActivity, eu-gdpr:A16;
+      <pre class="nohighlight"><code>ex:PDH a dpv:RightExerciseActivity, eu-gdpr:A16 ;
   dpv:hasStatus dpv:RequestInitiated ;
   dpv:hasJustification justifications:ContestAccuracy ;
   dpv:hasProcess [
