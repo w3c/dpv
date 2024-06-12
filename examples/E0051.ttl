@@ -1,0 +1,31 @@
+ex:PDH1 a dpv:Process ;
+    dpv:hasProcessing dpv:Collect ;
+    dpv:hasPersonalData pd:Location ;
+    dpv:hasDuration [
+        a dpv:TemporalDuration ;
+        rdf:value "P6M"^^xsd:duration ; 
+    ] ;
+    # various ways to indicate frequencies
+    dpv:hasFrequency [
+        a dpv:SingularFrequency ; # data will be collected exactly once
+            # combined with duration - once sometime in 6 months
+    ] ;
+    dpv:hasFrequency [
+        a dpv:ContinousFrequency ; # data will be continously collected
+            # combined with duration - continous collection for 6 months
+    ] ;
+    dpv:hasFrequency [
+        a dpv:SporadicFrequency ; # data will be sporadically collected
+            # combined with duration - collected sporadically across 6 months
+        # optionally, the 'frequency' of sporadic collection can also be
+        # expressed as a duration i.e. a preiod
+        rdf:value "10"^^xsd:duration ; # 10 times (across 6 months)
+    ] ;
+    dpv:hasFrequency [
+        a dpv:OftenFrequency ; # often is qualitatively more than sporadic
+        rdf:value "1" ; # frequency can also be expressed as occurences
+        dpv:hasDuration [ # combined with a duration
+            a dpv:TemporalDuration ; 
+            rdf:value "P1D"^^xsd:duration ;
+        ] ; # the result is: once per day for 6 months (from outer duration)
+    ] .

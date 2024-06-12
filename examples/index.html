@@ -1731,6 +1731,381 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
   </aside>
 
         </section>
+        <section id="E0050">
+          <h4><strong><i>E0050</i>:</strong> Specifying duration</h4>
+            <aside class="example" title="Specifying duration">
+<p>This example shows the various ways in which duration can be expressed - as a period of time (6months), as an end date, or as a fixed number of occurences, or until an event occurs. The example also show some &#39;bad practices&#39; where the information is expressed directly as strings - and instead shows the benefits of providing semantic information to explicitly indicate what kind of a duration it is which is necessary for unambiguous interpretations.    <pre class="nohighlight"><code>ex:PDH1 a dpv:Process ;
+    dpv:hasProcessing dpv:Collect ;
+    dpv:hasPersonalData pd:Location ;
+    dpv:hasDuration &#34;P6M&#34; ; # 6 months
+    dpv:hasDuration [
+        a dpv:TemporalDuration ;
+        rdf:value &#34;P6M&#34;^^xsd:duration ; # 6 months - same as above, 
+            # but more explicit that this is a duration
+    ] ;
+    dpv:hasDuration &#34;2023-12-31&#34; ;
+    dpv:hasDuration [
+        a dpv:UntilTimeDurationdt ;
+        rdf:value &#34;2023-12-31&#34;^^xsd:date ; # same as above, 
+            #  but more explicit that this is an end date
+    ] ;
+    dpv:hasDuration &#34;1 time&#34;@en ; # bad practice - not machine-readable
+    dpv:hasDuration [
+        a dpv:FixedOccurencesDuration ; # good practice - unambigious
+        rdf:value &#34;1&#34;^^xsd:int ; 
+    ] ;
+    dpv:hasDuration &#34;until account closure&#34;@en ; # bad practice
+    dpv:hasDuration [
+        a dpv:UntilEventDuration ; # good practice - specifies an event
+        rdf:value &#34;Until Account Closure&#34;@en ; 
+    ] .        
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0050"><code>E0050</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0050.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0051">
+          <h4><strong><i>E0051</i>:</strong> Specifying frequency</h4>
+            <aside class="example" title="Specifying frequency">
+<p>This example shows the various ways in which frequency can be expressed, including combining frequency with duration to express complex information such as once per day for 6 months    <pre class="nohighlight"><code>ex:PDH1 a dpv:Process ;
+    dpv:hasProcessing dpv:Collect ;
+    dpv:hasPersonalData pd:Location ;
+    dpv:hasDuration [
+        a dpv:TemporalDuration ;
+        rdf:value &#34;P6M&#34;^^xsd:duration ; 
+    ] ;
+    # various ways to indicate frequencies
+    dpv:hasFrequency [
+        a dpv:SingularFrequency ; # data will be collected exactly once
+            # combined with duration - once sometime in 6 months
+    ] ;
+    dpv:hasFrequency [
+        a dpv:ContinousFrequency ; # data will be continously collected
+            # combined with duration - continous collection for 6 months
+    ] ;
+    dpv:hasFrequency [
+        a dpv:SporadicFrequency ; # data will be sporadically collected
+            # combined with duration - collected sporadically across 6 months
+        # optionally, the &#39;frequency&#39; of sporadic collection can also be
+        # expressed as a duration i.e. a preiod
+        rdf:value &#34;10&#34;^^xsd:duration ; # 10 times (across 6 months)
+    ] ;
+    dpv:hasFrequency [
+        a dpv:OftenFrequency ; # often is qualitatively more than sporadic
+        rdf:value &#34;1&#34; ; # frequency can also be expressed as occurences
+        dpv:hasDuration [ # combined with a duration
+            a dpv:TemporalDuration ; 
+            rdf:value &#34;P1D&#34;^^xsd:duration ;
+        ] ; # the result is: once per day for 6 months (from outer duration)
+    ] .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0051"><code>E0051</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0051.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0052">
+          <h4><strong><i>E0052</i>:</strong> Specifying necessity and importance in context</h4>
+            <aside class="example" title="Specifying necessity and importance in context">
+<p>This example shows a process where email address is required to be collected, and name can be optionally collected. Note that the necessity applies to the entire process i.e. both personal data and the collect processing operation. It also provides an indication of the importance of the process - for example to indicate which processes are important for the organisation (primary importance) and which are not as important or are not crucial (secondary importance).    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    dpv:hasProcess [
+        a dpv:Process ;
+        dpv:hasProcessing dpv:Collect ;
+        dpv:hasPersonalData pd:EmailAddress ;
+        dpv:hasNecessity dpv:Required ;
+        dpv:hasImportance dpv:PrimaryImportance ;
+    ] ;
+    dpv:hasProcess [
+        a dpv:Process ;
+        dpv:hasProcessing dpv:Collect ;
+        dpv:hasPersonalData pd:Name ;
+        dpv:hasNecessity dpv:Optional ;
+        dpv:hasImportance dpv:SecondaryImportance ;
+    ] ;
+]. 
+
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0052"><code>E0052</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0052.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0053">
+          <h4><strong><i>E0053</i>:</strong> Specifying applicability of information</h4>
+            <aside class="example" title="Specifying applicability of information">
+<p>This example show how the unavailability, or non-applicability, or unknown applicability of information can be expressed using the Applicability concepts. Note that such situations may represent risks or issues that may require additional attention e.g. where the information is unknown, further steps should be taken to determine the exact applicability.    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    # information about personal data is not available at the moment
+    dpv:hasPersonalData dpv:NotAvailable ; 
+    # personal data is not involved, so we specify not applicable
+    dpv:hasPersonalData dpv:NotApplicable ;
+    # we don&#39;t know yet if personal data is invovled - so it is unknown
+    dpv:hasPersonalData dpv:UnknownApplicability ;
+    # another way to indicate applicability - we know some personal data
+    # is involved but we don&#39;t know anything more about it
+    dpv:hasPersonalData [
+        a dpv:PersonalData ;
+        dpv:hasApplicability dpv:NotAvailable ;
+    ] .
+
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0053"><code>E0053</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0053.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0054">
+          <h4><strong><i>E0054</i>:</strong> Specifying status associated with activities</h4>
+            <aside class="example" title="Specifying status associated with activities">
+<p>This example shows two processes as &#39;activities&#39; with the status as ongoing and proposed. The proposed activity can be useful to get an audit or approval or indicate future plans.    <pre class="nohighlight"><code>ex:PDH1 a dpv:Process ;
+    dpv:hasPersonalData pd:EmailAddress ;
+    dpv:hasPurpose dpv:ServiceProvision ;
+    dpv:hasActivityStatus dpv:ActivityOngoing .
+
+ex:PDH2 a dpv:Process ;
+    dpv:hasPersonalData pd:Biometric ;
+    dpv:hasPurpose dpv:IdentityVerification ;
+    dpv:hasActivityStatus dpv:ActivityProposed .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0054"><code>E0054</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0054.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0055">
+          <h4><strong><i>E0055</i>:</strong> Specifying compliance status and lawfulness</h4>
+            <aside class="example" title="Specifying compliance status and lawfulness">
+<p>This example shows the compliance status associated with activities in terms of the organisation&#39;s policies and for the EU GDPR obligations. It shows how compliance issues and lawfulness can be documented as a status associated with a process. For GDPR, it uses the concepts from EU-GDPR extension regarding lawfulness.    <pre class="nohighlight"><code>ex:PDH1 a dpv:Process ;
+    dpv:hasComplianceStatus dpv:Compliant ;
+    # to indicate compliance with a policy
+    dpv:hasStatus [
+        dpv:hasPolicy dpv:Policy ;
+        dpv:hasComplianceStatus dpv:Compliant ;
+    ] ;
+    # to indicate compliance with a law
+    dpv:hasComplianceStatus [
+        a dpv:PartiallyCompliant ;
+        dpv:hasApplicableLaw legal-eu:GDPR ;
+    ] ;
+    # to highlight issues in compliance 
+    dpv:hasComplianceStatus [
+        a dpv:ComplianceViolation ;
+        dpv:hasApplicableLaw legal-eu:GDPR ;
+        dct:description &#34;Records of Processing Activities are not updated&#34;@en ;
+        dct:subject &#34;GDPR Article 30&#34;@en ;
+    ] .
+
+ex:PDH2 a dpv:Process ;
+    dpv:hasLawfulness dpv:Lawful ; # doesn&#39;t indicate which law
+    dpv:hasLawfulness [
+        a dpv:Lawful ; # lawful for GDPR
+        dpv:hasApplicableLaw legal-eu:GDPR ;
+    ] ;
+    dpv:hasLawfulness [
+        a dpv:Lawful ; # lawful for GDPR Article 30
+        dpv:hasApplicableLaw legal-eu:GDPR ;
+        dct:subject &#34;GDPR Article 30&#34;@en ;
+    ] ;
+    # using the EU-GDPR extension 
+    dpv:hasLawfulness eu-gdpr:GDPRCompliant ;
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0055"><code>E0055</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0055.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0056">
+          <h4><strong><i>E0056</i>:</strong> Specifying the audit status assocaited with a DPIA</h4>
+            <aside class="example" title="Specifying the audit status assocaited with a DPIA">
+<p>This example shows how a DPIA can be documented as an audit - including a status that indicates audit is needed, and maintaining logs for how the DPIA was approved.    <pre class="nohighlight"><code>ex:PDH a dpv:DPIA ;
+    dct:subject ex:CorpService ; # DPIA covering Corp. Service
+    dct:date &#34;2024-01-01&#34;^^xsd:date ;
+    dct:conformsTo ex:OrgPolicy ;
+    dpv:hasAuditStatus dpv:AuditRequired ; # an audit is requred 
+    dpv:hasAuditStatus dpv:AuditApproved ; # status if no details are needed
+    # or to specify more details about the audit
+    dpv:hasAuditStatus [
+        a dpv:AuditRequested ;
+        dct:date &#34;2024-01-31&#34;^^xsd:date ; # date of approval
+    ] .
+    dpv:hasAuditStatus [
+        a dpv:AuditConditionallyApproved ;
+        dct:date &#34;2024-03-31&#34;^^xsd:date ; # date of approval
+    ] .
+    dpv:hasAuditStatus [
+        a dpv:AuditRequested ;
+        dct:date &#34;2024-05-31&#34;^^xsd:date ; # date of approval
+    ] .
+    dpv:hasAuditStatus [
+        a dpv:AuditApproved ;
+        dct:date &#34;2024-07-31&#34;^^xsd:date ; # date of approval
+    ] .
+        
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0056"><code>E0056</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0056.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0057">
+          <h4><strong><i>E0057</i>:</strong> Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure</h4>
+            <aside class="example" title="Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure">
+<p>The following example describes a GDPR Article 20 Data Portability request not being fulfilled due to identity verification failure. The dpv:RequestRequiresAction concept indicates further action is required - specifically to provide identity documents.    <pre class="nohighlight"><code>ex:PDH a dpv:RightExerciseRecord ;
+  dpv:hasStatus dpv:RequestRequiresAction ;
+  dpv:hasJustification justifications:IdentityVerificationFailure ;
+  dpv:hasProcess [
+    a dpv:Process ;
+    dpv:hasProcessing dpv:Share ;
+    dpv:hasPersonalData dpv:IdentifyingPersonalData ;
+    dpv:isImplementedByEntity dpv:DataSubject ;
+    ] .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0057"><code>E0057</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0057.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0058">
+          <h4><strong><i>E0058</i>:</strong> Expressing a right exercise request is delayed due to high volume of requests</h4>
+            <aside class="example" title="Expressing a right exercise request is delayed due to high volume of requests">
+<p>The following example uses the justification HighVolumeOfProcesses to represent a high volume of similar processes or requests causing a delay in fulfilling the rights request. The concept dpv:hasDuration is used to indicate the duration of the delay.    <pre class="nohighlight"><code>ex:PDH a dpv:RightNonFulfilmentNotice ;
+  dpv:hasStatus dpv:RequestActionDelayed ;
+  dpv:hasJustification justifications:HighVolumeOfProcesses ;
+  dpv:hasDuration &#34;P6M&#34; .  # ISO 8601 6 Months
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0058"><code>E0058</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0058.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0059">
+          <h4><strong><i>E0059</i>:</strong> Exercising the right to rectification with contesting accuracy of information as justification</h4>
+            <aside class="example" title="Exercising the right to rectification with contesting accuracy of information as justification">
+<p>The following example shows the justification ContestAccuracy representing contesting the accuracy of information or process to justify why the right to rectification as per GDPR Article 16 is being exercised. The information in question is represented using dpv:hasPersonalData, with two processes indicating which data should be deleted and the correction.    <pre class="nohighlight"><code>ex:PDH a dpv:RightExerciseActivity, eu-gdpr:A16 ;
+  dpv:hasStatus dpv:RequestInitiated ;
+  dpv:hasJustification justifications:ContestAccuracy ;
+  dpv:hasProcess [
+    a dpv:Process ;
+    dpv:hasPersonalData [ a pd:EmailAddress ; rdf:value &#34;x@x.com&#34; ;]
+    dpv:hasProcessing dpv:Delete ;
+  ];
+  dpv:hasProcess [
+    a dpv:Process ;
+    dpv:hasPersonalData [ a pd:EmailAddress ; rdf:value &#34;y@y.com&#34; ;]
+    dpv:hasProcessing dpv:Store ;
+  ] .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0059"><code>E0059</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0059.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0060">
+          <h4><strong><i>E0060</i>:</strong> Specifying the location of a process</h4>
+            <aside class="example" title="Specifying the location of a process">
+<p>The following example shows the use of LOC extension to express the location of a process. It also shows how the location fixture and locality concepts are useful to indicate information such as data will be stored locally and shared to a remote cloud server.    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+    # specifying the location and jurisdiction using the LOC extension
+    dpv:hasLocation loc:IE ; # process takes place in Ireland
+    dpv:hasJurisdiction loc:IE, loc:EU ; # under Irish and EU jurisdictions
+    # specifying data transfer to a third country
+    dpv:hasProcessing [
+        a dpv:Transfer ;
+        dpv:hasLocation loc:USA ;
+    ] ;
+    dpv:hasProcessing [
+        # or explicitly specifying USA as a third country
+        # for cross-border data transfer
+        a dpv:CrossBorderTransfer ;
+        dpv:hasThirdCountry loc:USA ;
+    ] ;
+    dpv:hasProcessing [
+        a dpv:Store ; # data is stored within device
+        dpv:hasLocation dpv:WithinDevice ;
+    ] ;
+    dpv:hasStorageCondition [ # same as above, but expressed as a condition
+        a dpv:StorageLocation ;
+        dpv:hasLocation dpv:WithinDevice ;
+    ] ;
+    dpv:hasProcessing [
+        a dpv:Transfer ; # data is transferred to a cloud service location
+        dpv:hasLocation dpv:CloudLocation ;
+        dpv:isImplementedByUsingTechnology tech:CloudService ;
+        dpv:isImplementedByEntity &lt;https://www.hetzner.com/&gt; ;
+    ] . 
+    
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0060"><code>E0060</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0060.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0061">
+          <h4><strong><i>E0061</i>:</strong> Associating justifications with right exercise non-fulfilment</h4>
+            <aside class="example" title="Associating justifications with right exercise non-fulfilment">
+<p>The following example represents a notice outlining a failure to complete a GDPR Data Portability request due to identity verification failure.    <pre class="nohighlight"><code>ex:PDH a dpv:RightNonFulfilmentNotice ;
+  dct:dateSubmitted &#34;2024-01-01&#34;^^xsd:date ;
+  dct:publisher ex:SomeController ;
+  dpv:hasRight eu-gdpr:A20 ;
+  dpv:hasJustification justifications:IdentityVerificationFailure .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0061"><code>E0061</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0061.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0062">
+          <h4><strong><i>E0062</i>:</strong> Using justifications across categories</h4>
+            <aside class="example" title="Using justifications across categories">
+<p>The justification concept ComplexityOfProcess represents a reason to delay a process due to the complexity of fulfilling it. To instead use it as a justification for not fulfilling the process, we create a new justification that combines the complexity of process and non-fulfilment categories.    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
+  dpv:hasJustification [
+    a dpv:Justification ;
+    skos:broader justifications:ComplexityOfProcess ;
+    skos:broader justifications:NonFulfilmentJustification ;
+    skos:prefLabel &#34;Process could not be fulfilled due to complexity&#34;@en ;
+  ] .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0062"><code>E0062</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0062.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0063">
+          <h4><strong><i>E0063</i>:</strong> Expressing data breach notifications to data subjects are not required using a justification</h4>
+            <aside class="example" title="Expressing data breach notifications to data subjects are not required using a justification">
+<p>The justification RightsFreedomsImpactUnlikely represents an unlikely impact on rights and freedoms, which can be used as a justification to not provide data subjects with a notification about a data breach involving their personal data as per GDPR Article 35-3b.    <pre class="nohighlight"><code>ex:PDH a risk:DataBreachReport ;
+  dpv:hasStatus eu-gdpr:BreachNotificationNotNeeded ;
+  dpv:hasJustification justifications:RightsFreedomsImpactUnlikely .</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0063"><code>E0063</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0063.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+        </section>
     </section>
 
     <section id="funding-acknowledgements" class="notoc">

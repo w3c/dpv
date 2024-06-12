@@ -1,0 +1,30 @@
+ex:PDH a dpv:Process ;
+    # specifying the location and jurisdiction using the LOC extension
+    dpv:hasLocation loc:IE ; # process takes place in Ireland
+    dpv:hasJurisdiction loc:IE, loc:EU ; # under Irish and EU jurisdictions
+    # specifying data transfer to a third country
+    dpv:hasProcessing [
+        a dpv:Transfer ;
+        dpv:hasLocation loc:USA ;
+    ] ;
+    dpv:hasProcessing [
+        # or explicitly specifying USA as a third country
+        # for cross-border data transfer
+        a dpv:CrossBorderTransfer ;
+        dpv:hasThirdCountry loc:USA ;
+    ] ;
+    dpv:hasProcessing [
+        a dpv:Store ; # data is stored within device
+        dpv:hasLocation dpv:WithinDevice ;
+    ] ;
+    dpv:hasStorageCondition [ # same as above, but expressed as a condition
+        a dpv:StorageLocation ;
+        dpv:hasLocation dpv:WithinDevice ;
+    ] ;
+    dpv:hasProcessing [
+        a dpv:Transfer ; # data is transferred to a cloud service location
+        dpv:hasLocation dpv:CloudLocation ;
+        dpv:isImplementedByUsingTechnology tech:CloudService ;
+        dpv:isImplementedByEntity <https://www.hetzner.com/> ;
+    ] . 
+    
