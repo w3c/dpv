@@ -1,5 +1,5 @@
-%{% from 'macro_term_table.jinja2' import index_concepts %}
-%{% from 'macro_term_table.jinja2' import list_hierarchy %}
+{% from 'macro_term_table.jinja2' import index_concepts %}
+{% from 'macro_term_table.jinja2' import list_hierarchy %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_example.jinja2' import example_aside %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
@@ -53,25 +53,22 @@
 <body>
 {% block ABSTRACT %}
     <section id="abstract">
-      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
-      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      <p>This document provides additional details and examples for technical and organisational measures in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
       {{ sotd() }}
       {{ dpv_document_family(document='dpv-spec') }}
       
     </section>
 {% endblock ABSTRACT %}
-  <section id="introduction">
+  <section id="vocab-TOM">
     <h2>Introduction</h2>
-    <blockquote>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</blockquote>
-    <div class="issue" title="Review section descriptions"></div>
   <figure>
     <a href="../../media/techorgmeasures-2.png" target="_blank">
       <img title="Overview of Technical & Organisational Measures taxonomy in DPV" src="../../media/techorgmeasures-2.png">
     </a>
     <figcaption>Overview of Technical & Organisational Measures taxonomy in DPV (click to open in new window)</figcaption>
   </figure>
-  <p>DPV's taxonomy of tech/org measures are structured into two groups representing and [=TechnicalMeasure=] and [=OrganisationalMeasure=] along with specific properties for each. Each term has a dedicated taxonomy that expands upon the core idea to provide a rich list of technial and organisational measures that are intended to protect personal data (and its associated entities and consequences).</p>
-  <p>This taxonomy also includes relations that are associated with measures, such as [=hasNotice=] or [=hasPolicy=], which are generic and can be applied to other contexts (e.g. notice for consent, policy for data storage).</p>
+  <p>DPV's taxonomy of tech/org measures are structured into four groups representing [=TechnicalMeasure=] such as encryption or deidentification which operate at a technical level, [=OrganisationalMeasure=] such as policies and training which operate at an organisational level, [=LegalMeasure=] which are organisational measures with legal enforcement such as contracts and NDAs, and [=PhysicalMeasure=] which are associated with physical aspects such as environmental protection and physical security. Each of these is provided with a taxonomy that expands upon the core idea to provide a rich list of measures that are intended to protect personal data and technologies (and its associated entities and consequences).</p>
+  <p>To indicate applicability of measures, the relations [=hasTechnicalMeasure=], [=hasOrganisationalMeasure=], [=hasLegalMeasure=], and [=hasPhysicalMeasure=] are provided. In addition to these, specific relations are also provided for concepts commonly used or which are important for legal considerations - such as [=hasNotice=] and [=hasPolicy=].</p>
   {{ list_hierarchy(modules['TOM']['classes']) }}
   </section>
 
@@ -83,43 +80,12 @@
     </a>
     <figcaption>Overview of Technical Measures taxonomy in DPV (click to open in new window)</figcaption>
   </figure>
+    <p>Technical measures refer to measures that are implemented at a technical level. They are represented by the concept [=TechnicalMeasure=] and are indicated using the relation [=hasTechnicalMeasure=]. Concepts provided to represent commonly used technical measures include [=AccessControlMethod=], [=AuthenticationProtocols=], [=AuthorisationProtocols=], [=CryptographicMethods=], [=DataBackupProtocols=], [=DigitalRightsManagement=], [=Encryption=], and  [=SecurityMethod=].</p>
+    <p>To express information about the technology implementing the technical measure, the concept `Technology` can be associated by using the relation `isImplementedUsingTechnology`. The [[TECH]] extension provides further concepts to represent technologies and their development and provision.</p>
   {{ list_hierarchy(modules['TOM-technical']['classes']) }}
+    {{ example_aside('dex:E0064') }}
+    {{ example_aside('dex:E0020') }}
 
-    <section>
-      <h3>Access Control</h3>
-      <div class="issue" title="Content missing - Access Control"></div>
-      {{ example_aside('dex:E0016') }}
-    </section>
-
-    <section>
-      <h3>Authentication</h3>
-      <div class="issue" title="Content missing - Authentication"></div>
-    </section>
-
-    <section>
-      <h3>Cryptographic Methods</h3>
-      <div class="issue" title="Content missing - Cryptographic Methods"></div>
-    </section>
-
-    <section>
-      <h3>Data Backup</h3>
-      <div class="issue" title="Content missing - Data Backup"></div>
-    </section>
-
-    <section>
-      <h3>Sanitisation/Anonymisation</h3>
-      <div class="issue" title="Content missing - Sanitisation/Anonymisation"></div>
-    </section>
-
-    <section>
-      <h3>Encryption</h3>
-      <div class="issue" title="Content missing - Encryption"></div>
-    </section>
-
-    <section>
-      <h3>Security</h3>
-      <div class="issue" title="Content missing - Security"></div>
-    </section>
   </section>
   
   <section id="vocab-TOM-organisational">
@@ -130,68 +96,69 @@
     </a>
     <figcaption>Overview of Organisational Measures taxonomy in DPV (click to open in new window)</figcaption>
   </figure>
+  <p>Organisational Measures, represented by the concept [=OrganisationalMeasure=], are measures that are undertaken at an organisational level i.e. by the human involved within the organisation. They involve aspects such as performing assessments, consultations, establishing governance procedures, providing notices, contracts, policies, record keeping, and other similar activities. Though such activities can utilise technologies to support their implementations, the measure is still primary categorised as being associated with 'organisational activities'. Organisational measure are indicated by using the relation [=hasOrganisationalMeasure=].</p>
   {{ list_hierarchy(modules['TOM-organisational']['classes']) }}
-  </section>
+  {{ example_aside('dex:E0021') }}
 
   <section>
       <h3>Assessments</h3>
-      <div class="issue" title="Content missing - Assessments"></div>
-    </section>
-
-    <section>
-      <h3>Consultations</h3>
-      <div class="issue" title="Content missing - Consultations"></div>
-    </section>
-
-    <section>
-      <h3>Governance Procedures</h3>
-      <div class="issue" title="Content missing - Governance Procedures"></div>
-    </section>
-
-    <section>
-      <h3>Guidelines/Codes of Conduct</h3>
-      <div class="issue" title="Content missing - Guidelines/Codes of Conduct"></div>
-    </section>
-
-    <section>
-      <h3>Legal Agreements/Contracts</h3>
-      <div class="issue" title="Content missing - Legal Agreements/Contracts"></div>
+      <p>[=Assessment=] refers to a document, plan, or process for assessment or determination towards a purpose. For example, legal compliance assessment establishes compliance with the law and lawfulness. Similarly, privacy assessments concern privacy, risk assessments concern risks, and impact assessments concern impacts of operations and technologies. To represent such commonly utilised assessments, DPV provides the following concepts:</p>
+      <ul>
+        <li>[=ComplianceAssessment=] and its extended concept [=LegalComplianceAssessment=] for compliance and legal compliance related assessments e.g. with a particular law</li>
+        <li>[=ConformanceAssessment=] for assessment of conformance e.g. towards a standard or guideline</li>
+        <li>[=DataInteroperabilityAssessment=] to assess the interoperability of data, such as that required by regulations like [[DGA]]</li>
+        <li>[=DataQualityAssessment=] for assessment of data quality</li>
+        <li>[=EffectivenessDeterminationProcedures=] for assessment of the effectiveness of other measures or activities</li>
+        <li>[=LegitimateInterestAssessment=] to assess the legitimate interests used (as a legal basis) to justify the activity </li>
+      </ul>
+      <p>Assessments which refer to risks and/or impacts, such as risk assessment, privacy impact assessment, data protection impact assessment, and data breach impact assessment are defined in the 'risk' module within DPV due to their role within the risk management processes.</p>
     </section>
 
     <section>
       <h3>Notices</h3>
-      <div class="issue" title="Content missing - Notices"></div>
+      <p>[=Notice=] represents notification of information i.e. providing information about something to an entity. Notices are commonly used to communicate in situations such as providing information about privacy practices ([=PrivacyNotice=]), requests for informed consent ([=ConsentNotice=]), informing about security incidents ([=SecurityIncidentNotice=]) such as data breaches ([=DataBreachNotifice=]), or to describe the transfer of data ([=DataTransferNotice=]). Notices are associated by using the relation [=hasNotice=].</p>
+      {{ example_aside('dex:E0017') }}
+      {{ example_aside('dex:E0022') }}
     </section>
 
     <section>
       <h3>Policies</h3>
-      <div class="issue" title="Content missing - Policies"></div>
+      <p>[=Policy=] represents a guidance document outlining procedures, plans, principles, decisions, intent, or protocols. It is associated using the relation [=hasPolicy=]. DPV provides concepts to represent policies regarding:</p>
+      <ul>
+        <li>[=DataProcessingPolicy=] for specifying how data processing takes place - including [=DataDeletionPolicy=], [=DataErasurePolicy=], [=DataRestorationPolicy=], and [=DataStoragePolicy=].</li>
+        <li>In addition to the above data related policies, DPV also defines [=DataJurisdictionPolicy=] to specify jurisdictional requirements, and [=DataReusePolicy=] for specifying how data can be further used for purposes other than its initial purpose.</li>
+        <li>[=InformationSecurityPolicy=] regarding information security</li>
+        <li>[=LoggingPolicy=] regarding logging of information (i.e. maintaining logs and records as a technical concept).</li>
+        <li>[=MonitoringPolicy=] for how something should be monitored e.g. other policies and activities.</li>
+        <li>[=RecertificationPolicy=] for how often or when certification should be renewed or checked for conformance.</li>
+      {{ example_aside('dex:E0055') }}
     </section>
 
     <section>
       <h3>Record Keeping</h3>
-      <div class="issue" title="Content missing - Record Keeping"></div>
+      <p>To support record keeping, the concept [=RecordsOfActivities=] is provided. Specific records are represented with the concepts:</p>
+      <ul>
+        <li>[=DataBreachRecord=] for data breach records</li>
+        <li>[=DataProcessingRecord=] for records about data processing activities, including [=ConsentRecord=], [=DataTransferRecord=], [=SecurityIncidentRecord=], and [=ROPA=] (Records of Processing Activities) - which is a specific document required by regulations such as GDPR.</li>
+      </ul>
+      <aside class="note" title="Guide on implementing Consent Records using DPV">
+        <p>See the [[[GUIDE-Consent-27560]]] guidance on implementing consent records with DPV based on the ISO/IEC TS 27560:2023 technical specification.</p>
+      </aside>
+      {{ example_aside('dex:E0023') }}
     </section>
 
-    <section>
-      <h3>Security Procedures</h3>
-      <div class="issue" title="Content missing - Security Procedures"></div>
-    </section>
-
-    <section>
-      <h3>Staff Training</h3>
-      <div class="issue" title="Content missing - Staff Training"></div>
-    </section>
 </section>
 
   <section>
     <h2>Legal Measures</h2>
-    <div class="issue" title="Content missing - Legal Measures"></div>
+    <p>[=LegalMeasure=] represents organisational measures which have a legal enforcement mechanism or are legally defined/interpreted. For example, through contracts, NDAs, agreements. They are associated by using [=hasLegalMeasure=].</p>
+    {{ list_hierarchy(modules['TOM-legal']['classes']) }}
   </section>
 
   <section>
     <h2>Physical Measures</h2>
-    <div class="issue" title="Content missing - Physical Measures"></div>
+    <p>[=PhysicalMeasure=] represents measures that have a physical implementation - such as physical access control or environment controls for floods, power outages, etc. They are associated by using [=hasPhysicalMeasure=].</p>
+    {{ list_hierarchy(modules['TOM-physical']['classes']) }}
   </section>
 
 <section>
