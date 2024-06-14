@@ -1,6 +1,7 @@
 {% from 'macro_term_table.jinja2' import index_concepts %}
 {% from 'macro_term_table.jinja2' import list_hierarchy %}
 {% from 'macro_term_table.jinja2' import table_properties, anchor %}
+{% from 'macro_example.jinja2' import example_aside %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
@@ -52,42 +53,48 @@
 <body>
 {% block ABSTRACT %}
     <section id="abstract">
-      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
-      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      <p>This document provides additional details and examples for contextual concepts such as durations, frequencies, and locations used in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
       {{ sotd() }}
 {{ dpv_document_family(document='dpv-spec') }}
       
     </section>
 {% endblock ABSTRACT %}
-  <section id="introduction">
+  <section id="vocab-legal-basis">
     <h2>Introduction</h2>
-    <blockquote>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</blockquote>
-    <div class="issue" title="Review section descriptions"></div>
   <figure>
     <img src="../../media/legal_bases.png">
     <figcaption>Legal Bases in DPV</figcaption>
   </figure>
   <p>DPV provides the following categories of legal bases based on [[GDPR]] Article 6: consent of the data subject, contract, compliance with legal obligation, protecting vital interests of individuals, legitimate interests, public interest, and official authorities. Though derived from GDPR, these concepts can be applied for other jurisdictions and general use-cases. The legal bases are represented by the concept [=LegalBasis=] and associated using the relation [=hasLegalBasis=].</p>
 
-  <p>When declaring a legal basis, it is important to denote under what law or jurisdiction that legal basis applies. For instance, using {{anchor('dpv:Consent')}} as a legal basis has different obligations and requirements in EU (i.e. [[GDPR]]) as compared to other jurisdictions. Therefore, unless the information is to be implicitly interpreted through some specific legal lens or jurisdictional law, DPV recommends indicating the specific law or legal clause associated with the legal basis so as to scope its interpretation. This can be done using the relation {{anchor('dpv:hasJurisdiction')}} or {{anchor('dpv:hasApplicableLaw')}}.</p>
-
-  <p>For GDPR, DPVCG provides the [[[EU-GDPR]]] which defines the legal bases within [[GDPR]] by extending them from relevant concepts within the DPV. We welcome similar contributions for extending the GDPR extension as well as creating extensions for other laws and domains.</p>
+  <p>When declaring a legal basis, it is important to denote under what law or jurisdiction that legal basis applies. For instance, using {{anchor('dpv:Consent')}} as a legal basis has different obligations and requirements in EU (i.e. [[GDPR]]) as compared to other jurisdictions. Therefore, unless the information is to be implicitly interpreted through some specific legal lens or jurisdictional law, DPV recommends indicating the specific law or legal clause associated with the legal basis so as to scope its interpretation. This can be done using the relation {{anchor('dpv:hasJurisdiction')}} or {{anchor('dpv:hasApplicableLaw')}}. The list of available laws and their representation as extensions in DPV can be seen in the [[LEGAL]] extension.</p>
   
   {{ list_hierarchy(modules['legal_basis']['classes']) }}
+
+  {{ example_aside('dex:E0014') }}
+
+  <aside class="issue" data-number="111"></aside>
 
   </section>
 
   <section id="desc-contract">
     <h3>Contract</h3>
-    <div class="issue" title="Content missing - Contract"></div>
+    <p>[=Contract=] as a legal basis covers activities associated with creation of the contract ([=EnterIntoContract=]) and the performance of the contract [=ContractPerformance=]. Metadata associated with the contract such as date, time, subject, etc. can be represented using [[[DCT]]].</p>
+    <p>Contracts are also a `dpv:LegalMeasure` that can be used by organisations to enforce obligations e.g. by a controller on a processor. Similarly, contracts can also be 'agreements' e.g. between a controller and a processor, where the processor uses this agreement as a legal basis to process personal data.</p>
+    <aside class="note" title="Extending the contract concepts in DPV">
+      <p>The current state of DPV does not enable modelling aspects of contracts such as the involved 'parties' or the specific 'clauses' and 'terms' of the contract as defined in legal procedures. This can be done by using other resources such as <a href="https://spec.edmcouncil.org/fibo/">Financial Industry Business Ontology</a>. We are also exploring adapting existing efforts from the <a href="https://smashhiteu.github.io/smashHitCore/">SmashHit project</a> which models contract concepts and uses DPV.</p>
+    </aside>
+
+    {{ example_aside('dex:E0041') }}
   </section>
 
   <section id="desc-legal-obligation">
     <h3>Legal Obligation</h3>
-    <div class="issue" title="Content missing - Legal Obligation"></div>
+    <p>[=LegalObligation=] represents using the justification of an obligation to perform the activity as defined in law or required by a legal procedure such as a court or authority order. When using legal obligations as the legal basis, it is good practice (and necessary for its legality) to also define the specific law or legal mechanism under which the obligation is defined. This can be done using `dpv:hasApplicableLaw`.</p>
+    {{ example_aside('dex:E0042') }}
   </section>
 
-  <section id="desc-consent">
+  <section id="vocab-legal-basis-consent">
     <h3>Consent</h3>
       <figure>
       <a href="../../media/Consent.png"><img src="../../media/Consent.png"></a>
@@ -96,48 +103,64 @@
     <p>Consent in DPV is a specific legal basis representing <i>information associated with consent</i> rather than only <i>given consent</i>. Common information associated with consent includes tasks such as keeping track of whether "consent has been given/obtained", "issuing a consent request", and "withdrawing consent", as well as expressing requirements through terms such as "informed" and "explicit". To assist with representing these concepts as well as keeping records about how they are being applied, DPV provides the following consent concepts.</p>
     <ul>
       <li>[=Consent=] - a type of legal basis representing consent of the individual.</li>
-      <li><a href="#vocab-consent-types">Consent Types</a> - to represent criteria for consent, such as [=InformedConsent=] and [=ExplicitlyExpressedConsent=].</li>
-      <li><a href="#vocab-consent-status">Consent Status</a> - to represent and keep track of what state/status/stage the consenting process is at, for example indicating the journey or lifecycle from [=ConsentRequested=] to [=ConsentGiven=] and then [=ConsentWithdrawn=].</li>
-      <li><a href="vocab-consent-relations">Consent Relations</a> - to enable association of relevant information with consent, such as the notice used or provided, status of consent, or who indicated it.</li>
+      <li><a href="#vocab-legal-basis-consent-types">Consent Types</a> - to represent criteria for consent, such as [=InformedConsent=] and [=ExplicitlyExpressedConsent=].</li>
+      <li><a href="#vocab-legal-basis-consent-status">Consent Status</a> - to represent and keep track of what state/status/stage the consenting process is at, for example indicating the journey or lifecycle from [=ConsentRequested=] to [=ConsentGiven=] and then [=ConsentWithdrawn=].</li>
+      <li><a href="#vocab-legal-basis-consent-controls">Consent Controls</a> - to indicate information about how to obtain or provide or reaffirm consent.</li>
     </ul>
-    <p>To indicate the duration or validity of a given consent instance, the existing contextual relation {{anchor('dpv:hasDuration')}} along with specific forms of {{anchor('dpv:Duration')}} can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype {{anchor('dpv:UntilEventDuration')}} can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, {{anchor('dpv:UntilTimeDuration')}} indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and {{anchor('dpv:TemporalDuration')}} indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, {{anchor('dpv:EndlessDuration')}} can be used.</p>
-    <p>To specify consent provided by delegation, such as in the case of a parent or guardian providing consent for/with a child, the [=isIndicatedBy=] relation can be used to associate the parent or guardian responsible for providing consent (or its affirmation). Since by default the consent is presumed to be provided by the individual, when such individuals are associated with their consent, i.e. through {{anchor('dpv:hasDataSubject')}}, the additional information provided by [=isIndicatedBy=] can be considered redundant and is often omitted.</p>
-    <div class="issue" title="Content missing - Consent usage and examples"></div>
-    <div class="issue" title="Content missing - Link to ISO 27560"></div>
-    {{ list_hierarchy(modules['legal_basis-consent']['classes']) }}
+    <p>To indicate the duration or validity of a given consent instance, the existing contextual relation `dpv:hasDuration` along with specific forms of `dpv:Duration` can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype `dpv:UntilEventDuration` can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, `dpv:UntilTimeDuration` indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and `dpv:TemporalDuration` indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, `dpv:EndlessDuration` can be used. To indicate the notice used for informed consent, the concept `dpv:ConsentNotice` is provided, which can be used with the relation `dpv:hasNotice`.</p>
+    <p>To specify consent provided by delegation, such as in the case of a parent or guardian providing consent for/with a child, the `dpv:isIndicatedBy` relation can be used to associate the parent or guardian responsible for providing consent (or its affirmation). Since by default the consent is presumed to be provided by the individual, when such individuals are associated with their consent, i.e. through `dpv:hasDataSubject`, the additional information provided by `dpv:isIndicatedBy` can be considered redundant and is often omitted.</p>
+    <p>[=ConsentControl=] represents information about how to exercise a control regarding consent. To indicate how an organisation obtains consent, the concept [=ObtainConsent=] is provided. Its corresponding concept [=ProvideConsent=] specifies how a data subject can indicate their consent (decision). The concept [=ReaffirmConsent=] is used to indicate how to perform reaffirmation or confirmation of a previous control (e.g. provide or obtain consent). To associate consent controls, the relation [=hasConsentControl=] is provided. Consent controls are defined by extending relevant `dpv:EntityInvolvement` concepts `dpv:OptingIntoProcess` and `dpv:WithdrawingFromProcess`.</p>
 
-    <section id="vocab-consent-types">
+    {{ example_aside('dex:E0014') }}
+    {{ example_aside('dex:E0016') }}
+    <section id="vocab-legal-basis-consent-types">
       <h4>Consent Types</h4>
-      <div class="issue" title="Content missing - Consent Types"></div>
-      {{ list_hierarchy(modules['legal_basis-consent-types']['classes']) }}
+      {{ list_hierarchy(modules['legal_basis-consent-types']['classes'], head='dpv:Consent') }}
     </section>
 
-    <section id="vocab-consent-status">
+    <section id="vocab-legal-basis-consent-status">
       <h4>Consent Status</h4>
-      <div class="issue" title="Content missing - Consent Status"></div>
-      {{ list_hierarchy(modules['legal_basis-consent-status']['classes']) }}
+      {{ list_hierarchy(modules['legal_basis-consent-status']['classes'], head="dpv:ConsentStatus") }}
     </section>
 
+    <section id="vocab-legal-basis-consent-controls">
+      <h4>Consent Controls</h4>
+      <ol>
+        <li>[=ObtainConsent=] for controllers to obtain consent</li>
+        <li>[=ProvideConsent=] for data subjects to provide consent</li>
+        <li>[=WithdrawConsent=] for data subjects to withdraw consent</li>
+        <li>[=ReaffirmConsent=] for controllers and data subjects to reaffirm consent (use with [=ObtainConsent=] or [=ProvideConsent=])</li>
+      </ol>
+    </section>
+    <aside class="note" title="Guide on implementing consent records as per ISO/IEC TS 27560:2023">
+      <p>The [[[DPV-27560]]] provides guidance on creation of consent records following the [[[ISO-27560]]] standard.</p>
+    </aside>
+    <aside class="issue" data-number="91"></aside>
+    {{ example_aside('dex:E0018') }}
   </section>
 
   <section id="desc-legitimate-interest">
     <h3>Legitimate Interest</h3>
-    <div class="issue" title="Content missing - Legitimate Interest"></div>
+    <p>[=LegitimateInterest=] represents a 'legitimate' reason for the entity to carry out an activity. This reason can be about benefits to the entity, or risks/harms to another entity. Where such benefits or risks/harms can be considered to be of 'vital interest', the legal basis [=VitalInterest=] should be used. Where this benefit or risks/harms pertains to the wider society or general public, the legal basis [=PublicInterest=] should be used. Legitimate interests can be associated with the controller, or data subject, or third party, or other entities. As good practice (and for their legality), the relevant entity must always be specified. We recommend using a relevant property such as `dpv:hasDataController` for data controller's legitimate interest to specify this. If a relevant property is not present in DPV, `dpv:hasEntity` can be used.</p>
+    <p>[=LegitimateInterestOfController=] represents a legitimate interest of the controller - such as carrying out `dpv:FraudPreventionDetection`. [=LegitimateInterestOfDataSubject=] represents a legitimate interest of the data subject - such as having a copy of the transaction (data or agreement) that it is providing or keeping their own records. [=LegitimateInterestOfThirdParty=] represents a legitimate interest of a third party - for example to investigate  `dpv:CounterTerrorism` activities.</p>
+    {{ example_aside('dex:E0065') }}
   </section>
 
   <section id="desc-official-authority">
-    <h3>Official Authority</h3>
-    <div class="issue" title="Content missing - Official Authority"></div>
+    <h3>Official Authority of Controller</h3>
+    <p>[=OfficialAuthorityOfController=] represents the legal basis where the official authority vested in the controller (by law) is used as the justification for carrying out activities. Such official authority is provided to specific departments to enable them to carry out their duties - such as maintainence of tax records, or provision of postal serviecs. The relevant law should be indicated as part of the legal basis if needed by using `dpv:hasApplicableLaw`.</p>
   </section>
 
   <section id="desc-public-interest">
     <h3>Public Interest</h3>
-    <div class="issue" title="Content missing - Public Interest"></div>
+    <p>[=PublicInterest=] represents activities carried out because they are 'in the interest of the general public' or are necessary to 'provide benefit to the public', where such benefit might be actual benefits (e.g. archiving data of cultural importance) or prevention of harms (e.g. identify relevant medical conditions quickly to prevent an outbreak). We strongly recommend providing a description of the relevant 'benefits' when using this legal basis e.g. by using  `dpv:hasJustification` for contextual justifications associated with the benefit.</p>
   </section>
 
   <section id="desc-vital-interest">
     <h3>Protecting Vital Interests</h3>
-    <div class="issue" title="Content missing - Protecting Vital Interest"></div>
+    <p>[=VitalInterest=] represents activities that are necessary or required to protect vital interests of a data subject or other natural person. For more specific indication, [=VitalInterestOfNaturalPerson=] refers to vital interests of (any or a specific) natural person, and [=VitalInterestOfDataSubject=] represents vital interests of (any or a specific) data subject. As with [=PublicInterest=] and [=LegitimateInterest=], we strongly recommend specifying relevant information - the vital interest in this case - by using `dpv:hasJustification`. </p>
+
+
   </section>
 
 <section>
@@ -151,6 +174,8 @@
   {% set _ = module_combined.update(modules['legal_basis-consent-types']['properties']) %}
   {% set _ = module_combined.update(modules['legal_basis-consent-status']['classes']) %}
   {% set _ = module_combined.update(modules['legal_basis-consent-status']['properties']) %}
+  {% set _ = module_combined.update(modules['legal_basis-consent-controls']['classes']) %}
+  {% set _ = module_combined.update(modules['legal_basis-consent-controls']['properties']) %}
   <section id="classes">
     {{ index_concepts(module_combined, vocab_name, filter="classes") }}
   </section>
