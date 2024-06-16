@@ -137,6 +137,64 @@ for lang, lang_data in IMPORT_TRANSLATIONS.items():
 
 # == export ==
 
+def write_CSV_graph(graph, filepath: str, vocab: str, namespace: str) -> None:
+    '''Write a CSV file for the given graph at filepath'''
+    def _consolidate(item: list) -> list:
+        items = set()
+        for item in item.split(';'):
+            if not item.startswith('https://w3id.org/dpv'): continue
+            items.add(item)
+        return ";".join(items)
+
+    query_header = ('iri', 'label', 'definition', 
+        'dpvtype', 'subclassof', 'hasbroader',
+        'scopenote', 'created', 'modified')
+    header = ('term', 'type', *query_header, 'vocab', 'namespace')
+    with open(f'{filepath}.csv', 'w') as fd:
+        writer = csv.writer(fd)
+        writer.writerow(header)
+        query = """
+            SELECT ?iri ?label ?definition
+                (group_concat(?type; separator=";") as ?types)
+                (group_concat(?parent; separator=";") as ?subclassof)
+                (group_concat(?broader; separator=";") as ?hasbroader)
+                (group_concat(?note; separator=";") as ?scopenote)
+                ?created ?modified
+            WHERE {
+                ?iri a skos:Concept .
+                ?iri skos:prefLabel ?label .
+                ?iri rdf:type ?type .
+                ?iri skos:definition ?definition .
+                ?iri dct:created ?created .
+                OPTIONAL { ?iri rdfs:subClassOf ?parent } .
+                OPTIONAL { ?iri skos:broader ?broader } .
+                OPTIONAL { ?iri skos:scopeNote ?note } .
+                OPTIONAL { ?iri dct:modified ?modified } .
+            } GROUP BY ?iri ?label ?definition ORDER BY ?iri
+        """
+        results = graph.query(query)
+        for row in results:
+            value = {
+                'term': prefix_from_iri(row[0]).split(':')[1],
+                'vocab': vocab,
+                'namespace': namespace}
+            for index, item in enumerate(row):
+                value[query_header[index]] = item
+            if 'rdf-schema#Class' in value['dpvtype']:
+                value['type'] = 'class'
+            elif 'rdf-syntax-ns#Property' in value['dpvtype']:
+                value['type'] = 'property'
+            else:
+                raise Exception(f"Unknown type: {value['dpvtype']} in {value['term']}")
+            for key in (('dpvtype', 'subclassof', 'hasbroader')):
+                value[key] = _consolidate(value[key])
+
+            writer.writerow((value[x] for x in header))
+
+
+    INFO(f'wrote {filepath}.csv')
+
+
 # === serialise-RDF ===
 def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> None:
     '''`serialize_graph` serializes triples at filepath with defined 
@@ -250,6 +308,8 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     for ext, format in RDF_SERIALIZATIONS.items():
         graph.serialize(f'{filepath}.{ext}', format=format)
     INFO(f'wrote {filepath}.[{",".join(RDF_SERIALIZATIONS)}]')
+
+    write_CSV_graph(graph, filepath, vocab, vocab_iri)
 
     ##### Serialise in OWL
     # - TODO: Decide format for serialising OWL variant
