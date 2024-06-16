@@ -1,0 +1,36 @@
+ex:PDH a dpv:Process;
+  dpv:hasRisk ex:R1DB .
+
+ex:R1DB a dpv:Risk ;
+  skos:broader risk:DataBreach ;
+  skos:prefLabel "Risk of Data Breach for Process"@en ;
+  dpv:hasLikelihood risk:HighLikelihood ;
+  dpv:hasSeverity risk:HighSeverity ;
+  dpv:hasRiskLevel risk:HighRisk ;
+  dpv:hasConsequence [
+    a dpv:Risk, dpv:LossOfData ;
+    dpv:hasLikelihood risk:HighLikelihood ;
+    dpv:hasSeverity risk:HighSeverity ;
+    dpv:isMitigatedByMeasure dpv:DataBackupProtocols, dpv:Encryption ;
+    dpv:hasImpact [
+      a risk:FinancialLoss ;
+      skos:prefLabel "Loss suffered due to breach"@en ;
+      dpv:hasImpactOn dpv:DataController ;
+      dpv:hasLikelihood risk:LowLikelihood ;
+      dpv:hasSeverity risk:HighSeverity ;
+    ] ;
+    dpv:hasImpact [
+      a dpv:Risk, risk:MisuseBreachedInformation, risk:IdentityFraud ;
+      skos:prefLabel "Breached information may be misued in identity fraud"@en ;
+      dpv:hasImpactOn dpv:DataSubject ;
+      dpv:hasLikelihood risk:LowLikelihood ;
+      dpv:hasSeverity risk:HighSeverity ;
+    ] ;
+  ] ;
+  dpv:hasResidualRisk ex:R2DB .
+
+ex:R2DB a dpv:ResidualRisk ;
+  dpv:isResidualRiskOf ex:R1DB ;
+  dpv:hasLikelihood risk:HighLikelihood ;
+  dpv:hasSeverity risk:LowSeverity ;
+  dpv:hasRiskLevel risk:LowRisk .

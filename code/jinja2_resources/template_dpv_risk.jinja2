@@ -1,12 +1,13 @@
-%{% from 'macro_term_table.jinja2' import index_concepts %}
-%{% from 'macro_term_table.jinja2' import list_hierarchy %}
+{% from 'macro_term_table.jinja2' import index_concepts %}
+{% from 'macro_term_table.jinja2' import list_hierarchy %}
 {% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_example.jinja2' import example_aside %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}Risk Management{% endblock title %}</title>
+  <title>{% block title %}Risk and Impact Assessment{% endblock title %}</title>
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   {% block RESPEC %}
   <script class="remove">
@@ -52,51 +53,71 @@
 <body>
 {% block ABSTRACT %}
     <section id="abstract">
-      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
-      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      <p>This document provides additional details and examples for risk and impact assessment concepts used in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
       {{ sotd() }}
 {{ dpv_document_family(document='dpv-spec') }}
       
     </section>
 {% endblock ABSTRACT %}
-  <section id="introduction">
+  <section id="vocab-risk">
     <h2>Introduction</h2>
-    <blockquote>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</blockquote>
-    <div class="issue" title="Review section descriptions"></div>
     <figure>
     <img src="../../media/risk.png">
     <figcaption></figcaption>
   </figure>
-  <p>For risk management, DPV's provides a lightweight risk ontology based on commonly utilised concepts regarding risk mitigation and risk management. While these concepts permit rudimentary association of risks and mitigations within a use-case, it is important to note that DPV (currently)
-    does not provide comprehensive concepts for risk management.</p>
-    <p>For more developed representations of risk assessment, mitigation, and management vocabularies, we suggest the adoption of relevant standards, such as the ISO/IEC 31000 series, and welcome contribution for their representation within DPV through [[[RISK]]].</p>
-
-    {{ list_hierarchy(modules['risk']['classes']) }}
+  <p>For risk and impact assessment, DPV's provides a 'lightweight risk ontology' based on commonly utilised concepts of [=Risk=], [=RiskMitigationMeasure=], [=Consequence=], and [=Impact=] along with risk assessment concepts of [=RiskLevel=], [=Severity=], and [=Likelihood=]. Through these concepts, information about what risks and impacts exist as well as their qualitative and quantitative assessment (severity, level) can be sufficiently expressed.</p>
+  <p>For a more comprehensive representation of risk assessment, mitigation, and management concepts, the [[[RISK]]] extension should be used which is based on relevant standards such as the ISO/IEC 31000 series. The [[RISK]] extension also provides taxonomies for these concepts which permits representation of information such as different types of consequences and impacts or concepts representing levels, severities, and likelihoods. It also provides representations of risk matrices, modelling incident and associated statuses, and categorises of 'controls' for a clearer application of measures.</p>
+  {{ list_hierarchy(modules['risk']['classes']) }}
 </section>
 
   <section>
     <h2>Risk</h2>
-    <div class="issue" title="Content missing - Risk"></div>
-    <h3>Likelihood</h3>
-    <h3>Severity</h3>
-    <h3>Risk Level</h3>
+    <p>[=Risk=] within the DPV is concerned with 'probable negative effects', and is indicated by using [=hasRisk=]. A risk event is a probable event that may lead to negative consequences and impacts (hence it is a 'risk'). It is important to note that a risk is a hypothetical event i.e. it is a probability that something may occur. The concept `risk:Incident` in [[RISK]] extension represents incidents which have occured and provides the necessary concepts to connect them to risks for what had been previously assessed as well as to indicate what are the further risks associated with an incident.</p>
+    <p>[=Likelihood=], associated using [=hasLikelihood=], represents the likelihood or probability or chance of something (risk in this case) taking place. The [[RISK]] extension defines concepts to indicate likelihoods with various scales e.g. as a set of 3 concepts representing high likelihood, moderate likelihood, and low likelihood.</p>
+    <p>[=Severity=], associated using [=hasSeverity=], represents the severity or 'extremeness' or 'intensity' of something (risk in this case). The [[RISK]] extension defines concepts to indicate severities with various scales e.g. as a set of 5 concepts representing very high severity, high severity, moderate severity, low severity, and very low severity. [=SensitivityLevel=] represents the 'sensitivity' of some context (e.g. personal data) as a measure of how severe risks associated with it are (e.g. to indicate <i>how sensitive</i> the personal data is). It is associated using the relation [=hasSensitivityLevel=].</p>
+    <p>[=RiskLevel=], associated using [=hasRiskLevel=], represents the combination of severity and likelihood in the form of 'risk level' that provides a cohesive qualitative assessment of risk. The [[RISK]] extension defines concepts to indicate risk levels with various scales e.g. as a set of 3 concepts representing high risk, moderate risk, and low risk.</p>
+    {{ example_aside('dex:E0068') }}
   </section>
 
   <section>
-    <h2>Risk Mitigation</h2>
-    <div class="issue" title="Content missing - Risk Mitigation"></div>
+    <h2>Risk Mitigation Measure</h2>
+    <p>[=RiskMitigationMeasure=] is a measure taken to mitigate the risk. Here the use of the word 'mitigate' follows from its use in legal documents and includes avoiding, reducing, replacing, removing, transforming, sharing, and other operations related to risk treatment. In normative risk related guides and standards, mitigation is only one operation within risk treatment processes.</p>
+    <p>Risks can have multiple mitigation measures, which are indicated by using [=isMitigatedByMeasure=] relation. A mitigation measure may address multiple risks, which are indicated by using [=mitigatesRisk=]. The [=RISK=] extension provides a more granular taxonomy of risk mitigation measures, including risk controls which enable expressing aspects of the intended effect of a measure on risk (or other events) - e.g. to remove the source or to alter the consequence.</p>
+    <p>Risk remaining after 'mitigation' or 'treatment' is represented by [=ResidualRisk=], which is a subcategory of [=Risk=] and uses the same relations to express likelihood, severity, level, and further mitigations. It is associated by using [=hasResidualRisk=] and [=isResidualRiskOf=] relations.</p>
+    {{ example_aside('dex:E0027') }}
   </section>
 
   <section>
     <h2>Consequence &amp; Impact</h2>
-    <div class="issue" title="Content missing - Consequence &amp; Impact"></div>
-    <h3>Consequence</h3>
-    <h3>Impact</h3>
+    <p>The concepts [=Consequence=] and [=Impact=] in DPV are provided with a specific modelling of consequences and impacts. The DPV concept for consequence represents the consequence of an event (e.g. risk or incident), and impact is a specific type of consequence which as <i>significance to an entity</i>. DPV considers effects on technical systems (e.g. service disruption) and minor effects on entities (e.g. delayed process) as consequences from major effects focused on entities (e.g. harms) as impacts. Based on this, we recommend using consequences and impacts in the following manner:</p>
+    <ol>
+      <li>[=Consequence=] to indicate the immediate effect of an event where it is not significant to an entity - this can be disruption of the system or service, or loss of data, or other such events. Most technical events would fall under consequence.</li>
+      <li>To indicate what the consequence has affected, the relation [=hasConsequenceOn=] is provided. The effect of consequence can be material or non-material, and can be on a system, agent, or legal entity.</li>
+      <li>[=Impact=] to represent consequences which have a significant effect on one or more `dpv:Entity`. Impacts are associated by using [=hasImpactOn=] relation, and the impact is always on an entity. The significance of impact is associated with how it affects the entity e.g. financial loss, physical or mental harm, or impact on rights. </li>
+      <li>The entity being affected by the impact is indicated by using [=hasImpactOn=].</li>
+    </ol>
+    <p>The consequences and impacts can reuse the risk assessment properties to describe likelihood and severity. Consequences and impacts can also be chained together e.g. to describe a consequence (service diruption) leads to another consequence (wasted time) which leads to an impact (financial loss). Consequences and impacts can be hypothetical (i.e. risks) or actual (i.e. incidents).</p>
+    <p>Consequences and impacts can be positive (e.g. benefit) or negative (e.g. harm). The relations associating them with entities or systems should be interpreted accordingly. For example, if the impact is a harm - which is negative, then the impacted entity should be understood as being the one that is harmed. If instead the impact is compensation - which is positive, then the impacted entity should be understood as being the one that is compensated.</p> 
+    <p>The [[RISK]] extension provides a taxonomy of consequences and impacts which covers commonly utilised terms such as harm, data breach, equipment failure, financial loss, and malware attack. It also provides a taxonomy of positive consequences and impacts which are not 'risks', such as benefits, renumerations, and compensation.</p>
+    {{ example_aside('dex:E0071') }}
   </section>
 
   <section>
-    <h2>Further Risk Modeling</h2>
-    <div class="issue" title="Content missing - Further Risk Modeling"></div>
+    <h2>Risk and Impact Assessments</h2>
+    <p>To support assessments associated with risks and impacts, DPV provides the following concepts:</p>
+    <ol>
+      <li>[=RiskAssessment=] regarding risk assessments.</li>
+      <li>[=SecurityAssessment=] regarding assessment of security, and [=CybersecurityAssessment=] as assessment of cybersecurity.</li>
+      <li>[=ImpactAssessment=] to impact assessments, with [=PIA=] representing Privacy Impact Assessments (PIA) and [=DataTransferImpactAssessment=] for assessment of impacts in data transfer.</li>
+      <li>[=RightsImpactAssessment=] as a specific impact assessment that involves assessing impact on rights, with [=DPIA=] representing Data Protection Impact Assessment (DPIA) and [=FRIA=] representing Fundamental Rights Impact Assessment (FRIA).</li>
+      <li>[=DataBreachImpactAssessment=] represents assessment of data breaches and is defined as a rights impact assessment as at least privacy (for personal data) or commercial rights (for non-personal data) will need to be assessed in a data breach.</li>
+    </ol>
+    <p>The relations [=hasRiskAssessment=] and [=hasImpactAssessment=] enable associating a risk and impact assessment with a process, service, or other contexts. There can be multiple assessments associated with the same context, e.g. for covering different topics or representing assessments at different stages or temporal periods. Assessments can indicate their 'subjects' and other metadata by using a relevant vocabulary such as [[[DCT]]]. Assessments can also record dates associated with their use to audit a system or process, and the relevant status to record the outcome of that process e.g. to indicate approval.</p>
+    <aside class="note" title="Risk and Impact assessments required by laws">
+      <p>Where laws require specific forms of risk and impact assessments, the recommendation is to represent relevant concepts in a [[LEGAL]] extension. For example, to represent the DPIA processes and outcomes as required by GDPR, the [[EU-GDPR]] extension provides relevant concepts which permit indicating when to carry out the DPIA, what is involved in the DPIA, and the outcome of the DPIA in terms of permitting processing. Similarly, the [[EU-AIAct]] extension will provide concepts for FRIA as required by the [[AIAct]], and the [[EU-NIS2]] for supply chain risk assessments as requried by [[NIS2]].</p>
+      <p>The DPVCG welcomes such modelling of both laws and legal concepts as well as the relevant concepts needed to implement the legal requirements through the creation of specific [[LEGAL]] extensions representing specific jurisdictions and laws within them.</p>
+    </aside>
+    {{ example_aside('dex:E0056') }}
   </section>
 
 <section>

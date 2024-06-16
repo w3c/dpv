@@ -1,6 +1,7 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_example.jinja2' import example_aside %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
@@ -118,71 +119,8 @@
       <li>[=RiskMatrix=] to represent the popular risk analysis method for calculating risk levels based on likelihood and severity.</li>
     </ul>
     {{ list_hierarchy(modules['core']['classes']) }}    
-    <aside class="example" title="Using DPV and RISK extension to represent risks">
-      <p>This example shows the use of risk concepts in DPV and RISK extension to represent a risk of data breach associated with a process along with its potential consequences and impacts on the data subject. The scenario consists of a risk of data breach with high likelihood and severity, and whose potential consequence includes a loss of data which can lead to financial loss for the data controller and misuse of breached information to cause identity fraud for the data subject. The risk has a mitigation measure, which is to secure the data using the encryption. The residual risk if this measure is applied is shown to have a lower risk level.</p>
-      <pre class="nohighlight"><code>ex:PDH a dpv:Process;
-  dpv:hasRisk ex:R1DB .
-
-ex:R1DB a dpv:Risk ;
-  skos:broader risk:DataBreach ;
-  skos:prefLabel "Risk of Data Breach for Process"@en ;
-  dpv:hasLikelihood risk:HighLikelihood ;
-  dpv:hasSeverity risk:HighSeverity ;
-  dpv:hasRiskLevel risk:HighRisk ;
-  dpv:hasConsequence [
-    a dpv:Risk, dpv:LossOfData ;
-    dpv:hasLikelihood risk:HighLikelihood ;
-    dpv:hasSeverity risk:HighSeverity ;
-    dpv:isMitigatedByMeasure dpv:DataBackupProtocols, dpv:Encryption ;
-    dpv:hasImpact [
-      a risk:FinancialLoss ;
-      skos:prefLabel "Loss suffered due to breach"@en ;
-      dpv:hasImpactOn dpv:DataController ;
-      dpv:hasLikelihood risk:LowLikelihood ;
-      dpv:hasSeverity risk:HighSeverity ;
-    ] ;
-    dpv:hasImpact [
-      a dpv:Risk, risk:MisuseBreachedInformation, risk:IdentityFraud ;
-      skos:prefLabel "Breached information may be misued in identity fraud"@en ;
-      dpv:hasImpactOn dpv:DataSubject ;
-      dpv:hasLikelihood risk:LowLikelihood ;
-      dpv:hasSeverity risk:HighSeverity ;
-    ] ;
-  ] ;
-  dpv:hasResidualRisk ex:R2DB .
-
-ex:R2DB a dpv:ResidualRisk ;
-  dpv:isResidualRiskOf ex:R1DB ;
-  dpv:hasLikelihood risk:HighLikelihood ;
-  dpv:hasSeverity risk:LowSeverity ;
-  dpv:hasRiskLevel risk:LowRisk .
-  </code></pre>
-    </aside>
-    <aside class="example" title="Using DPV and RISK extension to represent incidents">
-      <p>This example shows the use of incident concepts in DPV and RISK extension to represent a data breach incident along with its potential and actual (i.e. occured) consequences and impacts on the data subject. It shows the consequences of the incident as loss of data, and which is being misused to cause identity fraud. It also refers to the further risk of financial loss, and associates the incident with a previously identified risk (not elaborated in this example). Note that incident details such as timestamps and durations are not shown in this example.</p>
-      <pre class="nohighlight"><code>ex:IN11 a risk:Incident ;
-  skos:broader risk:DataBreach ;
-  dpv:hasStatus risk:IncidentConcluded ;
-  dpv:hasConsequence [
-    a dpv:Incident, dpv:LossOfData ;
-    dpv:hasStatus risk:IncidentConcluded ;
-    dpv:hasImpact [
-      a risk:Incident, risk:MisuseBreachedInformation, risk:IdentityFraud ;
-      dpv:hasStatus risk:IncidentOngoing ;
-      skos:prefLabel "Breached information may be misued in identity fraud"@en ;
-      dpv:hasImpactOn dpv:DataSubject ;
-      dpv:hasSeverity risk:HighSeverity ;
-    ] ;
-    dpv:hasImpact [
-      a dpv:Risk, risk:FinancialLoss ;
-      skos:prefLabel "Loss suffered due to breach"@en ;
-      dpv:hasImpactOn dpv:DataController ;
-      dpv:hasLikelihood risk:LowLikelihood ;
-      dpv:hasSeverity risk:HighSeverity ;
-    ] ;
-  ] ;
-  risk:refersToRisk ex:R2DB .</code></pre>
-    </aside>
+    {{ example_aside('dex:E0068') }}
+    {{ example_aside('dex:E0069') }}
   </section>
 
   <section id="vocab-risk-levels">
@@ -219,20 +157,7 @@ ex:R2DB a dpv:ResidualRisk ;
     <p>To indicate the duration of the incident, the [[DPV]] concept <code>dpv:Duration</code> and relation <code>dpv:hasRelation</code> can be used, or <code>dct:temporal</code> from [[DCT]] can be used, or other means such as the [[TIME]] ontology or XSD types. If this information is unknown, then <code>dpv:NotAvailable</code> should be used. If the incident is ongoing, only the start would be available (also see [=IncidentStatus=]).</li>
     </ul>
     <p>To indicate whether the incident is ongoing or concluded (on its own) or it was terminated due to some action taken, the concept [=IncidentStatus=] is provided along with a <a href="#vocab-incident-status">taxonomy of statuses</a> which are indicated using the relation <code>dpv:hasStatus</code>.</p>
-    <aside class="example" title="Indicating personal data involved in an incident">
-      <p>This example shows how existing DPV concepts and relations are used to describe what personal data a data breach incident affected and how the data was secured before the incident.</p>
-      <pre class="nohighlight"><code>ex:IN12 a risk:Incident ;
-  dpv:hasPersonalData pd:EmailAddress ;
-  dpv:hasTechnicalMeasure dpv:Encryption ;
-  # Expressing duration using method 1: DPV concepts
-  dpv:hasDuration [
-    a dpv:UntilEventDuration ;
-    dct:description "Incident continued until we shut down power"@en ;
-  ];
-  # Expressing duration using method 2: DCT concepts
-  dct:temporal "2023-05-24/2023-05-26" ; # start and end
-dpv:hasStatus risk:IncidentConcluded .</code></pre>
-</aside>
+    {{ example_aside('dex:E0070') }}
     {{ list_hierarchy(modules['incident']['classes']) }}
 
     <section id="vocab-incident-status">
@@ -244,17 +169,7 @@ dpv:hasStatus risk:IncidentConcluded .</code></pre>
   <section id="vocab-risk-controls">
     <h2>Controls</h2>
     <p>[=RiskControl=] allows expressing how [[DPV]] technical and organisational measures address the risk or incident. They are associated using the relation [=hasControl=]. For example, [=ConsequenceControl=] is applied to consequences and impacts to either change them ([=ChangeConsequence=]) such as by reducing their likelihood or severity, or removing them ([=RemoveConsequence=]) completely. [=MonitorControl=] represents controls used to monitor events or effectiveness, such as to detect impacts ([=MonitorImpact=]) or identify vulnerabilities ([=MonitorVulnerabilities=]).</p>
-    <aside class="example" title="Using risk controls to express how tech/org measures address the risk">
-      <p>In this example, risk controls are used to indicate the technical measure of encryption is used to remove the consequence of misusing the data if it is breached.</p>
-      <pre class="nohighlight"><code>ex:R3DB a dpv:Risk ;
-  skos:broader risk:DataBreach ;
-  dpv:hasRiskLevel risk:LowRisk ;
-  dpv:hasConsequence [
-    a dpv:Risk, dpv:MisuseBreachedInformation ;
-    dpv:isMitigatedByMeasure dpv:DataBackupProtocols, dpv:Encryption ;
-    risk:hasRiskControl risk:RemoveConsequence ;
-  ] .</code></pre>
-</aside>
+    {{ example_aside('dex:E0071') }}
     {{ list_hierarchy(modules['risk_controls']['classes']) }}
 
   </section>
