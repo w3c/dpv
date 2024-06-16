@@ -1,4 +1,4 @@
-%%<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -329,8 +329,7 @@
 </head>
 <body>
     <section id="abstract">
-      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
-      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      <p>This document provides additional details and examples for rights and rights excercise concepts used in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
       <section id="sotd">
     <p style="color: red; font-weight: bold;">The DPVCG is currently updating the specifications to v2. This document is a draft and may change as part of this process.</p>
     <p><strong>Contributing:</strong> The DPVCG welcomes participation to improve the DPV and associated resources, including expansion or refinement of concepts, requesting information and applications, and addressing open issues. <a href="https://github.com/w3c/dpv/blob/master/contributing.md">See contributing page</a> for further information.</p>
@@ -346,10 +345,8 @@
 
       
     </section>
-  <section id="introduction">
+  <section id="vocab-rights"><span id="vocab-context"></span><span id="vocab-entities-legalrole"></span><span id="vocab-context-status"></span><span id="vocab-processing-context"></span>
     <h2>Introduction</h2>
-    <blockquote>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</blockquote>
-    <div class="issue" title="Review section descriptions"></div>
   <figure>
     <img src="../../media/rights.png">
     <figcaption></figcaption>
@@ -388,15 +385,18 @@
       
   </li>
   <li>
-    <strong>dpv:RightExerciseNotice</strong>: Information associated with exercising of an active right
-      <small><a href="https://w3id.org/dpv#RightExerciseNotice" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
     <strong>dpv:RightExerciseRecord</strong>: Record of a Right being exercised
       <small><a href="https://w3id.org/dpv#RightExerciseRecord" class="local-link">go to full definition</a></small>
       
   </li>
+  <li>
+    <strong>dpv:RightNotice</strong>: Information associated with rights, such as which rights exist, when and where they are applicable, and other relevant information
+      <small><a href="https://w3id.org/dpv#RightNotice" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:RightExerciseNotice</strong>: Information associated with exercising of an active right such as where and how to exercise the right, information required for it, or updates on an exercised rights request
+      <small><a href="https://w3id.org/dpv#RightExerciseNotice" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
   <li>
     <strong>dpv:RightFulfilmentNotice</strong>: Notice provided regarding fulfilment of a right
       <small><a href="https://w3id.org/dpv#RightFulfilmentNotice" class="local-link">go to full definition</a></small>
@@ -407,28 +407,80 @@
       <small><a href="https://w3id.org/dpv#RightNonFulfilmentNotice" class="local-link">go to full definition</a></small>
       
   </li>
+</ul>
+  </li>
+</ul>
+  </li>
 </ul></div>
+    <aside class="example" title="Indicating applicable rights">
+<p>This example shows applicable rights being asserted in a privacy notice. The notice is for a GDPR implementing use-cases and uses the EU-GDPR extension to represent rights under GDPR. It also shows how rights not currently provided by DPV can be associated.    <pre class="nohighlight"><code>ex:PN2024 a dpv:PrivacyNotice ;
+    dpv:hasApplicableLaw legal-eu:GDPR ;
+    dpv:hasRight eu-gdpr:A15, # right of access
+        eu-gdpr:A16, # right to rectification
+        eu-gdpr:A17, # right to erasure / to be forgotten
+        eu-gdpr:A18, # right to restrict processing
+        eu-gdpr:A20, # right to data portability
+        eu-gdpr:A21 ; # right to object
+    dpv:hasRight [
+        a dpv:DataSubjectRight ;
+        dpv:hasApplicableLaw ex:SomeLaw ;
+        dct:description &#34;specific right to do X&#34;@en ;
+        dpv:hasProcess ex:SomeRightsProcess ;
+    ] .
+
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0067"><code>E0067</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0067.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-16)
+    </small></p>
+  </aside>
+
   </section>
 
   <section>
   <h2>Rights Notices</h2>
-  <div class="issue" title="Content missing - Rights Notices"></div>
-  <p>The information regarding hwo to exercise a right is provided through [=RightExerciseNotice=] and associated using the [=isExercisedAt=] relation. This information can specify contextual information through use of other concepts such as <a href='https://w3id.org/dpv#Process'><code>Process</code></a>
- to denote a <i>necessary</i> <a href='https://w3id.org/dpv#Purpose'><code>Purpose</code></a>
- of <a href='https://w3id.org/dpv#IdentityVerification'><code>IdentityVerification</code></a>
- as part of the rights exercise.</p>
+  <p>The information provided regarding a right is called a 'Rights Notice'. It may be used to describe which rights exist, when they are applicable, how to exercise them, and other pertinent details. As with other notices in DPV, a rights notice is associated by using the `dpv:hasNotice` relation. The concept [=RightExerciseNotice=] represents specifically notices associated with exercising of rights - such as to indicate where and how to exercise it (expressed using [=isExercisedAt=] relation), or what information is required for the exercise, or to provide updates on an exercised rights request. For expressing contextual information, other existing concepts should be reused e.g. <a href='https://w3id.org/dpv#Process'><code>Process</code></a>
+ to group related information together into a 'process', with <a href='https://w3id.org/dpv#hasPurpose'><code>hasPurpose</code></a>
+ and <a href='https://w3id.org/dpv#IdentityVerification'><code>IdentityVerification</code></a>
+ to indicate the right exercise will involve identity verification.</p>
+  <p>To indicate information about whether a rights exercise has been fulfilled or cannot be fulfilled - such as when additional information is needed, the concepts [=RightFulfilmentNotice=] and [=RightNonFulfilmentNotice] are provided.</p>
+    <aside class="example" title="Associating justifications with right exercise non-fulfilment">
+<p>The following example represents a notice outlining a failure to complete a GDPR Data Portability request due to identity verification failure. The notice provides steps as providing an official ID for identity verification for the data subject to complete in order to continue the request, and outlines the consequence of not doing this would be a failure to complete the request.    <pre class="nohighlight"><code>ex:PDH a dpv:RightNonFulfilmentNotice ;
+  dct:dateSubmitted &#34;2024-01-01&#34;^^xsd:date ;
+  dct:publisher ex:SomeController ;
+  dpv:hasRight eu-gdpr:A20 ;
+  dpv:hasRecipient dpv:DataSubject ;
+  dpv:hasJustification justifications:IdentityVerificationFailure ;
+  dpv:hasProcess [
+    a dpv:Process ;
+    dpv:isImplementedByEntity dpv:DataSubject ;
+    dpv:hasPurpose dpv:IdentityVerification ;
+    dpv:hasPersonalData pd:OfficialID ;
+    dpv:hasProcessing dpv:Share ;
+    dpv:hasRecipient dpv:SomeController ;
+    dpv:hasObligation [
+        a dpv:Obligation ;
+        dpv:hasDuration &#34;P30D&#34;^^xsd:duration ;
+        dpv:hasConsequenceOfFailure dpv:RequestRejected ;
+    ] .
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0061"><code>E0061</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0061.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
   </section>
 
   <section>
   <h2>Rights Exercise</h2>
-  <div class="issue" title="Content missing - Rights Exercise"></div>
-  <p>A [=RightExerciseActivity=] represents a concrete instance of a right being exercised. It can include contextual information such as timestamps, durations, entities, etc. that can be part of record-keeping. An activity can be a single <i>step</i> related to rights exercise -- such as the initial request to exercise that right, or its acknowledgement, or the final step taken to fulfil the right (e.g. provide some information), or it can also be a single activity describing the entire rights exercise process(es). To collate related activities associated with a rights exercise (e.g. associated with a specific data subject or a specific request), the concept [=RightExerciseRecord=] is useful. The information provided to describe or in fulfilment of a right exercise is represented by [=RightFulfilmentNotice=] and that associated when a right exercise cannot be fulfilled is represented by [=RightNonFulfilmentNotice=].</p>
+  <p>A [=RightExerciseActivity=] represents a concrete instance of a right being exercised. It can include contextual information such as timestamps, durations, entities, etc. that can be part of record-keeping. An activity can be a single <i>step</i> related to rights exercise -- such as the initial request to exercise that right, or its acknowledgement, or the final step taken to fulfil the right (e.g. provide some information), or it can also be a single activity describing the entire rights exercise process(es). To collate related activities associated with a rights exercise (e.g. associated with a specific data subject or a specific request), the concept [=RightExerciseRecord=] is useful.</p>
   </section>
 
   <section>
   <h2>Rights Records</h2>
-  <div class="issue" title="Content missing - Rights Records"></div>
-  <p>To indicate contextual information about Right Exercise activities, DPV suggests reuse of existing relations, such as those from DPV itself and [[[DCT]]]. For example, <code>dct:accessRights</code> can be used to specify constraints or requirements regarding access (e.g. log in required), or <code>dct:hasPart</code> and <code>dct:isPartOf</code> to express records and its contents, <code>dct:valid</code> to express validity constraints on the exercising being made available, <code>foaf:page</code> to specify the location or provision of notice, and [=hasStatus</code> with <a href='https://w3id.org/dpv#RequestStatus'><code>RequestStatus</code></a>
+  <p>To indicate contextual information about Right Exercise activities, DPV suggests reuse of existing relations, such as those from DPV itself and [[[DCT]]]. For example, <code>dct:accessRights</code> can be used to specify constraints or requirements regarding access (e.g. log in required), or <code>dct:hasPart</code> and <code>dct:isPartOf</code> to express records and its contents, <code>dct:valid</code> to express validity constraints on the exercising being made available, <code>foaf:page</code> to specify the location or provision of notice, and <a href='https://w3id.org/dpv#hasStatus'><code>hasStatus</code></a>
+ with <a href='https://w3id.org/dpv#RequestStatus'><code>RequestStatus</code></a>
  to represent the status of a rights exercise activity.</p>
   <p>When rights require the provision of information which beyond a static common notice, for example a document personalised to the individual's information, or a dataset containing the individual's data, DPV recommends using [[[DCAT]]] to model the contents as a <code>dcat:Resource</code> or other relevant concepts from [[DCAT]] and [[DCT]] such as <code>dct:format</code>, <code>dct:accessRights</code>, and <code>dct:valid</code>.</p>
   </section>
@@ -737,6 +789,9 @@
           <td><i>A &#39;right&#39; is a legal, social, or ethical principle of freedom or entitlement which dictate the norms regarding what is allowed or owed. Rights as a concept encompass a broad area of norms and entities, and are not specific to Individuals or Data Protection / Privacy. For individual specific rights, see dpv:DataSubjectRight</i></td>
         </tr>       
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0067" class="local-link"><small><code>dex:E0067 :: </code> Indicating applicable rights</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -757,7 +812,7 @@
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-rights"> RIGHTS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-rights"> RIGHTS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -836,7 +891,7 @@
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0059" class="local-link">Exercising the right to rectification with contesting accuracy of information as justification <small>(E0059)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0059" class="local-link"><small><code>dex:E0059 :: </code> Exercising the right to rectification with contesting accuracy of information as justification</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -894,14 +949,17 @@
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="https://w3id.org/dpv#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
+          <td>            <a href="#RightNotice" class="local-link">dpv:RightNotice</a>
+             →             <a href="https://w3id.org/dpv#Notice" class="local-link">dpv:Notice</a>
+             →             <a href="https://w3id.org/dpv#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
              →             <a href="https://w3id.org/dpv#TechnicalOrganisationalMeasure" class="local-link">dpv:TechnicalOrganisationalMeasure</a>
                         </td>        </tr>      
       
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#hasOrganisationalMeasure" class="local-link">dpv:hasOrganisationalMeasure</a>, 
+          <td>            <a href="https://w3id.org/dpv#hasNotice" class="local-link">dpv:hasNotice</a>, 
+            <a href="https://w3id.org/dpv#hasOrganisationalMeasure" class="local-link">dpv:hasOrganisationalMeasure</a>, 
             <a href="https://w3id.org/dpv#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>, 
             <a href="https://w3id.org/dpv#isExercisedAt" class="local-link">dpv:isExercisedAt</a>
 </td>
@@ -914,7 +972,7 @@
 
 <tr>
           <th>Definition</th>
-          <td><i>Information associated with exercising of an active right</i></td>
+          <td><i>Information associated with exercising of an active right such as where and how to exercise the right, information required for it, or updates on an exercised rights request</i></td>
         </tr>        
 <tr>
           <th>Usage Note</th>
@@ -1011,7 +1069,7 @@
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link">Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure <small>(E0057)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link"><small><code>dex:E0057 :: </code> Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -1069,7 +1127,9 @@
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="https://w3id.org/dpv#Notice" class="local-link">dpv:Notice</a>
+          <td>            <a href="#RightExerciseNotice" class="local-link">dpv:RightExerciseNotice</a>
+             →             <a href="#RightNotice" class="local-link">dpv:RightNotice</a>
+             →             <a href="https://w3id.org/dpv#Notice" class="local-link">dpv:Notice</a>
              →             <a href="https://w3id.org/dpv#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
              →             <a href="https://w3id.org/dpv#TechnicalOrganisationalMeasure" class="local-link">dpv:TechnicalOrganisationalMeasure</a>
                         </td>        </tr>      
@@ -1079,7 +1139,8 @@
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasNotice" class="local-link">dpv:hasNotice</a>, 
             <a href="https://w3id.org/dpv#hasOrganisationalMeasure" class="local-link">dpv:hasOrganisationalMeasure</a>, 
-            <a href="https://w3id.org/dpv#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>
+            <a href="https://w3id.org/dpv#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>, 
+            <a href="https://w3id.org/dpv#isExercisedAt" class="local-link">dpv:isExercisedAt</a>
 </td>
         </tr>
         
@@ -1154,7 +1215,9 @@
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="https://w3id.org/dpv#Notice" class="local-link">dpv:Notice</a>
+          <td>            <a href="#RightExerciseNotice" class="local-link">dpv:RightExerciseNotice</a>
+             →             <a href="#RightNotice" class="local-link">dpv:RightNotice</a>
+             →             <a href="https://w3id.org/dpv#Notice" class="local-link">dpv:Notice</a>
              →             <a href="https://w3id.org/dpv#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
              →             <a href="https://w3id.org/dpv#TechnicalOrganisationalMeasure" class="local-link">dpv:TechnicalOrganisationalMeasure</a>
                         </td>        </tr>      
@@ -1164,7 +1227,8 @@
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasNotice" class="local-link">dpv:hasNotice</a>, 
             <a href="https://w3id.org/dpv#hasOrganisationalMeasure" class="local-link">dpv:hasOrganisationalMeasure</a>, 
-            <a href="https://w3id.org/dpv#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>
+            <a href="https://w3id.org/dpv#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>, 
+            <a href="https://w3id.org/dpv#isExercisedAt" class="local-link">dpv:isExercisedAt</a>
 </td>
         </tr>
         
@@ -1184,7 +1248,7 @@
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link">Expressing a right exercise request is delayed due to high volume of requests <small>(E0058)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link">Associating justifications with right exercise non-fulfilment <small>(E0061)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link"><small><code>dex:E0058 :: </code> Expressing a right exercise request is delayed due to high volume of requests</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link"><small><code>dex:E0061 :: </code> Associating justifications with right exercise non-fulfilment</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -1206,6 +1270,91 @@
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-rights"> RIGHTS</a> in <a href="https://w3id.org/dpv#">DEX</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RightNotice">
+      <h4>Right Notice</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RightNotice</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Right Notice</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#RightNotice" class="local-link">https://w3id.org/dpv#RightNotice</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="https://w3id.org/dpv#Notice" class="local-link">dpv:Notice</a>
+             →             <a href="https://w3id.org/dpv#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
+             →             <a href="https://w3id.org/dpv#TechnicalOrganisationalMeasure" class="local-link">dpv:TechnicalOrganisationalMeasure</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasNotice" class="local-link">dpv:hasNotice</a>, 
+            <a href="https://w3id.org/dpv#hasOrganisationalMeasure" class="local-link">dpv:hasOrganisationalMeasure</a>, 
+            <a href="https://w3id.org/dpv#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Information associated with rights, such as which rights exist, when and where they are applicable, and other relevant information</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>This concept also covers information about rights exercise, with dpv:RightExerciseNotice specifically representing information provided in connection with exercising of rights. Both notices may be needed, e.g. RightNotice for providing information about existence and exercise of rights, and RightExerciseNotice for providing additional information specifically about exericse of rights - such as to request more information or provide updates on an exercised rights request</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-06-16</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rights"> RIGHTS</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -1280,7 +1429,7 @@
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link">Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure <small>(E0057)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link">Expressing a right exercise request is delayed due to high volume of requests <small>(E0058)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0059" class="local-link">Exercising the right to rectification with contesting accuracy of information as justification <small>(E0059)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link">Associating justifications with right exercise non-fulfilment <small>(E0061)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0062" class="local-link">Using justifications across categories <small>(E0062)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0063" class="local-link">Expressing data breach notifications to data subjects are not required using a justification <small>(E0063)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link"><small><code>dex:E0057 :: </code> Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link"><small><code>dex:E0058 :: </code> Expressing a right exercise request is delayed due to high volume of requests</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0059" class="local-link"><small><code>dex:E0059 :: </code> Exercising the right to rectification with contesting accuracy of information as justification</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link"><small><code>dex:E0061 :: </code> Associating justifications with right exercise non-fulfilment</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0062" class="local-link"><small><code>dex:E0062 :: </code> Using justifications across categories</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0063" class="local-link"><small><code>dex:E0063 :: </code> Expressing data breach notifications to data subjects are not required using a justification</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -1451,7 +1600,7 @@
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link">Associating justifications with right exercise non-fulfilment <small>(E0061)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link"><small><code>dex:E0061 :: </code> Associating justifications with right exercise non-fulfilment</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0067" class="local-link"><small><code>dex:E0067 :: </code> Indicating applicable rights</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -1857,7 +2006,7 @@
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0037" class="local-link">Indicating type of organisation and involvement of specific orgnisational units <small>(E0037)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0037" class="local-link"><small><code>dex:E0037 :: </code> Indicating type of organisation and involvement of specific orgnisational units</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -2325,6 +2474,9 @@
       
       
        
+      
+       
+      
       
        
       

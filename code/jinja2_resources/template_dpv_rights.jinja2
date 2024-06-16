@@ -1,6 +1,7 @@
-%{% from 'macro_term_table.jinja2' import index_concepts, anchor %}
-%{% from 'macro_term_table.jinja2' import list_hierarchy %}
+{% from 'macro_term_table.jinja2' import index_concepts, anchor %}
+{% from 'macro_term_table.jinja2' import list_hierarchy %}
 {% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_example.jinja2' import example_aside %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 <!DOCTYPE html>
 <html>
@@ -52,41 +53,38 @@
 <body>
 {% block ABSTRACT %}
     <section id="abstract">
-      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model.</p>
-      <p>The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      <p>This document provides additional details and examples for rights and rights excercise concepts used in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
       {{ sotd() }}
 {{ dpv_document_family(document='dpv-spec') }}
       
     </section>
 {% endblock ABSTRACT %}
-  <section id="introduction">
+  <section id="vocab-rights"><span id="vocab-context"></span><span id="vocab-entities-legalrole"></span><span id="vocab-context-status"></span><span id="vocab-processing-context"></span>
     <h2>Introduction</h2>
-    <blockquote>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and thus focuses on providing a topically structured documentation of concepts defined by DPV.</blockquote>
-    <div class="issue" title="Review section descriptions"></div>
   <figure>
     <img src="../../media/rights.png">
     <figcaption></figcaption>
   </figure>
   <p>The concept [=Right=] represents a normative concept for what is permissible or necessary in accordance with a system such as laws. To associate rights with concepts that are relevant or within which those rights occur, the relation [=hasRight=] is used. Rights can be <i>passive</i>, which means they are always applicable without requiring anything to be done, or <i>active</i> where they require some action to be taken to initiate or exercise them. To represent these concepts, DPV uses [=PassiveRight=] and [=ActiveRight=] respectively. Rights can be applicable to different contexts or entities. To differentiate rights applicable or afforded to data subjects, the concept [=DataSubjectRight=] is used.</p>
   {{ list_hierarchy(modules['rights']['classes']) }}
+  {{ example_aside('dex:E0067') }}
   </section>
 
   <section>
   <h2>Rights Notices</h2>
-  <div class="issue" title="Content missing - Rights Notices"></div>
-  <p>The information regarding hwo to exercise a right is provided through [=RightExerciseNotice=] and associated using the [=isExercisedAt=] relation. This information can specify contextual information through use of other concepts such as {{anchor('dpv:Process')}} to denote a <i>necessary</i> {{anchor('dpv:Purpose')}} of {{anchor('dpv:IdentityVerification')}} as part of the rights exercise.</p>
+  <p>The information provided regarding a right is called a 'Rights Notice'. It may be used to describe which rights exist, when they are applicable, how to exercise them, and other pertinent details. As with other notices in DPV, a rights notice is associated by using the `dpv:hasNotice` relation. The concept [=RightExerciseNotice=] represents specifically notices associated with exercising of rights - such as to indicate where and how to exercise it (expressed using [=isExercisedAt=] relation), or what information is required for the exercise, or to provide updates on an exercised rights request. For expressing contextual information, other existing concepts should be reused e.g. {{anchor('dpv:Process')}} to group related information together into a 'process', with {{anchor('dpv:hasPurpose')}} and {{anchor('dpv:IdentityVerification')}} to indicate the right exercise will involve identity verification.</p>
+  <p>To indicate information about whether a rights exercise has been fulfilled or cannot be fulfilled - such as when additional information is needed, the concepts [=RightFulfilmentNotice=] and [=RightNonFulfilmentNotice] are provided.</p>
+  {{ example_aside('dex:E0061') }}
   </section>
 
   <section>
   <h2>Rights Exercise</h2>
-  <div class="issue" title="Content missing - Rights Exercise"></div>
-  <p>A [=RightExerciseActivity=] represents a concrete instance of a right being exercised. It can include contextual information such as timestamps, durations, entities, etc. that can be part of record-keeping. An activity can be a single <i>step</i> related to rights exercise -- such as the initial request to exercise that right, or its acknowledgement, or the final step taken to fulfil the right (e.g. provide some information), or it can also be a single activity describing the entire rights exercise process(es). To collate related activities associated with a rights exercise (e.g. associated with a specific data subject or a specific request), the concept [=RightExerciseRecord=] is useful. The information provided to describe or in fulfilment of a right exercise is represented by [=RightFulfilmentNotice=] and that associated when a right exercise cannot be fulfilled is represented by [=RightNonFulfilmentNotice=].</p>
+  <p>A [=RightExerciseActivity=] represents a concrete instance of a right being exercised. It can include contextual information such as timestamps, durations, entities, etc. that can be part of record-keeping. An activity can be a single <i>step</i> related to rights exercise -- such as the initial request to exercise that right, or its acknowledgement, or the final step taken to fulfil the right (e.g. provide some information), or it can also be a single activity describing the entire rights exercise process(es). To collate related activities associated with a rights exercise (e.g. associated with a specific data subject or a specific request), the concept [=RightExerciseRecord=] is useful.</p>
   </section>
 
   <section>
   <h2>Rights Records</h2>
-  <div class="issue" title="Content missing - Rights Records"></div>
-  <p>To indicate contextual information about Right Exercise activities, DPV suggests reuse of existing relations, such as those from DPV itself and [[[DCT]]]. For example, <code>dct:accessRights</code> can be used to specify constraints or requirements regarding access (e.g. log in required), or <code>dct:hasPart</code> and <code>dct:isPartOf</code> to express records and its contents, <code>dct:valid</code> to express validity constraints on the exercising being made available, <code>foaf:page</code> to specify the location or provision of notice, and [=hasStatus</code> with {{anchor('dpv:RequestStatus')}} to represent the status of a rights exercise activity.</p>
+  <p>To indicate contextual information about Right Exercise activities, DPV suggests reuse of existing relations, such as those from DPV itself and [[[DCT]]]. For example, <code>dct:accessRights</code> can be used to specify constraints or requirements regarding access (e.g. log in required), or <code>dct:hasPart</code> and <code>dct:isPartOf</code> to express records and its contents, <code>dct:valid</code> to express validity constraints on the exercising being made available, <code>foaf:page</code> to specify the location or provision of notice, and {{anchor('dpv:hasStatus')}} with {{anchor('dpv:RequestStatus')}} to represent the status of a rights exercise activity.</p>
   <p>When rights require the provision of information which beyond a static common notice, for example a document personalised to the individual's information, or a dataset containing the individual's data, DPV recommends using [[[DCAT]]] to model the contents as a <code>dcat:Resource</code> or other relevant concepts from [[DCAT]] and [[DCT]] such as <code>dct:format</code>, <code>dct:accessRights</code>, and <code>dct:valid</code>.</p>
   </section>
 </section>

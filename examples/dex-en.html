@@ -2064,11 +2064,25 @@ link: <a href="https://w3id.org/dpv/examples/E0060.ttl">source file</a>;      co
         <section id="E0061">
           <h4><strong><i>E0061</i>:</strong> Associating justifications with right exercise non-fulfilment</h4>
             <aside class="example" title="Associating justifications with right exercise non-fulfilment">
-<p>The following example represents a notice outlining a failure to complete a GDPR Data Portability request due to identity verification failure.    <pre class="nohighlight"><code>ex:PDH a dpv:RightNonFulfilmentNotice ;
+<p>The following example represents a notice outlining a failure to complete a GDPR Data Portability request due to identity verification failure. The notice provides steps as providing an official ID for identity verification for the data subject to complete in order to continue the request, and outlines the consequence of not doing this would be a failure to complete the request.    <pre class="nohighlight"><code>ex:PDH a dpv:RightNonFulfilmentNotice ;
   dct:dateSubmitted &#34;2024-01-01&#34;^^xsd:date ;
   dct:publisher ex:SomeController ;
   dpv:hasRight eu-gdpr:A20 ;
-  dpv:hasJustification justifications:IdentityVerificationFailure .</code></pre>
+  dpv:hasRecipient dpv:DataSubject ;
+  dpv:hasJustification justifications:IdentityVerificationFailure ;
+  dpv:hasProcess [
+    a dpv:Process ;
+    dpv:isImplementedByEntity dpv:DataSubject ;
+    dpv:hasPurpose dpv:IdentityVerification ;
+    dpv:hasPersonalData pd:OfficialID ;
+    dpv:hasProcessing dpv:Share ;
+    dpv:hasRecipient dpv:SomeController ;
+    dpv:hasObligation [
+        a dpv:Obligation ;
+        dpv:hasDuration &#34;P30D&#34;^^xsd:duration ;
+        dpv:hasConsequenceOfFailure dpv:RequestRejected ;
+    ] .
+</code></pre>
     <p><small>(<em>META</em> 
       Example ID: <a href="https://w3id.org/dpv/examples#E0061"><code>E0061</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0061.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
@@ -2239,6 +2253,32 @@ ex:PDH a dpv:Process ;
     <p><small>(<em>META</em> 
       Example ID: <a href="https://w3id.org/dpv/examples#E0066"><code>E0066</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0066.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-14)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0067">
+          <h4><strong><i>E0067</i>:</strong> Indicating applicable rights</h4>
+            <aside class="example" title="Indicating applicable rights">
+<p>This example shows applicable rights being asserted in a privacy notice. The notice is for a GDPR implementing use-cases and uses the EU-GDPR extension to represent rights under GDPR. It also shows how rights not currently provided by DPV can be associated.    <pre class="nohighlight"><code>ex:PN2024 a dpv:PrivacyNotice ;
+    dpv:hasApplicableLaw legal-eu:GDPR ;
+    dpv:hasRight eu-gdpr:A15, # right of access
+        eu-gdpr:A16, # right to rectification
+        eu-gdpr:A17, # right to erasure / to be forgotten
+        eu-gdpr:A18, # right to restrict processing
+        eu-gdpr:A20, # right to data portability
+        eu-gdpr:A21 ; # right to object
+    dpv:hasRight [
+        a dpv:DataSubjectRight ;
+        dpv:hasApplicableLaw ex:SomeLaw ;
+        dct:description &#34;specific right to do X&#34;@en ;
+        dpv:hasProcess ex:SomeRightsProcess ;
+    ] .
+
+</code></pre>
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0067"><code>E0067</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0067.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-16)
     </small></p>
   </aside>
 

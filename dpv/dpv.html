@@ -4635,7 +4635,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
 </section>
 
 <section id="vocab-rights">
-  <h2>Rights</h2>
+  <h2>Rights and Rights Exercise</h2>
   <figure>
     <img src="../media/rights.png">
     <figcaption></figcaption>
@@ -4647,8 +4647,6 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
   <p>The concept [=Right=] represents a normative concept for what is permissible or necessary in accordance with a system such as laws. To associate rights with concepts that are relevant or within which those rights occur, the relation [=hasRight=] is used. Rights can be <i>passive</i>, which means they are always applicable without requiring anything to be done, or <i>active</i> where they require some action to be taken to initiate or exercise them. To represent these concepts, DPV uses [=PassiveRight=] and [=ActiveRight=] respectively. Rights can be applicable to different contexts or entities. To differentiate rights applicable or afforded to data subjects, the concept [=DataSubjectRight=] is used.</p>
   <p>The information regarding hwo to exercise a right is provided through [=RightExerciseNotice=] and associated using the [=isExercisedAt=] relation. This information can specify contextual information through use of other concepts such as [=PersonalDataHandling=] to denote a <i>necessary</i> [=Purpose=] of [=IdentityVerification=] as part of the rights exercise.</p>
   <p>A [=RightExerciseActivity=] represents a concrete instance of a right being exercised. It can include contextual information such as timestamps, durations, entities, etc. that can be part of record-keeping. An activity can be a single <i>step</i> related to rights exercise -- such as the initial request to exercise that right, or its acknowledgement, or the final step taken to fulfil the right (e.g. provide some information), or it can also be a single activity describing the entire rights exercise process(es). To collate related activities associated with a rights exercise (e.g. associated with a specific data subject or a specific request), the concept [=RightExerciseRecord=] is useful. The information provided to describe or in fulfilment of a right exercise is represented by [=RightFulfilmentNotice=] and that associated when a right exercise cannot be fulfilled is represented by [=RightNonFulfilmentNotice=].</p>
-  <p>To indicate contextual information about Right Exercise activities, DPV suggests reuse of existing relations, such as those from DPV itself and [[[DCT]]]. For example, <code>dct:accessRights</code> can be used to specify constraints or requirements regarding access (e.g. log in required), or <code>dct:hasPart</code> and <code>dct:isPartOf</code> to express records and its contents, <code>dct:valid</code> to express validity constraints on the exercising being made available, <code>foaf:page</code> to specify the location or provision of notice, and [=hasStatus</code> with [=RequestStatus=] to represent the status of a rights exercise activity.</p>
-  <p>When rights require the provision of information which beyond a static common notice, for example a document personalised to the individual's information, or a dataset containing the individual's data, DPV recommends using [[[DCAT]]] to model the contents as a <code>dcat:Resource</code> or other relevant concepts from [[DCAT]] and [[DCT]] such as <code>dct:format</code>, <code>dct:accessRights</code>, and <code>dct:valid</code>.</p>
 
   <div class="list-hierarchy"><ul class="concept-list">
   <li>
@@ -4683,15 +4681,18 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
       
   </li>
   <li>
-    <strong>dpv:RightExerciseNotice</strong>: Information associated with exercising of an active right
-      <small><a href="https://w3id.org/dpv#RightExerciseNotice" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
     <strong>dpv:RightExerciseRecord</strong>: Record of a Right being exercised
       <small><a href="https://w3id.org/dpv#RightExerciseRecord" class="local-link">go to full definition</a></small>
       
   </li>
+  <li>
+    <strong>dpv:RightNotice</strong>: Information associated with rights, such as which rights exist, when and where they are applicable, and other relevant information
+      <small><a href="https://w3id.org/dpv#RightNotice" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:RightExerciseNotice</strong>: Information associated with exercising of an active right such as where and how to exercise the right, information required for it, or updates on an exercised rights request
+      <small><a href="https://w3id.org/dpv#RightExerciseNotice" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
   <li>
     <strong>dpv:RightFulfilmentNotice</strong>: Notice provided regarding fulfilment of a right
       <small><a href="https://w3id.org/dpv#RightFulfilmentNotice" class="local-link">go to full definition</a></small>
@@ -4702,6 +4703,10 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
       <small><a href="https://w3id.org/dpv#RightNonFulfilmentNotice" class="local-link">go to full definition</a></small>
       
   </li>
+</ul>
+  </li>
+</ul>
+  </li>
 </ul></div>
 </section>
 
@@ -4711,10 +4716,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
   <p><strong>Please refer to <a href="/dpv/modules/rules.html">rules page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the rules concepts.</p>
 </div>
 
-  <p>DPV provides the concept [=Rule=] to specify requirements, constraints, and other forms of 'rules' that are associated with specific contexts (e.g., processing activities) using the relation [=hasRule=]. DPV provides three forms of Rules to represent [=Permission=], [=Prohibition=] and [=Obligation=], and their corresponding relations [=hasPermission=], [=hasProhibition=] and [=hasObligation=], to indicate a Rule that specifies whether something is permitted, prohibited or an obligation, respectively. DPV does not define additional semantics for rules and limits its scope and focus to provide a simple way to specify permissions, prohibitions, and obligations as common rules associated with personal data and its processing activities. For a more extensive and richer set of semantics and concepts to represent rules, DPVCG suggests looking towards other languages, such as [[ODRL]], [[SHACL]], and [[RuleML]] that have been developed with the specific goal of representing and applying rules. We welcome contributions for aligning DPV with these, and for providing guidance on how to complement DPV's rule-based concepts with external languages.</p>
-  <p>In representing Rules, DPV only provides the concept and does not express any inherent semantics on what those rules mean in relation to each other. For example, DPV does not express Permission to be non-compatible or disjoint from Prohibition. This is to separate the interpretation and application of rules based on the necessities of a use-case. For example, in a legal investigation it may be prudent to specify permission and prohibition can never occur together, but this may not be true if there are different legal requirements that allow a prohibition to be resolved or deferred, such as through another permission that overrides the prohibition.</p>
-  <p>DPV does not specify 'default' in relation to rules, i.e. it does not provide an interpretation of whether some rules apply automatically unless otherwise declared. For example, in declaring an instance of Personal Data Handling, the assumption is that the activities are modelled for what is happening or what is intended/planned to happen. The explicit annotation using a Permission rule adds information about whether some activity is permitted (and its associated information). Instead, if the use-case is using DPV to only document activities that are permitted, there is no need to explicitly specify the permissions. Similarly, just because something is happening or planned to happen, it cannot be assumed to be permitted (e.g., from evaluation of legal requirements). </p>
-  <p>To associate a rule with a specific context, which can be a PersonalDataHandling or PersonalData or Purposes, the relations [=hasPermission=], [=hasProhibition=] and [=hasObligation=] are provided. Additional types of rules can be added to DPV by extending the Rule Concept (e.g., <code>:MyRule rdfs:isSubClassOf dpv:Rule</code>).</p>
+  <p>DPV provides the concept [=Rule=] to specify requirements, constraints, and other forms of 'rules' that are associated with specific contexts (e.g., processing activities) using the relation [=hasRule=]. DPV provides three forms of Rules to represent [=Permission=], [=Prohibition=] and [=Obligation=], and their corresponding relations [=hasPermission=], [=hasProhibition=] and [=hasObligation=], to indicate a Rule that specifies whether something is permitted, prohibited or an obligation, respectively. DPV does not define additional semantics for rules and limits its scope and focus to provide a simple way to specify permissions, prohibitions, and obligations as common rules associated with activities. For a more extensive and richer set of semantics and concepts to represent rules, DPVCG suggests looking towards other languages, such as [[ODRL]], [[SHACL]], and [[RuleML]] that have been developed with the specific goal of representing and applying rules. We welcome contributions for aligning DPV with these, and for providing guidance on how to complement DPV's rule-based concepts with external languages.</p>
 
   <div class="list-hierarchy"><ul class="concept-list">
   <li>
@@ -5389,7 +5391,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0020" class="local-link">Using technical measure: Protecting data using encryption and access control <small>(E0020)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0020" class="local-link"><small><code>dex:E0020 :: </code> Using technical measure: Protecting data using encryption and access control</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -6380,7 +6382,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0054" class="local-link">Specifying status associated with activities <small>(E0054)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0054" class="local-link"><small><code>dex:E0054 :: </code> Specifying status associated with activities</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -7541,7 +7543,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0053" class="local-link">Specifying applicability of information <small>(E0053)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0053" class="local-link"><small><code>dex:E0053 :: </code> Specifying applicability of information</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -8796,7 +8798,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0056" class="local-link">Specifying the audit status assocaited with a DPIA <small>(E0056)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link">Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure <small>(E0057)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0056" class="local-link"><small><code>dex:E0056 :: </code> Specifying the audit status assocaited with a DPIA</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link"><small><code>dex:E0057 :: </code> Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -9741,7 +9743,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0013" class="local-link">Spam filter as Automated Decision Making with Human Involvement <small>(E0013)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0013" class="local-link"><small><code>dex:E0013 :: </code> Spam filter as Automated Decision Making with Human Involvement</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -12131,7 +12133,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
         
 <tr>
           <th>Source</th>
-          <td><i><a href="https://specialprivacy.ercim.eu/vocabs/processing">SPECIAL Project</a>, <a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj">GDPR Art.4-2</a></i></td>
+          <td><i><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj">GDPR Art.4-2</a>, <a href="https://specialprivacy.ercim.eu/vocabs/processing">SPECIAL Project</a></i></td>
         </tr>       
 <tr>
           <th>Related</th>
@@ -12292,7 +12294,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0046" class="local-link">Indicating data being collected and derived <small>(E0046)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0046" class="local-link"><small><code>dex:E0046 :: </code> Indicating data being collected and derived</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -12459,7 +12461,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
         
 <tr>
           <th>Source</th>
-          <td><i><a href="https://specialprivacy.ercim.eu/vocabs/processing">SPECIAL Project</a>, <a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj">GDPR Art.4-2</a></i></td>
+          <td><i><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj">GDPR Art.4-2</a>, <a href="https://specialprivacy.ercim.eu/vocabs/processing">SPECIAL Project</a></i></td>
         </tr>       
 <tr>
           <th>Related</th>
@@ -13280,7 +13282,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0055" class="local-link">Specifying compliance status and lawfulness <small>(E0055)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0055" class="local-link"><small><code>dex:E0055 :: </code> Specifying compliance status and lawfulness</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -14099,7 +14101,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0015" class="local-link">Indicating consent as a legal basis <small>(E0015)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0018" class="local-link">Using consent types <small>(E0018)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0015" class="local-link"><small><code>dex:E0015 :: </code> Indicating consent as a legal basis</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0018" class="local-link"><small><code>dex:E0018 :: </code> Using consent types</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -14702,7 +14704,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0016" class="local-link">Indicating details about an individual&#39;s consent <small>(E0016)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0023" class="local-link">Consent record example <small>(E0023)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0016" class="local-link"><small><code>dex:E0016 :: </code> Indicating details about an individual&#39;s consent</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0023" class="local-link"><small><code>dex:E0023 :: </code> Consent record example</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -15579,7 +15581,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0027" class="local-link">Indicating risks, consequences, and impacts <small>(E0027)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0027" class="local-link"><small><code>dex:E0027 :: </code> Indicating risks, consequences, and impacts</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -15895,7 +15897,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
         
 <tr>
           <th>Source</th>
-          <td><i><a href="https://specialprivacy.ercim.eu/vocabs/processing">SPECIAL Project</a>, <a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj">GDPR Art.4-2</a></i></td>
+          <td><i><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj">GDPR Art.4-2</a>, <a href="https://specialprivacy.ercim.eu/vocabs/processing">SPECIAL Project</a></i></td>
         </tr>       
 <tr>
           <th>Related</th>
@@ -17052,7 +17054,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0024" class="local-link">Controller-Processor agreement denoting processing to be carried out <small>(E0024)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0024" class="local-link"><small><code>dex:E0024 :: </code> Controller-Processor agreement denoting processing to be carried out</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -19705,7 +19707,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0032" class="local-link">Indicating Controller identity and details of representative <small>(E0032)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0033" class="local-link">Indicating Processor as the implementing entity in a process <small>(E0033)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0032" class="local-link"><small><code>dex:E0032 :: </code> Indicating Controller identity and details of representative</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0033" class="local-link"><small><code>dex:E0033 :: </code> Indicating Processor as the implementing entity in a process</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -20133,7 +20135,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0035" class="local-link">Specifying data exporters and importers <small>(E0035)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0035" class="local-link"><small><code>dex:E0035 :: </code> Specifying data exporters and importers</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -20308,7 +20310,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0035" class="local-link">Specifying data exporters and importers <small>(E0035)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0035" class="local-link"><small><code>dex:E0035 :: </code> Specifying data exporters and importers</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -21154,7 +21156,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0033" class="local-link">Indicating Processor as the implementing entity in a process <small>(E0033)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0033" class="local-link"><small><code>dex:E0033 :: </code> Indicating Processor as the implementing entity in a process</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -21329,7 +21331,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0036" class="local-link">Indicate relevant authority for processing <small>(E0036)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0036" class="local-link"><small><code>dex:E0036 :: </code> Indicate relevant authority for processing</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -22357,7 +22359,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0012" class="local-link">Indicating Data Sources <small>(E0012)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0012" class="local-link"><small><code>dex:E0012 :: </code> Indicating Data Sources</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -22532,7 +22534,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0039" class="local-link">Indicating involvement of data subjects <small>(E0039)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0039" class="local-link"><small><code>dex:E0039 :: </code> Indicating involvement of data subjects</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -23030,7 +23032,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0049" class="local-link">Indicating data volume, geo-location coverage, data subject scale, and a processing scale <small>(E0049)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0049" class="local-link"><small><code>dex:E0049 :: </code> Indicating data volume, geo-location coverage, data subject scale, and a processing scale</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -23620,7 +23622,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0049" class="local-link">Indicating data volume, geo-location coverage, data subject scale, and a processing scale <small>(E0049)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0049" class="local-link"><small><code>dex:E0049 :: </code> Indicating data volume, geo-location coverage, data subject scale, and a processing scale</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -24110,7 +24112,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0009" class="local-link">Derivation and inference of personal data <small>(E0009)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0009" class="local-link"><small><code>dex:E0009 :: </code> Derivation and inference of personal data</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -24277,7 +24279,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0009" class="local-link">Derivation and inference of personal data <small>(E0009)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0046" class="local-link">Indicating data being collected and derived <small>(E0046)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0009" class="local-link"><small><code>dex:E0009 :: </code> Derivation and inference of personal data</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0046" class="local-link"><small><code>dex:E0046 :: </code> Indicating data being collected and derived</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -25940,7 +25942,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0056" class="local-link">Specifying the audit status assocaited with a DPIA <small>(E0056)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0056" class="local-link"><small><code>dex:E0056 :: </code> Specifying the audit status assocaited with a DPIA</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -26027,7 +26029,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0050" class="local-link">Specifying duration <small>(E0050)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0050" class="local-link"><small><code>dex:E0050 :: </code> Specifying duration</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -26532,7 +26534,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0020" class="local-link">Using technical measure: Protecting data using encryption and access control <small>(E0020)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0020" class="local-link"><small><code>dex:E0020 :: </code> Using technical measure: Protecting data using encryption and access control</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -28634,7 +28636,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0018" class="local-link">Using consent types <small>(E0018)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0018" class="local-link"><small><code>dex:E0018 :: </code> Using consent types</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -28802,7 +28804,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0018" class="local-link">Using consent types <small>(E0018)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0018" class="local-link"><small><code>dex:E0018 :: </code> Using consent types</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -29784,7 +29786,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0051" class="local-link">Specifying frequency <small>(E0051)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0051" class="local-link"><small><code>dex:E0051 :: </code> Specifying frequency</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -30536,7 +30538,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0049" class="local-link">Indicating data volume, geo-location coverage, data subject scale, and a processing scale <small>(E0049)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0049" class="local-link"><small><code>dex:E0049 :: </code> Indicating data volume, geo-location coverage, data subject scale, and a processing scale</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -32105,7 +32107,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0013" class="local-link">Spam filter as Automated Decision Making with Human Involvement <small>(E0013)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0013" class="local-link"><small><code>dex:E0013 :: </code> Spam filter as Automated Decision Making with Human Involvement</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -33295,7 +33297,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0027" class="local-link">Indicating risks, consequences, and impacts <small>(E0027)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0027" class="local-link"><small><code>dex:E0027 :: </code> Indicating risks, consequences, and impacts</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -34536,7 +34538,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0009" class="local-link">Derivation and inference of personal data <small>(E0009)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0009" class="local-link"><small><code>dex:E0009 :: </code> Derivation and inference of personal data</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -34714,7 +34716,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0009" class="local-link">Derivation and inference of personal data <small>(E0009)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0009" class="local-link"><small><code>dex:E0009 :: </code> Derivation and inference of personal data</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -36253,7 +36255,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link">Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure <small>(E0057)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link">Expressing a right exercise request is delayed due to high volume of requests <small>(E0058)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0059" class="local-link">Exercising the right to rectification with contesting accuracy of information as justification <small>(E0059)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link">Associating justifications with right exercise non-fulfilment <small>(E0061)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0062" class="local-link">Using justifications across categories <small>(E0062)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0063" class="local-link">Expressing data breach notifications to data subjects are not required using a justification <small>(E0063)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link"><small><code>dex:E0057 :: </code> Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link"><small><code>dex:E0058 :: </code> Expressing a right exercise request is delayed due to high volume of requests</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0059" class="local-link"><small><code>dex:E0059 :: </code> Exercising the right to rectification with contesting accuracy of information as justification</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link"><small><code>dex:E0061 :: </code> Associating justifications with right exercise non-fulfilment</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0062" class="local-link"><small><code>dex:E0062 :: </code> Using justifications across categories</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0063" class="local-link"><small><code>dex:E0063 :: </code> Expressing data breach notifications to data subjects are not required using a justification</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -36997,7 +36999,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0014" class="local-link">Denoting Legal Basis within a Process <small>(E0014)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0014" class="local-link"><small><code>dex:E0014 :: </code> Denoting Legal Basis within a Process</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -37410,7 +37412,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0042" class="local-link">Indicating legal compliance as a purpose along with the relevant law <small>(E0042)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0042" class="local-link"><small><code>dex:E0042 :: </code> Indicating legal compliance as a purpose along with the relevant law</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -37491,7 +37493,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0065" class="local-link">Specifying legitimate interest of a controller <small>(E0065)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0065" class="local-link"><small><code>dex:E0065 :: </code> Specifying legitimate interest of a controller</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -37655,7 +37657,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0065" class="local-link">Specifying legitimate interest of a controller <small>(E0065)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0065" class="local-link"><small><code>dex:E0065 :: </code> Specifying legitimate interest of a controller</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -38312,7 +38314,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0060" class="local-link">Specifying the location of a process <small>(E0060)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0060" class="local-link"><small><code>dex:E0060 :: </code> Specifying the location of a process</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -38385,7 +38387,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0060" class="local-link">Specifying the location of a process <small>(E0060)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0060" class="local-link"><small><code>dex:E0060 :: </code> Specifying the location of a process</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -38467,7 +38469,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0060" class="local-link">Specifying the location of a process <small>(E0060)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0060" class="local-link"><small><code>dex:E0060 :: </code> Specifying the location of a process</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -41065,7 +41067,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0026" class="local-link">Example of Contextual Necessity <small>(E0026)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0052" class="local-link">Specifying necessity and importance in context <small>(E0052)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0026" class="local-link"><small><code>dex:E0026 :: </code> Example of Contextual Necessity</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0052" class="local-link"><small><code>dex:E0052 :: </code> Specifying necessity and importance in context</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -42507,7 +42509,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0017" class="local-link">Representing notice, provision, expiry, and withdrawal information for consent <small>(E0017)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0017" class="local-link"><small><code>dex:E0017 :: </code> Representing notice, provision, expiry, and withdrawal information for consent</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -44703,7 +44705,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0021" class="local-link">Using organisational measure: Indicating staff training for use of Credentials <small>(E0021)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0021" class="local-link"><small><code>dex:E0021 :: </code> Using organisational measure: Indicating staff training for use of Credentials</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -44797,7 +44799,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0037" class="local-link">Indicating type of organisation and involvement of specific orgnisational units <small>(E0037)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0037" class="local-link"><small><code>dex:E0037 :: </code> Indicating type of organisation and involvement of specific orgnisational units</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -46218,7 +46220,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0028" class="local-link">Rule specifying permission <small>(E0028)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0066" class="local-link">Specifying permissions and prohibitions <small>(E0066)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0028" class="local-link"><small><code>dex:E0028 :: </code> Rule specifying permission</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0066" class="local-link"><small><code>dex:E0066 :: </code> Specifying permissions and prohibitions</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -46391,7 +46393,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0044" class="local-link">Specifying personal data <small>(E0044)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0044" class="local-link"><small><code>dex:E0044 :: </code> Specifying personal data</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -48629,7 +48631,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0017" class="local-link">Representing notice, provision, expiry, and withdrawal information for consent <small>(E0017)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0022" class="local-link">Privacy Notice used in an activity <small>(E0022)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0017" class="local-link"><small><code>dex:E0017 :: </code> Representing notice, provision, expiry, and withdrawal information for consent</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0022" class="local-link"><small><code>dex:E0022 :: </code> Privacy Notice used in an activity</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -48955,7 +48957,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0005" class="local-link">Process used to combine core concepts and represent an use-case <small>(E0005)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0006" class="local-link">Nesting Processes <small>(E0006)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0031" class="local-link">Using Service to group related processes <small>(E0031)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0041" class="local-link">Indicating purposes associated with a Service <small>(E0041)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0005" class="local-link"><small><code>dex:E0005 :: </code> Process used to combine core concepts and represent an use-case</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0006" class="local-link"><small><code>dex:E0006 :: </code> Nesting Processes</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0031" class="local-link"><small><code>dex:E0031 :: </code> Using Service to group related processes</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0041" class="local-link"><small><code>dex:E0041 :: </code> Indicating purposes associated with a Service</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -49126,7 +49128,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0047" class="local-link">Indicating processing conditions for duration and location <small>(E0047)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0047" class="local-link"><small><code>dex:E0047 :: </code> Indicating processing conditions for duration and location</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -49288,7 +49290,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0047" class="local-link">Indicating processing conditions for duration and location <small>(E0047)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0047" class="local-link"><small><code>dex:E0047 :: </code> Indicating processing conditions for duration and location</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -49376,7 +49378,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0047" class="local-link">Indicating processing conditions for duration and location <small>(E0047)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0047" class="local-link"><small><code>dex:E0047 :: </code> Indicating processing conditions for duration and location</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -49462,7 +49464,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0049" class="local-link">Indicating data volume, geo-location coverage, data subject scale, and a processing scale <small>(E0049)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0049" class="local-link"><small><code>dex:E0049 :: </code> Indicating data volume, geo-location coverage, data subject scale, and a processing scale</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -49707,7 +49709,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0029" class="local-link">Rule specifying prohibition <small>(E0029)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0066" class="local-link">Specifying permissions and prohibitions <small>(E0066)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0029" class="local-link"><small><code>dex:E0029 :: </code> Rule specifying prohibition</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0066" class="local-link"><small><code>dex:E0066 :: </code> Specifying permissions and prohibitions</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -50206,7 +50208,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0046" class="local-link">Indicating data being collected and derived <small>(E0046)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0046" class="local-link"><small><code>dex:E0046 :: </code> Indicating data being collected and derived</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -51441,7 +51443,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0003" class="local-link">Extending multiple concepts <small>(E0003)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0004" class="local-link">Interoperability of extended concepts across use-cases <small>(E0004)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0007" class="local-link">Extending Purposes and adding human-readable descriptions <small>(E0007)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0008" class="local-link">Using NACE codes to restrict Purposes <small>(E0008)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0040" class="local-link">Extending a purpose and using human-readable descriptions <small>(E0040)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0041" class="local-link">Indicating purposes associated with a Service <small>(E0041)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0042" class="local-link">Indicating legal compliance as a purpose along with the relevant law <small>(E0042)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0043" class="local-link">Indicating sector or domain and associating it with a purpose <small>(E0043)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0003" class="local-link"><small><code>dex:E0003 :: </code> Extending multiple concepts</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0004" class="local-link"><small><code>dex:E0004 :: </code> Interoperability of extended concepts across use-cases</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0007" class="local-link"><small><code>dex:E0007 :: </code> Extending Purposes and adding human-readable descriptions</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0008" class="local-link"><small><code>dex:E0008 :: </code> Using NACE codes to restrict Purposes</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0040" class="local-link"><small><code>dex:E0040 :: </code> Extending a purpose and using human-readable descriptions</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0041" class="local-link"><small><code>dex:E0041 :: </code> Indicating purposes associated with a Service</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0042" class="local-link"><small><code>dex:E0042 :: </code> Indicating legal compliance as a purpose along with the relevant law</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0043" class="local-link"><small><code>dex:E0043 :: </code> Indicating sector or domain and associating it with a purpose</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -51953,7 +51955,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
         
 <tr>
           <th>Source</th>
-          <td><i><a href="https://specialprivacy.ercim.eu/">SPECIAL Project</a>, <a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_9/oj">GDPR Art.4-9g</a></i></td>
+          <td><i><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_9/oj">GDPR Art.4-9g</a>, <a href="https://specialprivacy.ercim.eu/">SPECIAL Project</a></i></td>
         </tr>       
 <tr>
           <th>Related</th>
@@ -53304,7 +53306,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0019" class="local-link">Indicating Entity Information, including DPO and Representatives <small>(E0019)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0032" class="local-link">Indicating Controller identity and details of representative <small>(E0032)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0019" class="local-link"><small><code>dex:E0019 :: </code> Indicating Entity Information, including DPO and Representatives</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0032" class="local-link"><small><code>dex:E0032 :: </code> Indicating Controller identity and details of representative</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -53556,7 +53558,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link">Expressing a right exercise request is delayed due to high volume of requests <small>(E0058)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link"><small><code>dex:E0058 :: </code> Expressing a right exercise request is delayed due to high volume of requests</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -55191,6 +55193,9 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
           <td><i>A &#39;right&#39; is a legal, social, or ethical principle of freedom or entitlement which dictate the norms regarding what is allowed or owed. Rights as a concept encompass a broad area of norms and entities, and are not specific to Individuals or Data Protection / Privacy. For individual specific rights, see dpv:DataSubjectRight</i></td>
         </tr>       
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0067" class="local-link"><small><code>dex:E0067 :: </code> Indicating applicable rights</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -55211,7 +55216,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-rights"> RIGHTS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-rights"> RIGHTS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -55290,7 +55295,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0059" class="local-link">Exercising the right to rectification with contesting accuracy of information as justification <small>(E0059)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0059" class="local-link"><small><code>dex:E0059 :: </code> Exercising the right to rectification with contesting accuracy of information as justification</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -55348,14 +55353,17 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
+          <td>            <a href="#RightNotice" class="local-link">dpv:RightNotice</a>
+             →             <a href="#Notice" class="local-link">dpv:Notice</a>
+             →             <a href="#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
              →             <a href="#TechnicalOrganisationalMeasure" class="local-link">dpv:TechnicalOrganisationalMeasure</a>
                         </td>        </tr>      
       
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasOrganisationalMeasure" class="local-link">dpv:hasOrganisationalMeasure</a>, 
+          <td>            <a href="#hasNotice" class="local-link">dpv:hasNotice</a>, 
+            <a href="#hasOrganisationalMeasure" class="local-link">dpv:hasOrganisationalMeasure</a>, 
             <a href="#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>, 
             <a href="#isExercisedAt" class="local-link">dpv:isExercisedAt</a>
 </td>
@@ -55368,7 +55376,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Information associated with exercising of an active right</i></td>
+          <td><i>Information associated with exercising of an active right such as where and how to exercise the right, information required for it, or updates on an exercised rights request</i></td>
         </tr>        
 <tr>
           <th>Usage Note</th>
@@ -55465,7 +55473,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link">Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure <small>(E0057)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link"><small><code>dex:E0057 :: </code> Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -55523,7 +55531,9 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#Notice" class="local-link">dpv:Notice</a>
+          <td>            <a href="#RightExerciseNotice" class="local-link">dpv:RightExerciseNotice</a>
+             →             <a href="#RightNotice" class="local-link">dpv:RightNotice</a>
+             →             <a href="#Notice" class="local-link">dpv:Notice</a>
              →             <a href="#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
              →             <a href="#TechnicalOrganisationalMeasure" class="local-link">dpv:TechnicalOrganisationalMeasure</a>
                         </td>        </tr>      
@@ -55533,7 +55543,8 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
           <th>Object of relation</th>
           <td>            <a href="#hasNotice" class="local-link">dpv:hasNotice</a>, 
             <a href="#hasOrganisationalMeasure" class="local-link">dpv:hasOrganisationalMeasure</a>, 
-            <a href="#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>
+            <a href="#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>, 
+            <a href="#isExercisedAt" class="local-link">dpv:isExercisedAt</a>
 </td>
         </tr>
         
@@ -55608,7 +55619,9 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#Notice" class="local-link">dpv:Notice</a>
+          <td>            <a href="#RightExerciseNotice" class="local-link">dpv:RightExerciseNotice</a>
+             →             <a href="#RightNotice" class="local-link">dpv:RightNotice</a>
+             →             <a href="#Notice" class="local-link">dpv:Notice</a>
              →             <a href="#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
              →             <a href="#TechnicalOrganisationalMeasure" class="local-link">dpv:TechnicalOrganisationalMeasure</a>
                         </td>        </tr>      
@@ -55618,7 +55631,8 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
           <th>Object of relation</th>
           <td>            <a href="#hasNotice" class="local-link">dpv:hasNotice</a>, 
             <a href="#hasOrganisationalMeasure" class="local-link">dpv:hasOrganisationalMeasure</a>, 
-            <a href="#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>
+            <a href="#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>, 
+            <a href="#isExercisedAt" class="local-link">dpv:isExercisedAt</a>
 </td>
         </tr>
         
@@ -55638,7 +55652,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link">Expressing a right exercise request is delayed due to high volume of requests <small>(E0058)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link">Associating justifications with right exercise non-fulfilment <small>(E0061)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link"><small><code>dex:E0058 :: </code> Expressing a right exercise request is delayed due to high volume of requests</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link"><small><code>dex:E0061 :: </code> Associating justifications with right exercise non-fulfilment</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -55660,6 +55674,91 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-rights"> RIGHTS</a> in <a href="https://w3id.org/dpv#">DEX</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RightNotice">
+      <h4>Right Notice</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RightNotice</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Right Notice</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#RightNotice" class="local-link">https://w3id.org/dpv#RightNotice</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#Notice" class="local-link">dpv:Notice</a>
+             →             <a href="#OrganisationalMeasure" class="local-link">dpv:OrganisationalMeasure</a>
+             →             <a href="#TechnicalOrganisationalMeasure" class="local-link">dpv:TechnicalOrganisationalMeasure</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasNotice" class="local-link">dpv:hasNotice</a>, 
+            <a href="#hasOrganisationalMeasure" class="local-link">dpv:hasOrganisationalMeasure</a>, 
+            <a href="#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Information associated with rights, such as which rights exist, when and where they are applicable, and other relevant information</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>This concept also covers information about rights exercise, with dpv:RightExerciseNotice specifically representing information provided in connection with exercising of rights. Both notices may be needed, e.g. RightNotice for providing information about existence and exercise of rights, and RightExerciseNotice for providing additional information specifically about exericse of rights - such as to request more information or provide updates on an exercised rights request</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-06-16</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rights"> RIGHTS</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -55981,7 +56080,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0027" class="local-link">Indicating risks, consequences, and impacts <small>(E0027)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0027" class="local-link"><small><code>dex:E0027 :: </code> Indicating risks, consequences, and impacts</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -56480,7 +56579,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0030" class="local-link">Rule combining DPV with ODRL <small>(E0030)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0030" class="local-link"><small><code>dex:E0030 :: </code> Rule combining DPV with ODRL</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -57456,7 +57555,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0043" class="local-link">Indicating sector or domain and associating it with a purpose <small>(E0043)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0043" class="local-link"><small><code>dex:E0043 :: </code> Indicating sector or domain and associating it with a purpose</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -58846,7 +58945,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0010" class="local-link">Indicating personal data is sensitive or special category <small>(E0010)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0045" class="local-link">Indicating data belongs to sensitive or special category <small>(E0045)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0010" class="local-link"><small><code>dex:E0010 :: </code> Indicating personal data is sensitive or special category</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0045" class="local-link"><small><code>dex:E0045 :: </code> Indicating data belongs to sensitive or special category</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -59021,7 +59120,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0031" class="local-link">Using Service to group related processes <small>(E0031)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0041" class="local-link">Indicating purposes associated with a Service <small>(E0041)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0031" class="local-link"><small><code>dex:E0031 :: </code> Using Service to group related processes</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0041" class="local-link"><small><code>dex:E0041 :: </code> Indicating purposes associated with a Service</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -60497,7 +60596,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0010" class="local-link">Indicating personal data is sensitive or special category <small>(E0010)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0045" class="local-link">Indicating data belongs to sensitive or special category <small>(E0045)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0010" class="local-link"><small><code>dex:E0010 :: </code> Indicating personal data is sensitive or special category</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0045" class="local-link"><small><code>dex:E0045 :: </code> Indicating data belongs to sensitive or special category</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -60835,7 +60934,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0021" class="local-link">Using organisational measure: Indicating staff training for use of Credentials <small>(E0021)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0021" class="local-link"><small><code>dex:E0021 :: </code> Using organisational measure: Indicating staff training for use of Credentials</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -61232,7 +61331,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0011" class="local-link">Indicating Storage Conditions <small>(E0011)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0048" class="local-link">Indicating storage conditions for duration, location, deletion, and restoration <small>(E0048)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0011" class="local-link"><small><code>dex:E0011 :: </code> Indicating Storage Conditions</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0048" class="local-link"><small><code>dex:E0048 :: </code> Indicating storage conditions for duration, location, deletion, and restoration</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -61317,7 +61416,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0048" class="local-link">Indicating storage conditions for duration, location, deletion, and restoration <small>(E0048)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0048" class="local-link"><small><code>dex:E0048 :: </code> Indicating storage conditions for duration, location, deletion, and restoration</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -61414,7 +61513,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0048" class="local-link">Indicating storage conditions for duration, location, deletion, and restoration <small>(E0048)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0048" class="local-link"><small><code>dex:E0048 :: </code> Indicating storage conditions for duration, location, deletion, and restoration</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -61511,7 +61610,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0048" class="local-link">Indicating storage conditions for duration, location, deletion, and restoration <small>(E0048)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0048" class="local-link"><small><code>dex:E0048 :: </code> Indicating storage conditions for duration, location, deletion, and restoration</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -61596,7 +61695,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0048" class="local-link">Indicating storage conditions for duration, location, deletion, and restoration <small>(E0048)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0048" class="local-link"><small><code>dex:E0048 :: </code> Indicating storage conditions for duration, location, deletion, and restoration</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -63109,7 +63208,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0020" class="local-link">Using technical measure: Protecting data using encryption and access control <small>(E0020)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0064" class="local-link">Indicating use of a technical measure and its implementation <small>(E0064)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0020" class="local-link"><small><code>dex:E0020 :: </code> Using technical measure: Protecting data using encryption and access control</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0064" class="local-link"><small><code>dex:E0064 :: </code> Indicating use of a technical measure and its implementation</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -64101,7 +64200,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0035" class="local-link">Specifying data exporters and importers <small>(E0035)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0035" class="local-link"><small><code>dex:E0035 :: </code> Specifying data exporters and importers</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -68661,7 +68760,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0054" class="local-link">Specifying status associated with activities <small>(E0054)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0054" class="local-link"><small><code>dex:E0054 :: </code> Specifying status associated with activities</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -68886,7 +68985,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0053" class="local-link">Specifying applicability of information <small>(E0053)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0053" class="local-link"><small><code>dex:E0053 :: </code> Specifying applicability of information</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -69123,7 +69222,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0056" class="local-link">Specifying the audit status assocaited with a DPIA <small>(E0056)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link">Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure <small>(E0057)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0056" class="local-link"><small><code>dex:E0056 :: </code> Specifying the audit status assocaited with a DPIA</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link"><small><code>dex:E0057 :: </code> Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -69355,7 +69454,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0055" class="local-link">Specifying compliance status and lawfulness <small>(E0055)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0055" class="local-link"><small><code>dex:E0055 :: </code> Specifying compliance status and lawfulness</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -70817,7 +70916,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0050" class="local-link">Specifying duration <small>(E0050)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0050" class="local-link"><small><code>dex:E0050 :: </code> Specifying duration</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -71205,7 +71304,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0051" class="local-link">Specifying frequency <small>(E0051)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0051" class="local-link"><small><code>dex:E0051 :: </code> Specifying frequency</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -72297,7 +72396,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link">Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure <small>(E0057)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link">Expressing a right exercise request is delayed due to high volume of requests <small>(E0058)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0059" class="local-link">Exercising the right to rectification with contesting accuracy of information as justification <small>(E0059)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link">Associating justifications with right exercise non-fulfilment <small>(E0061)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0062" class="local-link">Using justifications across categories <small>(E0062)</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0063" class="local-link">Expressing data breach notifications to data subjects are not required using a justification <small>(E0063)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0057" class="local-link"><small><code>dex:E0057 :: </code> Expressing GDPR Right to Data Portability could not be fulfilled due to Identity Verification failure</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0058" class="local-link"><small><code>dex:E0058 :: </code> Expressing a right exercise request is delayed due to high volume of requests</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0059" class="local-link"><small><code>dex:E0059 :: </code> Exercising the right to rectification with contesting accuracy of information as justification</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link"><small><code>dex:E0061 :: </code> Associating justifications with right exercise non-fulfilment</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0062" class="local-link"><small><code>dex:E0062 :: </code> Using justifications across categories</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0063" class="local-link"><small><code>dex:E0063 :: </code> Expressing data breach notifications to data subjects are not required using a justification</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -72682,7 +72781,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0060" class="local-link">Specifying the location of a process <small>(E0060)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0060" class="local-link"><small><code>dex:E0060 :: </code> Specifying the location of a process</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -72834,7 +72933,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0052" class="local-link">Specifying necessity and importance in context <small>(E0052)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0052" class="local-link"><small><code>dex:E0052 :: </code> Specifying necessity and importance in context</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -73605,7 +73704,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0066" class="local-link">Specifying permissions and prohibitions <small>(E0066)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0066" class="local-link"><small><code>dex:E0066 :: </code> Specifying permissions and prohibitions</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -73688,7 +73787,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0044" class="local-link">Specifying personal data <small>(E0044)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0044" class="local-link"><small><code>dex:E0044 :: </code> Specifying personal data</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -74303,7 +74402,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0066" class="local-link">Specifying permissions and prohibitions <small>(E0066)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0066" class="local-link"><small><code>dex:E0066 :: </code> Specifying permissions and prohibitions</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -75176,7 +75275,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#Right" class="local-link">dpv:Right</a>
+          <td>            <a href="https://w3id.org/dpv#Right" class="local-link">dpv:Right</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -75189,7 +75288,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link">Associating justifications with right exercise non-fulfilment <small>(E0061)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0061" class="local-link"><small><code>dex:E0061 :: </code> Associating justifications with right exercise non-fulfilment</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0067" class="local-link"><small><code>dex:E0067 :: </code> Indicating applicable rights</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -76354,7 +76453,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0038" class="local-link">Indicating subsidiaries of an organisation <small>(E0038)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0038" class="local-link"><small><code>dex:E0038 :: </code> Indicating subsidiaries of an organisation</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -76437,7 +76536,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0064" class="local-link">Indicating use of a technical measure and its implementation <small>(E0064)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0064" class="local-link"><small><code>dex:E0064 :: </code> Indicating use of a technical measure and its implementation</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -77285,7 +77384,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0037" class="local-link">Indicating type of organisation and involvement of specific orgnisational units <small>(E0037)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0037" class="local-link"><small><code>dex:E0037 :: </code> Indicating type of organisation and involvement of specific orgnisational units</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -77368,7 +77467,7 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0064" class="local-link">Indicating use of a technical measure and its implementation <small>(E0064)</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0064" class="local-link"><small><code>dex:E0064 :: </code> Indicating use of a technical measure and its implementation</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -78714,6 +78813,9 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
       
        
        
+      
+      
+      
       
       
       
@@ -81886,6 +81988,9 @@ link: <a href="https://w3id.org/dpv/examples/E0031.ttl">source file</a>;      co
       
       
        
+      
+       
+      
       
        
       
