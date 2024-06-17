@@ -1,6 +1,6 @@
 # DPV NACE Vocabulary
 
-This vocabulary provides a RDFS interpretation of NACE codes for use with the [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) vocabulary.
+This vocabulary provides a RDFS interpretation of NACE codes for use with the [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv/v1.0) vocabulary.
 
 > The namespace for DPV-NACE is `https://w3.org/ns/dpv-nace#`
 >
