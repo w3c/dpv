@@ -1,0 +1,19 @@
+# Associating a Notice with DPV metadata
+ex:Service rdf:type dpv:PersonalDataHandling ;
+    dpv:hasNotice ex:AcmePrivacyPolicy .
+
+ex:AcmePrivayPolicy rdf:type dpv:PrivacyNotice ;
+    dct:title "Acme's Privacy Policy"@en ;
+    foaf:page "https://example.com/"^^xsd:anyURI .
+
+# Describing a Notice using DPV metadata
+ex:AcmePrivacyPolicy rdf:type dpv:PrivacyNotice ;
+    # Approach 1: delegate contents to a PDH instance
+    dpv:hasPersonalDataHandling ex:Service ;
+    # Approach 2: declare specifics directly
+    dpv:hasPurpose dpv:ServiceProvision ;
+    dpv:hasPersonalData dpv-pd:Email ;
+    dpv:hasProcessing dpv:Collect ;
+    # Specifying location of notice
+    # In this case, as a website, or could be a domain
+    dpv:hasLocation "https://example.com"^^xsd:anyURI .
