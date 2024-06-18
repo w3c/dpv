@@ -16,7 +16,8 @@ fi
 
 ## Choose Mode for live or local version
 # MODE="https://w3id.org/dpv"
-MODE="http://localhost:8000"
+# MODE="http://localhost:8000"
+MODE="https://dev.dpvcg.org/v2.0"
 
 FILES=(
     # core specs
@@ -85,5 +86,5 @@ done
 
 for i in "${!FILES[@]}"
 do
-    $COMMAND ${FILES[i]}
+    echo ${FILES[i]}
 done

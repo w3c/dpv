@@ -105,7 +105,7 @@ NS.ns = { k:v for k,v in NAMESPACES.items() }
 # === Import/Export for RDF and HTML ===
 
 # Root folder to import RDF files from
-IMPORT_PATH = '..'
+IMPORT_PATH = '../v2.0'
 # Root folder to export HTML filese to
 EXPORT_PATH = '../v2.0'
 # Root folder where Jinja2 templates are stored
