@@ -1,105 +1,45 @@
 #!/usr/bin/env python3
 
-from rdflib import Graph, Namespace
-from rdflib import RDF, RDFS, OWL
-from rdflib.term import Literal, BNode
-SW = Namespace('http://www.w3.org/2003/06/sw-vocab-status/ns#')
+from rdflib import Graph
+from rdflib.term import BNode
 
-GITHUB_REPO_RAW = 'https://raw.githubusercontent.com/coolharsh55/dpv/master/'
-GITHUB_DPV_RAW = f'{GITHUB_REPO_RAW}dpv/modules/'
-GITHUB_DPV_GDPR_RAW = f'{GITHUB_REPO_RAW}dpv-gdpr/modules/'
-GITHUB_DPV_PD_RAW = f'{GITHUB_REPO_RAW}dpv-pd/'
-GITHUB_DPV_LEGAL_RAW = f'{GITHUB_REPO_RAW}dpv-legal/modules/'
-GITHUB_DPV_TECH_RAW = f'{GITHUB_REPO_RAW}dpv-tech/'
-GITHUB_RISK_RAW = f'{GITHUB_REPO_RAW}risk/modules/'
-GITHUB_RIGHTS_EU_RAW = f'{GITHUB_REPO_RAW}rights/eu/'
-
-LOCAL_DPV = '../dpv/modules/'
-LOCAL_DPV_GDPR = '../dpv-gdpr/modules/'
-LOCAL_DPV_PD = '../dpv-pd/'
-LOCAL_DPV_LEGAL = '../dpv-legal/modules/'
-LOCAL_DPV_TECH = '../dpv-tech/'
-LOCAL_RISK = '../risk/modules/'
-LOCAL_RIGHTS_EU = '../rights/eu/'
-
-DPV_MODULES = (
-    'base',
-    'consent_status',
-    'consent',
-    'consent_types',
-    'context',
-    'entities_authority',
-    'entities_datasubject',
-    'entities_legalrole',
-    'entities_organisation',
-    'entities',
-    'jurisdiction',
-    'legal_basis',
-    'organisational_measures',
-    'personal_data',
-    'processing_context',
-    'processing_scale',
-    'processing',
-    'purposes',
-    'risk',
-    'status',
-    'technical_measures',
-    'technical_organisational_measures',
-    'rights',
-    'rules',
+COMPARE = (
+    ('DPV', 'v2.0/dpv/dpv.ttl', 'v1.0/dpv/dpv.ttl'),
+    ('PD', 'v2.0/pd/pd.ttl', 'v1.0/dpv-pd/dpv-pd.ttl'),
+    ('EU-GDPR', 'v2.0/legal/eu/gdpr/eu-gdpr.ttl', 'v1.0/dpv-gdpr/dpv-gdpr.ttl'),
+    ('LEGAL', 'v2.0/legal/legal.ttl', 'v1.0/dpv-legal/dpv-legal.ttl'),
+    ('LOC', 'v2.0/loc/loc.ttl', 'v1.0/dpv-legal/dpv-legal.ttl'),
+    ('TECH', 'v2.0/tech/tech.ttl', 'v1.0/dpv-tech/dpv-tech.ttl'),
+    ('EU-RIGHTS', 'v2.0/legal/eu/rights/eu-rights.ttl', 'v1.0/rights/eu/rights-eu.ttl'),
+    ('RISK', 'v2.0/risk/risk.ttl', 'v1.0/risk/risk.ttl'),
+    ('AI', 'v2.0/ai/ai.ttl', None), # None means there is no old version
+    ('Justifications', 'v2.0/justifications/justifications.ttl', None),
+    ('EU-DGA', 'v2.0/legal/eu/dga/eu-dga.ttl', None),
+    ('EU-AIAct', 'v2.0/legal/eu/aiact/eu-aiact.ttl', None),
+    ('EU-NIS2', 'v2.0/legal/eu/nis2/eu-nis2.ttl', None),
+    ('LEGAL-IE', 'v2.0/legal/ie/legal-ie.ttl', None),
+    ('LEGAL-IN', 'v2.0/legal/in/legal-in.ttl', None),
+    ('LEGAL-DE', 'v2.0/legal/de/legal-de.ttl', None),
+    ('LEGAL-GB', 'v2.0/legal/gb/legal-gb.ttl', None),
+    ('LEGAL-US', 'v2.0/legal/us/legal-us.ttl', None),
+    ('LEGAL-EU', 'v2.0/legal/eu/legal-eu.ttl', None),
     )
-DPV_GDPR_MODULES = (
-    'legal_basis',
-    'legal_basis_special',
-    'legal_basis_data_transfer',
-    'rights',
-    'data_transfers',
-    'dpia',
-    'compliance',
-    )
-DPV_LEGAL_MODULES = (
-    'authorities',
-    'eu_adequacy',
-    'eu_eea',
-    'laws',
-    'locations',
-    'ontology',
-    )
-RISK_MODULES = (
-    'risk_consequences',
-    'risk_assessment',
-    'risk_controls',
-    'risk_levels',
-    'risk_matrix',
-    )
-RIGHTS_MODULES = (
-    'rights-eu',
-    )
-
-import urllib
-import tempfile
-
-
-def _download_file_to_rdf_graph(url):
-    '''Downloads URL and loads into rdflib graph'''
-    graph = Graph()
-    try:
-        response = urllib.request.urlopen(url)
-        data = response.read().decode('utf-8')
-        tfd = tempfile.NamedTemporaryFile()
-        with open(tfd.name, 'w') as fd:
-            fd.write(data)
-        graph.parse(tfd, format='turtle')
-    except urllib.error.HTTPError:
-        pass
-    return graph
-
 
 def _compare_iterations(graph_old, graph_new, ignore_BNode=True):
     '''compare old and new iterations of a graph
     returns added, removed, changed sets of concepts'''
-    old = set(s for s in graph_old.subjects(None, None))
-    new = set(s for s in graph_new.subjects(None, None))
+    old = set()
+    new = set()
+    for s in graph_old.subjects(None, None):
+        if '#' not in s: continue
+        s = s.split('#')[1]
+        if not s: continue
+        old.add(s)
+    for s in graph_new.subjects(None, None):
+        if '#' not in s: continue
+        s = s.split('#')[1]
+        if not s: continue
+        new.add(s)
     # added: things in new set that are not in old set
     added = new - old
     # removed: things in old set that are not in new set
@@ -108,43 +48,55 @@ def _compare_iterations(graph_old, graph_new, ignore_BNode=True):
         # ignore changes in BNodes
         added = [n for n in added if type(n) is not BNode]
         removed = [n for n in removed if type(n) is not BNode]
-    return added, removed
+    return len(new), added, removed
 
 
-def _print_stats(added, removed):
+def _print_stats(total, added, removed):
     '''print statistics and information about terms
     will output added terms, removed terms'''
-    print(f'added: {len(added)} ; removed: {len(removed)}')
+    summary = []
+    details = []
+    summary.append(f'total terms: {total} ; added: {len(added)} ; removed: {len(removed)}')
+    details.append(f'total terms: {total} ; added: {len(added)} ; removed: {len(removed)}')
     if removed:
-        print('Concepts Removed')
-        for term in removed:
-            print(term)
+        details.append('Concepts Removed')
+        for index, term in enumerate(sorted(removed)):
+            details.append((index+1, term))
     if added:
-        print('\nConcepts Added')
-        for term in added:
-            print(term)
-    print('---')
+        details.append('Concepts Added')
+        for index, term in enumerate(sorted(added)):
+            details.append((index+1, term))
+    details.append('-'*8)
+    return summary, details
 
 
-def _retrieve_and_compare(NAME, MODULES=None):
-    '''Will retrieve old version from GitHub and compare new version'''
-    print(f'\n--- {NAME} --- ')
-    if MODULES is None:
-        MODULES = [NAME.lower()]
-    var_github_raw = globals()[f"GITHUB_{NAME.replace('-','_')}_RAW"]
-    var_local = globals()[f"LOCAL_{NAME.replace('-','_')}"]
-    for module in MODULES:
-        print(f'MODULE: {module}')
-        old = _download_file_to_rdf_graph(f'{var_github_raw}{module}.ttl')
-        new = Graph()
-        new.parse(f'{var_local}{module}.ttl', format='turtle')
-        added, removed = _compare_iterations(old, new)
-        _print_stats(added, removed)
+def _compare(newpath, oldpath=None):
+    graph_new = Graph()
+    graph_new.parse(newpath, format='turtle')
+    graph_old = Graph()
+    if oldpath:
+        graph_old.parse(oldpath, format='turtle')
+    total, added, removed = _compare_iterations(graph_old, graph_new)
+    return _print_stats(total, added, removed)
 
-_retrieve_and_compare('DPV', MODULES=DPV_MODULES)
-_retrieve_and_compare('DPV-GDPR', MODULES=DPV_GDPR_MODULES)
-_retrieve_and_compare('DPV-PD')
-_retrieve_and_compare('DPV-LEGAL', MODULES=DPV_LEGAL_MODULES)
-_retrieve_and_compare('DPV-TECH')
-_retrieve_and_compare('RISK', MODULES=RISK_MODULES)
-_retrieve_and_compare('RIGHTS-EU', MODULES=RIGHTS_MODULES)
+summary = []
+details = []
+for name, new, old in COMPARE:
+    short, long = _compare(new, old)
+    summary.append((name, *short))
+    details.append((name, long))
+
+PRINT_MODE_SHORT = False
+PRINT_MODE_SHORT = True
+
+if PRINT_MODE_SHORT:
+    for vocab, stats in summary:
+        print(f'{vocab}: {stats}')
+else:
+    for vocab, items in details:
+        print(vocab)
+        for line in items:
+            if type(line) is tuple:
+                print(f'{line[0]}: {line[1]}')
+            else:
+                print(line)
