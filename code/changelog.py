@@ -25,6 +25,11 @@ COMPARE = (
     ('LEGAL-EU', 'v2.0/legal/eu/legal-eu.ttl', None),
     )
 
+
+TOTAL = 0
+ADDED = 0
+REMOVED = 0
+
 def _compare_iterations(graph_old, graph_new, ignore_BNode=True):
     '''compare old and new iterations of a graph
     returns added, removed, changed sets of concepts'''
@@ -48,6 +53,12 @@ def _compare_iterations(graph_old, graph_new, ignore_BNode=True):
         # ignore changes in BNodes
         added = [n for n in added if type(n) is not BNode]
         removed = [n for n in removed if type(n) is not BNode]
+    global TOTAL
+    TOTAL += len(new)
+    global ADDED
+    ADDED += len(added)
+    global REMOVED
+    REMOVED += len(removed)
     return len(new), added, removed
 
 
@@ -87,7 +98,7 @@ for name, new, old in COMPARE:
     details.append((name, long))
 
 PRINT_MODE_SHORT = False
-PRINT_MODE_SHORT = True
+# PRINT_MODE_SHORT = True
 
 if PRINT_MODE_SHORT:
     for vocab, stats in summary:
@@ -100,3 +111,7 @@ else:
                 print(f'{line[0]}: {line[1]}')
             else:
                 print(line)
+
+# print(TOTAL)
+# print(ADDED)
+# print(REMOVED)

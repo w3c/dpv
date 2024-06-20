@@ -5,7 +5,7 @@ Data Privacy Vocabularies and Controls Community Group (DPVCG) repository
   
 > **MAJOR CHANGES introduced in v2**
 >
-> The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. Read more in [v2 changelog](wiki-link). 
+> The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. Read more in [v2 changelog](https://w3id.org/dpv/v2.0/changelog). 
 
 > The draft article [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Pandit et al. (2024) describes DPV v2 in terms of its contents, methodology, current adoptions and uses, and future potential. It also describes the relevance and role of DPV in acting as a common vocabulary to support various regulatory (e.g. EU's DGA and AI Act) and community initiatives (e.g. Solid) emerging across the globe
 
