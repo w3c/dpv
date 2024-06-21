@@ -26,7 +26,7 @@ RDF_SERIALIZATIONS = {
     'jsonld': 'json-ld'
     }
 OWL_SERIALIZATIONS = {
-    'owl': 'xml', 
+    'rdf': 'xml', 
     'ttl': 'turtle', 
     'n3': 'n3',
     'jsonld': 'json-ld'
