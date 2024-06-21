@@ -164,8 +164,8 @@ def write_CSV_graph(graph, filepath: str, vocab: str, namespace: str) -> None:
                 ?iri a skos:Concept .
                 ?iri skos:prefLabel ?label .
                 ?iri rdf:type ?type .
-                ?iri skos:definition ?definition .
                 ?iri dct:created ?created .
+                OPTIONAL { ?iri skos:definition ?definition } .
                 OPTIONAL { ?iri rdfs:subClassOf ?parent } .
                 OPTIONAL { ?iri skos:broader ?broader } .
                 OPTIONAL { ?iri skos:scopeNote ?note } .
