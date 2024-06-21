@@ -164,20 +164,22 @@ def write_CSV_graph(graph, filepath: str, vocab: str, namespace: str) -> None:
                 ?iri a skos:Concept .
                 ?iri skos:prefLabel ?label .
                 ?iri rdf:type ?type .
-                ?iri dct:created ?created .
+                OPTIONAL { ?iri dct:created ?created } .
                 OPTIONAL { ?iri skos:definition ?definition } .
                 OPTIONAL { ?iri rdfs:subClassOf ?parent } .
                 OPTIONAL { ?iri skos:broader ?broader } .
                 OPTIONAL { ?iri skos:scopeNote ?note } .
                 OPTIONAL { ?iri dct:modified ?modified } .
-            } GROUP BY ?iri ?label ?definition ORDER BY ?iri
+            } GROUP BY ?iri ?label ORDER BY ?iri
         """
         results = graph.query(query)
         for row in results:
+            if not row[0].startswith('https://w3id.org/dpv'): continue
             value = {
                 'term': prefix_from_iri(row[0]).split(':')[1],
-                'vocab': vocab,
-                'namespace': namespace}
+                'vocab': prefix_from_iri(row[0]).split(':')[0],
+                'namespace': row[0].split('#')[0],
+                }
             for index, item in enumerate(row):
                 value[query_header[index]] = item
             if 'rdf-schema#Class' in value['dpvtype']:
@@ -190,8 +192,24 @@ def write_CSV_graph(graph, filepath: str, vocab: str, namespace: str) -> None:
                 value[key] = _consolidate(value[key])
 
             writer.writerow((value[x] for x in header))
+    INFO(f'wrote {filepath}.csv')
 
 
+def write_rights_mapping_CSV_graph(graph, filepath: str, vocab: str, namespace: str) -> None:
+    '''Write a CSV file for the given graph at filepath'''
+    header = ('legal_basis', 'right')
+    with open(f'{filepath}.csv', 'w') as fd:
+        writer = csv.writer(fd)
+        writer.writerow(header)
+        query = """
+            SELECT ?legal_basis ?right
+            WHERE {
+                ?legal_basis dpv:hasRight ?right
+            } ORDER BY ?legal_basis ?right
+        """
+        results = graph.query(query)
+        for row in results:
+            writer.writerow(row)
     INFO(f'wrote {filepath}.csv')
 
 
@@ -309,7 +327,12 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
         graph.serialize(f'{filepath}.{ext}', format=format)
     INFO(f'wrote {filepath}.[{",".join(RDF_SERIALIZATIONS)}]')
 
-    write_CSV_graph(graph, filepath, vocab, vocab_iri)
+    if vocab == 'eu-gdpr' and 'legal_basis_rights_mapping' in filepath:
+        write_rights_mapping_CSV_graph(graph, filepath, vocab, vocab_iri)
+    elif vocab == 'dex':
+        pass
+    else:
+        write_CSV_graph(graph, filepath, vocab, vocab_iri)
 
     ##### Serialise in OWL
     # - TODO: Decide format for serialising OWL variant
