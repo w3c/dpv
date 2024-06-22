@@ -53,6 +53,10 @@ class DATA(object):
     # the same dict as value
     concepts = {}
     # concepts_prefixed = {}
+    # 'graph' will contain ALL triples - helpful if we want to produce
+    # a single RDF or CSV file containing all concepts. This is also 
+    # helpful to create the index search interface.
+    graph = Graph()
     
     # === load-vocab ===
     @staticmethod
@@ -65,6 +69,7 @@ class DATA(object):
         graph = Graph()
         graph.parse(filepath)
         graph.ns = { k:v for k,v in NAMESPACES.items() }
+        DATA.graph += graph
         vocab_data = {}
         for s, p, o in graph:
             # ==== parse-subject ====
@@ -886,5 +891,73 @@ for doc, data in GUIDES.items():
         template = template_env.get_template(template)
         fd.write(template.render())
     INFO(f"wrote primer document {doc} at {filepath}")
+
+INFO('*'*40)
+
+INFO('Generating Search Index')
+results_classes = list(DATA.graph.query("""
+    SELECT 
+        ?iri 
+        (group_concat(?type; separator=";") as ?types)
+    WHERE {
+        ?iri a rdfs:Class .
+        OPTIONAL { ?type skos:broader ?iri }
+    } GROUP BY ?iri ORDER BY ?iri
+    """))
+
+classes = {}
+topconcepts = []
+
+for iri, children in results_classes:
+    if not iri.startswith('https://w3id.org/dpv'): continue
+    iri = str(iri).strip()
+    classes[iri] = {
+        'iri': iri,
+        'vocab': prefix_from_iri(iri).split(':')[0],
+        'label': iri.split('#')[1],
+        'children': [],
+        'parents': [],
+    }
+    if children:
+        for child in children.split(';'):
+            if not child.startswith('https://w3id.org/dpv'): continue
+            classes[iri]['children'].append(child)
+
+for iri, data in classes.items():
+    children = []
+    for child in data['children']:
+        classes[child]['parents'].append(iri)
+        children.append(classes[child])
+    data['children'] = children
+
+for iri, data in classes.items():
+    if not data['parents']:
+        topconcepts.append(iri)
+
+# # DEBUG
+# # for data in classes.values():
+# #     for x in data['parents']:
+# #         if x not in classes:
+# #             print(x)
+
+index = []
+
+
+def add_item_to_index(iri):
+    item = classes[iri]
+    data = {'name': f'<a href="{iri}">{item["vocab"]}: {item["label"]}</a>'}
+    if item['children']:
+        data['children'] = [add_item_to_index(child['iri']) for child in item['children']]
+    return data
+
+
+for concept in topconcepts:
+    index.append(add_item_to_index(concept))
+
+filepath = f"{EXPORT_PATH}/search.html"
+with open(filepath, 'w') as fd:
+    template = template_env.get_template('template_search_index.jinja2')
+    fd.write(template.render(data=json.dumps(index)))
+INFO(f"wrote search index document at {filepath}")
 
 INFO('*'*40)

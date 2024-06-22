@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>DPV Search Index</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="media/jqtree.css" />
+        <!-- demo adapted from https://github.com/mbraak/jqTree/ example -->
+        <style type="text/css">
+#tree1 {
+    background-color: #ccc;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+}
+
+    #tree1.block-style {
+        background-color: #fafafa;
+    }
+
+.jqtree-tree .jqtree-loading > div .jqtree-title:after {
+    content: url(spinner.gif);
+    margin-left: 8px;
+}
+
+#tree1.jqtree-loading:after {
+    content: url(spinner.gif);
+}
+
+#scroll-container {
+    height: 200px;
+    overflow-y: scroll;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    margin-bottom: 16px;
+}
+
+.block-style ul.jqtree-tree {
+        margin-left: 0;
+    }
+
+.block-style ul.jqtree-tree ul.jqtree_common {
+            margin-left: 2em;
+        }
+
+.block-style ul.jqtree-tree .jqtree-element {
+            margin-bottom: 8px;
+            background-color: #ddd;
+            padding: 8px;
+        }
+
+.block-style ul.jqtree-tree .jqtree-element .jqtree-title {
+                margin-left: 0;
+            }
+
+.block-style ul.jqtree-tree li.jqtree-selected > .jqtree-element,
+            .block-style ul.jqtree-tree li.jqtree-selected > .jqtree-element:hover {
+                background-color: #97bdd6;
+                text-shadow: none;
+            }
+
+.hidden-node {
+    display: none;
+}
+
+.highlight-node > .jqtree-element > .jqtree-title {
+    font-weight: bold;
+}
+
+.jqtree-tree .jqtree-toggler {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+body {
+    max-width: 800px;
+    margin: auto;
+}
+        </style>
+    </head>
+    <body>
+        <h1>DPV Search Index</h1>
+        <p>Browse all terms listed in a hierarchical tree, or search/filter using option below. Empty search resets the view. Clicking on a concept opens its definition in the DPV specification.</p>
+<div class="pb-6">
+    <input id="search-term" class="shadow-sm border px-4 py-1 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md mr-4" autofocus>
+    <button id="search" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Search</button>
+</div>
+<button id="collapse">collapse all</button>
+<button id="expand">expand all</button>
+<button id="reset">reset</button>
+<div id="tree1" class="not-prose"></div>
+
+<script src="media/jquery.min.js"></script>
+<script src="media/tree.jquery.js"></script>
+    
+<script type="text/javascript">
+const ExampleData = {};
+
+ExampleData.exampleData = {{data|safe}};
+
+</script>
+<script type="text/javascript">
+const $tree = $("#tree1");
+
+let foundMatch = false;
+
+$tree.tree({
+    autoEscape: false,
+    autoOpen: false,
+    data: ExampleData.exampleData,
+    useContextMenu: false,
+    onCreateLi: (node, $el) => {
+        if (foundMatch && !node.openForMatch && !node.parent.matches) {
+            $el.addClass("hidden-node");
+        }
+
+        if (node.matches) {
+            $el.addClass("highlight-node");
+        }
+    },
+});
+
+function handleSearch() {
+    const searchTerm = $("#search-term").val().toLowerCase();
+    const tree = $tree.tree("getTree");
+
+    if (!searchTerm) {
+        foundMatch = false;
+
+        tree.iterate((node) => {
+            node["openForMatch"] = false;
+            node["matches"] = false;
+            return true;
+        });
+
+        $tree.tree("refresh");
+        return;
+    }
+
+    foundMatch = false;
+
+    tree.iterate((node) => {
+        const matches = node.name.toLowerCase().includes(searchTerm);
+        node["openForMatch"] = matches;
+        node["matches"] = matches;
+
+        if (matches) {
+            foundMatch = true;
+
+            if (node.isFolder()) {
+                node.is_open = true;
+            }
+
+            let parent = node.parent;
+            while (parent) {
+                parent["openForMatch"] = true;
+                parent.is_open = true;
+                parent = parent.parent;
+            }
+        }
+
+        return true;
+    });
+
+    $tree.tree("refresh");
+};
+$("#search").on("click", handleSearch);
+$("#search-term").keypress(function(e){
+    if(e.keyCode==13) { $('#search').click(); }
+});
+
+$('#reset').click(() => {
+    $("#search-term").val("");
+    $("#search").click();
+    $('#collapse').click();
+});
+
+$('#collapse').click(function() {
+  var tree = $tree.tree('getTree');
+  tree.iterate(function(node) {
+
+    if (node.hasChildren()) {
+      $tree.tree('closeNode', node, true);
+    }
+    return true;
+  });
+});
+
+$('#expand').click(function() {
+  var tree = $tree.tree('getTree');
+  tree.iterate(function(node) {
+
+    if (node.hasChildren()) {
+      $tree.tree('openNode', node, true);
+    }
+    return true;
+  });
+});
+</script>
+
+</body>
+</html>
