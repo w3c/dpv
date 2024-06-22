@@ -12,7 +12,7 @@ echo "Converting DPV files from .rdf to .owl with ManchesterSyntax"
 # convert .rdf files to .owl files in manchester syntax
 convert_owl() {
     filepath="${1%.*}"
-    filepath_owl="${filepath}.owl"
+    filepath_owl="${filepath}.omn"
     echo -n "converting $filepath ..."
     java -jar ont-converter.jar -f -i "$1" -if RDF_XML -o "$filepath_owl" -of ManchesterSyntax
     echo "DONE"
@@ -25,5 +25,5 @@ export -f convert_owl
 #   where DPV outputs exist, and won't be for example in the
 #   documentation generator metadata folders (they are .ttl)
 
-find ../dpv-owl -type f -name "*.rdf" -exec bash -c 'convert_owl "$0"' {} \;
+find ../v2.0 -type f -name "*-owl.rdf" -exec bash -c 'convert_owl "$0"' {} \;
 # java -jar $ONT_CONVERTER
