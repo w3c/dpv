@@ -337,6 +337,7 @@ def construct_instance(term, data, namespace, header):
     for parent in term.split(','):
         parent = NAMESPACES[parent.split(':')[0]][parent.split(':')[1]]
         triples.append((namespace[data['Term']], RDF.type, parent))
+        triples.append((namespace[data['Term']], SKOS.broader, parent))
         triples.append((namespace[data['Term']], RDF.type, SKOS.Concept))
     return triples
 
@@ -384,6 +385,7 @@ def construct_law(term, data, namespace, header):
         law = NAMESPACES[law.split(':')[0]][law.split(':')[1]]
         triples.append((
             namespace[data['Term']], DPV.hasApplicableLaw, law))
+        triples.append((namespace[data['Term']], SKOS.broader, DPV.Law))
     return triples
 
 
