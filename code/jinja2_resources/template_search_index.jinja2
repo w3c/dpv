@@ -7,22 +7,22 @@
         <link rel="stylesheet" href="media/jqtree.css" />
         <!-- demo adapted from https://github.com/mbraak/jqTree/ example -->
         <style type="text/css">
-#tree1 {
-    background-color: #ccc;
+#tree {
+    background-color: #EEE;
     padding: 8px 16px;
     margin-bottom: 16px;
 }
 
-    #tree1.block-style {
-        background-color: #fafafa;
-    }
+#tree.block-style {
+    background-color: #fafafa;
+}
 
 .jqtree-tree .jqtree-loading > div .jqtree-title:after {
     content: url(spinner.gif);
     margin-left: 8px;
 }
 
-#tree1.jqtree-loading:after {
+#tree.jqtree-loading:after {
     content: url(spinner.gif);
 }
 
@@ -75,6 +75,28 @@
 .concept-type {
     padding-left: 5px;
 }
+#search-term {
+    border: 1px solid blue;
+    min-height: 1.5rem;
+}
+#search {
+  background-color: #222299;
+  border: 1px solid transparent;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  color: #fff;
+  font-family: monospace;
+  min-height: 2rem;
+  margin-right: 5px;
+}
+#collapse,#expand,#reset {
+  background-color: #9999EE;
+  border: 1px solid transparent;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  color: #fff;
+  font-family: monospace;
+  min-height: 2rem;
+  margin-right: 5px;
+}
 body {
     max-width: 800px;
     margin: auto;
@@ -83,15 +105,18 @@ body {
     </head>
     <body>
         <h1>DPV Search Index</h1>
-        <p>Browse all terms listed in a hierarchical tree, or search/filter using option below. Empty search resets the view. Clicking on a concept opens its definition in the DPV specification.</p>
-<div class="pb-6">
-    <input id="search-term" class="shadow-sm border px-4 py-1 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md mr-4" autofocus>
-    <button id="search" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Search</button>
+        <p>Search through {{num_classes}} classes and {{num_properties}} properties from DPV and its extensions. Concepts are from DPV version {{DPV_VERSION}}.<br/>
+            Purl for this page: <a href="https://w3id.org/dpv/2.0/search">https://w3id.org/dpv/2.0/search</a>
+        </p>
+<div style="padding-bottom: 20px;">
+    <input id="search-term" autofocus>
+    <button id="search" >Search</button>
+    <button id="collapse">collapse all</button>
+    <button id="expand">expand all</button>
+    <button id="reset">reset</button>
 </div>
-<button id="collapse">collapse all</button>
-<button id="expand">expand all</button>
-<button id="reset">reset</button>
-<div id="tree1" class="not-prose"></div>
+<hr/>
+<div id="tree" class="not-prose"></div>
 
 <script src="media/jquery.min.js"></script>
 <script src="media/tree.jquery.js"></script>
@@ -103,7 +128,7 @@ ExampleData.exampleData = {{data|safe}};
 
 </script>
 <script type="text/javascript">
-const $tree = $("#tree1");
+const $tree = $("#tree");
 
 let foundMatch = false;
 
@@ -200,6 +225,10 @@ $('#expand').click(function() {
   });
 });
 </script>
+
+<footer>
+    <p>This page is provided by the <a href="https://www.w3.org/groups/cg/dpvcg/">Data Privacy Vocabularies and Controls Privacy Controls (DPVCG)</a>. Source and issues are managed on <a href="https://github.com/w3c/dpv">GitHub</a> under the <a href="https://www.w3.org/copyright/software-license-2023/">W3C Software and Document License</a>.</p>
+</footer>
 
 </body>
 </html>

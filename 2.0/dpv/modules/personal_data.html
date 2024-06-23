@@ -594,38 +594,39 @@
   <p>The [[[PD]]] extension provides a taxonomy of personal data categories to represent commonly used categories such as 'Email Address' and 'Birth Date'. These concepts are organised in a hierarchical taxonomy where the super/parent concept is a broader form of the sub/child concept, and where these concepts act as sets i.e. everything in the sub/child concept is present in the super/parent concept. For example, consider the concept 'Email' - it can refer to email addresses, actual emails, metadata or attachments associated with emails, and so on. To distinguish between these, the 'Email' concept must be further 'extended' or 'refined' with subclasses or child concepts such as 'Email Address', 'Email Contents', etc. The [[PD]] taxonomy categories are modelled with such interpretations in mind. This helps align the use of DPV with practical use-cases where such ambiguous use of terms can be identified and rectified by choosing a more specific concept from the taxonomy (e.g. Email Address instead of Email above).</p>
   <p>The relation [=hasPersonalData=] can be used to indicate both the category and instance of personal data. For example, to indicate the personal data being collected is of category 'Email Address', or to specify a particular email address. We recommend using `rdf:value` to represent such 'values' of personal data associated with a category. Alternatively, other vocabularies such as [[FOAF]] or [[schema-org]] can also be used to further specify the contents of personal data. Through we strongly recommend always using a DPV concept and a [[PD]] taxonomy concept for interoperability.</p>
     <aside class="example" title="Specifying personal data">
-<p>This example shows how personal data can be specified by for a work email address in four methods: (1) by using the PD taxonomy, (2) extending a concept from PD taxonomy,(3) specifying the exact value of email address, and (4) using external vocabularies such as schema.org. In all of these, it is strongly recommended to include a DPV concept (i.e. declare it as Personal Data) for interoperability, and to align it with the DPV and PD taxonomies where relevant (e.g. to mention it is an email address, or to specify it is identifier, or that it is sensitive - which it is not in this case)    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
-    # method 1: directly use concept from PD
-    dpv:hasPersonalData pd:EmailAddress ;
-    # method 2: extend concept from PD
-    dpv:hasPersonalData [
-        a dpv:PersonalData ;
-        skos:broader pd:EmailAddress ;
-        skos:prefLabel &#34;Work Email&#34;@en ;
+<p>This example shows how personal data can be specified by for a work email address in four methods: (1) by using the PD taxonomy, (2) extending a concept from PD taxonomy,(3) specifying the exact value of email address, and (4) using external vocabularies such as schema.org. In all of these, it is strongly recommended to include a DPV concept (i.e. declare it as Personal Data) for interoperability, and to align it with the DPV and PD taxonomies where relevant (e.g. to mention it is an email address, or to specify it is identifier, or that it is sensitive - which it is not in this case)    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># method 1: directly use concept from PD</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># method 2: extend concept from PD</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PersonalData</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="color: #BA2121">&quot;Work Email&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
     ] ;
-    # method 3: specify an exact value i.e. an instance
-    dpv:hasPersonalData [
-        a dpv:PersonalData, pd:EmailAddress ;
-        rdf:value &#34;work@example.com&#34; ;
+    <span style="color: #3D7B7B; font-style: italic"># method 3: specify an exact value i.e. an instance</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PersonalData</span>, <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span> ;
+        <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">value</span> <span style="color: #BA2121">&quot;work@example.com&quot;</span> ;
     ] ;
-    # method 4: use another appropriate vocabulary e.g. schema.org
-    dpv:hasPersonalData [
-        a schema:ContactPoint ;
-        a dpv:PersonalData ; # strongly recommended for interop
-        a pd:EmailAddress ; # strongly recommended for interop
-        schema:email &#34;work@example.com&#34; ;
+    <span style="color: #3D7B7B; font-style: italic"># method 4: use another appropriate vocabulary e.g. schema.org</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">schema</span>:<span style="color: #008000; font-weight: bold">ContactPoint</span> ;
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PersonalData</span> ; <span style="color: #3D7B7B; font-style: italic"># strongly recommended for interop</span>
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span> ; <span style="color: #3D7B7B; font-style: italic"># strongly recommended for interop</span>
+        <span style="color: #0000FF; font-weight: bold">schema</span>:<span style="color: #008000; font-weight: bold">email</span> <span style="color: #BA2121">&quot;work@example.com&quot;</span> ;
     ] ;
-    # Note: Email Address can be an identifier
-    # So good practice is to also declare it when used as an identifier
-    dpv:hasPersonalData [
-        a dpv:PersonalData ;
-        skos:broader pd:EmailAddress, pd:Identifier ;
+    <span style="color: #3D7B7B; font-style: italic"># Note: Email Address can be an identifier</span>
+    <span style="color: #3D7B7B; font-style: italic"># So good practice is to also declare it when used as an identifier</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PersonalData</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span>, <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Identifier</span> ;
     ] ;
-    dpv:hasPersonalData [
-        a dpv:PersonalData, pd:EmailAddress, dpv:Identifier ;
-        rdf:value &#34;work@example.com&#34; ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PersonalData</span>, <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Identifier</span> ;
+        <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">value</span> <span style="color: #BA2121">&quot;work@example.com&quot;</span> ;
     ] .
-</code></pre>
+</pre></div>
+
     <p><small>(<em>META</em> 
       Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0044"><code>E0044</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0044.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
@@ -644,16 +645,17 @@ link: <a href="https://w3id.org/dpv/examples/E0044.ttl">source file</a>;      co
   </aside>
     <aside class="example" title="Indicating personal data is sensitive or special category">
 <p>In a medical study involving genetic data, the person's collected blood samples are considered to be 'special category' personal data under the GDPR. In addition to this, the person's identifier associated with that dataset to enable monitoring future appointments is considered sensitive within the medical centre. Note that the examples use the [[PD]] extension to represent some concepts.</p>
-        <p>In this example, the knowledge that blood samples are of type 'special category' can be inferred from the fact that they are a form of <i>Medical Health</i> which is a 'special category'. However, the example considers best practices that suggest explicitly identifying and denoting that blood samples are also of type 'special category'.</p>    <pre class="nohighlight"><code>ex:PatientStudy rdf:type dpv:Process ;
-  dpv:hasPersonalData ex:BloodSamples, ex:PatientIdentifier .
+        <p>In this example, the knowledge that blood samples are of type 'special category' can be inferred from the fact that they are a form of <i>Medical Health</i> which is a 'special category'. However, the example considers best practices that suggest explicitly identifying and denoting that blood samples are also of type 'special category'.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PatientStudy</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BloodSamples</span>, <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PatientIdentifier</span> .
 
-ex:BloodSamples rdf:type dpv:SpecialCategoryPersonalData ;
-  skos:broader pd:MedicalHealth ;
-  skos:narrower pd:BloodType .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BloodSamples</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">SpecialCategoryPersonalData</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">MedicalHealth</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">narrower</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">BloodType</span> .
 
-ex:PatientIdentifier rdf:type dpv:SensitivePersonalData ;
-  skos:broader pd:Identifying .
-</code></pre>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PatientIdentifier</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">SensitivePersonalData</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Identifying</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
       Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0010"><code>E0010</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0010.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
@@ -661,25 +663,26 @@ link: <a href="https://w3id.org/dpv/examples/E0010.ttl">source file</a>;      co
   </aside>
 
     <aside class="example" title="Indicating data belongs to sensitive or special category">
-<p>This example shows how data can be indicated as being sensitive or belonging to special category. It also shows the use of PD extension which provides a taxonomy of special categories.    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
-    # to denote location being used is sensitive
-    dpv:hasPersonalData [
-        a dpv:SensitivePersonalData, pd:Location ;
+<p>This example shows how data can be indicated as being sensitive or belonging to special category. It also shows the use of PD extension which provides a taxonomy of special categories.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># to denote location being used is sensitive</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">SensitivePersonalData</span>, <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
     ];
-    # to express biometrics being used are special category
-    # note: PD extension already defines Biometric as special category
-    dpv:hasPersonalData [
-        a dpv:SpecialCategoryPersonalData ;
-        skos:broader pd:Biometric ;
+    <span style="color: #3D7B7B; font-style: italic"># to express biometrics being used are special category</span>
+    <span style="color: #3D7B7B; font-style: italic"># note: PD extension already defines Biometric as special category</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">SpecialCategoryPersonalData</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Biometric</span> ;
     ] ;
-    # to use PD extension to infer use of FacialPrint is special category
-    # i.e. pd:FacialPrint rdf:type dpv:SpecialCategoryPersonalData is 
-    # defined in PD extension
-    dpv:hasPersonalData pd:FacialPrint .
-    # The PD extension can also be used to determine what biometric data
-    # is being used within the use-case as it contains:
-    # pd:FacialPrint skos:broader pd:Biometric
-</code></pre>
+    <span style="color: #3D7B7B; font-style: italic"># to use PD extension to infer use of FacialPrint is special category</span>
+    <span style="color: #3D7B7B; font-style: italic"># i.e. pd:FacialPrint rdf:type dpv:SpecialCategoryPersonalData is </span>
+    <span style="color: #3D7B7B; font-style: italic"># defined in PD extension</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">FacialPrint</span> .
+    <span style="color: #3D7B7B; font-style: italic"># The PD extension can also be used to determine what biometric data</span>
+    <span style="color: #3D7B7B; font-style: italic"># is being used within the use-case as it contains:</span>
+    <span style="color: #3D7B7B; font-style: italic"># pd:FacialPrint skos:broader pd:Biometric</span>
+</pre></div>
+
     <p><small>(<em>META</em> 
       Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0045"><code>E0045</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0045.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
@@ -708,33 +711,34 @@ link: <a href="https://w3id.org/dpv/examples/E0045.ttl">source file</a>;      co
   </aside>
   <p>These concepts are analogous to their processing counterparts, as well as helpful in indicating the source of data i.e. the data source concepts. They are helpful to 'tag' or 'annotate' data, such as in databases or other systems, to indicate or categorise which data has been collected, or derived, or inferred. They can also be used to check or verify the information documented about processing and data sources is accurate and up to date.</p>
     <aside class="example" title="Indicating data being collected and derived">
-<p>This example shows a process which first collects email address from the data subject, and then uses it to derive an account identifier. The seeming duplication in information across processing, personal data category, and data source actually represents three distinct concepts - which can be used in various ways for data governance, or legal compliance e.g. to retrieve all data which is collected or to ensure all collected data has a source.    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
-    dpv:hasProcess [
-        a dpv:Process ; 
-        # Collects email addresses from data subjects
-        # The statements about processing, data category, and data source
-        # are aligned but represent different concepts
-        dpv:hasProcessing dpv:Collect ;
-        dpv:hasPersonalData [ 
-            a dpv:PersonalData ;
-            a dpv:ProvidedPersonalData ;
-            skos:broader pd:EmailAddress ;
+<p>This example shows a process which first collects email address from the data subject, and then uses it to derive an account identifier. The seeming duplication in information across processing, personal data category, and data source actually represents three distinct concepts - which can be used in various ways for data governance, or legal compliance e.g. to retrieve all data which is collected or to ensure all collected data has a source.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ; 
+        <span style="color: #3D7B7B; font-style: italic"># Collects email addresses from data subjects</span>
+        <span style="color: #3D7B7B; font-style: italic"># The statements about processing, data category, and data source</span>
+        <span style="color: #3D7B7B; font-style: italic"># are aligned but represent different concepts</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> [ 
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PersonalData</span> ;
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ProvidedPersonalData</span> ;
+            <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span> ;
         ] ;
-        dpv:hasDataSource dpv:DataSubjectDataSource ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSource</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataSubjectDataSource</span> ;
     ] ;
-    dpv:hasProcess [
-        a dpv:Process ;
-        # The existing email address is used to derive an account id
-        # (not mentioned here, but occurs in the same broader process)
-        # e.g. by using a MD5 hash technique (not mentioned here)
-        dpv:hasProcessing dpv:Derive;
-        dpv:hasPersonalData [
-            a dpv:PersonalData ;
-            a dpv:DerivedPersonalData ;
-            skos:broader pd:AccountIdentifier ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># The existing email address is used to derive an account id</span>
+        <span style="color: #3D7B7B; font-style: italic"># (not mentioned here, but occurs in the same broader process)</span>
+        <span style="color: #3D7B7B; font-style: italic"># e.g. by using a MD5 hash technique (not mentioned here)</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Derive</span>;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PersonalData</span> ;
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DerivedPersonalData</span> ;
+            <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">AccountIdentifier</span> ;
         ] ;
-    ] . 
-</code></pre>
+    ] .
+</pre></div>
+
     <p><small>(<em>META</em> 
       Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0046"><code>E0046</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0046.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)

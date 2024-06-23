@@ -30,6 +30,12 @@ INFO = logging.info
 # [export paths and configuration](vocab_management.html#export)
 from vocab_management import *
 
+from pygments import highlight
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters import HtmlFormatter
+pyg_lexer = get_lexer_by_name("turtle", stripall=True)
+pyg_formatter = HtmlFormatter(cssclass="source", noclasses=True)
+
 # == DATA class ==
 
 class DATA(object):
@@ -601,7 +607,7 @@ def resolve_concepts(items:str | list) -> str | list:
     return DATA.concepts[items]
 
 
-def retrieve_example(exampleID:str) -> tuple:
+def retrieve_example(exampleID:str, syntaxHighlight=True) -> tuple:
     """
     Retrieves the example specified by provided ID.
     The example contents are read from the associated file if needed.
@@ -612,6 +618,9 @@ def retrieve_example(exampleID:str) -> tuple:
             contents = fd.read()
     else:
         contents = ex['rdf:value']
+    if str(ex['dct:format']) == 'text/turtle':
+        contents = highlight(contents.strip(), pyg_lexer, pyg_formatter)
+        contents = contents.replace("<pre ", "<pre class='nohighlight'")
     return ex, contents
 
 
@@ -905,7 +914,7 @@ results_classes = list(DATA.graph.query("""
         OPTIONAL { ?type skos:broader ?iri }
     } GROUP BY ?iri ORDER BY ?iri
     """))
-results_classes += list(DATA.graph.query("""
+results_properties = list(DATA.graph.query("""
     SELECT 
         ?iri 
         (group_concat(?type; separator=";") as ?types)
@@ -920,7 +929,7 @@ results_classes += list(DATA.graph.query("""
 classes = {}
 topconcepts = []
 
-for iri, children, category in results_classes:
+for iri, children, category in results_classes+results_properties:
     if not iri.startswith('https://w3id.org/dpv'): continue
     iri = str(iri).strip()
     classes[iri] = {
@@ -976,7 +985,11 @@ for concept in topconcepts:
 filepath = f"{EXPORT_PATH}/search.html"
 with open(filepath, 'w') as fd:
     template = template_env.get_template('template_search_index.jinja2')
-    fd.write(template.render(data=json.dumps(index)))
+    fd.write(template.render(
+        data=json.dumps(index), 
+        num_classes=len(results_classes), 
+        num_properties=len(results_properties),
+        DPV_VERSION=DPV_VERSION))
 INFO(f"wrote search index document at {filepath}")
 
 INFO('*'*40)
