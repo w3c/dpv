@@ -16,7 +16,7 @@
 # -O output file
 # unzip -l file to view list of files
 
-VERSION="v2.0"
+VERSION="2.0"
 # TODO: create 2 zips - for v1 and v2
 # TODO: add README to each v1 and v2 explaining the folder structure and the files contained in it
 

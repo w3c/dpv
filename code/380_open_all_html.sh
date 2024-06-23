@@ -17,7 +17,7 @@ fi
 ## Choose Mode for live or local version
 # MODE="https://w3id.org/dpv"
 # MODE="http://localhost:8000"
-MODE="https://dev.dpvcg.org/v2.0"
+MODE="https://dev.dpvcg.org/2.0"
 
 FILES=(
     # core specs

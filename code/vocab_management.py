@@ -69,10 +69,6 @@ IANA_TYPES = {
 VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified', 'sunset')
 VOCAB_TERM_REJECT = ('deprecated', 'removed')
 
-# DPV Version
-DPV_VERSION = "2.0"
-DPV_PUBLISH_DATE = "2024-07-01"
-
 ## === term-ignored
 
 IGNORED_TERMS = ('rdf:type', 'rdfs:Class', 'rdf:Property', 'skos:Concept')
@@ -104,12 +100,18 @@ NS.ns = { k:v for k,v in NAMESPACES.items() }
 
 # === Import/Export for RDF and HTML ===
 
+# DPV Version
+DPV_VERSION = "2.0"
+DPV_PUBLISH_DATE = "2024-07-01"
+
 # Root folder to import RDF files from
-IMPORT_PATH = '../v2.0'
+IMPORT_PATH = f'../{DPV_VERSION}'
 # Root folder to export HTML filese to
-EXPORT_PATH = '../v2.0'
+EXPORT_PATH = f'../{DPV_VERSION}'
 # Root folder where Jinja2 templates are stored
 TEMPLATE_PATH = './jinja2_resources'
+# RDF to be stored in folder
+EXPORT_RDF_PATH = f'../{DPV_VERSION}'
 
 # === csv-files ===
 IMPORT_CSV_PATH = './vocab_csv'
@@ -930,7 +932,6 @@ RDF_VOCABS = {
 }
 
 # === exports ===
-EXPORT_RDF_PATH = '../v2.0'
 RDF_STRUCTURE = {
     'dpv': {
         'main': f'{EXPORT_RDF_PATH}/dpv',

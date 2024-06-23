@@ -4,25 +4,25 @@ from rdflib import Graph
 from rdflib.term import BNode
 
 COMPARE = (
-    ('DPV', 'v2.0/dpv/dpv.ttl', 'v1.0/dpv/dpv.ttl'),
-    ('PD', 'v2.0/pd/pd.ttl', 'v1.0/dpv-pd/dpv-pd.ttl'),
-    ('EU-GDPR', 'v2.0/legal/eu/gdpr/eu-gdpr.ttl', 'v1.0/dpv-gdpr/dpv-gdpr.ttl'),
-    ('LEGAL', 'v2.0/legal/legal.ttl', 'v1.0/dpv-legal/dpv-legal.ttl'),
-    ('LOC', 'v2.0/loc/loc.ttl', 'v1.0/dpv-legal/dpv-legal.ttl'),
-    ('TECH', 'v2.0/tech/tech.ttl', 'v1.0/dpv-tech/dpv-tech.ttl'),
-    ('EU-RIGHTS', 'v2.0/legal/eu/rights/eu-rights.ttl', 'v1.0/rights/eu/rights-eu.ttl'),
-    ('RISK', 'v2.0/risk/risk.ttl', 'v1.0/risk/risk.ttl'),
-    ('AI', 'v2.0/ai/ai.ttl', None), # None means there is no old version
-    ('Justifications', 'v2.0/justifications/justifications.ttl', None),
-    ('EU-DGA', 'v2.0/legal/eu/dga/eu-dga.ttl', None),
-    ('EU-AIAct', 'v2.0/legal/eu/aiact/eu-aiact.ttl', None),
-    ('EU-NIS2', 'v2.0/legal/eu/nis2/eu-nis2.ttl', None),
-    ('LEGAL-IE', 'v2.0/legal/ie/legal-ie.ttl', None),
-    ('LEGAL-IN', 'v2.0/legal/in/legal-in.ttl', None),
-    ('LEGAL-DE', 'v2.0/legal/de/legal-de.ttl', None),
-    ('LEGAL-GB', 'v2.0/legal/gb/legal-gb.ttl', None),
-    ('LEGAL-US', 'v2.0/legal/us/legal-us.ttl', None),
-    ('LEGAL-EU', 'v2.0/legal/eu/legal-eu.ttl', None),
+    ('DPV', '2.0/dpv/dpv.ttl', 'v1.0/dpv/dpv.ttl'),
+    ('PD', '2.0/pd/pd.ttl', 'v1.0/dpv-pd/dpv-pd.ttl'),
+    ('EU-GDPR', '2.0/legal/eu/gdpr/eu-gdpr.ttl', 'v1.0/dpv-gdpr/dpv-gdpr.ttl'),
+    ('LEGAL', '2.0/legal/legal.ttl', 'v1.0/dpv-legal/dpv-legal.ttl'),
+    ('LOC', '2.0/loc/loc.ttl', 'v1.0/dpv-legal/dpv-legal.ttl'),
+    ('TECH', '2.0/tech/tech.ttl', 'v1.0/dpv-tech/dpv-tech.ttl'),
+    ('EU-RIGHTS', '2.0/legal/eu/rights/eu-rights.ttl', 'v1.0/rights/eu/rights-eu.ttl'),
+    ('RISK', '2.0/risk/risk.ttl', 'v1.0/risk/risk.ttl'),
+    ('AI', '2.0/ai/ai.ttl', None), # None means there is no old version
+    ('Justifications', '2.0/justifications/justifications.ttl', None),
+    ('EU-DGA', '2.0/legal/eu/dga/eu-dga.ttl', None),
+    ('EU-AIAct', '2.0/legal/eu/aiact/eu-aiact.ttl', None),
+    ('EU-NIS2', '2.0/legal/eu/nis2/eu-nis2.ttl', None),
+    ('LEGAL-IE', '2.0/legal/ie/legal-ie.ttl', None),
+    ('LEGAL-IN', '2.0/legal/in/legal-in.ttl', None),
+    ('LEGAL-DE', '2.0/legal/de/legal-de.ttl', None),
+    ('LEGAL-GB', '2.0/legal/gb/legal-gb.ttl', None),
+    ('LEGAL-US', '2.0/legal/us/legal-us.ttl', None),
+    ('LEGAL-EU', '2.0/legal/eu/legal-eu.ttl', None),
     )
 
 
