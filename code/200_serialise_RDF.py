@@ -238,17 +238,29 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     metadata = RDF_VOCABS[vocab]['metadata']
     vocab_iri = URIRef(str(NAMESPACES[vocab])[:-1]) # strip last character
     graph.add((vocab_iri, RDF.type, OWL.Ontology))
+    graph.add((vocab_iri, OWL.versionIRI, vocab_iri))
+    graph.add((vocab_iri, DCTERMS.source, URIRef("https://www.w3.org/groups/cg/dpvcg/")))
     graph.add((vocab_iri, DCTERMS.title, Literal(metadata['dct:title'], lang='en')))
+    # https://github.com/oeg-upm/fair_ontologies/issues/108
+    # bibo:status needs a literal to not fail FOOPS!
+    graph.add((vocab_iri, BIBO.status, Literal(BIBO[f'status/{metadata["bibo:status"]}'])))
+    graph.add((vocab_iri, RDFS.Label, Literal(vocab.upper(), lang='en')))
     graph.add((vocab_iri, DCTERMS.description, Literal(metadata['dct:description'], lang='en')))
     graph.add((vocab_iri, DCTERMS.created, Literal(metadata['dct:created'], lang='en')))
+    graph.add((vocab_iri, DCTERMS.issued, Literal(metadata['dct:created'], lang='en')))
     if 'dct:modified' in metadata:
         graph.add((vocab_iri, DCTERMS.modified, Literal(metadata['dct:modified'], lang='en')))
     for creator in metadata['dct:creator'].split(','):
         graph.add((vocab_iri, DCTERMS.creator, Literal(creator.strip(), lang='en')))
     graph.add((vocab_iri, SDO.version, Literal(metadata['schema:version'])))
+    graph.add((vocab_iri, OWL.versionInfo, Literal(metadata['schema:version'])))
     graph.add((vocab_iri, DCTERMS.identifier, Literal(vocab_iri)))
     graph.add((vocab_iri, DCTERMS.conformsTo, Literal(str(RDFS)[:-1])))
     graph.add((vocab_iri, DCTERMS.conformsTo, Literal(str(SKOS)[:-1])))
+    graph.add((vocab_iri, BIBO.doi, Literal("10.5281/zenodo.12505841")))
+    graph.add((vocab_iri, DCTERMS.bibliographicCitation, Literal("Data Privacy Vocabulary (DPV) -- Version 2. Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake https://doi.org/10.48550/arXiv.2404.13426")))
+    graph.add((vocab_iri, DCTERMS.publisher, URIRef("https://www.w3.org/")))
+    graph.add((vocab_iri, FOAF.logo, URIRef("https://w3id.org/dpv/media/logo.png")))
     for lang in IMPORT_TRANSLATIONS:
         graph.add((vocab_iri, DCTERMS.language, Literal(lang)))
     # Contributor are collected from all concept contributors
@@ -449,6 +461,11 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
         DELETE {{ <{str(vocab_iri)}> ?p ?o }}
         INSERT {{ <{str(vocab_owl_iri)}> ?p ?o }}
         WHERE {{  <{str(vocab_iri)}> ?p ?o }}
+        """)
+    graph.update(f"""
+        DELETE {{ ?s ?p <{str(vocab_iri)}> }}
+        INSERT {{ ?s ?p <{str(vocab_owl_iri)}> }}
+        WHERE {{  ?s ?p <{str(vocab_iri)}> }}
         """)
     # replace artifact iris
     # graph.update(f"""
