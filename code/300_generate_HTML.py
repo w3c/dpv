@@ -460,13 +460,12 @@ def get_sources(sources:str|list) -> list:
     returnval = []
     for source in sources:
         if type(source) is str: 
-            DEBUG(source)
             returnval.append([source, sources])
         if type(source) is BNode: 
             returnval.append([ # order is x=url, y=label
                 DATA.concepts[source]['schema:url'],
                 DATA.concepts[source]['schema:name']])
-    return returnval
+    return sorted(returnval, key=lambda x: x[0])
 
 
 def ensure_list(item) -> list:
