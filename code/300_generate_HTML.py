@@ -899,8 +899,21 @@ results_classes = list(DATA.graph.query("""
     SELECT 
         ?iri 
         (group_concat(?type; separator=";") as ?types)
+        ?category
     WHERE {
         ?iri a rdfs:Class .
+        VALUES ?category { "class" }
+        OPTIONAL { ?type skos:broader ?iri }
+    } GROUP BY ?iri ORDER BY ?iri
+    """))
+results_classes += list(DATA.graph.query("""
+    SELECT 
+        ?iri 
+        (group_concat(?type; separator=";") as ?types)
+        ?category
+    WHERE {
+        ?iri a rdf:Property .
+        VALUES ?category { "property" }
         OPTIONAL { ?type skos:broader ?iri }
     } GROUP BY ?iri ORDER BY ?iri
     """))
@@ -908,7 +921,7 @@ results_classes = list(DATA.graph.query("""
 classes = {}
 topconcepts = []
 
-for iri, children in results_classes:
+for iri, children, category in results_classes:
     if not iri.startswith('https://w3id.org/dpv'): continue
     iri = str(iri).strip()
     classes[iri] = {
@@ -917,7 +930,14 @@ for iri, children in results_classes:
         'label': iri.split('#')[1],
         'children': [],
         'parents': [],
+        'category': category,
     }
+    relative_iri = iri.replace(f'https://w3id.org/dpv/{DPV_VERSION}', '')
+    if relative_iri.startswith('/'):
+        relative_iri = relative_iri.replace('/', '', 1)
+    elif relative_iri.startswith('#'):
+        relative_iri = f"dpv/{relative_iri}"
+    classes[iri]['relative-iri'] = relative_iri
     if children:
         for child in children.split(';'):
             if not child.startswith('https://w3id.org/dpv'): continue
@@ -945,7 +965,7 @@ index = []
 
 def add_item_to_index(iri):
     item = classes[iri]
-    data = {'name': f'<a href="{iri}">{item["vocab"]}: {item["label"]}</a>'}
+    data = {'name': f'<a class="concept" href="{item["relative-iri"]}">{item["vocab"]}: {item["label"]}</a><sup class="concept-type">{item["category"]}</sup>'}
     if item['children']:
         data['children'] = [add_item_to_index(child['iri']) for child in item['children']]
     return data
