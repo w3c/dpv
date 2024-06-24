@@ -1,6 +1,6 @@
 # Data Privacy Vocabulary (DPV)
 
-[https://w3id.org/dpv/v1.0](https://w3id.org/dpv/v1.0)
+[https://w3id.org/dpv/1.0](https://w3id.org/dpv/v1.0)
 
 >  cite as: Pandit H.J. et al. (2019) Creating a Vocabulary for Data Privacy. In:  Panetto H., Debruyne C., Hepp M., Lewis D., Ardagna C., Meersman R.  (eds) On the Move to Meaningful Internet Systems: OTM 2019 Conferences.  OTM 2019. Lecture Notes in Computer Science, vol 11877. Springer, Cham.  https://doi.org/10.1007/978-3-030-33246-4_44
 
@@ -17,17 +17,17 @@ The vocabulary provides terms to describe:
 * legal basis used to justify processing
 * information about consent where it is used as a legal basis
 
-The namespace for DPV terms is `http://www.w3id.org/dpv/v1.0#` with suggested prefix `dpv`. The IRI for DPV is currently redirected to serve the files hosted in this repository from GitHub pages i.e. `http://dpvcg.github.io/dpv/` (thanks to @bert-github for setting this up). Content-negotiation should therefore be supported for all files/serialisations of the DPV and its modules.
+The namespace for DPV terms is `http://www.w3id.org/dpv/1.0#` with suggested prefix `dpv`. The IRI for DPV is currently redirected to serve the files hosted in this repository from GitHub pages i.e. `http://dpvcg.github.io/dpv/` (thanks to @bert-github for setting this up). Content-negotiation should therefore be supported for all files/serialisations of the DPV and its modules.
 
-The [**DPV-GDPR**](https://w3id.org/dpv/v1.0/dpv-gdpr) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within GDPR.
+The [**DPV-GDPR**](https://w3id.org/dpv/1.0/dpv-gdpr) vocabulary expands on the DPV vocabulary to provide the specific legal basis defined within GDPR.
 
-The [**DPV-PD**](https://w3id.org/dpv/v1.0/dpv-pd) vocabulary expands on the DPV vocabulary to provide a taxonomy of personal data categories.
+The [**DPV-PD**](https://w3id.org/dpv/1.0/dpv-pd) vocabulary expands on the DPV vocabulary to provide a taxonomy of personal data categories.
 
-The [**DPV-LEGAL**](https://w3id.org/dpv/v1.0/dpv-legal) vocabulary expands on the DPV vocabulary to provide locations in terms of countries and regions, their formal identifiers as per ISO 3166, laws related to data protection and privacy, and authorities for enforcing laws.
+The [**DPV-LEGAL**](https://w3id.org/dpv/1.0/dpv-legal) vocabulary expands on the DPV vocabulary to provide locations in terms of countries and regions, their formal identifiers as per ISO 3166, laws related to data protection and privacy, and authorities for enforcing laws.
 
-The [**DPV-TECH**](https://www.w3id.org/dpv/v1.0/dpv-legal) vocabulary expands on the DPV vocabulary to provide concepts for representing use of technologies 
+The [**DPV-TECH**](https://www.w3id.org/dpv/1.0/dpv-legal) vocabulary expands on the DPV vocabulary to provide concepts for representing use of technologies 
 
-The [**DPV-NACE**](https://w3id.org/dpv/v1.0/dpv-nace) vocabulary provides a RDFS and DPV compatible serialisation of the  [NACE](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2) industry standard classification system used in the EU.
+The [**DPV-NACE**](https://w3id.org/dpv/1.0/dpv-nace) vocabulary provides a RDFS and DPV compatible serialisation of the  [NACE](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2) industry standard classification system used in the EU.
 
 The Data Privacy Vocabulary is an outcome of the activities of the [Data Privacy Vocabularies and Controls Community Group (DPVCG)](https://www.w3.org/community/dpvcg/) 
 
