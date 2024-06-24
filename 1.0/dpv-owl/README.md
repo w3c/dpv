@@ -12,7 +12,7 @@ Extensions of DPVO are also provided using the same semantics in sub-folders wit
 
 - DPV-GDPR: `dpvo-gdpr` for `http://w3id.org/dpv/1.0/dpv-owl/dpv-gdpr#`
 - DPV-PD: `dpvo-pd` for `http://w3id.org/dpv/1.0/dpv-owl/dpv-pd#`
-- DPV-LEGAL: `dpvo-legal` for `http://w3id.org/dpv/1.0/dpv-owl/dpv-gdpr#`
+- DPV-LEGAL: `dpvo-legal` for `http://w3id.org/dpv/1.0/dpv-owl/dpv-legal#`
 - DPV-TECH: `dpvo-tech` for `http://w3id.org/dpv/1.0/dpv-owl/dpv-tech#`
 
 The Data Privacy Vocabulary is an outcome of the activities of the [Data Privacy Vocabularies and Controls Community Group (DPVCG)](https://www.w3.org/community/dpvcg/) 
