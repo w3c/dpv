@@ -1,0 +1,21 @@
+# 1: annotating implementations with risks involved
+  ex:DataStore rdf:type dpv:Technology ;
+      dpv:hasTechnicalMeasure ex:RBACCredential ;
+      dpv:hasRisk ex:UnAuthorisedAccess . 
+
+  # 2: risk registry denoting risks and mitigations
+  ex:UnAuthorisedAccess rdf:type dpv:Risk ;
+      dpv:hasConsequence "Unauthorised Access to Data Store"@en ;
+      dpv:hasImpact dpv:Harm ;
+      dpv:isMitigatedByMeasure ex:RBACCredential .
+
+  # 3: annotating measures with risks mitigated
+  ex:RBACCredential rdf:type dpv:TechnicalMeasure, dpv:RiskMitigationMeasure ;
+      skos:broader dpv:AccessControlMethod ;
+      dpv:mitigatesRisk ex:UnAuthorisedAccess .
+
+  # 4: policies and training as risk mitigations
+  ex:SecurityPolicy rdf:type dpv:OrganisationalMeasure ;
+      skos:broader dpv:Policy ;
+      dpv:hasOrganisationalMeasure dpv:StaffTraining ;
+      dpv:mitigatesRisk ex:UnAuthorisedAccess .

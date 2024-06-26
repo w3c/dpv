@@ -7,21 +7,29 @@ SHACL validation tests
 
 # Path to data files to be validated.
 # Only the .ttl files are included for convenience in debugging.
+from vocab_management import EXPORT_PATH
+
 DATA_PATHS = [
-    '../dpv/dpv.ttl',
-    '../pd/pd.ttl',
-    '../loc/loc.ttl',
-    '../legal/legal.ttl',
-    '../legal/us/legal-us.ttl',
-    '../legal/gb/legal-gb.ttl',
-    '../legal/de/legal-de.ttl',
-    '../legal/ie/legal-ie.ttl',
-    '../legal/eu/legal-eu.ttl',
-    '../legal/eu/gdpr/eu-gdpr.ttl',
-    '../legal/eu/dga/eu-dga.ttl',
-    '../legal/eu/rights/eu-rights.ttl',
-    '../tech/tech.ttl',
-    '../risk/risk.ttl',
+    f'{EXPORT_PATH}/ai/ai.ttl',
+    f'{EXPORT_PATH}/dpv/dpv.ttl',
+    f'{EXPORT_PATH}/justifications/justifications.ttl',
+    f'{EXPORT_PATH}/legal/de/legal-de.ttl',
+    f'{EXPORT_PATH}/legal/eu/aiact/eu-aiact.ttl',
+    f'{EXPORT_PATH}/legal/eu/dga/eu-dga.ttl',
+    f'{EXPORT_PATH}/legal/eu/gdpr/eu-gdpr.ttl',
+    f'{EXPORT_PATH}/legal/eu/nis2/eu-nis2.ttl',
+    f'{EXPORT_PATH}/legal/eu/rights/eu-rights.ttl',
+    f'{EXPORT_PATH}/legal/eu/legal-eu.ttl',
+    f'{EXPORT_PATH}/legal/eu/rights/eu-rights.ttl',
+    f'{EXPORT_PATH}/legal/gb/legal-gb.ttl',
+    f'{EXPORT_PATH}/legal/ie/legal-ie.ttl',
+    f'{EXPORT_PATH}/legal/in/legal-in.ttl',
+    f'{EXPORT_PATH}/legal/legal.ttl',
+    f'{EXPORT_PATH}/legal/us/legal-us.ttl',
+    f'{EXPORT_PATH}/loc/loc.ttl',
+    f'{EXPORT_PATH}/pd/pd.ttl',
+    f'{EXPORT_PATH}/risk/risk.ttl',
+    f'{EXPORT_PATH}/tech/tech.ttl',
 ]
 
 # Combine all files into a common single graph
@@ -49,15 +57,6 @@ conforms, results_graph, results_text = validate(
     inference='none',
     abort_on_first=False,
     )
-
-# Parse results.
-# If graph conforms, exit.
-if conforms:
-    print('Validation PASSED')
-    import sys
-    sys.exit(0)
-else:
-    print('Validation FAILED')
 
 # Load namespaces into the graph so that outputs are
 # convenient to handle e.g. dpv:Concept
@@ -95,6 +94,7 @@ IGNORE_ERRORS = {
     'legal-us': ['ex:Require_SKOS_Definition'],
     'legal-gb': ['ex:Require_SKOS_Definition'],
     'legal-ie': ['ex:Require_SKOS_Definition'],
+    'legal-in': ['ex:Require_SKOS_Definition'],
 }
 
 # Collate errors.
@@ -126,7 +126,12 @@ with open(OUTPUT_FILE, 'w') as fd:
         autoescape=True, trim_blocks=True, lstrip_blocks=True)
     template = template_env.get_template('validation.jinja2')
     with open(f'{OUTPUT_FILE}', 'w+') as fd:
-        fd.write(template.render(data=vocabs))
+        if not vocabs:
+            print('Validation PASSED')
+            fd.write(template.render(data=vocabs,errors=False))
+        else:
+            print('Validation FAILED')
+            fd.write(template.render(data=vocabs,errors=True))
 
 import sys
 sys.exit(1)

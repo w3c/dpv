@@ -44,6 +44,7 @@ DPV_FILES = {
         'sheets': ( 
             # > Note: the 'name' of the 'sheet' MUST be exact
             'Namespaces', 
+            'Namespaces-v2', 
             'Namespaces_Other', 
             ),
     },

@@ -30,6 +30,12 @@ INFO = logging.info
 # [export paths and configuration](vocab_management.html#export)
 from vocab_management import *
 
+from pygments import highlight
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters import HtmlFormatter
+pyg_lexer = get_lexer_by_name("turtle", stripall=True)
+pyg_formatter = HtmlFormatter(cssclass="source", noclasses=True)
+
 # == DATA class ==
 
 class DATA(object):
@@ -53,6 +59,10 @@ class DATA(object):
     # the same dict as value
     concepts = {}
     # concepts_prefixed = {}
+    # 'graph' will contain ALL triples - helpful if we want to produce
+    # a single RDF or CSV file containing all concepts. This is also 
+    # helpful to create the index search interface.
+    graph = Graph()
     
     # === load-vocab ===
     @staticmethod
@@ -65,6 +75,7 @@ class DATA(object):
         graph = Graph()
         graph.parse(filepath)
         graph.ns = { k:v for k,v in NAMESPACES.items() }
+        DATA.graph += graph
         vocab_data = {}
         for s, p, o in graph:
             # ==== parse-subject ====
@@ -455,13 +466,12 @@ def get_sources(sources:str|list) -> list:
     returnval = []
     for source in sources:
         if type(source) is str: 
-            DEBUG(source)
             returnval.append([source, sources])
         if type(source) is BNode: 
             returnval.append([ # order is x=url, y=label
                 DATA.concepts[source]['schema:url'],
                 DATA.concepts[source]['schema:name']])
-    return returnval
+    return sorted(returnval, key=lambda x: x[0])
 
 
 def ensure_list(item) -> list:
@@ -597,7 +607,7 @@ def resolve_concepts(items:str | list) -> str | list:
     return DATA.concepts[items]
 
 
-def retrieve_example(exampleID:str) -> tuple:
+def retrieve_example(exampleID:str, syntaxHighlight=True) -> tuple:
     """
     Retrieves the example specified by provided ID.
     The example contents are read from the associated file if needed.
@@ -608,6 +618,9 @@ def retrieve_example(exampleID:str) -> tuple:
             contents = fd.read()
     else:
         contents = ex['rdf:value']
+    if str(ex['dct:format']) == 'text/turtle':
+        contents = highlight(contents.strip(), pyg_lexer, pyg_formatter)
+        contents = contents.replace("<pre ", "<pre class='nohighlight'")
     return ex, contents
 
 
@@ -886,5 +899,97 @@ for doc, data in GUIDES.items():
         template = template_env.get_template(template)
         fd.write(template.render())
     INFO(f"wrote primer document {doc} at {filepath}")
+
+INFO('*'*40)
+
+INFO('Generating Search Index')
+results_classes = list(DATA.graph.query("""
+    SELECT 
+        ?iri 
+        (group_concat(?type; separator=";") as ?types)
+        ?category
+    WHERE {
+        ?iri a rdfs:Class .
+        VALUES ?category { "class" }
+        OPTIONAL { ?type skos:broader ?iri }
+    } GROUP BY ?iri ORDER BY ?iri
+    """))
+results_properties = list(DATA.graph.query("""
+    SELECT 
+        ?iri 
+        (group_concat(?type; separator=";") as ?types)
+        ?category
+    WHERE {
+        ?iri a rdf:Property .
+        VALUES ?category { "property" }
+        OPTIONAL { ?type skos:broader ?iri }
+    } GROUP BY ?iri ORDER BY ?iri
+    """))
+
+classes = {}
+topconcepts = []
+
+for iri, children, category in results_classes+results_properties:
+    if not iri.startswith('https://w3id.org/dpv'): continue
+    iri = str(iri).strip()
+    classes[iri] = {
+        'iri': iri,
+        'vocab': prefix_from_iri(iri).split(':')[0],
+        'label': iri.split('#')[1],
+        'children': [],
+        'parents': [],
+        'category': category,
+    }
+    relative_iri = iri.replace(f'https://w3id.org/dpv/{DPV_VERSION}', '')
+    if relative_iri.startswith('/'):
+        relative_iri = relative_iri.replace('/', '', 1)
+    elif relative_iri.startswith('#'):
+        relative_iri = f"dpv/{relative_iri}"
+    classes[iri]['relative-iri'] = relative_iri
+    if children:
+        for child in children.split(';'):
+            if not child.startswith('https://w3id.org/dpv'): continue
+            classes[iri]['children'].append(child)
+
+for iri, data in classes.items():
+    children = []
+    for child in data['children']:
+        classes[child]['parents'].append(iri)
+        children.append(classes[child])
+    data['children'] = children
+
+for iri, data in classes.items():
+    if not data['parents']:
+        topconcepts.append(iri)
+
+# # DEBUG
+# # for data in classes.values():
+# #     for x in data['parents']:
+# #         if x not in classes:
+# #             print(x)
+
+index = []
+
+
+def add_item_to_index(iri):
+    item = classes[iri]
+    data = {'name': f'<a class="concept" href="{item["relative-iri"]}">{item["vocab"]}: {item["label"]}</a><sup class="concept-type">{item["category"]}</sup>'}
+    if item['children']:
+        data['children'] = [add_item_to_index(child['iri']) for child in item['children']]
+    return data
+
+
+for concept in topconcepts:
+    index.append(add_item_to_index(concept))
+
+filepath = f"{EXPORT_PATH}/search.html"
+with open(filepath, 'w') as fd:
+    template = template_env.get_template('template_search_index.jinja2')
+    fd.write(template.render(
+        data=json.dumps(index), 
+        num_classes=len(results_classes), 
+        num_properties=len(results_properties),
+        DPV_VERSION=DPV_VERSION))
+INFO(f"wrote search index document at {filepath}")
 
 INFO('*'*40)

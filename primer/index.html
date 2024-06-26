@@ -9,12 +9,12 @@
     title: "Primer",
     subtitle: "Data Privacy Vocabulary (DPV)",
     shortName: "primer",
-    specStatus: "CG-DRAFT",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/primer",
     canonicalUri: "https://w3id.org/dpv/primer",
     edDraftURI: "https://dev.dpvcg.org/primer",
-    publishDate: "2024-05-31",
+    publishDate: "2024-07-01",
     // isPreview: true,
     subjectPrefix: "[primer]",
     doJsonLd: true,
@@ -31,6 +31,7 @@
       "company": "ADAPT Centre, Dublin City University"
     }, {
       name: "Georg P. Krog",
+      url: "https://www.linkedin.com/in/georg-philip-krog-a2a278104/",
       "company": "Signatu AS"
     }, {
       name: "Beatriz Esteves",
@@ -359,10 +360,9 @@
       <li>Self-contained examples that illustrate how the concepts and data models provided by DPV can represent information associated with processing of personal data and use of technologies; and</li>
       <li>Guidance towards application of DPV in use-cases and technologies.</li>
     </ul>
+    <p>[[PRIMER-concise]] is a shorter version (2 pages) of the primer intended for a quick introduction.</p>
     <section id="sotd">
-    <p style="color: red; font-weight: bold;">The DPVCG is currently updating the specifications to v2. This document is a draft and may change as part of this process.</p>
-    <p><strong>Contributing:</strong> The DPVCG welcomes participation to improve the DPV and associated resources, including expansion or refinement of concepts, requesting information and applications, and addressing open issues. <a href="https://github.com/w3c/dpv/blob/master/contributing.md">See contributing page</a> for further information.</p>
-  </div>
+    <p><strong>Contributing:</strong> The DPVCG welcomes participation to improve the DPV and associated resources, including expansion or refinement of concepts, requesting information and applications, and addressing open issues. <a href="https://github.com/w3c/dpv/wiki/Contribution-Guide">See contributing guide</a> for further information.</p>
 </section>
 
     <section id="dpv-document-family" class="noTOC">
@@ -502,35 +502,36 @@
       <aside class="example" title="Implications of using SKOS vs OWL">
 <p>This example highlights the implications of using DPV with RDFS+SKOS and OWL semantics. The RDFS+SKOS model is suitable for when DPV concepts have to be used 'directly' e.g. an use-case wants to use 'Encryption' from DPV as a technical measure without creating a specific 'instance' representing their implementation of the encryption. RDFS+SKOS model is also suitable for when an use-case wants to further create an hierarchical taxonomy of the different 'Encryption' concepts they are using. Such use of DPV concepts covers both T-box and A-box, and does not restrict or require the underlying ontology/schema to be constantly changed as new concepts are identified in an use-case.</p>
       <p>In comparison, the OWL2 model defines concepts as classes and instances with a clear separation between the two i.e. the Tbox and Abox are separate. This means the concept 'Encryption' cannot be directly used with OWL2 semantics and an instance of it must first be created. If instead DPV had provided 'Encryption' as an instance (of Technical Measure) then the further expansion and creation of a hierarchy of encryption concepts described earlier is not feasible in OWL2 as it results in a complex graph which is not efficient for reasoning. Further, making changes such as promoting 'Encryption' from instance to class requires changing the ontology/schema - which may not always be possible or feasible in use-cases.</p>
-      <p>Thus, the relative strengths and weaknesses of RDFS+SKOS and OWL2 serialisations dictate which should be used. RDFS+SKOS is 'lightweight' and better if the use-case only requires rudimentary or simple reasoning. OWL2 is  better suited for semantic reasoners that can perform complex discovery and validation processes but require more strict and restricted use of concepts. By providing both serialisations, DPV enables the adopters to choose the most suitable serialisation that supports their use-case and/or existing implementations, and retains semantic interoperability based on converting between SKOS and OWL2 (see <a href="https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html">Using OWL and SKOS (2008)</a>).</p>    <pre class="nohighlight"><code># Example: A Company is running &#39;Direct Marketing&#39; campaigns for
-# a purpose (CampaignA), within which it runs another special
-# campaign (CampaignB). This may envolve into another campaign C.
-# RDFS+SKOS modelling
-dpv:Marketing a rdfs:Class, dpv:Purpose .
-dpv:DirectMarketing a dpv:Purpose; skos:broader dpv:Marketing .
-ex:CampaignA a dpv:Purpose; skos:broader dpv:DirectMarketing .
-ex:CampaignB a dpv:Purpose; skos:broader ex:CampaignA .
-# valid statements as all objects are instances of dpv:Purpose
-ex:Documentation a dpv:Process; dpv:hasPurpose dpv:DirectMarketing .
+      <p>Thus, the relative strengths and weaknesses of RDFS+SKOS and OWL2 serialisations dictate which should be used. RDFS+SKOS is 'lightweight' and better if the use-case only requires rudimentary or simple reasoning. OWL2 is  better suited for semantic reasoners that can perform complex discovery and validation processes but require more strict and restricted use of concepts. By providing both serialisations, DPV enables the adopters to choose the most suitable serialisation that supports their use-case and/or existing implementations, and retains semantic interoperability based on converting between SKOS and OWL2 (see <a href="https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html">Using OWL and SKOS (2008)</a>).</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Example: A Company is running &#39;Direct Marketing&#39; campaigns for</span>
+<span style="color: #3D7B7B; font-style: italic"># a purpose (CampaignA), within which it runs another special</span>
+<span style="color: #3D7B7B; font-style: italic"># campaign (CampaignB). This may envolve into another campaign C.</span>
+<span style="color: #3D7B7B; font-style: italic"># RDFS+SKOS modelling</span>
+<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Marketing</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">rdfs</span>:<span style="color: #008000; font-weight: bold">Class</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> .
+<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DirectMarketing</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span>; <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Marketing</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CampaignA</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span>; <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DirectMarketing</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CampaignB</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span>; <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CampaignA</span> .
+<span style="color: #3D7B7B; font-style: italic"># valid statements as all objects are instances of dpv:Purpose</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Documentation</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span>; <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DirectMarketing</span> .
 
-# OWL2 modelling
-dpv:Marketing a owl:Class; rdfs:subClassOf dpv:Purpose .
-dpv:DirectMarketing a owl:Class; rdfs:subClassOf dpv:Marketing .
-ex:CampaignA a dpv:DirectMarketing .
-# problem: instance of instance
-ex:CampaignB a ex:CampaignA .
-# solution: change CampaignA to subclass 
-ex:CampaignA rdfs:subClassOf dpv:DirectMarketing .
-# problem: DirectMarketing is not an instance of dpv:Purpose
-ex:Documentation a dpv:Process; dpv:hasPurpose dpv:DirectMarketing .
-# solution: blank nodes, but not a good solution
-ex:Documentation a dpv:Process; dpv:hasPurpose [ a dpv:DirectMarketing ] .
-# solution: use the instances rather than the class
-ex:Documentation a dpv:Process; dpv:hasPurpose ex:CampaignA .
-# problem: does not reflect the terminology used by Company/Law
-</code></pre>
+<span style="color: #3D7B7B; font-style: italic"># OWL2 modelling</span>
+<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Marketing</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">owl</span>:<span style="color: #008000; font-weight: bold">Class</span>; <span style="color: #0000FF; font-weight: bold">rdfs</span>:<span style="color: #008000; font-weight: bold">subClassOf</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> .
+<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DirectMarketing</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">owl</span>:<span style="color: #008000; font-weight: bold">Class</span>; <span style="color: #0000FF; font-weight: bold">rdfs</span>:<span style="color: #008000; font-weight: bold">subClassOf</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Marketing</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CampaignA</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DirectMarketing</span> .
+<span style="color: #3D7B7B; font-style: italic"># problem: instance of instance</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CampaignB</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CampaignA</span> .
+<span style="color: #3D7B7B; font-style: italic"># solution: change CampaignA to subclass </span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CampaignA</span> <span style="color: #0000FF; font-weight: bold">rdfs</span>:<span style="color: #008000; font-weight: bold">subClassOf</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DirectMarketing</span> .
+<span style="color: #3D7B7B; font-style: italic"># problem: DirectMarketing is not an instance of dpv:Purpose</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Documentation</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span>; <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DirectMarketing</span> .
+<span style="color: #3D7B7B; font-style: italic"># solution: blank nodes, but not a good solution</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Documentation</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span>; <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> [ <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DirectMarketing</span> ] .
+<span style="color: #3D7B7B; font-style: italic"># solution: use the instances rather than the class</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Documentation</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span>; <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CampaignA</span> .
+<span style="color: #3D7B7B; font-style: italic"># problem: does not reflect the terminology used by Company/Law</span>
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0001"><code>E0001</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0001"><code>E0001</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0001.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -542,44 +543,45 @@ link: <a href="https://w3id.org/dpv/examples/E0001.ttl">source file</a>;      co
     <p>Most of the concepts within DPV are provided as hierarchies of classes representing categories of information, which are intentionally generic or abstract or broad so as to permit their application across a diverse and varied landscape of real-world use-cases. In order to accurately reflect the particulars of an use-case, concepts within DPV would (most likely) need to be extended. The specifics for how this should be done depend on the manner in which DPV is utilised. For example, using the default [[DPV]] specification which contains [[RDFS]] and [[SKOS]] semantics, extending is done by declaring a new concept an instance of the top concept using <code>rdf:type</code> and then using <code>skos:broader</code> to denote where it fits within the hierarchy. In [[DPV-OWL]] which uses [[OWL]] semantics, <code>rdfs:subClassOf</code> relationship is used to create hierarchy of sub-classes. Where an exact concept is not present within the DPV and a broader concept exists for representing the same information - one should subtype or extend that broad concept to define the required information.</p>
       <aside class="example" title="Extending concepts to represent use-case specific information">
 <p>DPV defines the (broad) concept of <a href="https://w3id.org/dpv#Marketing"><code>Marketing</code></a> in its <code>Purpose</code> hierarchy to represent information about (purposes related to) marketing activities and topics. For a use-case which requires representing purposes (note: plural) related to <i>marketing of new products</i>, the broad <code>Marketing</code> concept is extended as a <i>child</i> or <i>subclass</i> concept for representing the intended purpose as, e.g. <code>MarketingNewProducts</code>.</p>
-      <p><strong>Note:</strong> Here the prefix <code>ex:</code> represents <code>http://example.com#</code> - which is a convention for representing additional examples or concepts, such as those created as part of the use-case. The rest of the document follows this nomenclature and convention.</p>    <pre class="nohighlight"><code># Example using DPV (RDFS+SKOS)
-# Case1: Where further categories are required to &#39;group&#39; related purposes
-# creating a new subclass or category of Marketing for use-case
-ex:MarketingOfNewProducts a dpv:Purpose ;
-    skos:broader dpv:Marketing ;
-    skos:prefLabel “Marketing of New Products” .
+      <p><strong>Note:</strong> Here the prefix <code>ex:</code> represents <code>http://example.com#</code> - which is a convention for representing additional examples or concepts, such as those created as part of the use-case. The rest of the document follows this nomenclature and convention.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Example using DPV (RDFS+SKOS)</span>
+<span style="color: #3D7B7B; font-style: italic"># Case1: Where further categories are required to &#39;group&#39; related purposes</span>
+<span style="color: #3D7B7B; font-style: italic"># creating a new subclass or category of Marketing for use-case</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">MarketingOfNewProducts</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Marketing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Marketing</span> <span style="border: 1px solid #FF0000">of</span> <span style="border: 1px solid #FF0000">New</span> <span style="border: 1px solid #FF0000">Products”</span> .
 
-# more specific purposes under group ‘Marketing of New Products’
-ex:NewslettersOffers a dpv:Purpose ;
-    skos:broader ex:MarketingOfNewProducts ;
-    skos:prefLabel “Newsletters about Offers” .
-ex:EmailsSeasonalOffers a dpv:Purpose ;
-    skos:broader ex:MarketingOfNewProducts ;
-    skos:prefLabel “Emails about Seasonal Offers” .
+<span style="color: #3D7B7B; font-style: italic"># more specific purposes under group ‘Marketing of New Products’</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">NewslettersOffers</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">MarketingOfNewProducts</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Newsletters</span> <span style="border: 1px solid #FF0000">about</span> <span style="border: 1px solid #FF0000">Offers”</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">EmailsSeasonalOffers</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">MarketingOfNewProducts</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Emails</span> <span style="border: 1px solid #FF0000">about</span> <span style="border: 1px solid #FF0000">Seasonal</span> <span style="border: 1px solid #FF0000">Offers”</span> .
 
-# Case2: A single final and definite purpose within EmailSeasonalOffers
-ex:MarketingSeasonalOffer2021 a dpv:Purpose ;
-    skos:broader dpv:Marketing ;
-    skos:prefLabel &#34;Sending Email Newsletters with Seasonal Offers&#34; .
+<span style="color: #3D7B7B; font-style: italic"># Case2: A single final and definite purpose within EmailSeasonalOffers</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">MarketingSeasonalOffer2021</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Marketing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="color: #BA2121">&quot;Sending Email Newsletters with Seasonal Offers&quot;</span> .
 
-# Example using DPV-OWL (OWL2)
-# Case1: Where further categories are required to &#39;group&#39; related purposes
-# creating a new subclass or category of Marketing for use-case
-ex:MarketingOfNewProducts rdfs:subClassOf dpv:Marketing ;
-    skos:prefLabel “Marketing of New Products” .
+<span style="color: #3D7B7B; font-style: italic"># Example using DPV-OWL (OWL2)</span>
+<span style="color: #3D7B7B; font-style: italic"># Case1: Where further categories are required to &#39;group&#39; related purposes</span>
+<span style="color: #3D7B7B; font-style: italic"># creating a new subclass or category of Marketing for use-case</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">MarketingOfNewProducts</span> <span style="color: #0000FF; font-weight: bold">rdfs</span>:<span style="color: #008000; font-weight: bold">subClassOf</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Marketing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Marketing</span> <span style="border: 1px solid #FF0000">of</span> <span style="border: 1px solid #FF0000">New</span> <span style="border: 1px solid #FF0000">Products”</span> .
 
-# more specific categories of group ‘Marketing of New Products’
-ex:NewslettersOffers rdfs:subClassOf ex:MarketingOfNewProducts ;
-    skos:prefLabel “Newsletters about Offers” .
-ex:EmailsSeasonalOffers rdfs:subClassOf ex:MarketingOfNewProducts ;
-    skos:prefLabel “Emails about Seasonal Offers” .
+<span style="color: #3D7B7B; font-style: italic"># more specific categories of group ‘Marketing of New Products’</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">NewslettersOffers</span> <span style="color: #0000FF; font-weight: bold">rdfs</span>:<span style="color: #008000; font-weight: bold">subClassOf</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">MarketingOfNewProducts</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Newsletters</span> <span style="border: 1px solid #FF0000">about</span> <span style="border: 1px solid #FF0000">Offers”</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">EmailsSeasonalOffers</span> <span style="color: #0000FF; font-weight: bold">rdfs</span>:<span style="color: #008000; font-weight: bold">subClassOf</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">MarketingOfNewProducts</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Emails</span> <span style="border: 1px solid #FF0000">about</span> <span style="border: 1px solid #FF0000">Seasonal</span> <span style="border: 1px solid #FF0000">Offers”</span> .
 
-# Case2: A single final and definite purpose within EmailSeasonalOffers
-ex:MarketingSeasonalOffer rdf:type dpv:Marketing ;
-    skos:prefLabel &#34;Sending Email Newsletters with Seasonal Offers&#34; .&lt;F25&gt;
-</code></pre>
+<span style="color: #3D7B7B; font-style: italic"># Case2: A single final and definite purpose within EmailSeasonalOffers</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">MarketingSeasonalOffer</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Marketing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="color: #BA2121">&quot;Sending Email Newsletters with Seasonal Offers&quot;</span> .<span style="color: #19177C">&lt;F25&gt;</span>
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0002"><code>E0002</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0002"><code>E0002</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0002.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -587,29 +589,30 @@ link: <a href="https://w3id.org/dpv/examples/E0002.ttl">source file</a>;      co
 
     <p>The mechanism for extending concepts (via both subclasses/subtypes and instances) is useful to align existing concepts or vocabularies with the DPV taxonomies, such as by declaring them as subclasses of a particular concept. This permits the creation of domain or jurisdiction specific <i>extensions</i>, such as [[[EU-GDPR]]] for expressing the legal bases provided by GDPR. Extensions also permit more accurate representations of a use-case by extending from multiple concepts to refine and scope the interpretation. This means each concept can have multiple parents representing the intersection of their respective sets.</p>
       <aside class="example" title="Extending multiple concepts">
-<p>For example, two TV companies (<code>AliceCo</code> and <code>BobCo</code>) extend the concept <code>Optimisation</code> to reflect their respective purposes. When exchanging information about their use-cases with each other (or with a third party), by following the chain of use-case specific concepts it is possible to deduce that both <code>AliceCo</code> and <code>BobCo</code> are doing optimisations for consumers. Thus a common language or interface can be developed based on using DPV as a point of interoperability and commonality which can be used by adopters to define the specifics of their use-case. For example, in the above use-case, a common notice generation algorithm could be created and used to inform users of both services the purposes each company is using data for.</p>    <pre class="nohighlight"><code># Example in DPV (RDFS+SKOS)
-# Method 1: Ambiguous regarding independence of Collect and Use
-ex:ActivityA a dpv:Process ;
-    dpv:hasProcessing ex:Collect, ex:Use .
+<p>For example, two TV companies (<code>AliceCo</code> and <code>BobCo</code>) extend the concept <code>Optimisation</code> to reflect their respective purposes. When exchanging information about their use-cases with each other (or with a third party), by following the chain of use-case specific concepts it is possible to deduce that both <code>AliceCo</code> and <code>BobCo</code> are doing optimisations for consumers. Thus a common language or interface can be developed based on using DPV as a point of interoperability and commonality which can be used by adopters to define the specifics of their use-case. For example, in the above use-case, a common notice generation algorithm could be created and used to inform users of both services the purposes each company is using data for.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Example in DPV (RDFS+SKOS)</span>
+<span style="color: #3D7B7B; font-style: italic"># Method 1: Ambiguous regarding independence of Collect and Use</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ActivityA</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Use</span> .
 
-# Method 2: Accuracy regarding combination of Collect and Use
-ex:CollectAndUse a dpv:Processing
-    # rdfs:subClassOf dpv:Collect, dpv:Use ; # -- RDFS+SKOS permits this
-    skos:broader ex:Collect, ex:Use ;
-    skos:prefLabel “Collect and Use data using User Device” .
-ex:Activity a dpv:Process ;
-    dpv:hasProcessing ex:CollectAndUse . # -- property range is correct
+<span style="color: #3D7B7B; font-style: italic"># Method 2: Accuracy regarding combination of Collect and Use</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CollectAndUse</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Processing</span>
+    <span style="color: #3D7B7B; font-style: italic"># rdfs:subClassOf dpv:Collect, dpv:Use ; # -- RDFS+SKOS permits this</span>
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Use</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Collect</span> <span style="border: 1px solid #FF0000">and</span> <span style="border: 1px solid #FF0000">Use</span> <span style="border: 1px solid #FF0000">data</span> <span style="border: 1px solid #FF0000">using</span> <span style="border: 1px solid #FF0000">User</span> <span style="border: 1px solid #FF0000">Device”</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Activity</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CollectAndUse</span> . <span style="color: #3D7B7B; font-style: italic"># -- property range is correct</span>
 
-# Example in DPV-OWL
-ex:CollectAndUse rdfs:subClassOf dpv:Collect, dpv:Use ;
-    skos:prefLabel “Collect and Use data using User Device” .
-ex:Activity a dpv:Process ;
-    # dpv:hasProcessing ex:CollectAndUse  # -- property range is incorrect
-    dpv:hasProcessing ex:CU1 . # hence, an instance is needed for OWL2
-ex:CU1 a ex:CollectAndUse .
-</code></pre>
+<span style="color: #3D7B7B; font-style: italic"># Example in DPV-OWL</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CollectAndUse</span> <span style="color: #0000FF; font-weight: bold">rdfs</span>:<span style="color: #008000; font-weight: bold">subClassOf</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Use</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Collect</span> <span style="border: 1px solid #FF0000">and</span> <span style="border: 1px solid #FF0000">Use</span> <span style="border: 1px solid #FF0000">data</span> <span style="border: 1px solid #FF0000">using</span> <span style="border: 1px solid #FF0000">User</span> <span style="border: 1px solid #FF0000">Device”</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Activity</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># dpv:hasProcessing ex:CollectAndUse  # -- property range is incorrect</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CU1</span> . <span style="color: #3D7B7B; font-style: italic"># hence, an instance is needed for OWL2</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CU1</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CollectAndUse</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0003"><code>E0003</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0003"><code>E0003</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0003.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -626,33 +629,34 @@ link: <a href="https://w3id.org/dpv/examples/E0003.ttl">source file</a>;      co
     <h3>Maintaining Interoperability</h3>
     <p>DPV intends to provide a core or foundational framework for different entities to exchange information and interpret concepts for interoperability. When an adopter (e.g. an organisation using DPV) extends concepts to refine them for their own use-case, the concept is still (weakly) interoperable by relying on DPV’s broad taxonomies to provide a common point of reference.</p>
       <aside class="example" title="Interoperability of extended concepts across use-cases">
-<p>For example, two TV companies (<code>AliceCo</code> and <code>BobCo</code>) extend the concept <code>Optimisation</code> to reflect their respective purposes as follows:</p>    <pre class="nohighlight"><code># Example in DPV (RDFS+SKOS)
-# AliceCo’s optimisation related to better services for users’ infrastructure
-exA:TVServiceOptimisaion a dpv:Purpose;
-    skos:broader dpv:OptimisationForConsumer ;
-    skos:prefLabel “Optimise Service for Users’ Infrastructure” .
+<p>For example, two TV companies (<code>AliceCo</code> and <code>BobCo</code>) extend the concept <code>Optimisation</code> to reflect their respective purposes as follows:</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Example in DPV (RDFS+SKOS)</span>
+<span style="color: #3D7B7B; font-style: italic"># AliceCo’s optimisation related to better services for users’ infrastructure</span>
+<span style="color: #0000FF; font-weight: bold">exA</span>:<span style="color: #008000; font-weight: bold">TVServiceOptimisaion</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span>;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">OptimisationForConsumer</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Optimise</span> <span style="border: 1px solid #FF0000">Service</span> <span style="border: 1px solid #FF0000">for</span> <span style="border: 1px solid #FF0000">Users’</span> <span style="border: 1px solid #FF0000">Infrastructure”</span> .
 
-# BobCo’s optimisation related to more efficient signals for users’ TV sets
-exB:TVSignalOptimisation a dpv:Purpose;
-    skos:broader dpv:OptimisationForConsumer ;
-    skos:prefLabel “Optimise Signal for Consumer TV Set” .
+<span style="color: #3D7B7B; font-style: italic"># BobCo’s optimisation related to more efficient signals for users’ TV sets</span>
+<span style="color: #0000FF; font-weight: bold">exB</span>:<span style="color: #008000; font-weight: bold">TVSignalOptimisation</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span>;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">OptimisationForConsumer</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Optimise</span> <span style="border: 1px solid #FF0000">Signal</span> <span style="border: 1px solid #FF0000">for</span> <span style="border: 1px solid #FF0000">Consumer</span> <span style="border: 1px solid #FF0000">TV</span> <span style="border: 1px solid #FF0000">Set”</span> .
 
-# Example in DPV-OWL
-# the common ancestor is:dpv:OptimisationForConsumer ; 
-# Using this as context to compare:
-# (either manually, or based on data used, etc.)
+<span style="color: #3D7B7B; font-style: italic"># Example in DPV-OWL</span>
+<span style="color: #3D7B7B; font-style: italic"># the common ancestor is:dpv:OptimisationForConsumer ; </span>
+<span style="color: #3D7B7B; font-style: italic"># Using this as context to compare:</span>
+<span style="color: #3D7B7B; font-style: italic"># (either manually, or based on data used, etc.)</span>
 
-# 1: BobCo&#39;s optimisations are found to be broader than AliceCo&#39;s
-exA:TVServiceOptimisation skos:broader exB:TVServiceOptimisation .
+<span style="color: #3D7B7B; font-style: italic"># 1: BobCo&#39;s optimisations are found to be broader than AliceCo&#39;s</span>
+<span style="color: #0000FF; font-weight: bold">exA</span>:<span style="color: #008000; font-weight: bold">TVServiceOptimisation</span> <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">exB</span>:<span style="color: #008000; font-weight: bold">TVServiceOptimisation</span> .
 
-# 2: BobCo&#39;s optimisations are found to be the same as AliceCo&#39;s
-exA:TVServiceOptimisation skos:exactMatch exB:TVServiceOptimisation .
+<span style="color: #3D7B7B; font-style: italic"># 2: BobCo&#39;s optimisations are found to be the same as AliceCo&#39;s</span>
+<span style="color: #0000FF; font-weight: bold">exA</span>:<span style="color: #008000; font-weight: bold">TVServiceOptimisation</span> <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">exactMatch</span> <span style="color: #0000FF; font-weight: bold">exB</span>:<span style="color: #008000; font-weight: bold">TVServiceOptimisation</span> .
 
-# 3: BobCo&#39;s optimisations are found to be similar to AliceCo&#39;s
-exA:TVServiceOptimisation skos:closeMatch exB:TVServiceOptimisation .&lt;F25&gt;
-</code></pre>
+<span style="color: #3D7B7B; font-style: italic"># 3: BobCo&#39;s optimisations are found to be similar to AliceCo&#39;s</span>
+<span style="color: #0000FF; font-weight: bold">exA</span>:<span style="color: #008000; font-weight: bold">TVServiceOptimisation</span> <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">closeMatch</span> <span style="color: #0000FF; font-weight: bold">exB</span>:<span style="color: #008000; font-weight: bold">TVServiceOptimisation</span> .<span style="color: #19177C">&lt;F25&gt;</span>
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0004"><code>E0004</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0004"><code>E0004</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0004.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -859,15 +863,16 @@ link: <a href="https://w3id.org/dpv/examples/E0004.ttl">source file</a>;      co
       <p>In DPV v1, the concept <code>PersonalDataHandling</code> was defined to represent the combination of core concepts. In DPV v2, this role is fulfilled by <code>Process</code> which is a term more closely aligned with practical uses and the vocabulary used by various entities e.g. business process. For backwards compatibility, <code>PersonalDataHandling</code> is defined as a subclass or subtype of <code>Process</code>.</p>
     </aside>
       <aside class="example" title="Process used to combine core concepts and represent an use-case">
-<p>An example of how <code>Process</code> brings together the core concepts, consider the example where <code>Acme</code> is a <code>DataController</code> that <code>Collect</code>(s) and <code>Use</code>(s) <code>Email</code> for <code>ServiceProvision</code>. Note that the <code>pd:EmailAddress</code> is a concept from the [[[PD]]] extension.</p>    <pre class="nohighlight"><code>ex:Acme rdf:type dpv:DataController .
-ex:AcmeMarketing rdf:type dpv:Process ;
-    dpv:hasDataController ex:Acme ;
-    dpv:hasPersonalData pd:EmailAddress ;
-    dpv:hasProcessing dpv:Collect, dpv:Use ;
-    dpv:hasPurpose dpv:ServiceProvision ;
-</code></pre>
+<p>An example of how <code>Process</code> brings together the core concepts, consider the example where <code>Acme</code> is a <code>DataController</code> that <code>Collect</code>(s) and <code>Use</code>(s) <code>Email</code> for <code>ServiceProvision</code>. Note that the <code>pd:EmailAddress</code> is a concept from the [[[PD]]] extension.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataController</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeMarketing</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Use</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServiceProvision</span> ;
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0005"><code>E0005</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0005"><code>E0005</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0005.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -877,27 +882,28 @@ link: <a href="https://w3id.org/dpv/examples/E0005.ttl">source file</a>;      co
     <p>Instances of <code>Process</code> can be nested, which means one instance can contain other instances, much like a box with several smaller boxes inside. This permits breaking down complex or dense use-cases into more granular ones and representing them in a more precise and modular fashion. Such a representation also facilitates reuse of the granular or modular processes, or in defining 'templates' and 'patterns', for example to craft a single process representing collecting and storing email addresses and using it in different processes for different purposes.</p>
     <p>From the earlier example, consider the situation where a single <code>Process</code> instance consists of two additional instances representing: (i) data is stored using a data processor, (ii) data is used for Marketing. While it is certainly possible to represent all of this information within one single instance of <code>Process</code>, the adopter may decide to create separate instances of <code>Process</code> based on requirements such as reflecting similar separations for legal documentation or accountability purposes.</p>
       <aside class="example" title="Nesting Processes">
-<p>Consider the example where <em>Acme</em>, as a <em>DataController</em>, maintains records of its processing activities using <code>Process</code> to represent one of its services. In this, it collects email, uses it for internal analyses based on <em>Legitimate Interests</em>, and also sends marketing information by using a processor based on the data subject's consent. Using nesting of processes, the information can be expressed at a granular level representing service, individual purposes, and so on.</p>    <pre class="nohighlight"><code>ex:Acme rdf:type dpv:DataController .
-ex:AcmeMarketing rdf:type dpv:Process ;
-    dpv:hasProcess ex:InternalAnalytics ;
-    dpv:hasProcess ex:SendingNewsletters .
+<p>Consider the example where <em>Acme</em>, as a <em>DataController</em>, maintains records of its processing activities using <code>Process</code> to represent one of its services. In this, it collects email, uses it for internal analyses based on <em>Legitimate Interests</em>, and also sends marketing information by using a processor based on the data subject's consent. Using nesting of processes, the information can be expressed at a granular level representing service, individual purposes, and so on.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataController</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeMarketing</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">InternalAnalytics</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SendingNewsletters</span> .
 
-ex:InternalAnalytics rdf:type dpv:Process ;
-    dpv:hasPersonalData pd:Email ;
-    dpv:hasProcessing dpv:Collect, dpv:Store ;
-    dpv:hasPurpose dpv:InternalResourceOptimisation ;
-    dpv:hasLegalBasis dpv:LegitimateInterestOfController .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">InternalAnalytics</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Email</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">InternalResourceOptimisation</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterestOfController</span> .
 
-ex:FooTech rdf:type dpv:DataProcessor .
-ex:SendingNewsletters rdf:type dpv:Process ;
-    dpv:hasPersonalData pd:Email ;
-    dpv:hasProcessing dpv:Share ;
-    dpv:hasPurpose dpv:Marketing ;
-    dpv:hasDataProcessor ex:FooTech ;
-    dpv:hasLegalBasis dpv:Consent .
-</code></pre>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">FooTech</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataProcessor</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SendingNewsletters</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Email</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Share</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Marketing</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataProcessor</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">FooTech</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0006"><code>E0006</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0006"><code>E0006</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0006.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -972,12 +978,13 @@ ex:AcmeMarketing rdf:type dpv:Purpose ;
   </div>
     <p>Following from the above, practical uses of DPV will likely need to extend one of the concepts within DPV’s purpose taxonomy to ensure its purpose descriptions are specific and understandable within the context of that use-case. We therefore suggest, where possible and appropriate, to create a customised purpose as required within the use-cases by extending one or several purposes from the DPV taxonomy and to provide a human readable description to assist in its accurate interpretation (e.g. DPV prefers use of <code>skos:prefLabel</code> for its concepts and <code>dct:title</code> for other documentation).</p>
       <aside class="example" title="Extending Purposes and adding human-readable descriptions">
-<p>In this example, a new purpose is created by extending <code>dpv:FraudPreventionAndDetection</code> and annotated with human-readable information. The interpretation of this purpose is thus more clear in relation to how it is applied or used within that use-case, and also serves to compare it with other purposes within the same category.</p>    <pre class="nohighlight"><code>ex:PreventTransactionFraud a dpv:Purpose ;
-  skos:broader dpv:FraudPreventionAndDetection ;
-  skos:prefLabel &#34;Prevent Transaction and Payment Frauds&#34; .
-</code></pre>
+<p>In this example, a new purpose is created by extending <code>dpv:FraudPreventionAndDetection</code> and annotated with human-readable information. The interpretation of this purpose is thus more clear in relation to how it is applied or used within that use-case, and also serves to compare it with other purposes within the same category.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PreventTransactionFraud</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">FraudPreventionAndDetection</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="color: #BA2121">&quot;Prevent Transaction and Payment Frauds&quot;</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0007"><code>E0007</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0007"><code>E0007</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0007.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -991,13 +998,14 @@ link: <a href="https://w3id.org/dpv/examples/E0007.ttl">source file</a>;      co
       <p>We are working on further alignments between the NACE codes and DPV's purpose taxonomy, and welcome contributions for the same.</p>
     </div>
       <aside class="example" title="Using NACE codes to restrict Purposes">
-<p>For example, the following purpose concerns implementing access control with the domain specified as scientific research using its corresponding NACE code &lt;code&gt;M72&lt;/code&gt; to indicate sectorial implications for what &#34;access control&#34; and &#34;enforce security&#34; are expected to imply.    <pre class="nohighlight"><code>:RestrictPersonnelAccess a dpv:Purpose ;
-  skos:broader dpv:EnforceSecurity ;
-  skos:prefLabel “Limit access to lab by checking personnel identity&#34; ;
-  dpv:hasSector dpv-nace:M72 .
-</code></pre>
+<p>For example, the following purpose concerns implementing access control with the domain specified as scientific research using its corresponding NACE code &lt;code&gt;M72&lt;/code&gt; to indicate sectorial implications for what &#34;access control&#34; and &#34;enforce security&#34; are expected to imply.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span>:<span style="color: #008000; font-weight: bold">RestrictPersonnelAccess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">EnforceSecurity</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Limit</span> <span style="border: 1px solid #FF0000">access</span> <span style="border: 1px solid #FF0000">to</span> <span style="border: 1px solid #FF0000">lab</span> <span style="border: 1px solid #FF0000">by</span> <span style="border: 1px solid #FF0000">checking</span> <span style="border: 1px solid #FF0000">personnel</span> <span style="border: 1px solid #FF0000">identity</span><span style="color: #BA2121">&quot; ;</span>
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasSector</span> <span style="color: #0000FF; font-weight: bold">dpv-nace</span>:<span style="color: #008000; font-weight: bold">M72</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0008"><code>E0008</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0008"><code>E0008</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0008.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1045,28 +1053,29 @@ link: <a href="https://w3id.org/dpv/examples/E0008.ttl">source file</a>;      co
       <h4>Categorisation based on Source</h4>
       <p>The concept <code>DataSource</code> refers to information associated with processing contexts for indicating how the data is sourced or obtained. In some cases, it may be desirable to directly express this information over the data itself, such as indicating a dataset is "collected personal data", or that a storage policy only applies over "inferred data". To enable such uses, DPV provides the following subtypes of personal data: <code>CollectedPersonalData</code>, <code>DerivedPersonalData</code>, <code>InferredPersonalData</code>, <code>GeneratedPersonalData</code>, and <code>ObservedPersonalData</code>. Here the terms derive and infer relate to creation of additional data based on existing data, whereas generate refers to creation of new data that is not derived or inferred.</p>
         <aside class="example" title="Derivation and inference of personal data">
-<p>This use-case collects browser fingerprint and IP Address to identify the country one is visiting from, and to infer language to be used for personalisation. Note that this example uses [[PD]] for personal data concepts.</p>    <pre class="nohighlight"><code>ex:PersonaliseWebsiteForVisitors rdf:type dpv:Process ;
-      dpv:hasPurpose dpv:Personalisation ;
-      dpv:hasPersonalData pd:BrowserFingerprint,
-                          pd:IPAddress ;
-      dpv:hasProcessing dpv:Collect, dpv:Use ;
-      dpv:hasProcess ex:DeriveVisitorCountry ;
-      dpv:hasProcess ex:InferVisitorLanguage .
+<p>This use-case collects browser fingerprint and IP Address to identify the country one is visiting from, and to infer language to be used for personalisation. Note that this example uses [[PD]] for personal data concepts.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PersonaliseWebsiteForVisitors</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Personalisation</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">BrowserFingerprint</span>,
+                          <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">IPAddress</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Use</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">DeriveVisitorCountry</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">InferVisitorLanguage</span> .
 
-  ex:DeriveVisitorCountry rdf:type dpv:Process ;
-      dpv:hasProcessing dpv:Derive ;
-      dpv:hasPersonalData ex:VisitorCountry .
-  ex:VisitorCountry rdf:type dpv:DerivedPersonalData ;
-      skos:broader pd:Country .
+  <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">DeriveVisitorCountry</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Derive</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">VisitorCountry</span> .
+  <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">VisitorCountry</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DerivedPersonalData</span> ;
+      <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Country</span> .
 
-  ex:InferVisitorLanguage rdf:type dpv:Process ;
-      dpv:hasProcessing dpv:Infer ;
-      dpv:hasPersonalData ex:VisitorLanguage .
-  ex:VisitorLanguage rdf:type dpv:InferredPersonalData ;
-      skos:broader pd:Language .
-</code></pre>
+  <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">InferVisitorLanguage</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Infer</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">VisitorLanguage</span> .
+  <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">VisitorLanguage</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">InferredPersonalData</span> ;
+      <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Language</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0009"><code>E0009</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0009"><code>E0009</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0009.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1083,18 +1092,19 @@ link: <a href="https://w3id.org/dpv/examples/E0009.ttl">source file</a>;      co
       <p>In using these concepts, it is important to note that <strong>DPV's modelling of sensitive and special categories is non-exhaustive</strong> and as such should not be taken as an authoritative fact or a 'source of truth'. To assist with better identifying sensitive concepts, work is ongoing within DPV to identify and provide a reference list of (potentially) sensitive and special categories, and we welcome contributions for the same.</p>
         <aside class="example" title="Indicating personal data is sensitive or special category">
 <p>In a medical study involving genetic data, the person's collected blood samples are considered to be 'special category' personal data under the GDPR. In addition to this, the person's identifier associated with that dataset to enable monitoring future appointments is considered sensitive within the medical centre. Note that the examples use the [[PD]] extension to represent some concepts.</p>
-        <p>In this example, the knowledge that blood samples are of type 'special category' can be inferred from the fact that they are a form of <i>Medical Health</i> which is a 'special category'. However, the example considers best practices that suggest explicitly identifying and denoting that blood samples are also of type 'special category'.</p>    <pre class="nohighlight"><code>ex:PatientStudy rdf:type dpv:Process ;
-  dpv:hasPersonalData ex:BloodSamples, ex:PatientIdentifier .
+        <p>In this example, the knowledge that blood samples are of type 'special category' can be inferred from the fact that they are a form of <i>Medical Health</i> which is a 'special category'. However, the example considers best practices that suggest explicitly identifying and denoting that blood samples are also of type 'special category'.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PatientStudy</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BloodSamples</span>, <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PatientIdentifier</span> .
 
-ex:BloodSamples rdf:type dpv:SpecialCategoryPersonalData ;
-  skos:broader pd:MedicalHealth ;
-  skos:narrower pd:BloodType .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BloodSamples</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">SpecialCategoryPersonalData</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">MedicalHealth</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">narrower</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">BloodType</span> .
 
-ex:PatientIdentifier rdf:type dpv:SensitivePersonalData ;
-  skos:broader pd:Identifying .
-</code></pre>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PatientIdentifier</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">SensitivePersonalData</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Identifying</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0010"><code>E0010</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0010"><code>E0010</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0010.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1139,21 +1149,22 @@ link: <a href="https://w3id.org/dpv/examples/E0010.ttl">source file</a>;      co
       <p>To indicate additional information about processing, such as where it takes place (location), or for how long (duration), DPV provides <code>ProcessingCondition</code> concept and the relation <code>hasProcessingCondition</code> to associate it. Specific processing conditions are represented as <code>ProcessingLocation</code> (also a subtype of <code>dpv:Location</code>) and <code>ProcessingDuration</code> (also a subtype of <code>dpv:Duration</code>).</p>
       <p>The concept <code>StorageCondition</code> is a specific category of <code>ProcessingCondition</code> associated with the storage of data, and is associated using the relation <code>hasStorageCondition</code>. It is specialised to indicate <code>StorageDuration</code>, <code>StorageDeletion</code>, <code>StorageRestoration</code>, and <code>StorageLocation</code>. This enables a document to directly specify information such as: "storage duration is 6 months" or "storage restoration uses 3 geo-distinct backup servers".</p>
         <aside class="example" title="Indicating Storage Conditions">
-<p>This example includes Acme as a Data Processor that stores data within servers located in Ireland for a period of one year. The temporal information is represented using [[[TIME]]], and the location is specified using [[[LOC]]].</p><p>In this example, the <code>StorageCondition</code> is expressed as a separate policy applicable. It is also possible to directly express it over other concepts such as a service, technology, or a processing operation, e.g. to say <code>ex:AcmeStore dpv:hasStorageCondition ...</code>.</p>    <pre class="nohighlight"><code>ex:ServerInfo a dpv:Process ;
-    dpv:hasDataProcessor ex:Acme ;
-    dpv:hasProcessing dpv:Store ;
-    dpv:hasStorageCondition ex:DataStoragePolicy .
+<p>This example includes Acme as a Data Processor that stores data within servers located in Ireland for a period of one year. The temporal information is represented using [[[TIME]]], and the location is specified using [[[LOC]]].</p><p>In this example, the <code>StorageCondition</code> is expressed as a separate policy applicable. It is also possible to directly express it over other concepts such as a service, technology, or a processing operation, e.g. to say <code>ex:AcmeStore dpv:hasStorageCondition ...</code>.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ServerInfo</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataProcessor</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStorageCondition</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">DataStoragePolicy</span> .
 
-ex:DataStoragePolicy a dpv:StorageCondition ;
-    dpv:hasLocation loc:IE ;
-    dpv:hasDuration [
-        rdf:type time:Duration, dpv:Duration ;
-        time:numericDuration &#34;1&#34;^^xsd:decimal ;
-        time:unitType time:unitYear ;
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">DataStoragePolicy</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">StorageCondition</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #0000FF; font-weight: bold">loc</span>:<span style="color: #008000; font-weight: bold">IE</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDuration</span> [
+        <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">time</span>:<span style="color: #008000; font-weight: bold">Duration</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Duration</span> ;
+        <span style="color: #0000FF; font-weight: bold">time</span>:<span style="color: #008000; font-weight: bold">numericDuration</span> <span style="color: #BA2121">&quot;1&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">decimal</span> ;
+        <span style="color: #0000FF; font-weight: bold">time</span>:<span style="color: #008000; font-weight: bold">unitType</span> <span style="color: #0000FF; font-weight: bold">time</span>:<span style="color: #008000; font-weight: bold">unitYear</span> ;
       ] .
-</code></pre>
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0011"><code>E0011</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0011"><code>E0011</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0011.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1174,23 +1185,24 @@ link: <a href="https://w3id.org/dpv/examples/E0011.ttl">source file</a>;      co
         <aside class="example" title="Indicating Data Sources">
 <p>Data sources can be the data subject (direct or indirect), the data controller or processor (itself), or another entity (third party). The below example provides an overview of these with distinctions between source and method of generation.</p>
         <p>In this example, <code>ex:S01</code> represents direct collection of data from the data subject, while <code>ex:S02</code> represents indirect collection where data is derived or observed - or undergoes any operation that still points to the data subject as the source. <code>ex:S03</code> infers data, which means the inferring entity (the Controller in this case) is the source of this data - even if the inferred data is based on data collected from the Data Subject. <code>ex:S04</code> has data sourced from another entity - such as a Third Party, but could also refer to a Data Processor. <code>ex:S05</code> represents collection of data from a public dataset that has been published by the data subject themselves.</p>
-        <p>Note that the above example is illustrative - it may be pertinent to provide documentation about each data source to ensure sufficient information is recorded for intended purposes. For example, the method of collection (e.g. forms), or inference (e.g. algorithm), or public dataset (e.g. link, license).</p>    <pre class="nohighlight"><code>ex:S01 dpv:hasDataSource dpv:DataSubject .
-ex:S01 dpv:hasProcessing dpv:Collect .
+        <p>Note that the above example is illustrative - it may be pertinent to provide documentation about each data source to ensure sufficient information is recorded for intended purposes. For example, the method of collection (e.g. forms), or inference (e.g. algorithm), or public dataset (e.g. link, license).</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">S01</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSource</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataSubject</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">S01</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span> .
 
-ex:S02 dpv:hasDataSource dpv:DataSubject .
-ex:S02 dpv:hasProcessing dpv:Derive, dpv:Observe .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">S02</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSource</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataSubject</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">S02</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Derive</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Observe</span> .
 
-ex:S03 dpv:hasDataSource dpv:DataController .
-ex:S03 dpv:hasProcessing dpv:Infer .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">S03</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSource</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataController</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">S03</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Infer</span> .
 
-ex:S04 dpv:hasDataSource ex:Acme .
-ex:Acme a dpv:ThirdParty .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">S04</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSource</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ThirdParty</span> .
 
-ex:S05 dpv:hasDataSource dpv:DataPublishedByDataSubject .
-ex:S05 dpv:hasProcessing dpv:Collect .
-</code></pre>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">S05</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSource</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataPublishedByDataSubject</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">S05</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0012"><code>E0012</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0012"><code>E0012</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0012.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1215,29 +1227,30 @@ link: <a href="https://w3id.org/dpv/examples/E0012.ttl">source file</a>;      co
       <p>To indicate the process contains some form of decision making, the processing context concept <code>DecisionMaking</code> is provided, and extended as <code>AutomatedDecisionMaking</code> to represent automation in decision making. To represent information about how the automation works or other relevant information, the concept <code>AlgorithmicLogic</code> is provided. Additionally, the concept <code>EvaluationScoring</code> is provided for indicating the processing evaluates or assigns scores (or metrics), <code>InnovativeUseOfNewTechnologies</code> to indicate there are innovative uses of novel technologies, and <code>SystematicMonitoring</code> to indicate the processing performs a systematic (or systemic) monitoring. These additional concepts are intended to model areas or topics that are considered sensitive or high-risk or require caution such as under [[GDPR]].</p>
         <aside class="example" title="Spam filter as Automated Decision Making with Human Involvement">
 <p>Consider the use of a spam filter that is based on automated processing operations where humans provide inputs, have oversight of the operation, and results in automated decision making for whether communications should be propagated. A new separate filter is developed that utilises a novel spam detection criteria that also takes into account communications other than emails for the sender and makes automated decisions whether to permit communication to proceed. Such explicit annotation of several high-risk operations assists in performing impact assessments for this technology, as well as understanding the extent and effectiveness of human involvement to mitigate risks and issues.</p>
-        <p>In this example, the Spam Filter process allows the users to reverse the effects (i.e. emails marked as spam) but does not allow opting out from the process (i.e. stop spam filtering). The spam detection algorithm performs automated decision making (by deciding which emails to accept), systemic monitoring (of communications), and evaluation and scoring (by scoring contents of emails and senders/recipients). The spam detection algorithm also indicates what human involvement is expected - to provide input (e.g. mark emails as spam) and intervention (e.g. change spam criterias).</p>    <pre class="nohighlight"><code>ex:SpamFilter rdf:type dpv:Process ;
-	dpv:hasProcessing dpv:Analyse ;
-	dpv:hasAutomationLevel dpv:FullAutomation ;
-	dpv:hasEntityInvolvement [
-		a dpv:EntityInvolvement ;
-		dpv:isImplementedByEntity dpv:User ;
-		dpv:ReversingProcessEffects,
-		dpv:CannotOptOutFromProcess ;
+        <p>In this example, the Spam Filter process allows the users to reverse the effects (i.e. emails marked as spam) but does not allow opting out from the process (i.e. stop spam filtering). The spam detection algorithm performs automated decision making (by deciding which emails to accept), systemic monitoring (of communications), and evaluation and scoring (by scoring contents of emails and senders/recipients). The spam detection algorithm also indicates what human involvement is expected - to provide input (e.g. mark emails as spam) and intervention (e.g. change spam criterias).</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SpamFilter</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+	<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Analyse</span> ;
+	<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasAutomationLevel</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">FullAutomation</span> ;
+	<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntityInvolvement</span> [
+		<span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">EntityInvolvement</span> ;
+		<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedByEntity</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">User</span> ;
+		<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ReversingProcessEffects</span>,
+		<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">CannotOptOutFromProcess</span> ;
 	] ;
-	dpv:hasAlgorithmicLogic ex:SpamDetection .
+	<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasAlgorithmicLogic</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SpamDetection</span> .
 
-ex:SpamDetection rdf:type dpv:AlgorithmicLogic ;
-	skos:broader dpv:InnovativeUseOfNewTechnologies ;
-	dpv:hasProcessingContext dpv:AutomatedDecisionMaking, 
-        dpv:SystemicMonitoring, 
-        dpv:EvaluationScoring  ;
-	dpv:hasHumanInvolvement dpv:HumanInvolvementForInput,
-        dpv:HumanInvolvementForIntervention ;
-        dpv:hasPersonalData pd:Communication ;
-        dpv:hasDataSource ex:EmailSender .
-</code></pre>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SpamDetection</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">AlgorithmicLogic</span> ;
+	<span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">InnovativeUseOfNewTechnologies</span> ;
+	<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessingContext</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">AutomatedDecisionMaking</span>, 
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">SystemicMonitoring</span>, 
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">EvaluationScoring</span>  ;
+	<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasHumanInvolvement</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">HumanInvolvementForInput</span>,
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">HumanInvolvementForIntervention</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Communication</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSource</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">EmailSender</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0013"><code>E0013</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0013"><code>E0013</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0013.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1260,34 +1273,35 @@ link: <a href="https://w3id.org/dpv/examples/E0013.ttl">source file</a>;      co
 
     <p>For GDPR, DPVCG provides the [[[EU-GDPR]]] which defines the legal bases within [[GDPR]] by extending them from relevant concepts within the DPV. We welcome similar contributions for extending the GDPR extension as well as creating extensions for other laws and domains.</p>
       <aside class="example" title="Denoting Legal Basis within a Process">
-<p>The <code>LegalBasis</code> can be associated with any concept using the relation <code>hasLegalBasis</code>. Such associations are of three types: (1) where the legal basis refers to an instance, such as the consent or contract associated with a particular data subject; (2)  where the legal basis refers to the category that will be used to justify processing, such as the concept <i>consent</i> to denote consent will be the basis for indicated processing; and lastly (3) where the legal basis is defined with a context, such as <i>consent of service consumers</i>.</p>    <pre class="nohighlight"><code># 1: instance of legal basis
-# interpretation: consent of user #00145667 is the legal basis
-ex:PDH1 rdf:type dpv:Process ;
-    dpv:hasDataController ex:Acme ;
-    dpv:hasDataSubject ex:ServiceConsumers ;
-    dpv:hasLegalBasis ex:ConsentUserN00145667 .
-ex:ConsentUserN00145667 rdf:type dpv:LegalBasis, dpv:Consent ;
-    dpv:hasDataSubject ex:UserN00145667 .
+<p>The <code>LegalBasis</code> can be associated with any concept using the relation <code>hasLegalBasis</code>. Such associations are of three types: (1) where the legal basis refers to an instance, such as the consent or contract associated with a particular data subject; (2)  where the legal basis refers to the category that will be used to justify processing, such as the concept <i>consent</i> to denote consent will be the basis for indicated processing; and lastly (3) where the legal basis is defined with a context, such as <i>consent of service consumers</i>.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># 1: instance of legal basis</span>
+<span style="color: #3D7B7B; font-style: italic"># interpretation: consent of user #00145667 is the legal basis</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH1</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ServiceConsumers</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ConsentUserN00145667</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ConsentUserN00145667</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalBasis</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UserN00145667</span> .
 
-# 2: category of legal basis
-# interpretation: consent is the legal basis
-ex:PDH1 rdf:type dpv:Process ;
-    dpv:hasDataController ex:Acme ;
-    dpv:hasDataSubject ex:ServiceConsumers ;
-    dpv:hasLegalBasis dpv:Consent .
+<span style="color: #3D7B7B; font-style: italic"># 2: category of legal basis</span>
+<span style="color: #3D7B7B; font-style: italic"># interpretation: consent is the legal basis</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH1</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ServiceConsumers</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> .
 
-# 3: category of legal basis with contextual information
-# interpretation: consent of service consumers is the legal basis
-ex:PDH1 rdf:type dpv:Process ;
-    dpv:hasDataController ex:Acme ;
-    dpv:hasDataSubject ex:ServiceConsumers ;
-    dpv:hasLegalBasis ex:UserConsent .
-ex:UserConsent rdf:type dpv:LegalBasis ;
-    skos:broader dpv:Consent ;
-    dpv:hasDataSubject ex:ServiceConsumers .
-</code></pre>
+<span style="color: #3D7B7B; font-style: italic"># 3: category of legal basis with contextual information</span>
+<span style="color: #3D7B7B; font-style: italic"># interpretation: consent of service consumers is the legal basis</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH1</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ServiceConsumers</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UserConsent</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UserConsent</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalBasis</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ServiceConsumers</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0014"><code>E0014</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0014"><code>E0014</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0014.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1310,26 +1324,28 @@ link: <a href="https://w3id.org/dpv/examples/E0014.ttl">source file</a>;      co
       <p>For representing information about consent and maintaining consent records, the guide [[[GUIDE-Consent-27560]]] provides a detailed description of the ISO/IEC TS 27560:2023 standard with examples for its implementation using DPV.</p>
     </aside>
       <aside class="example" title="Indicating consent as a legal basis">
-<p>Here, a process instance represents some context (e.g. a service, or a product, or some operation), and the example specifies that the legal basis for these is the use of consent.</p>    <pre class="nohighlight"><code>ex:PDH rdf:type dpv:Process ;
-    dpv:hasDataController ex:Acme ;
-    dpv:hasDataSubject ex:ServiceConsumers ;
-    dpv:hasPersonalData dpv:Email ;
-    dpv:hasLegalBasis dpv:Consent .
-</code></pre>
+<p>Here, a process instance represents some context (e.g. a service, or a product, or some operation), and the example specifies that the legal basis for these is the use of consent.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ServiceConsumers</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Email</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0015"><code>E0015</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0015"><code>E0015</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0015.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
 
       <aside class="example" title="Indicating details about an individual&#39;s consent">
-<p>In this example, an individual's consent is recorded with abstraction in the form of linking to a common process instance from the previous example. This 'common' process represents processing taking place for all data subjects, whereas the consent instance refers only to the individual with a link to this common information. This is to present an alternative method for storing information as compared to extensive consent records.</p>    <pre class="nohighlight"><code>ex:UserConsent rdf:type dpv:Consent ;
-    dpv:hasConsentStatus dpv:ConsentGiven ;
-    dpv:hasDataSubject ex:User12345 ;
-    dpv:isIndicatedAtTime &#34;2022-09-06T15:36:07&#34;^^xsd:dateTime .
-</code></pre>
+<p>In this example, an individual's consent is recorded with abstraction in the form of linking to a common process instance from the previous example. This 'common' process represents processing taking place for all data subjects, whereas the consent instance refers only to the individual with a link to this common information. This is to present an alternative method for storing information as compared to extensive consent records.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UserConsent</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsentStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ConsentGiven</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">User12345</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isIndicatedAtTime</span> <span style="color: #BA2121">&quot;2022-09-06T15:36:07&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">dateTime</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0016"><code>E0016</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0016"><code>E0016</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0016.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1342,27 +1358,29 @@ link: <a href="https://w3id.org/dpv/examples/E0016.ttl">source file</a>;      co
       <p>We are working on providing a guide for implementing privacy notices for consent as per the ISO/IEC 29184:2020 standard. It will be provided as: [[[GUIDE-Notice-29184]]].</p>
     </aside>
         <aside class="example" title="Representing notice, provision, expiry, and withdrawal information for consent">
-<p>This example first specifies a privacy notice as a document is being used in the context of a service as represented using a personal data handling instance. Then it provides an alternative representation where the contents of a notice are described using DPV.    <pre class="nohighlight"><code># Approach 1: specify notice for an instance of consent
-ex:UserConsent rdf:type dpv:Consent ;
-    dpv:hasDataSubject ex:User12345 ;
-    # notice can be references in different forms, e.g. URL, string
-    dpv:hasNotice ex:AcmeConsentNotice ; # RDF
-    dpv:hasNotice &#34;https://example.com/AcmeConsentNotice&#34; ; # URL
-    dpv:hasNotice &#34;Notice-v3.456&#34; . # identifier
+<p>This example first specifies a privacy notice as a document is being used in the context of a service as represented using a personal data handling instance. Then it provides an alternative representation where the contents of a notice are described using DPV.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Approach 1: specify notice for an instance of consent</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UserConsent</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">User12345</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># notice can be references in different forms, e.g. URL, string</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeConsentNotice</span> ; <span style="color: #3D7B7B; font-style: italic"># RDF</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #BA2121">&quot;https://example.com/AcmeConsentNotice&quot;</span> ; <span style="color: #3D7B7B; font-style: italic"># URL</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #BA2121">&quot;Notice-v3.456&quot;</span> . <span style="color: #3D7B7B; font-style: italic"># identifier</span>
 
-# Approach 2: specify notice for a group of activities
-ex:PDH rdf:type dpv:Process ;
-    dpv:hasPurpose ... ;
-    dpv:hasProcessing ... ;
-    dpv:hasPersonalData ... ;
-    dpv:hasLegalBasis dpv:Consent ;
-    dpv:hasNotice ex:AcmeConsentNotice .
-ex:UserConsent rdf:type dpv:Consent ;
-    dpv:hasDataSubject ex:User12345 ;
-    # notice is part of PDH, not declared for each consent instance
-    dpv:hasProcess ex:PDH .</code></pre>
+<span style="color: #3D7B7B; font-style: italic"># Approach 2: specify notice for a group of activities</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> ... ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> ... ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> ... ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeConsentNotice</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UserConsent</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">User12345</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># notice is part of PDH, not declared for each consent instance</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0017"><code>E0017</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0017"><code>E0017</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0017.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1382,14 +1400,16 @@ link: <a href="https://w3id.org/dpv/examples/E0017.ttl">source file</a>;      co
         <p>The term <i>explicit consent</i> is present in both ISO as well as GDPR and other laws. However, definitions differ significantly and are incompatible with each other. For example, what ISO considers 'explicit' would be 'expressed' (or regular) under GDPR. The approach taken by DPV is intentional towards enabling such variations to be expressed in specific extensions by building on top of the core vocabulary concepts. For example, the [[EU-GDPR]] extension defines <code>A6-1-a-explicit-consent</code> and <code>A9-2-a</code> as subtypes of <code>ExplicitlyExpressedConsent</code> based on the specific requirements and criteria defined by GDPR.</p>
       </div>
         <aside class="example" title="Using consent types">
-<p>This example shows use of DPV consent types to distinguish between &#39;expressed&#39; and &#39;explicitly expressed&#39; consent    <pre class="nohighlight"><code># Approach 1: specifying a specific consent type is required as legal basis
-ex:PDH a dpv:Process ;
-    dpv:hasLegalBasis dpv:ExplicitlyExpressedConsent .
+<p>This example shows use of DPV consent types to distinguish between &#39;expressed&#39; and &#39;explicitly expressed&#39; consent    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Approach 1: specifying a specific consent type is required as legal basis</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ExplicitlyExpressedConsent</span> .
 
-# Approach 2: creating instances of consent
-ex:UserConsent a dpv:ExpressedConsent .</code></pre>
+<span style="color: #3D7B7B; font-style: italic"># Approach 2: creating instances of consent</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UserConsent</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ExpressedConsent</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0018"><code>E0018</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0018"><code>E0018</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0018.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1440,23 +1460,25 @@ link: <a href="https://w3id.org/dpv/examples/E0018.ttl">source file</a>;      co
         <figcaption>Describing Entities in DPV</figcaption>
       </figure>
         <aside class="example" title="Indicating Entity Information, including DPO and Representatives">
-<p>This example shows how information about representatives can be associated with an entity    <pre class="nohighlight"><code>ex:Acme rdf:type dpv:LegalEntity ;
-    dpv:hasName &#34;Acme&#34;@en ;
-    dpv:hasAddress &#34;Dublin, Ireland&#34;@en ;
-    dpv:hasContact &#34;acme@example.com&#34; ;
-    dpv:hasRepresentative ex:AcmeDPO,  # internal DPO
-                          ex:AcmeEUOrg ; # EU Representative
-    dpv:hasLocation iso:IE, # if an ISO vocabulary for country-codes is used
-                    dpv-juris:Ireland, # dpv-juris proposed vocabulary
-                    &#34;Ireland&#34;@en . # plain strings
+<p>This example shows how information about representatives can be associated with an entity    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalEntity</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasName</span> <span style="color: #BA2121">&quot;Acme&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasAddress</span> <span style="color: #BA2121">&quot;Dublin, Ireland&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContact</span> <span style="color: #BA2121">&quot;acme@example.com&quot;</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRepresentative</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeDPO</span>,  <span style="color: #3D7B7B; font-style: italic"># internal DPO</span>
+                          <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeEUOrg</span> ; <span style="color: #3D7B7B; font-style: italic"># EU Representative</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #0000FF; font-weight: bold">iso</span>:<span style="color: #008000; font-weight: bold">IE</span>, <span style="color: #3D7B7B; font-style: italic"># if an ISO vocabulary for country-codes is used</span>
+                    <span style="color: #0000FF; font-weight: bold">dpv-juris</span>:<span style="color: #008000; font-weight: bold">Ireland</span>, <span style="color: #3D7B7B; font-style: italic"># dpv-juris proposed vocabulary</span>
+                    <span style="color: #BA2121">&quot;Ireland&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> . <span style="color: #3D7B7B; font-style: italic"># plain strings</span>
 
-ex:AcmeDPO rdf:type dpv:Representative ;
-    dpv:hasEntity ex:Acme .
-ex:AcmeEUOrg rdf:type dpv:LegalEntity, dpv:DataProtectionOfficer ;
-    dpv:hasEntity ex:Acme ;
-    dpv:hasLocation &#34;EU&#34;@en .</code></pre>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeDPO</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Representative</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeEUOrg</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalEntity</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataProtectionOfficer</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #BA2121">&quot;EU&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0019"><code>E0019</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0019"><code>E0019</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0019.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1521,13 +1543,15 @@ link: <a href="https://w3id.org/dpv/examples/E0019.ttl">source file</a>;      co
       <p>Technical Measures are implemented through technological means, such as machine-processing or automation or tools and services that are primarily technological in nature. To distinguish these with organisational measures, consider whether the measure is for human organisation and management (which makes it <i>organisational</i>) or an implementation detail (which makes it <i>technical</i>).</p>
       <p>Examples of technical measures include use of specific access control methods, encryption, anonymisation, security protocols, and other similar concepts.</p>
         <aside class="example" title="Using technical measure: Protecting data using encryption and access control">
-<p>To indicate data is encrypted using the <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">Rivest-Shamir-Adleman (RSA) method</a>, one would extend the <a href="https://w3id.org/dpv#Encryption"><code>Encryption</code></a> concept within DPV to represent <code>RSA</code>, and then instantiate it with the specific implementation used (e.g. to indicate key size). Access to this data is further restricted by requiring a password or credential.</p>    <pre class="nohighlight"><code>ex:RSAEncryption rdf:type dpv:TechnicalMeasure ;
-    skos:broader dpv:Encryption ;
-    skos:scopeNote &#34;Key size: 2048, Custom Implementation&#34;@en .
-ex:RBACCredential rdf:type dpv:TechnicalMeasure ;
-    skos:broader dpv:AccessControlMethod .</code></pre>
+<p>To indicate data is encrypted using the <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">Rivest-Shamir-Adleman (RSA) method</a>, one would extend the <a href="https://w3id.org/dpv#Encryption"><code>Encryption</code></a> concept within DPV to represent <code>RSA</code>, and then instantiate it with the specific implementation used (e.g. to indicate key size). Access to this data is further restricted by requiring a password or credential.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">RSAEncryption</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">TechnicalMeasure</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Encryption</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">scopeNote</span> <span style="color: #BA2121">&quot;Key size: 2048, Custom Implementation&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">RBACCredential</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">TechnicalMeasure</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">AccessControlMethod</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0020"><code>E0020</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0020"><code>E0020</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0020.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1543,23 +1567,25 @@ link: <a href="https://w3id.org/dpv/examples/E0020.ttl">source file</a>;      co
       <p>Organisational measures are a corresponding counterpart to technical measures, and are intended to be implemented or realised through <i>human action</i>, whether directly by an individual, teams, or through an organisation's management (hence the term <i>organisational</i>). Implementing such measures may include use of technology or a tool, for example - a security training exercise that is carried out using some software, or to use information systems such as dashboards to keep track of information. However, the concepts themselves are structured as organisational based on who or what has to <i>decide</i> or <i>implement</i> the action. If it is to be performed through a technological means, then it is a technical measure. If it is to be performed through human or organisation management, then it is an organisational measure.</p>
       <p>Examples of organisational measures include staff training, policies, notices, and other such concepts - which indicate that reflect organisational decisions and actions (e.g. privacy notices, policy for how to train new recruits).</p>
         <aside class="example" title="Using organisational measure: Indicating staff training for use of Credentials">
-<p>To indicate staff are trained in the use of credentials, and that a policy exists regarding this, the use of <code>OrganisationalMeasure</code> concepts can be combined in several ways. Note that the interpretations for how staff training is associated with credentials, or contains training regarding credentials is arbitrary in notation. It is intended to demonstrate how different perspectives can be represented so as to be suitable to the organisation's documentation practices.</p>    <pre class="nohighlight"><code># 1: directly associating staff training with credentials used
-ex:StaffCredentialsTraining rdf:type dpv:OrganistionalMeasure ;
-    skos:broader dpv:StaffTraining .
-ex:RBACCredential dpv:hasOrganisationalMeasure ex:StaffCredentialTraining .
+<p>To indicate staff are trained in the use of credentials, and that a policy exists regarding this, the use of <code>OrganisationalMeasure</code> concepts can be combined in several ways. Note that the interpretations for how staff training is associated with credentials, or contains training regarding credentials is arbitrary in notation. It is intended to demonstrate how different perspectives can be represented so as to be suitable to the organisation's documentation practices.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># 1: directly associating staff training with credentials used</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">StaffCredentialsTraining</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">OrganistionalMeasure</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">StaffTraining</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">RBACCredential</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasOrganisationalMeasure</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">StaffCredentialTraining</span> .
 
-# 2: security policy containing staff training and access control
-ex:SecurityPolicy rdf:type dpv:OrganisationalMeasure ;
-    skos:broader dpv:Policy ;
-    dpv:hasOrganisationalMeasure dpv:StaffTraining ;
-    dpv:hasTechnicalMeasure dpv:AccessControlMethod .
+<span style="color: #3D7B7B; font-style: italic"># 2: security policy containing staff training and access control</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SecurityPolicy</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">OrganisationalMeasure</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Policy</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasOrganisationalMeasure</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">StaffTraining</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasTechnicalMeasure</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">AccessControlMethod</span> .
 
-# 3: indicating staff training contains access control methods
-ex:StaffCredentialsTraining rdf:type dpv:OrganistionalMeasure ;
-    skos:broader dpv:StaffTraining ;
-    dpv:hasTechnicalMeasure ex:RBACCredential .</code></pre>
+<span style="color: #3D7B7B; font-style: italic"># 3: indicating staff training contains access control methods</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">StaffCredentialsTraining</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">OrganistionalMeasure</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">StaffTraining</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasTechnicalMeasure</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">RBACCredential</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0021"><code>E0021</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0021"><code>E0021</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0021.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1591,26 +1617,28 @@ link: <a href="https://w3id.org/dpv/examples/E0021.ttl">source file</a>;      co
       <p>A <code>Notice</code> is an artefact intended to provide information, most commonly to individuals who are viewing, visiting, or otherwise using a service. Legally, a 'notice' is provision of information with the intention of imparting knowledge. DPV represents notices through the concept <code>Notice</code> as a form of Organisational Measure, with the relation <code>hasNotice</code> enabling use or association of notice within some context.</p>
       <p>Notices may contain only information, or also have interactive components intended to make decisions, offer choices and controls, or otherwise carry out processes that go beyond mere provision of information. Currently, <code>PrivacyNotice</code> and <code>ConsentNotice</code> are provided as specific forms of notices.</p>
         <aside class="example" title="Privacy Notice used in an activity">
-<p>This example first specifies a privacy notice as a document is being used in the context of a service as represented using a process instance. Then it provides an alternative representation where the contents of a notice are described using DPV.</p>    <pre class="nohighlight"><code># Associating a Notice with DPV metadata
-ex:Service rdf:type dpv:Process ;
-    dpv:hasNotice ex:AcmePrivacyPolicy .
-ex:AcmePrivayPolicy rdf:type dpv:PrivacyNotice ;
-    dct:title &#34;Acme&#39;s Privacy Policy&#34;@en ;
-    foaf:page &#34;https://example.com/&#34;^^xsd:anyURI .
+<p>This example first specifies a privacy notice as a document is being used in the context of a service as represented using a process instance. Then it provides an alternative representation where the contents of a notice are described using DPV.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Associating a Notice with DPV metadata</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Service</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmePrivacyPolicy</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmePrivayPolicy</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PrivacyNotice</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Acme&#39;s Privacy Policy&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    <span style="color: #0000FF; font-weight: bold">foaf</span>:<span style="color: #008000; font-weight: bold">page</span> <span style="color: #BA2121">&quot;https://example.com/&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> .
 
-# Describing a Notice using DPV metadata
-ex:AcmePrivacyPolicy rdf:type dpv:PrivacyNotice ;
-    # Approach 1: delegate contents to a PDH instance
-    dpv:hasProcess ex:Service ;
-    # Approach 2: declare specifics directly
-    dpv:hasPurpose dpv:ServiceProvision ;
-    dpv:hasPersonalData pd:Email ;
-    dpv:hasProcessing dpv:Collect ;
-    # Specifying location of notice
-    # In this case, as a website, or could be a domain
-    dpv:hasLocation &#34;https://example.com&#34;^^xsd:anyURI .</code></pre>
+<span style="color: #3D7B7B; font-style: italic"># Describing a Notice using DPV metadata</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmePrivacyPolicy</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PrivacyNotice</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># Approach 1: delegate contents to a PDH instance</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Service</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># Approach 2: declare specifics directly</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServiceProvision</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Email</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># Specifying location of notice</span>
+    <span style="color: #3D7B7B; font-style: italic"># In this case, as a website, or could be a domain</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #BA2121">&quot;https://example.com&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0022"><code>E0022</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0022"><code>E0022</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1625,36 +1653,37 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       </div>
       <p>Record keeping may require further vocabularies to represent details such as various temporal annotations, provenance, statuses, or other contextual information that is not possible or provided for by DPV's concepts. In such cases, we suggest utilising other standardised vocabularies where applicable.</p>
         <aside class="example" title="Consent record example">
-<p>This (simplified) example shows a consent record containing the topic of consent (i.e. which processing activities it was about), its current status, and when it was given by the data subject. The structure of a record is highly dependent on the requirements of the use-case, and can vary across implementations. In this case, it is based on the ISO/IEC TS 27560:2023 Privacy technologies — Consent record information structure, for which we provide the implementation guide [[[GUIDE-Consent-27560]]].</p><p>The example uses the <a href="https://dublincore.org/specifications/dublin-core/dcmi-terms/">DCMI Metadata Terms (dct)</a> vocabulary to indicate metadata such as title and timestamps. Other vocabularies such as <a href="https://www.w3.org/TR/prov-o/">PROV-O</a> can be used to also indicate provenance information such as when it was generated and how it was produced.</p>    <pre class="nohighlight"><code>:63ded36f-4acd-4f3c-991e-6cb636698523 a dpv:ConsentRecord ;
-    dct:hasVersion &#34;27560-WD5&#34; ;
-    dpv:hasIdentifier &#34;63ded36f-4acd-4f3c-991e-6cb636698523&#34; ;
-    dpv:hasDataSubject &#34;96121fde-199f-4848-8942-4436e270513a&#34; ;
-    dpv:hasNotice &lt;https://example.com/notice/WD5&gt; ;
-    dpv:hasProcess [
-        a dpv:Process ;
-        dct:title &#34;Send Newsletters with Seasonal Offers&#34;@en ;
-        dpv:hasPurpose dpv:Marketing ;
-        dpv:hasLegalBasis dpv:Consent ;
-        dpv:hasPersonalData pd:Email ;
-        dpv:hasDataController ex:Acme ;
-        dpv:hasProcessing dpv:Collect, dpv:Store ;
-        dpv:hasStorageCondition [ 
-            dpv:hasLocation loc:IE ;
-            dpv:hasDuration 63115200 ;
+<p>This (simplified) example shows a consent record containing the topic of consent (i.e. which processing activities it was about), its current status, and when it was given by the data subject. The structure of a record is highly dependent on the requirements of the use-case, and can vary across implementations. In this case, it is based on the ISO/IEC TS 27560:2023 Privacy technologies — Consent record information structure, for which we provide the implementation guide [[[GUIDE-Consent-27560]]].</p><p>The example uses the <a href="https://dublincore.org/specifications/dublin-core/dcmi-terms/">DCMI Metadata Terms (dct)</a> vocabulary to indicate metadata such as title and timestamps. Other vocabularies such as <a href="https://www.w3.org/TR/prov-o/">PROV-O</a> can be used to also indicate provenance information such as when it was generated and how it was produced.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span>:<span style="color: #008000; font-weight: bold">63ded36f-4acd-4f3c-991e-6cb636698523</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ConsentRecord</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">hasVersion</span> <span style="color: #BA2121">&quot;27560-WD5&quot;</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasIdentifier</span> <span style="color: #BA2121">&quot;63ded36f-4acd-4f3c-991e-6cb636698523&quot;</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #BA2121">&quot;96121fde-199f-4848-8942-4436e270513a&quot;</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #19177C">&lt;https://example.com/notice/WD5&gt;</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Send Newsletters with Seasonal Offers&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Marketing</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Email</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStorageCondition</span> [ 
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #0000FF; font-weight: bold">loc</span>:<span style="color: #008000; font-weight: bold">IE</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDuration</span> <span style="color: #666666">63115200</span> ;
         ] ;
-        dpv:hasJurisdiction loc:EU ;
-        dpv:hasRecipient ex:Beta, ex:Epsilon ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasJurisdiction</span> <span style="color: #0000FF; font-weight: bold">loc</span>:<span style="color: #008000; font-weight: bold">EU</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRecipient</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Beta</span>, <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Epsilon</span> ;
     ] ;
-    dpv:hasConsentStatus dpv:ConsentGiven ;
-    dct:hasPart [
-        a dpv:ConsentGiven, dpv:ExplicitlyExpressedConsent ;
-        dpv:isIndicatedAtTime &#34;2021-05-28T12:24:00&#34;^^xsd:dateTime ;
-        dpv:hasDuration 63115200 ;
-        dpv:hasEntity &#34;96121fde-199f-4848-8942-4436e270513a&#34;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsentStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ConsentGiven</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">hasPart</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ConsentGiven</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ExplicitlyExpressedConsent</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isIndicatedAtTime</span> <span style="color: #BA2121">&quot;2021-05-28T12:24:00&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">dateTime</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDuration</span> <span style="color: #666666">63115200</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #BA2121">&quot;96121fde-199f-4848-8942-4436e270513a&quot;</span>
     ] .
-</code></pre>
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0023"><code>E0023</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0023"><code>E0023</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0023.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1680,64 +1709,66 @@ link: <a href="https://w3id.org/dpv/examples/E0023.ttl">source file</a>;      co
       </ul>
       <p>To indicate the entities involved in an agreement, the relation <code>hasEntity</code> can be used, or relations associated with specific roles to indicate contextuality. For example, using <code>hasDataController</code> with a <code>ControllerProcessorAgreement</code> denotes the Data Controller for that agreement.</p>
         <aside class="example" title="Controller-Processor agreement denoting processing to be carried out">
-<p>Acme is the Data Controller that contracts BetaInc as a Data Processor to analyse raw call logs and provide statistical patterns.</p>    <pre class="nohighlight"><code>ex:Acme rdf:type dpv:DataController .
-ex:BetaInc rdf:type dpv:DataProcessor .
+<p>Acme is the Data Controller that contracts BetaInc as a Data Processor to analyse raw call logs and provide statistical patterns.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataController</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataProcessor</span> .
 
-ex:AcmeBetaContract rdf:type dpv:ControllerProcessorAgreement ;
-    dpv:hasDataController ex:Acme ;
-    dpv:hasDataProcessor ex:Beta ;
-    # part1: acme sends data to beta
-    dpv:hasProcess ex:AcmeProvision ;
-    # part2: beta sends data to acme
-    dpv:hasProcess ex:BetaProvision .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeBetaContract</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ControllerProcessorAgreement</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataProcessor</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Beta</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># part1: acme sends data to beta</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeProvision</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># part2: beta sends data to acme</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaProvision</span> .
 
-ex:AcmeProvision rdf:type dpv:Process ;
-    skos:note &#34;Acme transfers call logs to Beta&#34;@en ;
-    dpv:hasPersonalData ex:CallLogs ;
-    dpv:hasProcessing ex:TransferCallLogs ;
-    dpv:hasDataController ex:Acme ;
-    dpv:hasDataProcessor ex:BetaInc .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeProvision</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">note</span> <span style="color: #BA2121">&quot;Acme transfers call logs to Beta&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CallLogs</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">TransferCallLogs</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataProcessor</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> .
 
-ex:BetaProvision rdf:type dpv:Process ;
-    skos:note &#34;Beta analyses and transfers call statistics to Acme&#34;@en ;
-    dpv:hasPersonalData ex:CallStatistics ;
-    dpv:hasProcessing ex:AnalyseCalls, dpv:TransferStatistics ;
-    dpv:hasDataProcessor ex:BetaInc ;
-    dpv:hasRecipientDataController ex:Acme ;
-    # alternative way to explicitly indicate who is implementing this
-    dpv:isImplementedByEntity ex:BetaInc .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaProvision</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">note</span> <span style="color: #BA2121">&quot;Beta analyses and transfers call statistics to Acme&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CallStatistics</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AnalyseCalls</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">TransferStatistics</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataProcessor</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRecipientDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># alternative way to explicitly indicate who is implementing this</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedByEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> .
 
-ex:CallLogs rdf:type dpv:PersonalData ;
-    skos:broader pd:CallLog ;
-    # denoting source of data as part of agreement
-    dpv:hasDataSource ex:Acme .
-ex:CallStatistics rdf:type dpv:DerivedData ;
-    skos:broader ex:CallLogs ;
-    dpv:hasDataSource ex:BetaInc .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CallLogs</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PersonalData</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">CallLog</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># denoting source of data as part of agreement</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSource</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CallStatistics</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DerivedData</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CallLogs</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSource</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> .
 
-ex:TransferCallLogs rdf:type dpv:Processing ;
-    skos:broader dpv:Transfer ;
-    dpv:hasPersonalData ex:CallLogs ;
-    # alternative 1 - based on implementation and recipient
-    dpv:isImplementedByEntity ex:Acme ;
-    dpv:hasRecipient ex:BetaInc ; 
-    # alternative 2 - based on data exporter/importer roles
-    dpv:hasDataExporter ex:Acme ;
-    dpv:hasDataImporter ex:BetaInc .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">TransferCallLogs</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Processing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Transfer</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CallLogs</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># alternative 1 - based on implementation and recipient</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedByEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRecipient</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ; 
+    <span style="color: #3D7B7B; font-style: italic"># alternative 2 - based on data exporter/importer roles</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataExporter</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataImporter</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> .
 
-ex:AnalyseCalls rdf:type dpv:Processing ;
-    skos:broader dpv:Analyse ;
-    # no recipients, data is analysed by BetaInc
-    dpv:isImplementedByEntity ex:BetaInc .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AnalyseCalls</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Processing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Analyse</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># no recipients, data is analysed by BetaInc</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedByEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> .
 
-ex:TransferStatistics rdf:type dpv:Processing ;
-    skos:broader dpv:Transfer ;
-    dpv:hasPersonalData ex:CallStatistics ;
-    # using alternative 2 from above
-    dpv:hasDataExporter ex:BetaInc ;
-    dpv:hasDataImporter ex:Acme .</code></pre>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">TransferStatistics</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Processing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Transfer</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CallStatistics</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># using alternative 2 from above</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataExporter</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataImporter</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0024"><code>E0024</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0024"><code>E0024</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0024.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1748,14 +1779,16 @@ link: <a href="https://w3id.org/dpv/examples/E0024.ttl">source file</a>;      co
       <h4>Data Transfer Safeguards</h4>
       <p>While all technical and organisational measures are intended to safeguard personal data and its associated activities, there may be contextual or use-case requirements to explicitly indicate safeguards against or for specific criteria. To enable such use, DPV provides the concept <code>Safeguard</code> and its subtype <code>SafeguardForDataTransfer</code> for indicating application when data is being transferred. Through these, it is possible to represent aspects such as policies for data transfers, specific measures such as encryption being applied, and other pertinent information in combination with DPV's concepts from technical and organisational measures.</p>
         <aside class="example" title="Data transfer safeguards">
-<p>This example represents a contractual agreement between a controller and a processor indicating the use of encryption and EU commission approved Standard Contractual Clauses as specific measures to safeguard data transfers between them.</p>    <pre class="nohighlight"><code>ex:TransferPolicy a dpv:ControllerProcessorAgreement, 
-                    dpv:DataTransferSafeguard ;
-    dpv:hasTechnicalMeasure dpv:Encryption ;
-    dpv:hasOrganisationalMeasure dpv-gdpr:SCCsByCommission ;
-    dpv:hasDataExporter ex:Acme ;
-    dpv:hasDataImporter ex:Beta .</code></pre>
+<p>This example represents a contractual agreement between a controller and a processor indicating the use of encryption and EU commission approved Standard Contractual Clauses as specific measures to safeguard data transfers between them.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">TransferPolicy</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ControllerProcessorAgreement</span>, 
+                    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataTransferSafeguard</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasTechnicalMeasure</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Encryption</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasOrganisationalMeasure</span> <span style="color: #0000FF; font-weight: bold">dpv-gdpr</span>:<span style="color: #008000; font-weight: bold">SCCsByCommission</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataExporter</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Acme</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataImporter</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Beta</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0025"><code>E0025</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0025"><code>E0025</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1805,23 +1838,25 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
         <p><code>Importance</code> is similar in application to <code>Necessity</code>, and provides a way to indicate how <i>central</i> or <i>significant</i> the indicated operation(s) are to the context (e.g. to the Controller). Subtypes of importance are <code>PrimaryImportance</code> to indicate 'main' or 'central' or 'primary' importance, and <code>SecondaryImportance</code> to indicate 'auxiliary' or 'peripheral' or 'secondary' importance.</p>
         <p><code>Necessity</code> enables specifying whether the contextual information is <code>Required</code>, is <code>Optional</code>, or is <code>NotRequired</code>. These can be used to indicate, for example, which parts of processing operations (e.g. purposes, personal data) are optional, and whether a particular processing operation is required to be carried out.</i></p>
           <aside class="example" title="Example of Contextual Necessity">
-<p>In this example, a <code>Process</code> instance consists of two nested <code>Process</code> instances for each of the optional and required parts. The personal data category 'Account Identifier' is indicated as being required for 'Communication for Customer Care', while the use of 'Email' is optional for the same purpose.</p>    <pre class="nohighlight"><code>:PDH1 a dpv:Process ;
-  # optionally also declare data and purpose for PDH1
-  dpv:hasPersonalData pd:Email, pd:AccountIdentifier ;
-  dpv:hasPurpose dpv:CommunicationForCustomerCare ;
-  dpv:hasProcess :PDH2, :PDH3 .
+<p>In this example, a <code>Process</code> instance consists of two nested <code>Process</code> instances for each of the optional and required parts. The personal data category 'Account Identifier' is indicated as being required for 'Communication for Customer Care', while the use of 'Email' is optional for the same purpose.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span>:<span style="color: #008000; font-weight: bold">PDH1</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+  <span style="color: #3D7B7B; font-style: italic"># optionally also declare data and purpose for PDH1</span>
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Email</span>, <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">AccountIdentifier</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">CommunicationForCustomerCare</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> :<span style="color: #008000; font-weight: bold">PDH2</span>, :<span style="color: #008000; font-weight: bold">PDH3</span> .
 
-:PDH2 a dpv:Process ;
-  dpv:hasContext dpv:Optional ;
-  dpv:hasPersonalData pd:Email ;
-  dpv:hasPurpose dpv:CommunicationForCustomerCare .
+:<span style="color: #008000; font-weight: bold">PDH2</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContext</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Optional</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Email</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">CommunicationForCustomerCare</span> .
 
-:PDH3 a dpv:Process ;
-  dpv:hasContext dpv:Required ;
-  dpv:hasPersonalData pd:AccountIdentifier ;
-  dpv:hasPurpose dpv:CommunicationForCustomerCare .</code></pre>
+:<span style="color: #008000; font-weight: bold">PDH3</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContext</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Required</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">AccountIdentifier</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">CommunicationForCustomerCare</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0026"><code>E0026</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0026"><code>E0026</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0026.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1915,29 +1950,31 @@ link: <a href="https://w3id.org/dpv/examples/E0026.ttl">source file</a>;      co
     </section>
 
       <aside class="example" title="Indicating risks, consequences, and impacts">
-<p>In this example, we consider <i>Risk</i> can be associated with any  concept given its broad existence and applicability, and that its mitigation is a technical and organisational measure. Using this, the implemented or adopted technical and organisational measures within an use-case are annotated with the risks they address or mitigate, along with specific impacts that may occur if the risk were to occur. For example, the storage of personal data within a database has an implementation of access control that mitigates the consequence of unauthorised access and its impact to cause harm.</p>    <pre class="nohighlight"><code># 1: annotating implementations with risks involved
-  ex:DataStore rdf:type dpv:Technology ;
-      dpv:hasTechnicalMeasure ex:RBACCredential ;
-      dpv:hasRisk ex:UnAuthorisedAccess . 
+<p>In this example, we consider <i>Risk</i> can be associated with any  concept given its broad existence and applicability, and that its mitigation is a technical and organisational measure. Using this, the implemented or adopted technical and organisational measures within an use-case are annotated with the risks they address or mitigate, along with specific impacts that may occur if the risk were to occur. For example, the storage of personal data within a database has an implementation of access control that mitigates the consequence of unauthorised access and its impact to cause harm.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># 1: annotating implementations with risks involved</span>
+  <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">DataStore</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Technology</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasTechnicalMeasure</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">RBACCredential</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRisk</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnAuthorisedAccess</span> . 
 
-  # 2: risk registry denoting risks and mitigations
-  ex:UnAuthorisedAccess rdf:type dpv:Risk ;
-      dpv:hasConsequence &#34;Unauthorised Access to Data Store&#34;@en ;
-      dpv:hasImpact dpv:Harm ;
-      dpv:isMitigatedByMeasure ex:RBACCredential .
+  <span style="color: #3D7B7B; font-style: italic"># 2: risk registry denoting risks and mitigations</span>
+  <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnAuthorisedAccess</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Risk</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsequence</span> <span style="color: #BA2121">&quot;Unauthorised Access to Data Store&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasImpact</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Harm</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isMitigatedByMeasure</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">RBACCredential</span> .
 
-  # 3: annotating measures with risks mitigated
-  ex:RBACCredential rdf:type dpv:TechnicalMeasure, dpv:RiskMitigationMeasure ;
-      skos:broader dpv:AccessControlMethod ;
-      dpv:mitigatesRisk ex:UnAuthorisedAccess .
+  <span style="color: #3D7B7B; font-style: italic"># 3: annotating measures with risks mitigated</span>
+  <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">RBACCredential</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">TechnicalMeasure</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">RiskMitigationMeasure</span> ;
+      <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">AccessControlMethod</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">mitigatesRisk</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnAuthorisedAccess</span> .
 
-  # 4: policies and training as risk mitigations
-  ex:SecurityPolicy rdf:type dpv:OrganisationalMeasure ;
-      skos:broader dpv:Policy ;
-      dpv:hasOrganisationalMeasure dpv:StaffTraining ;
-      dpv:mitigatesRisk ex:UnAuthorisedAccess .</code></pre>
+  <span style="color: #3D7B7B; font-style: italic"># 4: policies and training as risk mitigations</span>
+  <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SecurityPolicy</span> <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">type</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">OrganisationalMeasure</span> ;
+      <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Policy</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasOrganisationalMeasure</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">StaffTraining</span> ;
+      <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">mitigatesRisk</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnAuthorisedAccess</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0027"><code>E0027</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0027"><code>E0027</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0027.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
@@ -1965,39 +2002,44 @@ link: <a href="https://w3id.org/dpv/examples/E0027.ttl">source file</a>;      co
     <p>DPV does not specify 'default' in relation to rules, i.e. it does not provide an interpretation of whether some rules apply automatically unless otherwise declared. For example, in declaring an instance of Process, the assumption is that the activities are modelled for what is happening or what is intended/planned to happen. The explicit annotation using a Permission rule adds information about whether some activity is permitted (and its associated information). Instead, if the use-case is using DPV to only document activities that are permitted, there is no need to explicitly specify the permissions. Similarly, just because something is happening or planned to happen, it cannot be assumed to be permitted (e.g., from evaluation of legal requirements). </p>
     <p>To associate a rule with a specific context, which can be a Process or PersonalData or Purposes, the relations <code>hasPermission</code>, <code>hasProhibition</code> and <code>hasObligation</code> are provided. Additional types of rules can be added to DPV by extending the Rule Concept (e.g., <code>:MyRule rdfs:isSubClassOf dpv:Rule</code>).</p>
       <aside class="example" title="Rule specifying permission">
-<p>In this example, a Process which consists of using an email address for service provision using the legal basis as Consent is permitted</p>    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
-    dpv:hasRule dpv:Permission ;
-    dpv:hasPurpose dpv:ServiceProvision ;
-    dpv:hasPersonalData pd:EmailAddress ;
-    dpv:hasLegalBasis dpv:Consent .</code></pre>
+<p>In this example, a Process which consists of using an email address for service provision using the legal basis as Consent is permitted</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Permission</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServiceProvision</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0028"><code>E0028</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0028"><code>E0028</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0028.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
 
       <aside class="example" title="Rule specifying prohibition">
-<p>In this example, the hasProhibition relation is directly used to assert a prohibition to handle Health data within a Process:</p>    <pre class="nohighlight"><code>ex:PDH a dpv:Process ;
-    dpv:hasProhibition pd:Health .</code></pre>
+<p>In this example, the hasProhibition relation is directly used to assert a prohibition to handle Health data within a Process:</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProhibition</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Health</span> .
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0029"><code>E0029</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0029"><code>E0029</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0029.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
 
       <aside class="example" title="Rule combining DPV with ODRL">
-<p>In this example, DPV is complemented with ODRL, following the ODRL implementation best practices, to assert an obligation to Anonymise data in order to use it:</p>    <pre class="nohighlight"><code>ex:Policy a dpv:Obligation, odrl:Policy ;
-    odrl:profile new-profile: ;
-    odrl:uid &lt;https://example.com/policy:1&gt; ;
-    odrl:obligation [
-        odrl:action new-profile:Use ;
-        odrl:duty [
-            odrl:action new-profile:Anonymise
+<p>In this example, DPV is complemented with ODRL, following the ODRL implementation best practices, to assert an obligation to Anonymise data in order to use it:</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Policy</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Obligation</span>, <span style="color: #0000FF; font-weight: bold">odrl</span>:<span style="color: #008000; font-weight: bold">Policy</span> ;
+    <span style="color: #0000FF; font-weight: bold">odrl</span>:<span style="color: #008000; font-weight: bold">profile</span> <span style="color: #0000FF; font-weight: bold">new-profile</span>: ;
+    <span style="color: #0000FF; font-weight: bold">odrl</span>:<span style="color: #008000; font-weight: bold">uid</span> <span style="color: #19177C">&lt;https://example.com/policy:1&gt;</span> ;
+    <span style="color: #0000FF; font-weight: bold">odrl</span>:<span style="color: #008000; font-weight: bold">obligation</span> [
+        <span style="color: #0000FF; font-weight: bold">odrl</span>:<span style="color: #008000; font-weight: bold">action</span> <span style="color: #0000FF; font-weight: bold">new-profile</span>:<span style="color: #008000; font-weight: bold">Use</span> ;
+        <span style="color: #0000FF; font-weight: bold">odrl</span>:<span style="color: #008000; font-weight: bold">duty</span> [
+            <span style="color: #0000FF; font-weight: bold">odrl</span>:<span style="color: #008000; font-weight: bold">action</span> <span style="color: #0000FF; font-weight: bold">new-profile</span>:<span style="color: #008000; font-weight: bold">Anonymise</span>
         ]
     ] .
-</code></pre>
+</pre></div>
+
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0030"><code>E0030</code></a>;
+      Example ID: <a href="https://w3id.org/dpv/2.0/examples#E0030"><code>E0030</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0030.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
     </small></p>
   </aside>
