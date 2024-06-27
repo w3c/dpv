@@ -769,6 +769,8 @@ def _write_template(
         'lang': lang,
         'template': template_env.get_template(template),
         'RDF_VOCABS': RDF_VOCABS,
+        'DPV_VERSION': DPV_VERSION,
+        'DOCUMENT_STATUS': DOCUMENT_STATUS,
     }
     template = template_env.get_template(template)
     with open(f'{filepath}/{filename}-{lang}.html', 'w+') as fd:
@@ -897,7 +899,7 @@ for doc, data in GUIDES.items():
     filepath = f"{OUTPUT_PATH}{data['output']}"
     with open(filepath, 'w') as fd:
         template = template_env.get_template(template)
-        fd.write(template.render())
+        fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
     INFO(f"wrote primer document {doc} at {filepath}")
 
 INFO('*'*40)
