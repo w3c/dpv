@@ -156,9 +156,9 @@ def write_CSV_graph(graph, filepath: str, vocab: str, namespace: str) -> None:
         query = """
             SELECT ?iri ?label ?definition
                 (group_concat(?type; separator=";") as ?types)
-                (group_concat(?parent; separator=";") as ?subclassof)
-                (group_concat(?broader; separator=";") as ?hasbroader)
-                (group_concat(?note; separator=";") as ?scopenote)
+                (group_concat(DISTINCT STR(?parent); separator=";") as ?subclassof)
+                (group_concat(DISTINCT STR(?broader); separator=";") as ?hasbroader)
+                (group_concat(DISTINCT STR(?note); separator=";") as ?scopenote)
                 ?created ?modified
             WHERE {
                 ?iri a skos:Concept .
@@ -658,10 +658,10 @@ for collation in RDF_COLLATIONS:
     INFO(f"Collected {len(triples)} triples into {collation['output']}")
 
 # === serialise-missing-translations ===
-INFO('-'*40)
-DEBUG(f"Missing translations for {len(MISSING_TRANSLATIONS)} concepts")
-with open(f"{TRANSLATIONS_MISSING_FILE}", 'w') as fd:
-    import json
-    json.dump(MISSING_TRANSLATIONS, fd, indent=2)
+# INFO('-'*40)
+# DEBUG(f"Missing translations for {len(MISSING_TRANSLATIONS)} concepts")
+# with open(f"{TRANSLATIONS_MISSING_FILE}", 'w') as fd:
+#     import json
+#     json.dump(MISSING_TRANSLATIONS, fd, indent=2)
 
 INFO('-'*40)
