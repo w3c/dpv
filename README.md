@@ -5,7 +5,7 @@ Data Privacy Vocabularies and Controls Community Group (DPVCG) repository
   
 > **MAJOR CHANGES introduced in v2**
 >
-> The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. The namespace and IRI have been chnaged to reflect versions e.g. https://w3id.org/dpv/2.0 with the versionless IRI e.g. https://w3id.org/dpv always pointing to the latest version. Read more in [v2 changelog](https://w3id.org/dpv/2.0/changelog). 
+> The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. Versioned IRIs have been created to refer to specific versions, with https://w3id.org/dpv/1.0 for v1 and https://w3id.org/dpv/2.0 for v2. The versionless IRI https://w3id.org/dpv will always point to the latest version. Read more in [v2 changelog](https://w3id.org/dpv/2.0/changelog). 
 
 > The draft article [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Pandit et al. (2024) describes DPV v2 in terms of its contents, methodology, current adoptions and uses, and future potential. It also describes the relevance and role of DPV in acting as a common vocabulary to support various regulatory (e.g. EU's DGA and AI Act) and community initiatives (e.g. Solid) emerging across the globe
 
@@ -90,7 +90,7 @@ Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/
 
 The following are final reports i.e. formally published by the W3C:
 #### v2
-TBA
+- these reports will be published and available after the release of v2
 #### v1
 - Primer [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-primer-20221205)
 - DPV [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-20221205)

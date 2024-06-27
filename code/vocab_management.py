@@ -75,7 +75,7 @@ IGNORED_TERMS = ('rdf:type', 'rdfs:Class', 'rdf:Property', 'skos:Concept')
 
 # === namespaces ===
 NAMESPACE_CSV = (
-    'vocab_csv/Namespaces-v2.csv',
+    'vocab_csv/Namespaces.csv',
     'vocab_csv/Namespaces_Other.csv',
     )
 NAMESPACES = {}

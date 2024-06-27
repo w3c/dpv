@@ -238,7 +238,7 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     metadata = RDF_VOCABS[vocab]['metadata']
     vocab_iri = URIRef(str(NAMESPACES[vocab])[:-1]) # strip last character
     graph.add((vocab_iri, RDF.type, OWL.Ontology))
-    graph.add((vocab_iri, OWL.versionIRI, vocab_iri))
+    graph.add((vocab_iri, OWL.versionIRI, URIRef(vocab_iri.replace('https://w3id.org/dpv', f'https://w3id.org/dpv/{DPV_VERSION}'))))
     graph.add((vocab_iri, DCTERMS.source, URIRef("https://www.w3.org/groups/cg/dpvcg/")))
     graph.add((vocab_iri, DCTERMS.title, Literal(metadata['dct:title'], lang='en')))
     # https://github.com/oeg-upm/fair_ontologies/issues/108
@@ -457,6 +457,11 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
             """)
     # replace main vocab iri with owl vocab iri
     vocab_owl_iri = URIRef(NAMESPACES[vocab+'-owl'][:-1])
+    graph.update(f"""
+        DELETE {{ ?s owl:versionIRI ?o }}
+        INSERT {{ <{str(vocab_owl_iri)}> owl:versionIRI <{vocab_owl_iri.replace('https://w3id.org/dpv', f'https://w3id.org/dpv/{DPV_VERSION}')}> }}
+        WHERE {{  ?s owl:versionIRI ?o }}
+        """)
     graph.update(f"""
         DELETE {{ <{str(vocab_iri)}> ?p ?o }}
         INSERT {{ <{str(vocab_owl_iri)}> ?p ?o }}
