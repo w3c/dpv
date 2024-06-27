@@ -1,6 +1,6 @@
 # DPV Version 1.0
 
-> The namespace and IRI of files in this version have been changed to reflect the versioned provision e.g. https://w3id.org/dpv/1.0 instead of https://w3id.org/dpv which now points at the latest version. The IRIs in 1.0 will continue to function regardless of changes in folder structure and IRIs in 2.0.
+> The namespace and IRI of files in this version have been changed to reflect the versioned provision e.g. https://w3id.org/dpv instead of https://w3id.org/dpv which now points at the latest version. The IRIs in 1.0 will continue to function regardless of changes in folder structure and IRIs in 2.0.
 
 The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to develop a taxonomy of privacy and data protection related terms, which include in particular terms from the new European General Data Protection Regulation (GDPR), such as a taxonomy of personal data as well as a classification of purposes (i.e., purposes for data collection), and events of disclosures, consent, and processing such personal data.
 
@@ -10,7 +10,7 @@ License: All work produced by DPVCG and provided through this repo or elsewhere 
 
 ## Specifications
 ### Data Privacy Vocabulary (DPV)
-The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv/1.0) provides an ontology (classes and properties) and taxonomies of concepts to represent information regarding how personal data is processed in the form of an ontology or a knowledge graph. For example, it provides taxonomies associated with:
+The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) provides an ontology (classes and properties) and taxonomies of concepts to represent information regarding how personal data is processed in the form of an ontology or a knowledge graph. For example, it provides taxonomies associated with:
 
 * purposes of processing
 * personal data categories involved

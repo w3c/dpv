@@ -36,7 +36,7 @@ tool OR you can re-create the diagram in an alternate tool (see above section).
 
 Use relative links, i.e. prefer `../diagrams` instead of `/diagrams` to have
 consistency in the online and local(host) versions as we use w3id.org which 
-replaces the root as `w3id.org/dpv/1.0` - note the prefix.
+replaces the root as `w3id.org/dpv` - note the prefix.
 
 ## Contributions
 
