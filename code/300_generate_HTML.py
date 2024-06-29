@@ -977,11 +977,13 @@ def add_item_to_index(iri):
     item = classes[iri]
     data = {'name': f'<a class="concept" href="{item["relative-iri"]}">{item["vocab"]}: {item["label"]}</a><sup class="concept-type">{item["category"]}</sup>'}
     if item['children']:
-        data['children'] = [add_item_to_index(child['iri']) for child in item['children']]
+        data['children'] = [
+            add_item_to_index(child['iri'])
+            for child in sorted(item['children'], key=lambda x: x['iri'])]
     return data
 
 
-for concept in topconcepts:
+for concept in sorted(topconcepts):
     index.append(add_item_to_index(concept))
 
 filepath = f"{EXPORT_PATH}/search.html"
