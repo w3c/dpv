@@ -10,6 +10,8 @@ The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to d
 
 License: All work produced by DPVCG and provided through this repo or elsewhere is provided by contributors under the [W3C Document License](https://www.w3.org/copyright/software-license-2023/). A copy of the license is provided in the [LICENSE.md](./LICENSE.md) file.
 
+[Guidelines for contributing new concepts, identified bugs and issues, and suggestions](https://github.com/w3c/dpv/wiki/contributing)
+
 ## Specifications
 ### Data Privacy Vocabulary (DPV)
 The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) provides an ontology (classes and properties) and taxonomies of concepts to represent information regarding how personal data is processed in the form of an ontology or a knowledge graph. For example, it provides taxonomies associated with:
@@ -55,3 +57,17 @@ For use of DPV from v2 onwards, **Cite as:** [Data Privacy Vocabulary (DPV) -- V
 ### Final Reports
 
 The following are final reports i.e. formally published by the W3C: TBA
+
+## Folder Structure
+
+- `dpv` contains the DPV specification
+- `pd` contains the personal data extension
+- `tech` contains the technical concepts extension
+- `risk` contains the risk assessment and management extension
+- `loc` contains the location extension
+- `justifications` contains the justifications extension
+- `legal` contains legal extensions with further subfolders
+    - the `legal` folder itself contains an aggregated collection of laws, authorities, and other relevant concepts from existing extensions
+    - folders with names based on ISO 3166-2 are provided which represent a specific jurisdiction - currently these are: `ie` - Ireland, `in` - India, `de` - Germany, `eu` - European Union, `gb` - United Kingdom (UK), `us` - United States of America
+    - within these folders, the respective laws of that jurisdiction are defined as subfolders, e.g. `eu` has `gdpr`, `dga`, `nis2`, and `aiact`
+- `search.html` contains an index of all concepts within DPV and extensions, and provides a visual way to navigate them and search/filter them based on string-matching

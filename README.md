@@ -3,10 +3,12 @@ Data Privacy Vocabularies and Controls Community Group (DPVCG) repository
 
 [Community Group](https://www.w3.org/community/dpvcg/) | [(W3C) wiki](https://www.w3.org/community/dpvcg/wiki/Main_Page)
   
-> **MAJOR CHANGES introduced in v2**
+> **DPV 2.0 Beta Release**
 >
-> The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. Versioned IRIs have been created to refer to specific versions, with https://w3id.org/dpv/1.0 for v1 and https://w3id.org/dpv/2.0 for v2. The versionless IRI https://w3id.org/dpv will always point to the latest version. Read more in [v2 changelog](https://w3id.org/dpv/2.0/changelog). 
-
+> DPV 2.0 release is complete and is now being provided in _beta_ mode for feedback. The period for feedback is until 31 July. The completed 2.0 release will be published after this on 01 August - unless major issues are identified. 
+> 
+> See the [v2 changelog](https://w3id.org/dpv/2.0/changelog). The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. Versioned IRIs have been created to refer to specific versions, with https://w3id.org/dpv/1.0 for v1 and https://w3id.org/dpv/2.0 for v2. The versionless IRI https://w3id.org/dpv will always point to the latest version. 
+> 
 > The draft article [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Pandit et al. (2024) describes DPV v2 in terms of its contents, methodology, current adoptions and uses, and future potential. It also describes the relevance and role of DPV in acting as a common vocabulary to support various regulatory (e.g. EU's DGA and AI Act) and community initiatives (e.g. Solid) emerging across the globe
 
 The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to develop a taxonomy of privacy and data protection related terms, which include in particular terms from the new European General Data Protection Regulation (GDPR), such as a taxonomy of personal data as well as a classification of purposes (i.e., purposes for data collection), and events of disclosures, consent, and processing such personal data.
@@ -15,7 +17,7 @@ The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to d
 
 License: All work produced by DPVCG and provided through this repo or elsewhere is provided by contributors under the [W3C Document License](https://www.w3.org/copyright/software-license-2023/). A copy of the license is provided in the [LICENSE.md](./LICENSE.md) file.
 
-[Guidelines for contributing](https://github.com/w3c/dpv/wiki/contributing)
+[Guidelines for contributing new concepts, identified bugs and issues, and suggestions](https://github.com/w3c/dpv/wiki/contributing)
 
 ## Specifications
 ### Data Privacy Vocabulary (DPV)
@@ -56,8 +58,7 @@ The legal extensions provide concepts associated with specific jurisdictions and
 - [United States of America (USA)](https://w3id.org/dpv/legal/usa)
 
 ### Other Resources
-The [NACE Taxonomy serialised in RDFS](https://w3id.org/dpv/dpv-nace) provides a serialisation of the NACE v2 taxonomy in RDFS for use with DPV terms. Since then, NACE v3 has been published with an updated taxonomy. The DPVCG is looking into whether the NACE v3 should be similarly provided.
-
+The [NACE Taxonomy serialised in RDFS](https://w3id.org/dpv/dpv-nace) provides a serialisation of the NACE v2 taxonomy in RDFS for use with DPV terms. Since then, NACE v2.1 has been published by the EU Commission. The DPVCG has decided to retire/not provide an alternative serialisation of NACE as it provided no significant benefit and the best practice for using NACE is to always utilise the official authoritative version.
 
 ## Guides
 - The [Primer](https://w3id.org/dpv/primer) is an introductory document for newcomers to understand the DPV and its concepts. A [2 Page Short Primer](https://w3id.org/dpv/primer/short) provides a succint introduction to the DPV. 
@@ -66,25 +67,21 @@ The [NACE Taxonomy serialised in RDFS](https://w3id.org/dpv/dpv-nace) provides a
 - The [Guides](https://w3id.org/dpv/guides) page lists guides for use of DPV in specific domains and applications
     - [Using DPV in OWL2](https://w3id.org/dpv/guides/dpv-owl) 
     - [Implementing ISO/IEC 27560:2023 Consent Records and Receipts](https://w3id.org/dpv/guides/consent-27560)
-    - [Implementing ISO/IEC 29184:2020 Privacy Notices and Consent](https://w3id.org/dpv/guides/notice-29184) - Work in Progress
-    - [Data Breach Management for GDPR](https://w3id.org/dpv/guides/gdpr-data-breach) - Work in Progress
-    - [Data Protection Impact Assessment (DPIA) for GDPR](https://w3id.org/dpv/guides/gdpr-dpia) - Work in Progress
-    - [Records of Processing Activities (ROPA) for GDPR](https://w3id.org/dpv/guides/gdpr-ropa) - Work in Progress
+    - [Implementing ISO/IEC 29184:2020 Privacy Notices and Consent](https://w3id.org/dpv/guides/notice-29184) - Work in Progress, we welcome participation for this
+    - [Data Breach Management for GDPR](https://w3id.org/dpv/guides/gdpr-data-breach) - Work in Progress, we welcome participation for this
+    - [Data Protection Impact Assessment (DPIA) for GDPR](https://w3id.org/dpv/guides/gdpr-dpia) - Work in Progress, we welcome participation for this
+    - [Records of Processing Activities (ROPA) for GDPR](https://w3id.org/dpv/guides/gdpr-ropa) - Work in Progress, we welcome participation for this
 
 ## Acknowledgements and Citation
 
-*  For use of DPV up to v1 and v1.1, **Cite as:** The peer-reviewed article “[Creating A Vocabulary for Data Privacy](https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44)” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed [here](http://hdl.handle.net/2262/91581), [here](http://doras.dcu.ie/23801/), and [here](https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf).
 * For use of DPV from v2 onwards, **Cite as:** [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake https://arxiv.org/abs/2404.13426 (2024)
+*  For use of DPV up to v1 and v1.1, **Cite as:** The peer-reviewed article “[Creating A Vocabulary for Data Privacy](https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44)” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed [here](http://hdl.handle.net/2262/91581), [here](http://doras.dcu.ie/23801/), and [here](https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf).
 
 ## Releases
 
 > [go to latest release](https://github.com/w3c/dpv/releases/latest)
 
-Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/releases](https://github.com/w3c/dpv/releases) and contain zipped collections of DPV specifications, modules, extensions, and accompanying documents, categorised by serialisation. 
-
-- dpv (`dpv.zip`) : canocical specifications serialised in RDFS/SKOS
-- dpv-owl (`dpv-owl.zip`) : alternate serialisation with OWL2 semantics
-- dpv (`dpv.xlsx`) : DPV's terms provided in a spreadsheet
+Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/releases](https://github.com/w3c/dpv/releases) and contain zipped collections of DPV specifications, modules, extensions, and accompanying documents. 
 
 ### Final Reports
 
