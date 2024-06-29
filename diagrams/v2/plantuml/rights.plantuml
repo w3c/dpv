@@ -1,0 +1,38 @@
+@startuml
+!include style.plantuml
+left to right direction
+
+class Thing #silver
+package dpv {
+	class Right
+	class Notice
+	class DataSubjectRight
+	class PassiveRight
+	class ActiveRight
+	class Record
+	class RightExerciseNotice
+	class RightFulfilmentNotice
+	class RightNonFulfilmentNotice
+	class RightExerciseRecord
+	class RightExerciseActivity
+	class RequestStatus
+}
+Thing -d- Right : hasRight >
+Thing -- Notice : hasNotice >
+
+Right <|-d- DataSubjectRight
+Right <|-d- PassiveRight
+Right <|-d- ActiveRight
+ActiveRight -- RightExerciseNotice : isExercisedAt >
+
+Notice <|-d- RightExerciseNotice
+Notice <|-d- RightFulfilmentNotice
+Notice <|-d- RightNonFulfilmentNotice
+
+Record <|- RightExerciseRecord
+RightExerciseRecord -- RightExerciseActivity : dct:hasPart >
+RightExerciseRecord -- Right : hasRight >
+RightExerciseActivity -- RightExerciseActivity : isBefore/isAfter >
+RightExerciseActivity -- RequestStatus : hasStatus >
+
+@enduml

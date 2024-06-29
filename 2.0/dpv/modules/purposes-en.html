@@ -343,7 +343,7 @@
   },
 }  };
 </script>
-<link rel="stylesheet" type="text/css" href="../../media/common.css">
+<link rel="stylesheet" type="text/css" href="../../diagrams/common.css">
 </head>
 <body>
     <section id="abstract">
@@ -367,14 +367,43 @@
   <section id="vocab-purposes">
     <h2>Introduction</h2>
   <figure>
-    <a href="../../media/purpose-2.png" target="_blank">
-      <img title="Overview of Purpose taxonomy in DPV" src="../../media/purpose-2.png">
+    <a href="../../diagrams/purpose-2.png" target="_blank">
+      <img title="Overview of Purpose taxonomy in DPV" src="../../diagrams/purpose-2.png">
     </a>
     <figcaption>Overview of Purpose taxonomy in DPV (click to open in new window)</figcaption>
   </figure>
-  <p>DPV’s taxonomy of purposes is used to represent the goal or reason associated with processing of personal data and use of technologies. For this, purposes are organised within DPV based on several factors such as: management functions related to information (e.g. records, account, finance), fulfilment of objectives (e.g. delivery of goods), providing goods and services (e.g. service provision), intended benefits (e.g. optimisations for service provider or consumer), and legal compliance.</p>
-
   <p>DPV provides a taxonomy of Purpose <i>instances</i> for use with [=hasPurpose=] relation. In addition, DPV also defines the concept [=Sector=] (associated using [=hasSector=]) to indicate a contextual interpretation of the purpose within a specified sector.</p>
+  <p>DPV’s taxonomy of purposes is used to represent the <em>reason</em> or <em>justification</em> for processing of personal data. For this, purposes are organised within DPV based on how they relate to the processing of personal data in terms of several factors, such as: management functions related to information (e.g. records, account, finance), fulfilment of objectives (e.g. delivery of goods), providing goods and services (e.g. service provision), intended benefits (e.g. optimisations for service provider or consumer), and legal compliance.</p>
+    <div class="note" title="Purposes do not have a strict structure as used in real-world use-cases">
+      <p>It is important to note the following for real-world implications of <code>Purpose</code>:</p>
+    <ol type="1">
+      <li>
+        <p>There is no universal definition for what constitutes a ’purpose’ or what attributes are associated with it.</p>
+      </li>
+      <li>
+        <p>There are several distinct ways to model purposes, e.g. as a ‘goal’ such as ‘Delivery of Ordered Goods’; or as a statement explaining the processing of personal data, e.g. ‘Sending newsletters to Email’.</p>
+      </li>
+      <li>
+        <p>DPV does not define requirements for what is a ‘valid purpose’ as these are defined externally, e.g. in laws such as [[GDPR]] Article.5-1b where purposes are required to be ‘explicit and legitimate’.</p>
+      </li>
+      <li>
+        <p>Purposes have contextual interpretations within their application and domains (i.e. depending on how they are used in an use-case). For example, <code>ServiceProvision</code> is interpreted differently across the use-cases of an online website, a goods delivery outlet, and a medical centre - even if they use the same terms or phrasing.</p>
+      </li>
+    </ol>
+  </div>
+  <p>Following from the above, practical uses of DPV will likely need to extend one of the concepts within DPV’s purpose taxonomy to ensure its purpose descriptions are specific and understandable within the context of that use-case. We therefore suggest, where possible and appropriate, to create a customised purpose as required within the use-cases by extending one or several purposes from the DPV taxonomy and to provide a human readable description to assist in its accurate interpretation (e.g. DPV prefers use of <code>skos:prefLabel</code> for its concepts and <code>dct:title</code> for other documentation).</p>
+      <aside class="example" title="Extending Purposes and adding human-readable descriptions">
+<p>In this example, a new purpose is created by extending <code>dpv:FraudPreventionAndDetection</code> and annotated with human-readable information. The interpretation of this purpose is thus more clear in relation to how it is applied or used within that use-case, and also serves to compare it with other purposes within the same category.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PreventTransactionFraud</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">FraudPreventionAndDetection</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="color: #BA2121">&quot;Prevent Transaction and Payment Frauds&quot;</span> .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0007"><code>E0007</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0007.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
 
   <div class="list-hierarchy"><ul class="concept-list">
   <li>
@@ -1060,10 +1089,27 @@ link: <a href="https://w3id.org/dpv/examples/E0042.ttl">source file</a>;      co
 
   </section>
 
+  <section id="sector-of-purpose-application">
+    <h2>Sector of Purpose Application</h2>
+    <p>DPV provides <code>Sector</code> that can be used to indicate the relevant information to further clarify or indicate how a purpose should be interpreted. <code>Sector</code>, used with the <code>hasSector</code> relation, denotes the <i>sector</i> or <i>domain</i> of application, such as Manufacturing. This can be used alongside existing official sector taxonomies such as [[NACE]] (EU), [[NAICS]] (USA), or [[ISIC]] (UN), as well as commercial industry taxonomies such as [[GICS]] maintained by organisations MSCI and S&amp;P. Multiple classifications can be used through mappings between sector codes such as the [[[NACE-NAICS]]] provided by EU.</p>
+    <p>The DPVCG welcomes discussions on the alignment of concepts in NACE, NAICS, ISIC, and GICS with DPV's Purpose taxonomy to further expand on how specific purposes can be represented within the context of a particular domain or sector.</p>
 
-  <section id="desc-sector">
-    <h2>Sector of Operation</h2>
-    <p>To indicate the purpose is associated with a specific sector or domain of operation, the concept [=Sector=] and relation [=hasSector=] can be used. Sectors can be expressed using normative taxonomies such as [[[NACE]]] for EU, [[[NAICS]]] for USA, [[[ISIC]]] for UN, or [[[GICS]]]. The EU maintains a mapping between [[NACE]] and [[NAICS]] as [[[NACE-NAICS]]]. Note that NACE has been updated from v2 to v2.1 - <a href="https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/wdn-20230210-1">see more details</a>.</p>
+    <div class="note" title="Discontinuation of DPV-NACE extension">
+      <p>DPVCG initially provided an interpretation of the NACE revision 2 codes which uses <code>rdfs:subClassOf</code> to specify the hierarchy between sector concepts instead of the SKOS relations used in NACE. In 2.0, the NACE extension has been removed as there was no added benefits provided in DPV's NACE extension and the recommendation is to use the official/authoritative NACE concepts and IRIs. Further, NACE revision 2.1 has been published which should be reffered to as the latest version.</p>
+    </div>
+      <aside class="example" title="Using NACE codes to restrict Purposes">
+<p>For example, the following purpose concerns implementing access control with the domain specified as scientific research using its corresponding NACE code &lt;code&gt;M72&lt;/code&gt; to indicate sectorial implications for what &#34;access control&#34; and &#34;enforce security&#34; are expected to imply.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span>:<span style="color: #008000; font-weight: bold">RestrictPersonnelAccess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">EnforceSecurity</span> ;
+  <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="border: 1px solid #FF0000">“Limit</span> <span style="border: 1px solid #FF0000">access</span> <span style="border: 1px solid #FF0000">to</span> <span style="border: 1px solid #FF0000">lab</span> <span style="border: 1px solid #FF0000">by</span> <span style="border: 1px solid #FF0000">checking</span> <span style="border: 1px solid #FF0000">personnel</span> <span style="border: 1px solid #FF0000">identity</span><span style="color: #BA2121">&quot; ;</span>
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasSector</span> <span style="color: #0000FF; font-weight: bold">dpv-nace</span>:<span style="color: #008000; font-weight: bold">M72</span> .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0008"><code>E0008</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0008.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
       <aside class="example" title="Indicating sector or domain and associating it with a purpose">
 <p>This example uses the NACE taxonomy to indicate the domain or sectorial relevance of the purpose    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
     <span style="color: #3D7B7B; font-style: italic"># expressing Sector using NACE</span>
@@ -1088,6 +1134,9 @@ link: <a href="https://w3id.org/dpv/examples/E0042.ttl">source file</a>;      co
 link: <a href="https://w3id.org/dpv/examples/E0043.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
     </small></p>
   </aside>
+
+
+  <p>While the use of <code>Sector</code> for restricting (personal data processing) purposes is an uncommon and undocumented practice in terms of legal enforcement, we provide this feature as the use of sector code can assist with identification and interpretation of information as well as legal or organisational obligations and policies. For example, indicating some purpose is to be implemented within manufacturing or scientific research facilities (e.g. medical centres) can assist in ensuring specific types of access control and policies are defined and implemented.</p>
 
   </section>
 
@@ -9562,6 +9611,6 @@ link: <a href="https://w3id.org/dpv/examples/E0043.ttl">source file</a>;      co
   <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
-<script type="text/javascript" src="../../media/common.js" defer></script>
+<script type="text/javascript" src="../../diagrams/common.js" defer></script>
 </body>
 </html>

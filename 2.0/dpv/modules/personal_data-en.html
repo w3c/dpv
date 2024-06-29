@@ -343,7 +343,7 @@
   },
 }  };
 </script>
-<link rel="stylesheet" type="text/css" href="../../media/common.css">
+<link rel="stylesheet" type="text/css" href="../../diagrams/common.css">
 </head>
 <body>
     <section id="abstract">
@@ -367,7 +367,7 @@
   <section id="vocab-personal-data">
   <h2>Introduction</h2>
     <figure>
-    <img src="../../media/PersonalData.png" />
+    <img src="../../diagrams/PersonalData.png" />
     <figcaption></figcaption>
   </figure>
   <p>DPV provides the concept [=Data=] and relation [=hasData=] to indicate involvement or association of any data. The concept [=PersonalData=] and the relation [=hasPersonalData=] are provided to indicate what categories or instances of personal data are being processed. The DPV specification only provides a structure for describing personal data, e.g. as being sensitive. For specific categories of personal data for use-cases, [[[PD]]] provides additional concepts that extend the DPV's personal data taxonomy. This separation is to enable adopters to decide whether the extension's concepts are useful to them, or to use other external vocabularies, or define their own.</p>
@@ -601,6 +601,15 @@
   <h2>Personal Data</h2>
   <p>The [[[PD]]] extension provides a taxonomy of personal data categories to represent commonly used categories such as 'Email Address' and 'Birth Date'. These concepts are organised in a hierarchical taxonomy where the super/parent concept is a broader form of the sub/child concept, and where these concepts act as sets i.e. everything in the sub/child concept is present in the super/parent concept. For example, consider the concept 'Email' - it can refer to email addresses, actual emails, metadata or attachments associated with emails, and so on. To distinguish between these, the 'Email' concept must be further 'extended' or 'refined' with subclasses or child concepts such as 'Email Address', 'Email Contents', etc. The [[PD]] taxonomy categories are modelled with such interpretations in mind. This helps align the use of DPV with practical use-cases where such ambiguous use of terms can be identified and rectified by choosing a more specific concept from the taxonomy (e.g. Email Address instead of Email above).</p>
   <p>The relation [=hasPersonalData=] can be used to indicate both the category and instance of personal data. For example, to indicate the personal data being collected is of category 'Email Address', or to specify a particular email address. We recommend using `rdf:value` to represent such 'values' of personal data associated with a category. Alternatively, other vocabularies such as [[FOAF]] or [[schema-org]] can also be used to further specify the contents of personal data. Through we strongly recommend always using a DPV concept and a [[PD]] taxonomy concept for interoperability.</p>
+  <div class="note" title="Clarity on Personal Data concepts being Categories and Instances">
+      <p>Real-world and common usage of <i>personal data</i> is at both an abstract level as well as specific level. For example, consider the sentence "We use your Email information...", which uses "<i>Email</i>" to represent a reference to what personal data is involved. Here, one may interpret <i>Email</i> as representing only the <i>email address</i>, or as a broad set of possible information related to emails, such as <i>email address, email senders and recipients list, email service provider, email usage statistics</i> and so on.</p>
+      <p>For ensuring clarity and resolving any potential ambiguity, DPV recommends being as specific as possible. This means where there is ambiguity as to what the information may be associated with or within a concept, it is advisable to resolve that ambiguity - either by choosing a more accurate concept from the taxonomy and/or by creating one through extension of an existing concept.</p>
+    </div>
+    <div class="note" title="Challenges in representing Personal Data concepts accurately">
+      <p>In addition to above, it is also challenging to accurately represent how concepts function within real-world use in terms of their encapsulation within one another. For example, when establishing the DPV, we discussed the modelling of personal data categories based on the scenario where a picture of passport is initially collected, and from it various categories are extracted, such as - name, address, and photo. For representing this, merely stating the personal data as ‘passport photograph’ would not be entirely accurate as there is additional information within the photograph.</p>
+      <p>A solution was established whereby the use-case is expected to declare explicitly what information it intends to collect or use with sufficient details and clarity. For the passport photograph scenario, the use-case would use the concept <code>PassportPhoto</code> as the data it collects, and indicate that it extracts or derives <code>Name</code> and <code>Age</code> from it. Or, it directly declares that it collects all three concepts. This is necessary to ensure the interpretation that using <code>PassportPhoto</code> means having access to and using all of its subsequent personal data categories.</p>
+      <p>While this is one possible solution, other methods exist, such as explicitly declaring the data categories and their encapsulation within one another, such as by reusing <code>hasPersonalData</code> or creating additional properties (e.g. <code>containsData</code>) to indicate a personal data concept, i.e. the passport photo, <em>contains</em> information associated through the relation, i.e. name, age, etc. We welcome discussions regarding both these methods.</p>
+    </div>
     <aside class="example" title="Specifying personal data">
 <p>This example shows how personal data can be specified by for a work email address in four methods: (1) by using the PD taxonomy, (2) extending a concept from PD taxonomy,(3) specifying the exact value of email address, and (4) using external vocabularies such as schema.org. In all of these, it is strongly recommended to include a DPV concept (i.e. declare it as Personal Data) for interoperability, and to align it with the DPV and PD taxonomies where relevant (e.g. to mention it is an email address, or to specify it is identifier, or that it is sensitive - which it is not in this case)    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
     <span style="color: #3D7B7B; font-style: italic"># method 1: directly use concept from PD</span>
@@ -646,8 +655,17 @@ link: <a href="https://w3id.org/dpv/examples/E0044.ttl">source file</a>;      co
 <section id="sensitive-special-data">
   <h2>Sensitive &amp; Special Data</h2>
   <p>Some personal data categories are sensitive. To indicate this, the concept [=SensitivePersonalData=] is used. It is important to recognise and document data when it is sensitive as it can require additional considerations such as enhanced technical and organisational measures, and appropriate privacy and data protection impact assessments.</p>
+  <div class="note">
+      <p>DPV currently categorises personal data as sensitive based on existing research and literature, and as special categories based on [[GDPR]] Article 9. Both are subject to expansion in the future based on requirements and technological progress, and we welcome well-formed proposals for the same.</p>
+    </div>
   <p>[=SpecialCategoryPersonalData=] represents those sensitive categories which are regulated by law i.e. their use is regulated and requires additional considerations and obligations, such as under [[GDPR]] Article 9 which prohibits their use unless specific conditions are met, and also requires conducting a data protection impact assessment (DPIA) for certain cases where they are involved.</p>
   <p>The PD taxonomy uses the GDPR Article 9 definition to denote specific concepts as belonging to special categories of personal data, and due to the way the taxonomy is hierarchical in nature, all concepts extending such concepts are also considered (sensitive and) special categories. For example, `Biometric` is a special category, which is further extended as `FacialPrint` - which is also considered as a special category due to being biometric data.</p>
+  <div class="note" title="PII and Sensitivity of Data">
+      <p><i>PII</i> (Personally Identifiable Information) and <i>Sensitivity</i> of data are common concepts in relation to use of personal data. PII is a term with variable definitions depending on the particular interpretation of <i>personal</i> and <i>identifiable</i>. While ISO standards define PII as a concept closer to the <i>personal data</i> definition within DPV, this term can still result in confusion and ambiguity. DPV therefore defines <code>IdentifyingPersonalData</p> to explicitly denote that some data 'identifies' a person.</code>
+      <p>DPV provides the <code>SensitivePersonalData</code> concept, and to indicate the degree of sensitivity, we recommend using the <code>SensitivityLevel</code> concept and associate it with <code>hasSensitivityLevel</code>.</p>
+    </div>
+  <p>The sensitivity of personal data can be <i>universal</i>, where that data is always sensitive, or <i>contextual</i>, which means a use-case needs to declare it as such. For indicating personal data is sensitive (or special), it is sub-typed or declared as an instance of <code>SensitivePersonalData</code>, as shown in the example below.</p>
+      <p>In using these concepts, it is important to note that <strong>DPV's modelling of sensitive and special categories is non-exhaustive</strong> and as such should not be taken as an authoritative fact or a 'source of truth'. To assist with better identifying sensitive concepts, work is ongoing within DPV to identify and provide a reference list of (potentially) sensitive and special categories, and we welcome contributions for the same.</p>
   <aside class="note" title="Enhancing the sensitive &amp; special data taxonomies in PD">
     <p>The DPVCG welcome discussions and contributions to further expand the sensitive and special data taxonomies in DPV e.g. by identifying existing concepts that are sensitive or special categories, or by providing new concepts which are sensitive or special or both.</p>
   </aside>
@@ -702,11 +720,19 @@ link: <a href="https://w3id.org/dpv/examples/E0045.ttl">source file</a>;      co
 <section id="anonymised-data">
   <h2>Anonymised Data</h2>
   <p>[=AnonymisedData=] refers to anonymisation, which is a data de-identification technique whereby any information which can be used to identify the individual, either by itself or in combination with other information - which may be present in the same dataset or outside it, is removed to prevent any possibility of attributing the data to the person it is about. From this, it is clear that the bar for 'true' or 'effective' anonymisation is very high. Anonymised data is no longer considered personal data, and is therefore non-personal data.</p>
+  <p>To specify data is anonymised, DPV provides two concepts. <code>AnonymisedData</code> for when data is completely anonymised and cannot be de-anonymised, which is a subtype of <code>NonPersonalData</code>. And, <code>PseudonymisedData</code> for when data has only been partially anonymised or de-anonymisation is possible, which is a subtype of <code>PersonalData</code>.</p> 
   <p>When data undergoes a partial anonymisation process i.e. it is not completely anonymised, and there is a possibility of re-identification, but it is unlikely for this to happen within the use-case, and where the use-case wishes to treat such data as 'contextually anonymised', the concept [=ContextuallyAnonymisedData=] is provided. Transferring such data outside the context results in the data no longer being anonymous, and it must be treated as personal data.</p>
   <p>[=PseudonymisedData=] is data that has gone a partial or incomplete anonymisation process by replacing the identifiable information with artificial identifiers or 'pseudonyms'. Using such pseudonyms (e.g. IP addresses or fingerprinting techniques) does not render the data anonymous, and it still remains personal data as long as re-identification or association with an individual is possible.</p>
   <aside class="note" title="Caution when using anonymisation concepts">
     <p>It is advised to carefully consider before using [=AnonymisedData=] for indicating data is fully or completely anonymised by determining whether the data by itself or in combination with other data can identify a person. If the identifiers in the data have been replaced with other identifiers, then the data should be denoted as [=PseudonymisedData=]. To indicate data is anonymised only for a specified entity (e.g. within an organisation) or context (e.g. within a particular dataset), the concept [=ContextuallyAnonymisedData=] (as subclass of [=PseudonymisedData=]) should be used instead of [=AnonymisedData=]. </p>
   </aside>
+  <p>It is important to note that these definitions can be contextually difficult to apply or interpret. For example, consider the case where some data is indicated as being <i>anonymised</i> by itself without any available information to de-anonymise it. Though this can be considered as anonymised data, if there were to exist an external method or dataset that when combined with the anonymised dataset provides de-anonymised information - then this does not fit the definition of anonymised data.</p>
+  <p>Therefore, when indicating <i>AnonymisedData</i>, the understanding is that it is completely anonymised. Otherwise, given that regulations targeting <i>PersonalData</i> do not apply over anonymised data, the labelling of anonymised or contextually anonymised data may lead to misleading representation and violating obligations.</p>
+  <section id="nonpersonal-synthetic-data">
+      <h4>Non-Personal and Synthetic Data</h4>
+      <p>While the focus of DPV is on <i>Personal Data</i>, there may be a need to represent <i>Non-Personal Data</i> within the same contextual use-cases. For example, if the personal data has been fully, completely, and irreversibly anonymised, then it can no longer be said to be personal data. To enable this, and other representations, DPV provides the concept <code>Data</code> to represent any data, with subtypes <code>PersonalData</code> and <code>NonPersonalData</code>. Using these as annotations can assist in clearly indicating which data should be protected, or protected with more severe measures, or to determine the scope of regulations which only apply over operations involving personal data.</p>
+      <p><code>Data</code> is further subtyped as <code>SyntheticData</code> - a new concept that represents generated data intended to <i>mimic</i> personal data within a system so as to aid in development and testing without using actual or real personal data. Since such synthetic data may be used in systems that assume it is personal data, it has not been declared as a specific category of personal or non-personal data to permit its use as either.</p>
+    </section>
 </section>
 
 <section id="data-source">
@@ -3815,6 +3841,6 @@ link: <a href="https://w3id.org/dpv/examples/E0046.ttl">source file</a>;      co
   <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
-<script type="text/javascript" src="../../media/common.js" defer></script>
+<script type="text/javascript" src="../../diagrams/common.js" defer></script>
 </body>
 </html>

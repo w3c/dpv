@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Legal Basis</title>
-  <link rel="stylesheet" type="text/css" href="../../media/common.css">
+  <link rel="stylesheet" type="text/css" href="../../diagrams/common.css">
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   <script class="remove">
    // All config options at https://respec.org/docs/ 
@@ -367,7 +367,7 @@
   <section id="vocab-legal-basis">
     <h2>Introduction</h2>
   <figure>
-    <img src="../../media/legal_bases.png">
+    <img src="../../diagrams/legal_bases.png">
     <figcaption>Legal Bases in DPV</figcaption>
   </figure>
   <p>DPV provides the following categories of legal bases based on [[GDPR]] Article 6: consent of the data subject, contract, compliance with legal obligation, protecting vital interests of individuals, legitimate interests, public interest, and official authorities. Though derived from GDPR, these concepts can be applied for other jurisdictions and general use-cases. The legal bases are represented by the concept [=LegalBasis=] and associated using the relation [=hasLegalBasis=].</p>
@@ -484,7 +484,7 @@
 </ul>
   </li>
 </ul></div>
-
+  <div class="note"><p>When using legal bases, we advise careful consideration whether the information to be represented is regarding a specific instance (e.g. consent of a specific individual) or a general category (e.g. contract with service consumer/users), and to utilise DPV concepts accordingly.</p></div>
     <aside class="example" title="Denoting Legal Basis within a Process">
 <p>The <code>LegalBasis</code> can be associated with any concept using the relation <code>hasLegalBasis</code>. Such associations are of three types: (1) where the legal basis refers to an instance, such as the consent or contract associated with a particular data subject; (2)  where the legal basis refers to the category that will be used to justify processing, such as the concept <i>consent</i> to denote consent will be the basis for indicated processing; and lastly (3) where the legal basis is defined with a context, such as <i>consent of service consumers</i>.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># 1: instance of legal basis</span>
 <span style="color: #3D7B7B; font-style: italic"># interpretation: consent of user #00145667 is the legal basis</span>
@@ -598,10 +598,12 @@ link: <a href="https://w3id.org/dpv/examples/E0042.ttl">source file</a>;      co
   <section id="vocab-legal-basis-consent">
     <h3>Consent</h3>
       <figure>
-      <a href="../../media/Consent.png"><img src="../../media/Consent.png"></a>
+      <a href="../../diagrams/Consent.png"><img src="../../diagrams/Consent.png"></a>
       <figcaption></figcaption>
     </figure>
-    <p>Consent in DPV is a specific legal basis representing <i>information associated with consent</i> rather than only <i>given consent</i>. Common information associated with consent includes tasks such as keeping track of whether "consent has been given/obtained", "issuing a consent request", and "withdrawing consent", as well as expressing requirements through terms such as "informed" and "explicit". To assist with representing these concepts as well as keeping records about how they are being applied, DPV provides the following consent concepts.</p>
+    <p><code>Consent</code> is an important legal basis given its emphasis on individual empowerment and control, as well as the attention and relevance it receives from being part of direct interactions with individuals. Consent in DPV is a specific legal basis representing <i>information associated with consent</i> rather than only <i>given consent</i>. Common information associated with consent includes tasks such as keeping track of whether "consent has been given/obtained", "issuing a consent request", and "withdrawing consent", as well as expressing requirements through terms such as "informed" and "explicit". DPV provides concepts for representing information about how consent, as a legal basis, is utilised (by the Controller), provided or given (by the Data Subject), how long it is considered to be valid (its duration), and how it can be withdrawn. It also provides concepts related to management of information, such as keeping track of whether the consent has been requested, was refused, or has been given. This information can be utilised in applications associated with consent, such as creating a ‘record’ of consent or building and executing rules for compliance.</p>
+    <p><p>Given the reliance of consent as a legal basis whose validity is associated with requirements and obligations based on jurisdictional laws, DPV does not explicitly provide constraints on what should be considered a ‘valid’ consent. Instead, it focuses on providing declaration of information about consent so as to aid in the determination of its validity, and to record its use and changes over time. Further information concerning compliance obligations and requirements related to consent are considered within the scope of the DPVCG, and we welcome contributions on how this can be represented in a coherent manner that is compatible with the rest of DPV.</p>
+    <p>To assist with representing these concepts as well as keeping records about how they are being applied, DPV provides the following consent concepts.</p>
     <ul>
       <li>[=Consent=] - a type of legal basis representing consent of the individual.</li>
       <li><a href="#vocab-legal-basis-consent-types">Consent Types</a> - to represent criteria for consent, such as [=InformedConsent=] and [=ExplicitlyExpressedConsent=].</li>
@@ -659,8 +661,22 @@ link: <a href="https://w3id.org/dpv/examples/E0016.ttl">source file</a>;      co
     </small></p>
   </aside>
 
+    <aside class="note" title="Guide on implementing consent records as per ISO/IEC TS 27560:2023">
+      <p>The [[[DPV-27560]]] provides guidance on creation of consent records following the [[[ISO-27560]]] standard.</p>
+    </aside>
+    <aside class="issue" data-number="91"></aside>
     <section id="vocab-legal-basis-consent-types">
       <h4>Consent Types</h4>
+      <p>By default, consent is expected to adhere to several requirements such as being informed, freely given, and so on - typically defined within law or other relevant guidelines, that determine how it is requested, expressed, and evaluated for validity. In DPV, these are referred to as <i>types of consent</i>.</p>
+       <p>DPV provides <code>InformedConsent</code> and <code>UninformedConsent</code> as two distinct concepts related to whether the consent is informed or not. For more types of informed consent, the concept <code>ImpliedConsent</code> specifies when consent is indirectly expressed or is assumed, and <code>ExpressedConsent</code> for when the individual specifically takes an action to (only) express their consent. The difference between the two can be better understood as follows: if the individual performs an action, and that action only relates to consent, then it is said to be <i>expressed consent</i>, whereas if that action also relates to other matters in addition to being about consent, then the interaction is said to be <i>implied (form of) consent</i>. Clicking a button on a consent notice is a direct action and is thus a form of expressed consent. Assuming consent based on continued scrolling of a web page is an indirect or assumed action, and is thus implied consent.</p>
+       <div class="note" title="Implied Consent in DPV is not the same as Medical Implied Consent">
+          <p>In medical terminology, "<a href="https://en.wikipedia.org/wiki/Implied_consent#Medical_care"><i>implied consent</i></a>" is an assumption that the person's consent is present so as to avoid the restrictions of collecting consent prior to any (emergency)treatment. This is not the case with privacy and data protection perspectives, where 'implied consent', no matter how well intentioned the purpose may be, should not be considered 'assumed' without any specific action.</p>
+          <p>Therefore, we welcome well reasoned arguments and concrete proposals to express other types of consent, including justifications for where concepts such as <code>AssumedConsent</code> may be useful and have a basis in a law or other authoritative source.</p>
+        </div>
+      <p>When the expressed action for consent only (and only) refers to matters related to consent, then such consent is represented by <code>ExplicitlyExpressedConsent</code>. For example, if a button for expressing consent relates to conveying decisions about consent, but also other things such as to navigate to the next page, then this is a clear and specific action for expressing consent. However, if such a button only relates to indicating consent, then it is <i>explicitly about consent</i>, and is thus an instance of <i>Explicitly Expressed Consent</i>.</p>
+      <div class="note" title="Explicit consent in DPV, ISO, and GDPR">
+        <p>The term <i>explicit consent</i> is present in both ISO as well as GDPR and other laws. However, definitions differ significantly and are incompatible with each other. For example, what ISO considers 'explicit' would be 'expressed' (or regular) under GDPR. The approach taken by DPV is intentional towards enabling such variations to be expressed in specific extensions by building on top of the core vocabulary concepts. For example, the [[EU-GDPR]] extension defines <code>A6-1-a-explicit-consent</code> and <code>A9-2-a</code> as subtypes of <code>ExplicitlyExpressedConsent</code> based on the specific requirements and criteria defined by GDPR.</p>
+      </div>
       <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:InformedConsent</strong>: Consent that is informed i.e. with the requirement to provide sufficient information to make a consenting decision
@@ -690,10 +706,28 @@ link: <a href="https://w3id.org/dpv/examples/E0016.ttl">source file</a>;      co
       
   </li>
 </ul></div>
+        <aside class="example" title="Using consent types">
+<p>This example shows use of DPV consent types to distinguish between &#39;expressed&#39; and &#39;explicitly expressed&#39; consent    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Approach 1: specifying a specific consent type is required as legal basis</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ExplicitlyExpressedConsent</span> .
+
+<span style="color: #3D7B7B; font-style: italic"># Approach 2: creating instances of consent</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UserConsent</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ExpressedConsent</span> .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0018"><code>E0018</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0018.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
     </section>
 
     <section id="vocab-legal-basis-consent-status">
       <h4>Consent Status</h4>
+      <p>The state or status of <i>consent</i> refers to the stage of information about a particular consent instance within its lifecycle. For example, (given) consent first starts with the identification of need to ask consent, then issuing a request (to the individual), making a decision (by the individual), and then following it up with further actions such as the individual withdrawing it. Keeping track of such information is necessary in order to determine whether the current stage of consent information is suitable for its use in justifying processing of personal data governed by that consent, as well as to fulfil obligations such as to keep records of consent. To assist with such consent information management, DPV provides <i>Consent Status</i> as a way to represent the lifecycle and usefulness of an instance towards processing personal data.</p>
+      <p>DPV's Consent Statuses are represented by <code>ConsentStatus</code> and indicated using <code>hasConsentStatus</code> relation. The statuses are segregated into two categories based on their interpretation towards processing: <code>ConsentStatusValidForProcessing</code> and <code>ConsentStatusInvalidForProcessing</code>. There are (currently) only two statuses that are valid for processing: <code>ConsentGiven</code> representing the individual has consented, and <code>RenewedConsentGiven</code> where an earlier given consent is <i>renewed</i>, <i>refreshed</i>, or <i>reaffirmed</i>.</p>
+      <p>The rest of (currently) 8 statuses refer to various stages that are considered invalid for processing. These are: <code>ConsentUnknown</code> for when information about the status is unknown or unconfirmed, <code>ConsentRequested</code> for when a request to obtain or give consent has been made, <code>ConsentRequestDeferred</code> for when the request was opted to be dismissed or delayed without a decision, <code>ConsentRefused</code> for when consent was refused, <code>ConsentExpired</code> for when the validity (temporal or otherwise) associated with a given consent instance has lapsed, <code>ConsentInvalidated</code> for when a given consent instance is found invalid e.g. by a court, <code>ConsentRevoked</code> for when a given consent instance is revoked or terminated such as when a service provider stops providing the service, and <code>ConsentWithdrawn</code> for when the individual withdraws a previously given consent.</p>
       <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:ConsentStatusInvalidForProcessing</strong>: States of consent that cannot be used as valid justifications for processing data
@@ -760,6 +794,22 @@ link: <a href="https://w3id.org/dpv/examples/E0016.ttl">source file</a>;      co
 </ul></div>
     </section>
 
+    <section id="vocab-legal-basis-consent-indication">
+      <h4>Consent Indication</h4>
+      <p>To indicate which entity is responsible for a specific consent stage (e.g. individual for given consent, requestor for consent requested), the relation <code>isIndicatedBy</code> is provided. It can be used with any <code>Entity</code> such as <code>DataSubject</code> or its subtypes such as <code>User</code> or specific instances of these to record information regarding who was responsible for the indicated status and consent action. To indicate the method by which an entity has indicated the specific consent, the relation <code>hasIndicationMethod</code> is provided. To indicate the time (or similar temporal information), the relation <code>isIndicatedAtTime</code> is provided.</p>
+      <div class="note" title="Common legal concepts/properties">
+        <p>The concepts and relations mentioned here regarding consent, such as <i>isIndicatedBy</i>, are also applicable and suitable for use with other legal bases or actions, such as contracts, legal requests, or exercising rights. Therefore, these can also be used in other contexts as deemed suitable. We are working on providing specific concepts and guidance for more detailed representation of information for such other legal bases and actions.</p>
+      </div>
+      <p>To specify consent provided by delegation, such as in the case of a parent or guardian providing consent for/with a child, the <code>isIndicatedBy</code> relation can be used to associate the parent or guardian responsible for providing consent (or its affirmation). Since by default the consent is presumed to be provided by the individual, when such individuals are associated with their consent, i.e. through <code>hasDataSubject</code>, the additional information provided by <code>isIndicatedBy</code> can be considered redundant and is often omitted.</p>
+      <p>To indicate how consent is to be provided or withdrawn e.g. how should an individual express or withdraw their consent, DPV provides <i>Consent Controls</i> as: <code>ProvideConsent</code> for the individual to provide or give their consent, <code>ObtainConsent</code> for the organisation to obtain or collect consent from the individual, <code>WithdrawConsent</code> for the individual to withdraw their given consent, and <code>ReaffirmConsent</code> for entities to re-affirm their previously provided or obtained consent. To indicate how to implement the action e.g. provide consent, the relation <code>isExercisedAt</code> should be used.</p>
+    </section>
+
+    <section>
+      <h4>Duration of Consent</h4>
+      <p>To indicate the duration or validity of a given consent instance, the existing contextual relation <code>hasDuration</code> along with specific forms of <code>Duration</code> can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype <code>UntilEventDuration</code> can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, <code>UntilTimeDuration</code> indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and <code>TemporalDuration</code> indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, <code>EndlessDuration</code> can be used.</p>
+      <p>While the above information considered <i>duration</i> as determining the validity of given consent, there are also other uses of duration associated with consent. For example, the duration information is intended to be a trigger to confirm or renew consent instead of rendering it invalid immediately. Or, the duration associated with <i>ConsentRequested</i> could be used to indicate when consent should be requested again.</p>
+    </section>
+
     <section id="vocab-legal-basis-consent-controls">
       <h4>Consent Controls</h4>
       <ol>
@@ -769,10 +819,6 @@ link: <a href="https://w3id.org/dpv/examples/E0016.ttl">source file</a>;      co
         <li>[=ReaffirmConsent=] for controllers and data subjects to reaffirm consent (use with [=ObtainConsent=] or [=ProvideConsent=])</li>
       </ol>
     </section>
-    <aside class="note" title="Guide on implementing consent records as per ISO/IEC TS 27560:2023">
-      <p>The [[[DPV-27560]]] provides guidance on creation of consent records following the [[[ISO-27560]]] standard.</p>
-    </aside>
-    <aside class="issue" data-number="91"></aside>
       <aside class="example" title="Using consent types">
 <p>This example shows use of DPV consent types to distinguish between &#39;expressed&#39; and &#39;explicitly expressed&#39; consent    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Approach 1: specifying a specific consent type is required as legal basis</span>
 <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
@@ -884,7 +930,6 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 
 <section>
   <h2>Vocabulary Index</h2>
-  <div class="issue" title="Missing concepts for terms defined in main vocabulary e.g. dpv:Context"></div>
   <section id="classes">
     <h3>Classes</h3>      
       
@@ -5226,6 +5271,6 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
   <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
-<script type="text/javascript" src="../../media/common.js" defer></script>
+<script type="text/javascript" src="../../diagrams/common.js" defer></script>
 </body>
 </html>
