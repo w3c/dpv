@@ -1,0 +1,72 @@
+@startuml
+!include style.plantuml
+left to right direction
+
+class Thing #silver
+package dpv {
+	class LegalBasis
+	class Consent
+	class InformedConsent
+	class ExpressedConsent
+	class ExplicitlyExpressedConsent
+	class ImpliedConsent
+	class UninformedConsent
+
+	class ConsentStatus
+	class ConsentStatusInvalidForProcessing
+	class ConsentStatusValidForProcessing
+	class ConsentExpired
+	class ConsentInvalidated
+	class ConsentRefused
+	class ConsentRequestDeferred
+	class ConsentRequested
+	class ConsentRevoked
+	class ConsentUnknown
+	class ConsentWithdrawn
+	class ConsentGiven
+	class RenewedConsentGiven
+
+	class ConsentControl
+	class ObtainConsent
+	class ProvideConsent
+	class ReaffirmConsent
+
+	class DataSubject
+	class Entity
+}
+
+Thing -- LegalBasis: hasLegalBasis >
+LegalBasis <|-l- Consent
+Consent -- Entity : isIndicatedBy >
+Consent -- DataSubject: hasDataSubject >
+Entity <|-- DataSubject
+
+Consent -- ConsentStatus: hasConsentStatus >
+Consent -- ConsentControl: hasConsentControl >
+ConsentStatus <|-- ConsentStatusValidForProcessing
+ConsentStatus <|-- ConsentStatusInvalidForProcessing
+
+ConsentControl <|-- ObtainConsent
+ConsentControl <|-- ProvideConsent
+ConsentControl <|-- ReaffirmConsent
+
+Consent <|-- InformedConsent
+InformedConsent <|-- ExpressedConsent
+ExpressedConsent <|-- ExplicitlyExpressedConsent
+InformedConsent <|-- ImpliedConsent
+Consent <|-- UninformedConsent
+
+ConsentStatusInvalidForProcessing <|-- ConsentExpired
+ConsentStatusInvalidForProcessing <|-- ConsentInvalidated
+ConsentStatusInvalidForProcessing <|-- ConsentRefused
+ConsentStatusInvalidForProcessing <|-- ConsentRequestDeferred
+ConsentStatusInvalidForProcessing <|-- ConsentRequested
+ConsentStatusInvalidForProcessing <|-- ConsentRevoked
+ConsentStatusInvalidForProcessing <|-- ConsentUnknown
+ConsentStatusInvalidForProcessing <|-- ConsentWithdrawn
+ConsentStatusValidForProcessing <|-- ConsentGiven
+ConsentStatusValidForProcessing <|-- RenewedConsentGiven
+
+
+
+@enduml

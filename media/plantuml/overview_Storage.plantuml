@@ -1,0 +1,33 @@
+@startuml
+!include style.plantuml
+top to bottom direction
+
+class Thing #silver
+package dpv {
+	class ProcessingCondition
+	class ProcessingLocation
+	class ProcessingDuration
+	class StorageDuration
+	class StorageLocation
+	class StorageDeletion
+	class StorageRestoration
+	class StorageCondition
+}
+Thing -r- StorageCondition: hasStorageCondition >
+Thing -r- ProcessingCondition: hasProcessingCondition >
+Thing -r- StorageDuration : hasDuration >
+Thing -r- StorageLocation: hasLocation >
+Thing -r- ProcessingDuration : hasDuration >
+Thing -r- ProcessingLocation: hasLocation >
+
+StorageCondition <|-- StorageDuration
+StorageCondition <|-- StorageLocation
+StorageCondition <|-- StorageDeletion
+StorageCondition <|-- StorageRestoration
+ProcessingCondition <|-- StorageCondition
+ProcessingCondition <|-- ProcessingLocation
+ProcessingCondition <|-- ProcessingDuration
+ProcessingLocation <|-- StorageLocation
+ProcessingDuration <|-- StorageDuration
+
+@enduml
