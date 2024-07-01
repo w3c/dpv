@@ -1,25 +1,24 @@
 # DPVCG
-Data Privacy Vocabularies and Controls Community Group (DPVCG) repository
+Data Privacy Vocabularies and Controls Community Group (DPVCG) repository containing
+specifications for Data Privacy Vocabulary (DPV) and its extensions, primer, and guides,
+and group meeting minutes.
 
-[Community Group](https://www.w3.org/community/dpvcg/) | [(W3C) wiki](https://www.w3.org/community/dpvcg/wiki/Main_Page)
-  
-> **DPV 2.0 Beta Release**
+links: [Community Group](https://www.w3.org/community/dpvcg/) | [GitHub wiki](https://github.com/w3c/dpv/wiki/)
+
+> **Announcement: DPV 2.0 Beta Release**
 >
-> DPV 2.0 release is complete and is now being provided in _beta_ mode for feedback. The period for feedback is until 31 July. The completed 2.0 release will be published after this on 01 August - unless major issues are identified. 
-> 
-> See the [v2 changelog](https://w3id.org/dpv/2.0/changelog). The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. Versioned IRIs have been created to refer to specific versions, with https://w3id.org/dpv/1.0 for v1 and https://w3id.org/dpv/2.0 for v2. The versionless IRI https://w3id.org/dpv will always point to the latest version. 
-> 
-> The draft article [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Pandit et al. (2024) describes DPV v2 in terms of its contents, methodology, current adoptions and uses, and future potential. It also describes the relevance and role of DPV in acting as a common vocabulary to support various regulatory (e.g. EU's DGA and AI Act) and community initiatives (e.g. Solid) emerging across the globe
+> ![Static Badge](https://img.shields.io/badge/DPV-version%202.0-green?labelColor=black) release is complete and is now being provided in _beta_ mode for feedback. The **period for feedback is until 31 July**. The completed 2.0 release will be published after this on 01 August - unless major issues are identified. See the [v2 changelog](https://w3id.org/dpv/2.0/changelog). The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. Versioned IRIs have been created to refer to specific versions, with https://w3id.org/dpv/1.0 for v1 and https://w3id.org/dpv/2.0 for v2. The versionless IRI https://w3id.org/dpv will always point to the latest version.  The draft article [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Pandit et al. (2024) describes DPV v2 in terms of its contents, methodology, current adoptions and uses, and future potential. It also describes the relevance and role of DPV in acting as a common vocabulary to support various regulatory (e.g. EU's DGA and AI Act) and community initiatives (e.g. Solid) emerging across the globe
+
+> ![Static Badge](https://img.shields.io/badge/DPV-version%201.0-red?labelColor=black) is available under a new versioned IRI for continued use - though the DPVCG recommends using the latest version of DPV. See the  See the [v2 changelog](https://w3id.org/dpv/2.0/changelog) for more details.
 
 The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to develop a taxonomy of privacy and data protection related terms, which include in particular terms from the new European General Data Protection Regulation (GDPR), such as a taxonomy of personal data as well as a classification of purposes (i.e., purposes for data collection), and events of disclosures, consent, and processing such personal data.
 
-> Newcomers to the DPV are recommended to start with the [Primer](https://w3id.org/dpv/primer) to familiarise themselves with the concepts, semantics, and usefulness of the DPV.
-
 License: All work produced by DPVCG and provided through this repo or elsewhere is provided by contributors under the [W3C Document License](https://www.w3.org/copyright/software-license-2023/). A copy of the license is provided in the [LICENSE.md](./LICENSE.md) file.
 
-[Guidelines for contributing new concepts, identified bugs and issues, and suggestions](https://github.com/w3c/dpv/wiki/contributing)
+[Guidelines for suggesting new concepts, identifying bugs and issues, and sending patches or PRs](https://github.com/w3c/dpv/wiki/contributing)
 
 ## Specifications
+Newcomers to the DPV are recommended to start with the [Primer](https://w3id.org/dpv/primer) to familiarise themselves with the concepts, semantics, and usefulness of the DPV. A [Concise Primer](https://w3id.org/dpv/primer) is also available for a quick (2-pager) introduction to DPV.
 ### Data Privacy Vocabulary (DPV)
 The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) provides an ontology (classes and properties) and taxonomies of concepts to represent information regarding how personal data is processed in the form of an ontology or a knowledge graph. For example, it provides taxonomies associated with:
 
