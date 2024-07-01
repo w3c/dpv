@@ -18,6 +18,7 @@ fi
 # MODE="https://w3id.org/dpv"
 # MODE="http://localhost:8000"
 MODE="https://dev.dpvcg.org/2.0"
+MODE="localhost:8000/2.0"
 
 FILES=(
     # core specs
@@ -43,20 +44,20 @@ FILES=(
     "$MODE/legal/in/index.html"
     "$MODE/legal/us/index.html"
     # misc
-    "$MODE/primer/index.html"
-    "$MODE/use-cases/index.html"
+    "$MODE/../primer/index.html"
+    "$MODE/../use-cases/index.html"
     "$MODE/examples/index.html"
-    "$MODE/guides/index.html"
-    "$MODE/guides/dpv-owl.html"
-    "$MODE/guides/consent-27560.html"
-    "$MODE/guides/gdpr-data-breach.html"
-    "$MODE/guides/gdpr-dpia.html"
-    "$MODE/guides/gdpr-ropa.html"
-    "$MODE/guides/notice-29184.html"
-    "$MODE/guides/rights.html"
-    "$MODE/guides/dpv-misc.html"
-    "$MODE/guides/dpv-odrl.html"
-    "$MODE/guides/dpv-skos.html"
+    "$MODE/../guides/index.html"
+    "$MODE/../guides/dpv-owl.html"
+    "$MODE/../guides/consent-27560.html"
+    "$MODE/../guides/gdpr-data-breach.html"
+    "$MODE/../guides/gdpr-dpia.html"
+    "$MODE/../guides/gdpr-ropa.html"
+    "$MODE/../guides/notice-29184.html"
+    "$MODE/../guides/rights.html"
+    "$MODE/../guides/dpv-misc.html"
+    "$MODE/../guides/dpv-odrl.html"
+    "$MODE/../guides/dpv-skos.html"
     )
 
 DPV_MODULES=(
@@ -86,5 +87,5 @@ done
 
 for i in "${!FILES[@]}"
 do
-    echo ${FILES[i]}
+    xdg-open ${FILES[i]}
 done

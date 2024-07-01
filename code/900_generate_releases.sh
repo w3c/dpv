@@ -22,7 +22,10 @@ VERSION="2.0"
 
 cd ..
 mkdir -p releases
+mv $VERSION dpv
+zip -q releases/dpv.zip -r dpv
+mv dpv $VERSION
+cd code
 
-# 1. dpv.zip - DPV + Extensions as SKOS vocabulary
-zip -q releases/dpv.zip -r $VERSION/dpv $VERSION/ai $VERSION/justifications $VERSION/legal $VERSION/loc $VERSION/pd $VERSION/risk $VERSION/tech
 echo "generated releases/dpv.zip"
+# END
