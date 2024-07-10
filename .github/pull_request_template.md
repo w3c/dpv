@@ -1,0 +1,3 @@
+# Pull Request
+
+> **Important Note**: If your PR only includes commits to the RDF and HTML files directly - it will not be accepted. DPV's documentation generation happens via a workflow consisting of managing spreadsheets used for discussions, which are then used to generate the RDF and HTML. A PR adding/fixing something only in the 'output' will not be in snyc with the 'input'. Instead, please [open a new issue](https://github.com/w3c/dpv/issues/new) with the suggested changes. Attribution will be provided in commits for such changes e.g. Authored-by or Co-authored-by "Person". In case of questions, please [reach out to the maintainer](me@harshp.com) on how to best proceed.
