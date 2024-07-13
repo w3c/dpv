@@ -1064,6 +1064,54 @@ RDF_EXPORT_HOOK = {
     ],
 }
 
+# === guides ===
+GUIDES = {
+    'Primer': {
+        'template': 'template_primer.jinja2',
+        'output': '../primer/index.html',
+    },
+    'Consent-27560': {
+        'template': 'template_guides_consent_27560.jinja2',
+        'output': '../guides/consent-27560.html',
+    },
+    'Notice-29184': {
+        'template': 'template_guides_privacy_notice_29184.jinja2',
+        'output': '../guides/notice-29184.html',
+    },
+    'GDPR-ROPA': {
+        'template': 'template_guides_gdpr_ropa.jinja2',
+        'output': '../guides/gdpr-ropa.html',
+    },
+    'GDPR-DPIA': {
+        'template': 'template_guides_gdpr_dpia.jinja2',
+        'output': '../guides/gdpr-dpia.html',
+    },
+    'GDPR-Data-Breach': {
+        'template': 'template_guides_gdpr_data_breach.jinja2',
+        'output': '../guides/gdpr-ropa.html',
+    },
+    'DPV-ODRL': {
+        'template': 'template_guides_dpv_odrl.jinja2',
+        'output': '../guides/dpv-odrl.html',
+    },
+    'DPV-OWL': {
+        'template': 'template_guides_owl2.jinja2',
+        'output': '../guides/dpv-owl.html',
+    },
+    'DPV-SKOS': {
+        'template': 'template_guides_dpv_skos.jinja2',
+        'output': '../guides/dpv-skos.html',
+    },
+    'DPV-MISC': {
+        'template': 'template_guides_dpv_miscformats.jinja2',
+        'output': '../guides/dpv-miscformats.html',
+    },
+    'Rights': {
+        'template': 'template_guides_rights.jinja2',
+        'output': '../guides/rights.html',
+    },
+}
+
 # === examples ===
 EXAMPLES = {}
 

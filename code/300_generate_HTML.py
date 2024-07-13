@@ -880,28 +880,20 @@ if data and ':' in list(data.keys())[0]: # hack to detect repeated script call
 
 INFO('*'*40)
 
-INFO('Generating PRIMER')
-OUTPUT_PATH = '../primer/'
+INFO('Generating GUIDES')
 
-GUIDES = {
-    'index': {
-        'template': 'template_primer.jinja2',
-        'output': 'index.html',
-    },
-    # 'concise': {
-    #     'template': 'template_primer_short.jinja2',
-    #     'output': 'concise.html',
-    # },
-}
 for doc, data in GUIDES.items():
-    DEBUG(f'generating primer document {doc}')
+    DEBUG(f'generating guide: {doc}')
     template = data['template']
-    filepath = f"{OUTPUT_PATH}{data['output']}"
+    filepath = f"{data['output']}"
     with open(filepath, 'w') as fd:
         template = template_env.get_template(template)
         fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
-    INFO(f"wrote primer document {doc} at {filepath}")
-
+    INFO(f"wrote guide {doc} at {filepath}")
+with open('../guides/index.html', 'w') as fd:
+    template = template_env.get_template('template_guides_index.jinja2')
+    fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
+INFO(f"wrote guide {doc} at {filepath}")
 INFO('*'*40)
 
 INFO('Generating Search Index')
