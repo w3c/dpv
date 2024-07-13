@@ -17,15 +17,19 @@
 # unzip -l file to view list of files
 
 VERSION="2.0"
-# TODO: create 2 zips - for v1 and v2
-# TODO: add README to each v1 and v2 explaining the folder structure and the files contained in it
 
-cd ..
-mkdir -p releases
-mv $VERSION dpv
-zip -q releases/dpv.zip -r dpv
-mv dpv $VERSION
-cd code
+cd ../$VERSION
 
-echo "generated releases/dpv.zip"
+# Create ReSpec exported outputs for representing published documents
+# assuming respec is installed ; if not:
+# npm install --global respec
+# find $VERSION -type f -name *.html -exec respec --src {} --out {} \;
+
+# Create zip of release 
+mkdir -p ../releases
+zip -q ../releases/dpv-$VERSION.zip -r *
+
+cd ../code
+
+echo "generated releases/dpv-$VERSION.zip"
 # END
