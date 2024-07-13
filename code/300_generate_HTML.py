@@ -887,21 +887,21 @@ if data and ':' in list(data.keys())[0]: # hack to detect repeated script call
 
 INFO('*'*40)
 
-INFO('Generating GUIDES')
+# INFO('Generating GUIDES')
 
-for doc, data in GUIDES.items():
-    DEBUG(f'generating guide: {doc}')
-    template = data['template']
-    filepath = f"{data['output']}"
-    with open(filepath, 'w') as fd:
-        template = template_env.get_template(template)
-        fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
-    INFO(f"wrote guide {doc} at {filepath}")
-with open('../guides/index.html', 'w') as fd:
-    template = template_env.get_template('template_guides_index.jinja2')
-    fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
-INFO(f"wrote guide {doc} at {filepath}")
-INFO('*'*40)
+# for doc, data in GUIDES.items():
+#     DEBUG(f'generating guide: {doc}')
+#     template = data['template']
+#     filepath = f"{data['output']}"
+#     with open(filepath, 'w') as fd:
+#         template = template_env.get_template(template)
+#         fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
+#     INFO(f"wrote guide {doc} at {filepath}")
+# with open('../guides/index.html', 'w') as fd:
+#     template = template_env.get_template('template_guides_index.jinja2')
+#     fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
+# INFO(f"wrote guide {doc} at {filepath}")
+# INFO('*'*40)
 
 INFO('Generating Search Index')
 results_classes = list(DATA.graph.query("""

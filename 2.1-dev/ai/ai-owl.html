@@ -1,0 +1,990 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AI Technology Concepts</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "AI Technology Concepts",
+    subtitle: "version 2.1-dev - OWL serialisation",
+    publishDate: "",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
+    canonicalUri: "https://w3id.org/dpv/",
+    edDraftURI: "https://w3id.org/dpv/",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "ADAPT Centre, Dublin City University",
+    }
+    ],
+    authors: [      {
+        "name": "Delaram Golpayegani",
+        "company": "ADAPT Centre, Trinity College Dublin"
+      },
+      {
+        "name": "Harshvardhan J. Pandit",
+        "company": "ADAPT Centre, Dublin City University"
+      }
+],
+    localBiblio: {
+  "DPVCG": {
+    "href": "https://www.w3.org/community/dpvcg/",
+    "title": "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)"
+  },
+  "DPV": {
+    "href": "https://w3id.org/dpv",
+    "title": "Data Privacy Vocabulary (DPV) Specification"
+  },
+  "EU-GDPR": {
+    "href": "https://w3id.org/dpv/legal/eu/gdpr",
+    "title": "EU GDPR concepts for DPV"
+  },
+  "EU-DGA": {
+    "href": "https://w3id.org/dpv/legal/eu/dga",
+    "title": "EU DGA concepts for DPV"
+  },
+  "EU-AIAct": {
+    "href": "https://w3id.org/dpv/legal/eu/aiact",
+    "title": "EU AI Act concepts for DPV"
+  },
+  "EU-NIS2": {
+    "href": "https://w3id.org/dpv/legal/eu/nis2",
+    "title": "EU NIS2 concepts for DPV"
+  },
+  "DPV-NACE": {
+    "href": "https://w3id.org/dpv/nace",
+    "title": "NACE Taxonomy serialised in RDFS/OWL"
+  },
+  "PD": {
+    "href": "https://w3id.org/dpv/pd",
+    "title": "Personal Data categories for DPV"
+  },
+  "TECH": {
+    "href": "https://w3id.org/dpv/tech",
+    "title": "Technology concepts for DPV"
+  },
+  "AI": {
+    "href": "https://w3id.org/dpv/ai",
+    "title": "AI Technology concepts for DPV"
+  },
+  "RISK": {
+    "href": "https://w3id.org/dpv/risk",
+    "title": "Risk Assessment and Management concepts for DPV"
+  },
+  "LOC": {
+    "href": "https://w3id.org/dpv/loc",
+    "title": "Location and Geo-Political Membership concepts for DPV"
+  },
+  "JUSTIFICATIONS": {
+    "href": "https://w3id.org/dpv/justifications",
+    "title": "Concepts representing Justifications for DPV"
+  },
+  "LEGAL": {
+    "href": "https://w3id.org/dpv/legal",
+    "title": "Legal Jurisdiction-relevant concepts for DPV"
+  },
+  "LEGAL-EU": {
+    "href": "https://w3id.org/dpv/legal/eu",
+    "title": "Legal concepts for European Union (EU)"
+  },
+  "LEGAL-US": {
+    "href": "https://w3id.org/dpv/legal/us",
+    "title": "Legal concepts for United States of America (USA)"
+  },
+  "LEGAL-GB": {
+    "href": "https://w3id.org/dpv/legal/gb",
+    "title": "Legal concepts for United Kingdom of Great Britain and Northern Ireland (UK)"
+  },
+  "LEGAL-IE": {
+    "href": "https://w3id.org/dpv/legal/ie",
+    "title": "Legal concepts for Ireland (IE)"
+  },
+  "LEGAL-IN": {
+    "href": "https://w3id.org/dpv/legal/in",
+    "title": "Legal concepts for India (IN)"
+  },
+  "LEGAL-DE": {
+    "href": "https://w3id.org/dpv/legal/de",
+    "title": "Legal concepts for Germany (DE)"
+  },
+  "EU-RIGHTS": {
+    "href": "https://w3id.org/dpv/legal/eu/rights",
+    "title": "EU Rights concepts for DPV"
+  },
+  "DPV-OWL": {
+    "href": "https://w3id.org/dpv/dpv-owl",
+    "title": "DPV serialised in OWL2"
+  },
+  "PRIMER": {
+    "href": "https://w3id.org/dpv/primer",
+    "title": "Primer for Data Privacy Vocabulary"
+  },
+  "PRIMER-concise": {
+    "href": "https://w3id.org/dpv/primer/concise",
+    "title": "Concise Primer for Data Privacy Vocabulary"
+  },
+  "DPV-ADOPTION": {
+    "href": "https://github.com/w3c/dpv/wiki/Adoption-and-Uses-of-DPVCG",
+    "title": "Adoption and Uses of DPV"
+  },
+  "GUIDES": {
+    "href": "https://w3id.org/dpv/guides",
+    "title": "Guides for DPV"
+  },
+  "GUIDE-Consent-27560": {
+    "href": "https://w3id.org/dpv/guides/consent-27560",
+    "title": "Consent Records and Receipts as per ISO/IEC TS 27560:2023 using DPV"
+  },
+  "GUIDE-Notice-29184": {
+    "href": "https://w3id.org/dpv/guides/notice-29184",
+    "title": "Privacy Notices as per ISO/IEC 29184:2020 using DPV"
+  },
+  "GUIDE-Notice": {
+    "href": "https://w3id.org/dpv/guides/notice",
+    "title": "Guide for Privacy Notices using DPV"
+  },
+  "GUIDE-Serialisations": {
+    "href": "https://w3id.org/dpv/guides/serialisations",
+    "title": "Guide on DPV's serialisations and semantics"
+  },
+  "GUIDE-SKOS": {
+    "href": "https://w3id.org/dpv/guides/dpv-skos",
+    "title": "Guide for using DPV with RDFS and SKOS"
+  },
+  "GUIDE-OWL2": {
+    "href": "https://w3id.org/dpv/guides/dpv-owl",
+    "title": "Guide for using DPV in OWL2"
+  },
+  "GUIDE-ODRL": {
+    "href": "https://w3id.org/dpv/guides/dpv-odrl",
+    "title": "Guide for using DPV with ODRL"
+  },
+  "GUIDE-MISCFORMAT": {
+    "href": "https://w3id.org/dpv/guides/dpv-misc",
+    "title": "Guide for using DPV in miscellaneous formats e.g. CSV, JSON"
+  },
+  "GUIDE-GDPR-DPIA": {
+    "href": "https://w3id.org/dpv/guides/gdpr-dpia",
+    "title": "Guide for GDPR DPIA's using DPV"
+  },
+  "GUIDE-GDPR-ROPA": {
+    "href": "https://w3id.org/dpv/guides/gdpr-ropa",
+    "title": "Guide for GDPR ROPA's using DPV"
+  },
+  "GUIDE-GDPR-DataBreach": {
+    "href": "https://w3id.org/dpv/guides/gdpr-data-breach",
+    "title": "Guide for GDPR Data Breach records, notifications, and assessments using DPV"
+  },
+  "GUIDE-Rights": {
+    "href": "https://w3id.org/dpv/guides/rights",
+    "title": "Guide for Rights Exercise and Management using DPV"
+  },
+  "DPV-27560": {
+      "href": "https://w3id.org/dpv/schema/dpv-27560",
+      "title": "DPV Profile for implementing ISO/IEC TS 27560:2023 Consent Records and Receipts"
+  },
+  "DPV-29184": {
+      "href": "https://w3id.org/dpv/schema/DPV-29184",
+      "title": "DPV Profile for implementing ISO/IEC TS 29184:2020 Privacy Notices"
+  },
+  "EXAMPLES": {
+    "href": "https://w3id.org/dpv/examples",
+    "title": "DPV Examples"
+  },
+  "UseCases-Requirements": {
+    "href": "https://w3id.org/dpv/use-cases",
+    "title": "Use-Cases and Requirements for DPV"
+  },
+  "RDF": {
+    "href": "https://www.w3.org/TR/rdf11-concepts/",
+    "title": "RDF 1.1 Concepts and Abstract Syntax"
+  },
+  "RDFS": {
+    "href": "https://www.w3.org/TR/rdf-schema/",
+    "title": "RDF Schema 1.1"
+  },
+  "OWL" :{
+    "href": "https://www.w3.org/TR/owl2-overview/",
+    "title": "OWL 2 Web Ontology Language Document Overview (Second Edition)"
+  },
+  "SKOS": {
+    "href": "https://www.w3.org/TR/skos-reference/",
+    "title": "SKOS Simple Knowledge Organization System"
+  },
+  "SPECIAL": {
+    "href": "https://www.specialprivacy.eu/",
+    "title": "SPECIAL H2020 Project"
+  },
+  "GDPR": {
+    "href": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+    "title": "General Data Protection Regulation (GDPR)"
+  },
+  "DGA": {
+    "href": "https://eur-lex.europa.eu/eli/reg/2022/868/oj",
+    "title": "Data Governance Act (DGA)"
+  },
+  "AIAct": {
+    "href": "https://www.europarl.europa.eu/doceo/document/TA-9-2024-0138_EN.html",
+    "title": "Artificial Intelligence Act (AI Act)"
+  },
+  "NIS2": {
+    "href": "http://data.europa.eu/eli/dir/2022/2555/2022-12-27",
+    "title": "Network Information Security Directive (NIS2)"
+  },
+  "NACE": {
+    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+    "title": "Statistical Classification of Economic Activities in the European Community (NACE)"
+  },
+  "NAICS": {
+    "href": "https://www.census.gov/eos/www/naics/",
+    "title": "North American Industry Classification System (NAICS)"
+  },
+  "ISIC": {
+    "href": "https://unstats.un.org/unsd/classifications",
+    "title": "International Standard Industrial Classification of All Economic Activities (ISIC)"
+  },
+  "GICS": {
+    "href": "https://www.msci.com/gics",
+    "title": "Global Industry Classification Standard (GICS)"
+  },
+  "NACE-NAICS": {
+    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+    "title": "NACE to NAICS mapping"
+  },
+  "EnterPrivacy": {
+    "href": "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
+    "title": "Taxonomy of Personal Data Categories"
+  },
+  "TIME": {
+    "href": "https://www.w3.org/TR/owl-time/",
+    "title": "Time Ontology in OWL"
+  },
+  "ISO-27017": {
+    "href": "https://www.iso.org/standard/43757.html",
+    "title": "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
+  },
+  "ISO-27560": {
+    "href": "https://www.iso.org/standard/80392.html",
+    "title": "ISO/IEC TS 27560 Privacy technologies — Consent record information structure"
+  },
+  "ISO-29184": {
+    "href": "https://www.iso.org/standard/70331.html",
+    "title": "ISO/IEC 29184:2020 Privacy Notices and Consent"
+  },
+  "ISO-22989": {
+    "href": "https://www.iso.org/standard/74296.html",
+    "title": " ISO/IEC 22989:2022 Artificial intelligence concepts and terminology"
+  },
+  "SHACL-UseCases": {
+    "href": "https://www.w3.org/TR/shacl-ucr/",
+    "title": "SHACL Use Cases and Requirements"
+  },
+  "SHACL": {
+    "href": "https://www.w3.org/TR/shacl",
+    "title": "Shape and Contraint Language (SHACL)"
+  },
+  "ODRL": {
+    "href": "https://www.w3.org/TR/odrl-model/",
+    "title": "Open Digital Rights Language (ODRL) Model"
+  },
+  "DCT": {
+    "title": "DCMI Metadata Terms (DCT)",
+    "href": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
+  },
+  "DCAT": {
+    "title": "Data Catalog Vocabulary (DCAT)",
+    "href": "http://www.w3.org/ns/dcat"
+  },
+  "RuleML": {
+    "title": "RuleML: Rule Markup Language",
+    "href": "www.ruleml.org/"
+  },
+  "SKOS-OWL": {
+    "title": "Using OWL and SKOS",
+    "href": "https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html",
+  },
+  "DPCat": {
+    "title": "DPCat: Specification for an Interoperable and Machine-Readable Data Processing Catalogue Based on GDPR",
+    "href": "https://w3id.org/dpcat"
+  },
+  "ISO-8601": {
+    "href": "https://www.iso.org/iso-8601-date-and-time-format.html",
+    "title": "ISO 8601 Date and time format"
+  },
+}  };
+</script>
+  <link rel="stylesheet" type="text/css" href="../diagrams/common.css">
+<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+
+<section id="abstract">
+  <p>This document describes (only) the <strong><emph>OWL serialisation</emph> of AI Technology Concepts</strong>. For information on the concepts, their usage, and further documentation, please consult the canonical page for the vocabulary at: <a href="https://w3id.org/dpv/ai">https://w3id.org/dpv/ai</a></p>
+</section>
+
+<section id="sotd"></section>
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    <h3>Classes</h3>       
+      
+       
+      
+      
+      
+      
+      
+      
+     <section class="term-def" id="AI">
+      <h4>Artificial Intelligence (AI)</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>AI</dfn></td>
+          <th>Prefix</th>
+          <td>ai-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Artificial Intelligence (AI)</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/ai/owl/#AI">https://w3id.org/dpv/ai/owl/#AI</a> <br/>
+            <a href="https://w3id.org/dpv/ai#AI">https://w3id.org/dpv/ai#AI</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#Technology">dpv-owl:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology">dpv-owl:isImplementedUsingTechnology</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>A technical and scientific field devoted to the engineered system that generates outputs such as content, forecasts, recommendations or decisions for a given set of human-defined objectives</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>This concept is a stub</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-04-28</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/ai#vocab-core">Ai Core</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+     <section class="term-def" id="AISystem">
+      <h4>AI System</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>AISystem</dfn></td>
+          <th>Prefix</th>
+          <td>ai-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>AI System</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/ai/owl/#AISystem">https://w3id.org/dpv/ai/owl/#AISystem</a> <br/>
+            <a href="https://w3id.org/dpv/ai#AISystem">https://w3id.org/dpv/ai#AISystem</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#AI">ai-owl:AI</a>
+             →             <a href="https://w3id.org/dpv/owl/#Technology">dpv-owl:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology">dpv-owl:isImplementedUsingTechnology</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>OECD 2024 definition: An AI system is a machine-based system that, for explicit or implicit objectives, infers, from the input it receives, how to generate outputs such as predictions, content, recommendations, or decisions that can influence physical or virtual environments. Different AI systems vary in their levels of autonomy and adaptiveness after deployment. ISO/IEC 22989:2023 definition: engineered system that generates outputs such as content, forecasts, recommendations or decisions for a given set of human-defined objectives</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i><a href="https://oecd.ai/en/wonk/ai-system-definition-update">OECD</a>,<a href="https://www.iso.org/standard/74296.html">ISO/IEC 22989:2023</a></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-17</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/ai#vocab-core">Ai Core</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+      
+      
+     <section class="term-def" id="Capability">
+      <h4>Capability</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>Capability</dfn></td>
+          <th>Prefix</th>
+          <td>ai-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Capability</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/ai/owl/#Capability">https://w3id.org/dpv/ai/owl/#Capability</a> <br/>
+            <a href="https://w3id.org/dpv/ai#Capability">https://w3id.org/dpv/ai#Capability</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#AI">ai-owl:AI</a>
+             →             <a href="https://w3id.org/dpv/owl/#Technology">dpv-owl:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology">dpv-owl:isImplementedUsingTechnology</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Capability or use of AI to achieve a technical goal or objective</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>This concept is a stub</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-04-28</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/ai#vocab-capabilities">Ai Capabilities</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+      
+      
+     <section class="term-def" id="Measure">
+      <h4>Measure</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>Measure</dfn></td>
+          <th>Prefix</th>
+          <td>ai-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Measure</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/ai/owl/#Measure">https://w3id.org/dpv/ai/owl/#Measure</a> <br/>
+            <a href="https://w3id.org/dpv/ai#Measure">https://w3id.org/dpv/ai#Measure</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#RiskMitigationMeasure">dpv-owl:RiskMitigationMeasure</a>
+             →             <a href="https://w3id.org/dpv/owl/#TechnicalOrganisationalMeasure">dpv-owl:TechnicalOrganisationalMeasure</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasTechnicalOrganisationalMeasure">dpv-owl:hasTechnicalOrganisationalMeasure</a>, 
+            <a href="https://w3id.org/dpv#isMitigatedByMeasure">dpv-owl:isMitigatedByMeasure</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Measure to address risk associated with AI Systems</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>This concept is a stub</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-04-28</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/ai#vocab-measures">Ai Measures</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+      
+      
+     <section class="term-def" id="Model">
+      <h4>Model</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>Model</dfn></td>
+          <th>Prefix</th>
+          <td>ai-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Model</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/ai/owl/#Model">https://w3id.org/dpv/ai/owl/#Model</a> <br/>
+            <a href="https://w3id.org/dpv/ai#Model">https://w3id.org/dpv/ai#Model</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#AI">ai-owl:AI</a>
+             →             <a href="https://w3id.org/dpv/owl/#Technology">dpv-owl:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology">dpv-owl:isImplementedUsingTechnology</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Physical, mathematical or otherwise logical representation of a system, entity, phenomenon, process or data</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-17</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/ai#vocab-core">Ai Core</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+     <section class="term-def" id="Risk">
+      <h4>Risk</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>Risk</dfn></td>
+          <th>Prefix</th>
+          <td>ai-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Risk</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/ai/owl/#Risk">https://w3id.org/dpv/ai/owl/#Risk</a> <br/>
+            <a href="https://w3id.org/dpv/ai#Risk">https://w3id.org/dpv/ai#Risk</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#Risk">dpv-owl:Risk</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasRisk">dpv-owl:hasRisk</a>, 
+            <a href="https://w3id.org/dpv#isResidualRiskOf">dpv-owl:isResidualRiskOf</a>, 
+            <a href="https://w3id.org/dpv#mitigatesRisk">dpv-owl:mitigatesRisk</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Risk associated with development, use, or operation of AI systems</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>This concept is a stub</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-04-28</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/ai#vocab-risks">Ai Risks</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+      
+      
+      
+      
+      
+      
+      
+     <section class="term-def" id="Technique">
+      <h4>Technique</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>Technique</dfn></td>
+          <th>Prefix</th>
+          <td>ai-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Technique</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/ai/owl/#Technique">https://w3id.org/dpv/ai/owl/#Technique</a> <br/>
+            <a href="https://w3id.org/dpv/ai#Technique">https://w3id.org/dpv/ai#Technique</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#AI">ai-owl:AI</a>
+             →             <a href="https://w3id.org/dpv/owl/#Technology">dpv-owl:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology">dpv-owl:isImplementedUsingTechnology</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Techniques for using or applying AI</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>This concept is a stub</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-04-28</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/ai#vocab-techniques">Ai Techniques</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+
+  </section>
+  <section id="dpv-properties">
+    <h3>Properties</h3>       
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+       
+
+  </section>
+  <section id="external-concepts">
+    <p>The following external concepts are re-used within DPV:</p>
+    <h3>External</h3>        
+      
+        
+      
+      
+       
+       
+       
+      
+       
+      
+        
+       
+      
+        
+       
+      
+        
+       
+      
+       
+      
+        
+       
+       
+       
+       
+       
+       
+      
+        
+
+  </section>
+</section>
+
+</body>
+</html>
