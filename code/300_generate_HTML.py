@@ -487,6 +487,7 @@ def ensure_list_unique(item) -> list:
     """
     Simple function that ensures item is a list or puts it in one
     """
+    if not item: return []
     item = ensure_list(item)
     if type(item[0]) != dict:
         return set(item)
@@ -496,11 +497,12 @@ def ensure_list_unique(item) -> list:
     return list(items.values())
 
 
-def filter_type(itemlist:list, itemtype:str, vocab:str=None) -> list:
+def filter_type(itemlist:list, itemtype:list, vocab:str=None) -> list:
     """
     Filters itemlist for items that match itemtype and optionally
     limits them to specified vocab
     """
+    itemtype = ensure_list(itemtype)
     results = []
     for item in itemlist:
         if type(item) is not dict:
@@ -511,10 +513,15 @@ def filter_type(itemlist:list, itemtype:str, vocab:str=None) -> list:
                 continue
         # DEBUG(item)
         parents = ensure_list(item['rdf:type'])
+        flag_parent = False
         for p in parents:
             prefixed = prefix_from_iri(p)
-            if prefixed == itemtype:
-                results.append(item)
+            for parenttype in itemtype:
+                if prefixed == parenttype:
+                    results.append(item)
+                    break
+            if flag_parent:
+                break
     return results
 
 

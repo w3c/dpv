@@ -99,7 +99,7 @@
     <ol>
         {% if modules['legal']['classes']|filter_type('dpv:Law')|length > 0 %}
         <li><a href="#laws">Laws</a></li>{% endif %}
-        {% if modules['legal']['classes']|filter_type('dpv:Authority')|length > 0 %}
+        {% if modules['legal']['classes']|filter_type(('dpv:Authority', 'dpv:DataProtectionAuthority'))|length > 0 %}
         <li><a href="#authorities">Authorities</a></li>{% endif %}
         {% if vocab_name == 'legal-eu' and modules['legal']['classes']|filter_type('eu-gdpr:AdequacyDecision')|length > 0 %}
         <li><a href="#vocab-adequacy">Adequacy Decisions</a></li>{% endif %}
@@ -156,7 +156,8 @@
 </section>
 {% endif %}
 
-{% if modules['legal']['classes']|filter_type('dpv:Authority')|length > 0 %}
+{% set authority_types = ['dpv:Authority', 'dpv:DataProtectionAuthority', 'eu-gdpr:DataProtectionAuthority'] %}
+{% if modules['legal']['classes']|filter_type(authority_types)|length > 0 %}
 <section id="authorities">
     <h2>Authorities</h2>
     <p>Authorities are represented as instances of <code>dpv:Authority</code>, and are associated with specific jurisdictions using <code>dpv:hasJurisdiction</code>. The law which the authorities enforce is indicated by <code>dpv:hasApplicableLaw</code>. The webpage for the authority, if available, is indicated using <code>foaf:homepage</code>.</p>
@@ -169,7 +170,7 @@
             <th>Webpage</th>
         </thead>
         <tbody>
-        {% for law in modules['legal']['classes']|filter_type('dpv:Authority')|ensure_list_unique|sort_iris %}
+        {% for law in modules['legal']['classes']|filter_type(authority_types)|ensure_list_unique|sort_iris %}
             <tr>
                 <td>
                     {% if law['prefix'] != vocab_name %}<a href="#{{law['prefixed']}}"><code>{{ law['prefixed'] }}</code></a>
