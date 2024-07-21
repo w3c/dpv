@@ -128,6 +128,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Jurisdictions</th>
+            <th>Authorities</th>
             <th>Webpage</th>
             <th>Start/End</th>
         </thead>
@@ -147,6 +148,10 @@
                 <a href="{{loc['iri']}}">{{ loc['skos:prefLabel'] }}</a>{% if 'skos:broader' in loc %}{% for loc_broader in loc['skos:broader']|ensure_list|filter_type("dpv:Country", vocab="loc") %}, <a href="{{loc_broader['iri']}}">{{ loc_broader['skos:prefLabel'] }}</a>
                     {% endfor %}{% endif %}
                 {{ "; " if not loop.last }}{% endfor %}</td>
+                {# AUTHORITIES #}
+                <td>{% for auth in law['dpv:hasAuthority']|ensure_list_unique|sort_iris %}
+                    <a href="{{auth['iri']}}">{{ auth|prefix_this }}</a>{{ ", " if not loop.last }}
+                {% endfor %}</td>
                 <td>{% for page in law['foaf:homepage']|ensure_list_unique %}<a href="{{page}}">link</a>{{ ", " if not loop.first }}{% endfor %}</td>
                 <td>{{ law|expand_time_interval('dct:temporal') }}</td>
             </tr>

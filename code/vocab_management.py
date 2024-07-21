@@ -1052,17 +1052,40 @@ RDF_COLLATIONS = ({
 
 # === SPARQL Query Hooks ===
 RDF_EXPORT_HOOK = {
-    'pd': [ # Create concept scheme for Special Category Personal Data
-        # Derive all concepts that are instances of SCPD
-        f"""
-        INSERT {{
-            <{NAMESPACES['pd']['specialcategory-classes']}> a skos:ConceptScheme .
-            ?s a dpv:SpecialCategoryPersonalData .
-            ?s skos:inScheme <{NAMESPACES['pd']['specialcategory-classes']}> }}
-        WHERE {{ ?s skos:broader+ dpv:SpecialCategoryPersonalData }}
-        """,
+    'pd': [ 
+        {
+            "title": "Derive concepts as instances of Special Category PD", 
+            "query": f"""
+            INSERT {{
+                <{NAMESPACES['pd']['specialcategory-classes']}> a skos:ConceptScheme .
+                ?s a dpv:SpecialCategoryPersonalData .
+                ?s skos:inScheme <{NAMESPACES['pd']['specialcategory-classes']}> }}
+            WHERE {{ ?s skos:broader+ dpv:SpecialCategoryPersonalData }}
+            """,
+        },
     ],
 }
+# add query for associating authority with laws in all jurisdictions
+query = {
+            "title": "add Authority to Law",
+            "query": f"""
+            INSERT {{
+                ?law dpv:hasAuthority ?auth .
+            }}
+            WHERE {{
+                {{ ?auth skos:broader eu-gdpr:DataProtectionAuthority }}
+                UNION
+                {{ ?auth skos:broader dpv:DataProtectionAuthority }}
+                UNION
+                {{ ?auth skos:broader dpv:Authority }}
+                ?auth dpv:hasApplicableLaw ?law .
+            }}
+            """
+        }
+for loc in ('eu', 'de', 'ie', 'gb', 'us', 'in'):
+    if f'legal-{loc}' not in RDF_EXPORT_HOOK:
+        RDF_EXPORT_HOOK[f'legal-{loc}'] = []
+    RDF_EXPORT_HOOK[f'legal-{loc}'].append(query)
 
 # === guides ===
 GUIDES = {
