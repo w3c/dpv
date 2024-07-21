@@ -83,6 +83,7 @@
     <p>The extension supports the implementation of [[NIS2]] by providing concepts based on extending [[DPV]] to represent notifications, technical and organisational measures, reporting and compliance documentation, and other relevant information. It provides the following concepts:</p>
     <ul>
       <li><a href="#vocab-notice">Notifications for Incident Reporting</a></li>
+      <li><a href="#vocab-compliance">Compliance</a> to express whether the specific process or context is compliant with NIS2</li>
     </ul>
   </section>
 {% endblock INTRODUCTION %}
@@ -93,6 +94,26 @@
     <p>Incident reporting is one of the important requirements for implementing [[NIS2]]. In such reporting, notifications containing relevant information about information are shared between entities and authorities at various stages from when the incident was detected to how the investigation proceeded and concluded. This is similar to data breach reporting requirements under [[GDPR]]. The [[EU-NIS2]] extension supports such reporting notifications by providing concepts that extend the <code>risk:IncidentNotice</code> concept to represent specific notices required in the incident reporting lifecycle.</p>
     
     {{ list_hierarchy(modules['notice']['classes']) }}
+  </section>
+
+  <section id="vocab-compliance">
+    <h2>Compliance Status</h2>
+    <p>The concepts in this section reflect the status of processing operations being in <i>compliance with NIS2</i>, by extending <code>dpv:ComplianceStatus</code>. It does not define the requirements for compliance itself. To indicate these, the relation <code>dpv:hasLawfulness</code> can be used.</p>
+    <aside class="note" title="Compliance with NIS2 Directive is dependant on Member State Implementations">
+      <p>NIS2 is a directive, which means there will be implementing laws within each EU Member State. The compliance (and enforcement) of NIS2 will therefore rely on these specific member state implementations. The concept <code>NIS2Lawfulness</code> is provided to indicate (broad) lawfulness and compliance with NIS2 as a whole. To support and indicate specific compliance with Member State implementations, the implementing laws will need to be represented as DPV extensions (e.g. <code>/ie/nis2</code> for Ireland) and the <code>NIS2Lawfulness</code> status will be extended within those to represent lawfulness within a particular jurisdiction.</p>
+    </aside>
+    <aside class="example" title="Indicating status of NIS2 lawfulness">
+      <p>This example shows the use of EU-NIS2 to indicate the state of NIS2 lawfulness associated with two processes. The first is asserted to be compliant, while the compliance status for the second is unknown at the moment. Both processes assert the applicability of NIS2 for brevity.</p>
+      <pre class="nohighlight"><code>ex:PDH1 a dpv:Process ;
+  dpv:hasApplicableLaw legal-eu:NIS2 ;
+  dpv:hasLawfulness eu-nis2:NIS2Compliant .
+
+ex:PDH2 a dpv:Process ;
+  dpv:hasApplicableLaw legal-eu:NIS2 ;
+  dpv:hasLawfulness eu-nis2:NIS2ComplianceUnknown .
+      </code></pre>
+    </aside>
+    {{ list_hierarchy(modules['compliance']['classes']) }}
   </section>
 
 <section id="vocabulary">

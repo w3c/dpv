@@ -279,6 +279,7 @@ DPV_FILES = {
             'DGA_TOMs',
             'DGA_entities',
             'DGA_properties',
+            'DGA_compliance',
             ),
     },
     'eu-aiact': {
@@ -294,6 +295,7 @@ DPV_FILES = {
             'aiact-status',
             'aiact-misc',
             'aiact-assessment',
+            'aiact-compliance',
             ),
     },
     'eu-nis2': {
@@ -301,6 +303,7 @@ DPV_FILES = {
         'doc_id': '1uh14-RUYQuKiouu2Cahi-voaKBCw5D4lPE4w5NaqDPc',
         'sheets': (
             'NIS2_Notice',
+            'NIS2_compliance',
             ),
     },
     # Sheets for Use-Cases, Requirements, and Examples
