@@ -117,8 +117,8 @@
         </thead>
         <tbody>
             {% for loc in vocab.values()|filter_type('dpv:Country',vocab='loc')|sort(attribute='iri') %}
-            <tr>
-                <td><a href="#{{loc['term']}}"><code>{{ loc['prefixed'] }}</code></a></td>
+            <tr id="{{loc['term']}}">
+                <td><dfn>{{ loc['term'] }}</dfn></td>
                 <td>{{ loc['skos:prefLabel'] }}</td>
                 <td><code>{{ loc['loc:iso_alpha2'] }}</code></td>
                 <td><code>{{ loc['loc:iso_alpha3'] }}</code></td>
@@ -136,65 +136,382 @@
 
   <section id="subdivisions">
     <h2>Subdivisions/Regions</h2>
-    <aside class="note" title="Extending location taxonomy with ISO 3166-2 subdivision codes">
-      <p>The LOC extension will be extended in fututre iterations by adding ISO 3166-2 subdivision codes for representing provinces, regions, cities, and other subdivisions.</p>
-    </aside>
       {% for country in vocab.values()|filter_type('dpv:Country',vocab='loc')|sort(attribute='iri') if 'skos:narrower' in country %}
-      <section id="subdivisions-{{country['term']}}">
-        <h3>{{ country['skos:prefLabel'] }}</h3>
-        <table style="font-size: 0.75rem;">
-          <thead>
-              <th>ID</th>
-              <th>Name</th>
-              <th>ISO 3166-1 Alpha2</th>
-          </thead>
-          <tbody>
-              {% for loc in country['skos:narrower']|sort_iris %}
-                {% set loc=vocab[loc|prefix_this] %}
-              <tr>
-                  <td><a href="#{{loc['term']}}"><code>{{ loc['prefixed'] }}</code></a></td>
-                  <td>{{ loc['skos:prefLabel'] }}</td>
-                  <td><code>{{ loc['loc:iso_alpha2'] }}</code></td>
-              </tr>
-              {% endfor %}
-            </tbody>
-        </table>
-      </section>
+      <p id="subdivisions-{{country['term']}}">
+        <strong>{{ country['skos:prefLabel'] }} ({{ country['term']}})</strong> <br/>
+        {% for loc in country['skos:narrower']|sort_iris %}
+        {% set loc=vocab[loc|prefix_this] %}
+        {% if loc is mapping %} {#  FIXME: if this is removed, jinja produces an undefined object which means the loc doesn't exit in the vocab #}
+        <span id="{{loc['term']}}"><dfn>{{ loc['prefixed'] }}</dfn> - {{loc['skos:prefLabel']}}</a>
+        ({% for parent in loc['rdf:type']|get_concept_list %}<a href="{{parent['iri']}}" class="local-link">{{parent['prefixed']}}</a>{{", " if not loop.last }}{% endfor %})</span> <br/>
+        {% endif %}
+        {% endfor %}
+      </p>
       {% endfor %}
     </section>
 
   <section id="vocab-memberships">
     <h2>Unions and Memberships</h2>
     {% for union in vocab.values()|filter_type('dpv:SupraNationalUnion',vocab='loc')|sort(attribute='iri') %}
-    <h3><code>{{ union['term'] }}</code> - {{ union['skos:prefLabel'] }}</h3>
-    <p>{{ union['skos:definition'] }}.</p>
-    <p>The following countries are members of this union:
-      {% for country in union['skos:narrower']|get_concept_list %}
-        <a href="#{{country['loc:iso_alpha2']}}">{{ country['skos:prefLabel'] }} ({{ country['loc:iso_alpha2'] }})</a>{{ ", " if not loop.last }}
-      {% endfor %}
-    </p>
+      <section id="{{union['term']}}">
+        <h3><dfn>{{ union['term'] }}</dfn> - {{ union['skos:prefLabel'] }}</h3>
+      <p>{{ union['skos:definition'] }}.</p>
+      <p>The following countries are members of this union:
+        {% for country in union['skos:narrower']|get_concept_list %}
+          <a href="#{{country['loc:iso_alpha2']}}">{{ country['skos:prefLabel'] }} ({{ country['loc:iso_alpha2'] }})</a>{{ ", " if not loop.last }}
+        {% endfor %}
+      </p>
+    </section>
     {% endfor %}
   </section>
 
-  <section id="vocabulary">
-<h2>Vocabulary Index</h2>
-  <section id="dpv-classes">
-    {{ index_concepts(vocab, vocab_name, filter="classes") }}
-  </section>
-  <section id="dpv-properties">
-    {{ index_concepts(vocab, vocab_name, filter="properties") }}
-  </section>
-  <section id="external-concepts">
-    <p>DPV uses the following terms from [[RDF]] and  [[RDFS]] with their defined meanings:</p>
-    <ul>
-      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
-      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
-      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
-      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
-      </ul>
-    <p>The following external concepts are re-used within DPV:</p>
-    {{ index_concepts(vocab, vocab_name, filter="external") }}
-  </section>
+<section id="vocabulary">
+<h2>Properties</h2>
+    <section class="term-def" id="iso_alpha2">
+      <h4>ISO-alpha2</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>iso_alpha2</dfn></td>
+          <th>Prefix</th>
+          <td>loc</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>ISO-alpha2</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/loc#iso_alpha2" class="local-link">https://w3id.org/dpv/loc#iso_alpha2</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="http://www.w3.org/2004/02/skos/core#altLabel" class="local-link">skos:altLabel</a>
+                        </td>        </tr>      
+      
+
+<tr class="technical-detail">
+          <th>Sub-property of</th>
+          <td>            <a href="http://www.w3.org/2004/02/skos/core#altLabel" class="local-link">skos:altLabel</a>
+                        </td>
+        </tr>        
+        
+<tr class="technical-detail">
+          <th>Domain includes</th>
+          <td>            <a href="https://w3id.org/dpv#Location" class="local-link">dpv:Location</a>
+                      </td>
+        </tr>        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="http://www.w3.org/2001/XMLSchema#string" class="local-link">xsd:string</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>The ISO-Alpha2 code for a given region</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i><a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-03-30</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-locations"> LOCATIONS</a> in <a href="https://w3id.org/dpv/loc#">LOC</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+      
+     <section class="term-def" id="iso_alpha3">
+      <h4>ISO-alpha3</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>iso_alpha3</dfn></td>
+          <th>Prefix</th>
+          <td>loc</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>ISO-alpha3</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/loc#iso_alpha3" class="local-link">https://w3id.org/dpv/loc#iso_alpha3</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="http://www.w3.org/2004/02/skos/core#altLabel" class="local-link">skos:altLabel</a>
+                        </td>        </tr>      
+      
+
+<tr class="technical-detail">
+          <th>Sub-property of</th>
+          <td>            <a href="http://www.w3.org/2004/02/skos/core#altLabel" class="local-link">skos:altLabel</a>
+                        </td>
+        </tr>        
+        
+<tr class="technical-detail">
+          <th>Domain includes</th>
+          <td>            <a href="https://w3id.org/dpv#Location" class="local-link">dpv:Location</a>
+                      </td>
+        </tr>        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="http://www.w3.org/2001/XMLSchema#string" class="local-link">xsd:string</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>The ISO-Alpha3 code for a given region</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i><a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-03-30</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-locations"> LOCATIONS</a> in <a href="https://w3id.org/dpv/loc#">LOC</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+      
+     <section class="term-def" id="iso_numeric">
+      <h4>ISO-numeric</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>iso_numeric</dfn></td>
+          <th>Prefix</th>
+          <td>loc</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>ISO-numeric</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/loc#iso_numeric" class="local-link">https://w3id.org/dpv/loc#iso_numeric</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="http://www.w3.org/2004/02/skos/core#altLabel" class="local-link">skos:altLabel</a>
+                        </td>        </tr>      
+      
+
+<tr class="technical-detail">
+          <th>Sub-property of</th>
+          <td>            <a href="http://www.w3.org/2004/02/skos/core#altLabel" class="local-link">skos:altLabel</a>
+                        </td>
+        </tr>        
+        
+<tr class="technical-detail">
+          <th>Domain includes</th>
+          <td>            <a href="https://w3id.org/dpv#Location" class="local-link">dpv:Location</a>
+                      </td>
+        </tr>        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="http://www.w3.org/2001/XMLSchema#string" class="local-link">xsd:string</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>The ISO-Numeric code for a given region</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i><a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-03-30</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-locations"> LOCATIONS</a> in <a href="https://w3id.org/dpv/loc#">LOC</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="term-def" id="un_m49">
+      <h4>UN-M49</h4>
+      
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn id="dfn-un_m49" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">un_m49</dfn></td>
+          <th>Prefix</th>
+          <td>loc</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>UN-M49</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="#un_m49" class="local-link">https://w3id.org/dpv/loc#un_m49</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="http://www.w3.org/2004/02/skos/core#altLabel" class="local-link">skos:altLabel</a>
+                        </td>        </tr>      
+      
+
+<tr class="technical-detail">
+          <th>Sub-property of</th>
+          <td>            <a href="http://www.w3.org/2004/02/skos/core#altLabel" class="local-link">skos:altLabel</a>
+                        </td>
+        </tr>        
+        
+<tr class="technical-detail">
+          <th>Domain includes</th>
+          <td>            <a href="https://w3id.org/dpv#Location" class="local-link">dpv:Location</a>
+                      </td>
+        </tr>        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="http://www.w3.org/2001/XMLSchema#string" class="local-link">xsd:string</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>The UN-M49 code for a given region</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i><a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-03-30</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-locations"> LOCATIONS</a> in <a href="https://w3id.org/dpv/loc#">LOC</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
 </section>  
 {% endblock VOCAB %}
 

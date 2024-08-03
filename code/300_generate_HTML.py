@@ -720,6 +720,11 @@ def get_additional_annotations(concept:dict) -> list:
     return results
 
 
+def get_attrib(term, key):
+    DEBUG(f'{term}: {type(term)}')
+    return term[key]
+
+
 # == HTML Export ==
 
 # === Jinja setup ===
@@ -752,6 +757,7 @@ JINJA2_FILTERS = {
     'replace_iri_owl': replace_iri_owl,
     'replace_prefix_owl': replace_prefix_owl,
     'get_additional_annotations': get_additional_annotations,
+    'get_attrib': get_attrib,
 }
 template_env.filters.update(JINJA2_FILTERS)
 
@@ -799,7 +805,10 @@ def _write_template(
                 f'{filepath}/index.html') # dest
             INFO(f'wrote {filename} spec at {filepath}/index.html')
     if owl:
-        template = template_env.get_template('template_owl_generic_index.jinja2')
+        if vocab != 'loc':
+            template = template_env.get_template('template_owl_generic_index.jinja2')
+        else:
+            template = template_env.get_template('template_locations_owl.jinja2')
         params['owl'] = OWL
         with open(f'{filepath}/{filename}-owl.html', 'w+') as fd:
             fd.write(template.render(**params))
