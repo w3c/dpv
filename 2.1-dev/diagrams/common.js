@@ -51,3 +51,17 @@ window.addEventListener("load", () => {
     }
   }
 });
+
+window.addEventListener("load", () => {
+  for (let aside of document.querySelectorAll(".example")) {
+    const div = document.createElement('button');
+    div.classList.add('copy-icon');
+    div.innerText = "copy";
+    aside.appendChild(div);
+    div.onclick = copyToClipboard;
+  }
+});
+
+function copyToClipboard(ele) {
+  navigator.clipboard.writeText(ele.target.previousElementSibling.previousElementSibling.innerText);
+}
