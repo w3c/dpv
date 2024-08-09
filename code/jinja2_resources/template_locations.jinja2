@@ -72,6 +72,12 @@
 </script>
 {% endblock RESPEC %}
 <link rel="stylesheet" type="text/css" href="../diagrams/common.css">
+<style type="text/css">
+  .subdivision {
+    margin-bottom: 5px;
+    border-bottom: 1px dashed darkgray;
+  }
+</style>
 <link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
   <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
@@ -137,16 +143,28 @@
   <section id="subdivisions">
     <h2>Subdivisions/Regions</h2>
       {% for country in vocab.values()|filter_type('dpv:Country',vocab='loc')|sort(attribute='iri') if 'skos:narrower' in country %}
-      <p id="subdivisions-{{country['term']}}">
-        <strong>{{ country['skos:prefLabel'] }} ({{ country['term']}})</strong> <br/>
+      <h3 id="subdivisions-{{country['term']}}">{{ country['skos:prefLabel'] }} ({{ country['term']}})</h3>
+      <table>
+        <thead>
+          <th>Prefixed</th>
+          <th>IRI</th>
+          <th>Name</th>
+          <th>Type</th>
+        </thead>
+        <tbody>
         {% for loc in country['skos:narrower']|sort_iris %}
         {% set loc=vocab[loc|prefix_this] %}
         {% if loc is mapping %} {#  FIXME: if this is removed, jinja produces an undefined object which means the loc doesn't exit in the vocab #}
-        <span id="{{loc['term']}}"><dfn>{{ loc['prefixed'] }}</dfn> - {{loc['skos:prefLabel']}}</a>
-        ({% for parent in loc['rdf:type']|get_concept_list %}<a href="{{parent['iri']}}" class="local-link">{{parent['prefixed']}}</a>{{", " if not loop.last }}{% endfor %})</span> <br/>
+        <tr id="{{loc['term']}}">
+          <td><dfn>{{ loc['prefixed'] }}</dfn></td>
+          <td>{{ loc['iri'] }}</td>
+          <td>{{loc['skos:prefLabel']}}</td>
+          <td>{% for parent in loc['rdf:type']|get_concept_list %}<a href="{{parent['iri']}}" class="local-link">{{parent['prefixed']}}</a>{{", " if not loop.last }}{% endfor %}</td>
+        </tr>
         {% endif %}
         {% endfor %}
-      </p>
+        </tbody>
+      </table>
       {% endfor %}
     </section>
 
