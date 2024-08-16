@@ -896,22 +896,6 @@ if data and ':' in list(data.keys())[0]: # hack to detect repeated script call
 
 INFO('*'*40)
 
-# INFO('Generating GUIDES')
-
-# for doc, data in GUIDES.items():
-#     DEBUG(f'generating guide: {doc}')
-#     template = data['template']
-#     filepath = f"{data['output']}"
-#     with open(filepath, 'w') as fd:
-#         template = template_env.get_template(template)
-#         fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
-#     INFO(f"wrote guide {doc} at {filepath}")
-# with open('../guides/index.html', 'w') as fd:
-#     template = template_env.get_template('template_guides_index.jinja2')
-#     fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
-# INFO(f"wrote guide {doc} at {filepath}")
-# INFO('*'*40)
-
 INFO('Generating Search Index')
 results_classes = list(DATA.graph.query("""
     SELECT 
@@ -1005,3 +989,36 @@ with open(filepath, 'w') as fd:
 INFO(f"wrote search index document at {filepath}")
 
 INFO('*'*40)
+
+# == script ==
+if __name__ == '__main__':
+    # The script has a default behaviour where it will NOT download
+    # any file and will extract ALL CSVs from existing files.
+    import argparse
+    parser = argparse.ArgumentParser()
+    # - `-d` will download and extract ALL files
+    parser.add_argument('-G', '--guides', action='store_true', help="generate guides")
+    # - `-x` will extract ALL files
+    # parser.add_argument('-x', '--x', action='store_true', default=True, help="extract CSVs from all data files")
+    # # - `-ds <foo>` will download and extract ONLY `foo` files
+    # parser.add_argument('--ds', nargs='+', default=False, help="download only indicated data files")
+    # # - `-xs <foo>` will extract ONLY `foo` files
+    # parser.add_argument('--xs', nargs='+', default=False, help="extract CSVs from indicated data files")
+    args = parser.parse_args()
+
+    # If files are to be downloaded, do the following.
+    if args.guides:
+        INFO('Generating GUIDES')
+        for doc, data in GUIDES.items():
+            DEBUG(f'generating guide: {doc}')
+            template = data['template']
+            filepath = f"{data['output']}"
+            with open(filepath, 'w') as fd:
+                template = template_env.get_template(template)
+                fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
+            INFO(f"wrote guide {doc} at {filepath}")
+        with open('../guides/index.html', 'w') as fd:
+            template = template_env.get_template('template_guides_index.jinja2')
+            fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
+        INFO(f"wrote guide {doc} at {filepath}")
+        INFO('*'*40)
