@@ -27,7 +27,7 @@ cd ../$VERSION
 
 # Create zip of release 
 mkdir -p ../releases
-zip -q ../releases/dpv-$VERSION.zip -r *
+zip -q ../releases/dpv.zip -r *
 
 cd ../code
 
