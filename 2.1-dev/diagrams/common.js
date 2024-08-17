@@ -1,5 +1,8 @@
 window.addEventListener("load", () => {
 
+  // ReSpec adds duplicate buttons as it saves the rendered page. This removes those buttons.
+  document.querySelectorAll('.btn-hierarchy').forEach(e => e.remove());
+
   /* --- List Hierarchy management --- */
 
   for (let list of document.querySelectorAll(".concept-list ul li ul")) {
