@@ -48,6 +48,9 @@ SCHEMA['taxonomy'] = {
     'Contributors': vocab_funcs.construct_contributors,
     'Resolution': vocab_funcs.construct_resolution, 
 }
+SCHEMA['taxonomy-risk'] = SCHEMA['taxonomy'].copy()
+SCHEMA['taxonomy-risk']['ParentTerm'] = vocab_funcs.construct_risk_parent
+SCHEMA['taxonomy-risk']['CIA'] = None
 
 SCHEMA['properties'] = {
     '_description': 'lorem ipsum',

@@ -460,3 +460,14 @@ def add_example_concepts(term, data, namespace, header):
             EXAMPLES[concept] = []
         EXAMPLES[concept].append(data['Term'])
     return triples
+
+def construct_risk_parent(term, data, namespace, header):
+    triples = []
+    if 'CIA' not in data: return triples
+    if 'C' in data['CIA']:
+        triples.append((namespace[data['Term']], SKOS.broader, namespace['ConfidentialityConcept']))
+    if 'I' in data['CIA']:
+        triples.append((namespace[data['Term']], SKOS.broader, namespace['IntegrityConcept']))
+    if 'A' in data['CIA']:
+        triples.append((namespace[data['Term']], SKOS.broader, namespace['AvailabilityConcept']))
+    return triples    

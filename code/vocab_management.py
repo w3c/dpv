@@ -294,7 +294,7 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskControls.csv',
         },
         'risk_consequences': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
         },
         'incident': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Incident.csv',
@@ -317,15 +317,15 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_Exercise.csv',
         },
     },
-    'loc': {
-        'locations': {
-            'locations': f'{IMPORT_CSV_PATH}/location.csv',
-            'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
-        },
-        'memberships': {
-            'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
-        },
-    },
+    # 'loc': {
+    #     'locations': {
+    #         'locations': f'{IMPORT_CSV_PATH}/location.csv',
+    #         'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
+    #     },
+    #     'memberships': {
+    #         'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
+    #     },
+    # },
     # Laws-Authorities
     'legal-at': {
         'at': {
