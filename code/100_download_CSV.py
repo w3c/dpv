@@ -146,6 +146,12 @@ DPV_FILES = {
             'ConsentStatus', 
             'Consent_properties',
             'ConsentControls',
+            'ContractTypes',
+            'ContractStatus',
+            'ContractClause',
+            'ContractControl',
+            'Contract_properties',
+            'LegalBasisStatus',
             ),
     },
     # Sheets for Tech extension

@@ -183,6 +183,9 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/LegalBasis.csv',
             'properties': f'{IMPORT_CSV_PATH}/LegalBasis_properties.csv',
         },
+        'legal_basis_status': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/LegalBasisStatus.csv',
+        },
         'consent': {
             'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
         },
@@ -194,6 +197,21 @@ CSVFILES = {
         },
         'consent_controls': {
             'classes': f'{IMPORT_CSV_PATH}/ConsentControls.csv',
+        },
+        'contract_types': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ContractTypes.csv',
+        },
+        'contract_status': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ContractStatus.csv',
+        },
+        'contract_clause': {
+            'classes': f'{IMPORT_CSV_PATH}/ContractClause.csv',
+        },
+        'contract_control': {
+            'classes': f'{IMPORT_CSV_PATH}/ContractControl.csv',
+        },
+        'contract': {
+            'properties': f'{IMPORT_CSV_PATH}/Contract_properties.csv',
         },
         'context': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Context.csv',
@@ -695,6 +713,12 @@ RDF_VOCABS = {
             'legal_basis-consent-types': f'{IMPORT_PATH}/dpv/modules/consent_types.ttl',
             'legal_basis-consent-status': f'{IMPORT_PATH}/dpv/modules/consent_status.ttl',
             'legal_basis-consent-controls': f'{IMPORT_PATH}/dpv/modules/consent_controls.ttl',
+            'legal_basis-contract': f'{IMPORT_PATH}/dpv/modules/contract.ttl',
+            'legal_basis-contract-types': f'{IMPORT_PATH}/dpv/modules/contract_types.ttl',
+            'legal_basis-contract-status': f'{IMPORT_PATH}/dpv/modules/contract_status.ttl',
+            'legal_basis-contract-clause': f'{IMPORT_PATH}/dpv/modules/contract_clause.ttl',
+            'legal_basis-contract-control': f'{IMPORT_PATH}/dpv/modules/contract_control.ttl',
+            'legal_basis-status': f'{IMPORT_PATH}/dpv/modules/legal_basis_status.ttl',
             'processing-context': f'{IMPORT_PATH}/dpv/modules/processing_context.ttl',
             'processing-scale': f'{IMPORT_PATH}/dpv/modules/processing_scale.ttl',
             'context': f'{IMPORT_PATH}/dpv/modules/context.ttl',

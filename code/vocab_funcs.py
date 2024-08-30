@@ -121,15 +121,23 @@ def construct_parent_taxonomy(item, data, namespace, header):
                         triples.append((parent, SKOS.narrower, namespace[term]))
         return triples
     # parent is a topconcept
-    prefix_top, topconcept = data['ParentType'].split(':')
-    topconcept = NAMESPACES[prefix_top][topconcept]
-    triples.append((namespace[term], RDF.type, topconcept))
+    if ',' in data['ParentType']:
+        topconcepts = data['ParentType'].split(',')
+    else:
+        topconcepts = [data['ParentType']]
+    for topconcept in topconcepts:
+        prefix_top, topconcept = topconcept.split(':')
+        topconcept = NAMESPACES[prefix_top][topconcept]
+        triples.append((namespace[term], RDF.type, topconcept))
     # parent non-empty means not a top concept, state relation
     if not parents:
-        triples.append((namespace[term], SKOS.broader, topconcept))
-        if term.split(':')[0] == topconcept.split(':')[0]:
-            triples.append((topconcept, SKOS.narrower, namespace[term]))
-        # DEBUG(f'skos {term} <-> {topconcept} topconcept')
+        for topconcept in topconcepts:
+            prefix_top, topconcept = topconcept.split(':')
+            topconcept = NAMESPACES[prefix_top][topconcept]
+            triples.append((namespace[term], SKOS.broader, topconcept))
+            if term.split(':')[0] == prefix_top:
+                triples.append((topconcept, SKOS.narrower, namespace[term]))
+            # DEBUG(f'skos {term} <-> {topconcept} topconcept')
         return triples
     for parent in parents:
         triples.append((namespace[term], SKOS.broader, parent))

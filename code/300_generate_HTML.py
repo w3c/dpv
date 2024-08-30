@@ -725,6 +725,11 @@ def get_attrib(term, key):
     return term[key]
 
 
+def is_sunset(term):
+    if 'sw:term_status' not in term: return False
+    return str(term['sw:term_status']) == "sunset"
+
+
 # == HTML Export ==
 
 # === Jinja setup ===
@@ -758,6 +763,7 @@ JINJA2_FILTERS = {
     'replace_prefix_owl': replace_prefix_owl,
     'get_additional_annotations': get_additional_annotations,
     'get_attrib': get_attrib,
+    'is_sunset': is_sunset,
 }
 template_env.filters.update(JINJA2_FILTERS)
 
