@@ -1962,7 +1962,7 @@ GUIDES = {
     },
     'GDPR-Data-Breach': {
         'template': 'template_guides_gdpr_data_breach.jinja2',
-        'output': '../guides/gdpr-ropa.html',
+        'output': '../guides/gdpr-data-breach.html',
     },
     'DPV-ODRL': {
         'template': 'template_guides_dpv_odrl.jinja2',
