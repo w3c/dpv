@@ -295,7 +295,10 @@ CSVFILES = {
         },
         'measures': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-measures.csv'
-        }
+        },
+        'bias': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-bias.csv'
+        },
     },
     'risk': {
         'core': {
@@ -313,6 +316,9 @@ CSVFILES = {
         },
         'risk_consequences': {
             'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
+        },
+        'bias': {
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/Bias.csv',
         },
         'incident': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Incident.csv',
@@ -805,6 +811,7 @@ RDF_VOCABS = {
             'capabilities': f'{IMPORT_PATH}/ai/modules/capabilities.ttl',
             'risks': f'{IMPORT_PATH}/ai/modules/risks.ttl',
             'measures': f'{IMPORT_PATH}/ai/modules/measures.ttl',
+            'bias': f'{IMPORT_PATH}/ai/modules/bias.ttl',
         },
         'metadata': {
             "dct:title": "AI Technology Concepts",
@@ -828,6 +835,7 @@ RDF_VOCABS = {
             'risk_controls': f'{IMPORT_PATH}/risk/modules/risk_controls.ttl',
             'incident': f'{IMPORT_PATH}/risk/modules/incident.ttl',
             'incident_status': f'{IMPORT_PATH}/risk/modules/incident_status.ttl',
+            'bias': f'{IMPORT_PATH}/risk/modules/bias.ttl',
         },
         'metadata': {
             "dct:title": "Risk Concepts",

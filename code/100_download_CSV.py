@@ -181,6 +181,7 @@ DPV_FILES = {
             'ai-capabilities',
             'ai-risks',
             'ai-measures',
+            'ai-bias',
             ),
     },
     # Sheets for Risk extension
@@ -199,6 +200,7 @@ DPV_FILES = {
             'Incident',
             'IncidentStatus',
             'RiskConsequences',
+            'Bias',
             ),
     },
     # Sheets for Rights extension
