@@ -730,6 +730,13 @@ def is_sunset(term):
     return str(term['sw:term_status']) == "sunset"
 
 
+def check_rdf_type(parents, verify_parent):
+    parents = ensure_list(parents)
+    for parent in parents:
+        if prefix_from_iri(parent) == verify_parent: return True
+    return False
+
+
 # == HTML Export ==
 
 # === Jinja setup ===
@@ -764,6 +771,7 @@ JINJA2_FILTERS = {
     'get_additional_annotations': get_additional_annotations,
     'get_attrib': get_attrib,
     'is_sunset': is_sunset,
+    'check_rdf_type': check_rdf_type,
 }
 template_env.filters.update(JINJA2_FILTERS)
 
