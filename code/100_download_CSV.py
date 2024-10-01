@@ -200,7 +200,6 @@ DPV_FILES = {
             'Incident',
             'IncidentStatus',
             'RiskConsequences',
-            'Bias',
             ),
     },
     # Sheets for Rights extension

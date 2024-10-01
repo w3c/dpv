@@ -525,6 +525,12 @@ def filter_type(itemlist:list, itemtype:list, vocab:str=None) -> list:
     return results
 
 
+def filter_type_dict(itemdict:dict, itemtype:list) -> dict:
+    itemtype = ensure_list(itemtype)
+    filtered_items = filter_type(itemdict.values(), itemtype)
+    return {item['prefixed']: itemdict[item['prefixed']] for item in filtered_items}
+
+
 def get_prop_with_term_domain(term:dict, vocab:str) -> list:
     """
     Retrieves properties where specified term is in the domain.
@@ -730,6 +736,13 @@ def is_sunset(term):
     return str(term['sw:term_status']) == "sunset"
 
 
+def check_rdf_type(parents, verify_parent):
+    parents = ensure_list(parents)
+    for parent in parents:
+        if prefix_from_iri(parent) == verify_parent: return True
+    return False
+
+
 # == HTML Export ==
 
 # === Jinja setup ===
@@ -750,6 +763,7 @@ JINJA2_FILTERS = {
     'ensure_list': ensure_list,
     'ensure_list_unique': ensure_list_unique,
     'filter_type': filter_type,
+    'filter_type_dict': filter_type_dict,
     'get_prop_with_term_domain': get_prop_with_term_domain,
     'get_prop_with_term_range': get_prop_with_term_range,
     'expand_time_interval': expand_time_interval,
@@ -764,6 +778,7 @@ JINJA2_FILTERS = {
     'get_additional_annotations': get_additional_annotations,
     'get_attrib': get_attrib,
     'is_sunset': is_sunset,
+    'check_rdf_type': check_rdf_type,
 }
 template_env.filters.update(JINJA2_FILTERS)
 

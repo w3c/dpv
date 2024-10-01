@@ -314,11 +314,8 @@ CSVFILES = {
         'risk_controls': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskControls.csv',
         },
-        'risk_consequences': {
+        'risk_taxonomy': {
             'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
-        },
-        'bias': {
-            'taxonomy-risk': f'{IMPORT_CSV_PATH}/Bias.csv',
         },
         'incident': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Incident.csv',
@@ -829,13 +826,12 @@ RDF_VOCABS = {
         'export': f'{EXPORT_PATH}/risk',
         'modules': {
             'core': f'{IMPORT_PATH}/risk/modules/core.ttl',
-            'risk_consequences': f'{IMPORT_PATH}/risk/modules/risk_consequences.ttl',
+            'risk_taxonomy': f'{IMPORT_PATH}/risk/modules/risk_taxonomy.ttl',
             'risk_levels': f'{IMPORT_PATH}/risk/modules/risk_levels.ttl',
             'risk_matrix': f'{IMPORT_PATH}/risk/modules/risk_matrix.ttl',
             'risk_controls': f'{IMPORT_PATH}/risk/modules/risk_controls.ttl',
             'incident': f'{IMPORT_PATH}/risk/modules/incident.ttl',
             'incident_status': f'{IMPORT_PATH}/risk/modules/incident_status.ttl',
-            'bias': f'{IMPORT_PATH}/risk/modules/bias.ttl',
         },
         'metadata': {
             "dct:title": "Risk Concepts",
