@@ -51,6 +51,108 @@
       {{ sotd() }}
     {{ dpv_document_family('guide-dpv-odrl') }}
 
+<section id="namespaces">
+  <h3>Namespaces</h3>
+    <p>The following namespaces and prefixes are used throughout this document:</p>
+    <table>
+        <thead><tr><th>prefix</th><th>URI</th></tr></thead>
+        <tbody>
+            <tr><td>dpv</td> <td><a href="https://w3id.org/dpv">https://w3id.org/dpv#</a></td></tr>
+            <tr><td>pd</td> <td><a href="https://w3id.org/dpv/pd">https://w3id.org/dpv/pd#</a></td></tr>
+            <tr><td>loc</td> <td><a href="https://w3id.org/dpv">https://w3id.org/dpv/loc#</a></td></tr>
+            <tr><td>tech</td> <td><a href="https://w3id.org/dpv">https://w3id.org/dpv/tech#</a></td></tr>
+            <tr><td>eu-gdpr</td> <td><a href="https://w3id.org/dpv/legal/eu/gdpr">https://w3id.org/dpv/legal/eu/gdpr#</a></td></tr>
+            <tr><td>dcterms</td> <td><a href="http://purl.org/dc/terms">http://purl.org/dc/terms/</a></td></tr>
+            <tr><td>dcat</td> <td><a href="http://www.w3.org/ns/dcat#">http://www.w3.org/ns/dcat#</a></td></tr>
+            <tr><td>odrl</td> <td><a href="http://www.w3.org/ns/odrl/2/">http://www.w3.org/ns/odrl/2/</a></td></tr>
+            <tr><td>dpv-odrl</td> <td><a href="https://w3id.org/dpv/odrl">https://w3id.org/dpv/odrl#</a></td></tr>
+            <tr><td>xsd</td> <td><a href="http://www.w3.org/2001/XMLSchema#">http://www.w3.org/2001/XMLSchema#</a></td></tr>
+            <tr><td>ex</td> <td><a href="https://example.com">https://example.com/</a></td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section id="introduction">
+  <h2>Introduction</h2>
+  <section>
+    <h3>ODRL</h3>
+    <p>TODO</p>
+  </section>
+  <section>
+    <h3>Advantages of using DPV and ODRL</h3>
+    <p>for the expression of deontic logic-based policies</p>
+  </section>
+</section>
+
+<section id="alignment">
+  <h2>Alignment with ODRL</h2>
+  <section>
+    <h3>Mapping: DPV x ODRL terms</h3>
+    <p>Mapping of how each DPV term should be used within an ODRL policy. This information will be represented in machine-readable as an ODRL profile that follows the best practices documented at <a>ODRL profile BP</a>.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>DPV (rows), ODRL (columns)</th>
+          <th>Policy</th>
+          <th>Rule</th>
+          <th>Asset</th>
+          <th>Action</th>
+          <th>Party</th>
+          <th>Constraint</th>
+          <th>Constraint dataType</th>
+          <th>Constraint unit</th>
+          <th>Constraint status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Process</th>
+          <td>X</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <h3>Process</h3>
+    <p>Unless stated otherwise, i.e., using DPV Rules, a DPV process instantiation must be interpreted as a permissive policy.</p>
+    <aside class="example" title="Example specifying a mapping from a DPV Process to an ODRL Policy">
+      <p>A DPV process describing a personal data handling activity:</p>
+      <pre><code>
+        ex:Alpha a dpv:DataController .
+        ex:AlphaPaymentManagement a dpv:Process ;
+          dpv:hasDataController ex:Alpha ;
+          dpv:hasPersonalData pd:BankAccount ;
+          dpv:hasProcessing dpv:Use ;
+          dpv:hasPurpose dpv:PaymentManagement .
+      </code></pre>
+      <p>Can be defined as the following ODRL policy:</p>
+      <pre><code>
+      ex:policy-AlphaPaymentManagement a odrl:Policy ;
+        dcterms:creator ex:Alpha ;
+        dcterms:issued "2022-11-08T17:26:35"^^xsd:dateTime ;
+        odrl:uid ex:policy-AlphaPaymentManagement ;
+        odrl:profile dpv-odrl: ;
+        odrl:permission [
+          odrl:assigner ex:Alpha ;
+          odrl:target pd:BankAccount ;
+          odrl:action dpv-odrl:Use ;
+          odrl:constraint [
+            odrl:leftOperand dpv-odrl:Purpose ;
+            odrl:operator odrl:isA ;
+            odrl:rightOperand dpv:PaymentManagement ] ] .
+      </code></pre>
+    </aside>
+  </section>
+</section>
+
 {% block ACKNOWLEDGEMENTS %}
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
