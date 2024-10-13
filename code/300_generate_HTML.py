@@ -525,6 +525,12 @@ def filter_type(itemlist:list, itemtype:list, vocab:str=None) -> list:
     return results
 
 
+def filter_type_dict(itemdict:dict, itemtype:list) -> dict:
+    itemtype = ensure_list(itemtype)
+    filtered_items = filter_type(itemdict.values(), itemtype)
+    return {item['prefixed']: itemdict[item['prefixed']] for item in filtered_items}
+
+
 def get_prop_with_term_domain(term:dict, vocab:str) -> list:
     """
     Retrieves properties where specified term is in the domain.
@@ -720,6 +726,23 @@ def get_additional_annotations(concept:dict) -> list:
     return results
 
 
+def get_attrib(term, key):
+    DEBUG(f'{term}: {type(term)}')
+    return term[key]
+
+
+def is_sunset(term):
+    if 'sw:term_status' not in term: return False
+    return str(term['sw:term_status']) == "sunset"
+
+
+def check_rdf_type(parents, verify_parent):
+    parents = ensure_list(parents)
+    for parent in parents:
+        if prefix_from_iri(parent) == verify_parent: return True
+    return False
+
+
 # == HTML Export ==
 
 # === Jinja setup ===
@@ -740,6 +763,7 @@ JINJA2_FILTERS = {
     'ensure_list': ensure_list,
     'ensure_list_unique': ensure_list_unique,
     'filter_type': filter_type,
+    'filter_type_dict': filter_type_dict,
     'get_prop_with_term_domain': get_prop_with_term_domain,
     'get_prop_with_term_range': get_prop_with_term_range,
     'expand_time_interval': expand_time_interval,
@@ -752,6 +776,9 @@ JINJA2_FILTERS = {
     'replace_iri_owl': replace_iri_owl,
     'replace_prefix_owl': replace_prefix_owl,
     'get_additional_annotations': get_additional_annotations,
+    'get_attrib': get_attrib,
+    'is_sunset': is_sunset,
+    'check_rdf_type': check_rdf_type,
 }
 template_env.filters.update(JINJA2_FILTERS)
 
@@ -799,7 +826,10 @@ def _write_template(
                 f'{filepath}/index.html') # dest
             INFO(f'wrote {filename} spec at {filepath}/index.html')
     if owl:
-        template = template_env.get_template('template_owl_generic_index.jinja2')
+        if vocab != 'loc':
+            template = template_env.get_template('template_owl_generic_index.jinja2')
+        else:
+            template = template_env.get_template('template_locations_owl.jinja2')
         params['owl'] = OWL
         with open(f'{filepath}/{filename}-owl.html', 'w+') as fd:
             fd.write(template.render(**params))
@@ -887,22 +917,6 @@ if data and ':' in list(data.keys())[0]: # hack to detect repeated script call
 
 INFO('*'*40)
 
-INFO('Generating GUIDES')
-
-for doc, data in GUIDES.items():
-    DEBUG(f'generating guide: {doc}')
-    template = data['template']
-    filepath = f"{data['output']}"
-    with open(filepath, 'w') as fd:
-        template = template_env.get_template(template)
-        fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
-    INFO(f"wrote guide {doc} at {filepath}")
-with open('../guides/index.html', 'w') as fd:
-    template = template_env.get_template('template_guides_index.jinja2')
-    fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
-INFO(f"wrote guide {doc} at {filepath}")
-INFO('*'*40)
-
 INFO('Generating Search Index')
 results_classes = list(DATA.graph.query("""
     SELECT 
@@ -974,7 +988,7 @@ index = []
 
 def add_item_to_index(iri):
     item = classes[iri]
-    data = {'name': f'<a class="concept" href="{item["relative-iri"]}">{item["vocab"]}: {item["label"]}</a><sup class="concept-type">{item["category"]}</sup>'}
+    data = {'name': f'<a class="concept" href="{item["relative-iri"]}">{item["vocab"]}:{item["label"]}</a><sup class="concept-type">{item["category"]}</sup>'}
     if item['children']:
         data['children'] = [
             add_item_to_index(child['iri'])
@@ -996,3 +1010,36 @@ with open(filepath, 'w') as fd:
 INFO(f"wrote search index document at {filepath}")
 
 INFO('*'*40)
+
+# == script ==
+if __name__ == '__main__':
+    # The script has a default behaviour where it will NOT download
+    # any file and will extract ALL CSVs from existing files.
+    import argparse
+    parser = argparse.ArgumentParser()
+    # - `-d` will download and extract ALL files
+    parser.add_argument('-G', '--guides', action='store_true', help="generate guides")
+    # - `-x` will extract ALL files
+    # parser.add_argument('-x', '--x', action='store_true', default=True, help="extract CSVs from all data files")
+    # # - `-ds <foo>` will download and extract ONLY `foo` files
+    # parser.add_argument('--ds', nargs='+', default=False, help="download only indicated data files")
+    # # - `-xs <foo>` will extract ONLY `foo` files
+    # parser.add_argument('--xs', nargs='+', default=False, help="extract CSVs from indicated data files")
+    args = parser.parse_args()
+
+    # If files are to be downloaded, do the following.
+    if args.guides:
+        INFO('Generating GUIDES')
+        for doc, data in GUIDES.items():
+            DEBUG(f'generating guide: {doc}')
+            template = data['template']
+            filepath = f"{data['output']}"
+            with open(filepath, 'w') as fd:
+                template = template_env.get_template(template)
+                fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
+            INFO(f"wrote guide {doc} at {filepath}")
+        with open('../guides/index.html', 'w') as fd:
+            template = template_env.get_template('template_guides_index.jinja2')
+            fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
+        INFO(f"wrote guide {doc} at {filepath}")
+        INFO('*'*40)

@@ -3,6 +3,43 @@
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
 {% from 'macro_example.jinja2' import example_aside %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+
+{% macro make_risk_table(concepts, head) %}
+<table class="sortable">
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th colspan="4">Roles</th>
+      <th colspan="3">CIA model</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Risk Source</th>
+      <th>Risk</th>
+      <th>Consequence</th>
+      <th>Impact</th>
+      <th>Confidentiality</th>
+      <th>Integrity</th>
+      <th>Availability</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for term, data in concepts.items()|sort(attribute='0') %}
+    <tr>
+      <td><a href="{{data['iri']}}" class="local-link">{{ term }}</a></td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:PotentialRiskSource') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:PotentialRisk') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:PotentialConsequence') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:PotentialImpact') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:ConfidentialityConcept') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:IntegrityConcept') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:AvailabilityConcept') %}&check;{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endmacro %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,6 +114,35 @@
 <link rel="stylesheet" type="text/css" href="../diagrams/common.css">
 <link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
   <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+<style type="text/css">
+.sortable th {
+   cursor: pointer;
+}
+.sortable th.no-sort {
+   pointer-events: none;
+}
+.sortable th::after, 
+.sortable th::before {
+ transition: color 0.2s ease-in-out;
+ font-size: 1.2em;
+ color: transparent;
+}
+.sortable th::after {
+   margin-left: 3px;
+   content: '\025B8';
+}
+.sortable th:hover::after {
+   color: inherit;
+}
+.sortable th.dir-d::after {
+   color: inherit;
+   content: '\025BE';
+}
+.sortable th.dir-u::after {
+   color: inherit;
+   content: '\025B4';
+}
+</style>
 </head>
 <body>
   {% block ABSTRACT %}
@@ -185,8 +251,12 @@
     {{ list_hierarchy(modules['incident']['classes']) }}
 
     <section id="vocab-incident-status">
-      <h2>Incident Status</h2>
+      <h3>Incident Status</h3>
       {{ list_hierarchy(modules['incident_status']['classes']) }}
+    </section>
+
+    <section id="vocab-incident-report">
+      <h3>Incident Report</h3>
     </section>
   </section>
 
@@ -198,42 +268,234 @@
 
   </section>
 
-  <section id="vocab-risk-consequences">
-    <h2>Consequences and Impacts</h2>
+  <section id="vocab-risk-taxonomy">
+    <h2>Taxonomies</h2>
     <aside class="note" title="Planned changes to Consequence and Impacts taxonomy" style="color: red;">
       <p>The DPVCG is planning major changes to the way consequences and impacts are represented as concepts, and welcomes participation and contributions in this discussions.</p>
     </aside>
-    <p>The RISK extension provides a taxonomy to expand upon the [[DPV]] concepts of <code>dpv:Consequence</code> and <code>dpv:Impact</code>. In [[DPV]], consequence is in general an outcome of an event, while impacts are a specific subset of consequences which affect entities (as compared to systems and technologies). The intent of this distinction is to support regulatory requirements such as impact assessments which are focused on how processes affect entities such as individuals and societal groups.</p>
-    <p>Broadly, the taxonomy is based on the following commonly required concepts:</p>
-    <ol>
-      <li>Consequences:
-        <ol type="a">
-        <li>[=Benefit=]</li>
-        <li>[=Detriment=]</li>
-        <li>[=Damage=]</li>
-        </ol></li>
-      <li>Impacts:
-        <ol type="b">
-        <li>[=MaterialDamage=]</li>
-        <li>[=NonMaterialDamage=]</li>
-        <li>[=Harm=]</li>
-        <li>[=Compensation=]</li>
-        <li>[=Reward=]</li>
-        <li>[=Payment=]</li>
-        <li>[=Fee=]</li>
-        <li>[=Renumeration=]</li>
-        </ol></li>
-    </ol>
-    {{ list_hierarchy(modules['risk_consequences']['classes']) }}
+    <p>The RISK extension provides a single unified taxonomy of concepts that can take on the roles of `RiskSource`, `Risk`, `Consequence`, and `Impact` in an use-case. For example, the same concept `DataBreach` can be the the `Risk` in a risk assessment whose impacts are to be determined, or it can be the `Impact` whose causes must be discovered. By providing a single taxonomy, the adopter is free to choose which role the concept plays within their use-case - which offers significant benefits in terms of both extensibility and flexibility, allowing users to tailor the taxonomy to their specific use cases while maintaining a consistent framework.</p>
+    <p>The RISK taxonomy's design allows it to be highly and easily extensible as concepts are not required to be strictly categorised as risks or impacts within the DPV specifications itself. This is particularly valuable as the areas of cybersecurity and AI technologies are rapidly evolving landscapes where new risks and risk sources frequently emerge.</p>
+    <p>To enable the creation of this taxonomy, the concept `dpv:RiskConcept` acts as the parent or top concept, and `dpv:Risk`, `dpv:Consequence`, `dpv:Impact`, and `risk:RiskSource` are defined as its subclasses. To utilise these concepts in particular roles, the associated relations or properties such as `dpv:hasRisk` and `dpv:hasImpact` are used.</p>
+    <aside class="example" title="Indicating risks and impacts using the RISK taxonomy">
+      <p>This example shows how the same concept can take on multiple roles across different contexts or use-cases. The first part describes a development phase where technologies are assessed for vulnerabilities whose impact may result in a data breach. This represents a typical internal-facing risk assessment. The second part describes the deployment phase where technologies are assessed for the risk of data breaches which may cause significant impact on data subjects. This represents a typical external-facing data breach impact assessment.</p>
+      <pre><code># Part 1: Risk Assessment for Data Breach
+ex:ProcessA a dpv:Process ;
+    risk:hasRiskSource risk:MalwareAttack ;
+    dpv:hasRisk risk:UnauthorisedDataAccess ;
+    dpv:hasConsequence risk:CompromiseAccountCredentials ;
+    dpv:hasImpact risk:DataBreach .
+
+# Part 2: Data Breach Impact Assessment
+ex:ProcessB a dpv:Process ;
+    risk:hasRiskSource risk:DataBreach ;
+    dpv:hasRisk risk:IdentityFraud ;
+    dpv:hasConsequence risk:IntentionalMisuse ;
+    dpv:hasImpact risk:RightsImpact .</code></pre>
+    </aside>
+
+    <section id="vocab-potential-risk-sources">
+      <h3>Potential Risk Sources</h3>
+      {{ list_hierarchy(modules['risk_taxonomy']['classes']|filter_type_dict('risk:PotentialRiskSource')) }}
+    </section>
+
+    <section id="vocab-potential-risk">
+      <h3>Potential Risks</h3>
+      {{ list_hierarchy(modules['risk_taxonomy']['classes']|filter_type_dict('risk:PotentialRisk')) }}
+    </section>
+
+    <section id="vocab-potential-consequences">
+      <h3>Potential Consequences</h3>
+      {{ list_hierarchy(modules['risk_taxonomy']['classes']|filter_type_dict('risk:PotentialConsequence')) }}
+    </section>
+
+    <section id="vocab-potential-impacts">
+      <h3>Potential Impacts</h3>
+      {{ list_hierarchy(modules['risk_taxonomy']['classes']|filter_type_dict('risk:PotentialImpact')) }}
+    </section>
+
+    <section>
+      <h3>Overview of Concepts and Roles</h3>
+      {{ make_risk_table(modules['risk_taxonomy']['classes'], head='risk:RiskConcept') }}
+    </section>
+
   </section>
-
-
   <section id="vocab-risk-matrix">
     <h2>Risk Matrix</h2>
     <p><a href="https://en.wikipedia.org/wiki/Risk_matrix">Risk Matrix</a> is a popularly used technique for qualitative risk analysis, through which a risk's likelihood and severity are used to obtain an overall risk level. To support its use, the RISK taxonomy provides concepts representing risk matrices of the format 3x3, 5x5, and 7x7. The concepts are expressed as combinations of Severity (<code>Sx</code>) and Likelihood (<code>Lx</code>) levels, and the resulting Risk Level (<code>Lx</code>) being used as its label. For example, the concept [=RM3x3S1L3=] represents a node in a 3x3 matrix with Severity and Likelihood level low (n=1) and Likelihood level high (n=3) with a resulting Risk Level of 'Moderate'. Similarly, [=RM7x7S4L7=] represents a node in a 7x7 risk matrix with Severity level moderate (n=4) and Likelihood level extremely high (n=7) with the resulting Risk Level of 'Very High Risk'.</p>
     <p>It is possible to change the risk levels for the risk matrix by replacing the supplied labels with a custom one. For example, to indicate that the concept [=RM3x3S1L3=] should be 'Low Risk' instead of 'Moderate'.</p>
 
-    {{ list_hierarchy(modules['risk_matrix']['classes']) }}
+    <section id="vocab-risk-matrix-3x3">
+      <h3>Risk Matrix 3x3</h3>
+      <table>
+        <tr>
+            <td></td>
+            <td>Low</td>
+            <td>Moderate</td>
+            <td>High</td>
+        </tr>
+        <tr>
+            <td>High</td>
+            <td>[=RM7x7S3L5=]</td>
+            <td>[=RM7x7S4L5=]</td>
+            <td>[=RM7x7S5L5=]</td>
+        </tr>
+        <tr>
+            <td>Moderate</td>
+            <td>[=RM7x7S3L4=]</td>
+            <td>[=RM7x7S4L4=]</td>
+            <td>[=RM7x7S5L4=]</td>
+        </tr>
+        <tr>
+            <td>Low</td>
+            <td>[=RM7x7S3L3=]</td>
+            <td>[=RM7x7S4L3=]</td>
+            <td>[=RM7x7S5L3=]</td>
+        </tr>
+    </table>
+      {# {{ list_hierarchy(modules['risk_matrix']['classes'], head='risk:RiskMatrix3x3') }} #}
+    </section>
+
+    <section id="vocab-risk-matrix-5x5">
+      <h3>Risk Matrix 5x5</h3>
+      <table>
+        <tr>
+            <td></td>
+            <td>Very Low</td>
+            <td>Low</td>
+            <td>Moderate</td>
+            <td>High</td>
+            <td>Very High</td>
+        </tr>
+        <tr>
+            <td>Very High</td>
+            <td>[=RM7x7S2L6=]</td>
+            <td>[=RM7x7S3L6=]</td>
+            <td>[=RM7x7S4L6=]</td>
+            <td>[=RM7x7S5L6=]</td>
+            <td>[=RM7x7S6L6=]</td>
+        </tr>
+        <tr>
+            <td>High</td>
+            <td>[=RM7x7S2L5=]</td>
+            <td>[=RM7x7S3L5=]</td>
+            <td>[=RM7x7S4L5=]</td>
+            <td>[=RM7x7S5L5=]</td>
+            <td>[=RM7x7S6L5=]</td>
+        </tr>
+        <tr>
+            <td>Moderate</td>
+            <td>[=RM7x7S2L4=]</td>
+            <td>[=RM7x7S3L4=]</td>
+            <td>[=RM7x7S4L4=]</td>
+            <td>[=RM7x7S5L4=]</td>
+            <td>[=RM7x7S6L4=]</td>
+        </tr>
+        <tr>
+            <td>Low</td>
+            <td>[=RM7x7S2L3=]</td>
+            <td>[=RM7x7S3L3=]</td>
+            <td>[=RM7x7S4L3=]</td>
+            <td>[=RM7x7S5L3=]</td>
+            <td>[=RM7x7S6L3=]</td>
+        </tr>
+        <tr>
+            <td>Very Low</td>
+            <td>[=RM7x7S2L2=]</td>
+            <td>[=RM7x7S3L2=]</td>
+            <td>[=RM7x7S4L2=]</td>
+            <td>[=RM7x7S5L2=]</td>
+            <td>[=RM7x7S6L2=]</td>
+        </tr>
+    </table>
+      {# {{ list_hierarchy(modules['risk_matrix']['classes'], head='risk:RiskMatrix5x5') }} #}
+    </section>
+
+    <section id="vocab-risk-matrix-7x7">
+      <h3>Risk Matrix 7x7</h3>
+      <table>
+        <tr>
+            <td></td>
+            <td>Extremely Low</td>
+            <td>Very Low</td>
+            <td>Low</td>
+            <td>Moderate</td>
+            <td>High</td>
+            <td>Very High</td>
+            <td>Extremely High</td>
+        </tr>
+        <tr>
+            <td>Extremely High</td>
+            <td>[=RM7x7S1L7=]</td>
+            <td>[=RM7x7S2L7=]</td>
+            <td>[=RM7x7S3L7=]</td>
+            <td>[=RM7x7S4L7=]</td>
+            <td>[=RM7x7S5L7=]</td>
+            <td>[=RM7x7S6L7=]</td>
+            <td>[=RM7x7S7L7=]</td>
+        </tr>
+        <tr>
+            <td>Very High</td>
+            <td>[=RM7x7S1L6=]</td>
+            <td>[=RM7x7S2L6=]</td>
+            <td>[=RM7x7S3L6=]</td>
+            <td>[=RM7x7S4L6=]</td>
+            <td>[=RM7x7S5L6=]</td>
+            <td>[=RM7x7S6L6=]</td>
+            <td>[=RM7x7S7L6=]</td>
+        </tr>
+        <tr>
+            <td>High</td>
+            <td>[=RM7x7S1L5=]</td>
+            <td>[=RM7x7S2L5=]</td>
+            <td>[=RM7x7S3L5=]</td>
+            <td>[=RM7x7S4L5=]</td>
+            <td>[=RM7x7S5L5=]</td>
+            <td>[=RM7x7S6L5=]</td>
+            <td>[=RM7x7S7L5=]</td>
+        </tr>
+        <tr>
+            <td>Moderate</td>
+            <td>[=RM7x7S1L4=]</td>
+            <td>[=RM7x7S2L4=]</td>
+            <td>[=RM7x7S3L4=]</td>
+            <td>[=RM7x7S4L4=]</td>
+            <td>[=RM7x7S5L4=]</td>
+            <td>[=RM7x7S6L4=]</td>
+            <td>[=RM7x7S7L4=]</td>
+        </tr>
+        <tr>
+            <td>Low</td>
+            <td>[=RM7x7S1L3=]</td>
+            <td>[=RM7x7S2L3=]</td>
+            <td>[=RM7x7S3L3=]</td>
+            <td>[=RM7x7S4L3=]</td>
+            <td>[=RM7x7S5L3=]</td>
+            <td>[=RM7x7S6L3=]</td>
+            <td>[=RM7x7S7L3=]</td>
+        </tr>
+        <tr>
+            <td>Very Low</td>
+            <td>[=RM7x7S1L2=]</td>
+            <td>[=RM7x7S2L2=]</td>
+            <td>[=RM7x7S3L2=]</td>
+            <td>[=RM7x7S4L2=]</td>
+            <td>[=RM7x7S5L2=]</td>
+            <td>[=RM7x7S6L2=]</td>
+            <td>[=RM7x7S7L2=]</td>
+        </tr>
+        <tr>
+            <td>Extremely Low</td>
+            <td>[=RM7x7S1L1=]</td>
+            <td>[=RM7x7S2L1=]</td>
+            <td>[=RM7x7S3L1=]</td>
+            <td>[=RM7x7S4L1=]</td>
+            <td>[=RM7x7S5L1=]</td>
+            <td>[=RM7x7S6L1=]</td>
+            <td>[=RM7x7S7L1=]</td>
+        </tr>
+    </table>
+      {# {{ list_hierarchy(modules['risk_matrix']['classes'], head='risk:RiskMatrix7x7') }} #}
+    </section>
 
   </section>
 
@@ -295,5 +557,69 @@
 {% endblock ACKNOWLEDGEMENTS %}
 
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
+<script type="text/javascript">
+/** SOURCE: Jonas Earendel https://github.com/tofsjonas/sortable
+    LICENSE: UNLINCENSE / Public Domain **/
+document.addEventListener('click', function (e) {
+  try {
+    function findElementRecursive(element, tag) {
+      return element.nodeName === tag ? element : 
+       findElementRecursive(element.parentNode, tag)
+    }
+    var descending_th_class = ' dir-d '
+    var ascending_th_class = ' dir-u '
+    var ascending_table_sort_class = 'asc'
+    var regex_dir = / dir-(u|d) /
+    var regex_table = /\bsortable\b/
+    var alt_sort = e.shiftKey || e.altKey
+    var element = findElementRecursive(e.target, 'TH')
+    var tr = findElementRecursive(element, 'TR')
+    var table = findElementRecursive(tr, 'TABLE')
+    function reClassify(element, dir) {
+      element.className = element.className.replace(regex_dir, '') + dir
+    }
+    function getValue(element) {
+      return (
+        (alt_sort && element.getAttribute('data-sort-alt')) || 
+      element.getAttribute('data-sort') || element.innerText
+      )
+    }
+    if (regex_table.test(table.className)) {
+      var column_index
+      var nodes = tr.cells
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i] === element) {
+          column_index = element.getAttribute('data-sort-col') || i
+        } else {
+          reClassify(nodes[i], '')
+        }
+      }
+      var dir = descending_th_class
+      if (
+        element.className.indexOf(descending_th_class) !== -1 ||
+        (table.className.indexOf(ascending_table_sort_class) !== -1 &&
+          element.className.indexOf(ascending_th_class) == -1)
+      ) {
+        dir = ascending_th_class
+      }
+      reClassify(element, dir)
+      var org_tbody = table.tBodies[0]
+      var rows = [].slice.call(org_tbody.rows, 0)
+      var reverse = dir === ascending_th_class
+      rows.sort(function (a, b) {
+        var x = getValue((reverse ? a : b).cells[column_index])
+        var y = getValue((reverse ? b : a).cells[column_index])
+        return isNaN(x - y) ? x.localeCompare(y) : x - y
+      })
+      var clone_tbody = org_tbody.cloneNode()
+      while (rows.length) {
+        clone_tbody.appendChild(rows.splice(0, 1)[0])
+      }
+      table.replaceChild(clone_tbody, org_tbody)
+    }
+  } catch (error) {
+  }
+});
+</script>
 </body>
 </html>

@@ -101,8 +101,8 @@ NS.ns = { k:v for k,v in NAMESPACES.items() }
 # === Import/Export for RDF and HTML ===
 
 # DPV Version
-DPV_VERSION = "2.0"
-DPV_PUBLISH_DATE = "2024-08-01"
+DPV_VERSION = "2.1-dev"
+DPV_PUBLISH_DATE = "2024-08-18"
 # Document status: should be one of CG-DRAFT or CG-FINAL
 DOCUMENT_STATUS = "CG-FINAL"
 
@@ -156,9 +156,10 @@ CSVFILES = {
         'physical_measures': {
             'taxonomy': f'{IMPORT_CSV_PATH}/PhysicalMeasure.csv',
         },
-        # 'entity_control': {
-        #     'taxonomy': f'{IMPORT_CSV_PATH}/EntityControl.csv',
-        # },
+        'notice': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Notice.csv',
+            'properties': f'{IMPORT_CSV_PATH}/Notice_properties.csv',
+        },
         'entities': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Entities.csv',
             'properties': f'{IMPORT_CSV_PATH}/Entities_properties.csv',
@@ -182,6 +183,9 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/LegalBasis.csv',
             'properties': f'{IMPORT_CSV_PATH}/LegalBasis_properties.csv',
         },
+        'legal_basis_status': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/LegalBasisStatus.csv',
+        },
         'consent': {
             'properties': f'{IMPORT_CSV_PATH}/Consent_properties.csv',
         },
@@ -193,6 +197,21 @@ CSVFILES = {
         },
         'consent_controls': {
             'classes': f'{IMPORT_CSV_PATH}/ConsentControls.csv',
+        },
+        'contract_types': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ContractTypes.csv',
+        },
+        'contract_status': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ContractStatus.csv',
+        },
+        'contract_clause': {
+            'classes': f'{IMPORT_CSV_PATH}/ContractClause.csv',
+        },
+        'contract_control': {
+            'classes': f'{IMPORT_CSV_PATH}/ContractControl.csv',
+        },
+        'contract': {
+            'properties': f'{IMPORT_CSV_PATH}/Contract_properties.csv',
         },
         'context': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Context.csv',
@@ -276,7 +295,10 @@ CSVFILES = {
         },
         'measures': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-measures.csv'
-        }
+        },
+        'bias': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-bias.csv'
+        },
     },
     'risk': {
         'core': {
@@ -292,8 +314,8 @@ CSVFILES = {
         'risk_controls': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskControls.csv',
         },
-        'risk_consequences': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
+        'risk_taxonomy': {
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
         },
         'incident': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Incident.csv',
@@ -316,19 +338,39 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_Exercise.csv',
         },
     },
-    'loc': {
-        'locations': {
-            'locations': f'{IMPORT_CSV_PATH}/location.csv',
-            'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
-        },
-        'memberships': {
-            'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
+    # 'loc': {
+    #     'locations': {
+    #         'locations': f'{IMPORT_CSV_PATH}/location.csv',
+    #         'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
+    #     },
+    #     'memberships': {
+    #         'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
+    #     },
+    # },
+    # Laws-Authorities
+    'legal-at': {
+        'at': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-at.csv',
         },
     },
-    # Laws-Authorities
-    'legal-eu': {
-        'eu': {
-            'laws': f'{IMPORT_CSV_PATH}/legal-eu.csv',
+    'legal-be': {
+        'be': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-be.csv',
+        },
+    },
+    'legal-bg': {
+        'bg': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-bg.csv',
+        },
+    },
+    'legal-cy': {
+        'cy': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-cy.csv',
+        },
+    },
+    'legal-cz': {
+        'cz': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-cz.csv',
         },
     },
     'legal-de': {
@@ -336,9 +378,54 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-de.csv',
         },
     },
+    'legal-dk': {
+        'dk': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-dk.csv',
+        },
+    },
+    'legal-ee': {
+        'ee': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-ee.csv',
+        },
+    },
+    'legal-es': {
+        'es': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-es.csv',
+        },
+    },
+    'legal-eu': {
+        'eu': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-eu.csv',
+        },
+    },
+    'legal-fi': {
+        'fi': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-fi.csv',
+        },
+    },
+    'legal-fr': {
+        'fr': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-fr.csv',
+        },
+    },
     'legal-gb': {
         'gb': {
             'laws': f'{IMPORT_CSV_PATH}/legal-gb.csv',
+        },
+    },
+    'legal-gr': {
+        'gr': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-gr.csv',
+        },
+    },
+    'legal-hr': {
+        'hr': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-hr.csv',
+        },
+    },
+    'legal-hu': {
+        'hu': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-hu.csv',
         },
     },
     'legal-ie': {
@@ -351,11 +438,87 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-in.csv',
         },
     },
+    'legal-is': {
+        'is': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-is.csv',
+        },
+    },
+    'legal-it': {
+        'it': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-it.csv',
+        },
+    },
+    'legal-li': {
+        'li': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-li.csv',
+        },
+    },
+    'legal-lt': {
+        'lt': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-lt.csv',
+        },
+    },
+    'legal-lu': {
+        'lu': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-lu.csv',
+        },
+    },
+    'legal-lv': {
+        'lv': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-lv.csv',
+        },
+    },
+    'legal-mt': {
+        'mt': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-mt.csv',
+        },
+    },
+    'legal-nl': {
+        'nl': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-nl.csv',
+        },
+    },
+    'legal-no': {
+        'no': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-no.csv',
+        },
+    },
+    'legal-pl': {
+        'pl': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-pl.csv',
+        },
+    },
+    'legal-pt': {
+        'pt': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-pt.csv',
+        },
+    },
+    'legal-ro': {
+        'ro': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-ro.csv',
+        },
+    },
+    'legal-se': {
+        'se': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-se.csv',
+        },
+    },
+    'legal-si': {
+        'si': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-si.csv',
+        },
+    },
+    'legal-sk': {
+        'sk': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-sk.csv',
+        },
+    },
     'legal-us': {
         'us': {
             'laws': f'{IMPORT_CSV_PATH}/legal-us.csv',
         },
     },
+
     # EU Regulations
     'eu-gdpr': {
         'legal_basis': {
@@ -533,7 +696,7 @@ RDF_VOCABS = {
             'TOM-organisational': f'{IMPORT_PATH}/dpv/modules/organisational_measures.ttl',
             'TOM-legal': f'{IMPORT_PATH}/dpv/modules/legal_measures.ttl',
             'TOM-physical': f'{IMPORT_PATH}/dpv/modules/physical_measures.ttl',
-            # 'TOM-entitycontrol': f'{IMPORT_PATH}/dpv/modules/entity_control.ttl',
+            'TOM-notice': f'{IMPORT_PATH}/dpv/modules/notice.ttl',
             'entities': f'{IMPORT_PATH}/dpv/modules/entities.ttl',
             'entities-authority': f'{IMPORT_PATH}/dpv/modules/entities_authority.ttl',
             'entities-legalrole': f'{IMPORT_PATH}/dpv/modules/entities_legalrole.ttl',
@@ -544,6 +707,12 @@ RDF_VOCABS = {
             'legal_basis-consent-types': f'{IMPORT_PATH}/dpv/modules/consent_types.ttl',
             'legal_basis-consent-status': f'{IMPORT_PATH}/dpv/modules/consent_status.ttl',
             'legal_basis-consent-controls': f'{IMPORT_PATH}/dpv/modules/consent_controls.ttl',
+            'legal_basis-contract': f'{IMPORT_PATH}/dpv/modules/contract.ttl',
+            'legal_basis-contract-types': f'{IMPORT_PATH}/dpv/modules/contract_types.ttl',
+            'legal_basis-contract-status': f'{IMPORT_PATH}/dpv/modules/contract_status.ttl',
+            'legal_basis-contract-clause': f'{IMPORT_PATH}/dpv/modules/contract_clause.ttl',
+            'legal_basis-contract-control': f'{IMPORT_PATH}/dpv/modules/contract_control.ttl',
+            'legal_basis-status': f'{IMPORT_PATH}/dpv/modules/legal_basis_status.ttl',
             'processing-context': f'{IMPORT_PATH}/dpv/modules/processing_context.ttl',
             'processing-scale': f'{IMPORT_PATH}/dpv/modules/processing_scale.ttl',
             'context': f'{IMPORT_PATH}/dpv/modules/context.ttl',
@@ -630,6 +799,7 @@ RDF_VOCABS = {
             'capabilities': f'{IMPORT_PATH}/ai/modules/capabilities.ttl',
             'risks': f'{IMPORT_PATH}/ai/modules/risks.ttl',
             'measures': f'{IMPORT_PATH}/ai/modules/measures.ttl',
+            'bias': f'{IMPORT_PATH}/ai/modules/bias.ttl',
         },
         'metadata': {
             "dct:title": "AI Technology Concepts",
@@ -648,7 +818,7 @@ RDF_VOCABS = {
         'export': f'{EXPORT_PATH}/risk',
         'modules': {
             'core': f'{IMPORT_PATH}/risk/modules/core.ttl',
-            'risk_consequences': f'{IMPORT_PATH}/risk/modules/risk_consequences.ttl',
+            'risk_taxonomy': f'{IMPORT_PATH}/risk/modules/risk_taxonomy.ttl',
             'risk_levels': f'{IMPORT_PATH}/risk/modules/risk_levels.ttl',
             'risk_matrix': f'{IMPORT_PATH}/risk/modules/risk_matrix.ttl',
             'risk_controls': f'{IMPORT_PATH}/risk/modules/risk_controls.ttl',
@@ -707,7 +877,7 @@ RDF_VOCABS = {
         },
     },
     # LEGAL VOCABS
-    'legal-eu': {
+    'legal-eu': { # EU vocab needs to be loaded first as other vocabs contain references to it
         'vocab': f'{IMPORT_PATH}/legal/eu/legal-eu.ttl',
         'template': 'template_legal_jurisdiction.jinja2',
         'export': f'{EXPORT_PATH}/legal/eu',
@@ -716,13 +886,108 @@ RDF_VOCABS = {
         },
         'metadata': {
             "dct:title": "Legal Concepts for European Union (EU)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for EU as jurisdiction",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for European Union as jurisdiction",
             "dct:created": "2024-01-01",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/eu',
+            "bibo:status": "published",
+        },
+    },
+    'legal-at': {
+        'vocab': f'{IMPORT_PATH}/legal/at/legal-at.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/at',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/at/legal-at.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Austria (AT)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Austria as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/at',
+            "bibo:status": "published",
+        },
+    },
+    'legal-be': {
+        'vocab': f'{IMPORT_PATH}/legal/be/legal-be.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/be',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/be/legal-be.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Belgium (BE)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Belgium as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/be',
+            "bibo:status": "published",
+        },
+    },
+    'legal-bg': {
+        'vocab': f'{IMPORT_PATH}/legal/bg/legal-bg.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/bg',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/bg/legal-bg.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Bulgaria (BG)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Bulgaria as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/bg',
+            "bibo:status": "published",
+        },
+    },
+    'legal-cy': {
+        'vocab': f'{IMPORT_PATH}/legal/cy/legal-cy.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/cy',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/cy/legal-cy.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Cyprus (CY)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Cyprus as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/cy',
+            "bibo:status": "published",
+        },
+    },
+    'legal-cz': {
+        'vocab': f'{IMPORT_PATH}/legal/cz/legal-cz.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/cz',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/cz/legal-cz.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Czech Republic (CZ)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Czech Republic as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/cz',
             "bibo:status": "published",
         },
     },
@@ -734,14 +999,109 @@ RDF_VOCABS = {
             'legal': f'{IMPORT_PATH}/legal/de/legal-de.ttl',
         },
         'metadata': {
-            "dct:title": "Legal Concepts for Germany",
+            "dct:title": "Legal Concepts for Germany (DE)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Germany as jurisdiction",
             "dct:created": "2024-01-01",
             "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Harshvardhan J. Pandit, Julian Flake",
+            "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/de',
+            "bibo:status": "published",
+        },
+    },
+    'legal-dk': {
+        'vocab': f'{IMPORT_PATH}/legal/dk/legal-dk.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/dk',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/dk/legal-dk.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Denmark (DK)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Denmark as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/dk',
+            "bibo:status": "published",
+        },
+    },
+    'legal-ee': {
+        'vocab': f'{IMPORT_PATH}/legal/ee/legal-ee.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/ee',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/ee/legal-ee.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Estonia (EE)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Estonia as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/ee',
+            "bibo:status": "published",
+        },
+    },
+    'legal-es': {
+        'vocab': f'{IMPORT_PATH}/legal/es/legal-es.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/es',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/es/legal-es.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Spain (ES)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Spain as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/es',
+            "bibo:status": "published",
+        },
+    },
+    'legal-fi': {
+        'vocab': f'{IMPORT_PATH}/legal/fi/legal-fi.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/fi',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/fi/legal-fi.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Finland (FI)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Finland as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/fi',
+            "bibo:status": "published",
+        },
+    },
+    'legal-fr': {
+        'vocab': f'{IMPORT_PATH}/legal/fr/legal-fr.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/fr',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/fr/legal-fr.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for France (FR)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for France as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/fr',
             "bibo:status": "published",
         },
     },
@@ -753,14 +1113,71 @@ RDF_VOCABS = {
             'legal': f'{IMPORT_PATH}/legal/gb/legal-gb.ttl',
         },
         'metadata': {
-            "dct:title": "Legal Concepts for United Kingdom of Great Britain and Northern Ireland",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for United Kingdom of Great Britain and Northern Ireland as jurisdiction",
+            "dct:title": "Legal Concepts for United Kingdom of Great Britain and Northern Ireland (GB)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for United Kingdom of Great Britain and Northern Ireland  as jurisdiction",
             "dct:created": "2024-01-01",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/gb',
+            "bibo:status": "published",
+        },
+    },
+    'legal-gr': {
+        'vocab': f'{IMPORT_PATH}/legal/gr/legal-gr.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/gr',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/gr/legal-gr.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Greece (GR)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Greece as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/gr',
+            "bibo:status": "published",
+        },
+    },
+    'legal-hr': {
+        'vocab': f'{IMPORT_PATH}/legal/hr/legal-hr.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/hr',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/hr/legal-hr.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Crotia (HR)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Croatia as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/hr',
+            "bibo:status": "published",
+        },
+    },
+    'legal-hu': {
+        'vocab': f'{IMPORT_PATH}/legal/hu/legal-hu.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/hu',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/hu/legal-hu.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Hungary (HU)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Hungary as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/hu',
             "bibo:status": "published",
         },
     },
@@ -772,7 +1189,7 @@ RDF_VOCABS = {
             'legal': f'{IMPORT_PATH}/legal/ie/legal-ie.ttl',
         },
         'metadata': {
-            "dct:title": "Legal Concepts for Ireland",
+            "dct:title": "Legal Concepts for Ireland (IE)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Ireland as jurisdiction",
             "dct:created": "2024-01-01",
             "dct:modified": DPV_PUBLISH_DATE,
@@ -791,14 +1208,299 @@ RDF_VOCABS = {
             'legal': f'{IMPORT_PATH}/legal/in/legal-in.ttl',
         },
         'metadata': {
-            "dct:title": "Legal Concepts for India",
+            "dct:title": "Legal Concepts for India (IN)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for India as jurisdiction",
-            "dct:created": "2024-04-27",
+            "dct:created": "2024-01-01",
             "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog",
+            "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/in',
+            "bibo:status": "published",
+        },
+    },
+    'legal-is': {
+        'vocab': f'{IMPORT_PATH}/legal/is/legal-is.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/is',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/is/legal-is.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Iceland (IS)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Iceland as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/is',
+            "bibo:status": "published",
+        },
+    },
+    'legal-it': {
+        'vocab': f'{IMPORT_PATH}/legal/it/legal-it.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/it',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/it/legal-it.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Italy (IT)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Italy as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/it',
+            "bibo:status": "published",
+        },
+    },
+    'legal-li': {
+        'vocab': f'{IMPORT_PATH}/legal/li/legal-li.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/li',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/li/legal-li.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Liechtenstein (LI)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Liechtenstein as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/li',
+            "bibo:status": "published",
+        },
+    },
+    'legal-lt': {
+        'vocab': f'{IMPORT_PATH}/legal/lt/legal-lt.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/lt',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/lt/legal-lt.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Lithuania (LT)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Lithuania as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/lt',
+            "bibo:status": "published",
+        },
+    },
+    'legal-lu': {
+        'vocab': f'{IMPORT_PATH}/legal/lu/legal-lu.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/lu',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/lu/legal-lu.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Luxembourg (LU)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Luxembourg as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/lu',
+            "bibo:status": "published",
+        },
+    },
+    'legal-lv': {
+        'vocab': f'{IMPORT_PATH}/legal/lv/legal-lv.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/lv',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/lv/legal-lv.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Latvia(LV)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Latvia as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/lv',
+            "bibo:status": "published",
+        },
+    },
+    'legal-mt': {
+        'vocab': f'{IMPORT_PATH}/legal/mt/legal-mt.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/mt',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/mt/legal-mt.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Malta (MT)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Malta as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/mt',
+            "bibo:status": "published",
+        },
+    },
+    'legal-nl': {
+        'vocab': f'{IMPORT_PATH}/legal/nl/legal-nl.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/nl',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/nl/legal-nl.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Netherlands (NL)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Netherlands as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/nl',
+            "bibo:status": "published",
+        },
+    },
+    'legal-no': {
+        'vocab': f'{IMPORT_PATH}/legal/no/legal-no.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/no',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/no/legal-no.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Norway (NO)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Norway as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/no',
+            "bibo:status": "published",
+        },
+    },
+    'legal-pl': {
+        'vocab': f'{IMPORT_PATH}/legal/pl/legal-pl.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/pl',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/pl/legal-pl.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Poland (PL)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Poland as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/pl',
+            "bibo:status": "published",
+        },
+    },
+    'legal-pt': {
+        'vocab': f'{IMPORT_PATH}/legal/pt/legal-pt.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/pt',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/pt/legal-pt.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Portugal (PT)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Portugal as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/pt',
+            "bibo:status": "published",
+        },
+    },
+    'legal-ro': {
+        'vocab': f'{IMPORT_PATH}/legal/ro/legal-ro.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/ro',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/ro/legal-ro.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Romania (RO)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Romania as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/ro',
+            "bibo:status": "published",
+        },
+    },
+    'legal-se': {
+        'vocab': f'{IMPORT_PATH}/legal/se/legal-se.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/se',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/se/legal-se.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Sweden (SE)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Sweden as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/se',
+            "bibo:status": "published",
+        },
+    },
+    'legal-si': {
+        'vocab': f'{IMPORT_PATH}/legal/si/legal-si.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/si',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/si/legal-si.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Slovenia (SI)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Slovenia as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/si',
+            "bibo:status": "published",
+        },
+    },
+    'legal-sk': {
+        'vocab': f'{IMPORT_PATH}/legal/sk/legal-sk.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/sk',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/sk/legal-sk.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Slovakia (SK)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Slovakia as jurisdiction",
+            "dct:created": "2024-08-02",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/sk',
             "bibo:status": "published",
         },
     },
@@ -810,8 +1512,8 @@ RDF_VOCABS = {
             'legal': f'{IMPORT_PATH}/legal/us/legal-us.ttl',
         },
         'metadata': {
-            "dct:title": "Legal Concepts for United States of America (USA)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for United States of America (USA) as jurisdiction",
+            "dct:title": "Legal Concepts for United States of America (US)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for United States of America as jurisdiction",
             "dct:created": "2024-01-01",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Harshvardhan J. Pandit",
@@ -987,29 +1689,141 @@ RDF_STRUCTURE = {
     'legal': {  # Consolidated graph of all legal data
         'main': f'{EXPORT_RDF_PATH}/legal',
     },
-    'legal-eu': {
-        'main': f'{EXPORT_RDF_PATH}/legal/eu',
-        'modules': f'{EXPORT_RDF_PATH}/legal/eu/modules',
+    'legal-at': {
+        'main': f'{EXPORT_RDF_PATH}/legal/at', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/at/modules', 
+    },
+    'legal-be': {
+        'main': f'{EXPORT_RDF_PATH}/legal/be', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/be/modules', 
+    },
+    'legal-bg': {
+        'main': f'{EXPORT_RDF_PATH}/legal/bg', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/bg/modules', 
+    },
+    'legal-cy': {
+        'main': f'{EXPORT_RDF_PATH}/legal/cy', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/cy/modules', 
+    },
+    'legal-cz': {
+        'main': f'{EXPORT_RDF_PATH}/legal/cz', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/cz/modules', 
     },
     'legal-de': {
-        'main': f'{EXPORT_RDF_PATH}/legal/de',
-        'modules': f'{EXPORT_RDF_PATH}/legal/de/modules',
+        'main': f'{EXPORT_RDF_PATH}/legal/de', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/de/modules', 
+    },
+    'legal-dk': {
+        'main': f'{EXPORT_RDF_PATH}/legal/dk', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/dk/modules', 
+    },
+    'legal-ee': {
+        'main': f'{EXPORT_RDF_PATH}/legal/ee', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/ee/modules', 
+    },
+    'legal-es': {
+        'main': f'{EXPORT_RDF_PATH}/legal/es', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/es/modules', 
+    },
+    'legal-eu': {
+        'main': f'{EXPORT_RDF_PATH}/legal/eu', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/eu/modules', 
+    },
+    'legal-fi': {
+        'main': f'{EXPORT_RDF_PATH}/legal/fi', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/fi/modules', 
+    },
+    'legal-fr': {
+        'main': f'{EXPORT_RDF_PATH}/legal/fr', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/fr/modules', 
     },
     'legal-gb': {
-        'main': f'{EXPORT_RDF_PATH}/legal/gb',
-        'modules': f'{EXPORT_RDF_PATH}/legal/gb/modules',
+        'main': f'{EXPORT_RDF_PATH}/legal/gb', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/gb/modules', 
+    },
+    'legal-gr': {
+        'main': f'{EXPORT_RDF_PATH}/legal/gr', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/gr/modules', 
+    },
+    'legal-hr': {
+        'main': f'{EXPORT_RDF_PATH}/legal/hr', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/hr/modules', 
+    },
+    'legal-hu': {
+        'main': f'{EXPORT_RDF_PATH}/legal/hu', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/hu/modules', 
     },
     'legal-ie': {
-        'main': f'{EXPORT_RDF_PATH}/legal/ie',
-        'modules': f'{EXPORT_RDF_PATH}/legal/ie/modules',
+        'main': f'{EXPORT_RDF_PATH}/legal/ie', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/ie/modules', 
     },
     'legal-in': {
-        'main': f'{EXPORT_RDF_PATH}/legal/in',
-        'modules': f'{EXPORT_RDF_PATH}/legal/in/modules',
+        'main': f'{EXPORT_RDF_PATH}/legal/in', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/in/modules', 
+    },
+    'legal-is': {
+        'main': f'{EXPORT_RDF_PATH}/legal/is', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/is/modules', 
+    },
+    'legal-it': {
+        'main': f'{EXPORT_RDF_PATH}/legal/it', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/it/modules', 
+    },
+    'legal-li': {
+        'main': f'{EXPORT_RDF_PATH}/legal/li', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/li/modules', 
+    },
+    'legal-lt': {
+        'main': f'{EXPORT_RDF_PATH}/legal/lt', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/lt/modules', 
+    },
+    'legal-lu': {
+        'main': f'{EXPORT_RDF_PATH}/legal/lu', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/lu/modules', 
+    },
+    'legal-lv': {
+        'main': f'{EXPORT_RDF_PATH}/legal/lv', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/lv/modules', 
+    },
+    'legal-mt': {
+        'main': f'{EXPORT_RDF_PATH}/legal/mt', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/mt/modules', 
+    },
+    'legal-nl': {
+        'main': f'{EXPORT_RDF_PATH}/legal/nl', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/nl/modules', 
+    },
+    'legal-no': {
+        'main': f'{EXPORT_RDF_PATH}/legal/no', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/no/modules', 
+    },
+    'legal-pl': {
+        'main': f'{EXPORT_RDF_PATH}/legal/pl', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/pl/modules', 
+    },
+    'legal-pt': {
+        'main': f'{EXPORT_RDF_PATH}/legal/pt', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/pt/modules', 
+    },
+    'legal-ro': {
+        'main': f'{EXPORT_RDF_PATH}/legal/ro', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/ro/modules', 
+    },
+    'legal-se': {
+        'main': f'{EXPORT_RDF_PATH}/legal/se', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/se/modules', 
+    },
+    'legal-si': {
+        'main': f'{EXPORT_RDF_PATH}/legal/si', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/si/modules', 
+    },
+    'legal-sk': {
+        'main': f'{EXPORT_RDF_PATH}/legal/sk', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/sk/modules', 
     },
     'legal-us': {
-        'main': f'{EXPORT_RDF_PATH}/legal/us',
-        'modules': f'{EXPORT_RDF_PATH}/legal/us/modules',
+        'main': f'{EXPORT_RDF_PATH}/legal/us', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/us/modules', 
     },
     'eu-gdpr': {
         'main': f'{EXPORT_RDF_PATH}/legal/eu/gdpr',
@@ -1041,12 +1855,41 @@ RDF_STRUCTURE = {
 RDF_COLLATIONS = ({
     'name': 'legal',
     'input': (
-        f'{EXPORT_RDF_PATH}/legal/eu/legal-eu.ttl',
+        f'{EXPORT_RDF_PATH}/legal/at/legal-at.ttl',
+        f'{EXPORT_RDF_PATH}/legal/be/legal-be.ttl',
+        f'{EXPORT_RDF_PATH}/legal/bg/legal-bg.ttl',
+        f'{EXPORT_RDF_PATH}/legal/cy/legal-cy.ttl',
+        f'{EXPORT_RDF_PATH}/legal/cz/legal-cz.ttl',
         f'{EXPORT_RDF_PATH}/legal/de/legal-de.ttl',
+        f'{EXPORT_RDF_PATH}/legal/dk/legal-dk.ttl',
+        f'{EXPORT_RDF_PATH}/legal/ee/legal-ee.ttl',
+        f'{EXPORT_RDF_PATH}/legal/es/legal-es.ttl',
+        f'{EXPORT_RDF_PATH}/legal/eu/legal-eu.ttl',
+        f'{EXPORT_RDF_PATH}/legal/fi/legal-fi.ttl',
+        f'{EXPORT_RDF_PATH}/legal/fr/legal-fr.ttl',
+        f'{EXPORT_RDF_PATH}/legal/gb/legal-gb.ttl',
+        f'{EXPORT_RDF_PATH}/legal/gr/legal-gr.ttl',
+        f'{EXPORT_RDF_PATH}/legal/hr/legal-hr.ttl',
+        f'{EXPORT_RDF_PATH}/legal/hu/legal-hu.ttl',
         f'{EXPORT_RDF_PATH}/legal/ie/legal-ie.ttl',
         f'{EXPORT_RDF_PATH}/legal/in/legal-in.ttl',
-        f'{EXPORT_RDF_PATH}/legal/gb/legal-gb.ttl',
+        f'{EXPORT_RDF_PATH}/legal/is/legal-is.ttl',
+        f'{EXPORT_RDF_PATH}/legal/it/legal-it.ttl',
+        f'{EXPORT_RDF_PATH}/legal/li/legal-li.ttl',
+        f'{EXPORT_RDF_PATH}/legal/lt/legal-lt.ttl',
+        f'{EXPORT_RDF_PATH}/legal/lu/legal-lu.ttl',
+        f'{EXPORT_RDF_PATH}/legal/lv/legal-lv.ttl',
+        f'{EXPORT_RDF_PATH}/legal/mt/legal-mt.ttl',
+        f'{EXPORT_RDF_PATH}/legal/nl/legal-nl.ttl',
+        f'{EXPORT_RDF_PATH}/legal/no/legal-no.ttl',
+        f'{EXPORT_RDF_PATH}/legal/pl/legal-pl.ttl',
+        f'{EXPORT_RDF_PATH}/legal/pt/legal-pt.ttl',
+        f'{EXPORT_RDF_PATH}/legal/ro/legal-ro.ttl',
+        f'{EXPORT_RDF_PATH}/legal/se/legal-se.ttl',
+        f'{EXPORT_RDF_PATH}/legal/si/legal-si.ttl',
+        f'{EXPORT_RDF_PATH}/legal/sk/legal-sk.ttl',
         f'{EXPORT_RDF_PATH}/legal/us/legal-us.ttl',
+
         ),
     'output': f'{EXPORT_RDF_PATH}/legal/legal',
 },)
@@ -1112,7 +1955,7 @@ GUIDES = {
     },
     'GDPR-Data-Breach': {
         'template': 'template_guides_gdpr_data_breach.jinja2',
-        'output': '../guides/gdpr-ropa.html',
+        'output': '../guides/gdpr-data-breach.html',
     },
     'DPV-ODRL': {
         'template': 'template_guides_dpv_odrl.jinja2',

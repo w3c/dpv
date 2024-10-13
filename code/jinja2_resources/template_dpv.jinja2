@@ -84,9 +84,9 @@
     <section id="abstract">
       <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of personal data based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model. The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
     </section>
+{% endblock ABSTRACT %}
       {{ sotd(data[vocab_name+'-metadata']) }}
       {{ dpv_document_family(document='dpv-spec') }}
-{% endblock ABSTRACT %}
 {% block INTRODUCTION %}
   <section id="introduction">
     <h2>Introduction</h2>
@@ -248,6 +248,12 @@
     <p>From the earlier example, consider the situation where a single <code>Process</code> instance consists of two additional instances representing: (i) data is stored using a data processor, (ii) data is used for Marketing. While it is certainly possible to represent all of this information within one single instance of <code>Process</code>, the adopter may decide to create separate instances of <code>Process</code> based on requirements such as reflecting similar separations for legal documentation or accountability purposes.</p>
     {{ example_aside('dex:E0006') }}
   </section>
+  <section>
+    <h3>Interpretation of Process</h3>
+    <p>Where multiple concepts such as purposes and data are present in the same process, the interpretation is that they all apply e.g. each purpose applies to each personal data, and so on. If this is not the case, then nested processes should be used to separate the groups so that only those  concepts are present within the same process which occur or are associated with each other.</p>
+    <p>Such arrangements can also be used to separate necessary and optional parts of a process, and can aid in avoiding duplication of processes where only a few elements need to be distinguished. For example, if a purpose has necessary and optional data associated with it, it is possible to create two nested processes containing the purpose and the necessary data in one process, and the process and optional data in another. However, such duplication is not necessary, the 'parent' or 'outer' process can contain the purpose and the nested processes can contain only the differentiaing elements i.e. one nested process contains the necessary data and the other contains the optional data.</p>
+    <p>Processes are also be useful to indicate separation of responsibilities - for example where some processing is conducted by one processor and another by a different processor, with each nested process corresponding to the processing activities of one processor.</p>
+  </section>
   
   <section id="vocab-process-service">
     <h3>Services</h3>
@@ -295,7 +301,7 @@
     <aside class="note" title="Data Subject is specific to personal data processing">
       <p>The concept [=DataSubject=] is specific to the processing of (their) personal data. To indicate subjects involved in other activities, such as use of technologies, different concepts must be defined and utilised. The [[TECH]] extension defines the concept <code>Subject</code> to refer to this notion of 'subject of technology'.</p>
     </aside>
-    {{ list_hierarchy(modules['entities-datasubject']['classes'], head='dpv:DataSubject') }}
+    {{ list_hierarchy(modules['entities-datasubject']['classes']) }}
   </section>
 </section>
 
@@ -343,7 +349,7 @@
   <p>DPV’s taxonomy of processing concepts reflects the variety of terms used to denote processing activities or operations involving personal data, such as those from [GDPR] Article.4-2 definition of processing. Real-world use of terms associated with processing rarely uses this same wording or terms, except in cases of specific domains and in legal documentation. On the other hand, common terms associated with processing are generally restricted to: collect, use, store, share, and delete.</p>
   <p>DPV provides a taxonomy that aligns both the legal terminologies such as those defined by GDPR with those commonly used. For this, concepts are organised based on whether they subsume other concepts, e.g. Use is a broad concept indicating data is used, which DPV extends to define specific processing concepts for Analyse, Consult, Profiling, and Retrieving. Through this mechanism, whenever an use-case indicates it consults some data, it can be inferred that it also uses that data.</p>
   <p>For concepts related to expressing contextual information associated with processing, such as storage conditions, automation, scale, see <a href="#vocab-processing-context">Processing Context</a> section.</p>
-  {{ list_hierarchy(modules['processing']['classes'], head='dpv:Processing') }}
+  {{ list_hierarchy(modules['processing']['classes']) }}
 </section>
 
 <section id="vocab-processing-context">
@@ -447,7 +453,7 @@
     </a>
     <figcaption>Overview of Technical Measures taxonomy in DPV (click to open in new window)</figcaption>
   </figure>
-  {{ list_hierarchy(modules['TOM-technical']['classes'], head='dpv:TechnicalMeasure') }}
+  {{ list_hierarchy(modules['TOM-technical']['classes']) }}
     </section>
   <section id="vocab-TOM-organisational">
     <h3>Organisational Measures</h3>
@@ -471,6 +477,16 @@
   </section>
 </section>
 
+<section id="vocab-TOM-notice">
+  <h2>Notice</h2>
+  <aside class="note" title="Guide on implementing consent records as per ISO/IEC 29184:2020">
+    <p>The [[[DPV-29184]]] provides guidance on creation of privacy notices following the [[[ISO-29184]]] standard.</p>
+  </aside>
+  <aside class="issue" data-number="91"></aside>
+  <p>Notice info goes here...</p>
+  {{ list_hierarchy(modules['TOM-notice']['classes']) }}
+</section>
+
 <section id="vocab-legal-basis">
   <h2>Legal Bases</h2>
   <figure>
@@ -487,6 +503,27 @@
   <aside class="issue" data-number="111"></aside>
 
   {{ list_hierarchy(modules['legal_basis']['classes']) }}
+
+  <section id="vocab-legal-basis-contract">
+    <h3>Contract</h3>
+
+    <section id="vocab-legal-basis-contract-types">
+      <h4>Contract Types</h4>
+      {{ list_hierarchy(modules['legal_basis-contract-types']['classes'], head='dpv:Contract') }}
+    </section>
+    <section id="vocab-legal-basis-contract-status">
+      <h4>Contract Status</h4>
+      {{ list_hierarchy(modules['legal_basis-contract-status']['classes']) }}
+    </section>
+    <section id="vocab-legal-basis-contract-clause">
+      <h4>Contractual Clauses</h4>
+      {{ list_hierarchy(modules['legal_basis-contract-clause']['classes']) }}
+    </section>
+    <section id="vocab-legal-basis-contract-control">
+      <h4>Contract Controls</h4>
+      {{ list_hierarchy(modules['legal_basis-contract-control']['classes']) }}
+    </section>
+  </section>
 
   <section id="vocab-legal-basis-consent">
     <h3>Consent</h3>
@@ -517,7 +554,7 @@
 
     <section id="vocab-legal-basis-consent-status">
       <h4>Consent Status</h4>
-      {{ list_hierarchy(modules['legal_basis-consent-status']['classes'], head="dpv:ConsentStatus") }}
+      {{ list_hierarchy(modules['legal_basis-consent-status']['classes']) }}
     </section>
 
     <section id="vocab-legal-basis-consent-controls">
@@ -530,6 +567,11 @@
       </ol>
     </section>
 
+  </section>
+
+  <section id="vocab-legal-basis-status">
+    <h3>Other Legal Basis</h3>
+    {{ list_hierarchy(modules['legal_basis-status']['classes']) }}
   </section>
 </section>
 
@@ -823,8 +865,8 @@
 </section>
 
 <section id="changelog">
-  <h2>Changes from v1 to v2</h2>
-  <div class="issue" title="Statement on changes in v2"></div>
+  <h2>Changes from v2 to v2.1</h2>
+  <div class="issue" title="Statement on changes in v2.1"></div>
 </section>
 
 <section class="appendix" id="issue-summary"></section>

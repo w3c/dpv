@@ -1,5 +1,8 @@
 window.addEventListener("load", () => {
 
+  // ReSpec adds duplicate buttons as it saves the rendered page. This removes those buttons.
+  document.querySelectorAll('.btn-hierarchy').forEach(e => e.remove());
+
   /* --- List Hierarchy management --- */
 
   for (let list of document.querySelectorAll(".concept-list ul li ul")) {
@@ -51,3 +54,17 @@ window.addEventListener("load", () => {
     }
   }
 });
+
+window.addEventListener("load", () => {
+  for (let aside of document.querySelectorAll(".example")) {
+    const div = document.createElement('button');
+    div.classList.add('copy-icon');
+    div.innerText = "copy";
+    aside.appendChild(div);
+    div.onclick = copyToClipboard;
+  }
+});
+
+function copyToClipboard(ele) {
+  navigator.clipboard.writeText(ele.target.previousElementSibling.previousElementSibling.innerText);
+}
