@@ -1,0 +1,69 @@
+14:54:20 <RRSAgent> RRSAgent has joined #dpvcg
+20:09:03 <harsh> Scribe: harshPandit
+20:09:23 <harsh> ScribeNick: harsh
+14:55:03 <harsh> repo: w3c/dpv
+14:55:13 <harsh> Meeting: DPVCG Meeting Call
+14:55:18 <harsh> Present: harshPandit, paulRyan, delaramGolpayegani, iainHenderson, julioHernandez, jesseWright
+14:55:18 <harsh> Regrets: georgKrog, beatrizEsteves, julianFlake
+14:55:22 <harsh> Date: 13 AUG 2024
+14:55:26 <harsh> Agenda: https://www.w3.org/events/meetings/0e21485e-d959-4f78-930a-bd66650adace/20240813T133000/
+14:55:31 <harsh> Meeting minutes: https://w3id.org/dpv/meetings
+14:55:35 <harsh> purl for this meeting: https://w3id.org/dpv/meetings/meeting-2024-08-13
+14:55:18 <harsh> Topic: Intro
+14:55:18 <harsh> jesseWright: from Australia, doing a PhD at Oxford, on web agents to see what information they can trust and how to identify which sources to trust, and what data they can share and what legal agreements they can make on behalf of users ; recent paper accepted at NXDG workshop that might be of interest to the group "Me want cookie! Towards automated and transparent data governance on the Web" https://openreview.net/forum?id=Bhia6mPaCF#discussion
+14:55:18 <harsh> Topic: FYI
+14:55:18 <harsh> Subtopic: Fixes to LOC
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/179 -> Issue 179 [Concept]: Add ISO 3166-2 subdivision codes (by coolharsh55)
+14:55:18 <harsh> harsh: there were issues with duplicates where a region had more than one label, because I did not get this data from the paid ISO resource but instead used Wikidata. There were about 20-30 duplicate labels and rows which have been manually removed.
+14:55:18 <harsh> Subtopic: Example copy button 
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/180 -> Issue 180 Add copy button to examples (by besteves4)
+14:55:18 <harsh> harsh: beatriz requested a copy button for the examples so that it is easy to copy the RDF portion. I have added a copy button to the top right corner for this. See demo https://dev.dpvcg.org/2.1-dev/examples/#E0006
+14:55:18 <harsh> Subtopic: W3C Community Survey
+14:55:18 <harsh> \ The W3C has circulated a survey for community group participants to undertake to help them run and manage the groups. Since we are using the infrastructure and resources, we should help by participating the survey. See https://lists.w3.org/Archives/Public/public-dpvcg/2024Aug/0003.html The deadline for this is September 13.
+14:55:18 <harsh> Topic: Legal Bases
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/111 -> Issue 111 Model information about legal bases (by coolharsh55)
+14:55:18 <harsh> \ not discussed as no legal experts on call; recommended to review the proposed concepts as these are essential - see https://www.w3.org/events/meetings/0e21485e-d959-4f78-930a-bd66650adace/20240813T133000/
+14:55:18 <harsh> Topic: Notice 29184
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/91 -> Issue 91 Provide guidance for implementing ISO/IEC 29184 Privacy Notice using DPV (by coolharsh55)
+14:55:18 <harsh> Subtopic: Scope
+14:55:18 <harsh> harsh: Should we limit the scope of this guide and work to consent notices or consider any and all privacy notices e.g. for other legal bases as well? Upon discussing this with Georg, he suggested we limit it to consent notices and I agree as this is what ISO 29184 also has as scope.
+14:55:18 <harsh> \ agreed to limit scope to consent notices
+14:55:18 <harsh> harsh: Do we only keep consent information in the notice or do we also consider adding in other information such as legitimate interest objections, rights exercise information, and so on?
+14:55:18 <harsh> paulRyan: one stop is better customer experience even if it isn't the optimal legal experience, so it would be better to have a notice provide all of these from an operational perspective
+14:55:18 <harsh> iainHenderson: agree with paul on this
+14:55:18 <harsh> \ discussed and agreed that the primary purpose of the notice would be for consent, and the other information would be present for convenience
+14:55:18 <harsh> Subtopic: Categories
+14:55:18 <harsh> harsh: ISO 29184 and also DPA and EDPB guidance recommend providing notices in layers as appropriate to the context. ISO 29184 also uses other categories such as just in time notice, dashboard notice, and graphic notice. Should we provide such categories?
+14:55:18 <harsh> iainHenderson: yes, these would be useful
+14:55:18 <harsh> paulRyan: there is a guidance on layered notices that we should adapt, and there is existing use of such layered notices
+14:55:18 <harsh> \ discussed and agreed to provide such notice categories with a limit to how they are being defined. Paul gave an example of jurisdictional notices which are limited to a specific jurisdiction. To avoid creating ad-hoc large number of notice categories, these categories are referring only to the way the notice is constructed and presented. For other categorisation, the existing properties and information in the notice should be used.
+14:55:18 <harsh> Subtopic: Controls
+14:55:18 <harsh> harsh: For consent, we have consent controls for provide and withdraw consent. In a notice such as this, there can also be other controls for opt-in/opt-out or object type of actions. How do we model this? We have a list of `EntityInvolvement` concepts which include opt-in and opt-out, and we have modelled the consent controls as an extension of this. Are these sufficient?
+14:55:18 <harsh> \ discussed and the current consensus is that this list is comprehensive enough
+14:55:18 <harsh> Subtopic: Metadata and Contents
+14:55:18 <harsh> harsh: For describing the metadata about the notice, such as date/time, title, etc. we use Dublin Core Terms. For describing the recipient of the notice we can use `dpv:hasRecipient`, but since the recipient in this case would be a data subject, we should use `dpv:hasDataSubject` e.g. with a category to state who the intended audience is - such as Customers. To indicate actual provision of the notice, other vocabularies such as schema.org's recipient property or PROV can also be used to 'record' when and where a notice was provided to a specific individual.
+14:55:18 <harsh> harsh: For location, notices can be provided on a webpage. Would using `dpv:hasLocation` with a URL for this situation make sense? (yes it makes sense)
+14:55:18 <harsh> harsh: For describing when the notice is being provided i.e. at what point in the processing activity, we have `dpv:isBefore` and `dpv:isAfter` which can be combined with a concept to indicate e.g. `dpv:Collect` notice is being provided before or after data collection. To indicate the notice is used _during_ data collection or another activity, we should add the concept `dpv:isDuring`. This will cover ex-ante (before), ex-post (after), and real-time (during).
+14:55:18 <harsh> \ discussed and agreed to above
+14:55:18 <harsh> Topic: RISK
+14:55:18 <harsh> Subtopic: Structure
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/181 -> Issue 181 Refine RISK taxonomy into a single consistent hierarchy (by coolharsh55)
+14:55:18 <harsh> harsh: harsh: Currently, we have distinction between concepts that are consequence and impacts, which is confusing when an use-case does not use them in that way. E.g. damage is an impact according to DPV, but in an use-case, it might be a risk and the impact would be something that comes out of this for someone. So to allow this kind of flexibility, the proposal is that we move everything under Risk (as we have done in 2.0 release) and then make consequence and impact a subclass of risk. The adopter then chooses the concept under risk and uses it either as risk or as consequence or impact for their use-case. This way we will have a single taxonomy of concepts under risk which will be easier to manage and use.
+14:55:18 <harsh> delaramGolpayegani: we already have this in the current 2.0 release where concepts are defined as risks rather than as consequence or impact
+14:55:18 <harsh> harsh: yes, we did that to avoid incompatible changes in the future as consequence and impact were not subclasses of risk in 2.0
+14:55:18 <harsh> delaramGolpayegani: propose we call the top concept `RiskEvent` and move all events or concepts under it so that it is distinct from risk.
+14:55:18 <harsh> harsh: so we would then have risk, consequence, impact, and risk source as subclasses of this?
+14:55:18 <harsh> delaramGolpayegani: yes, and then the adopter chooses what role the term plays
+14:55:18 <harsh> harsh: should we have a property `risk:hasRiskEvent`? I don't think so because it doesn't make sense as there is no definition of risk events, and the association should be either risk or consequence or impact or risk source
+14:55:18 <harsh> delaramGolpayegani: there may be a need, e.g. during an AI audit you can associate risk events and then see whether they are a risk or consequence?
+14:55:18 <harsh> harsh: no, that would be confusing - better to do the collection or association using some other way and use DPV to express or assert the roles
+14:55:18 <harsh> \ agreed to use RiskEvent and put taxonomy under that, and create the subclasses as described above
+14:55:18 <harsh> Subtopic: Impact taxonomy
+14:55:18 <harsh> delaramGolpayegani: we should have some concepts defined as `Impact` instances as they have the suffix _Impact_
+14:55:18 <harsh> harsh: agreed, for those that have the suffix _Impact_ we will define them also as instances of Impact - but we will not categorise others as impact
+14:55:18 <harsh> Subtopic: Rights Impact
+14:55:18 <harsh> delaramGolpayegani: how will this work for impact on rights e.g. EU fundamental rights?
+14:55:18 <harsh> harsh: for each right, we will have a corresponding concept called `ImpactOn...` for that specific right. The phrasing here is important - as we only specify its an _impact_ rather than calling it a _violation_ which is a specific impact. So for EU fundamental rights, we will add concepts in the extension for impact of each right.
+14:55:18 <harsh> harsh: Also in the GDPR and AI Act and other extensions where we model legal rights, we will also add concepts for each right to provide a way to indicate impact of those rights
+14:55:18 <harsh> Topic: Next Meeting
+16:03:29 <harsh> \ next meeting will be in 1 week on TUESDAY 20 August at 13:30 WEST / 14:40 CEST. Agenda will be continuation of today's topics with any updates on github/mailing list and AOB.
