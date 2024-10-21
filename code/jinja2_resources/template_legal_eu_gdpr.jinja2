@@ -199,45 +199,54 @@ ex:PDH2 a dpv:Process ;
   </section>
 
   <section id="vocab-rights">
-    <h2>Data Subject Rights</h2>
-      <figure>
-	<object type="image/svg+xml" data="../../../diagrams/gdpr_DataSubjectRights.svg">
-	  <img src="../../../diagrams/gdpr_DataSubjectRights.svg" />
-	</object>
-	<figcaption>Data Subject Rights as defined by GDPR extending DPV's core concept "Right"</figcaption>
-      </figure>
-    <p>GDPR provides several rights to the data subject, whose applicability depends on the context and nature of processing taking place. DPV lists these rights at an abstract level as concepts along with their origin in specific clauses of the GDPR.</p>
-    <p>In addition to DPV's concepts regarding exercise of rights, EU-GDPR provides additional concepts specific to the implementation of its rights. For example, [=SARNotice=] refers to the information provided in fulfilment of [=A15=] Right of Access, or using [=dcat:Resource=] to represent the dataset provided in fulfilment of [=A20=] Right to Data Portability.</p>
-    <aside class="note" title="Forthcoming guidance on implementation of rights">
-      <p>The [[[GUIDE-Rights]]] is a work-in-progress document that will provide guidance and examples for use of DPV concepts to discover, exercise, and respond to rights, including those defined by GDPR.</p>
-    </aside>
-    {{ list_hierarchy(modules['rights']['classes']) }}
-  </section>
+    <h2>Rights and Impact on Rights</h2>
+    <section id="data-subject-rights">
+      <h3>Data Subject Rights</h3>
+        <figure>
+  	<object type="image/svg+xml" data="../../../diagrams/gdpr_DataSubjectRights.svg">
+  	  <img src="../../../diagrams/gdpr_DataSubjectRights.svg" />
+  	</object>
+  	<figcaption>Data Subject Rights as defined by GDPR extending DPV's core concept "Right"</figcaption>
+        </figure>
+      <p>GDPR provides several rights to the data subject, whose applicability depends on the context and nature of processing taking place. DPV lists these rights at an abstract level as concepts along with their origin in specific clauses of the GDPR.</p>
+      <p>In addition to DPV's concepts regarding exercise of rights, EU-GDPR provides additional concepts specific to the implementation of its rights. For example, [=SARNotice=] refers to the information provided in fulfilment of [=A15=] Right of Access, or using [=dcat:Resource=] to represent the dataset provided in fulfilment of [=A20=] Right to Data Portability.</p>
+      <aside class="note" title="Forthcoming guidance on implementation of rights">
+        <p>The [[[GUIDE-Rights]]] is a work-in-progress document that will provide guidance and examples for use of DPV concepts to discover, exercise, and respond to rights, including those defined by GDPR.</p>
+      </aside>
+      {{ list_hierarchy(modules['rights']['classes']) }}
+    </section>
 
-  <section id="vocab-legal-basis-rights-mapping">
-    <h2>Mapping: Legal Basis × Rights</h2>
-    <p>To support the effective implementation of GDPR, the [[EU-GDPR]] extension provides a mapping between legal bases and data subject rights to indicate which right should be provided based on the selected legal basis. This information is represented in machine-readable form within the [[EU-GDPR]] extension by using the relation <code>dpv:hasRight</code> between instances of GDPR legal basis and rights.</p>
-    <table>
-      <thead>
-      <th>Legal Basis (rows), Right (columns)</th>
-      {% for row_legalbasis in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
-        <th>{{ row_legalbasis['skos:prefLabel'] }}</th>
-      {% endfor %}
-    </thead>
-    <tbody>
-      {% for item in modules['legal_basis-rights_mapping']['classes']|sort %}
-      {% if item != "prefix" %}
-      <tr>
-      {% set item = vocab[item] %}
-        <td><a href="{{item['iri']}}">{{item['skos:prefLabel']}}</a></td>
-        {% for legalbasis in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
-        {% if legalbasis['iri'] in item['dpv:hasRight'] %}<td style="color:green; background-color: rgba(0, 255, 0, 0.2);">☒{% else %}<td style="color: red; background-color: rgba(255, 0, 0, 0.1);">☐</span>{% endif %}</td>        
+    <section id="vocab-rights-impacts">
+      <h3>Rights Impacts</h3>
+      {{ list_hierarchy(modules['rights-impacts']['classes']) }}
+    </section>
+
+    <section id="vocab-legal-basis-rights-mapping">
+      <h2>Mapping: Legal Basis × Rights</h2>
+      <p>To support the effective implementation of GDPR, the [[EU-GDPR]] extension provides a mapping between legal bases and data subject rights to indicate which right should be provided based on the selected legal basis. This information is represented in machine-readable form within the [[EU-GDPR]] extension by using the relation <code>dpv:hasRight</code> between instances of GDPR legal basis and rights.</p>
+      <table>
+        <thead>
+        <th>Legal Basis (rows), Right (columns)</th>
+        {% for row_legalbasis in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
+          <th>{{ row_legalbasis['skos:prefLabel'] }}</th>
         {% endfor %}
-      </tr>
-      {% endif %}     
-      {% endfor %}    
-    </tbody>
-    </table>    
+      </thead>
+      <tbody>
+        {% for item in modules['legal_basis-rights_mapping']['classes']|sort %}
+        {% if item != "prefix" %}
+        <tr>
+        {% set item = vocab[item] %}
+          <td><a href="{{item['iri']}}">{{item['skos:prefLabel']}}</a></td>
+          {% for legalbasis in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
+          {% if legalbasis['iri'] in item['dpv:hasRight'] %}<td style="color:green; background-color: rgba(0, 255, 0, 0.2);">☒{% else %}<td style="color: red; background-color: rgba(255, 0, 0, 0.1);">☐</span></td>{% endif %}
+          {% endfor %}
+        </tr>
+        {% endif %}     
+        {% endfor %}    
+      </tbody>
+      </table>    
+    </section>
+
   </section>
 
   <section id="vocab-data-transfers">
