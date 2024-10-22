@@ -619,6 +619,9 @@ CSVFILES = {
         'fundamental': {
             'taxonomy': f'{IMPORT_CSV_PATH}/EUFundamentalRights.csv',
         },
+        'impacts': {
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/EUFundamentalRights_Impacts.csv',
+        },
     },
 }
 
@@ -1646,7 +1649,10 @@ RDF_VOCABS = {
         'vocab': f'{IMPORT_PATH}/legal/eu/rights/eu-rights.ttl',
         'template': 'template_legal_eu_rights.jinja2',
         'export': f'{EXPORT_PATH}/legal/eu/rights',
-        'modules': {},
+        'modules': {
+            'fundamental': f'{IMPORT_PATH}/legal/eu/rights/modules/fundamental.ttl',
+            'impacts': f'{IMPORT_PATH}/legal/eu/rights/modules/impacts.ttl',
+        },
         'metadata': {
             "dct:title": "EU Fundamental Rights and Freedoms",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information associated with EU's Fundamental Rights and Freedoms",

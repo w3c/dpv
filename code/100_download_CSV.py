@@ -210,6 +210,7 @@ DPV_FILES = {
             'Rights', 
             'Rights_properties', 
             'EUFundamentalRights',
+            'EUFundamentalRights_Impacts',
             ),
     },
     # Sheets for Rules extension
