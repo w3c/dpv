@@ -580,6 +580,9 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/DGA_entities.csv',
             'properties': f'{IMPORT_CSV_PATH}/DGA_properties.csv',
         },
+        'compliance': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/DGA_compliance.csv',
+        },
     },
     'eu-aiact': {
         'system': {
@@ -609,11 +612,17 @@ CSVFILES = {
         'assessment': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-assessment.csv',
         },
+        'compliance': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-compliance.csv',
+        },
     },
     'eu-nis2': {
         'notice': {
             'taxonomy': f'{IMPORT_CSV_PATH}/NIS2_Notice.csv',
-        }
+        },
+        'compliance': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/NIS2_compliance.csv',
+        },
     },
     'eu-rights': {
         'fundamental': {
@@ -1589,6 +1598,7 @@ RDF_VOCABS = {
             'registers': f'{IMPORT_PATH}/legal/eu/dga/modules/registers.ttl',
             'services': f'{IMPORT_PATH}/legal/eu/dga/modules/services.ttl',
             'toms': f'{IMPORT_PATH}/legal/eu/dga/modules/toms.ttl',
+            'compliance': f'{IMPORT_PATH}/legal/eu/dga/modules/compliance.ttl',
         },
         'metadata': {
             "dct:title": "EU Data Governance Act (DGA)",
@@ -1615,6 +1625,7 @@ RDF_VOCABS = {
             'status': f'{IMPORT_PATH}/legal/eu/aiact/modules/status.ttl',
             'misc': f'{IMPORT_PATH}/legal/eu/aiact/modules/misc.ttl',
             'assessment': f'{IMPORT_PATH}/legal/eu/aiact/modules/assessment.ttl',
+            'compliance': f'{IMPORT_PATH}/legal/eu/aiact/modules/compliance.ttl',
         },
         'metadata': {
             "dct:title": "EU AI Act",
@@ -1633,6 +1644,7 @@ RDF_VOCABS = {
         'export': f'{EXPORT_PATH}/legal/eu/nis2',
         'modules': {
             'notice': f'{IMPORT_PATH}/legal/eu/nis2/modules/notice.ttl',
+            'compliance': f'{IMPORT_PATH}/legal/eu/nis2/modules/compliance.ttl',
         },
         'metadata': {
             "dct:title": "EU NIS2",
