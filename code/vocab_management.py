@@ -102,9 +102,9 @@ NS.ns = { k:v for k,v in NAMESPACES.items() }
 
 # DPV Version
 DPV_VERSION = "2.1-dev"
-DPV_PUBLISH_DATE = "2024-08-18"
+DPV_PUBLISH_DATE = "2024-10-22"
 # Document status: should be one of CG-DRAFT or CG-FINAL
-DOCUMENT_STATUS = "CG-FINAL"
+DOCUMENT_STATUS = "CG-DRAFT"
 
 # Root folder to import RDF files from
 IMPORT_PATH = f'../{DPV_VERSION}'
