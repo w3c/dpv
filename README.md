@@ -60,7 +60,7 @@ The legal extensions provide concepts associated with specific jurisdictions and
 The [NACE Taxonomy serialised in RDFS](https://w3id.org/dpv/dpv-nace) provides a serialisation of the NACE v2 taxonomy in RDFS for use with DPV terms. Since then, NACE v2.1 has been published by the EU Commission. The DPVCG has decided to retire/not provide an alternative serialisation of NACE as it provided no significant benefit and the best practice for using NACE is to always utilise the official authoritative version.
 
 ## Guides
-- The [Primer](https://w3id.org/dpv/primer) is an introductory document for newcomers to understand the DPV and its concepts. A [2 Page Short Primer](https://w3id.org/dpv/primer/short) provides a succint introduction to the DPV. 
+- The [Primer](https://w3id.org/dpv/primer) is an introductory document for newcomers to understand the DPV and its concepts. A [2 Page Short Primer](https://w3id.org/dpv/primer/concise) provides a succint introduction to the DPV. 
 - The [Use-Cases and Requirements](https://w3id.org/dpv/use-cases/) document lists the use-cases and requirements that led to the development of DPV. 
 - The [Examples](https://w3id.org/dpv/examples/) page provides an index of examples describing the use of DPV concepts.
 - The [Guides](https://w3id.org/dpv/guides) page lists guides for use of DPV in specific domains and applications
