@@ -1,8 +1,3 @@
----
-SPDX-FileCopyrightText: 2024 Data Privacy Vocabularies and Controls Community Group and its contributors.
-SPDX-License-Identifier: W3C-20150513
----
-
 # DPVCG
 Data Privacy Vocabularies and Controls Community Group (DPVCG) repository containing
 specifications for Data Privacy Vocabulary (DPV) and its extensions, primer, and guides,
