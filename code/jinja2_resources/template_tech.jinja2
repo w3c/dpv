@@ -94,8 +94,10 @@
       <li>[=Capability=] to represent the capabilities or functions of technologies</li>
       <li>[=ProvisionMethod=] to represent how the technolgy is provided - such as services or products</li>
       <li>[=CommunicationMechanism=] to represent how the technology uses or implements communication mechanisms such as networking, GPS, or Bluetooth</li>
+      <li>[=InputOutput=] to represent the inputs and outputs associated with the technology, such as data and actions</li>
       <li>[=Documentation=] to represent documentation associated with technologies such as instructions and user manuals</li>
       <li>[=DeploymentLocation=] to represent the location(s) where the technology is or will be deployed and used</li>
+      <li>[=Function=] to represent the functions or features that a technology possesses or is capable of</li>
       <li>[=IntendedUse=] to represent the intended use of the technology such as what its developer or provider envisioned the technology will be used for, or how the organisation intends to use the technology</li>
     </ul>
     {{ list_hierarchy(modules['core']['classes']) }}
@@ -110,6 +112,7 @@
       <li>[=User=] and [=hasUser=] specifies who uses or is the user for the technology.</li>
       <aside class="note" title="Technology User does not refer to end-user">   <p>The term <i>User</i> refers to users in the technical sense of the term, where such users may or may not be <i>data subjects</i> or end-users or other similar concepts. For example, a technology used by an immigration officer has that officer as the user, rather than the immigrating person. To be more explicit, <i>technology user</i> and <i>whom the technology is used on</i> are two different criterias. See [=Subject=] concept to represent the immigrating person in this scenario. In other cases, both the user and subject can be the same person, for example where a person is using a technology on their personal device to take a selfie.</p>
       </aside>
+      <div class="issue" title="discuss whether to replace Subject with HumanSubject following change in DPV"></div>
       <li>[=Subject=] and [=hasSubject=] is the <i>subject</i> of the technology i.e. whom the technology is used on or subjected to. This may be directly (e.g. person within a CCTV camera's vision) or indirectly (e.g. person whose details were used as training data). What is considered a subject may be contextually dependant on the nature and scope of the technology as well as its application. In the future, we may separate this concept for further distinction between direct and indirect subjects (or use alternate terms) - if such categorisation is deemed beneficial in the description of individuals subjected to technologies.</li>
     </ul>
     <aside class="note" title="Technology actors defined in regulations">
@@ -133,11 +136,30 @@
   </section>  
 
   <section id="vocab-intended-use">
-    <h2>Intended Use</h2>
-    <aside class="note" title="Why 'Intended Use' is needed instead of reusing 'Purpose'">
-      <p>Technology is developed and used with a specific purpose or goal in mind - such as to verify identity, or collect specific data, or send information packets over a networking connection. It is important to distinguish such 'purposes' associated with technology from the similar named term 'purpose' in [[DPV]]. The DPV term <code>Purpose</code> refers to the end-goal and a sufficiently clear description for why the personal data is being processed or the technology is being used. If we use the same concept to indicate the purpose of technologies as described earlier, it would 'pollute' the DPV's purpose taxonomy with other non-purpose concepts such as store data (processing), networking encryption (technical measure), and so on. To avoid this, the TECH extension recommends NOT using the purpose concept directly with technology.</p>
+    <h2>Function &amp; Intended Use</h2>
+    <aside class="note" title="Why not reuse 'dpv:Purpose'? Why do we need 'Function' and 'Intended Use'?">
+      <p>Technology is developed and used with a specific <i>purpose or goal</i> in mind - such as to verify identity, or collect specific data, or send information packets over a networking connection. It is important to distinguish such 'abstract <i>purposes</i>' associated with technology from the similarly named term <code>Purpose</code> in [[DPV]] which refers only to the end-goal and a sufficiently clear description for the technology within a specified context.</p>
+      <p>If we reuse the '<i>purpose</i>' term to also describe how  technologies are developed or used towards what are essentially more technical terms (e.g. data collection, networking), it would 'pollute' the DPV's purpose taxonomy by increasing its scope to such an extent that it subsumes the other concepts and taxonomies - such as processing actions (e.g. collect or use data), technical measures (e.g. encryption), or context (e.g. human involvement).</p>
+      <p>To avoid this issue, and to ensure the Purpose taxonomy stays useful,  the TECH extension uses [=Function=] and [=IntendedUse=] to express the intended information without any semantic conflict with other existing concepts.</p>
     </aside>
-    <p>To indicate the uses for which a technology is developed, or what it is planned to be used for, the TECH extension provides the concept [=IntendedUse=] and which is associated with using the relation [=hasIntendedUse=]. The 'intended use' of technology represents uses which an actor envisions the technology to be used for. This could be the developer who envisions specific uses of the technology while developing it, or a user who plans to use the technology for specific activities when they acquire it. Such intended uses can be represented by using concepts within the DPV and its extensions - such as purposes, processing operations, technical and organisational measures, and so on. Where the intended use cannot be represented by a single concept, multiple concepts can be combined by using the relations in a manner similar to the use of <code>dpv:Process</code>.</p>
+    <p>[=Function=] is a generic abstract term that refers to what '<i>functions</i>' a technology has or is capable of through the relation [=hasFunction=]. It can be used as a 'catch-all' concept to express that a technology is capable of e.g. identity verification (purpose), data collection (processing operation), access control or encryption (technical measure), and other concepts. A function in a technology is always present or possible with the use of that technology, and a specific use-case may or may not use the function. It thus provides a way to express information about the technology regarding what exists or can be done without invoking any potential interpretation that the technology is being used in a specific way. Function as a concept is not necessary to be used until the other existing DPV concepts, which are more concrete and specific, are not sufficient for reasons described above.</p>
+    <aside class="example" title="Indicating the functions available in a technology from what is being used">
+      <p>A company procures a database technology that has several functions such as data storage, data retrieval, encryption, access control, networking, and so on - but only a few of these are being used in a specific use-case. To distinguish what the technology can do from what 'features' or 'functions' being used in the use-case, the Function concept comes in handy. In the below example, the technology has several functions available, of which a specific process uses only some to collect and store data in an encrypted form.</p>
+      <pre class="nohighlight"><code>ex:DatabaseProduct a dpv:Database ;
+      dpv:hasFunction 
+        dpv:Collect, dpv:Store, dpv:Retrieve, # Processing
+        dpv:AccessControlMethod, dpv:Encryption, # Technical Measure
+        tech:Networking . # Communication Mechanism 
+
+ex:SpecificProcess a dpv:Process ;
+  dpv:hasPersonalData pd:Name ;
+  dpv:hasPurpose dpv:IdentityVerification ;
+  dpv:hasProcessing dpv:Collect, dpv:Store ;
+  dpv:hasTechnicalMeasure dpv:Encryption ;
+  dpv:isImplementedUsingTechnology ex:DatabaseProduct .
+      </code></pre>
+    </aside>
+    <p>[=IntendedUse=] is useful to indicate the uses for which a technology is developed, or what it is planned to be used for, and which is associated with a technology through the relation [=hasIntendedUse=]. The 'intended use' could be the developer who envisions specific uses of the technology while developing it, or a user who plans to use the technology for specific activities when they acquire it. Such intended uses can be represented by using concepts within the DPV and its extensions - such as purposes, processing operations, technical and organisational measures, and so on. Where the intended use cannot be represented by a single concept, multiple concepts can be combined by using the relations in a manner similar to the use of <code>dpv:Process</code>.</p>
     <aside class="example" title="Indicating the intended uses of technologies">
       <p>This example indicates the intended use of technology by directly reusing an existing DPV concept (<code>ex:1</code>), and by combining multiple concepts together (<code>ex:2</code>).</p>
       <pre class="nohighlight"><code>ex:1 a dpv:Technology ;
@@ -188,11 +210,15 @@ ex:OperationLog a dpv:Process ;
 
   <section id="vocab-provision">
     <h2>Provision of Technology</h2>
+    <div class="issue" title="discuss breaking change note for provision method"></div>
+    <aside class="note" title="Breaking changes introduced in version 2.1">
+      <p>The concepts were renamed in version 2.1 by adding the suffix <code>-Provision</code> to better indicate their role as provision methods, and to avoid ambiguity with the technology itself. For example, <code>System</code> in version 2.0 has been renamed to <code>SystemProvision</code> to avoid misinterpretation of <i>System</i> as only referring to the way a technology is provided as compared to it being a 'technical system'.</p>
+    </aside>
     <p>The provision of technology can happen via the following methods:</p>
     <ul>
-      <li>[=System=], [=Component=], and [=Algorithmic=] - that indicate whether the technology is provided as a system (e.g. stand alone), is intended to be used as a component in another system, or is algorithmic (e.g. implementation of a particular method).</li>
-      <li>[=Service=], [=Goods=], [=Product=], and [=Subscription=] - that provide an indication of whether the technology is service (e.g. implemented to function as a service), or is a product or a subscription (e.g. provided by a vendor). In this, [=Service=] is extended to represent various kinds of [=CloudService=] such as Platform-as-a-Service ([=PaaS=]) and Software-as-a-Service ([=SaaS=])</li>
-      <li>[=FixedUse=] indicates whether the technology has limitations of use e.g. specific number of application or single application, or those related to scale or scope. For example, a single use identifier or a one time scan for vulnerabilities.</li>
+      <li>[=SystemProvision=], [=ComponentProvision=], and [=AlgorithmicProvision=] - that indicate whether the technology is provided as a system (e.g. stand alone), is intended to be used as a component in another system, or is algorithmic (e.g. implementation of a particular method).</li>
+      <li>[=ServiceProvision=], [=GoodsProvision=], [=ProductProvision=], and [=SubscriptionProvision=] - that provide an indication of whether the technology is service (e.g. implemented to function as a service), or is a product or a subscription (e.g. provided by a vendor). In this, [=ServiceProvision=] is extended to represent various kinds of [=CloudServiceProvision=] such as Platform-as-a-Service ([=PaaSProvision=]) and Software-as-a-Service ([=SaaSProvision=])</li>
+      <li>[=FixedUseProvision=] indicates whether the technology has limitations of use e.g. specific number of application or single application, or those related to scale or scope. For example, a single use identifier or a one time scan for vulnerabilities.</li>
       </ul>
       <aside class="example" title="Indicating a technology is provided as a SaaS subscription">
         <p>The following example contains a technology which is provided as a SaaS subscription.</p>
@@ -220,6 +246,13 @@ ex:OperationLog a dpv:Process ;
       </aside>
       {{ list_hierarchy(modules['comms']['classes']) }}
     </ul>
+  </section>
+
+  <section id="vocab-io">
+    <h2>Inputs/Outputs</h2>
+    <p>The following concepts represent the inputs and outputs associated with technology, which extend the core concept [=InputOutput=], and can be associated through the relations [=hasInput=] and [=hasOutput=]. Of these, [=Input=] and [=Output=] refer to how they interact with the technology, and the other concepts such as [=Action=], [=Content=], [=Decision=], [=Prediction=], and [=Recommendation=] refer to the roles of inputs and outputs. Some concepts, such as [=Content=] are defined as <code>dpv:Data</code> to reflect that they are always available as data, whereas others such as [=Action=] or [=Decision=] may be in data or other forms, such as the physical movements present in robotic systems.</p>
+    
+    {{ list_hierarchy(modules['io']['classes']) }}
   </section>
 
   <section id="vocab-docs">
@@ -251,7 +284,7 @@ ex:DatabaseDocs a tech:Instructions ;
   <section id="vocab-tools">
     <h2>Tools</h2>
     <p>Tools are technologies which are commonly used or required, and for which providing a concept within the [[TECH]] extension would be helpful for representing practical use-cases.</p>
-    <aside class="example" title="Enhancing the TECH tools taxonomy">
+    <aside class="note" title="Enhancing the TECH tools taxonomy">
       <p>We welcome contributions and discussions on further refining and expanding the TECH tools taxonomy to support practical uses of technologies in use-cases. In this, we suggest carefully choosing the terms to be added to ensure they fit the DPV taxonomies, and to avoid taking any 'marketing' terms that have no basis in law or standards. For cases where there are a large number of terms which do not fit well within the DPV taxonomies, we are open to creation of specific extensions to represent them. For example, a cloud services extension which represents the exact terms used by providers, and which is mapped to DPV TECH taxonomy.</p>
     </aside>
     {{ list_hierarchy(modules['tools']['classes']) }}
@@ -311,7 +344,7 @@ ex:DatabaseDocs a tech:Instructions ;
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
-
+<section class="appendix" id="issue-summary"></section>
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
 </body>
 </html>
