@@ -73,6 +73,7 @@ DPV_FILES = {
         'sheets': (
            'Purpose', 
            'Purpose_properties', 
+           'Purpose_Domain',
            'Processing', 
            'Processing_properties', 
            'ProcessingContext', 
@@ -161,6 +162,7 @@ DPV_FILES = {
         'sheets': (
             'tech-core',
             'tech-core-properties',
+            'tech-io',
             'tech-provision',
             'tech-actors',
             'tech-actors-properties',
@@ -169,7 +171,7 @@ DPV_FILES = {
             'tech-status',
             'tech-status-properties',
             'tech-tools',
-            'tech-algorithms',
+            'tech-tools-properties',
             ),
     },
     'ai': {
@@ -177,11 +179,15 @@ DPV_FILES = {
         'doc_id': '1H3nSZ6Z4GL5ZdaVKrH2_oZPc8sRvNg-MiiosZE-qAOo',
         'sheets': (
             'ai-core',
+            'ai-properties',
+            'ai-systems',
+            'ai-data',
+            'ai-data-properties',
             'ai-techniques',
             'ai-capabilities',
-            'ai-risks',
             'ai-measures',
-            'ai-bias',
+            'ai-lifecycle',
+            'ai-risks',
             ),
     },
     # Sheets for Risk extension
@@ -199,7 +205,7 @@ DPV_FILES = {
             'RiskSource',
             'Incident',
             'IncidentStatus',
-            'RiskConsequences',
+            'RiskEvents',
             ),
     },
     # Sheets for Rights extension
@@ -330,9 +336,11 @@ DPV_FILES = {
             'aiact-roles',
             'aiact-docs',
             'aiact-status',
+            'aiact-status-properties',
             'aiact-misc',
             'aiact-assessment',
             'aiact-compliance',
+            'aiact-sector',
             ),
     },
     'eu-nis2': {

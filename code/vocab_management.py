@@ -266,6 +266,9 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-actors.csv',
             'properties': f'{IMPORT_CSV_PATH}/tech-actors-properties.csv',
         },
+        'io': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/tech-io.csv',
+        },
         'comms': {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-comms.csv',
         },
@@ -278,6 +281,7 @@ CSVFILES = {
         },
         'tools': {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-tools.csv',
+            'properties': f'{IMPORT_CSV_PATH}/tech-tools-properties.csv',
         }, 
     },
     'ai': {
@@ -296,8 +300,8 @@ CSVFILES = {
         'measures': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-measures.csv'
         },
-        'bias': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/ai-bias.csv'
+        'risk': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-risks.csv'
         },
     },
     'risk': {
@@ -315,7 +319,7 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskControls.csv',
         },
         'risk_taxonomy': {
-            'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskEvents.csv',
         },
         'incident': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Incident.csv',
@@ -338,15 +342,15 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_Exercise.csv',
         },
     },
-    # 'loc': {
-    #     'locations': {
-    #         'locations': f'{IMPORT_CSV_PATH}/location.csv',
-    #         'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
-    #     },
-    #     'memberships': {
-    #         'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
-    #     },
-    # },
+    'loc': {
+        'locations': {
+            'locations': f'{IMPORT_CSV_PATH}/location.csv',
+            'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
+        },
+        'memberships': {
+            'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
+        },
+    },
     # Laws-Authorities
     'legal-at': {
         'at': {
@@ -605,6 +609,7 @@ CSVFILES = {
         },
         'status': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-status.csv',
+            'properties': f'{IMPORT_CSV_PATH}/aiact-status-properties.csv',
         },
         'misc': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-misc.csv',
@@ -614,6 +619,9 @@ CSVFILES = {
         },
         'compliance': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-compliance.csv',
+        },
+        'sector': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-sector.csv',
         },
     },
     'eu-nis2': {
