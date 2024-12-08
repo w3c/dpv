@@ -205,7 +205,7 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/ContractStatus.csv',
         },
         'contract_clause': {
-            'classes': f'{IMPORT_CSV_PATH}/ContractClause.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/ContractClause.csv',
         },
         'contract_control': {
             'classes': f'{IMPORT_CSV_PATH}/ContractControl.csv',
@@ -300,6 +300,15 @@ CSVFILES = {
         'measures': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-measures.csv'
         },
+        'systems': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-systems.csv'
+        },
+        'data': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-data.csv'
+        },
+        'lifecycle': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-lifecycle.csv'
+        },
     },
     'risk': {
         'core': {
@@ -339,15 +348,15 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_Exercise.csv',
         },
     },
-    'loc': {
-        'locations': {
-            'locations': f'{IMPORT_CSV_PATH}/location.csv',
-            'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
-        },
-        'memberships': {
-            'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
-        },
-    },
+    # 'loc': {
+    #     'locations': {
+    #         'locations': f'{IMPORT_CSV_PATH}/location.csv',
+    #         'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
+    #     },
+    #     'memberships': {
+    #         'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
+    #     },
+    # },
     # Laws-Authorities
     'legal-at': {
         'at': {
@@ -797,6 +806,7 @@ RDF_VOCABS = {
             'docs': f'{IMPORT_PATH}/tech/modules/docs.ttl',
             'status': f'{IMPORT_PATH}/tech/modules/status.ttl',
             'tools': f'{IMPORT_PATH}/tech/modules/tools.ttl',
+            'io': f'{IMPORT_PATH}/tech/modules/io.ttl',
         },
         'metadata': {
             "dct:title": "Technology Concepts",
@@ -819,7 +829,9 @@ RDF_VOCABS = {
             'capabilities': f'{IMPORT_PATH}/ai/modules/capabilities.ttl',
             'risks': f'{IMPORT_PATH}/ai/modules/risks.ttl',
             'measures': f'{IMPORT_PATH}/ai/modules/measures.ttl',
-            'bias': f'{IMPORT_PATH}/ai/modules/bias.ttl',
+            'systems': f'{IMPORT_PATH}/ai/modules/systems.ttl',
+            'data': f'{IMPORT_PATH}/ai/modules/data.ttl',
+            'lifecycle': f'{IMPORT_PATH}/ai/modules/lifecycle.ttl',
         },
         'metadata': {
             "dct:title": "AI Technology Concepts",
@@ -1631,6 +1643,7 @@ RDF_VOCABS = {
             'misc': f'{IMPORT_PATH}/legal/eu/aiact/modules/misc.ttl',
             'assessment': f'{IMPORT_PATH}/legal/eu/aiact/modules/assessment.ttl',
             'compliance': f'{IMPORT_PATH}/legal/eu/aiact/modules/compliance.ttl',
+            'sector': f'{IMPORT_PATH}/legal/eu/aiact/modules/sector.ttl',
         },
         'metadata': {
             "dct:title": "EU AI Act",

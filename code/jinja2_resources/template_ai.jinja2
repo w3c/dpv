@@ -75,6 +75,7 @@
 <body>
   <section id="abstract">
     <p>The AI extension extends the [[[DPV]]] and its [[[TECH]]] extension to represent AI techniques, applications, risks, and mitigations. The namespace for terms in <code>ai</code> is <a href="http://www.w3id.org/dpv/ai#"><code>https://www.w3id.org/dpv/ai#</code></a>. The suggested prefix for the namespace is <code>ai</code>. The AI vocabulary and its documentation are available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+    <div class="issue" title="discuss whether the draft warning for extension can be removed"></div>
   </section>
     {{ sotd(data[vocab_name+'-metadata']) }}
     {{ dpv_document_family(document='ai-spec') }}
@@ -85,46 +86,117 @@
       <img src="../diagrams/ai.svg">
       <figcaption>Overview of AI extension</figcaption>
     </figure>
-    <p>The [[[AI]]] extension is currently under development. It further extends the [[TECH]] extension to represent concepts associated with AI, and will provide:</p>
+    <p>The [[[AI]]] extension further extends the [[TECH]] extension to represent concepts specifically associated with development, use, and operation of AI, and provides:</p>
     <ul>
       <li><strong>Techniques</strong> such as machine learning and natural language programming</li>
       <li><strong>Capabilities</strong> such as image recognition and text generation</li>
-      <li><strong>Lifecycle</strong> such as data collection, training, fine-tuning, etc.</li>
+      <li><strong>AI Systems and Models</strong> such as expert systems, or general purpose AI models (GPAI)</li>
+      <li><strong>Data</strong> such as for training, testing, and validation</li>
       <li><strong>Risks</strong> such as data poisoning, statistical noise and bias, etc.</li>
       <li><strong>Risk Measures</strong> to address the AI specific risks</li>
+      <li><strong>Lifecycle</strong> such as data collection, training, fine-tuning, etc.</li>
       <li><strong>Documentation</strong> such as Data Sheets and Model Cards</li>
       <li><strong>Actors</strong> such as AI Developer and AI Deployer</li>
       <li><strong>Status</strong> associated with AI development</li>
     </ul>
-    <p>The AI extension will be created based on the existing <a href="https://w3id.org/airo">AI Risk Ontology (AIRO)</a> and <a href="https://w3id.org/vair">Vocabulary of AI Risks (VAIR)</a>, as well as the [[[AIAct]]], [[[ISO-22989]]], and the <a href="https://ai-watch.ec.europa.eu/publications/defining-artificial-intelligence-10_en">AI Watch taxonomy</a>.</p>
+    <div class="issue" title="discuss whether docs (e.g. data sheets), actors, and status should be kept in scope"></div>
+    <p>The AI extension is being created based on the following sources:</p>
+    <ol>
+      <li>[[[ISO-22989]]]</li>
+      <li>[[[AIAct]]], which is also supported by the [[EU-AIAct]] extension for DPV</li>
+      <li><a href="https://ai-watch.ec.europa.eu/publications/defining-artificial-intelligence-10_en">AI Watch taxonomy</a></li>
+      <li><a href="https://w3id.org/airo">AI Risk Ontology (AIRO)</a> and <a href="https://w3id.org/vair">Vocabulary of AI Risks (VAIR)</a></li>
+    </ol>
+
+    <section>
+      <h3>AI as a specific Technology</h3>
+      <div class="issue" title="section stating AI is just another technology, and we reuse DPV and TECH here"></div>
+    </section>
+
+    <section>
+      <h3>Conceptual Model</h3>
+      <div class="issue" title="section describing conceptual model: Technique to Capability to Purpose"></div>
+    </section>
   </section>
 
   <section id="vocab-techniques">
     <h2>Techniques</h2>
-    <p>See <a href="https://w3id.org/vair#AITechniques">examples</a> of Techniques in VAIR.</p>
+    {{ list_hierarchy(modules['techniques']['classes']) }}
   </section>
 
   <section id="vocab-capabilities">
     <h2>Capabilities</h2>
-    <p>See <a href="https://w3id.org/vair#AICapabilities">examples</a> of Capabilities in VAIR.</p>
+    {{ list_hierarchy(modules['capabilities']['classes']) }}
+  </section>
+
+  <section id="vocab-systems">
+    <h2>AI Systems and Models</h2>
+    {{ list_hierarchy(modules['systems']['classes']) }}
+    <aside class="note" title="Discussion on Multi-Agent System as a proposed concept">
+      <p>We are currently discussing the meaning and inclusion of a concept to represent <code>Multi-Agent System</code> as a type of AI System. In this, we are exploring how to model <code>Agent</code> as a concept in a way that is clear and distinct from other uses of the term, such as in the legal domain. We welcome inputs and participation for this.</p>
+    </aside>
+  </section>
+
+  <section id="vocab-data">
+    <h2>Data</h2>
+    {{ list_hierarchy(modules['data']['classes']) }}
   </section>
 
   <section id="vocab-risks">
-    <h2>Risks</h2>
-    <p>See <a href="https://w3id.org/vair#RiskSource">examples</a> of Risks in VAIR.</p>
+    <h2>Risk Concepts</h2>
+    <div class="issue" title="discuss whether the risk concepts should be presented with potential role sections, and whether a table summary is needed - see RISK"></div>
+    <aside class="note" title="AI Risk concepts extend the RISK extension concepts">
+      <p>The risk concepts presented in this extension are intended to represent concepts specific to AI development and use, and do not contain general risk concepts which exist in other contexts e.g. applicable for any (AI and non-AI) technology. The [[RISK]] extension contains the general set of concepts that this vocabulary extends to represent risks that are specific to the development and use of AI.</p>
+    </aside>
+    <p>The concept [=RiskConcept=] in this extension extends <code>dpv:RiskConcept</code> to represent risk sources, risks, concepts, and impacts specific to the development, use, or operation of AI. As with the [[RISK]] extension, the risk concepts presented here can taken on different roles in different use-cases, for example what is a risk source in one scenario could be the consequence in another. The relations <code>risk:hasRiskSource</code>, <code>dpv:hasRisk</code>, <code>dpv:hasConsequence</code>, and <code>dpv:hasImpact</code> are useful to indicate the specific interpretation and role of the AI risk concepts in a scenario.</p>
+    <p>The AI Risk Concepts are broadly categorised according to the following:</p>
+    <ol>
+      <li>[=DataRisk=] - Risk associated with data used or produced or otherwise involved in the context of AI</li>
+      <li>[=SecurityAttack=] - Risks or issues associated with security attacks related to AI technologies, models, and systems</li>
+      <li>[=ModelRisk=] - Model Risk  Risks associated with AI Models</li>    
+      <li>[=AISystemRisk=] - AI System Risk  Risks associated with AI Systems</li>    
+      <li>[=UserRisk=] - User Risk Risks associated with Users of AI Systems</li>    
+      <li>[=AIBias=] - AI Bias Bias associated with development, use, or other activities involving an AI technology or system</li>
+    </ol>
 
-    <section id="vocab-bias">
+    <section id="vocab-risks-data">
+      <h3>Data Risks</h3>
+      <aside class="note" title="Help expand this section with concepts and examples"></aside>
+      {{ list_hierarchy(modules['risks']['classes'], head='ai:DataRisk') }}
+    </section>
+
+    <section id="vocab-risks-bias">
       <h3>Bias</h3>
-      <p>Note: These are intended to represent bias concepts specific to AI development and use, and do not contain general bias concepts which exist in other contexts e.g. applicable for any technology. The <a href="../risk#vocab-bias">Risk extension</a> contains the general set of concepts that this vocabulary extends to represent biases that are specific to the development and use of AI.</p>
-      {{ list_hierarchy(modules['bias']['classes'], head='ai:AIBias') }}
+      <p>The bias concepts represented here are specific to AI, and there are generic bias concepts as well as discrimination impact concepts in [[RISK]] extension. While we are interested in further expanding these concepts, the following external sources should be of interest:</p>
+      <ul>
+        <li><a href="https://github.com/tibonto/Doc-BIAS">DocBiasO</a> - an ontology-driven approach to support the documentation of bias in data, which has a larger expansive categorisation of bias and provides additional concepts and properties to model specifics such as ethnicities and measurements which are useful in bias measurement and documentation.</li>
+        <li><a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1270.pdf">NIST Special Publication 1270 - Towards a Standard for Identifying and Managing Bias in Artificial Intelligence</a></li>
+        <li><a href="https://www.iso.org/standard/77607.html">ISO/IEC TR 24027:2021 Information technology — Artificial intelligence (AI) — Bias in AI systems and AI aided decision making</li>
+        <li><a href="https://oecd.ai/en/catalogue/tools?terms=bias&page=1">OECD AI Policy Observatory -  Catalogue of Tools & Metrics for Trustworthy AI</a></li>
+      </ul>
+      {{ list_hierarchy(modules['risks']['classes'], head='ai:AIBias') }}
+    </section>
+
+    <section id="vocab-risks-security-attack">
+      <h3>Security Attacks</h3>
+      <aside class="note" title="Help expand this section with concepts and examples"></aside>
+      {{ list_hierarchy(modules['risks']['classes'], head='ai:SecurityAttack') }}
     </section>
 
   <section id="vocab-measures">
     <h2>Risk Measures</h2>
-    <p>See <a href="https://w3id.org/vair#Controls">examples</a> of Risk Measures in VAIR.</p>
+    <aside class="note" title="Help expand this section with concepts and examples"></aside>
   </section>
 
 </section>
+
+<section id="vocab-lifecycle">
+    <h2>Lifecycle</h2>
+    {{ list_hierarchy(modules['lifecycle']['classes']) }}
+    <aside class="note" title="Alignment with lifecycle of technology">
+      <p>We are currently exploring the alignment of these concepts, which are based on ISO/IEC 22989:2022, with those for lifecycle of technology (in general) as defined in  ISO/IEC/IEEE 15288:2023 Systems and software engineering — System life cycle processes. We have proposed inclusion of technology lifecycle concepts in the [[TECH]] extension, which would then be extended here in the AI extension.</p>
+    </aside>
+  </section>
   
 
   <section id="vocabulary">
@@ -180,7 +252,7 @@
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
-
+<section class="appendix" id="issue-summary"></section>
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
 </body>
 </html>
