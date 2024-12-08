@@ -348,6 +348,11 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_Exercise.csv',
         },
     },
+    'sector': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Domain.csv',
+        },
+    },
     # 'loc': {
     #     'locations': {
     #         'locations': f'{IMPORT_CSV_PATH}/location.csv',
@@ -638,6 +643,20 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/NIS2_compliance.csv',
         },
     },
+    'eu-ehds': {
+        'data': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Data.csv',
+        },
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Purpose.csv',
+        },
+        'entities': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Entities.csv',
+        },
+        'process': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Process.csv',
+        },
+    },
     'eu-rights': {
         'fundamental': {
             'taxonomy': f'{IMPORT_CSV_PATH}/EUFundamentalRights.csv',
@@ -887,6 +906,24 @@ RDF_VOCABS = {
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             "bibo:status": "published",
+        },
+    },
+    'sector': {
+        'vocab': f'{IMPORT_PATH}/sector/sector.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Sector-specific Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information within specific sectors",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Beatriz Esteves, Julian Flake",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
         },
     },
     'loc': {
@@ -1675,6 +1712,27 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
+    'eu-ehds': {
+        'vocab': f'{IMPORT_PATH}/legal/eu/ehds/eu-ehds.ttl',
+        'template': 'template_legal_eu_ehds.jinja2',
+        'export': f'{EXPORT_PATH}/legal/eu/ehds',
+        'modules': {
+            'data': f'{IMPORT_PATH}/legal/eu/ehds/modules/data.ttl',
+            'purposes': f'{IMPORT_PATH}/legal/eu/ehds/modules/purposes.ttl',
+            'entities': f'{IMPORT_PATH}/legal/eu/ehds/modules/entities.ttl',
+            'process': f'{IMPORT_PATH}/legal/eu/ehds/modules/process.ttl',
+        },
+        'metadata': {
+            "dct:title": "EU EHDS",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU Health Data Spaces (EHDS)",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Beatriz Esteves, Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
     'eu-rights': {
         'vocab': f'{IMPORT_PATH}/legal/eu/rights/eu-rights.ttl',
         'template': 'template_legal_eu_rights.jinja2',
@@ -1721,6 +1779,10 @@ RDF_STRUCTURE = {
     'justifications': {
         'main': f'{EXPORT_RDF_PATH}/justifications',
         'modules': f'{EXPORT_RDF_PATH}/justifications/modules',
+    },
+    'sector': {
+        'main': f'{EXPORT_RDF_PATH}/sector',
+        'modules': f'{EXPORT_RDF_PATH}/sector/modules',
     },
     'loc': {
         'main': f'{EXPORT_RDF_PATH}/loc',
@@ -1880,6 +1942,10 @@ RDF_STRUCTURE = {
     'eu-nis2': {
         'main': f'{EXPORT_RDF_PATH}/legal/eu/nis2',
         'modules': f'{EXPORT_RDF_PATH}/legal/eu/nis2/modules',
+    },
+    'eu-ehds': {
+        'main': f'{EXPORT_RDF_PATH}/legal/eu/ehds',
+        'modules': f'{EXPORT_RDF_PATH}/legal/eu/ehds/modules',
     },
     'eu-rights': {
         'main': f'{EXPORT_RDF_PATH}/legal/eu/rights',

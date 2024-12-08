@@ -351,6 +351,16 @@ DPV_FILES = {
             'NIS2_compliance',
             ),
     },
+    'eu-ehds': {
+        'name': 'eu-ehds',
+        'doc_id': '1pEyUXsCsMKMjVFODOpYRmL_q_Z6_1evCz6GXF8UV5ZY',
+        'sheets': (
+            'EHDS_Data',
+            'EHDS_Purpose',
+            'EHDS_Entities',
+            'EHDS_Process',
+            ),
+    },
     # Sheets for Use-Cases, Requirements, and Examples
     'ucr': {
         'name': 'ucr',
