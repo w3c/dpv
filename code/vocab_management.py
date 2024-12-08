@@ -295,13 +295,10 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-capabilities.csv'
         },
         'risks': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/ai-risks.csv'
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/ai-risks.csv'
         },
         'measures': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-measures.csv'
-        },
-        'risk': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/ai-risks.csv'
         },
     },
     'risk': {

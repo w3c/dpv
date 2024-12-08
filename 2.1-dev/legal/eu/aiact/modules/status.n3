@@ -1,5 +1,7 @@
 @prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix dcam: <http://purl.org/dc/dcam/> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix dpv: <https://w3id.org/dpv#> .
 @prefix eu-aiact: <https://w3id.org/dpv/legal/eu/aiact#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -52,6 +54,26 @@ eu-aiact:AvailableOnNonEUMarket a rdfs:Class,
     skos:inScheme eu-aiact:status-classes ;
     skos:prefLabel "Available on Non-EU Market"@en .
 
+eu-aiact:ChangeCategory a rdfs:Class,
+        skos:Concept ;
+    dct:contributor "Delaram Golpayegani" ;
+    dct:created "2024-12-01"^^xsd:date ;
+    rdfs:isDefinedBy eu-aiact: ;
+    rdfs:subClassOf dpv:Context ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Context ;
+    skos:inScheme eu-aiact:status-classes .
+
+eu-aiact:ChangeDescription a rdfs:Class,
+        skos:Concept ;
+    dct:contributor "Delaram Golpayegani" ;
+    dct:created "2024-12-01"^^xsd:date ;
+    rdfs:isDefinedBy eu-aiact: ;
+    rdfs:subClassOf dpv:Context ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:Context ;
+    skos:inScheme eu-aiact:status-classes .
+
 eu-aiact:MarketAvailabilityStatus a rdfs:Class,
         skos:Concept ;
     dct:contributor "Delaram Golpayegani" ;
@@ -75,6 +97,16 @@ eu-aiact:MarketPlacementStatus a rdfs:Class,
     skos:definition "Status associated with whether the AI system or GPAI Model has been 'first' made available on the market"@en ;
     skos:inScheme eu-aiact:status-classes ;
     skos:prefLabel "Market Placement Status"@en .
+
+eu-aiact:NonpredeterminedChange a rdfs:Class,
+        skos:Concept,
+        eu-aiact:ChangeCategory ;
+    dct:contributor "Delaram Golpayegani" ;
+    dct:created "2024-12-01"^^xsd:date ;
+    rdfs:isDefinedBy eu-aiact: ;
+    sw:term_status "accepted"@en ;
+    skos:broader eu-aiact:ChangeCategory ;
+    skos:inScheme eu-aiact:status-classes .
 
 eu-aiact:NotAvailableOnMarket a rdfs:Class,
         skos:Concept,
@@ -125,6 +157,16 @@ eu-aiact:PlacedOnMarket a rdfs:Class,
     skos:definition "Status indicating the first making available of an AI system or a general purpose AI model on the market"@en ;
     skos:inScheme eu-aiact:status-classes ;
     skos:prefLabel "Placed on Market"@en .
+
+eu-aiact:PredeterminedChange a rdfs:Class,
+        skos:Concept,
+        eu-aiact:ChangeCategory ;
+    dct:contributor "Delaram Golpayegani" ;
+    dct:created "2024-12-01"^^xsd:date ;
+    rdfs:isDefinedBy eu-aiact: ;
+    sw:term_status "accepted"@en ;
+    skos:broader eu-aiact:ChangeCategory ;
+    skos:inScheme eu-aiact:status-classes .
 
 eu-aiact:PutIntoService a rdfs:Class,
         skos:Concept,
@@ -225,6 +267,38 @@ eu-aiact:WithdrawnFromService a rdfs:Class,
     foaf:logo <https://w3id.org/dpv/media/logo.png> ;
     schema:version "2.1-dev" .
 
+eu-aiact:hasChangeCategory a rdf:Property,
+        skos:Concept ;
+    dcam:domainIncludes tech:AI ;
+    dcam:rangeIncludes eu-aiact:ChangeCategory ;
+    dct:contributor "Delaram Golpayegani" ;
+    dct:created "2024-12-01"^^xsd:date ;
+    rdfs:isDefinedBy eu-aiact: ;
+    rdfs:subPropertyOf dpv:hasContext ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:hasContext ;
+    skos:definition "Associates the category of change to the AI"@en ;
+    skos:inScheme eu-aiact:status-properties ;
+    skos:prefLabel "has change category"@en ;
+    schema:domainIncludes tech:AI ;
+    schema:rangeIncludes eu-aiact:ChangeCategory .
+
+eu-aiact:hasChangeDescription a rdf:Property,
+        skos:Concept ;
+    dcam:domainIncludes tech:AI ;
+    dcam:rangeIncludes eu-aiact:ChangeDescription ;
+    dct:contributor "Delaram Golpayegani" ;
+    dct:created "2024-12-01"^^xsd:date ;
+    rdfs:isDefinedBy eu-aiact: ;
+    rdfs:subPropertyOf dpv:hasContext ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:hasContext ;
+    skos:definition "Associates the change description to AI"@en ;
+    skos:inScheme eu-aiact:status-properties ;
+    skos:prefLabel "has change description"@en ;
+    schema:domainIncludes tech:AI ;
+    schema:rangeIncludes eu-aiact:ChangeDescription .
+
 eu-aiact:serialisation-html a profile:ResourceDescriptor ;
     dct:conformsTo <https://www.w3.org/TR/html/> ;
     dct:format <https://www.iana.org/assignments/media-types/text/html> ;
@@ -273,6 +347,8 @@ eu-aiact:serialisation-ttl a profile:ResourceDescriptor ;
     dct:title "Guides for Data Privacy Vocabulary" ;
     profile:hasArtifact <https://w3id.org/dpv/guides> ;
     profile:hasRole role:guidance .
+
+eu-aiact:status-properties a skos:ConceptScheme .
 
 <https://w3id.org/dpv/primer> a profile:ResourceDescriptor ;
     dct:conformsTo <https://www.w3.org/TR/html/> ;
