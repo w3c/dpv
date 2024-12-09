@@ -1,0 +1,153 @@
+{% from 'macro_term_table.jinja2' import table_classes %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}}{% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "eu-ehds",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "{{DOCUMENT_STATUS}}",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/legal/eu/ehds",
+    canonicalUri: "https://w3id.org/dpv/legal/eu/ehds",
+    edDraftURI: "https://dev.dpvcg.org/legal/eu/ehds",
+    github: "w3c/dpv",
+    subjectPrefix: "[eu-ehds]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+    }
+    ],
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
+      {
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    otherLinks: [
+      {
+        "key": "This Release",
+        "data": [
+            {
+              "value": "https://w3id.org/dpv/2.0/legal/eu/ehds",
+              "href": "https://w3id.org/dpv/2.0/legal/eu/ehds"
+            }
+        ]
+      },
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            }
+        ]
+      }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../../../diagrams/common.css">
+<link rel="shortcut icon" href="../../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+<link rel="shortcut icon" href="../../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+{% block ABSTRACT %}
+  <section id="abstract">
+    <p>The [[[EHDS]]] is _stub_. This extension provides concepts to support the implementation of EHDS and align its requirements with those of other regulations, such as [[GDPR]], [[DGA]], and [[AIAct]].</p>
+    <p style="color: red">NOTE: This is a draft vocabulary, which will be updated as EHDS is published and formally recognised as a regulation. The DPVCG welcomes participation and contributions for this work.</p>
+  </section>
+    {{ sotd(data[vocab_name+'-metadata']) }}
+    {{ dpv_document_family(document='eu-ehds-spec') }}
+{% endblock ABSTRACT %}
+{% block INTRODUCTION %}
+  <section id="motivation">
+    <h2>Introduction</h2>
+    <p>stub</p>
+  </section>
+{% endblock INTRODUCTION %}
+{% block VOCAB %}
+
+  <section id="vocab-data">
+    <h2>Data</h2>
+    <p>stub</p>
+    {{ list_hierarchy(modules['data']['classes']) }}
+  </section>
+
+  <section id="vocab-entities">
+    <h2>Entities</h2>
+    <p>stub</p>
+    {{ list_hierarchy(modules['entities']['classes']) }}
+  </section>
+
+  <section id="vocab-purposes">
+    <h2>Purposes</h2>
+    <p>stub</p>
+    {{ list_hierarchy(modules['purposes']['classes']) }}
+  </section>
+
+  <section id="vocab-process">
+    <h2>Processes</h2>
+    <p>stub</p>
+    {{ list_hierarchy(modules['process']['classes']) }}
+  </section>
+{% endblock VOCAB %}
+
+{% block ACKNOWLEDGEMENTS %}
+<section id="contributors">
+  <h2>Contributors</h2>
+  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
+  <ul>
+  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
+    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
+  {% endfor %}
+  </ul>
+</section>
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+
+</section>
+{% endblock ACKNOWLEDGEMENTS %}
+
+{% block PROPOSED %}
+{% if proposed %}
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  {% for name, terms in proposed.items() %}
+    <strong>{{name}}</strong>
+    <ul>{% for term in terms %}
+      <li>{{term}}</li>
+    {% endfor %}</ul>
+  {% endfor %}
+</section>
+{% endif %}
+{% endblock PROPOSED %}
+
+<script type="text/javascript" src="../../../diagrams/common.js" defer></script>
+</body>
+</html>
