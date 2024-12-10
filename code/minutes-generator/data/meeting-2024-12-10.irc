@@ -1,0 +1,74 @@
+16:15:34 <RRSAgent> RRSAgent has joined #dpvcg
+16:15:44 <harsh> Scribe: harshPandit
+16:18:43 <harsh> ScribeNick: harsh
+16:15:47 <harsh> repo: w3c/dpv
+16:15:47 <ghurlbot> OK.
+16:15:55 <harsh> Meeting: DPVCG Meeting Call
+16:15:57 <harsh> Chair: harsh
+16:16:51 <harsh> Present: harshPandit, mayraRusso, paulRyan, georgKrog, julianFlake
+16:18:43 <harsh> Regrets: tyttiRintamaki, beatrizEsteves, markLizar
+16:18:43 <harsh> Regrets: delaramGolpayegani, iainHenderson
+16:17:14 <harsh> Date: 10 DEC 2024
+16:17:28 <harsh> Agenda: https://www.w3.org/events/meetings/0e21485e-d959-4f78-930a-bd66650adace/20241210T133000/
+16:17:37 <harsh> \ Meeting minutes: https://w3id.org/dpv/meetings
+16:17:47 <harsh> \purl for this meeting: https://w3id.org/dpv/meetings/meeting-2024-12-10
+16:18:43 <harsh> \ See DPV v2.1 update: changelist / review tasks https://lists.w3.org/Archives/Public/public-dpvcg/2024Dec/0002.html
+16:18:43 <harsh> \ Good news for DPVCG: Delaram successfully defended her PhD viva yesterday, with no corrections required to the thesis (which is rare and fantastic). The examiners were Oscar Corcho (UPM) and Lucy Hederman (TCD). Congratulations to Delaram!
+16:18:43 <harsh> Topic: Human Subject
+16:18:43 <harsh> harsh: In previous discussions, we had the issue of multiple human subjects being defined in different scopes. We have `dpv:DataSubject` in main DPV, which we define as the /subject of personal data/ in line with the GDPR. Delaram's AIRO gives as `AISubject` which is the subject of AI technologies, and by extending the argument we have its parent concept `TechnologySubject` which is the subject of any technology. We have a nice taxonomy of data subjects in main DPV spec, which would also be useful for other subjects here. However, we cannot establish these other subjects as types of /Data Subject/ due to the differing scopes and terminology. 
+16:18:43 <harsh> harsh: Therefore, I propose we create `dpv:HumanSubject` as the parent concept of all these subjects, and move the taxonomy to be under it. Any existing use of `dpv:DataSubject` will continue to be valid, and the only /breaking change/ as such would be if someone was explicitly retrieving the list of data subject categories - in which case the fix is minor and simple to use the human subject categories.
+16:18:43 <harsh> georgKrog: Is this needed? It would help to have as many different person categories as needed - so whatever works for more use-cases is better.
+16:18:43 <harsh> julianFlake: this then would be an extension of `dpv:NaturalPerson` as before
+16:18:43 <harsh> \ Discussion on why this is needed, and the group agreed to consider this option to streamline the representation of humans as subjects.
+16:18:43 <harsh> ACTION: Add HumanSubject to DPV and review it in next meeting
+16:18:43 <harsh> Topic: P7012
+16:18:43 <harsh> harsh: To support the use of DPV for P7012, discussions with Beatriz and Iain are ongoing. Beatriz pointed out that we don't have the concept /Tracking/ in DPV, which is required to model cases such as no-tracking. We have the adjacent concept `dpv:Profiling` which is defined as a subtype of `dpv:Use` since it uses data to create a profile, and to signal that by itself it is merely a processing operation and isn't sufficient to be a purpose. We propose the same should be done here as `dpv:Tracking`. 
+16:18:43 <harsh> georgKrog: The term /tracking/ is used in many different contexts e.g. what is being tracked, for what, where etc. There is /website tracking/, /location tracking/, and so on. So what will be the definition of this in DPV? We also need such further granularities.
+16:18:43 <harsh> julianFlake: tracking is different from profiling, so yes a separate concept makes sense
+16:18:43 <harsh> ACTION: Add Tracking as a concept under Processing -> Use
+16:18:43 <harsh> Topic: Tech Provision Method
+16:18:43 <harsh> harsh: In the TECH extension, we had `TechnologyProvision` concepts such as `tech:Service` and `tech:System`. Proposing we change them by adding a suffix e.g. `-Provision` to distinguish these from other similar uses of the term, e.g. /System/ is needed for /AI System/ in AI Act. This will be a backwards incompatible change, but it is necessary and better for the long term use of DPV.
+16:18:43 <harsh> georgKrog: What is being modelled here? What is being modelled in terms of between the actors?
+16:18:43 <harsh> harsh: We want to model how the technology is being provided or provisioned (from different perspectives) - whether it is given as a product, a service, an API, and so on. The actual technology itself is modelled separately (see Tools section). The specific actors will be represented separately using relevant concepts (e.g. Provider).
+16:18:43 <harsh> \ Discussed and no specific conclusions reached. Add the concept and review them.
+16:18:43 <harsh> ACTION: Change TechnologyProvision concepts - add suffix
+16:18:43 <harsh> Topic: Non-X Locations
+16:18:43 <harsh> harsh: In the LOC extension, there is a note added that we are exploring whether to provide concepts representing /not X/ in future versions. E.g. /Non-EU/ to represent all locations that are not /EU/. 
+16:18:43 <harsh> georgKrog: how will this work for EU countries which are officially recognised by EU?
+16:18:43 <harsh> harsh: Currently, we have the ISO defined list of countries. If EU or someone else wants a different list - that's easy to create as a separate extension or even to modify the DPV concepts.
+16:18:43 <harsh> julianFlake: how will this be provided? Published for each country?
+16:18:43 <harsh> harsh: This will be at the country level, so it can be used to make it simple to check whether something is in EU or not. Otherwise it requires some logic-based rule to express that /location is not EU/ and then similarly some algorithmic process to check whether the location is in EU or not. Instead, if we provide this concept, along with defining the taxonomies, then there is a simple method to check which of the two sets a location is within - EU or non-EU. We do this for all countries.
+16:18:43 <harsh> \ Discussion that this is okay to post as a note and to discuss it later for v2.2.
+16:18:43 <harsh> Topic: RISK
+16:18:43 <harsh> harsh: Currently, we have a note stating that the taxonomy may change in future versions and it is unstable. Which means don't rely on it. We have since then made the major changes - should we keep the note or are we willing to state that it is okay to be adopted now?
+16:18:43 <harsh> georgKrog: what is your view?
+16:18:43 <harsh> harsh: I think it is okay to be used. I don't see any major changes needed in the short-term. It may require some in the long-term, but that's expected.
+16:18:43 <harsh> georgKrog: then agreed that it is useful and should be indicated as such
+16:18:43 <harsh> julianFlake: the call for participation should still be present even if the unstable state note is removed
+16:18:43 <harsh> harsh: will keep the note with an additional text that states that if no issues are idenfied for v2.1 while under review, then we will remove the warning, and then remove it before publishing v2.1 
+16:18:43 <harsh> Topic: Legal Mapping Table
+16:18:43 <harsh> harsh: In earlier discussions, Prinon had proposed we create a mapping table stating which GDPR concepts map to which DPV concepts (and vice versa). Should we create such tables with a few examples to show the work in progress, and then we complete these in future versions? So we would add a short table to GDPR, DGA, NIS2, AI Act, etc. extensions?
+16:18:43 <harsh> beatrizEsteves: +1 yes it would be helpful
+16:18:43 <harsh> georgKrog: would be helpful for controllers, authorities, etc. so they can quickly check concepts e.g. for ROPA
+16:18:43 <harsh> \ Agreed to put this table with a note that it is work in progress
+16:18:43 <harsh> ACTION: Add a DPV to Law mapping table to each law extension
+16:18:43 <harsh> Topic: EU Rights
+16:18:43 <harsh> harsh: the document is declared as a draft, should we remove that? We have concepts for fundamental rights, and impacts on fundamental rights. I think this is stable now. The only experimental bits are the specific types of impacts e.g. see Art.8 impact concepts.
+16:18:43 <harsh> georgKrog: doesn't hurt to expose it and say some of it is experimental
+16:18:43 <harsh> paulRyan: agree with Georg
+16:18:43 <harsh> georgKrog: would be good to have this and further create tools with semantics for this and other rights - this is crucially needed for EU regulations
+16:18:43 <harsh> \ Discussed and agreed to remove this extension from draft status and publish it with a note on specific experimental concepts
+16:18:43 <harsh> Topic: AI Act
+16:18:43 <harsh> harsh: added concepts from Delaram's AIRO/VAIR integration, so this is richer now. Also created some placeholder sections to indicate work in the future on prohibited systems, high-risk AI systems, and FRIA - so people know we are working on these, with a note that this are being worked on for v2.2. 
+16:18:43 <harsh> \ Discussed and okay to signal this. Generally a good idea to show what we are working on to encourage participation and adoption.
+16:18:43 <harsh> Topic: EHDS
+16:18:43 <harsh> harsh: Added the EHDS extension with Beatriz's concepts, set the status to draft
+16:18:43 <harsh> \ Discussed and agreed to add this to v2.1 to encourage participation and adoption.
+16:18:43 <harsh> Topic: Sector extension
+16:18:43 <harsh> harsh: Added the Sector extension - currently it only has concepts. I put all of them under one big list, but maybe it makes sense to provide these separately on the page e.g. in different sections? In the future we will also have other concepts e.g. personal data categories for each sector. So the question is how do we group/organise/present these concepts?
+16:18:43 <harsh> georgKrog: Beatriz had a comment earlier about the volume of concepts.
+16:18:43 <harsh> harsh: yes, so maybe we need more granular extensions like in legal, so we will have `sector/education`, `sector/finance`, and so on? Is this necessary? It will certainly be helpful for people to pick the correct only those concepts for their use-cases.
+16:18:43 <harsh> \ Discussed and no specific conclusions reached. To create experimental outputs and review it in next meeting.
+16:18:43 <harsh> ACTION: Create granular Sector extensions similar to LEGAL
+17:08:08 <harsh> Topic: Next Meeting
+17:08:57 <harsh> \ next meeting will be in 1 week on TUESDAY 17 December at 13:30 WEST / 14:30 CEST. Agenda will be discussing publishing DPV 2.1 release.

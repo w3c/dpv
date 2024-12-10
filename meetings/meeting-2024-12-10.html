@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>DPVCG Meeting Call &ndash; 10 DEC 2024</title>
+<meta name=viewport content="width=device-width">
+<link rel="stylesheet" type="text/css" title="2018" href="https://www.w3.org/StyleSheets/scribe2/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/base.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/StyleSheets/public.css">
+<link rel="alternate stylesheet" type="text/css" title="2004" href="https://www.w3.org/2004/02/minutes-style.css">
+<link rel="alternate stylesheet" type="text/css" title="Fancy" href="https://www.w3.org/StyleSheets/scribe2/fancy.css">
+<link rel="alternate stylesheet" type="text/css" title="Typewriter" href="https://www.w3.org/StyleSheets/scribe2/tt-member.css">
+</head>
+
+<body>
+<header>
+<p><a href="https://www.w3.org/"><img src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" alt=W3C border=0 height=48 width=72></a></p>
+
+<h1>DPVCG Meeting Call</h1>
+<h2>10 DEC 2024</h2>
+
+<nav id=links>
+<a href="https://www.w3.org/events/meetings/0e21485e-d959-4f78-930a-bd66650adace/20241210T133000/"><img alt="Agenda." title="Agenda" src="https://www.w3.org/StyleSheets/scribe2/chronometer.png"></a>
+</nav>
+</header>
+
+<div id=prelims>
+<div id=attendees>
+<h2>Attendees</h2>
+<dl class=intro>
+<dt>Present</dt><dd>georgKrog, harshPandit, julianFlake, mayraRusso, paulRyan</dd>
+<dt>Regrets</dt><dd>delaramGolpayegani, iainHenderson</dd>
+<dt>Chair</dt><dd>harsh</dd>
+<dt>Scribe</dt><dd>harsh, harshPandit</dd>
+</dl>
+</div>
+
+<nav id=toc>
+<h2>Contents</h2>
+<ol>
+<li><a href="#t01">Human Subject</a></li>
+<li><a href="#t02">P7012</a></li>
+<li><a href="#t03">Tech Provision Method</a></li>
+<li><a href="#t04">Non-X Locations</a></li>
+<li><a href="#t05">RISK</a></li>
+<li><a href="#t06">Legal Mapping Table</a></li>
+<li><a href="#t07">EU Rights</a></li>
+<li><a href="#t08">AI Act</a></li>
+<li><a href="#t09">EHDS</a></li>
+<li><a href="#t10">Sector extension</a></li>
+<li><a href="#t11">Next Meeting</a></li>
+<li class=app><a href="#ActionSummary">Summary of action items</a></li>
+</ol>
+</nav>
+</div>
+
+<main id=meeting class=meeting>
+<h2>Meeting minutes</h2>
+<section><p id=x003 class=summary>Repository: w3c/dpv</p>
+<p id=x012 class=summary> Meeting minutes: <a href="https://w3id.org/dpv/meetings">https://<wbr>w3id.org/<wbr>dpv/<wbr>meetings</a></p>
+<p id=x013 class=summary>purl for this meeting: <a href="https://w3id.org/dpv/meetings/meeting-2024-12-10">https://<wbr>w3id.org/<wbr>dpv/<wbr>meetings/<wbr>meeting-2024-12-10</a></p>
+<p id=x014 class=summary> See DPV v2.1 update: changelist / review tasks <a href="https://lists.w3.org/Archives/Public/public-dpvcg/2024Dec/0002.html">https://<wbr>lists.w3.org/<wbr>Archives/<wbr>Public/<wbr>public-dpvcg/<wbr>2024Dec/<wbr>0002.html</a></p>
+<p id=x015 class=summary> Good news for DPVCG: Delaram successfully defended her PhD viva yesterday, with no corrections required to the thesis (which is rare and fantastic). The examiners were Oscar Corcho (UPM) and Lucy Hederman (TCD). Congratulations to Delaram!</p>
+</section>
+
+<section>
+<h3 id=t01>Human Subject</h3>
+<p id=x017 class="phone s01"><cite>harsh:</cite> In previous discussions, we had the issue of multiple human subjects being defined in different scopes. We have <code>dpv:DataSubject</code> in main DPV, which we define as the <em>subject of personal data</em> in line with the GDPR. Delaram's AIRO gives as <code>AISubject</code> which is the subject of AI technologies, and by extending the argument we have its parent concept <code>TechnologySubject</code> which is the subject of any technology. We have a nice taxonomy of data subjects in main DPV spec, which would also be useful for other subjects here. However, we cannot establish these other subjects as types of <em>Data Subject</em> due to the differing scopes and terminology. </p>
+<p id=x018 class="phone s01"><cite>harsh:</cite> Therefore, I propose we create <code>dpv:HumanSubject</code> as the parent concept of all these subjects, and move the taxonomy to be under it. Any existing use of <code>dpv:DataSubject</code> will continue to be valid, and the only <em>breaking change</em> as such would be if someone was explicitly retrieving the list of data subject categories - in which case the fix is minor and simple to use the human subject categories.</p>
+<p id=x019 class="phone s02"><cite>georgKrog:</cite> Is this needed? It would help to have as many different person categories as needed - so whatever works for more use-cases is better.</p>
+<p id=x020 class="phone s03"><cite>julianFlake:</cite> this then would be an extension of <code>dpv:NaturalPerson</code> as before</p>
+<p id=x021 class=summary> Discussion on why this is needed, and the group agreed to consider this option to streamline the representation of humans as subjects.</p>
+<p id=a01 class=action><strong>ACTION:</strong> Add HumanSubject to DPV and review it in next meeting</p>
+</section>
+
+<section>
+<h3 id=t02>P7012</h3>
+<p id=x024 class="phone s01"><cite>harsh:</cite> To support the use of DPV for P7012, discussions with Beatriz and Iain are ongoing. Beatriz pointed out that we don't have the concept <em>Tracking</em> in DPV, which is required to model cases such as no-tracking. We have the adjacent concept <code>dpv:Profiling</code> which is defined as a subtype of <code>dpv:Use</code> since it uses data to create a profile, and to signal that by itself it is merely a processing operation and isn't sufficient to be a purpose. We propose the same should be done here as <code>dpv:Tracking</code>. </p>
+<p id=x025 class="phone s02"><cite>georgKrog:</cite> The term <em>tracking</em> is used in many different contexts e.g. what is being tracked, for what, where etc. There is <em>website tracking</em>, <em>location tracking</em>, and so on. So what will be the definition of this in DPV? We also need such further granularities.</p>
+<p id=x026 class="phone s03"><cite>julianFlake:</cite> tracking is different from profiling, so yes a separate concept makes sense</p>
+<p id=a02 class=action><strong>ACTION:</strong> Add Tracking as a concept under Processing → Use</p>
+</section>
+
+<section>
+<h3 id=t03>Tech Provision Method</h3>
+<p id=x029 class="phone s01"><cite>harsh:</cite> In the TECH extension, we had <code>TechnologyProvision</code> concepts such as <code>tech:Service</code> and <code>tech:System</code>. Proposing we change them by adding a suffix e.g. <code>-Provision</code> to distinguish these from other similar uses of the term, e.g. <em>System</em> is needed for <em>AI System</em> in AI Act. This will be a backwards incompatible change, but it is necessary and better for the long term use of DPV.</p>
+<p id=x030 class="phone s02"><cite>georgKrog:</cite> What is being modelled here? What is being modelled in terms of between the actors?</p>
+<p id=x031 class="phone s01"><cite>harsh:</cite> We want to model how the technology is being provided or provisioned (from different perspectives) - whether it is given as a product, a service, an API, and so on. The actual technology itself is modelled separately (see Tools section). The specific actors will be represented separately using relevant concepts (e.g. Provider).</p>
+<p id=x032 class=summary> Discussed and no specific conclusions reached. Add the concept and review them.</p>
+<p id=a03 class=action><strong>ACTION:</strong> Change TechnologyProvision concepts - add suffix</p>
+</section>
+
+<section>
+<h3 id=t04>Non-X Locations</h3>
+<p id=x035 class="phone s01"><cite>harsh:</cite> In the LOC extension, there is a note added that we are exploring whether to provide concepts representing <em>not X</em> in future versions. E.g. <em>Non-EU</em> to represent all locations that are not <em>EU</em>. </p>
+<p id=x036 class="phone s02"><cite>georgKrog:</cite> how will this work for EU countries which are officially recognised by EU?</p>
+<p id=x037 class="phone s01"><cite>harsh:</cite> Currently, we have the ISO defined list of countries. If EU or someone else wants a different list - that's easy to create as a separate extension or even to modify the DPV concepts.</p>
+<p id=x038 class="phone s03"><cite>julianFlake:</cite> how will this be provided? Published for each country?</p>
+<p id=x039 class="phone s01"><cite>harsh:</cite> This will be at the country level, so it can be used to make it simple to check whether something is in EU or not. Otherwise it requires some logic-based rule to express that <em>location is not EU</em> and then similarly some algorithmic process to check whether the location is in EU or not. Instead, if we provide this concept, along with defining the taxonomies, then there is a simple method to check which of the two sets a location is within - EU or non-EU. We do this for all countries.</p>
+<p id=x040 class=summary> Discussion that this is okay to post as a note and to discuss it later for v2.2.</p>
+</section>
+
+<section>
+<h3 id=t05>RISK</h3>
+<p id=x042 class="phone s01"><cite>harsh:</cite> Currently, we have a note stating that the taxonomy may change in future versions and it is unstable. Which means don't rely on it. We have since then made the major changes - should we keep the note or are we willing to state that it is okay to be adopted now?</p>
+<p id=x043 class="phone s02"><cite>georgKrog:</cite> what is your view?</p>
+<p id=x044 class="phone s01"><cite>harsh:</cite> I think it is okay to be used. I don't see any major changes needed in the short-term. It may require some in the long-term, but that's expected.</p>
+<p id=x045 class="phone s02"><cite>georgKrog:</cite> then agreed that it is useful and should be indicated as such</p>
+<p id=x046 class="phone s03"><cite>julianFlake:</cite> the call for participation should still be present even if the unstable state note is removed</p>
+<p id=x047 class="phone s01"><cite>harsh:</cite> will keep the note with an additional text that states that if no issues are idenfied for v2.1 while under review, then we will remove the warning, and then remove it before publishing v2.1 </p>
+</section>
+
+<section>
+<h3 id=t06>Legal Mapping Table</h3>
+<p id=x049 class="phone s01"><cite>harsh:</cite> In earlier discussions, Prinon had proposed we create a mapping table stating which GDPR concepts map to which DPV concepts (and vice versa). Should we create such tables with a few examples to show the work in progress, and then we complete these in future versions? So we would add a short table to GDPR, DGA, NIS2, AI Act, etc. extensions?</p>
+<p id=x050 class="phone s04"><cite>beatrizEsteves:</cite> +1 yes it would be helpful</p>
+<p id=x051 class="phone s02"><cite>georgKrog:</cite> would be helpful for controllers, authorities, etc. so they can quickly check concepts e.g. for ROPA</p>
+<p id=x052 class=summary> Agreed to put this table with a note that it is work in progress</p>
+<p id=a04 class=action><strong>ACTION:</strong> Add a DPV to Law mapping table to each law extension</p>
+</section>
+
+<section>
+<h3 id=t07>EU Rights</h3>
+<p id=x055 class="phone s01"><cite>harsh:</cite> the document is declared as a draft, should we remove that? We have concepts for fundamental rights, and impacts on fundamental rights. I think this is stable now. The only experimental bits are the specific types of impacts e.g. see Art.8 impact concepts.</p>
+<p id=x056 class="phone s02"><cite>georgKrog:</cite> doesn't hurt to expose it and say some of it is experimental</p>
+<p id=x057 class="phone s05"><cite>paulRyan:</cite> agree with Georg</p>
+<p id=x058 class="phone s02"><cite>georgKrog:</cite> would be good to have this and further create tools with semantics for this and other rights - this is crucially needed for EU regulations</p>
+<p id=x059 class=summary> Discussed and agreed to remove this extension from draft status and publish it with a note on specific experimental concepts</p>
+</section>
+
+<section>
+<h3 id=t08>AI Act</h3>
+<p id=x061 class="phone s01"><cite>harsh:</cite> added concepts from Delaram's AIRO/VAIR integration, so this is richer now. Also created some placeholder sections to indicate work in the future on prohibited systems, high-risk AI systems, and FRIA - so people know we are working on these, with a note that this are being worked on for v2.2. </p>
+<p id=x062 class=summary> Discussed and okay to signal this. Generally a good idea to show what we are working on to encourage participation and adoption.</p>
+</section>
+
+<section>
+<h3 id=t09>EHDS</h3>
+<p id=x064 class="phone s01"><cite>harsh:</cite> Added the EHDS extension with Beatriz's concepts, set the status to draft</p>
+<p id=x065 class=summary> Discussed and agreed to add this to v2.1 to encourage participation and adoption.</p>
+</section>
+
+<section>
+<h3 id=t10>Sector extension</h3>
+<p id=x067 class="phone s01"><cite>harsh:</cite> Added the Sector extension - currently it only has concepts. I put all of them under one big list, but maybe it makes sense to provide these separately on the page e.g. in different sections? In the future we will also have other concepts e.g. personal data categories for each sector. So the question is how do we group/organise/present these concepts?</p>
+<p id=x068 class="phone s02"><cite>georgKrog:</cite> Beatriz had a comment earlier about the volume of concepts.</p>
+<p id=x069 class="phone s01"><cite>harsh:</cite> yes, so maybe we need more granular extensions like in legal, so we will have <code>sector/education</code>, <code>sector/finance</code>, and so on? Is this necessary? It will certainly be helpful for people to pick the correct only those concepts for their use-cases.</p>
+<p id=x070 class=summary> Discussed and no specific conclusions reached. To create experimental outputs and review it in next meeting.</p>
+<p id=a05 class=action><strong>ACTION:</strong> Create granular Sector extensions similar to LEGAL</p>
+</section>
+
+<section>
+<h3 id=t11>Next Meeting</h3>
+<p id=x073 class=summary> next meeting will be in 1 week on TUESDAY 17 December at 13:30 WEST / 14:30 CEST. Agenda will be discussing publishing DPV 2.1 release.</p>
+</section>
+</main>
+
+<div id=ActionSummary>
+<h2>Summary of action items</h2>
+<ol>
+<li><a href="#a01">Add HumanSubject to DPV and review it in next meeting</a></li>
+<li><a href="#a02">Add Tracking as a concept under Processing → Use</a></li>
+<li><a href="#a03">Change TechnologyProvision concepts - add suffix</a></li>
+<li><a href="#a04">Add a DPV to Law mapping table to each law extension</a></li>
+<li><a href="#a05">Create granular Sector extensions similar to LEGAL</a></li>
+</ol>
+</div>
+
+
+<address>Minutes manually created (not a transcript), formatted by <a
+href="https://w3c.github.io/scribe2/scribedoc.html"
+>scribe.perl</a> version 217 (Fri Apr  7 17:23:01 2023 UTC).</address>
+
+</body>
+</html>
