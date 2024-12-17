@@ -7,7 +7,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Justifications Extension</title>
+  <title>{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})</title>
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   <script class="remove">
    // All config options at https://respec.org/docs/ 
@@ -18,9 +18,9 @@
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
     specStatus: "{{DOCUMENT_STATUS}}",
     group: "dpvcg",
-    latestVersion: "https://w3id.org/dpv/sector",
-    canonicalUri: "https://w3id.org/dpv/sector",
-    edDraftURI: "https://dev.dpvcg.org/sector",
+    latestVersion: "{{data[vocab_name+'-metadata']['dct:identifier']}}",
+    canonicalUri: "{{data[vocab_name+'-metadata']['dct:identifier']}}",
+    edDraftURI: "{{data[vocab_name+'-metadata']['dct:identifier'].replace('w3id.org/dpv', 'dev.dpvcg.org')}}",
     github: "w3c/dpv",
     subjectPrefix: "[sector]",
     doJsonLd: true,
@@ -43,8 +43,8 @@
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.1/justifications",
-              "href": "https://w3id.org/dpv/2.1/justifications"
+              "value": "{{data[vocab_name+'-metadata']['iri']}}",
+              "href": "{{data[vocab_name+'-metadata']['iri']}}"
             }
         ]
       },
@@ -61,13 +61,13 @@
     localBiblio: {%  include 'references.json' %}
   };
 </script>
-<link rel="stylesheet" type="text/css" href="../diagrams/common.css">
-<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
-  <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+<link rel="stylesheet" type="text/css" href="../../diagrams/common.css">
+<link rel="shortcut icon" href="../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
   <section id="abstract">
-    <p>The Sector extension provides a taxonomy extending the [[[DPV]]] and other extension concepts for specific sectors. The namespace for terms in sector extension is <a href="http://www.w3id.org/dpv/sector#"><code>https://www.w3id.org/dpv/sector#</code></a>, the suggested prefix  is <code>sector</code>, and the sector vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+    <p>The {{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}}) extension provides a taxonomy extending the [[[DPV]]] and other extension concepts . The namespace for terms in sector extension is <a href="{{data[vocab_name+'-metadata']['iri']}}"><code>{{data[vocab_name+'-metadata']['iri']}}</code></a>, the suggested prefix  is <code>{{vocab_name}}</code>, and the vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
   </section>
     {{ sotd(data[vocab_name+'-metadata']) }}
     {{ dpv_document_family(document='sector-spec') }}
@@ -79,7 +79,7 @@
   <section id="vocab-purposes">
     <h2>Purposes</h2>
     <div class="issue" title="fix incorrect purpose hierarchy"></div>
-    {{ list_hierarchy(modules['purposes']['classes']) }}
+    {{ list_hierarchy(modules['purposes']['classes'], head='dpv:Purpose') }}
   </section>
 
 {% if proposed %}
@@ -135,6 +135,6 @@
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
 <section class="appendix" id="issue-summary"></section>
-<script type="text/javascript" src="../diagrams/common.js" defer></script>
+<script type="text/javascript" src="../../diagrams/common.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,5136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Health Sector Concepts</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "Health Sector Concepts",
+    subtitle: "version 2.1-dev - OWL serialisation",
+    publishDate: "2024-10-22",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
+    canonicalUri: "https://w3id.org/dpv/",
+    edDraftURI: "https://w3id.org/dpv/",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "ADAPT Centre, Dublin City University",
+    }
+    ],
+    authors: [      {
+        "name": "Harshvardhan J. Pandit",
+        "company": "ADAPT Centre, Dublin City University"
+      }
+],
+    localBiblio: {
+  "DPVCG": {
+    "href": "https://www.w3.org/community/dpvcg/",
+    "title": "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)"
+  },
+  "DPV": {
+    "href": "https://w3id.org/dpv",
+    "title": "Data Privacy Vocabulary (DPV) Specification"
+  },
+  "EU-GDPR": {
+    "href": "https://w3id.org/dpv/legal/eu/gdpr",
+    "title": "EU GDPR concepts for DPV"
+  },
+  "EU-DGA": {
+    "href": "https://w3id.org/dpv/legal/eu/dga",
+    "title": "EU DGA concepts for DPV"
+  },
+  "EU-AIAct": {
+    "href": "https://w3id.org/dpv/legal/eu/aiact",
+    "title": "EU AI Act concepts for DPV"
+  },
+  "EU-NIS2": {
+    "href": "https://w3id.org/dpv/legal/eu/nis2",
+    "title": "EU NIS2 concepts for DPV"
+  },
+  "DPV-NACE": {
+    "href": "https://w3id.org/dpv/nace",
+    "title": "NACE Taxonomy serialised in RDFS/OWL"
+  },
+  "PD": {
+    "href": "https://w3id.org/dpv/pd",
+    "title": "Personal Data categories for DPV"
+  },
+  "TECH": {
+    "href": "https://w3id.org/dpv/tech",
+    "title": "Technology concepts for DPV"
+  },
+  "AI": {
+    "href": "https://w3id.org/dpv/ai",
+    "title": "AI Technology concepts for DPV"
+  },
+  "RISK": {
+    "href": "https://w3id.org/dpv/risk",
+    "title": "Risk Assessment and Management concepts for DPV"
+  },
+  "LOC": {
+    "href": "https://w3id.org/dpv/loc",
+    "title": "Location and Geo-Political Membership concepts for DPV"
+  },
+  "JUSTIFICATIONS": {
+    "href": "https://w3id.org/dpv/justifications",
+    "title": "Concepts representing Justifications for DPV"
+  },
+  "LEGAL": {
+    "href": "https://w3id.org/dpv/legal",
+    "title": "Legal Jurisdiction-relevant concepts for DPV"
+  },
+  "LEGAL-EU": {
+    "href": "https://w3id.org/dpv/legal/eu",
+    "title": "Legal concepts for European Union (EU)"
+  },
+  "LEGAL-US": {
+    "href": "https://w3id.org/dpv/legal/us",
+    "title": "Legal concepts for United States of America (USA)"
+  },
+  "LEGAL-GB": {
+    "href": "https://w3id.org/dpv/legal/gb",
+    "title": "Legal concepts for United Kingdom of Great Britain and Northern Ireland (UK)"
+  },
+  "LEGAL-IE": {
+    "href": "https://w3id.org/dpv/legal/ie",
+    "title": "Legal concepts for Ireland (IE)"
+  },
+  "LEGAL-IN": {
+    "href": "https://w3id.org/dpv/legal/in",
+    "title": "Legal concepts for India (IN)"
+  },
+  "LEGAL-DE": {
+    "href": "https://w3id.org/dpv/legal/de",
+    "title": "Legal concepts for Germany (DE)"
+  },
+  "EU-RIGHTS": {
+    "href": "https://w3id.org/dpv/legal/eu/rights",
+    "title": "EU Rights concepts for DPV"
+  },
+  "DPV-OWL": {
+    "href": "https://w3id.org/dpv/dpv-owl",
+    "title": "DPV serialised in OWL2"
+  },
+  "PRIMER": {
+    "href": "https://w3id.org/dpv/primer",
+    "title": "Primer for Data Privacy Vocabulary"
+  },
+  "PRIMER-concise": {
+    "href": "https://w3id.org/dpv/primer/concise",
+    "title": "Concise Primer for Data Privacy Vocabulary"
+  },
+  "DPV-ADOPTION": {
+    "href": "https://github.com/w3c/dpv/wiki/Adoption-and-Uses-of-DPVCG",
+    "title": "Adoption and Uses of DPV"
+  },
+  "GUIDES": {
+    "href": "https://w3id.org/dpv/guides",
+    "title": "Guides for DPV"
+  },
+  "GUIDE-Consent-27560": {
+    "href": "https://w3id.org/dpv/guides/consent-27560",
+    "title": "Consent Records and Receipts as per ISO/IEC TS 27560:2023 using DPV"
+  },
+  "GUIDE-Notice-29184": {
+    "href": "https://w3id.org/dpv/guides/notice-29184",
+    "title": "Privacy Notices as per ISO/IEC 29184:2020 using DPV"
+  },
+  "GUIDE-Notice": {
+    "href": "https://w3id.org/dpv/guides/notice",
+    "title": "Guide for Privacy Notices using DPV"
+  },
+  "GUIDE-Serialisations": {
+    "href": "https://w3id.org/dpv/guides/serialisations",
+    "title": "Guide on DPV's serialisations and semantics"
+  },
+  "GUIDE-SKOS": {
+    "href": "https://w3id.org/dpv/guides/dpv-skos",
+    "title": "Guide for using DPV with RDFS and SKOS"
+  },
+  "GUIDE-OWL2": {
+    "href": "https://w3id.org/dpv/guides/dpv-owl",
+    "title": "Guide for using DPV in OWL2"
+  },
+  "GUIDE-ODRL": {
+    "href": "https://w3id.org/dpv/guides/dpv-odrl",
+    "title": "Guide for using DPV with ODRL"
+  },
+  "GUIDE-MISCFORMAT": {
+    "href": "https://w3id.org/dpv/guides/dpv-misc",
+    "title": "Guide for using DPV in miscellaneous formats e.g. CSV, JSON"
+  },
+  "GUIDE-GDPR-DPIA": {
+    "href": "https://w3id.org/dpv/guides/gdpr-dpia",
+    "title": "Guide for GDPR DPIA's using DPV"
+  },
+  "GUIDE-GDPR-ROPA": {
+    "href": "https://w3id.org/dpv/guides/gdpr-ropa",
+    "title": "Guide for GDPR ROPA's using DPV"
+  },
+  "GUIDE-GDPR-DataBreach": {
+    "href": "https://w3id.org/dpv/guides/gdpr-data-breach",
+    "title": "Guide for GDPR Data Breach records, notifications, and assessments using DPV"
+  },
+  "GUIDE-Rights": {
+    "href": "https://w3id.org/dpv/guides/rights",
+    "title": "Guide for Rights Exercise and Management using DPV"
+  },
+  "DPV-27560": {
+      "href": "https://w3id.org/dpv/schema/dpv-27560",
+      "title": "DPV Profile for implementing ISO/IEC TS 27560:2023 Consent Records and Receipts"
+  },
+  "DPV-29184": {
+      "href": "https://w3id.org/dpv/schema/DPV-29184",
+      "title": "DPV Profile for implementing ISO/IEC TS 29184:2020 Privacy Notices"
+  },
+  "EXAMPLES": {
+    "href": "https://w3id.org/dpv/examples",
+    "title": "DPV Examples"
+  },
+  "UseCases-Requirements": {
+    "href": "https://w3id.org/dpv/use-cases",
+    "title": "Use-Cases and Requirements for DPV"
+  },
+  "RDF": {
+    "href": "https://www.w3.org/TR/rdf11-concepts/",
+    "title": "RDF 1.1 Concepts and Abstract Syntax"
+  },
+  "RDFS": {
+    "href": "https://www.w3.org/TR/rdf-schema/",
+    "title": "RDF Schema 1.1"
+  },
+  "OWL" :{
+    "href": "https://www.w3.org/TR/owl2-overview/",
+    "title": "OWL 2 Web Ontology Language Document Overview (Second Edition)"
+  },
+  "SKOS": {
+    "href": "https://www.w3.org/TR/skos-reference/",
+    "title": "SKOS Simple Knowledge Organization System"
+  },
+  "SPECIAL": {
+    "href": "https://www.specialprivacy.eu/",
+    "title": "SPECIAL H2020 Project"
+  },
+  "GDPR": {
+    "href": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+    "title": "General Data Protection Regulation (GDPR)"
+  },
+  "DGA": {
+    "href": "https://eur-lex.europa.eu/eli/reg/2022/868/oj",
+    "title": "Data Governance Act (DGA)"
+  },
+  "AIAct": {
+    "href": "https://www.europarl.europa.eu/doceo/document/TA-9-2024-0138_EN.html",
+    "title": "Artificial Intelligence Act (AI Act)"
+  },
+  "NIS2": {
+    "href": "http://data.europa.eu/eli/dir/2022/2555/2022-12-27",
+    "title": "Network Information Security Directive (NIS2)"
+  },
+  "NACE": {
+    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+    "title": "Statistical Classification of Economic Activities in the European Community (NACE)"
+  },
+  "NAICS": {
+    "href": "https://www.census.gov/eos/www/naics/",
+    "title": "North American Industry Classification System (NAICS)"
+  },
+  "ISIC": {
+    "href": "https://unstats.un.org/unsd/classifications",
+    "title": "International Standard Industrial Classification of All Economic Activities (ISIC)"
+  },
+  "GICS": {
+    "href": "https://www.msci.com/gics",
+    "title": "Global Industry Classification Standard (GICS)"
+  },
+  "NACE-NAICS": {
+    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+    "title": "NACE to NAICS mapping"
+  },
+  "EnterPrivacy": {
+    "href": "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
+    "title": "Taxonomy of Personal Data Categories"
+  },
+  "TIME": {
+    "href": "https://www.w3.org/TR/owl-time/",
+    "title": "Time Ontology in OWL"
+  },
+  "ISO-27017": {
+    "href": "https://www.iso.org/standard/43757.html",
+    "title": "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
+  },
+  "ISO-27560": {
+    "href": "https://www.iso.org/standard/80392.html",
+    "title": "ISO/IEC TS 27560 Privacy technologies — Consent record information structure"
+  },
+  "ISO-29184": {
+    "href": "https://www.iso.org/standard/70331.html",
+    "title": "ISO/IEC 29184:2020 Privacy Notices and Consent"
+  },
+  "ISO-22989": {
+    "href": "https://www.iso.org/standard/74296.html",
+    "title": " ISO/IEC 22989:2022 Artificial intelligence concepts and terminology"
+  },
+  "SHACL-UseCases": {
+    "href": "https://www.w3.org/TR/shacl-ucr/",
+    "title": "SHACL Use Cases and Requirements"
+  },
+  "SHACL": {
+    "href": "https://www.w3.org/TR/shacl",
+    "title": "Shape and Contraint Language (SHACL)"
+  },
+  "ODRL": {
+    "href": "https://www.w3.org/TR/odrl-model/",
+    "title": "Open Digital Rights Language (ODRL) Model"
+  },
+  "DCT": {
+    "title": "DCMI Metadata Terms (DCT)",
+    "href": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
+  },
+  "DCAT": {
+    "title": "Data Catalog Vocabulary (DCAT)",
+    "href": "http://www.w3.org/ns/dcat"
+  },
+  "RuleML": {
+    "title": "RuleML: Rule Markup Language",
+    "href": "www.ruleml.org/"
+  },
+  "SKOS-OWL": {
+    "title": "Using OWL and SKOS",
+    "href": "https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html",
+  },
+  "DPCat": {
+    "title": "DPCat: Specification for an Interoperable and Machine-Readable Data Processing Catalogue Based on GDPR",
+    "href": "https://w3id.org/dpcat"
+  },
+  "ISO-8601": {
+    "href": "https://www.iso.org/iso-8601-date-and-time-format.html",
+    "title": "ISO 8601 Date and time format"
+  },
+}  };
+</script>
+  <link rel="stylesheet" type="text/css" href="../diagrams/common.css">
+<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+
+<section id="abstract">
+  <p>This document describes (only) the <strong><emph>OWL serialisation</emph> of Health Sector Concepts</strong>. For information on the concepts, their usage, and further documentation, please consult the canonical page for the vocabulary at: <a href="https://w3id.org/dpv/sector/health">https://w3id.org/dpv/sector/health</a></p>
+</section>
+
+<section id="sotd"></section>
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    <h3>Classes</h3>       
+      
+      
+       
+      
+      
+      
+      
+     <section class="term-def" id="HealthcareAccessManagement">
+      <h4>Healthcare - Access Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareAccessManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Access Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareAccessManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareAccessManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareAccessManagement">https://w3id.org/dpv/sector/health#HealthcareAccessManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with managing access to infrastructure, resources, and services as part of healthcare</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareAppointmentScheduling">
+      <h4>Healthcare - Appointment Scheduling</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareAppointmentScheduling</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Appointment Scheduling</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareAppointmentScheduling">https://w3id.org/dpv/sector/health/owl/#HealthcareAppointmentScheduling</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareAppointmentScheduling">https://w3id.org/dpv/sector/health#HealthcareAppointmentScheduling</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with scheduling appointments for use of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareConsultationManagement">
+      <h4>Healthcare - Consultation Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareConsultationManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Consultation Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareConsultationManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareConsultationManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareConsultationManagement">https://w3id.org/dpv/sector/health#HealthcareConsultationManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceProvision">sector-owl:HealthcareServiceProvision</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with managing consultations as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareCrisisManagement">
+      <h4>Healthcare - Crisis Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareCrisisManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Crisis Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareCrisisManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareCrisisManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareCrisisManagement">https://w3id.org/dpv/sector/health#HealthcareCrisisManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ImproveHealthcare">dpv-owl:ImproveHealthcare</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of crisis situations in relation to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareDiagnosisManagement">
+      <h4>Healthcare - Diagnosis Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareDiagnosisManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Diagnosis Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareDiagnosisManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareDiagnosisManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareDiagnosisManagement">https://w3id.org/dpv/sector/health#HealthcareDiagnosisManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceProvision">sector-owl:HealthcareServiceProvision</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with conducting and managing diagnosis as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareDiagnosticOptimisation">
+      <h4>Healthcare - Diagnostic Optimisation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareDiagnosticOptimisation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Diagnostic Optimisation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareDiagnosticOptimisation">https://w3id.org/dpv/sector/health/owl/#HealthcareDiagnosticOptimisation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareDiagnosticOptimisation">https://w3id.org/dpv/sector/health#HealthcareDiagnosticOptimisation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareOptimisation">sector-owl:HealthcareOptimisation</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ServiceOptimisation">dpv-owl:ServiceOptimisation</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with identifying optimisations related to use of diagnosis tools and processes as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareDisasterReliefManagement">
+      <h4>Healthcare - Disaster Relief Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareDisasterReliefManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Disaster Relief Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareDisasterReliefManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareDisasterReliefManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareDisasterReliefManagement">https://w3id.org/dpv/sector/health#HealthcareDisasterReliefManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareCrisisManagement">sector-owl:HealthcareCrisisManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of disaster relief and related crisis situations in relation to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareDiseasePreventionAwareness">
+      <h4>Healthcare - Disease Prevention Awareness</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareDiseasePreventionAwareness</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Disease Prevention Awareness</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareDiseasePreventionAwareness">https://w3id.org/dpv/sector/health/owl/#HealthcareDiseasePreventionAwareness</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareDiseasePreventionAwareness">https://w3id.org/dpv/sector/health#HealthcareDiseasePreventionAwareness</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePreventativeCareManagement">sector-owl:HealthcarePreventativeCareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of disease prevention awareness as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareEffectivenessAssessment">
+      <h4>Healthcare - Effectiveness Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareEffectivenessAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Effectiveness Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareEffectivenessAssessment">https://w3id.org/dpv/sector/health/owl/#HealthcareEffectivenessAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareEffectivenessAssessment">https://w3id.org/dpv/sector/health#HealthcareEffectivenessAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareResearchDevelopment">sector-owl:HealthcareResearchDevelopment</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessing the effectiveness of healthcare infrastructure and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareElectronicRecordsManagement">
+      <h4>Healthcare - Electronic Records Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareElectronicRecordsManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Electronic Records Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareElectronicRecordsManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareElectronicRecordsManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareElectronicRecordsManagement">https://w3id.org/dpv/sector/health#HealthcareElectronicRecordsManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePatientInformationManagement">sector-owl:HealthcarePatientInformationManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of patient information in electronic forms for healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareEligibilityAssessment">
+      <h4>Healthcare - Eligibility Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareEligibilityAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Eligibility Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareEligibilityAssessment">https://w3id.org/dpv/sector/health/owl/#HealthcareEligibilityAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareEligibilityAssessment">https://w3id.org/dpv/sector/health#HealthcareEligibilityAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of eligibility to receive or continue to receive healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareEmergencyCareCommunication">
+      <h4>Healthcare - Emergency Care Communication</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareEmergencyCareCommunication</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Emergency Care Communication</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareEmergencyCareCommunication">https://w3id.org/dpv/sector/health/owl/#HealthcareEmergencyCareCommunication</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareEmergencyCareCommunication">https://w3id.org/dpv/sector/health#HealthcareEmergencyCareCommunication</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareEmergencyCareManagement">sector-owl:HealthcareEmergencyCareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of communication for emergency care as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareEmergencyCareDispatch">
+      <h4>Healthcare - Emergency Care Dispatch</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareEmergencyCareDispatch</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Emergency Care Dispatch</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareEmergencyCareDispatch">https://w3id.org/dpv/sector/health/owl/#HealthcareEmergencyCareDispatch</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareEmergencyCareDispatch">https://w3id.org/dpv/sector/health#HealthcareEmergencyCareDispatch</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareEmergencyCareManagement">sector-owl:HealthcareEmergencyCareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of emergency care dispatch as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareEmergencyCareEligibilityAssessment">
+      <h4>Healthcare - Emergency Care Eligibility Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareEmergencyCareEligibilityAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Emergency Care Eligibility Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareEmergencyCareEligibilityAssessment">https://w3id.org/dpv/sector/health/owl/#HealthcareEmergencyCareEligibilityAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareEmergencyCareEligibilityAssessment">https://w3id.org/dpv/sector/health#HealthcareEmergencyCareEligibilityAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareEmergencyCareManagement">sector-owl:HealthcareEmergencyCareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of eligibility to receive or continue to receive emergency care as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareEmergencyCareManagement">
+      <h4>Healthcare - Emergency Care Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareEmergencyCareManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Emergency Care Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareEmergencyCareManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareEmergencyCareManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareEmergencyCareManagement">https://w3id.org/dpv/sector/health#HealthcareEmergencyCareManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of emergency care as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareEmergencyCareTriage">
+      <h4>Healthcare - Emergency Care Triage</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareEmergencyCareTriage</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Emergency Care Triage</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareEmergencyCareTriage">https://w3id.org/dpv/sector/health/owl/#HealthcareEmergencyCareTriage</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareEmergencyCareTriage">https://w3id.org/dpv/sector/health#HealthcareEmergencyCareTriage</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareEmergencyCareManagement">sector-owl:HealthcareEmergencyCareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of prioritisation and other triage processes as part of emergency care in healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareFitnessNutritionAwareness">
+      <h4>Healthcare - Fitness Nutrition Awareness</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareFitnessNutritionAwareness</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Fitness Nutrition Awareness</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareFitnessNutritionAwareness">https://w3id.org/dpv/sector/health/owl/#HealthcareFitnessNutritionAwareness</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareFitnessNutritionAwareness">https://w3id.org/dpv/sector/health#HealthcareFitnessNutritionAwareness</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePreventativeCareManagement">sector-owl:HealthcarePreventativeCareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of fitness and nutrition awareness as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareFraudPreventionDetection">
+      <h4>Healthcare - Fraud Prevention Detection</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareFraudPreventionDetection</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Fraud Prevention Detection</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareFraudPreventionDetection">https://w3id.org/dpv/sector/health/owl/#HealthcareFraudPreventionDetection</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareFraudPreventionDetection">https://w3id.org/dpv/sector/health#HealthcareFraudPreventionDetection</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareSecurityManagement">sector-owl:HealthcareSecurityManagement</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with fraud prevention and detection in relation to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareGeneticConditionDiagnosis">
+      <h4>Healthcare - Genetic Condition Diagnosis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareGeneticConditionDiagnosis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Genetic Condition Diagnosis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareGeneticConditionDiagnosis">https://w3id.org/dpv/sector/health/owl/#HealthcareGeneticConditionDiagnosis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareGeneticConditionDiagnosis">https://w3id.org/dpv/sector/health#HealthcareGeneticConditionDiagnosis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareDiagnosisManagement">sector-owl:HealthcareDiagnosisManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with conducting and managing genetic diagnosis as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareIdentityFraudManagement">
+      <h4>Healthcare - Identity Fraud Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareIdentityFraudManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Identity Fraud Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareIdentityFraudManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareIdentityFraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareIdentityFraudManagement">https://w3id.org/dpv/sector/health#HealthcareIdentityFraudManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareFraudPreventionDetection">sector-owl:HealthcareFraudPreventionDetection</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with identity prevention and detection in relation to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareInsuranceClaimFraudManagement">
+      <h4>Healthcare - Insurance Claim Fraud Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareInsuranceClaimFraudManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Insurance Claim Fraud Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareInsuranceClaimFraudManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareInsuranceClaimFraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareInsuranceClaimFraudManagement">https://w3id.org/dpv/sector/health#HealthcareInsuranceClaimFraudManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareFraudPreventionDetection">sector-owl:HealthcareFraudPreventionDetection</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with insurance fraud prevention and detection in relation to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareInsuranceManagement">
+      <h4>Healthcare - Insurance Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareInsuranceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Insurance Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareInsuranceManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareInsuranceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareInsuranceManagement">https://w3id.org/dpv/sector/health#HealthcareInsuranceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareManagement">sector-owl:HealthcareManagement</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#InsuranceManagement">sector-owl:InsuranceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of insurance as part of providing healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareManagement">
+      <h4>Healthcare - Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareManagement">https://w3id.org/dpv/sector/health#HealthcareManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of healthcare infrastructure and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareMedicalConditionDiagnosis">
+      <h4>Healthcare - Medical Condition Diagnosis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareMedicalConditionDiagnosis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Medical Condition Diagnosis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareMedicalConditionDiagnosis">https://w3id.org/dpv/sector/health/owl/#HealthcareMedicalConditionDiagnosis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareMedicalConditionDiagnosis">https://w3id.org/dpv/sector/health#HealthcareMedicalConditionDiagnosis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareDiagnosisManagement">sector-owl:HealthcareDiagnosisManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with conducting and managing medical diagnosis as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareMedicalResourceOptimisation">
+      <h4>Healthcare - Medical Resource Optimisation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareMedicalResourceOptimisation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Medical Resource Optimisation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareMedicalResourceOptimisation">https://w3id.org/dpv/sector/health/owl/#HealthcareMedicalResourceOptimisation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareMedicalResourceOptimisation">https://w3id.org/dpv/sector/health#HealthcareMedicalResourceOptimisation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareOptimisation">sector-owl:HealthcareOptimisation</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with identifying optimisations related to use of  medical resources as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareMentalHealthAwareness">
+      <h4>Healthcare - Mental Health Awareness</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareMentalHealthAwareness</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Mental Health Awareness</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareMentalHealthAwareness">https://w3id.org/dpv/sector/health/owl/#HealthcareMentalHealthAwareness</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareMentalHealthAwareness">https://w3id.org/dpv/sector/health#HealthcareMentalHealthAwareness</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePreventativeCareManagement">sector-owl:HealthcarePreventativeCareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of mental health awareness as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareMentalHealthConditionDiagnosis">
+      <h4>Healthcare - Mental Health Condition Diagnosis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareMentalHealthConditionDiagnosis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Mental Health Condition Diagnosis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareMentalHealthConditionDiagnosis">https://w3id.org/dpv/sector/health/owl/#HealthcareMentalHealthConditionDiagnosis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareMentalHealthConditionDiagnosis">https://w3id.org/dpv/sector/health#HealthcareMentalHealthConditionDiagnosis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareDiagnosisManagement">sector-owl:HealthcareDiagnosisManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with conducting and managing mental health diagnosis as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareOptimisation">
+      <h4>Healthcare - Optimisation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareOptimisation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Optimisation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareOptimisation">https://w3id.org/dpv/sector/health/owl/#HealthcareOptimisation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareOptimisation">https://w3id.org/dpv/sector/health#HealthcareOptimisation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareManagement">sector-owl:HealthcareManagement</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ImproveHealthcare">dpv-owl:ImproveHealthcare</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with identifying optimisations to use and provision of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePandemicResponseManagement">
+      <h4>Healthcare - Pandemic Response Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePandemicResponseManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Pandemic Response Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePandemicResponseManagement">https://w3id.org/dpv/sector/health/owl/#HealthcarePandemicResponseManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePandemicResponseManagement">https://w3id.org/dpv/sector/health#HealthcarePandemicResponseManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareCrisisManagement">sector-owl:HealthcareCrisisManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of pandemics and related crisis situations in relation to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePatientChronicConditionMonitoring">
+      <h4>Healthcare - Patient Chronic Condition Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePatientChronicConditionMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Patient Chronic Condition Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePatientChronicConditionMonitoring">https://w3id.org/dpv/sector/health/owl/#HealthcarePatientChronicConditionMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePatientChronicConditionMonitoring">https://w3id.org/dpv/sector/health#HealthcarePatientChronicConditionMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePatientMonitoring">sector-owl:HealthcarePatientMonitoring</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of patients with chronic conditinos for health and safety as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePatientConsentManagement">
+      <h4>Healthcare - Patient Consent Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePatientConsentManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Patient Consent Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePatientConsentManagement">https://w3id.org/dpv/sector/health/owl/#HealthcarePatientConsentManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePatientConsentManagement">https://w3id.org/dpv/sector/health#HealthcarePatientConsentManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePatientInformationManagement">sector-owl:HealthcarePatientInformationManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of consent from or related to patients in relation to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePatientInformationManagement">
+      <h4>Healthcare - Patient Information Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePatientInformationManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Patient Information Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePatientInformationManagement">https://w3id.org/dpv/sector/health/owl/#HealthcarePatientInformationManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePatientInformationManagement">https://w3id.org/dpv/sector/health#HealthcarePatientInformationManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareResourceManagement">sector-owl:HealthcareResourceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of patient information in relation to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePatientIntensiveCareMonitoring">
+      <h4>Healthcare - Patient Intensive Care Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePatientIntensiveCareMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Patient Intensive Care Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePatientIntensiveCareMonitoring">https://w3id.org/dpv/sector/health/owl/#HealthcarePatientIntensiveCareMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePatientIntensiveCareMonitoring">https://w3id.org/dpv/sector/health#HealthcarePatientIntensiveCareMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePatientMonitoring">sector-owl:HealthcarePatientMonitoring</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of patients in intensive care as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePatientMonitoring">
+      <h4>Healthcare - Patient Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePatientMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Patient Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePatientMonitoring">https://w3id.org/dpv/sector/health/owl/#HealthcarePatientMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePatientMonitoring">https://w3id.org/dpv/sector/health#HealthcarePatientMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceProvision">sector-owl:HealthcareServiceProvision</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of patients for treatment and safety as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePatientPostTreatmentMonitoring">
+      <h4>Healthcare - Patient Post Treatment Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePatientPostTreatmentMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Patient Post Treatment Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePatientPostTreatmentMonitoring">https://w3id.org/dpv/sector/health/owl/#HealthcarePatientPostTreatmentMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePatientPostTreatmentMonitoring">https://w3id.org/dpv/sector/health#HealthcarePatientPostTreatmentMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePatientMonitoring">sector-owl:HealthcarePatientMonitoring</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of patients post-treatment for health and safety as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePatientRemoteMonitoring">
+      <h4>Healthcare - Patient Remote Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePatientRemoteMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Patient Remote Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePatientRemoteMonitoring">https://w3id.org/dpv/sector/health/owl/#HealthcarePatientRemoteMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePatientRemoteMonitoring">https://w3id.org/dpv/sector/health#HealthcarePatientRemoteMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePatientMonitoring">sector-owl:HealthcarePatientMonitoring</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with remote monitoring of patients for treatment and safety as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePatientTreatmentEffectivenessMonitoring">
+      <h4>Healthcare - Patient Treatment Effectiveness Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePatientTreatmentEffectivenessMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Patient Treatment Effectiveness Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePatientTreatmentEffectivenessMonitoring">https://w3id.org/dpv/sector/health/owl/#HealthcarePatientTreatmentEffectivenessMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePatientTreatmentEffectivenessMonitoring">https://w3id.org/dpv/sector/health#HealthcarePatientTreatmentEffectivenessMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePatientMonitoring">sector-owl:HealthcarePatientMonitoring</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of treatment effectiveness as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePatientTreatmentOutcomeAnalysis">
+      <h4>Healthcare - Patient Treatment Outcome Analysis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePatientTreatmentOutcomeAnalysis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Patient Treatment Outcome Analysis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePatientTreatmentOutcomeAnalysis">https://w3id.org/dpv/sector/health/owl/#HealthcarePatientTreatmentOutcomeAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePatientTreatmentOutcomeAnalysis">https://w3id.org/dpv/sector/health#HealthcarePatientTreatmentOutcomeAnalysis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePatientMonitoring">sector-owl:HealthcarePatientMonitoring</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with analysis of patient treatment outcomes as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePreventativeCareManagement">
+      <h4>Healthcare - Preventative Care Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePreventativeCareManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Preventative Care Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePreventativeCareManagement">https://w3id.org/dpv/sector/health/owl/#HealthcarePreventativeCareManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePreventativeCareManagement">https://w3id.org/dpv/sector/health#HealthcarePreventativeCareManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ImproveHealthcare">dpv-owl:ImproveHealthcare</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of preventative care as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePrimaryCareManagement">
+      <h4>Healthcare - Primary Care Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePrimaryCareManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Primary Care Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePrimaryCareManagement">https://w3id.org/dpv/sector/health/owl/#HealthcarePrimaryCareManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePrimaryCareManagement">https://w3id.org/dpv/sector/health#HealthcarePrimaryCareManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of primary healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareProvidersDataSharing">
+      <h4>Healthcare - Providers Data Sharing</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareProvidersDataSharing</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Providers Data Sharing</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareProvidersDataSharing">https://w3id.org/dpv/sector/health/owl/#HealthcareProvidersDataSharing</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareProvidersDataSharing">https://w3id.org/dpv/sector/health#HealthcareProvidersDataSharing</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with sharing of patient information between healthcare providers, such as between hospitals treating the same patient</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcarePublicHealthMonitoring">
+      <h4>Healthcare - Public Health Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcarePublicHealthMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Public Health Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcarePublicHealthMonitoring">https://w3id.org/dpv/sector/health/owl/#HealthcarePublicHealthMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcarePublicHealthMonitoring">https://w3id.org/dpv/sector/health#HealthcarePublicHealthMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePreventativeCareManagement">sector-owl:HealthcarePreventativeCareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of public health as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareReferralManagement">
+      <h4>Healthcare - Referral Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareReferralManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Referral Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareReferralManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareReferralManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareReferralManagement">https://w3id.org/dpv/sector/health#HealthcareReferralManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of referrals as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareResearchDevelopment">
+      <h4>Healthcare - Research Development</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareResearchDevelopment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Research Development</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareResearchDevelopment">https://w3id.org/dpv/sector/health/owl/#HealthcareResearchDevelopment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareResearchDevelopment">https://w3id.org/dpv/sector/health#HealthcareResearchDevelopment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareManagement">sector-owl:HealthcareManagement</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ImproveHealthcare">dpv-owl:ImproveHealthcare</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with research and development regarding healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareResourceManagement">
+      <h4>Healthcare - Resource Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareResourceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Resource Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareResourceManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareResourceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareResourceManagement">https://w3id.org/dpv/sector/health#HealthcareResourceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareManagement">sector-owl:HealthcareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of resources related to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareSecurityManagement">
+      <h4>Healthcare - Security Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareSecurityManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Security Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareSecurityManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareSecurityManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareSecurityManagement">https://w3id.org/dpv/sector/health#HealthcareSecurityManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareManagement">sector-owl:HealthcareManagement</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of security in relation to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareServiceBillingFraudManagement">
+      <h4>Healthcare - Service Billing Fraud Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareServiceBillingFraudManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Service Billing Fraud Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareServiceBillingFraudManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareServiceBillingFraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareServiceBillingFraudManagement">https://w3id.org/dpv/sector/health#HealthcareServiceBillingFraudManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareFraudPreventionDetection">sector-owl:HealthcareFraudPreventionDetection</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with billing prevention and detection in relation to healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareServiceManagement">
+      <h4>Healthcare - Service Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareServiceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Service Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareServiceManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareServiceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareServiceManagement">https://w3id.org/dpv/sector/health#HealthcareServiceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareManagement">sector-owl:HealthcareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareServiceProvision">
+      <h4>Healthcare - Service Provision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareServiceProvision</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Service Provision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareServiceProvision">https://w3id.org/dpv/sector/health/owl/#HealthcareServiceProvision</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareServiceProvision">https://w3id.org/dpv/sector/health#HealthcareServiceProvision</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with provision of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareSpecialisedCareManagement">
+      <h4>Healthcare - Specialised Care Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareSpecialisedCareManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Specialised Care Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareSpecialisedCareManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareSpecialisedCareManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareSpecialisedCareManagement">https://w3id.org/dpv/sector/health#HealthcareSpecialisedCareManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareServiceManagement">sector-owl:HealthcareServiceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of specialised healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareTreatmentOptimisation">
+      <h4>Healthcare - Treatment Optimisation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareTreatmentOptimisation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Treatment Optimisation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareTreatmentOptimisation">https://w3id.org/dpv/sector/health/owl/#HealthcareTreatmentOptimisation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareTreatmentOptimisation">https://w3id.org/dpv/sector/health#HealthcareTreatmentOptimisation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareOptimisation">sector-owl:HealthcareOptimisation</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ServiceOptimisation">dpv-owl:ServiceOptimisation</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with identifying optimisations related to use of treatments and related processes as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareVaccinationManagement">
+      <h4>Healthcare - Vaccination Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareVaccinationManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Vaccination Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareVaccinationManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareVaccinationManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareVaccinationManagement">https://w3id.org/dpv/sector/health#HealthcareVaccinationManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcarePreventativeCareManagement">sector-owl:HealthcarePreventativeCareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of vaccinations as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthcareWorkforceManagement">
+      <h4>Healthcare - Workforce Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthcareWorkforceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Healthcare - Workforce Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthcareWorkforceManagement">https://w3id.org/dpv/sector/health/owl/#HealthcareWorkforceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthcareWorkforceManagement">https://w3id.org/dpv/sector/health#HealthcareWorkforceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareManagement">sector-owl:HealthcareManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of workfore involved in provision of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthInequalityAnalysis">
+      <h4>Health Inequality Analysis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthInequalityAnalysis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Health Inequality Analysis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthInequalityAnalysis">https://w3id.org/dpv/sector/health/owl/#HealthInequalityAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthInequalityAnalysis">https://w3id.org/dpv/sector/health#HealthInequalityAnalysis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareResearchDevelopment">sector-owl:HealthcareResearchDevelopment</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with detecting, analysing, and identifying ways to mitigate inequality in provision and use of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthInsuranceManagement">
+      <h4>Health Insurance Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthInsuranceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Health Insurance Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthInsuranceManagement">https://w3id.org/dpv/sector/health/owl/#HealthInsuranceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthInsuranceManagement">https://w3id.org/dpv/sector/health#HealthInsuranceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareInsuranceManagement">sector-owl:HealthcareInsuranceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with managing health insurance as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="HealthTrendAnalysis">
+      <h4>Health Trend Analysis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HealthTrendAnalysis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Health Trend Analysis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#HealthTrendAnalysis">https://w3id.org/dpv/sector/health/owl/#HealthTrendAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#HealthTrendAnalysis">https://w3id.org/dpv/sector/health#HealthTrendAnalysis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareResearchDevelopment">sector-owl:HealthcareResearchDevelopment</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with analysing trends in public health and safety</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="LifeInsuranceManagement">
+      <h4>Life Insurance Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>LifeInsuranceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Life Insurance Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#LifeInsuranceManagement">https://w3id.org/dpv/sector/health/owl/#LifeInsuranceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#LifeInsuranceManagement">https://w3id.org/dpv/sector/health#LifeInsuranceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareInsuranceManagement">sector-owl:HealthcareInsuranceManagement</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with managing life insurance as part of healthcare services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PopulationHealthAnalysis">
+      <h4>Population Health Analysis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PopulationHealthAnalysis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Population Health Analysis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#PopulationHealthAnalysis">https://w3id.org/dpv/sector/health/owl/#PopulationHealthAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#PopulationHealthAnalysis">https://w3id.org/dpv/sector/health#PopulationHealthAnalysis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareResearchDevelopment">sector-owl:HealthcareResearchDevelopment</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with analysing trends and outcomes in a specific population or group of people regarding health and safety</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PredictiveHealthRiskAnalysis">
+      <h4>Predictive Health Risk Analysis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PredictiveHealthRiskAnalysis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-health-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Predictive Health Risk Analysis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/health/owl/#PredictiveHealthRiskAnalysis">https://w3id.org/dpv/sector/health/owl/#PredictiveHealthRiskAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/health#PredictiveHealthRiskAnalysis">https://w3id.org/dpv/sector/health#PredictiveHealthRiskAnalysis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/sector/owl/#HealthcareResearchDevelopment">sector-owl:HealthcareResearchDevelopment</a>
+                        </td>        </tr>      
+      
+       
+
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with analysing and predicting risks to public health and safety</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/health#vocab-purposes">Sector-health Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+      
+      
+      
+      
+      
+
+  </section>
+  <section id="dpv-properties">
+    <h3>Properties</h3>       
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+       
+      
+      
+      
+      
+      
+
+  </section>
+  <section id="external-concepts">
+    <p>The following external concepts are re-used within DPV:</p>
+    <h3>External</h3>        
+      
+      
+        
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+        
+       
+       
+       
+       
+       
+
+  </section>
+</section>
+
+</body>
+</html>
