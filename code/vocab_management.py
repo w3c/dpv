@@ -350,32 +350,32 @@ CSVFILES = {
     },
     'sector-education': {
         'purposes': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/Public_Education.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Education.csv',
         },
     },
     'sector-finance': {
         'purposes': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/Public_Finance.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Finance.csv',
         },
     },
     'sector-health': {
         'purposes': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/Public_Healthcare.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Healthcare.csv',
         },
     },
     'sector-infra': {
         'purposes': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/Public_Infrastructure.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Infrastructure.csv',
         },
     },
     'sector-law': {
         'purposes': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/Public_Justice.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Justice.csv',
         },
     },
     'sector-publicservices': {
         'purposes': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/Public_PublicServices.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_PublicServices.csv',
         },
     },
     # 'loc': {
