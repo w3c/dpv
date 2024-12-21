@@ -7,7 +7,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Justifications Extension</title>
+  <title>{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})</title>
   <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
   <script class="remove">
    // All config options at https://respec.org/docs/ 
@@ -18,9 +18,9 @@
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
     specStatus: "{{DOCUMENT_STATUS}}",
     group: "dpvcg",
-    latestVersion: "https://w3id.org/dpv/sector",
-    canonicalUri: "https://w3id.org/dpv/sector",
-    edDraftURI: "https://dev.dpvcg.org/sector",
+    latestVersion: "{{data[vocab_name+'-metadata']['dct:identifier']}}",
+    canonicalUri: "{{data[vocab_name+'-metadata']['dct:identifier']}}",
+    edDraftURI: "{{data[vocab_name+'-metadata']['dct:identifier'].replace('w3id.org/dpv', 'dev.dpvcg.org')}}",
     github: "w3c/dpv",
     subjectPrefix: "[sector]",
     doJsonLd: true,
@@ -43,8 +43,8 @@
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.1/justifications",
-              "href": "https://w3id.org/dpv/2.1/justifications"
+              "value": "{{data[vocab_name+'-metadata']['iri']}}",
+              "href": "{{data[vocab_name+'-metadata']['iri']}}"
             }
         ]
       },
@@ -61,24 +61,24 @@
     localBiblio: {%  include 'references.json' %}
   };
 </script>
-<link rel="stylesheet" type="text/css" href="../diagrams/common.css">
-<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
-  <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+<link rel="stylesheet" type="text/css" href="../../diagrams/common.css">
+<link rel="shortcut icon" href="../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
   <section id="abstract">
-    <p>The Sector extension provides a taxonomy extending the [[[DPV]]] and other extension concepts for specific sectors. The namespace for terms in sector extension is <a href="http://www.w3id.org/dpv/sector#"><code>https://www.w3id.org/dpv/sector#</code></a>, the suggested prefix  is <code>sector</code>, and the sector vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+    <p>The {{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}}) extension provides a taxonomy extending the [[[DPV]]] and other extension concepts . The namespace for terms in sector extension is <a href="{{data[vocab_name+'-metadata']['iri']}}"><code>{{data[vocab_name+'-metadata']['iri']}}</code></a>, the suggested prefix  is <code>{{vocab_name}}</code>, and the vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
   </section>
     {{ sotd(data[vocab_name+'-metadata']) }}
     {{ dpv_document_family(document='sector-spec') }}
   <section id="motivation">
     <h2>Introduction</h2>
-    <p>stub</p>
+    <p>The Data Privacy Vocabulary (DPV) and its extensions provide concepts intended for <i>general</i> use-cases which have a wide applicability. The SECTOR extensions provide concepts <i>specific to a sector</i> to support the use of DPV within that sector. At the moment, these extensions only provide <i>Purposes</i> which extend the DPV's Purpose taxonomy. The DPVCG plans to provide additional sector specific concepts in the future - such as <i>Data categories</i>, <i>Technical and Organisational Measures</i>, <i>Risks and Impacts</i>, and <i>Technologies</i> - and <a href="https://www.w3.org/groups/cg/dpvcg/">welcomes contributions and participations</a> for these.</p>
   </section>
 
   <section id="vocab-purposes">
     <h2>Purposes</h2>
-    <div class="issue" title="fix incorrect purpose hierarchy"></div>
+    <p>The Purpose taxonomy provides concepts for representing purposes for processing data or using technologies within the context of the specific sector. Where relevant, these concepts extend the purpose concepts defined in the (main or core) <a href="../../dpv/">DPV specification</a>. The relation <code>dpv:hasPurpose</code> is useful to associate the purpose with a specific context or concept.</p>
     {{ list_hierarchy(modules['purposes']['classes']) }}
   </section>
 
@@ -135,6 +135,6 @@
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
 <section class="appendix" id="issue-summary"></section>
-<script type="text/javascript" src="../diagrams/common.js" defer></script>
+<script type="text/javascript" src="../../diagrams/common.js" defer></script>
 </body>
 </html>

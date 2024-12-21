@@ -348,9 +348,34 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_Exercise.csv',
         },
     },
-    'sector': {
+    'sector-education': {
         'purposes': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Domain.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Education.csv',
+        },
+    },
+    'sector-finance': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Finance.csv',
+        },
+    },
+    'sector-health': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Healthcare.csv',
+        },
+    },
+    'sector-infra': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Infrastructure.csv',
+        },
+    },
+    'sector-law': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Justice.csv',
+        },
+    },
+    'sector-publicservices': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_PublicServices.csv',
         },
     },
     # 'loc': {
@@ -908,24 +933,6 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
-    'sector': {
-        'vocab': f'{IMPORT_PATH}/sector/sector.ttl',
-        'template': 'template_sector.jinja2',
-        'export': f'{EXPORT_PATH}/sector',
-        'modules': {
-            'purposes': f'{IMPORT_PATH}/sector/modules/purposes.ttl',
-        },
-        'metadata': {
-            "dct:title": "Sector-specific Concepts",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information within specific sectors",
-            "dct:created": "2024-12-01",
-            "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Beatriz Esteves, Julian Flake",
-            "schema:version": DPV_VERSION,
-            "profile:isProfileOf": "dpv",
-            "bibo:status": "draft",
-        },
-    },
     'loc': {
         'vocab': f'{IMPORT_PATH}/loc/loc.ttl',
         'template': 'template_locations.jinja2',
@@ -943,6 +950,115 @@ RDF_VOCABS = {
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             "bibo:status": "published",
+        },
+    },
+    # SECTOR VOCABS
+    'sector-education': {
+        'vocab': f'{IMPORT_PATH}/sector/education/sector-education.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/education',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/education/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Education Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the education sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector-finance': {
+        'vocab': f'{IMPORT_PATH}/sector/finance/sector-finance.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/finance',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/finance/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Finance Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the finance sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector-health': {
+        'vocab': f'{IMPORT_PATH}/sector/health/sector-health.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/health',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/health/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Health Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the health sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector-infra': {
+        'vocab': f'{IMPORT_PATH}/sector/infra/sector-infra.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/infra',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/infra/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Infrastructure Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the infrastructure sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector-law': {
+        'vocab': f'{IMPORT_PATH}/sector/law/sector-law.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/law',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/law/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Law Enforcement & Justice Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the law enforcement and justice sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector-publicservices': {
+        'vocab': f'{IMPORT_PATH}/sector/publicservices/sector-publicservices.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/publicservices',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/publicservices/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Public Services Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the public services sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
         },
     },
     # LEGAL VOCABS
@@ -1780,9 +1896,29 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/justifications',
         'modules': f'{EXPORT_RDF_PATH}/justifications/modules',
     },
-    'sector': {
-        'main': f'{EXPORT_RDF_PATH}/sector',
-        'modules': f'{EXPORT_RDF_PATH}/sector/modules',
+    'sector-education': {
+        'main': f'{EXPORT_RDF_PATH}/sector/education',
+        'modules': f'{EXPORT_RDF_PATH}/sector/education/modules',
+    },
+    'sector-finance': {
+        'main': f'{EXPORT_RDF_PATH}/sector/finance',
+        'modules': f'{EXPORT_RDF_PATH}/sector/finance/modules',
+    },
+    'sector-health': {
+        'main': f'{EXPORT_RDF_PATH}/sector/health',
+        'modules': f'{EXPORT_RDF_PATH}/sector/health/modules',
+    },
+    'sector-infra': {
+        'main': f'{EXPORT_RDF_PATH}/sector/infra',
+        'modules': f'{EXPORT_RDF_PATH}/sector/infra/modules',
+    },
+    'sector-law': {
+        'main': f'{EXPORT_RDF_PATH}/sector/law',
+        'modules': f'{EXPORT_RDF_PATH}/sector/law/modules',
+    },
+    'sector-publicservices': {
+        'main': f'{EXPORT_RDF_PATH}/sector/publicservices',
+        'modules': f'{EXPORT_RDF_PATH}/sector/publicservices/modules',
     },
     'loc': {
         'main': f'{EXPORT_RDF_PATH}/loc',
