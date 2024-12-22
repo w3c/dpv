@@ -658,8 +658,8 @@ ex:TechPlan2 a tech:IntendedUse ;
 ex:OperationLog a dpv:Process ;
   dpv:isImplementedUsingTechnology ex:MyDatabase, ex:MyCloudServer ;
   dpv:hasPurpose dpv:AccountManagement ;  # okay as per intended use
-  dpv:hasPurpose dpv:IdentityAuthentication . # ambigious use --
-          # database has intended use, cloud server doesn't
+  dpv:hasPurpose # ambigious use --          
+    dpv:IdentityAuthentication . # database has intended use, cloud server doesn't
 
 # a clearer representation
 ex:OperationLog a dpv:Process ;
@@ -677,100 +677,105 @@ ex:OperationLog a dpv:Process ;
 
   <section id="vocab-provision">
     <h2>Provision of Technology</h2>
-    <div class="issue" title="discuss breaking change note for provision method"></div>
-    <aside class="note" title="Breaking changes introduced in version 2.1">
-      <p>The concepts were renamed in version 2.1 by adding the suffix <code>-Provision</code> to better indicate their role as provision methods, and to avoid ambiguity with the technology itself. For example, <code>System</code> in version 2.0 has been renamed to <code>SystemProvision</code> to avoid misinterpretation of <i>System</i> as only referring to the way a technology is provided as compared to it being a 'technical system'.</p>
+    <aside class="note" title="Breaking change introduced in v2.1">
+      <p>The Technology Provision concepts were renamed in v2.1 by adding the prefix <code>ProvisionAs</code> to better indicate their role as provision methods, and to avoid ambiguity with the technology itself. For example, <code>System</code> in v2.0 represented a technology provided as a system, which in v2.1 has been renamed to <code>ProvidedAsSystem</code> to avoid misinterpretation of <i>System</i> as only referring to the way a technology is provided as compared to it being used distinctly as a 'system' or as a 'component'.</p>
     </aside>
     <p>The provision of technology can happen via the following methods:</p>
     <ul>
-      <li>[=SystemProvision=], [=ComponentProvision=], and [=AlgorithmicProvision=] - that indicate whether the technology is provided as a system (e.g. stand alone), is intended to be used as a component in another system, or is algorithmic (e.g. implementation of a particular method).</li>
-      <li>[=ServiceProvision=], [=GoodsProvision=], [=ProductProvision=], and [=SubscriptionProvision=] - that provide an indication of whether the technology is service (e.g. implemented to function as a service), or is a product or a subscription (e.g. provided by a vendor). In this, [=ServiceProvision=] is extended to represent various kinds of [=CloudServiceProvision=] such as Platform-as-a-Service ([=PaaSProvision=]) and Software-as-a-Service ([=SaaSProvision=])</li>
-      <li>[=FixedUseProvision=] indicates whether the technology has limitations of use e.g. specific number of application or single application, or those related to scale or scope. For example, a single use identifier or a one time scan for vulnerabilities.</li>
+      <li>[=ProvidedAsSystem=], [=ProvidedAsComponent=], and [=ProvidedAsAlgorithmic=] - that indicate whether the technology is provided as a system (e.g. stand alone), is intended to be used as a component in another system, or is algorithmic (e.g. implementation of a particular method).</li>
+      <li>[=ProvidedAsService=], [=ProvidedAsGoods=], [=ProvidedAsProduct=], and [=ProvidedAsSubscription=] - that provide an indication of whether the technology is service (e.g. implemented to function as a service), or is a product or a subscription (e.g. provided by a vendor). In this, [=ProvidedAsService=] is extended to represent various kinds of [=ProvidedAsCloudService=] such as Platform-as-a-Service ([=ProvidedAsPaaS=]) and Software-as-a-Service ([=ProvidedAsSaaS=])</li>
+      <li>[=ProvidedAsFixedUse=] indicates whether the technology has limitations of use e.g. specific number of application or single application, or those related to scale or scope. For example, a single use identifier or a one time scan for vulnerabilities.</li>
       </ul>
       <aside class="example" title="Indicating a technology is provided as a SaaS subscription">
         <p>The following example contains a technology which is provided as a SaaS subscription.</p>
         <pre class="nohighlight"><code>ex:ClouDB a dpv:Technology ;
-  tech:hasProvisionMethod tech:SaaS, tech:Subscription .
+  tech:hasProvisionMethod tech:ProvidedAsSaaS, tech:ProvidedAsSubscription .
         </code></pre>
       </aside>
       <div class="list-hierarchy"><ul class="concept-list">
   <li>
-    <strong>tech:AlgorithmicProvision</strong>: Technology provided as an algorithm or method
-      <small><a href="https://w3id.org/dpv/tech#AlgorithmicProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsAlgorithmic</strong>: Technology provided as an algorithm or method
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsAlgorithmic" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:ComponentProvision</strong>: Technology provided as a component
-      <small><a href="https://w3id.org/dpv/tech#ComponentProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsComponent</strong>: Technology provided as a component
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsComponent" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:FixedUseProvision</strong>: Technology provided for using a fixed number of times
-      <small><a href="https://w3id.org/dpv/tech#FixedUseProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsFixedUse</strong>: Technology provided for using a fixed number of times
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsFixedUse" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:GoodsProvision</strong>: Technology provided or used as goods
-      <small><a href="https://w3id.org/dpv/tech#GoodsProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsGoods</strong>: Technology provided or used as goods
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsGoods" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:ProductProvision</strong>: Technology provided as a product
-      <small><a href="https://w3id.org/dpv/tech#ProductProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsProduct</strong>: Technology provided as a product
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsProduct" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:ServiceProvision</strong>: Technology provided or used as service(s)
-      <small><a href="https://w3id.org/dpv/tech#ServiceProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsService</strong>: Technology provided or used as service(s)
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsService" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
   <li>
-    <strong>tech:CloudServiceProvision</strong>: Technology provided as a cloud service
-      <small><a href="https://w3id.org/dpv/tech#CloudServiceProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsCloudService</strong>: Technology provided as a cloud service
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsCloudService" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
   <li>
-    <strong>tech:CaaSProvision</strong>: Technology provided as a cloud service consisting of managed compute resources
-      <small><a href="https://w3id.org/dpv/tech#CaaSProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsCaaS</strong>: Technology provided as a cloud service consisting of managed compute resources
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsCaaS" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:IaaSProvision</strong>: Technology provided as a cloud service consisting of managed infrastructure resources
-      <small><a href="https://w3id.org/dpv/tech#IaaSProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsIaaS</strong>: Technology provided as a cloud service consisting of managed infrastructure resources
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsIaaS" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:MBaaSProvision</strong>: Technology provided as a cloud service consisting of managed &#39;backend&#39; services for mobile users
-      <small><a href="https://w3id.org/dpv/tech#MBaaSProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsMBaaS</strong>: Technology provided as a cloud service consisting of managed &#39;backend&#39; services for mobile users
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsMBaaS" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:PaaSProvision</strong>: Technology provided as a cloud service consisting of managed platform resources
-      <small><a href="https://w3id.org/dpv/tech#PaaSProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsPaaS</strong>: Technology provided as a cloud service consisting of managed platform resources
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsPaaS" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:PrivateCloudServiceProvision</strong>: Technology provided as a cloud service that is private
-      <small><a href="https://w3id.org/dpv/tech#PrivateCloudServiceProvision" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>tech:PublicCloudServiceProvision</strong>: Technology provided as a cloud service that is public
-      <small><a href="https://w3id.org/dpv/tech#PublicCloudServiceProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsPrivateCloudService</strong>: Technology provided as a cloud service that is private
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsPrivateCloudService" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
   <li>
-    <strong>tech:HybridCloudServiceProvision</strong>: Technology provided as a cloud service that is both private and public in parts
-      <small><a href="https://w3id.org/dpv/tech#HybridCloudServiceProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsHybridCloudService</strong>: Technology provided as a cloud service that is both private and public in parts
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsHybridCloudService" class="local-link">go to full definition</a></small>
       
   </li>
 </ul>
   </li>
   <li>
-    <strong>tech:SaaSProvision</strong>: Technology provided as a cloud service consisting of managed software resources
-      <small><a href="https://w3id.org/dpv/tech#SaaSProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsPublicCloudService</strong>: Technology provided as a cloud service that is public
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsPublicCloudService" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>tech:ProvidedAsHybridCloudService</strong>: Technology provided as a cloud service that is both private and public in parts
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsHybridCloudService" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>tech:ProvidedAsSaaS</strong>: Technology provided as a cloud service consisting of managed software resources
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsSaaS" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:ServerlessComputingProvision</strong>: Technology provided as a cloud service consisting of fully managed servers for executing functions
-      <small><a href="https://w3id.org/dpv/tech#ServerlessComputingProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsServerlessComputing</strong>: Technology provided as a cloud service consisting of fully managed servers for executing functions
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsServerlessComputing" class="local-link">go to full definition</a></small>
       
   </li>
 </ul>
@@ -778,13 +783,13 @@ ex:OperationLog a dpv:Process ;
 </ul>
   </li>
   <li>
-    <strong>tech:SubscriptionProvision</strong>: Technology that is provided or used as a periodic subscription
-      <small><a href="https://w3id.org/dpv/tech#SubscriptionProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsSubscription</strong>: Technology that is provided or used as a periodic subscription
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsSubscription" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>tech:SystemProvision</strong>: Technology provided as a system
-      <small><a href="https://w3id.org/dpv/tech#SystemProvision" class="local-link">go to full definition</a></small>
+    <strong>tech:ProvidedAsSystem</strong>: Technology provided as a system
+      <small><a href="https://w3id.org/dpv/tech#ProvidedAsSystem" class="local-link">go to full definition</a></small>
       
   </li>
 </ul></div>
@@ -1582,89 +1587,6 @@ ex:DatabaseDocs a tech:Instructions ;
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-tools"> TOOLS</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
-     <section class="term-def" id="AlgorithmicProvision">
-      <h4>Algorithmic Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>AlgorithmicProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Algorithmic Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#AlgorithmicProvision" class="local-link">https://w3id.org/dpv/tech#AlgorithmicProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as an algorithm or method</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2022-06-15</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
                       </td>
         </tr>
         </tbody>
@@ -2587,91 +2509,6 @@ ex:DatabaseDocs a tech:Instructions ;
     </section>
       
       
-      
-     <section class="term-def" id="CaaSProvision">
-      <h4>Compute as a Service (CaaS) Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>CaaSProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Compute as a Service (CaaS) Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#CaaSProvision" class="local-link">https://w3id.org/dpv/tech#CaaSProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#CloudServiceProvision" class="local-link">tech:CloudServiceProvision</a>
-             →             <a href="#ServiceProvision" class="local-link">tech:ServiceProvision</a>
-             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a cloud service consisting of managed compute resources</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2024-05-09</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
      <section class="term-def" id="Capability">
       <h4>Capability</h4>
       <table class="term-contents">
@@ -2955,90 +2792,6 @@ ex:DatabaseDocs a tech:Instructions ;
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-tools"> TOOLS</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
-     <section class="term-def" id="CloudServiceProvision">
-      <h4>Cloud Service Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>CloudServiceProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Cloud Service Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#CloudServiceProvision" class="local-link">https://w3id.org/dpv/tech#CloudServiceProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#ServiceProvision" class="local-link">tech:ServiceProvision</a>
-             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a cloud service</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2024-05-09</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
                       </td>
         </tr>
         </tbody>
@@ -3381,89 +3134,6 @@ ex:DatabaseDocs a tech:Instructions ;
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-tools"> TOOLS</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
-     <section class="term-def" id="ComponentProvision">
-      <h4>Component Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>ComponentProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Component Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#ComponentProvision" class="local-link">https://w3id.org/dpv/tech#ComponentProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a component</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2022-06-15</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
                       </td>
         </tr>
         </tbody>
@@ -5061,89 +4731,6 @@ ex:DatabaseDocs a tech:Instructions ;
     </section>
       
       
-      
-     <section class="term-def" id="FixedUseProvision">
-      <h4>Fixed Use Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>FixedUseProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Fixed Use Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#FixedUseProvision" class="local-link">https://w3id.org/dpv/tech#FixedUseProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided for using a fixed number of times</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2022-06-15</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
      <section class="term-def" id="Function">
       <h4>Function</h4>
       <table class="term-contents">
@@ -5346,89 +4933,6 @@ ex:DatabaseDocs a tech:Instructions ;
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-tools"> TOOLS</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
-     <section class="term-def" id="GoodsProvision">
-      <h4>Goods Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>GoodsProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Goods Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#GoodsProvision" class="local-link">https://w3id.org/dpv/tech#GoodsProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided or used as goods</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2022-06-15</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
                       </td>
         </tr>
         </tbody>
@@ -5817,180 +5321,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-      
-      
-      
-     <section class="term-def" id="HybridCloudServiceProvision">
-      <h4>Hybrid Cloud Service Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>HybridCloudServiceProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Hybrid Cloud Service Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#HybridCloudServiceProvision" class="local-link">https://w3id.org/dpv/tech#HybridCloudServiceProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="https://w3id.org/dpv/tech#PrivateCloudService" class="local-link">tech:PrivateCloudService</a>
-                        </td>        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#PublicCloudServiceProvision" class="local-link">tech:PublicCloudServiceProvision</a>
-             →             <a href="#CloudServiceProvision" class="local-link">tech:CloudServiceProvision</a>
-             →             <a href="#ServiceProvision" class="local-link">tech:ServiceProvision</a>
-             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a cloud service that is both private and public in parts</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2024-05-09</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Tek Raj Chhetri</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
-     <section class="term-def" id="IaaSProvision">
-      <h4>Infrastructure as a Service (IaaS) Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>IaaSProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Infrastructure as a Service (IaaS) Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#IaaSProvision" class="local-link">https://w3id.org/dpv/tech#IaaSProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#CloudServiceProvision" class="local-link">tech:CloudServiceProvision</a>
-             →             <a href="#ServiceProvision" class="local-link">tech:ServiceProvision</a>
-             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a cloud service consisting of managed infrastructure resources</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2024-05-09</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
       
       
      <section class="term-def" id="ImageContent">
@@ -8609,91 +7939,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-     <section class="term-def" id="MBaaSProvision">
-      <h4>Mobile backend as a Service Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>MBaaSProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Mobile backend as a Service Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#MBaaSProvision" class="local-link">https://w3id.org/dpv/tech#MBaaSProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#CloudServiceProvision" class="local-link">tech:CloudServiceProvision</a>
-             →             <a href="#ServiceProvision" class="local-link">tech:ServiceProvision</a>
-             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a cloud service consisting of managed &#39;backend&#39; services for mobile users</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2024-05-09</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
      <section class="term-def" id="MobilePhone">
       <h4>Mobile Phone</h4>
       <table class="term-contents">
@@ -9805,91 +9050,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-     <section class="term-def" id="PaaSProvision">
-      <h4>Platform as a Service (PaaS) Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>PaaSProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Platform as a Service (PaaS) Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#PaaSProvision" class="local-link">https://w3id.org/dpv/tech#PaaSProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#CloudServiceProvision" class="local-link">tech:CloudServiceProvision</a>
-             →             <a href="#ServiceProvision" class="local-link">tech:ServiceProvision</a>
-             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a cloud service consisting of managed platform resources</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2024-05-09</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
      <section class="term-def" id="Partner">
       <h4>Partner</h4>
       <table class="term-contents">
@@ -10396,91 +9556,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-     <section class="term-def" id="PrivateCloudServiceProvision">
-      <h4>Private Cloud Service Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>PrivateCloudServiceProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Private Cloud Service Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#PrivateCloudServiceProvision" class="local-link">https://w3id.org/dpv/tech#PrivateCloudServiceProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#CloudServiceProvision" class="local-link">tech:CloudServiceProvision</a>
-             →             <a href="#ServiceProvision" class="local-link">tech:ServiceProvision</a>
-             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a cloud service that is private</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2024-05-09</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Tek Raj Chhetri</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
      <section class="term-def" id="Producer">
       <h4>Producer</h4>
       <table class="term-contents">
@@ -10570,89 +9645,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-     <section class="term-def" id="ProductProvision">
-      <h4>Product Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>ProductProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Product Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#ProductProvision" class="local-link">https://w3id.org/dpv/tech#ProductProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a product</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2022-06-15</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
      <section class="term-def" id="Provided">
       <h4>Provided</h4>
       <table class="term-contents">
@@ -10725,6 +9717,1527 @@ ex:DatabaseDocs a tech:Instructions ;
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-status"> STATUS</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsAlgorithmic">
+      <h4>Provided as AlgorithmicProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsAlgorithmic</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as AlgorithmicProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsAlgorithmic" class="local-link">https://w3id.org/dpv/tech#ProvidedAsAlgorithmic</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as an algorithm or method</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-06-15</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsCaaS">
+      <h4>Provided as Compute as a Service (CaaS)Provision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsCaaS</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Compute as a Service (CaaS)Provision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsCaaS" class="local-link">https://w3id.org/dpv/tech#ProvidedAsCaaS</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsCloudService" class="local-link">tech:ProvidedAsCloudService</a>
+             →             <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a cloud service consisting of managed compute resources</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-09</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsCloudService">
+      <h4>Provided as Cloud ServiceProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsCloudService</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Cloud ServiceProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsCloudService" class="local-link">https://w3id.org/dpv/tech#ProvidedAsCloudService</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a cloud service</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-09</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsComponent">
+      <h4>Provided as ComponentProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsComponent</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as ComponentProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsComponent" class="local-link">https://w3id.org/dpv/tech#ProvidedAsComponent</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a component</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-06-15</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsFixedUse">
+      <h4>Provided as Fixed UseProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsFixedUse</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Fixed UseProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsFixedUse" class="local-link">https://w3id.org/dpv/tech#ProvidedAsFixedUse</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided for using a fixed number of times</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-06-15</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsGoods">
+      <h4>Provided as GoodsProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsGoods</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as GoodsProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsGoods" class="local-link">https://w3id.org/dpv/tech#ProvidedAsGoods</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided or used as goods</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-06-15</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsHybridCloudService">
+      <h4>Provided as Hybrid Cloud ServiceProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsHybridCloudService</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Hybrid Cloud ServiceProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsHybridCloudService" class="local-link">https://w3id.org/dpv/tech#ProvidedAsHybridCloudService</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsPrivateCloudService" class="local-link">tech:ProvidedAsPrivateCloudService</a>
+             →             <a href="#ProvidedAsCloudService" class="local-link">tech:ProvidedAsCloudService</a>
+             →             <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsPublicCloudService" class="local-link">tech:ProvidedAsPublicCloudService</a>
+             →             <a href="#ProvidedAsCloudService" class="local-link">tech:ProvidedAsCloudService</a>
+             →             <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a cloud service that is both private and public in parts</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-09</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Tek Raj Chhetri</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsIaaS">
+      <h4>Provided as Infrastructure as a Service (IaaS)Provision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsIaaS</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Infrastructure as a Service (IaaS)Provision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsIaaS" class="local-link">https://w3id.org/dpv/tech#ProvidedAsIaaS</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsCloudService" class="local-link">tech:ProvidedAsCloudService</a>
+             →             <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a cloud service consisting of managed infrastructure resources</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-09</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsMBaaS">
+      <h4>Provided as Mobile backend as a ServiceProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsMBaaS</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Mobile backend as a ServiceProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsMBaaS" class="local-link">https://w3id.org/dpv/tech#ProvidedAsMBaaS</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsCloudService" class="local-link">tech:ProvidedAsCloudService</a>
+             →             <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a cloud service consisting of managed &#39;backend&#39; services for mobile users</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-09</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsPaaS">
+      <h4>Provided as Platform as a Service (PaaS)Provision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsPaaS</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Platform as a Service (PaaS)Provision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsPaaS" class="local-link">https://w3id.org/dpv/tech#ProvidedAsPaaS</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsCloudService" class="local-link">tech:ProvidedAsCloudService</a>
+             →             <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a cloud service consisting of managed platform resources</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-09</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsPrivateCloudService">
+      <h4>Provided as Private Cloud ServiceProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsPrivateCloudService</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Private Cloud ServiceProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsPrivateCloudService" class="local-link">https://w3id.org/dpv/tech#ProvidedAsPrivateCloudService</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsCloudService" class="local-link">tech:ProvidedAsCloudService</a>
+             →             <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a cloud service that is private</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-09</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Tek Raj Chhetri</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsProduct">
+      <h4>Provided as ProductProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsProduct</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as ProductProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsProduct" class="local-link">https://w3id.org/dpv/tech#ProvidedAsProduct</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a product</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-06-15</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsPublicCloudService">
+      <h4>Provided as Public Cloud ServiceProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsPublicCloudService</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Public Cloud ServiceProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsPublicCloudService" class="local-link">https://w3id.org/dpv/tech#ProvidedAsPublicCloudService</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsCloudService" class="local-link">tech:ProvidedAsCloudService</a>
+             →             <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a cloud service that is public</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-09</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Tek Raj Chhetri</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsSaaS">
+      <h4>Provided as Software as a Service (SaaS)Provision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsSaaS</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Software as a Service (SaaS)Provision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsSaaS" class="local-link">https://w3id.org/dpv/tech#ProvidedAsSaaS</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsCloudService" class="local-link">tech:ProvidedAsCloudService</a>
+             →             <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a cloud service consisting of managed software resources</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-09</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsServerlessComputing">
+      <h4>Provided as Serverless ComputingProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsServerlessComputing</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as Serverless ComputingProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsServerlessComputing" class="local-link">https://w3id.org/dpv/tech#ProvidedAsServerlessComputing</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvidedAsCloudService" class="local-link">tech:ProvidedAsCloudService</a>
+             →             <a href="#ProvidedAsService" class="local-link">tech:ProvidedAsService</a>
+             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a cloud service consisting of fully managed servers for executing functions</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-05-09</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsService">
+      <h4>Provided as ServiceProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsService</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as ServiceProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsService" class="local-link">https://w3id.org/dpv/tech#ProvidedAsService</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided or used as service(s)</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-06-15</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsSubscription">
+      <h4>Provided as SubscriptionProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsSubscription</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as SubscriptionProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsSubscription" class="local-link">https://w3id.org/dpv/tech#ProvidedAsSubscription</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology that is provided or used as a periodic subscription</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-06-15</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProvidedAsSystem">
+      <h4>Provided as SystemProvision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProvidedAsSystem</dfn></td>
+          <th>Prefix</th>
+          <td>tech</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Provided as SystemProvision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/tech#ProvidedAsSystem" class="local-link">https://w3id.org/dpv/tech#ProvidedAsSystem</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
+             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
+            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Technology provided as a system</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-06-15</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
                       </td>
         </tr>
         </tbody>
@@ -10985,91 +11498,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-     <section class="term-def" id="PublicCloudServiceProvision">
-      <h4>Public Cloud Service Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>PublicCloudServiceProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Public Cloud Service Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#PublicCloudServiceProvision" class="local-link">https://w3id.org/dpv/tech#PublicCloudServiceProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#CloudServiceProvision" class="local-link">tech:CloudServiceProvision</a>
-             →             <a href="#ServiceProvision" class="local-link">tech:ServiceProvision</a>
-             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a cloud service that is public</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2024-05-09</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Tek Raj Chhetri</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
      <section class="term-def" id="Purchaser">
       <h4>Purchaser</h4>
       <table class="term-contents">
@@ -11235,178 +11663,8 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-     <section class="term-def" id="SaaSProvision">
-      <h4>Software as a Service (SaaS) Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>SaaSProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Software as a Service (SaaS) Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#SaaSProvision" class="local-link">https://w3id.org/dpv/tech#SaaSProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#CloudServiceProvision" class="local-link">tech:CloudServiceProvision</a>
-             →             <a href="#ServiceProvision" class="local-link">tech:ServiceProvision</a>
-             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a cloud service consisting of managed software resources</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2024-05-09</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
       
       
-      
-      
-      
-      
-      
-      
-     <section class="term-def" id="ServerlessComputingProvision">
-      <h4>Serverless Computing Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>ServerlessComputingProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Serverless Computing Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#ServerlessComputingProvision" class="local-link">https://w3id.org/dpv/tech#ServerlessComputingProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#CloudServiceProvision" class="local-link">tech:CloudServiceProvision</a>
-             →             <a href="#ServiceProvision" class="local-link">tech:ServiceProvision</a>
-             →             <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a cloud service consisting of fully managed servers for executing functions</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2024-05-09</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
       
       
       
@@ -11535,89 +11793,6 @@ ex:DatabaseDocs a tech:Instructions ;
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-tools"> TOOLS</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
-     <section class="term-def" id="ServiceProvision">
-      <h4>Service Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>ServiceProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Service Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#ServiceProvision" class="local-link">https://w3id.org/dpv/tech#ServiceProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided or used as service(s)</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2022-06-15</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
                       </td>
         </tr>
         </tbody>
@@ -12464,89 +12639,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-     <section class="term-def" id="SubscriptionProvision">
-      <h4>Subscription Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>SubscriptionProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>Subscription Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#SubscriptionProvision" class="local-link">https://w3id.org/dpv/tech#SubscriptionProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology that is provided or used as a periodic subscription</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2022-06-15</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
      <section class="term-def" id="Supplier">
       <h4>Supplier</h4>
       <table class="term-contents">
@@ -12849,89 +12941,6 @@ ex:DatabaseDocs a tech:Instructions ;
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-actors"> ACTORS</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
-                      </td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
-      
-      
-      
-     <section class="term-def" id="SystemProvision">
-      <h4>System Provision</h4>
-      <table class="term-contents">
-      <tbody>
-        <tr>
-          <th>Term</th>
-          <td><dfn>SystemProvision</dfn></td>
-          <th>Prefix</th>
-          <td>tech</td>
-        </tr>
-        <tr>
-          <th>Label</th>
-          <td><i>System Provision</i></td>
-        </tr>
-        <tr class="technical-detail">
-          <th>IRI</th>
-          <td><a href="https://w3id.org/dpv/tech#SystemProvision" class="local-link">https://w3id.org/dpv/tech#SystemProvision</a></td>
-        </tr>
-        
-        <tr class="table-separator"></tr>
-        
-        <tr class="technical-detail">
-          <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/tech#ProvisionMethod" class="local-link">tech:ProvisionMethod</a></td>
-        </tr>
-       
-        <tr class="technical-detail">
-          <th>Broader/Parent types</th>
-          <td>            <a href="#ProvisionMethod" class="local-link">tech:ProvisionMethod</a>
-             →             <a href="https://w3id.org/dpv#Technology" class="local-link">dpv:Technology</a>
-                        </td>        </tr>      
-      
-       
-<tr>
-          <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#isImplementedUsingTechnology" class="local-link">dpv:isImplementedUsingTechnology</a>, 
-            <a href="#hasProvisionMethod" class="local-link">tech:hasProvisionMethod</a>
-</td>
-        </tr>
-        
-        
-        
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Definition</th>
-          <td><i>Technology provided as a system</i></td>
-        </tr>        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-<tr>
-          <th>Date Created</th>
-          <td><i>2022-06-15</i></td>
-        </tr>        
-<tr>
-          <th>Date Modified</th>
-          <td><i>2024-12-01</i></td>
-        </tr>       
-<tr>
-          <th>Contributors</th>
-          <td><i>Harshvardhan J. Pandit</i></td>
-        </tr>
-        <tr class="table-separator"></tr>
-       
-        <tr>
-          <th>See More:</th>
-          <td>              section <a href="#vocab-provision"> PROVISION</a> in <a href="https://w3id.org/dpv/tech#">TECH</a>
                       </td>
         </tr>
         </tbody>
@@ -13695,19 +13704,7 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
        
-      
-      
-      
       
       
       
@@ -13755,12 +13752,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
        
-      
-      
-      
-      
-      
-      
       
       
       
@@ -17774,12 +17765,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-      
-      
-      
-      
-      
-      
        
       
       
@@ -17965,6 +17950,48 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
        
       
       
@@ -18001,26 +18028,8 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
        
        
-      
-      
-      
-      
-      
-      
       
       
       
@@ -18097,9 +18106,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
        
       
-      
-       
-      
        
       
       
@@ -18107,12 +18113,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
        
-      
-      
-       
-      
-       
-      
       
        
       
@@ -18125,9 +18125,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
         
        
-      
-       
-      
       
        
       
@@ -18181,12 +18178,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
        
       
-      
-       
-      
-       
-      
-      
        
       
       
@@ -18296,12 +18287,6 @@ ex:DatabaseDocs a tech:Instructions ;
        
       
        
-      
-       
-      
-      
-       
-      
       
        
       
@@ -18401,9 +18386,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
        
       
-      
-       
-      
        
       
        
@@ -18425,9 +18407,6 @@ ex:DatabaseDocs a tech:Instructions ;
       
        
       
-      
-       
-      
        
       
       
@@ -18443,11 +18422,6 @@ ex:DatabaseDocs a tech:Instructions ;
        
       
       
-        
-       
-      
-       
-      
        
       
       
@@ -18456,14 +18430,19 @@ ex:DatabaseDocs a tech:Instructions ;
       
        
       
+      
        
       
       
        
+      
+      
        
+      
+      
        
-       
-       
+      
+      
        
       
       
@@ -18492,13 +18471,43 @@ ex:DatabaseDocs a tech:Instructions ;
       
       
         
+       
+      
+       
+      
+       
+      
+      
+       
+      
+       
+       
+       
+       
+       
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
         
-       
-      
-      
-       
-      
-      
+        
        
       
       
