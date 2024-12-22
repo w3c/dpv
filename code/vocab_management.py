@@ -561,6 +561,9 @@ CSVFILES = {
 
     # EU Regulations
     'eu-gdpr': {
+        'misc_concepts': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_MiscConcepts.csv',
+        },
         'legal_basis': {
             'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_LegalBasis.csv',
         },
@@ -1733,6 +1736,7 @@ RDF_VOCABS = {
         'template': 'template_legal_eu_gdpr.jinja2',
         'export': f'{EXPORT_PATH}/legal/eu/gdpr',
         'modules': {
+            'misc_concepts': f'{IMPORT_PATH}/legal/eu/gdpr/modules/misc_concepts.ttl',
             'legal_basis': f'{IMPORT_PATH}/legal/eu/gdpr/modules/legal_basis.ttl',
             'legal_basis-special': f'{IMPORT_PATH}/legal/eu/gdpr/modules/legal_basis_special.ttl',
             'legal_basis-data_transfer': f'{IMPORT_PATH}/legal/eu/gdpr/modules/legal_basis_data_transfer.ttl',

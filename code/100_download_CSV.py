@@ -298,6 +298,7 @@ DPV_FILES = {
         'name': 'eu-gdpr',
         'doc_id': '1lDJZpl0UND8Bm_4iWKVQtgmMUz0YwP2R63CgP7Gro-U',
         'sheets': (
+            'GDPR_MiscConcepts',
             'GDPR_LegalBasis', 
             'GDPR_LegalBasis_SpecialCategory', 
             'GDPR_LegalBasis_DataTransfer', 
