@@ -2229,6 +2229,59 @@ GUIDES = {
     },
 }
 
+# === mappings ===
+MAPPINGS = {
+    'dcat': {
+        'template': 'template_mappings_dcat.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/dcat',
+        'output': '../mappings/dcat/index.html',
+        'rdf': '../mappings/dcat/dpv-dcat.ttl',
+        'title': 'Mapping from DPV to DCAT',
+    },
+    'dct': {
+        'template': 'template_mappings_dct.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/dct',
+        'output': '../mappings/dct/index.html',
+        'rdf': '../mappings/dct/dpv-dct.ttl',
+        'title': 'Mapping from DPV to DCT',
+    },
+    'gist': {
+        'template': 'template_mappings_gist.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/gist',
+        'output': '../mappings/gist/index.html',
+        'rdf': '../mappings/gist/dpv-gist.ttl',
+        'title': 'Mapping from DPV to GIST',
+    },
+    'odrl': {
+        'template': 'template_mappings_odrl.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/odrl',
+        'output': '../mappings/odrl/index.html',
+        'rdf': '../mappings/odrl/dpv-odrl.ttl',
+        'title': 'Mapping from DPV to ODRL',
+    },
+    'prov': {
+        'template': 'template_mappings_prov.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/prov',
+        'output': '../mappings/prov/index.html',
+        'rdf': '../mappings/prov/dpv-prov.ttl',
+        'title': 'Mapping from DPV to PROV',
+    },
+    'schema.org': {
+        'template': 'template_mappings_schema.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/schema.org',
+        'output': '../mappings/schema.org/index.html',
+        'rdf': '../mappings/schema/dpv-schema.org.ttl',
+        'title': 'Mapping from DPV to Schema.org',
+    },
+    'semic': {
+        'template': 'template_mappings_semic.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/semic',
+        'output': '../mappings/semic/index.html',
+        'rdf': '../mappings/semic/dpv-semic.ttl',
+        'title': 'Mapping from DPV to SEMIC vocabularies',
+    },
+}
+
 # === examples ===
 EXAMPLES = {}
 

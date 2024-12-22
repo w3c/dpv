@@ -387,7 +387,15 @@ DPV_FILES = {
             'DE_glossary',
             # TODO: Add sheets for FR, IT, etc. languages
             )
-    }
+    },
+    # Mappings
+    'mappings': {
+        'name': 'mappings',
+        'doc_id': '1g6t_axf8VPW0I_iqOrRe6iaUCvrtIDPphbSgwB6couE',
+        'sheets': (
+            'Mapping_ODRL',
+        )
+    },
 }
 
 # == Downloading files ==

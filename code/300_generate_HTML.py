@@ -1019,6 +1019,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # - `-d` will download and extract ALL files
     parser.add_argument('-G', '--guides', action='store_true', help="generate guides")
+    parser.add_argument('-M', '--mappings', action='store_true', help="generate mappings")
     # - `-x` will extract ALL files
     # parser.add_argument('-x', '--x', action='store_true', default=True, help="extract CSVs from all data files")
     # # - `-ds <foo>` will download and extract ONLY `foo` files
@@ -1041,5 +1042,21 @@ if __name__ == '__main__':
         with open('../guides/index.html', 'w') as fd:
             template = template_env.get_template('template_guides_index.jinja2')
             fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
-        INFO(f"wrote guide {doc} at {filepath}")
+        INFO(f"wrote guide index at {filepath}")
+        INFO('*'*40)
+
+    if args.mappings:
+        INFO('Generating MAPPINGS')
+        for doc, data in MAPPINGS.items():
+            DEBUG(f'generating mapping: {doc}')
+            template = data['template']
+            filepath = f"{data['output']}"
+            with open(filepath, 'w') as fd:
+                template = template_env.get_template(template)
+                fd.write(template.render(data=data))
+            INFO(f"wrote guide {doc} at {filepath}")
+        with open('../mappings/index.html', 'w') as fd:
+            template = template_env.get_template('template_mappings_index.jinja2')
+            fd.write(template.render(mappings=MAPPINGS.items()))
+        INFO(f"wrote mapping index at {filepath}")
         INFO('*'*40)
