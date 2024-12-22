@@ -167,8 +167,8 @@
           <td>[=hasDataProcessor=]</td>
       </tr>
       <tr>
-          <td>[=DataSubject=]</td>
-          <td>[=hasDataSubject=]</td>
+          <td>[=HumanSubject=]/[=DataSubject=]</td>
+          <td>[=hasHumanSubject=]/[=hasDataSubject=]</td>
       </tr>
       <tr>
           <td>[=Recipient=]</td>
@@ -209,7 +209,7 @@
     <h3>Taxonomies</h3>
     <p>The rest of the document expands on the core concepts through the following taxonomies.</p>
     <ul>
-      <li><a href="#vocab-entities"><strong>Entities</strong></a> - different categories of entities (e.g. <a href="#vocab-entities-organisation">Organisations</a>, <a href="#vocab-entities-authority">Authorities</a>, and <a href="#vocab-entities-datasubject">Data Subjects</a>) and various <a href="#vocab-entities-legalrole">Legal Roles</a> they can take (e.g. [=DataController=] or [=DataProcessor=]).</li>
+      <li><a href="#vocab-entities"><strong>Entities</strong></a> - different categories of entities (e.g. <a href="#vocab-entities-organisation">Organisations</a>, <a href="#vocab-entities-authority">Authorities</a>, and <a href="#vocab-entities-datasubject">Human/Data Subjects</a>) and various <a href="#vocab-entities-legalrole">Legal Roles</a> they can take (e.g. [=DataController=] or [=DataProcessor=]).</li>
       <li><a href="#vocab-purposes"><strong>Purposes</strong></a> that justify the need or goal for which personal data is processed.</li>
       <li><a href="#vocab-personal-data"><strong>Data and Personal Data</strong></a> categories.</li>
       <li><a href="#vocab-processing"><strong>Processing</strong></a> operations over personal data.</li>
@@ -296,14 +296,12 @@
   </section>
 
   <section id="vocab-entities-datasubject">
-    <h3>Data Subjects</h3>
-    <p>DPV provides a taxonomy of data subject types to assist with describing what kind of individuals or groups are associated with an use-case. Some examples of such types are agency-based roles: [=Adult=] and [=Child=], [=ParentOfDataSubject=], [=GuardianOfDataSubject=]; those associated with vulnerability: [=VulnerableDataSubject=], [=ElderlyDataSubject=], [=AsylumSeeker=]; domain-specific roles such as [=Patient=], [=Employee=], [=Student=], jurisdictional roles such as [=Citizen=], [=NonCitizen=], [=Immigrant=]; and general roles such as [=User=], [=Member=], [=Participant=], and [=Client=].</p>
-    <aside class="note" title="Data Subject is specific to personal data processing">
-      <p>The concept [=DataSubject=] is specific to the processing of (their) personal data. To indicate subjects involved in other activities, such as use of technologies, different concepts must be defined and utilised. The [[TECH]] extension defines the concept <code>Subject</code> to refer to this notion of 'subject of technology'.</p>
+    <h3>Human/Data Subjects</h3>
+    <p>DPV provides a taxonomy of human subject types to assist with describing what kind of individuals or groups are associated with an use-case. Some examples of such types are agency-based roles: [=Adult=] and [=Child=], [=ParentOfDataSubject=], [=GuardianOfDataSubject=]; those associated with vulnerability: [=VulnerableDataSubject=], [=ElderlyDataSubject=], [=AsylumSeeker=]; domain-specific roles such as [=Patient=], [=Employee=], [=Student=], jurisdictional roles such as [=Citizen=], [=NonCitizen=], [=Immigrant=]; and general roles such as [=User=], [=Member=], [=Participant=], and [=Client=].</p>
+    <aside class="note" title="Human and Data Subjects">
+      <p>Since DPV v2.1, the concept [=HumanSubject=] represents humans who are a subject of something (in DPV, it could be data or technologies such as AI). The concept [=DataSubject=] is a specific subcategory where humans are the subject of processing of (their) personal data. This allows the taxonomy of subjects, which were initially defined only for data subjects, to be used for subjects involved in other contexts such as `tech:Subject`.</p>
+      <p><strong>Potential Breaking Change</strong> The introduction of [=HumanSubject=] can cause a (minor) breaking change for use-cases where the [=DataSubject=] categories were being used as these are now defined as instances of [=HumanSubject=] instead of [=DataSubject=] e.g. populating a dropdown by querying categories of data subjects. Semantically, this is not an issue as [=DataSubject=] is a subclass of [=HumanSubject=]. Therefore, the fix is to change the implementation to use categories of [=HumanSubject=] instead e.g. the dropdown mentioned earlier is populated using categories of human subjects instead of data subjects.
     </aside>
-    <div class="issue" title="Human Subject">
-      <p>Replaced 'dpv:DataSubject' and 'tech:Subject' with 'dpv:HumanSubject' which is the parent class of 'dpv:DataSubject' and 'tech:TechnologySubject' and 'ai:AISubject', and then move the taxonomy over to human subject. Slightly breaking change as if people rely on populating the taxonomy using instances of dpv:DataSubject - it will not work anymore. But fix is minor - use dpv:HumanSubject. And if anyone has used instances, e.g. dpv:hasDataSubject dpv:Adult - then these would be okay with new semantics as data subject is a subclass of human subject, and adult is a type of human, so no violations or incompatibilities.</p>
-    </div>
     {{ list_hierarchy(modules['entities-datasubject']['classes']) }}
   </section>
 </section>

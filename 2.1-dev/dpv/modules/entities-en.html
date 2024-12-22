@@ -369,7 +369,7 @@
     <img src="../../diagrams/Entities.svg" />
     <figcaption></figcaption>
   </figure>
-  <p>[=Entity=] in DPV refer to the concept of 'entity' as defined in law and society, which can be organisations or individuals, and which is distinct from the technical concept of 'agent'. A [=LegalEntity=] specifically refers to entities recognised legally or within legal norms. Expanding on these, DPV provides a taxonomy of entities based on their application within laws and use-cases in the form of <a href="#vocab-entities-legalrole"><i>Legal roles</i></a>, such as [=DataController=], [=DataSubject=], and [=Authority=]. Later, these concepts are expanded into taxonomies for different kinds of entities categorised under a common concept. For example, <a href="#vocab-entities-datasubject">categories of <i>Data Subjects</i></a> such as [=Adult=], [=User=], or [=Employee=]; or <a href="#vocab-entities-authority">kinds of <i>Authorities</i></a>, or <a href="#vocab-entities-organisation">categories of <i>Organisations</i></a>.</p>
+  <p>[=Entity=] in DPV refer to the concept of 'entity' as defined in law and society, which can be organisations or individuals, and which is distinct from the technical concept of 'agent'. A [=LegalEntity=] specifically refers to entities recognised legally or within legal norms. Expanding on these, DPV provides a taxonomy of entities based on their application within laws and use-cases in the form of <a href="#vocab-entities-legalrole"><i>Legal roles</i></a>, such as [=DataController=], [=HumanSubject=] and [=DataSubject=], and [=Authority=]. Later, these concepts are expanded into taxonomies for different kinds of entities categorised under a common concept. For example, <a href="#vocab-entities-datasubject">categories of <i>Data Subjects</i></a> such as [=Adult=], [=User=], or [=Employee=]; or <a href="#vocab-entities-authority">kinds of <i>Authorities</i></a>, or <a href="#vocab-entities-organisation">categories of <i>Organisations</i></a>.</p>
   <p>The relation [=hasEntity=] is used to refer to an entity or associate it with a context, for example to indicate its involvement. More specific relations are provided to indicate legal roles, such as [=hasDataSubject=], [=hasDataController=], [=hasDataProcessor=], and so on.</p>
   <p>The relation `isImplementedByEntity` indicates the entity that implements the specified context e.g. processing operation or process.</p>
 
@@ -923,8 +923,12 @@ link: <a href="https://w3id.org/dpv/examples/E0038.ttl">source file</a>;      co
   </section>
 
   <section id="vocab-entities-datasubject">
-    <h2>Data Subjects</h2>
-    <p>DPV provides a taxonomy of data subject types to assist with describing what kind of individuals or groups are associated with an use-case. Some examples of such types are agency-based roles: [=Adult=] and [=Child=], [=ParentOfDataSubject=], [=GuardianOfDataSubject=]; those associated with vulnerability: [=VulnerableDataSubject=], [=ElderlyDataSubject=], [=AsylumSeeker=]; domain-specific roles such as [=Patient=], [=Employee=], [=Student=], jurisdictional roles such as [=Citizen=], [=NonCitizen=], [=Immigrant=]; and general roles such as [=User=], [=Member=], [=Participant=], and [=Client=].</p>
+    <h2>Human/Data Subjects</h2>
+    <p>DPV provides a taxonomy of human subject types to assist with describing what kind of individuals or groups are associated with an use-case. Some examples of such types are agency-based roles: [=Adult=] and [=Child=], [=ParentOfDataSubject=], [=GuardianOfDataSubject=]; those associated with vulnerability: [=VulnerableDataSubject=], [=ElderlyDataSubject=], [=AsylumSeeker=]; domain-specific roles such as [=Patient=], [=Employee=], [=Student=], jurisdictional roles such as [=Citizen=], [=NonCitizen=], [=Immigrant=]; and general roles such as [=User=], [=Member=], [=Participant=], and [=Client=].</p>
+    <aside class="note" title="Human and Data Subjects">
+      <p>Since DPV v2.1, the concept [=HumanSubject=] represents humans who are a subject of something (in DPV, it could be data or technologies such as AI). The concept [=DataSubject=] is a specific subcategory where humans are the subject of processing of (their) personal data. This allows the taxonomy of subjects, which were initially defined only for data subjects, to be used for subjects involved in other contexts such as `tech:Subject`.</p>
+      <p><strong>Potential Breaking Change</strong> The introduction of [=HumanSubject=] can cause a (minor) breaking change for use-cases where the [=DataSubject=] categories were being used as these are now defined as instances of [=HumanSubject=] instead of [=DataSubject=]. Semantically, this is not an issue as [=DataSubject=] is a subclass of [=HumanSubject=]. Therefore, the fix is to change the implementation to use categories of [=HumanSubject=] instead.
+    </aside>
       <aside class="example" title="Indicating involvement of data subjects">
 <p>This example shows the different ways in which data subjects can be indicated in a process. It also shows how the DPV taxonomy of data subjects can be used to combine concepts to accurately represent the data subject involved. And it also shows how information associated with specific data subjects such as identifiers can be indicated.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
     <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consumer</span> ; <span style="color: #3D7B7B; font-style: italic"># consumer as subjects</span>
@@ -949,8 +953,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
     <div class="list-hierarchy"><ul class="concept-list">
   <li>
-    <strong>dpv:DataSubject</strong>: The individual (or category of individuals) whose personal data is being processed
-      <small><a href="https://w3id.org/dpv#DataSubject" class="local-link">go to full definition</a></small>
+    <strong>dpv:HumanSubject</strong>: None
+      <small><a href="https://w3id.org/dpv#HumanSubject" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
   <li>
     <strong>dpv:Adult</strong>: A natural person that is not a child i.e. has attained some legally specified age of adulthood
@@ -987,6 +991,11 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
   </li>
 </ul>
+  </li>
+  <li>
+    <strong>dpv:DataSubject</strong>: The individual (or category of individuals) whose personal data is being processed
+      <small><a href="https://w3id.org/dpv#DataSubject" class="local-link">go to full definition</a></small>
+      
   </li>
   <li>
     <strong>dpv:Employee</strong>: Data subjects that are employees
@@ -1209,12 +1218,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -1223,8 +1232,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -1258,7 +1267,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-03-30</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog</i></td>
@@ -1390,12 +1402,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -1404,8 +1416,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -1439,7 +1451,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -1480,13 +1495,13 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
           <td>            <a href="#VulnerableDataSubject" class="local-link">dpv:VulnerableDataSubject</a>
-             →             <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -1495,8 +1510,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -1530,7 +1545,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-06-15</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog</i></td>
@@ -1754,12 +1772,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -1768,8 +1786,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -1808,7 +1826,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         </tr>        
 <tr>
           <th>Date Modified</th>
-          <td><i>2022-06-22</i></td>
+          <td><i>2024-12-17</i></td>
         </tr>       
 <tr>
           <th>Contributors</th>
@@ -1850,12 +1868,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -1864,8 +1882,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -1899,7 +1917,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -1940,13 +1961,13 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
           <td>            <a href="#Customer" class="local-link">dpv:Customer</a>
-             →             <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -1955,8 +1976,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -1990,7 +2011,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -2121,12 +2145,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -2135,8 +2159,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -2170,7 +2194,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -2211,12 +2238,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -2225,8 +2252,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -2263,7 +2290,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -2893,7 +2923,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+             →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
       
@@ -2903,6 +2934,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
             <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -2947,7 +2979,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         </tr>        
 <tr>
           <th>Date Modified</th>
-          <td><i>2020-11-04</i></td>
+          <td><i>2024-12-17</i></td>
         </tr>       
 <tr>
           <th>Contributors</th>
@@ -3173,13 +3205,13 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
           <td>            <a href="#VulnerableDataSubject" class="local-link">dpv:VulnerableDataSubject</a>
-             →             <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -3188,8 +3220,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -3223,7 +3255,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-06-15</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog</i></td>
@@ -3445,12 +3480,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -3459,8 +3494,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -3494,7 +3529,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -3904,12 +3942,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -3918,8 +3956,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -3953,7 +3991,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-08-03</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog</i></td>
@@ -3968,6 +4009,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         </tbody>
       </table>
     </section>
+      
+      
       
       
       
@@ -4194,6 +4237,91 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
     </section>
       
       
+     <section class="term-def" id="HumanSubject">
+      <h4>None</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>HumanSubject</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>None</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#HumanSubject" class="local-link">https://w3id.org/dpv#HumanSubject</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
+             →             <a href="#Entity" class="local-link">dpv:Entity</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
+            <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
+            <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
+            <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
+            <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
+            <a href="https://w3id.org/dpv#isDeterminedByEntity" class="local-link">dpv:isDeterminedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isImplementedByEntity" class="local-link">dpv:isImplementedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isIndicatedBy" class="local-link">dpv:isIndicatedBy</a>, 
+            <a href="#isOrganistionalUnitOf" class="local-link">dpv:isOrganistionalUnitOf</a>, 
+            <a href="#isRepresentativeFor" class="local-link">dpv:isRepresentativeFor</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit, Delaram Golpayegani</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-entities-datasubject"> ENTITIES-DATASUBJECT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
       
      <section class="term-def" id="Immigrant">
       <h4>Immigrant</h4>
@@ -4218,12 +4346,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -4232,8 +4360,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -4267,7 +4395,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -4508,12 +4639,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -4522,8 +4653,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -4557,7 +4688,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -4958,12 +5092,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -4972,8 +5106,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -5007,7 +5141,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -5048,13 +5185,13 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
           <td>            <a href="#VulnerableDataSubject" class="local-link">dpv:VulnerableDataSubject</a>
-             →             <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -5063,8 +5200,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -5098,7 +5235,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-06-15</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog</i></td>
@@ -5321,12 +5461,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -5335,8 +5475,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -5370,7 +5510,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -5881,12 +6024,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -5895,8 +6038,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -5930,7 +6073,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-08-03</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog</i></td>
@@ -5971,12 +6117,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -5985,8 +6131,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -6020,7 +6166,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -6061,12 +6210,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -6075,8 +6224,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -6110,7 +6259,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -7130,12 +7282,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -7144,8 +7296,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -7179,7 +7331,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -7220,12 +7375,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -7234,8 +7389,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -7272,7 +7427,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -7598,12 +7756,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -7612,8 +7770,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -7647,7 +7805,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -7688,12 +7849,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -7702,8 +7863,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -7737,7 +7898,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -7778,12 +7942,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -7792,8 +7956,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -7827,7 +7991,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-04-06</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Georg P. Krog, Julian Flake, Paul Ryan, Beatriz Esteves</i></td>
@@ -7868,12 +8035,12 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="technical-detail">
           <th>Type</th>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#DataSubject" class="local-link">dpv:DataSubject</a></td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
         </tr>
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#DataSubject" class="local-link">dpv:DataSubject</a>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -7882,8 +8049,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
-            <a href="#hasDataSubject" class="local-link">dpv:hasDataSubject</a>, 
             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
             <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
             <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
             <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
@@ -7920,7 +8087,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2020-11-04</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-17</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog, Paul Ryan, Harshvardhan J. Pandit</i></td>
@@ -8666,13 +8836,14 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#hasEntity" class="local-link">dpv:hasEntity</a>
+          <td>            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>
+             →             <a href="#hasEntity" class="local-link">dpv:hasEntity</a>
                         </td>        </tr>      
       
 
 <tr class="technical-detail">
           <th>Sub-property of</th>
-          <td>            <a href="#hasEntity" class="local-link">dpv:hasEntity</a>
+          <td>            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>
                         </td>
         </tr>        
         
@@ -8703,7 +8874,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         </tr>        
 <tr>
           <th>Date Modified</th>
-          <td><i>2020-11-04</i></td>
+          <td><i>2024-12-17</i></td>
         </tr>       
 <tr>
           <th>Contributors</th>
@@ -8790,6 +8961,86 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-entities"> ENTITIES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+     <section class="term-def" id="hasHumanSubject">
+      <h4>has human subject</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>hasHumanSubject</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>has human subject</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#hasHumanSubject" class="local-link">https://w3id.org/dpv#hasHumanSubject</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#hasEntity" class="local-link">dpv:hasEntity</a>
+                        </td>        </tr>      
+      
+
+<tr class="technical-detail">
+          <th>Sub-property of</th>
+          <td>            <a href="#hasEntity" class="local-link">dpv:hasEntity</a>
+                        </td>
+        </tr>        
+        
+        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Indicates association with Human Subject</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-17</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-entities-datasubject"> ENTITIES-DATASUBJECT</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -9801,6 +10052,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
       
       
+      
+      
      <section class="term-def" id="isAuthorityFor">
       <h4>is authority for</h4>
       <table class="term-contents">
@@ -10296,6 +10549,10 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
        
       
+      
+       
+      
+       
       
        
       
