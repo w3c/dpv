@@ -139,6 +139,9 @@ SCHEMA['laws'] = {
     'Resolution': vocab_funcs.construct_resolution, 
 }
 
+SCHEMA['gdpr-rights-justifications'] = SCHEMA['taxonomy'].copy()
+SCHEMA['gdpr-rights-justifications']['Right'] = vocab_funcs.contruct_gdpr_right_justification
+
 SCHEMA['examples'] = {
     'Term': vocab_funcs.construct_example,
     'Title': vocab_funcs.construct_dct_title,

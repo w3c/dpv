@@ -579,6 +579,9 @@ CSVFILES = {
         'rights_impacts': {
             'taxonomy-risk': f'{IMPORT_CSV_PATH}/GDPR_LegalRights_Impacts.csv',
         },
+        'rights_justifications': {
+            'gdpr-rights-justifications': f'{IMPORT_CSV_PATH}/GDPR_LegalRights_Justifications.csv',
+        },
         'data_transfers': {
             'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_DataTransfers.csv',
         },
@@ -1742,6 +1745,7 @@ RDF_VOCABS = {
             'legal_basis-data_transfer': f'{IMPORT_PATH}/legal/eu/gdpr/modules/legal_basis_data_transfer.ttl',
             'rights': f'{IMPORT_PATH}/legal/eu/gdpr/modules/rights.ttl',
             'rights-impacts': f'{IMPORT_PATH}/legal/eu/gdpr/modules/rights_impacts.ttl',
+            'rights-justifications': f'{IMPORT_PATH}/legal/eu/gdpr/modules/rights_justifications.ttl',
             'data_transfers': f'{IMPORT_PATH}/legal/eu/gdpr/modules/data_transfers.ttl',
             'dpia': f'{IMPORT_PATH}/legal/eu/gdpr/modules/dpia.ttl',
             'data_breach': f'{IMPORT_PATH}/legal/eu/gdpr/modules/data_breach.ttl',

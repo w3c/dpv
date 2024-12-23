@@ -493,3 +493,11 @@ def construct_risk_parent_Role(term, data, namespace, header):
     if 'I' in data['Role']:
         triples.append((namespace[data['Term']], RDF.type, namespace['PotentialImpact']))
     return triples    
+
+
+def contruct_gdpr_right_justification(term, data, namespace, header):
+    triples = []
+    rights = [namespace[x.strip()] for x in term.split(',')]
+    for right in rights:
+        triples.append((right, DPV.hasJustification, namespace[data['Term']]))
+    return triples

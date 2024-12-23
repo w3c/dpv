@@ -305,6 +305,7 @@ DPV_FILES = {
             'GDPR_LegalRights', 
             'GDPR_LegalRights_Impacts', 
             'GDPR_LegalBasis_Rights_Mapping', 
+            'GDPR_LegalRights_Justifications',
             'GDPR_DataTransfers', 
             'GDPR_DPIA',
             'GDPR_DPIA_properties',
