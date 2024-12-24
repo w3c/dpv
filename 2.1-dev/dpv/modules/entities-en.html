@@ -105,6 +105,34 @@
     "href": "https://w3id.org/dpv/loc",
     "title": "Location and Geo-Political Membership concepts for DPV"
   },
+  "SECTOR": {
+    "href": "https://w3id.org/dpv/sector",
+    "title": "Sector-specific Extensions for DPV"
+  },
+  "SECTOR-EDUCATION": {
+    "href": "https://w3id.org/dpv/sector/education",
+    "title": "Education Sector Extension for DPV"
+  },
+  "SECTOR-FINANCE": {
+    "href": "https://w3id.org/dpv/sector/finance",
+    "title": "Finance Sector Extension for DPV"
+  },
+  "SECTOR-HEALTH": {
+    "href": "https://w3id.org/dpv/sector/health",
+    "title": "Health Sector Extension for DPV"
+  },
+  "SECTOR-INFRA": {
+    "href": "https://w3id.org/dpv/sector/infra",
+    "title": "Infrastructure Sector Extension for DPV"
+  },
+  "SECTOR-LAW": {
+    "href": "https://w3id.org/dpv/sector/law",
+    "title": "Law Enforcement & Justice Sector Extension for DPV"
+  },
+  "SECTOR-PUBLICSERVICES": {
+    "href": "https://w3id.org/dpv/sector/publicservices",
+    "title": "Public Services Sector Extension for DPV"
+  },
   "JUSTIFICATIONS": {
     "href": "https://w3id.org/dpv/justifications",
     "title": "Concepts representing Justifications for DPV"
@@ -369,8 +397,7 @@
     <img src="../../diagrams/Entities.svg" />
     <figcaption></figcaption>
   </figure>
-  <p>[=Entity=] in DPV refer to the concept of 'entity' as defined in law and society, which can be organisations or individuals, and which is distinct from the technical concept of 'agent'. A [=LegalEntity=] specifically refers to entities recognised legally or within legal norms. Expanding on these, DPV provides a taxonomy of entities based on their application within laws and use-cases in the form of <a href="#vocab-entities-legalrole"><i>Legal roles</i></a>, such as [=DataController=], [=HumanSubject=] and [=DataSubject=], and [=Authority=]. Later, these concepts are expanded into taxonomies for different kinds of entities categorised under a common concept. For example, <a href="#vocab-entities-datasubject">categories of <i>Data Subjects</i></a> such as [=Adult=], [=User=], or [=Employee=]; or <a href="#vocab-entities-authority">kinds of <i>Authorities</i></a>, or <a href="#vocab-entities-organisation">categories of <i>Organisations</i></a>.</p>
-  <p>The relation [=hasEntity=] is used to refer to an entity or associate it with a context, for example to indicate its involvement. More specific relations are provided to indicate legal roles, such as [=hasDataSubject=], [=hasDataController=], [=hasDataProcessor=], and so on.</p>
+  <p>DPV relies on existing well-founded interpretations for its concepts, which in this case relate to [=Entity=] as a generic universal concept and [=hasEntity=] as the relation used to associate it. The concept [=LegalEntity=] refers to entities defined legally or within legal norms. Expanding on these, DPV provides a taxonomy of entities based on their application within laws and use-cases in the form of <a href="#vocab-entities-legalrole"><i>Legal roles</i></a>, such as [=DataController=], [=DataSubject=], and [=Authority=] along with corresponding relations [=hasDataController=], [=hasDataProcessor=], and [=hasAuthority=]. Later, these concepts are expanded into taxonomies for different kinds of entities categorised under a common concept. For example, as <a href="#vocab-entities-organisation">categories of <i>Organisations</i></a>..</p>
   <p>The relation `isImplementedByEntity` indicates the entity that implements the specified context e.g. processing operation or process.</p>
 
   <div class="list-hierarchy"><ul class="concept-list">
@@ -413,6 +440,7 @@
   </li>
 </ul></div>
 
+<aside class="issue" title="Update entities diagram - add Human/Data Subject"></aside>
 <figure>
     <img src="../../diagrams/Entities_description.svg" />
     <figcaption></figcaption>
@@ -924,7 +952,8 @@ link: <a href="https://w3id.org/dpv/examples/E0038.ttl">source file</a>;      co
 
   <section id="vocab-entities-datasubject">
     <h2>Human/Data Subjects</h2>
-    <p>DPV provides a taxonomy of human subject types to assist with describing what kind of individuals or groups are associated with an use-case. Some examples of such types are agency-based roles: [=Adult=] and [=Child=], [=ParentOfDataSubject=], [=GuardianOfDataSubject=]; those associated with vulnerability: [=VulnerableDataSubject=], [=ElderlyDataSubject=], [=AsylumSeeker=]; domain-specific roles such as [=Patient=], [=Employee=], [=Student=], jurisdictional roles such as [=Citizen=], [=NonCitizen=], [=Immigrant=]; and general roles such as [=User=], [=Member=], [=Participant=], and [=Client=].</p>
+    <p>DPV provides a taxonomy of [=HumanSubject=] categories to assist with describing what kind of individuals or groups are associated with an use-case. These can be indicated through the relation [=hasHumanSubject=]. Some examples of such types are agency-based roles: [=Adult=] and [=Child=], [=ParentOfHuman=], [=GuardianOfHuman=]; those associated with vulnerability: [=VulnerableHuman=], [=ElderlyHuman=], [=AsylumSeeker=]; domain-specific roles such as [=Patient=], [=Employee=], [=Student=], jurisdictional roles such as [=Citizen=], [=NonCitizen=], [=Immigrant=]; and general roles such as [=User=], [=Member=], [=Participant=], and [=Client=].</p>
+    <p>[=DataSubject=] is a specific category of [=HumanSubject=] that indicates the person is the subject of (their personal) data. It can be associated through the relation [=hasDataSubject=].</p>
     <aside class="note" title="Human and Data Subjects">
       <p>Since DPV v2.1, the concept [=HumanSubject=] represents humans who are a subject of something (in DPV, it could be data or technologies such as AI). The concept [=DataSubject=] is a specific subcategory where humans are the subject of processing of (their) personal data. This allows the taxonomy of subjects, which were initially defined only for data subjects, to be used for subjects involved in other contexts such as `tech:Subject`.</p>
       <p><strong>Potential Breaking Change</strong> The introduction of [=HumanSubject=] can cause a (minor) breaking change for use-cases where the [=DataSubject=] categories were being used as these are now defined as instances of [=HumanSubject=] instead of [=DataSubject=]. Semantically, this is not an issue as [=DataSubject=] is a subclass of [=HumanSubject=]. Therefore, the fix is to change the implementation to use categories of [=HumanSubject=] instead.
@@ -953,7 +982,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
     <div class="list-hierarchy"><ul class="concept-list">
   <li>
-    <strong>dpv:HumanSubject</strong>: None
+    <strong>dpv:HumanSubject</strong>: The individual (or category of individuals) that is the subject within some context such as personal data (dpv:DataSubject) or technology (tech:Subject)
       <small><a href="https://w3id.org/dpv#HumanSubject" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
   <li>
@@ -962,31 +991,26 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
   </li>
   <li>
-    <strong>dpv:Applicant</strong>: Data subjects that are applicants in some context
+    <strong>dpv:Applicant</strong>: Humans that are applicants in some context
       <small><a href="https://w3id.org/dpv#Applicant" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:Child</strong>: A &#39;child&#39; is a natural legal person who is below a certain legal age depending on the legal jurisdiction.
-      <small><a href="https://w3id.org/dpv#Child" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:Citizen</strong>: Data subjects that are citizens (for a jurisdiction)
+    <strong>dpv:Citizen</strong>: Humans that are citizens (for a jurisdiction)
       <small><a href="https://w3id.org/dpv#Citizen" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:Consumer</strong>: Data subjects that consume goods or services for direct use
+    <strong>dpv:Consumer</strong>: Humans that consume goods or services for direct use
       <small><a href="https://w3id.org/dpv#Consumer" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:Customer</strong>: Data subjects that purchase goods or services
+    <strong>dpv:Customer</strong>: Humans that purchase goods or services
       <small><a href="https://w3id.org/dpv#Customer" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
   <li>
-    <strong>dpv:Client</strong>: Data subjects that are clients or recipients of services
+    <strong>dpv:Client</strong>: Humans that are clients or recipients of services
       <small><a href="https://w3id.org/dpv#Client" class="local-link">go to full definition</a></small>
       
   </li>
@@ -998,84 +1022,121 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
   </li>
   <li>
-    <strong>dpv:Employee</strong>: Data subjects that are employees
+    <strong>dpv:Employee</strong>: Humans that are employees
       <small><a href="https://w3id.org/dpv#Employee" class="local-link">go to full definition</a></small>
       
   </li>
+  <li>
+    <strong>dpv:GuardianOfHuman</strong>: Guardian(s) og humans
+      <small><a href="https://w3id.org/dpv#GuardianOfHuman" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
   <li>
     <strong>dpv:GuardianOfDataSubject</strong>: Guardian(s) of data subjects such as children
       <small><a href="https://w3id.org/dpv#GuardianOfDataSubject" class="local-link">go to full definition</a></small>
       
   </li>
+</ul>
+  </li>
   <li>
-    <strong>dpv:Immigrant</strong>: Data subjects that are immigrants (for a jurisdiction)
+    <strong>dpv:Immigrant</strong>: Humans that are immigrants (for a jurisdiction)
       <small><a href="https://w3id.org/dpv#Immigrant" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:JobApplicant</strong>: Data subjects that apply for jobs or employments
+    <strong>dpv:JobApplicant</strong>: Humans that apply for jobs or employments
       <small><a href="https://w3id.org/dpv#JobApplicant" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:Member</strong>: Data subjects that are members of a group, organisation, or other collectives
+    <strong>dpv:Member</strong>: Humans that are members of a group, organisation, or other collectives
       <small><a href="https://w3id.org/dpv#Member" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:NonCitizen</strong>: Data subjects that are not citizens (for a jurisdiction)
+    <strong>dpv:NonCitizen</strong>: Humans that are not citizens (for a jurisdiction)
       <small><a href="https://w3id.org/dpv#NonCitizen" class="local-link">go to full definition</a></small>
       
   </li>
+  <li>
+    <strong>dpv:ParentOfHuman</strong>: Parent(s) of humans
+      <small><a href="https://w3id.org/dpv#ParentOfHuman" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
   <li>
     <strong>dpv:ParentOfDataSubject</strong>: Parent(s) of data subjects such as children
       <small><a href="https://w3id.org/dpv#ParentOfDataSubject" class="local-link">go to full definition</a></small>
       
   </li>
+</ul>
+  </li>
   <li>
-    <strong>dpv:Participant</strong>: Data subjects that participate in some context such as volunteers in a function
+    <strong>dpv:Participant</strong>: Humans that participate in some context such as volunteers in a function
       <small><a href="https://w3id.org/dpv#Participant" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:Patient</strong>: Data subjects that receive medical attention, treatment, care, advice, or other health related services
+    <strong>dpv:Patient</strong>: Humans that receive medical attention, treatment, care, advice, or other health related services
       <small><a href="https://w3id.org/dpv#Patient" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:Student</strong>: Data subjects that are students
+    <strong>dpv:Student</strong>: Humans that are students
       <small><a href="https://w3id.org/dpv#Student" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:Subscriber</strong>: Data subjects that subscribe to service(s)
+    <strong>dpv:Subscriber</strong>: Humans that subscribe to service(s)
       <small><a href="https://w3id.org/dpv#Subscriber" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:Tourist</strong>: Data subjects that are tourists i.e. not citizens and not immigrants
+    <strong>dpv:Tourist</strong>: Humans that are tourists i.e. not citizens and not immigrants
       <small><a href="https://w3id.org/dpv#Tourist" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:User</strong>: Data subjects that use service(s)
+    <strong>dpv:User</strong>: Humans that use service(s)
       <small><a href="https://w3id.org/dpv#User" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:Visitor</strong>: Data subjects that are temporary visitors
+    <strong>dpv:Visitor</strong>: Humans that are temporary visitors
       <small><a href="https://w3id.org/dpv#Visitor" class="local-link">go to full definition</a></small>
       
   </li>
   <li>
-    <strong>dpv:VulnerableDataSubject</strong>: Data Subjects which should be considered &#39;vulnerable&#39; and therefore would require additional measures and safeguards
-      <small><a href="https://w3id.org/dpv#VulnerableDataSubject" class="local-link">go to full definition</a></small>
+    <strong>dpv:VulnerableHuman</strong>: Human(s) which should be considered &#39;vulnerable&#39; within the context
+      <small><a href="https://w3id.org/dpv#VulnerableHuman" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
   <li>
-    <strong>dpv:AsylumSeeker</strong>: Data subjects that are asylum seekers
+    <strong>dpv:AsylumSeeker</strong>: Humans that are asylum seekers
       <small><a href="https://w3id.org/dpv#AsylumSeeker" class="local-link">go to full definition</a></small>
       
   </li>
+  <li>
+    <strong>dpv:Child</strong>: A &#39;child&#39; is a natural legal person who is below a certain legal age depending on the legal jurisdiction.
+      <small><a href="https://w3id.org/dpv#Child" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ElderlyHuman</strong>: Humans that are considered elderly (i.e. based on age)
+      <small><a href="https://w3id.org/dpv#ElderlyHuman" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:MentallyVulnerableHuman</strong>: Humans that are considered mentally vulnerable within the context
+      <small><a href="https://w3id.org/dpv#MentallyVulnerableHuman" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:MentallyVulnerableDataSubject</strong>: Data subjects that are considered mentally vulnerable
+      <small><a href="https://w3id.org/dpv#MentallyVulnerableDataSubject" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:VulnerableDataSubject</strong>: Humans which should be considered &#39;vulnerable&#39; and therefore would require additional measures and safeguards
+      <small><a href="https://w3id.org/dpv#VulnerableDataSubject" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
   <li>
     <strong>dpv:ElderlyDataSubject</strong>: Data subjects that are considered elderly (i.e. based on age)
       <small><a href="https://w3id.org/dpv#ElderlyDataSubject" class="local-link">go to full definition</a></small>
@@ -1085,6 +1146,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
     <strong>dpv:MentallyVulnerableDataSubject</strong>: Data subjects that are considered mentally vulnerable
       <small><a href="https://w3id.org/dpv#MentallyVulnerableDataSubject" class="local-link">go to full definition</a></small>
       
+  </li>
+</ul>
   </li>
 </ul>
   </li>
@@ -1436,7 +1499,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are applicants in some context</i></td>
+          <td><i>Humans that are applicants in some context</i></td>
         </tr>        
        
        
@@ -1500,7 +1563,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#VulnerableDataSubject" class="local-link">dpv:VulnerableDataSubject</a>
+          <td>            <a href="#VulnerableHuman" class="local-link">dpv:VulnerableHuman</a>
              →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
@@ -1530,7 +1593,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are asylum seekers</i></td>
+          <td><i>Humans that are asylum seekers</i></td>
         </tr>        
        
        
@@ -1777,7 +1840,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+          <td>            <a href="#VulnerableHuman" class="local-link">dpv:VulnerableHuman</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -1902,7 +1966,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are citizens (for a jurisdiction)</i></td>
+          <td><i>Humans that are citizens (for a jurisdiction)</i></td>
         </tr>        
        
        
@@ -1996,7 +2060,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are clients or recipients of services</i></td>
+          <td><i>Humans that are clients or recipients of services</i></td>
         </tr>        
        
        
@@ -2179,7 +2243,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that consume goods or services for direct use</i></td>
+          <td><i>Humans that consume goods or services for direct use</i></td>
         </tr>        
        
        
@@ -2272,7 +2336,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that purchase goods or services</i></td>
+          <td><i>Humans that purchase goods or services</i></td>
         </tr>        
 <tr>
           <th>Usage Note</th>
@@ -3211,6 +3275,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
           <td>            <a href="#VulnerableDataSubject" class="local-link">dpv:VulnerableDataSubject</a>
+             →             <a href="#VulnerableHuman" class="local-link">dpv:VulnerableHuman</a>
              →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
@@ -3262,6 +3327,97 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-entities-datasubject"> ENTITIES-DATASUBJECT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ElderlyHuman">
+      <h4>None</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ElderlyHuman</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>None</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#ElderlyHuman" class="local-link">https://w3id.org/dpv#ElderlyHuman</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#VulnerableHuman" class="local-link">dpv:VulnerableHuman</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+             →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
+             →             <a href="#Entity" class="local-link">dpv:Entity</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
+            <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
+            <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
+            <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
+            <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
+            <a href="https://w3id.org/dpv#isDeterminedByEntity" class="local-link">dpv:isDeterminedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isImplementedByEntity" class="local-link">dpv:isImplementedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isIndicatedBy" class="local-link">dpv:isIndicatedBy</a>, 
+            <a href="#isOrganistionalUnitOf" class="local-link">dpv:isOrganistionalUnitOf</a>, 
+            <a href="#isRepresentativeFor" class="local-link">dpv:isRepresentativeFor</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Humans that are considered elderly (i.e. based on age)</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-17</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
         </tr>
         <tr class="table-separator"></tr>
        
@@ -3514,7 +3670,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are employees</i></td>
+          <td><i>Humans that are employees</i></td>
         </tr>        
        
        
@@ -3947,7 +4103,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+          <td>            <a href="#GuardianOfHuman" class="local-link">dpv:GuardianOfHuman</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -3998,6 +4155,96 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-entities-datasubject"> ENTITIES-DATASUBJECT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="GuardianOfHuman">
+      <h4>None</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>GuardianOfHuman</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>None</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#GuardianOfHuman" class="local-link">https://w3id.org/dpv#GuardianOfHuman</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+             →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
+             →             <a href="#Entity" class="local-link">dpv:Entity</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
+            <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
+            <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
+            <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
+            <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
+            <a href="https://w3id.org/dpv#isDeterminedByEntity" class="local-link">dpv:isDeterminedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isImplementedByEntity" class="local-link">dpv:isImplementedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isIndicatedBy" class="local-link">dpv:isIndicatedBy</a>, 
+            <a href="#isOrganistionalUnitOf" class="local-link">dpv:isOrganistionalUnitOf</a>, 
+            <a href="#isRepresentativeFor" class="local-link">dpv:isRepresentativeFor</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Guardian(s) og humans</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-17</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
         </tr>
         <tr class="table-separator"></tr>
        
@@ -4238,7 +4485,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
       
      <section class="term-def" id="HumanSubject">
-      <h4>None</h4>
+      <h4>Human Subject</h4>
       <table class="term-contents">
       <tbody>
         <tr>
@@ -4249,7 +4496,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         </tr>
         <tr>
           <th>Label</th>
-          <td><i>None</i></td>
+          <td><i>Human Subject</i></td>
         </tr>
         <tr class="technical-detail">
           <th>IRI</th>
@@ -4291,21 +4538,24 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         
         <tr class="table-separator"></tr>
 
-        
-       
-       
-
-        <tr class="table-separator"></tr>
-        
-       
-        
-        <tr class="table-separator"></tr>
-
-        
 <tr>
-          <th>Date Modified</th>
+          <th>Definition</th>
+          <td><i>The individual (or category of individuals) that is the subject within some context such as personal data (dpv:DataSubject) or technology (tech:Subject)</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
           <td><i>2024-12-17</i></td>
-        </tr>       
+        </tr>        
+       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit, Delaram Golpayegani</i></td>
@@ -4380,7 +4630,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are immigrants (for a jurisdiction)</i></td>
+          <td><i>Humans that are immigrants (for a jurisdiction)</i></td>
         </tr>        
        
        
@@ -4673,7 +4923,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that apply for jobs or employments</i></td>
+          <td><i>Humans that apply for jobs or employments</i></td>
         </tr>        
        
        
@@ -5126,7 +5376,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are members of a group, organisation, or other collectives</i></td>
+          <td><i>Humans that are members of a group, organisation, or other collectives</i></td>
         </tr>        
        
        
@@ -5190,7 +5440,15 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
+          <td>            <a href="#MentallyVulnerableHuman" class="local-link">dpv:MentallyVulnerableHuman</a>
+             →             <a href="#VulnerableHuman" class="local-link">dpv:VulnerableHuman</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+             →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
+             →             <a href="#Entity" class="local-link">dpv:Entity</a>
+                        </td>        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
           <td>            <a href="#VulnerableDataSubject" class="local-link">dpv:VulnerableDataSubject</a>
+             →             <a href="#VulnerableHuman" class="local-link">dpv:VulnerableHuman</a>
              →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
@@ -5242,6 +5500,97 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-entities-datasubject"> ENTITIES-DATASUBJECT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="MentallyVulnerableHuman">
+      <h4>Mentally Vulnerable Human</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>MentallyVulnerableHuman</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Mentally Vulnerable Human</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#MentallyVulnerableHuman" class="local-link">https://w3id.org/dpv#MentallyVulnerableHuman</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#VulnerableHuman" class="local-link">dpv:VulnerableHuman</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+             →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
+             →             <a href="#Entity" class="local-link">dpv:Entity</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
+            <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
+            <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
+            <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
+            <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
+            <a href="https://w3id.org/dpv#isDeterminedByEntity" class="local-link">dpv:isDeterminedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isImplementedByEntity" class="local-link">dpv:isImplementedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isIndicatedBy" class="local-link">dpv:isIndicatedBy</a>, 
+            <a href="#isOrganistionalUnitOf" class="local-link">dpv:isOrganistionalUnitOf</a>, 
+            <a href="#isRepresentativeFor" class="local-link">dpv:isRepresentativeFor</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Humans that are considered mentally vulnerable within the context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-17</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
         </tr>
         <tr class="table-separator"></tr>
        
@@ -5495,7 +5844,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are not citizens (for a jurisdiction)</i></td>
+          <td><i>Humans that are not citizens (for a jurisdiction)</i></td>
         </tr>        
        
        
@@ -6029,7 +6378,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+          <td>            <a href="#ParentOfHuman" class="local-link">dpv:ParentOfHuman</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -6080,6 +6430,96 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 <tr>
           <th>Contributors</th>
           <td><i>Georg P. Krog</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-entities-datasubject"> ENTITIES-DATASUBJECT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ParentOfHuman">
+      <h4>None</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ParentOfHuman</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>None</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#ParentOfHuman" class="local-link">https://w3id.org/dpv#ParentOfHuman</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+             →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
+             →             <a href="#Entity" class="local-link">dpv:Entity</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
+            <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
+            <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
+            <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
+            <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
+            <a href="https://w3id.org/dpv#isDeterminedByEntity" class="local-link">dpv:isDeterminedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isImplementedByEntity" class="local-link">dpv:isImplementedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isIndicatedBy" class="local-link">dpv:isIndicatedBy</a>, 
+            <a href="#isOrganistionalUnitOf" class="local-link">dpv:isOrganistionalUnitOf</a>, 
+            <a href="#isRepresentativeFor" class="local-link">dpv:isRepresentativeFor</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Parent(s) of humans</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-17</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
         </tr>
         <tr class="table-separator"></tr>
        
@@ -6151,7 +6591,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that participate in some context such as volunteers in a function</i></td>
+          <td><i>Humans that participate in some context such as volunteers in a function</i></td>
         </tr>        
        
        
@@ -6244,7 +6684,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that receive medical attention, treatment, care, advice, or other health related services</i></td>
+          <td><i>Humans that receive medical attention, treatment, care, advice, or other health related services</i></td>
         </tr>        
        
        
@@ -7316,7 +7756,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are students</i></td>
+          <td><i>Humans that are students</i></td>
         </tr>        
        
        
@@ -7409,7 +7849,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that subscribe to service(s)</i></td>
+          <td><i>Humans that subscribe to service(s)</i></td>
         </tr>        
 <tr>
           <th>Usage Note</th>
@@ -7790,7 +8230,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are tourists i.e. not citizens and not immigrants</i></td>
+          <td><i>Humans that are tourists i.e. not citizens and not immigrants</i></td>
         </tr>        
        
        
@@ -7883,7 +8323,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that use service(s)</i></td>
+          <td><i>Humans that use service(s)</i></td>
         </tr>        
        
        
@@ -7976,7 +8416,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data subjects that are temporary visitors</i></td>
+          <td><i>Humans that are temporary visitors</i></td>
         </tr>        
        
        
@@ -8040,7 +8480,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+          <td>            <a href="#VulnerableHuman" class="local-link">dpv:VulnerableHuman</a>
+             →             <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
              →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
              →             <a href="#Entity" class="local-link">dpv:Entity</a>
                         </td>        </tr>      
@@ -8069,7 +8510,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Data Subjects which should be considered &#39;vulnerable&#39; and therefore would require additional measures and safeguards</i></td>
+          <td><i>Humans which should be considered &#39;vulnerable&#39; and therefore would require additional measures and safeguards</i></td>
         </tr>        
 <tr>
           <th>Usage Note</th>
@@ -8105,10 +8546,106 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
         </tbody>
       </table>
     </section>
+      
+      
+      
+     <section class="term-def" id="VulnerableHuman">
+      <h4>Vulnerable Human</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>VulnerableHuman</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Vulnerable Human</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#VulnerableHuman" class="local-link">https://w3id.org/dpv#VulnerableHuman</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#HumanSubject" class="local-link">dpv:HumanSubject</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#HumanSubject" class="local-link">dpv:HumanSubject</a>
+             →             <a href="#LegalEntity" class="local-link">dpv:LegalEntity</a>
+             →             <a href="#Entity" class="local-link">dpv:Entity</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasActiveEntity" class="local-link">dpv:hasActiveEntity</a>, 
+            <a href="#hasEntity" class="local-link">dpv:hasEntity</a>, 
+            <a href="#hasHumanSubject" class="local-link">dpv:hasHumanSubject</a>, 
+            <a href="https://w3id.org/dpv#hasNonInvolvedEntity" class="local-link">dpv:hasNonInvolvedEntity</a>, 
+            <a href="https://w3id.org/dpv#hasPassiveEntity" class="local-link">dpv:hasPassiveEntity</a>, 
+            <a href="#hasResponsibleEntity" class="local-link">dpv:hasResponsibleEntity</a>, 
+            <a href="https://w3id.org/dpv#isDeterminedByEntity" class="local-link">dpv:isDeterminedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isImplementedByEntity" class="local-link">dpv:isImplementedByEntity</a>, 
+            <a href="https://w3id.org/dpv#isIndicatedBy" class="local-link">dpv:isIndicatedBy</a>, 
+            <a href="#isOrganistionalUnitOf" class="local-link">dpv:isOrganistionalUnitOf</a>, 
+            <a href="#isRepresentativeFor" class="local-link">dpv:isRepresentativeFor</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Human(s) which should be considered &#39;vulnerable&#39; within the context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-17</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-entities-datasubject"> ENTITIES-DATASUBJECT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
 
   </section>
   <section id="properties">
     <h3>Properties</h3>      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -10466,6 +11003,15 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
   </section>
   <section id="external-concepts">
@@ -10534,6 +11080,9 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
        
       
+      
+       
+      
        
       
        
@@ -10552,6 +11101,9 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
        
       
+      
+       
+      
        
       
        
@@ -10618,7 +11170,9 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
        
       
        
+      
       
+       
       
        
       
@@ -10627,6 +11181,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
        
       
        
+      
       
        
       
@@ -10640,6 +11195,8 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
        
       
+      
+       
       
        
       
@@ -10651,6 +11208,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
        
       
+      
        
       
       
@@ -10686,13 +11244,16 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
       
       
        
+      
       
+       
       
        
       
        
       
        
+      
       
        
       
@@ -10724,6 +11285,7 @@ link: <a href="https://w3id.org/dpv/examples/E0039.ttl">source file</a>;      co
     <li>Fajar Ekaputra (Vienna University of Technology)</li>
     <li>Georg P. Krog (Signatu AS)</li>
     <li>Harshvardhan J. Pandit (ADAPT Centre, Dublin City University)</li>
+    <li>Iain Henderson ()</li>
     <li>Javier Fernández (Vienna University of Economics and Business)</li>
     <li>Julian Flake (University of Koblenz)</li>
     <li>Mark Lizar (OpenConsent/Kantara Initiative)</li>
