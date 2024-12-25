@@ -102,6 +102,10 @@
     "href": "https://w3id.org/dpv/legal/eu/nis2",
     "title": "EU NIS2 concepts for DPV"
   },
+  "EU-EHDS": {
+    "href": "https://w3id.org/dpv/legal/eu/ehds",
+    "title": "EU Health Data Space (EHDS) concepts for DPV"
+  },
   "DPV-NACE": {
     "href": "https://w3id.org/dpv/nace",
     "title": "NACE Taxonomy serialised in RDFS/OWL"
@@ -125,6 +129,34 @@
   "LOC": {
     "href": "https://w3id.org/dpv/loc",
     "title": "Location and Geo-Political Membership concepts for DPV"
+  },
+  "SECTOR": {
+    "href": "https://w3id.org/dpv/sector",
+    "title": "Sector-specific Extensions for DPV"
+  },
+  "SECTOR-EDUCATION": {
+    "href": "https://w3id.org/dpv/sector/education",
+    "title": "Education Sector Extension for DPV"
+  },
+  "SECTOR-FINANCE": {
+    "href": "https://w3id.org/dpv/sector/finance",
+    "title": "Finance Sector Extension for DPV"
+  },
+  "SECTOR-HEALTH": {
+    "href": "https://w3id.org/dpv/sector/health",
+    "title": "Health Sector Extension for DPV"
+  },
+  "SECTOR-INFRA": {
+    "href": "https://w3id.org/dpv/sector/infra",
+    "title": "Infrastructure Sector Extension for DPV"
+  },
+  "SECTOR-LAW": {
+    "href": "https://w3id.org/dpv/sector/law",
+    "title": "Law Enforcement & Justice Sector Extension for DPV"
+  },
+  "SECTOR-PUBLICSERVICES": {
+    "href": "https://w3id.org/dpv/sector/publicservices",
+    "title": "Public Services Sector Extension for DPV"
   },
   "JUSTIFICATIONS": {
     "href": "https://w3id.org/dpv/justifications",
@@ -160,7 +192,7 @@
   },
   "EU-RIGHTS": {
     "href": "https://w3id.org/dpv/legal/eu/rights",
-    "title": "EU Rights concepts for DPV"
+    "title": "EU Fundamental Rights concepts for DPV"
   },
   "DPV-OWL": {
     "href": "https://w3id.org/dpv/dpv-owl",
@@ -386,6 +418,7 @@
 
   <section id="vocab-core">
     <h2>Core Concepts</h2>
+    <aside class="issue" title="Update Core concepts diagram with new core concepts"></aside>
     <figure>
       <img src="../diagrams/overview_Technology.svg">
       <figcaption></figcaption>
@@ -393,13 +426,13 @@
     <p>The 'core' concepts in the TECH extension consist of:</p>
     <ul>
       <li>[=Actor=] to represent the 'actors' or entities in specific roles such as developing, providing, or using technologies</li>
-      <li>[=Capability=] to represent the capabilities or functions of technologies</li>
+      <li>[=Capability=] to represent the technical capability, such as image recognition, possessed by the technology (this is useful to distinguish the 'end purpose' for which the technology is being used from the underlying 'technical purpose')</li>
       <li>[=ProvisionMethod=] to represent how the technolgy is provided - such as services or products</li>
       <li>[=CommunicationMechanism=] to represent how the technology uses or implements communication mechanisms such as networking, GPS, or Bluetooth</li>
       <li>[=InputOutput=] to represent the inputs and outputs associated with the technology, such as data and actions</li>
       <li>[=Documentation=] to represent documentation associated with technologies such as instructions and user manuals</li>
       <li>[=DeploymentLocation=] to represent the location(s) where the technology is or will be deployed and used</li>
-      <li>[=Function=] to represent the functions or features that a technology possesses or is capable of</li>
+      <li>[=Function=] to represent the functions or features that a technology possesses or is capable of, regardless of whether they are being actively used in an use-case (this is useful to express possible uses of technology towards purposes, processing operations, technical measures, etc. distinctly from the specifics of the use-case)</li>
       <li>[=IntendedUse=] to represent the intended use of the technology such as what its developer or provider envisioned the technology will be used for, or how the organisation intends to use the technology</li>
     </ul>
     <div class="list-hierarchy"><ul class="concept-list">
@@ -470,8 +503,7 @@
       <li>[=User=] and [=hasUser=] specifies who uses or is the user for the technology.</li>
       <aside class="note" title="Technology User does not refer to end-user">   <p>The term <i>User</i> refers to users in the technical sense of the term, where such users may or may not be <i>data subjects</i> or end-users or other similar concepts. For example, a technology used by an immigration officer has that officer as the user, rather than the immigrating person. To be more explicit, <i>technology user</i> and <i>whom the technology is used on</i> are two different criterias. See [=Subject=] concept to represent the immigrating person in this scenario. In other cases, both the user and subject can be the same person, for example where a person is using a technology on their personal device to take a selfie.</p>
       </aside>
-      <div class="issue" title="discuss whether to replace Subject with HumanSubject following change in DPV"></div>
-      <li>[=Subject=] and [=hasSubject=] is the <i>subject</i> of the technology i.e. whom the technology is used on or subjected to. This may be directly (e.g. person within a CCTV camera's vision) or indirectly (e.g. person whose details were used as training data). What is considered a subject may be contextually dependant on the nature and scope of the technology as well as its application. In the future, we may separate this concept for further distinction between direct and indirect subjects (or use alternate terms) - if such categorisation is deemed beneficial in the description of individuals subjected to technologies.</li>
+      <li>[=Subject=] and [=hasSubject=] is the <i>subject</i> of the technology i.e. whom the technology is used on or subjected to. When humans are subjects, we recommend explicitly stating this using `dpv:HumanSubject` and `dpv:hasHumanSubject`. Subjects can be involved directly (e.g. person within a CCTV camera's vision) or indirectly (e.g. person whose details were used as training data). What is considered a subject may be contextually dependant on the nature and scope of the technology as well as its application. The [[DPV]] provides concepts to represent whether an entity (including humans) are involved in an 'active' or 'passive' capacity as well as other forms of involvement - which is useful in the description of individuals subjected to technologies.</li>
     </ul>
     <aside class="note" title="Technology actors defined in regulations">
       <p>Technology actors are defined in regulations such as [[[AIAct]]] and [[[NIS2]]] - which have specific criterias and conditions present in the definition and role of such actors. The [[TECH]] extension takes these regulations as the basis to develop its concepts but provides a generic vocabulary that can be used across jurisdictions and in any-case. To specifically represent an actor as defined within a regulation, the appropriate extension should be used - for example the [[EU-AIAct]] extension for [[AIAct]] which contains concepts such as AI Provider and AI Developer as defined in the regulation.</p>
@@ -7104,16 +7136,13 @@ ex:DatabaseDocs a tech:Instructions ;
           <th>Broader/Parent types</th>
           <td>            <a href="https://w3id.org/dpv#LicenseAgreement" class="local-link">dpv:LicenseAgreement</a>
              →             <a href="https://w3id.org/dpv#Contract" class="local-link">dpv:Contract</a>
-             →             <a href="https://w3id.org/dpv#LegalAgreement" class="local-link">dpv:LegalAgreement</a>
-             →             <a href="https://w3id.org/dpv#LegalMeasure" class="local-link">dpv:LegalMeasure</a>
-             →             <a href="https://w3id.org/dpv#TechnicalOrganisationalMeasure" class="local-link">dpv:TechnicalOrganisationalMeasure</a>
+             →             <a href="https://w3id.org/dpv#LegalBasis" class="local-link">dpv:LegalBasis</a>
                         </td>        </tr>      
       
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="https://w3id.org/dpv#hasLegalMeasure" class="local-link">dpv:hasLegalMeasure</a>, 
-            <a href="https://w3id.org/dpv#hasTechnicalOrganisationalMeasure" class="local-link">dpv:hasTechnicalOrganisationalMeasure</a>, 
+          <td>            <a href="https://w3id.org/dpv#hasLegalBasis" class="local-link">dpv:hasLegalBasis</a>, 
             <a href="#hasLicense" class="local-link">tech:hasLicense</a>
 </td>
         </tr>
@@ -18566,7 +18595,7 @@ ex:DatabaseDocs a tech:Instructions ;
 
 
   <h3>Funding Acknowledgements for Contributors</h3>
-  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497, in particular through the development of <a href="https://w3id.org/airo">AI Risk Ontology (AIRO)</a> and <a href="https://w3id.org/vair">Vocabulary of AI Risks (VAIR)</a> which have been integrated in to this extension.</p>
   <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>

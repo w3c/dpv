@@ -101,8 +101,9 @@
     <ul>
       <li><a href="#vocab-legal-basis">Legal Bases</a> for processing personal data as defined in Articles 6 and 9 (special categories of personal data) and 45-49 (data transfer)</li>
       <li><a href="#vocab-principles">Principles</a> as defined in Article 5</li>
-      <li><a href="#vocab-rights">Data Subject Rights</a> as defined in Articles 7, 12-22, and 77, as well as notices required to be provided</li>
-      <li><a href="#vocab-legal-basis-rights-mapping">mapping between Rights and Legal Bases</a> which indicates which right must be provided for each legal basis</li>
+      <li><a href="#vocab-rights">Data Subject Rights</a> as defined in Articles 7, 12-22, and 77-79, as well as notices required to be provided</li>
+      <li><a href="#vocab-legal-basis-rights-mapping">Mapping between Rights and Legal Bases</a> which indicates which right must be provided for each legal basis</li>
+      <li><a href="#vocab-rights-justifications">Justifications associated with exercising, delaying, and non-fulfilment of Rights</a></li>
       <li><a href="#vocab-data-transfers">Data Transfer Tools</a> as defiend by <a href="https://edpb.europa.eu/system/files/2021-06/edpb_recommendations_202001vo.2.0_supplementarymeasurestransferstools_en.pdf">EDPB Recommendations 01/2020 on Supplementary Measures and Transfer Tools</a> </li>
       <li><a href="#vocab-dpia">Data Protection Impact Assessment (DPIA)</a> information as defined in Article 35, such as necessity to conduct a DPIA, indicating the findings of DPIA in terms of risk levels and impacts, and the outcomes of DPIAs regarding continuation of processing</li>
       <li><a href="#vocab-data-breach">Data Breach</a> information such as types of breaches, notices, reporting requirements, and risk levels</li>
@@ -114,11 +115,8 @@
 
 <section id="mapping">
   <h2>Mapping GDPR concepts to DPV</h2>
-  <aside class="note" title="Draft glossary and mapping table from GDPR concepts to DPV and EU-GDPR concepts">
-    <p>This is a <strong>draft glossary</strong> mapping concepts from GDPR to the DPV and EU-GDPR extension.</p>
-  </aside>
   <aside class="issue" data-number="186"></aside>
-  <p>This mapping table shows which concepts from the GDPR are covered within the EU-GDPR and DPV extensions.</p>
+  <p>This draft mapping table shows how the DPV and EU-GDPR extension represents specific concepts within the GDPR.</p>
   <table>
     <thead>
       <tr>
@@ -349,6 +347,8 @@ ex:PDH2 a dpv:Process ;
 
     <section id="vocab-rights-impacts">
       <h3>Rights Impacts</h3>
+      <aside class="issue" title="Add content for Rights Impacts - add a note stating that the granular impact concepts for A13 are experimental"></aside>
+      <aside class="issue" data-number="210"></aside>
       {{ list_hierarchy(modules['rights-impacts']['classes']) }}
     </section>
 
@@ -380,15 +380,19 @@ ex:PDH2 a dpv:Process ;
 
     <section id="vocab-rights-justifications">
       <h3>Justifications for Rights Exercise</h3>
-      <ul>
-        {% for right in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
-        <li>[={{ right['term'] }}=]: {{ right['skos:prefLabel'] }}
-          <ul>
-          {% for justification in right['dpv:hasJustification']|filter_type('dpv:Justification') %}
-            <li>[={{ justification['term'] }}=] {{ justification['skos:definition'] }}</li>
-          {% endfor %}
-          </ul></li>
-        {% endfor %}</ul>
+      <aside class="issue" title="Add content for Rights Justifications section stating how they are modelled and how to express them"></aside>
+      {% for right in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
+      {% if right['dpv:hasJustification']|filter_type('dpv:Justification')|length > 0 %}
+      <details>
+        <summary>{{ right['skos:prefLabel'] }} ({{right['dpv:hasJustification']|filter_type('dpv:Justification')|length}} justifications)</summary>
+        <ul>
+        {% for justification in right['dpv:hasJustification']|filter_type('dpv:Justification') %}
+          <li>[={{ justification['term'] }}=] {{ justification['skos:definition'] }}</li>
+        {% endfor %}
+        </ul>
+      </details>
+      {% endif %}
+      {% endfor %}
     </section>
 
   </section>
@@ -427,6 +431,7 @@ ex:PDH2 a dpv:Process ;
     </div>
 
     {{ list_hierarchy(modules['dpia']['classes']) }}
+    <aside class="issue" data-number="183"></aside>
   </section>
 
   <section id="vocab-data-breach">

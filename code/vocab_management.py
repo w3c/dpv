@@ -613,6 +613,9 @@ CSVFILES = {
         'legal_rights': {
             'taxonomy': f'{IMPORT_CSV_PATH}/DGA_LegalRights.csv',
         },
+        'rights_impacts': {
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/DGA_LegalRights_Impacts.csv',
+        },
         'services': {
             'taxonomy': f'{IMPORT_CSV_PATH}/DGA_Services.csv',
         },
@@ -1064,6 +1067,23 @@ RDF_VOCABS = {
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector': {
+        'vocab': f'{IMPORT_PATH}/sector/sector.ttl',
+        'template': 'template_sector_index.jinja2',
+        'export': f'{EXPORT_PATH}/sector',
+        'modules': {},
+        'metadata': {
+            "dct:title": "Sector-Specific Concepts for DPV",
+            "dct:description": "Sector-specific Extensions to the Data Privacy Vocabulary (DPV)",
+            "dct:created": "2024-12-17",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/sector',
             "bibo:status": "draft",
         },
     },
@@ -1773,6 +1793,7 @@ RDF_VOCABS = {
             'entities': f'{IMPORT_PATH}/legal/eu/dga/modules/entities.ttl',
             'legal_basis': f'{IMPORT_PATH}/legal/eu/dga/modules/legal_basis.ttl',
             'legal_rights': f'{IMPORT_PATH}/legal/eu/dga/modules/legal_rights.ttl',
+            'rights-impacts': f'{IMPORT_PATH}/legal/eu/dga/modules/rights_impacts.ttl',
             'registers': f'{IMPORT_PATH}/legal/eu/dga/modules/registers.ttl',
             'services': f'{IMPORT_PATH}/legal/eu/dga/modules/services.ttl',
             'toms': f'{IMPORT_PATH}/legal/eu/dga/modules/toms.ttl',

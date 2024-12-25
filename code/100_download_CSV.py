@@ -324,6 +324,7 @@ DPV_FILES = {
         'sheets': (
             'DGA_LegalBasis',
             'DGA_LegalRights',
+            'DGA_LegalRights_Impacts',
             'DGA_Services',
             'DGA_Registers',
             'DGA_TOMs',
