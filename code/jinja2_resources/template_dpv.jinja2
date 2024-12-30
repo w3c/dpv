@@ -500,7 +500,12 @@
   </aside>
   <aside class="issue" data-number="91"></aside>
   <aside class="issue" title="Add content for Notice section"></aside>
+  <p>The concept [=Notice=] represents a 'notice' which provides information and can be used to offer choices and make decisions - such as for privacy and consent. The relation [=hasNotice=] is used to indicate the inclusion or association of a notice within a context. DPV provides a taxonomy to represent the different notices commonly utilised in the context of data and technology use-cases. These include notices categorised by their role in providing information, such as [=PrivacyNotice=] and [=ConsentNotice=], and notices categorised by their UI/UX aspects, such as [=GraphicalNotice=], [=DashboardNotice=], and [=LayeredNotice=].</p>
+  <p>The contents of a notice can be represented through other DPV concepts, for example a privacy notice can represent specific services and processes along with their purposes, personal data, and involved entities by utilising the relevant concepts and relations for these. Notices can also contain metadata, such as for their creation date, titles and descriptions, versions, and publisher information by utilising a common standard such as [[DCTERMS]].</p>
+  <p>[=NoticeStatus=] represents a status about a [=Notice=], and is associated using the relation [=hasNotice=]. The DPV provides specific statuses modelling the lifecycle associated with notice provision and usage, such as [=NoticeCommunicated=] to indicate a notice has been provided, [=NoticeUpdated=] to indicate a notice has been updated, and [=NoticeLatest=] to indicate a notice is at its 'latest' iteration.</p>
+  <p>For graphical notices that are composites of multiple 'layers' or utilise visual elements, the concepts [=NoticeLayer=] and [=NoticeIcon=] along with their corresponding relations [=hasNoticeLayer=] and [=hasNoticeIcon=] are useful to express to represent notices in terms of modular components.</p>
   {{ list_hierarchy(modules['TOM-notice']['classes']) }}
+  {{ example_aside('dex:E0022') }}
 </section>
 
 <section id="vocab-legal-basis">
@@ -521,22 +526,28 @@
   <section id="vocab-legal-basis-contract">
     <h3>Contract</h3>
     <aside class="issue" title="Add content for Contract section"></aside>
+    <p>The concept [=Contract=] represents a legal contract, which can be used as a legal basis through the [=hasLegalBasis=] relation to justify data processing or use of technologies.</p>
     <section id="vocab-legal-basis-contract-types">
       <h4>Contract Types</h4>
+      <p>Contract types represent the vocabulary of contract types which reflects the way contracts are defined and interpreted towards specific purposes. For example, [=DataProcessingAgreement=] represents contract concepts typically used for processes involving (personal) data, [=ContractByEntityType=] represents contracts such as B2B (Business-to-Business), B2C (Business-to-Consumer), etc., and [=ContractByDomain=] represent contracts with specific interpretations such as for licensing agreements and employment.</p>
       {{ list_hierarchy(modules['legal_basis-contract-types']['classes'], head='dpv:Contract') }}
     </section>
     <section id="vocab-legal-basis-contract-status">
       <h4>Contract Status</h4>
       <aside class="issue" title="Add content for Contract Status section"></aside>
+      <p>To represent the status associated with a contract, the concept [=ContractStatus=] and the relation [=hasContractStatus=] are provided. A taxonomy of statuses representing the lifecycle of contract formation and use is provided, for example [=ContractDrafted=] to indicate the completion of contract drafting process, [=ContractUnderNegotiation=] to indicate the contents of the contract are being negotiated and that the contract is being accepted/signed by involved parties, [=ContractAccepted=] indicating all parties have accepted the contract, and [=ContractTerminated=] indicating the contract has been terminated.</p>
+      <p>[=ContractFulfilmentState=] represents the status associated with fulfilment of a contract in terms of its requirements and obligations. It is associated using the relation [=hasContractualFulfilmentStatus=]. Specific fulfilment states are provided, for example [=ContractFulfilled=] indicating all requirements of the contract have been fulfilled, [=ContractBreached=] indicating a breach of contract, and [=ContractUnfulfilled=] indicating the requirements have not been fulfilled (but it isn't a breach yet e.g. there is still time/opportunity to complete them).</p>
       {{ list_hierarchy(modules['legal_basis-contract-status']['classes']) }}
     </section>
     <section id="vocab-legal-basis-contract-clause">
       <h4>Contractual Clauses</h4>
       <aside class="issue" title="Add content for Contract clause section"></aside>
+      <p>[=ContractualClause=] represents the contents of a contract, commonly referred to as 'clauses' or 'terms' or 'conditions'. They are associated with a contract using the relation [=hasContractualClause=]. A taxonomy is provided to represent commonly utilised clauses. The concept [=ContractualClauseFulfilmentState=] represents the fulfilment state of the contractual clause, and is indicated using the relation [=hasContractualFulfilmentStatus=].</p>
       {{ list_hierarchy(modules['legal_basis-contract-clause']['classes']) }}
     </section>
     <section id="vocab-legal-basis-contract-control">
       <h4>Contract Controls</h4>
+      <p>[=ContractControl=] represents a control for an entity to make or exercise a decision regarding a contract. A taxonomy of common controls is provided, for example [=AcceptContract=], [=OfferContract=], and [=TerminateContract=]. The relation [=hasContractControl=] is used to associate the control with a contract or clause. Controls can be used to indicate where specific actions can be taken, for example to indicate that accepting a contract can be done by sending a request or visiting the stated URL, or to express specific requirements which must be satisfied before the action can be completed, for example to state termination of a contract occurs over a duration.</p>
       <aside class="issue" title="Add content for Contract control section"></aside>
       {{ list_hierarchy(modules['legal_basis-contract-control']['classes']) }}
     </section>
@@ -562,7 +573,6 @@
     <aside class="note" title="Guide on implementing consent records as per ISO/IEC TS 27560:2023">
       <p>The [[[DPV-27560]]] provides guidance on creation of consent records following the [[[ISO-27560]]] standard.</p>
     </aside>
-    <aside class="issue" data-number="91"></aside>
 
     <section id="vocab-legal-basis-consent-types">
       <h4>Consent Types</h4>
@@ -587,7 +597,8 @@
   </section>
 
   <section id="vocab-legal-basis-status">
-    <h3>Other Legal Basis</h3>
+    <h3>Statuses for Other Legal Basis</h3>
+    <p>In addition to Contract and Consent, DPV also models other legal basis which include [=LegalObligation=], [=LegitimateInterest=], [=OfficialAuthorityOfController=], [=PublicInterest=], and [=VitalInterest=]. The following taxonomy provides statuses for modelling their use.</p>
     {{ list_hierarchy(modules['legal_basis-status']['classes']) }}
   </section>
 </section>
@@ -649,7 +660,7 @@
 
 <section id="extensions">
   <h2>Extensions</h2>
-  <div class="issue" title="update list of extensions"></div>
+  <div class="issue" title="update diagram and list of extensions"></div>
   <figure>
         <img src="../diagrams/dpv_packages.svg" style="width: 100%; height: auto" />
         <figcaption>Structure of DPV vocabularies where DPV defines the core concepts which are then extended in specific extensions</figcaption>
@@ -705,7 +716,7 @@
 
   <section id="extension-ai">
     <h3>Artificial Intelligence (AI)</h3>
-    <p>[[[AI]]] is an extension under development which will further extend the [[TECH]] extension to represent concepts associated with AI. These will include representation of:</p>
+    <p>The [[[AI]]] extension provides concepts specifically regarding AI by extending the [[TECH]] extension. It consists of:</p>
     <ul>
       <li><strong>Techniques</strong> such as machine learning and natural language programming</li>
       <li><strong>Capabilities</strong> such as image recognition and text generation</li>
@@ -713,8 +724,8 @@
       <li><strong>Risks</strong> such as data poisoning, statistical noise and bias, etc.</li>
       <li><strong>Risk Measures</strong> to address the AI specific risks</li>
       <li><strong>Documentation</strong> such as Data Sheets and Model Cards</li>
-      <li><strong>Actors</strong> such as AI Developer and AI Deployer</li>
-      <li><strong>Status</strong> associated with AI development</li>
+      <li><strong>Data</strong> associated with AI development, training, validation, and use.</li>
+      <li><strong>Systems and Models</strong> such as General Purpose, Robotics, Expert Systems.</li>
     </ul>
   </section>
 
@@ -728,37 +739,51 @@
     <p>[[[LEGAL]]] provides concepts to represent laws, authorities, and other legal concepts in various jurisdictions. It is structured to create a separate namespace for each country or jurisdiction by using the ISO 3166-2 code, for example <code>IE</code> represents Ireland and <code>EU</code> represents the European Union. Within this namespace, the specific laws and authorities for that jurisdiction are defined.</p>
     <p>At the moment, the following jurisdictions are defined:</p>
     <ul>
-      <li>[[[LEGAL-DE]]]</li>
-      <li>[[[LEGAL-EU]]]</li>
-      <li>[[[LEGAL-GB]]]</li>
-      <li>[[[LEGAL-IE]]]</li>
-      <li>[[[LEGAL-IN]]]</li>
-      <li>[[[LEGAL-US]]]</li>
+      <li>[[LEGAL-EU]] representing (only) the European Union, with each Member State within the EU/EEA region being defined in its own separate namespace and extension to allow modelling both EU and Country-level laws and knowledge without conflicts:<ul>
+        <li>[[LEGAL-AT]] for Austria</li>
+        <li>[[LEGAL-BE]] for Belgium</li>
+        <li>[[LEGAL-BG]] for Bulgaria</li>
+        <li>[[LEGAL-CY]] for Cyprus</li>
+        <li>[[LEGAL-CZ]] for Czech Republic</li>
+        <li>[[LEGAL-DE]] for Germany</li>
+        <li>[[LEGAL-DK]] for Denmark</li>
+        <li>[[LEGAL-EE]] for Estonia</li>
+        <li>[[LEGAL-ES]] for Spain</li>
+        <li>[[LEGAL-FI]] for Finland</li>
+        <li>[[LEGAL-FR]] for France</li>
+        <li>[[LEGAL-GR]] for Greece</li>
+        <li>[[LEGAL-HR]] for Croatia</li>
+        <li>[[LEGAL-HU]] for Hungary</li>
+        <li>[[LEGAL-IE]] for Ireland</li>
+        <li>[[LEGAL-IS]] for Iceland</li>
+        <li>[[LEGAL-IT]] for Italy</li>
+        <li>[[LEGAL-LI]] for Liechtenstein</li>
+        <li>[[LEGAL-LT]] for Lithuania</li>
+        <li>[[LEGAL-LU]] for Luxembourg</li>
+        <li>[[LEGAL-LV]] for Latvia</li>
+        <li>[[LEGAL-MT]] for Malta</li>
+        <li>[[LEGAL-NL]] for Netherlands</li>
+        <li>[[LEGAL-NO]] for Norway</li>
+        <li>[[LEGAL-PL]] for Poland</li>
+        <li>[[LEGAL-PT]] for Portugal</li>
+        <li>[[LEGAL-RO]] for Romania</li>
+        <li>[[LEGAL-SE]] for Sweden</li>
+        <li>[[LEGAL-SI]] for Slovenia</li>
+        <li>[[LEGAL-SK]] for Slovakia</li>
+        </ul></li>
+      <li>[[LEGAL-GB]] for Great Britain and Northern Ireland</li>
+      <li>[[LEGAL-IN]] for India</li>
+      <li>[[LEGAL-US]] for United States of America</li>
     </ul>
-    <p>At the moment, the following EU laws are defined:</p>
-    <section id="extension-eu-gdpr">
-      <h4>EU GDPR</h4>
-      <p>While several of DPV's concepts are inspired from the GDPR, the use of DPV itself does not point towards specific concepts from GDPR such as legal bases in Article.6. This is to enable use of DPV with different jurisdictional and domain terminologies through the use of extensions. [[[EU-GDPR]]] provides an extension of DPV's concepts for the [[GDPR]] for the following non-exhaustive list of concepts:</p>
-      <ul>
-        <li><strong>Legal Bases (Art.6)</strong> - DPV's legal bases are extended to represent specific clauses from GDPR Art.6 (e.g. A.6-1a consent).</li>
-        <li><strong>Legal Bases (Art.9)</strong> - DPV's legal bases are extended to represent specific clauses from GDPR Art.9 (e.g. A.9-2a explicit consent).</li>
-        <li><strong>Legal Bases (Data Transfers)</strong> - DPV's <code>DataTransferLegalBasis</code> is extended to represent GDPR's Articles 45, 46, and 49.</li>
-        <li><strong>Data Transfer Tools</strong> - Mechanisms defined by the GDPR for data transfers, e.g. contractual clauses.</li>
-        <li><strong>DPIA</strong> - Statuses for representing DPIA related procedures and outcomes, e.g. necessity, high-risk, and consultation required.</li>
+    <p>Within the [[LEGAL-EU]] extension namespace, the following laws are defined as separate extensions with their own namespaces:</p>
+    <ul>
+      <li>[[[EU-GDPR]]]</li>
+      <li>[[[EU-DGA]]]</li>
+      <li>[[[EU-NIS2]]]</li>
+      <li>[[[EU-AIAct]]]</li>
+      <li>[[[EU-EHDS]]]</li>
+      <li>[[[EU-RIGHTS]]]</li>
       </ul>
-    </section>
-    <section id="extension-eu-dga">
-      <h4>EU DGA</h4>
-      <p>The [[[EU-DGA]]] extension provides concepts for the [[[DGA]]].</p>
-    </section>
-    <section id="extension-eu-aiact">
-      <h4>EU AI Act</h4>
-      <p>The [[[EU-AIAct]]] extension provides concepts for the [[[AIAct]]].</p>
-    </section>
-    <section id="extension-eu-nis2">
-      <h4>EU NIS2</h4>
-      <p>The [[[EU-NIS2]]] extension provides concepts for the [[[NIS2]]].</p>
-    </section>
   </section>
 </section>
 
@@ -883,7 +908,7 @@
 </section>
 
 <section id="changelog">
-  <h2>Changes from v2 to v2.1</h2>
+  <h2>Changelog for v2.1</h2>
   <div class="issue" title="Changelog for v2.1"></div>
 </section>
 
