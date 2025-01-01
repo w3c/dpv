@@ -1733,11 +1733,78 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
         <h4>Notice Layer and Icons</h4>
         <aside class="issue" title="Add content for Notice Layer and Icons section"></aside>
         <p>For graphical notices that are composites of multiple 'layers' or utilise visual elements, the concepts [=NoticeLayer=] and [=NoticeIcon=] along with their corresponding relations [=hasNoticeLayer=] and [=hasNoticeIcon=] are useful to express to represent notices in terms of modular components.</p>
+          <aside class="example" title="Using Notice Layer and Icon in a Consent Notice">
+<p>This example shows a Consent Notice that is structured in 2 layers - first for a summary and a second layer providing detailed overview of the intended processing. The layers contain controls for consent and rights which are accompanied by the label to be used e.g. for the button in the UI, and the icon to be displayed alongside it. This example also shows how a consent notice can be expressed in a machine-readable form in a manner that is similar to and can be used to create a graphical notice such as on a website or in a mobile app.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ExampleNotice</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ConsentNotice</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Consent Notice for Service X&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #BA2121">&quot;https://example.com/service-x&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeLayer</span> [  <span style="color: #3D7B7B; font-style: italic"># Layer showing the &#39;overview&#39;</span>
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeLayer</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">description</span> <span style="color: #BA2121">&quot;Consent to use location for providing x&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServicePersonalisation</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Location</span>, <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Email</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ExpressedConsent</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsentControl</span> [  <span style="color: #3D7B7B; font-style: italic"># Consent control with label and icon</span>
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ProvideConsent</span> ; 
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Accept&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeIcon</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">iconGiveConsent</span> ; 
+        ], [ 
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">RefuseConsent</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Refuse&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ; 
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeIcon</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">iconRefuseConsent</span> ; 
+        ] ;
+    ], [  <span style="color: #3D7B7B; font-style: italic"># Layer showing the &#39;detailed&#39; view</span>
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeLayer</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># link to full privacy notice for the service</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #BA2121">&quot;https://example.com/privacy-notice&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> [ <span style="color: #3D7B7B; font-style: italic"># process for use of location</span>
+                <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServicePersonalisation</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Use</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">eu-gdpr</span>:<span style="color: #008000; font-weight: bold">A6-1-a</span> ;
+            ], [ <span style="color: #3D7B7B; font-style: italic"># process stating location is also used to prevent fraud</span>
+                <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">FraudPreventionAndDetection</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Use</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterest</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStorageLocation</span> <span style="color: #0000FF; font-weight: bold">loc</span>:<span style="color: #008000; font-weight: bold">EU</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRecipient</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+            ] ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsentControl</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ManageConsent</span> ; 
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Manage Consent&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeIcon</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">iconManageConsent</span> ; 
+        ], [ 
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">WithdrawConsent</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRight</span> <span style="color: #0000FF; font-weight: bold">eu-gdpr</span>:<span style="color: #008000; font-weight: bold">A7-3</span> ;  <span style="color: #3D7B7B; font-style: italic"># asserts control includes a right</span>
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Withdraw Consent&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeIcon</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">iconWithdrawConsent</span> ; 
+        ] ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRight</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">eu-gdpr</span>:<span style="color: #008000; font-weight: bold">A20</span> ; <span style="color: #3D7B7B; font-style: italic"># icon used to indicate rights exercise</span>
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Right to Data Portability&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isExercisedAt</span> <span style="color: #BA2121">&quot;https://example.com/rights&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeIcon</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">iconExerciseRight</span> ; 
+        ] ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Company</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataProcessor</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasApplicableLaw</span> <span style="color: #0000FF; font-weight: bold">legal-eu</span>:<span style="color: #008000; font-weight: bold">law-GDPR</span> ;
+        ] ;
+    ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0072"><code>E0072</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0072.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
       </section>
       <section>
         <h4>Notice Statuses</h4>
         <aside class="issue" title="Add content for Notice Status section"></aside>
-        <p>[=NoticeStatus=] represents a status about a [=Notice=], and is associated using the relation [=hasNotice=]. The DPV provides specific statuses modelling the lifecycle associated with notice provision and usage, such as [=NoticeCommunicated=] to indicate a notice has been provided, [=NoticeUpdated=] to indicate a notice has been updated, and [=NoticeLatest=] to indicate a notice is at its 'latest' iteration.</p>
+        <p>[=NoticeStatus=] represents a status about a [=Notice=], and is associated using the relation [=hasNoticeStatus=]. The DPV provides specific statuses modelling the lifecycle associated with notice provision and usage, such as [=NoticeCommunicated=] to indicate a notice has been provided, [=NoticeUpdated=] to indicate a notice has been updated, and [=NoticeLatest=] to indicate a notice is at its 'latest' iteration.</p>
         <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:NoticeCommunicated</strong>: Status indicating the notice has been communicated
@@ -1775,6 +1842,77 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
   </li>
 </ul></div>
+          <aside class="example" title="Tracking the status of a Notice across its lifecycle">
+<p>In this example, statuses associated with a notice are maintained in a record. The first part shows a notice status within a common process representing all users showing the notice has been communicated i.e. shown or delivered to the users. The second method shows a data processing record where the notice status is included as part of other matters e.g. data collection or rights exercise. The third method shows a record containing only the notice status for a specific user. The fourth method shows how the notice status can also be recorded as part of the notice metadata itself.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ExampleNotice</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Notice</span> ; <span style="color: #3D7B7B; font-style: italic"># a generic notice</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #BA2121">&quot;https://example.com&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> . <span style="color: #3D7B7B; font-style: italic"># where notice will be shown</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Method 1: Notice has been communicated to all users</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SampleProcess1</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ExampleNotice</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">User</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># Method 1a: a notice is shown</span>
+    <span style="color: #3D7B7B; font-style: italic"># Location is not in the status, but is in the notice</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeCommunicated</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># Method 1b: the latest notice version is used by the user</span>
+    <span style="color: #3D7B7B; font-style: italic"># Location is included for where notice was provided</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeStatus</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeCommunicated</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeLatest</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #BA2121">&quot;https://example.com/dashboard&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+    ] .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 2: Processing record per user with notice status</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Log1</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataProcessingRecord</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Alice</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ExampleNotice</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeStatus</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeCommunicated</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2025-01-01&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ], [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeUsed</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeLatest</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2025-01-02&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ] .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 3: Record per user with only the notice status</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">NoticeLog1</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">DataProcessingRecord</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeStatus</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Alice</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ExampleNotice</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeStatus</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeCommunicated</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2025-01-01&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ], [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeUsed</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeLatest</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2025-01-02&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ], [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeStale</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2025-01-03&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ], [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeUpdated</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeLatest</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2025-01-04&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ] .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 4: Track notice lifcycle in the notice itself</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ExampleNotice</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Notice</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeStatus</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeCommunicated</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #BA2121">&quot;https://example.com/&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2025-01-01&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0073"><code>E0073</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0073.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
       </section>
       <section>
         <h4>Consent Notice</h4>
@@ -4361,6 +4499,9 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0072" class="local-link"><small><code>dex:E0072 :: </code> Using Notice Layer and Icon in a Consent Notice</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -4381,8 +4522,8 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-TOM-organisational"> TOM-ORGANISATIONAL</a> in <a href="https://w3id.org/dpv#">DPV</a>
-            ,               section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-TOM-organisational"> TOM-ORGANISATIONAL</a> in <a href="https://w3id.org/dpv#">DEX</a>
+            ,               section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -12746,8 +12887,8 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasNoticeLayer" class="local-link">dpv:hasNoticeLayer</a>, 
-            <a href="#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasNoticeLayer" class="local-link">dpv:hasNoticeLayer</a>, 
+            <a href="https://w3id.org/dpv#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>
 </td>
         </tr>       
 <tr>
@@ -12842,7 +12983,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
+            <a href="https://w3id.org/dpv#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -12924,7 +13065,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
+            <a href="https://w3id.org/dpv#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -12999,7 +13140,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasNoticeIcon" class="local-link">dpv:hasNoticeIcon</a>
+          <td>            <a href="https://w3id.org/dpv#hasNoticeIcon" class="local-link">dpv:hasNoticeIcon</a>
 </td>
         </tr>
         
@@ -13014,6 +13155,9 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0072" class="local-link"><small><code>dex:E0072 :: </code> Using Notice Layer and Icon in a Consent Notice</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -13034,7 +13178,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -13080,7 +13224,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
+            <a href="https://w3id.org/dpv#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -13154,12 +13298,12 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasNoticeLayer" class="local-link">dpv:hasNoticeLayer</a>
+          <td>            <a href="https://w3id.org/dpv#hasNoticeLayer" class="local-link">dpv:hasNoticeLayer</a>
 </td>
         </tr>       
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasNoticeLayer" class="local-link">dpv:hasNoticeLayer</a>
+          <td>            <a href="https://w3id.org/dpv#hasNoticeLayer" class="local-link">dpv:hasNoticeLayer</a>
 </td>
         </tr>
         
@@ -13174,6 +13318,9 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0072" class="local-link"><small><code>dex:E0072 :: </code> Using Notice Layer and Icon in a Consent Notice</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -13194,7 +13341,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -13240,7 +13387,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
+            <a href="https://w3id.org/dpv#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -13320,7 +13467,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
+            <a href="https://w3id.org/dpv#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -13336,6 +13483,9 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0073" class="local-link"><small><code>dex:E0073 :: </code> Tracking the status of a Notice across its lifecycle</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -13356,7 +13506,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -13402,7 +13552,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
+            <a href="https://w3id.org/dpv#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -13484,7 +13634,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
+            <a href="https://w3id.org/dpv#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -13566,7 +13716,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
+            <a href="https://w3id.org/dpv#hasNoticeStatus" class="local-link">dpv:hasNoticeStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -20861,7 +21011,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#NoticeIcon" class="local-link">dpv:NoticeIcon</a>
+          <td>            <a href="https://w3id.org/dpv#NoticeIcon" class="local-link">dpv:NoticeIcon</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -20872,6 +21022,9 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0072" class="local-link"><small><code>dex:E0072 :: </code> Using Notice Layer and Icon in a Consent Notice</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -20889,7 +21042,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -20931,12 +21084,12 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
 <tr class="technical-detail">
           <th>Domain includes</th>
           <td>            <a href="https://w3id.org/dpv#Notice" class="local-link">dpv:Notice</a>
-            ,             <a href="#NoticeLayer" class="local-link">dpv:NoticeLayer</a>
+            ,             <a href="https://w3id.org/dpv#NoticeLayer" class="local-link">dpv:NoticeLayer</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#NoticeLayer" class="local-link">dpv:NoticeLayer</a>
+          <td>            <a href="https://w3id.org/dpv#NoticeLayer" class="local-link">dpv:NoticeLayer</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -20947,6 +21100,9 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0072" class="local-link"><small><code>dex:E0072 :: </code> Using Notice Layer and Icon in a Consent Notice</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -20964,7 +21120,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -21010,7 +21166,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#NoticeStatus" class="local-link">dpv:NoticeStatus</a>
+          <td>            <a href="https://w3id.org/dpv#NoticeStatus" class="local-link">dpv:NoticeStatus</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -21021,6 +21177,9 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0073" class="local-link"><small><code>dex:E0073 :: </code> Tracking the status of a Notice across its lifecycle</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -21041,7 +21200,7 @@ link: <a href="https://w3id.org/dpv/examples/E0025.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-TOM-notice"> TOM-NOTICE</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>

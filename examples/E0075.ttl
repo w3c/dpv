@@ -1,0 +1,40 @@
+# 1) Stating that tracking and profiling is involved (not good practice)
+ex:Service a dpv:Service ;
+    # Purpose missing - not good practice
+    dpv:hasPersonalData pd:Location ;
+    dpv:hasProcessing dpv:Tracking, dpv:Profiling .
+# 2) Stating tracking and profiling specifics (good practice)
+ex:Service a dpv:Service ;
+    dpv:hasPurpose dpv:ServicePersonalisation ;
+    dpv:hasProcessing [
+        # Tracking based on location
+        a dpv:Processing, dpv:Process ;
+        skos:broader dpv:Tracking ;
+        dpv:hasProcessing [
+            a dpv:Processing ; # Collect Location
+            skos:broader dpv:Collect, dpv:Use ;
+            dpv:hasPersonalData pd:Location ;
+        ], [
+            a dpv:Processing ; # Generate Location tracking data
+            skos:broader dpv:Generate, dpv:Store ;
+            dpv:hasPersonalData ex:LocationTrackingData ;
+        ] ;
+    ], [
+        # Profiling based on Location to infer Financial Status
+        a dpv:Processing, dpv:Process ;
+        skos:broader dpv:Profiling ;
+        dpv:hasProcessing [
+            a dpv:hasProcessing ; # Use tracked location
+            skos:broader dpv:Use ;
+            dpv:hasPersonalData ex:LocationTrackingData ;
+        ], [
+            a dpv:hasProcessing ; # Infer financial status
+            skos:broader dpv:Infer, dpv:Store ;
+            dpv:hasPersonalData pd:FinancialStatus ;
+        ] ;
+    ] .
+# Refactored version of above where tracking and profiling are declared
+# outside the process as ex:LocationTracking and ex:FinancialProfiling
+ex:Service a dpv:Service ;
+    dpv:hasPurpose dpv:ServicePersonalisation ;
+    dpv:hasProcess ex:LocationTracking, ex:FinancialProfiling .

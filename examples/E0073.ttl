@@ -1,0 +1,62 @@
+ex:ExampleNotice a dpv:Notice ; # a generic notice
+    dpv:hasLocation "https://example.com"^^xsd:anyURI . # where notice will be shown
+
+# Method 1: Notice has been communicated to all users
+ex:SampleProcess1 a dpv:Process ;
+    dpv:hasNotice ex:ExampleNotice ;
+    dpv:hasDataSubject dpv:User ;
+    # Method 1a: a notice is shown
+    # Location is not in the status, but is in the notice
+    dpv:hasNoticeStatus dpv:NoticeCommunicated ;
+    # Method 1b: the latest notice version is used by the user
+    # Location is included for where notice was provided
+    dpv:hasNoticeStatus [
+        a dpv:NoticeStatus ;
+        skos:broader dpv:NoticeCommunicated, dpv:NoticeLatest ;
+        dpv:hasLocation "https://example.com/dashboard"^^xsd:anyURI ;
+    ] .
+
+# Method 2: Processing record per user with notice status
+ex:Log1 a dpv:DataProcessingRecord ;
+    dpv:hasDataSubject ex:Alice ;
+    dpv:hasNotice ex:ExampleNotice ;
+    dpv:hasNoticeStatus [
+        a dpv:NoticeStatus ;
+        skos:broader dpv:NoticeCommunicated ;
+        dct:date "2025-01-01"^^xsd:date ;
+    ], [
+        a dpv:NoticeStatus ;
+        skos:broader dpv:NoticeUsed, dpv:NoticeLatest ;
+        dct:date "2025-01-02"^^xsd:date ;
+    ] .
+
+# Method 3: Record per user with only the notice status
+ex:NoticeLog1 a dpv:DataProcessingRecord, dpv:NoticeStatus ;
+    dpv:hasDataSubject ex:Alice ;
+    dpv:hasNotice ex:ExampleNotice ;
+    dpv:hasNoticeStatus [
+        a dpv:NoticeStatus ;
+        skos:broader dpv:NoticeCommunicated ;
+        dct:date "2025-01-01"^^xsd:date ;
+    ], [
+        a dpv:NoticeStatus ;
+        skos:broader dpv:NoticeUsed, dpv:NoticeLatest ;
+        dct:date "2025-01-02"^^xsd:date ;
+    ], [
+        a dpv:NoticeStatus ;
+        skos:broader dpv:NoticeStale ;
+        dct:date "2025-01-03"^^xsd:date ;
+    ], [
+        a dpv:NoticeStatus ;
+        skos:broader dpv:NoticeUpdated, dpv:NoticeLatest ;
+        dct:date "2025-01-04"^^xsd:date ;
+    ] .
+
+# Method 4: Track notice lifcycle in the notice itself
+ex:ExampleNotice a dpv:Notice ;
+    dpv:hasNoticeStatus [
+        a dpv:NoticeStatus ;
+        skos:broader dpv:NoticeCommunicated ;
+        dpv:hasLocation "https://example.com/"^^xsd:anyURI ;
+        dct:date "2025-01-01"^^xsd:date ;
+    ] .

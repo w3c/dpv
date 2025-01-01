@@ -704,6 +704,66 @@ link: <a href="https://w3id.org/dpv/examples/E0041.ttl">source file</a>;      co
       <li><code>dct:subject</code> - Indicates the subject of the contract. The subject can be the description used in the contract as to its main topic or subject. To indicate specifics such as service, purpose, or technology - the relevant DPV concepts should be used</li>
       <li><code>dpv:hasDuration</code> - Indicates the duration for validity of the contract</li>
       <li><code>dpv:hasEntity</code> - Indicates a party to the contract. If the party has a specific role in the contract, e.g. Controller, Data Subject, Service Provider/Consumer - then the relevant DPV concept and property should be used instead</li>
+        <aside class="example" title="Representing contract metadata and controls">
+<p>The below example shows using [[DCT]] and DPV properties to represent metadata about contracts. [[DCT]] is used for generic properties such as titles and descriptions, as well as contract-specific properties such as when it was accepted by all parties and the provenance of the contract document. The DPV properties are useful to express properties such as entities involved in specific roles such as Service Provider or a Data Controller, and to denote the type of contract which is useful for its interpretation - such as whether it is a negotiated or a standard form (non-negotiated) contract.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ServiceContract</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalBasis</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">StandardFormContract</span>, <span style="color: #3D7B7B; font-style: italic"># pre-drafted contract with no negotiation</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">B2BContract</span>, <span style="color: #3D7B7B; font-style: italic"># Business-to-Business</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServiceLevelAgreement</span>, <span style="color: #3D7B7B; font-style: italic"># outlines use of service and quality/metrics</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ControllerProcessorAgreement</span> ; <span style="color: #3D7B7B; font-style: italic"># agreement between processor and controller</span>
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Contract for use of Cloud Service X&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">created</span> <span style="color: #BA2121">&quot;2024-01-01&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ; <span style="color: #3D7B7B; font-style: italic"># when contract was drafted</span>
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">issued</span> <span style="color: #BA2121">&quot;2025-01-01&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ; <span style="color: #3D7B7B; font-style: italic"># when contract was given to parties</span>
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">creator</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ; <span style="color: #3D7B7B; font-style: italic"># who drafted the contract</span>
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">dateAccepted</span> <span style="color: #BA2121">&quot;2025-01-01&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ; <span style="color: #3D7B7B; font-style: italic"># when all parties accepted it</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasIdentifier</span> <span style="color: #BA2121">&quot;C240101&quot;</span> ; <span style="color: #3D7B7B; font-style: italic"># identifier for the contract</span>
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">language</span> <span style="color: #BA2121">&quot;en&quot;</span> ; <span style="color: #3D7B7B; font-style: italic"># language of the contract</span>
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">format</span> [ <span style="color: #3D7B7B; font-style: italic"># machine-readable version in ODRL</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #BA2121">&quot;https://example.com/C240101/ODRL&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">conformsTo</span> <span style="color: #BA2121">&quot;http://www.w3.org/ns/odrl/2/&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+    ], [ <span style="color: #3D7B7B; font-style: italic"># human-readable version in English</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #BA2121">&quot;https://example.com/C240101/text&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">language</span> <span style="color: #BA2121">&quot;en&quot;</span> ;
+    ]
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">provenance</span> [ <span style="color: #3D7B7B; font-style: italic"># record for when entities signed the contract</span>
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">RecordsOfActivities</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">hasPart</span> [
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">dateAccepted</span> <span style="color: #BA2121">&quot;2025-01-01&quot;</span> ;
+        ], [
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">dateAccepted</span> <span style="color: #BA2121">&quot;2025-01-01&quot;</span> ;
+        ] ;
+    ] ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">subject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ServiceX</span> ; <span style="color: #3D7B7B; font-style: italic"># contract is about ServiceX by BetaInc</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDuration</span> [ <span style="color: #3D7B7B; font-style: italic"># duration of contract i.e. validity</span>
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">TemporalDuration</span> ;
+        <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">value</span> <span style="color: #BA2121">&quot;P1Y&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ; <span style="color: #3D7B7B; font-style: italic"># 1year</span>
+    ], [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">UntilEventDuration</span> ; <span style="color: #3D7B7B; font-style: italic"># OR a party ends it</span>
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">description</span> <span style="color: #BA2121">&quot;A party terminates the contract&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    ] ;
+    <span style="color: #3D7B7B; font-style: italic"># Entities i.e. Parties involved in the contract</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span>, <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># Roles - Service Provider and Consumer</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasServiceProvider</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasServiceConsumer</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># Roles - GDPR Data Controller and Processor</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataProcessor</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasApplicableLaw</span> <span style="color: #0000FF; font-weight: bold">legal-eu</span>:<span style="color: #008000; font-weight: bold">law-GDPR</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractControl</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractControl</span> ; <span style="color: #3D7B7B; font-style: italic"># how to accept, refuse, or later terminate</span>
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">AcceptContract</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">RefuseContract</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">TerminateContract</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isExercisedAt</span> <span style="color: #BA2121">&quot;https://example.com/C240101/manage&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+    ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0076"><code>E0076</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0076.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
     </ul>
     </section>
     <section id="vocab-legal-basis-contract-types">
@@ -969,6 +1029,58 @@ link: <a href="https://w3id.org/dpv/examples/E0041.ttl">source file</a>;      co
 </ul>
   </li>
 </ul></div>
+        <aside class="example" title="Representing the status of contracts">
+<p>This example shows how the lifecycle of a contract in terms of its drafting and acceptance, as well as the fulfilment of its requirements and whether they have been breached.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeContract</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Contract</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span>, <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ; <span style="color: #3D7B7B; font-style: italic"># parties to the contract</span>
+    <span style="color: #3D7B7B; font-style: italic"># 1) stating status of contract within the contract</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractAccepted</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># 2) multiple statuses, and a timestamp for the event</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractStatus</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractDrafted</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractOffered</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ] ;
+    <span style="color: #3D7B7B; font-style: italic"># 3) status per entity - a type of provenance</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractStatus</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractStatus</span> ; <span style="color: #3D7B7B; font-style: italic"># Acme received the contract and accepted it</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractOfferReceived</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractPartiallyAccepted</span>;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-29&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ], [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractStatus</span> ; <span style="color: #3D7B7B; font-style: italic"># Beta received the contract and accepted it</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ; <span style="color: #3D7B7B; font-style: italic"># All parties have accepted the contract</span>
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractOfferReceived</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractAccepted</span>;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-30&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ], [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ; <span style="color: #3D7B7B; font-style: italic"># Acme gets the completed/signed contract</span>
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractOfferReceived</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractAccepted</span>;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ] .
+
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeOtherContract</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Contract</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># 1) Contract fulfilments are not complete, but no breaches either</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractualFulfilmentStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractUnfulfilled</span> ;
+    <span style="color: #3D7B7B; font-style: italic"># 2) Contract is fulfilled - date recorded for event</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractualFulfilmentStatus</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractStatus</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractFulfilled</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+    ] ;
+    <span style="color: #3D7B7B; font-style: italic"># 3) Contract breach - with date and justification</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractualFulfilmentStatus</span> [
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractBreached</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasJustification</span> <span style="color: #BA2121">&quot;explanation of the breach&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0077"><code>E0077</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0077.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
     </section>
     <section id="vocab-legal-basis-contract-clause">
       <h3>Contractual Clauses</h3>
@@ -1043,6 +1155,40 @@ link: <a href="https://w3id.org/dpv/examples/E0041.ttl">source file</a>;      co
 </ul>
   </li>
 </ul></div>
+        <aside class="example" title="Representing clauses or terms within a contract">
+<p>This example shows how specific clauses in a contract can be modelled, and also how their fulfilment status can be represented and tracked.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">SomeContract</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Contract</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractualClause</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractualClause</span> ; <span style="color: #3D7B7B; font-style: italic"># types of clause - use one or many</span>
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractPreamble</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractDefinitions</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractJurisdictionClause</span> ;
+        <span style="color: #0000FF; font-weight: bold">rdf</span>:<span style="color: #008000; font-weight: bold">value</span> <span style="color: #BA2121">&quot;Contents ...&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ; <span style="color: #3D7B7B; font-style: italic"># directly embed contents</span>
+        <span style="color: #0000FF; font-weight: bold">foaf</span>:<span style="color: #008000; font-weight: bold">page</span> <span style="color: #BA2121">&quot;...&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ; <span style="color: #3D7B7B; font-style: italic"># URL</span>
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">format</span> <span style="color: #BA2121">&quot;...&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ; <span style="color: #3D7B7B; font-style: italic"># different formats e.g. languages</span>
+        <span style="color: #3D7B7B; font-style: italic"># Fulfilment status can be within the clause</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractualFulfilmentStatus</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractStatus</span> ;
+            <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractFulfilled</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+        ] ;
+    ] .
+<span style="color: #3D7B7B; font-style: italic"># OR, Fulfilment status can also be expressed per entity</span>
+<span style="color: #3D7B7B; font-style: italic"># with a reference to a common clause or template</span>
+<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractualFulfilmentStatus</span> [
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractStatus</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ContractFulfilled</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasContractualClause</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeClause</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeEntity</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0078"><code>E0078</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0078.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
     </section>
     <section id="vocab-legal-basis-contract-control">
       <h3>Contract Controls</h3>
@@ -1082,53 +1228,6 @@ link: <a href="https://w3id.org/dpv/examples/E0041.ttl">source file</a>;      co
   </li>
 </ul></div>
     </section>
-  </section>
-
-  <section id="desc-legal-obligation">
-    <h2>Legal Obligation</h2>
-    <p>[=LegalObligation=] represents using the justification of an obligation to perform the activity as defined in law or required by a legal procedure such as a court or authority order. When using legal obligations as the legal basis, it is good practice (and necessary for its legality) to also define the specific law or legal mechanism under which the obligation is defined. This can be done using `dpv:hasApplicableLaw`.</p>
-    <p>[=LegalObligationStatus=] represents concepts that model the state of legal obligation in terms of it not being initiated or started yet ([=LegalObligationPending=]), where it is ongoing ([=LegalObligationOngoing=], and where it has been completed ([=LegalObligationCompleted=]). These can be expressed or associated using the relation `dpv:hasStatus`.</p>
-    <div class="list-hierarchy"><ul class="concept-list">
-  <li>
-    <strong>dpv:LegalObligationCompleted</strong>: Status where the legal obligation has been completed
-      <small><a href="https://w3id.org/dpv#LegalObligationCompleted" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:LegalObligationOngoing</strong>: Status where the legal obligation is being fulfilled
-      <small><a href="https://w3id.org/dpv#LegalObligationOngoing" class="local-link">go to full definition</a></small>
-      
-  </li>
-  <li>
-    <strong>dpv:LegalObligationPending</strong>: Status where the legal obligation has not been started
-      <small><a href="https://w3id.org/dpv#LegalObligationPending" class="local-link">go to full definition</a></small>
-      
-  </li>
-</ul></div>
-      <aside class="example" title="Indicating legal compliance as a purpose along with the relevant law">
-<p>This example describes a purpose for performing &#39;KYC&#39; identity verification as part of legal compliance with anti-money laundering laws    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
-    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> [
-        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> ;
-        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">IdentityVerification</span>,
-            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalCompliance</span> ;
-        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="color: #BA2121">&quot;KYC: Know Your Customer&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
-    ] ;
-    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> [
-        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalObligation</span> ;
-        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasApplicableLaw</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CJA2010</span> ;
-    ] .
-
-<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CJA2010</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Law</span> ;
-    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Money Laundering and Terrorist Financing Act 2010&quot;</span> ;
-    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasJuridiction</span> <span style="color: #0000FF; font-weight: bold">loc</span>:<span style="color: #008000; font-weight: bold">IE</span> .
-</pre></div>
-
-    <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0042"><code>E0042</code></a>;
-link: <a href="https://w3id.org/dpv/examples/E0042.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
-    </small></p>
-  </aside>
-
   </section>
 
   <section id="vocab-legal-basis-consent">
@@ -1355,18 +1454,70 @@ link: <a href="https://w3id.org/dpv/examples/E0018.ttl">source file</a>;      co
         <li>[=ReaffirmConsent=] for controllers and data subjects to reaffirm consent (use with [=ObtainConsent=] or [=ProvideConsent=])</li>
       </ol>
     </section>
-      <aside class="example" title="Using consent types">
-<p>This example shows use of DPV consent types to distinguish between &#39;expressed&#39; and &#39;explicitly expressed&#39; consent    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Approach 1: specifying a specific consent type is required as legal basis</span>
-<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
-    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ExplicitlyExpressedConsent</span> .
-
-<span style="color: #3D7B7B; font-style: italic"># Approach 2: creating instances of consent</span>
-<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UserConsent</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ExpressedConsent</span> .
+      <aside class="example" title="Using Notice Layer and Icon in a Consent Notice">
+<p>This example shows a Consent Notice that is structured in 2 layers - first for a summary and a second layer providing detailed overview of the intended processing. The layers contain controls for consent and rights which are accompanied by the label to be used e.g. for the button in the UI, and the icon to be displayed alongside it. This example also shows how a consent notice can be expressed in a machine-readable form in a manner that is similar to and can be used to create a graphical notice such as on a website or in a mobile app.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ExampleNotice</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ConsentNotice</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Consent Notice for Service X&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">hasLocation</span> <span style="color: #BA2121">&quot;https://example.com/service-x&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeLayer</span> [  <span style="color: #3D7B7B; font-style: italic"># Layer showing the &#39;overview&#39;</span>
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeLayer</span> ;
+        <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">description</span> <span style="color: #BA2121">&quot;Consent to use location for providing x&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServicePersonalisation</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Location</span>, <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Email</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ExpressedConsent</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsentControl</span> [  <span style="color: #3D7B7B; font-style: italic"># Consent control with label and icon</span>
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ProvideConsent</span> ; 
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Accept&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeIcon</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">iconGiveConsent</span> ; 
+        ], [ 
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">RefuseConsent</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Refuse&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ; 
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeIcon</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">iconRefuseConsent</span> ; 
+        ] ;
+    ], [  <span style="color: #3D7B7B; font-style: italic"># Layer showing the &#39;detailed&#39; view</span>
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">NoticeLayer</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># link to full privacy notice for the service</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> <span style="color: #BA2121">&quot;https://example.com/privacy-notice&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> [ <span style="color: #3D7B7B; font-style: italic"># process for use of location</span>
+                <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServicePersonalisation</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Use</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">eu-gdpr</span>:<span style="color: #008000; font-weight: bold">A6-1-a</span> ;
+            ], [ <span style="color: #3D7B7B; font-style: italic"># process stating location is also used to prevent fraud</span>
+                <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">FraudPreventionAndDetection</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Use</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterest</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStorageLocation</span> <span style="color: #0000FF; font-weight: bold">loc</span>:<span style="color: #008000; font-weight: bold">EU</span> ;
+                <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRecipient</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+            ] ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsentControl</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ManageConsent</span> ; 
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Manage Consent&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeIcon</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">iconManageConsent</span> ; 
+        ], [ 
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">WithdrawConsent</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRight</span> <span style="color: #0000FF; font-weight: bold">eu-gdpr</span>:<span style="color: #008000; font-weight: bold">A7-3</span> ;  <span style="color: #3D7B7B; font-style: italic"># asserts control includes a right</span>
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Withdraw Consent&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeIcon</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">iconWithdrawConsent</span> ; 
+        ] ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRight</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">eu-gdpr</span>:<span style="color: #008000; font-weight: bold">A20</span> ; <span style="color: #3D7B7B; font-style: italic"># icon used to indicate rights exercise</span>
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Right to Data Portability&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isExercisedAt</span> <span style="color: #BA2121">&quot;https://example.com/rights&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">anyURI</span> ;
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNoticeIcon</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">iconExerciseRight</span> ; 
+        ] ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Company</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataProcessor</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasApplicableLaw</span> <span style="color: #0000FF; font-weight: bold">legal-eu</span>:<span style="color: #008000; font-weight: bold">law-GDPR</span> ;
+        ] ;
+    ] .
 </pre></div>
 
     <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0018"><code>E0018</code></a>;
-link: <a href="https://w3id.org/dpv/examples/E0018.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+      Example ID: <a href="https://w3id.org/dpv/examples#E0072"><code>E0072</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0072.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
     </small></p>
   </aside>
 
@@ -1447,13 +1598,130 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
     </small></p>
   </aside>
 
+      <aside class="example" title="Stating status of Legitimate Interest">
+<p>This example shows how the status of using legitimate interests can be represented in terms of whether the existence and use of legitimate interest has been communicated to the data subject, and whether the data subject has objected to its use.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterestOfController</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasJustification</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Justification</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">description</span> <span style="color: #BA2121">&quot;detect fraud as part of operations&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+        ] ;
+        <span style="color: #3D7B7B; font-style: italic"># use of legitimate interest informed to data subjects</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterestInformed</span> ;
+    ] .
+
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Log</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterestStatus</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterestObjected</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Alice</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0080"><code>E0080</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0080.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
   </section>
+
+  <section id="desc-legal-obligation">
+    <h2>Legal Obligation</h2>
+    <p>[=LegalObligation=] represents using the justification of an obligation to perform the activity as defined in law or required by a legal procedure such as a court or authority order. When using legal obligations as the legal basis, it is good practice (and necessary for its legality) to also define the specific law or legal mechanism under which the obligation is defined. This can be done using `dpv:hasApplicableLaw`.</p>
+    <p>[=LegalObligationStatus=] represents concepts that model the state of legal obligation in terms of it not being initiated or started yet ([=LegalObligationPending=]), where it is ongoing ([=LegalObligationOngoing=], and where it has been completed ([=LegalObligationCompleted=]). These can be expressed or associated using the relation `dpv:hasStatus`.</p>
+    <div class="list-hierarchy"><ul class="concept-list">
+  <li>
+    <strong>dpv:LegalObligationCompleted</strong>: Status where the legal obligation has been completed
+      <small><a href="https://w3id.org/dpv#LegalObligationCompleted" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:LegalObligationOngoing</strong>: Status where the legal obligation is being fulfilled
+      <small><a href="https://w3id.org/dpv#LegalObligationOngoing" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:LegalObligationPending</strong>: Status where the legal obligation has not been started
+      <small><a href="https://w3id.org/dpv#LegalObligationPending" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul></div>
+      <aside class="example" title="Indicating legal compliance as a purpose along with the relevant law">
+<p>This example describes a purpose for performing &#39;KYC&#39; identity verification as part of legal compliance with anti-money laundering laws    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Purpose</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">IdentityVerification</span>,
+            <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalCompliance</span> ;
+        <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">prefLabel</span> <span style="color: #BA2121">&quot;KYC: Know Your Customer&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    ] ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalObligation</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasApplicableLaw</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CJA2010</span> ;
+    ] .
+
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CJA2010</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Law</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">title</span> <span style="color: #BA2121">&quot;Money Laundering and Terrorist Financing Act 2010&quot;</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasJuridiction</span> <span style="color: #0000FF; font-weight: bold">loc</span>:<span style="color: #008000; font-weight: bold">IE</span> .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0042"><code>E0042</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0042.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-11)
+    </small></p>
+  </aside>
+
+      <aside class="example" title="Stating status of Legal Obligations">
+<p>This example shows how the status of using legal obligations can be represented in terms of it being carried out and it being completed. Note that though the legal obligation has been stated as &#39;completed&#39;, this is not an assessment of whether the requirements of the legal obligation have been completed and are verified, but instead the status represents the use of legal obligation as a legal basis within the process is completed.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalObligation</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasApplicableLaw</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CJA2010</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># Method 1: ongoing status</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalObligationOngoing</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># Method 2: completion status with date</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalObligationStatus</span> ;
+            <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegalObligationCompleted</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+        ] ;
+    ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0079"><code>E0079</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0079.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
+  </section>
+
 
   <section id="desc-official-authority">
     <h3>Official Authority of Controller</h3>
     <aside class="issue" title="Update Official Authority section for new concepts"></aside>
     <p>[=OfficialAuthorityOfController=] represents the legal basis where the official authority vested in the controller (by law) is used as the justification for carrying out activities. Such official authority is provided to specific departments to enable them to carry out their duties - such as maintainence of tax records, or provision of postal serviecs. The relevant law should be indicated as part of the legal basis if needed by using `dpv:hasApplicableLaw`.</p>
     <p>[=OfficialAuthorityExerciseStatus=] represents the state of the official authority being exercised in terms of it yet to be exercised ([=OfficialAuthorityExercisePending=]), it being exercised ([=OfficialAuthorityExerciseOngoing=]), and the completion of the exercise ([=OfficialAuthorityExerciseCompleted=]). These can be associated or expressed using the relation `dpv:hasStatus`.</p>
+      <aside class="example" title="Stating status of using Official Authority">
+<p>This example shows how the status of using the official authority as the legal basis can be represented.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">OfficialAuthorityOfController</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasApplicableLaw</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">CJA2010</span> ; <span style="color: #3D7B7B; font-style: italic"># law that gives authority</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataController</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># Method 1: status that authority is being utilised</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">OfficialAuthorityExerciseOngoing</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># Method 2: status with date</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">OfficialAuthorityExerciseStatus</span> ;
+            <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">OfficialAuthorityExerciseCompleted</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+        ] ;
+    ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0081"><code>E0081</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0081.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
   </section>
 
   <section id="desc-public-interest">
@@ -1461,6 +1729,28 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
     <aside class="issue" title="Update Public Interst section for new concepts"></aside>
     <p>[=PublicInterest=] represents activities carried out because they are 'in the interest of the general public' or are necessary to 'provide benefit to the public', where such benefit might be actual benefits (e.g. archiving data of cultural importance) or prevention of harms (e.g. identify relevant medical conditions quickly to prevent an outbreak). We strongly recommend providing a description of the relevant 'benefits' when using this legal basis e.g. by using  `dpv:hasJustification` for contextual justifications associated with the benefit.</p>
     <p>[=PublicInterestStatus=] represents the state of the public interest being exercised or utilised or applied, specifically in terms of when it has been declared but hasn't been utilised yet ([=PublicInterestPending=]), it is being exercised ([=PublicInterestOngoing=]), and the completion of the exercise ([=PublicInterestCompleted=]). These can be associated or expressed using the relation `dpv:hasStatus`.</p>
+      <aside class="example" title="Stating status of using Public Interest">
+<p>This example shows how the status of using public interest as the legal basis can be represented.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PublicInterest</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasJustification</span> <span style="color: #BA2121">&quot;what is the interest...&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># Method 1: public interest being utilised</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PublicInterestOngoing</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># Method 2: status completed with date</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PublicInterestStatus</span> ;
+            <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">PublicInterestCompleted</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+        ] ;
+    ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0082"><code>E0082</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0082.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
   </section>
 
   <section id="desc-vital-interest">
@@ -1468,6 +1758,35 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
     <aside class="issue" title="Update Protecting Vital Interests section for new concepts"></aside>
     <p>[=VitalInterest=] represents activities that are necessary or required to protect vital interests of a data subject or other natural person. For more specific indication, [=VitalInterestOfNaturalPerson=] refers to vital interests of (any or a specific) natural person, and [=VitalInterestOfDataSubject=] represents vital interests of (any or a specific) data subject. As with [=PublicInterest=] and [=LegitimateInterest=], we strongly recommend specifying relevant information - the vital interest in this case - by using `dpv:hasJustification`. </p>
     <p>[=VitalInterestStatus=] represents the state of the vital interest being exercised or utilised or applied, specifically in terms of when it is yet to be utilised ([=VitalInterestPending=]), it is being utilised ([=VitalInterestOngoing=]), and it has been applied to completion ([=VitalInterestCompleted=]).</p>
+      <aside class="example" title="Stating status of using Vital Interest">
+<p>This example shows how the status of using vital interest as the legal basis can be represented.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">VitalInterestOfNaturalPerson</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasJustification</span> <span style="color: #BA2121">&quot;what is the interest...&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasHumanSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Alice</span> ; <span style="color: #3D7B7B; font-style: italic"># whose vital interest it is</span>
+        <span style="color: #3D7B7B; font-style: italic"># Method 1: Vital interest being utilised</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">VitalInterestOngoing</span> ;
+    ] .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">VitalInterestOfDataSubject</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasJustification</span> <span style="color: #BA2121">&quot;what is the interest...&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasDataSubject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Alice</span> ; <span style="color: #3D7B7B; font-style: italic"># whose vital interest it is</span>
+        <span style="color: #3D7B7B; font-style: italic"># Method 2: status completed with date</span>
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">VitalInterestStatus</span> ;
+            <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">VitalInterestCompleted</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2024-12-31&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+        ] ;
+    ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0083"><code>E0083</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0083.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
   </section>
 
 <section>
@@ -3284,9 +3603,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Subject of relation</th>
           <td>            <a href="#hasContractControl" class="local-link">dpv:hasContractControl</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
 </td>
         </tr>       
 <tr>
@@ -3306,6 +3625,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0076" class="local-link"><small><code>dex:E0076 :: </code> Representing contract metadata and controls</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0077" class="local-link"><small><code>dex:E0077 :: </code> Representing the status of contracts</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -3329,7 +3651,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis"> LEGAL-BASIS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis"> LEGAL-BASIS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -3375,8 +3697,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -3451,13 +3773,13 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
 </td>
         </tr>       
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
 </td>
         </tr>
         
@@ -3536,8 +3858,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -3840,13 +4162,13 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
 </td>
         </tr>       
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
 </td>
         </tr>
         
@@ -3998,13 +4320,13 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
 </td>
         </tr>       
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
 </td>
         </tr>
         
@@ -4078,13 +4400,13 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
 </td>
         </tr>       
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
 </td>
         </tr>
         
@@ -4162,8 +4484,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -4242,8 +4564,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -4323,8 +4645,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -4403,8 +4725,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -4483,8 +4805,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -4563,8 +4885,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -4639,13 +4961,13 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
 </td>
         </tr>       
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
 </td>
         </tr>
         
@@ -4723,8 +5045,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -4803,8 +5125,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -4958,13 +5280,13 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
 </td>
         </tr>       
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
 </td>
         </tr>
         
@@ -5042,8 +5364,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -5122,8 +5444,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -5200,8 +5522,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -5217,6 +5539,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0077" class="local-link"><small><code>dex:E0077 :: </code> Representing the status of contracts</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -5234,7 +5559,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-contract-status"> LEGAL-BASIS-CONTRACT-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-contract-status"> LEGAL-BASIS-CONTRACT-STATUS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -5280,8 +5605,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -5356,13 +5681,13 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
 </td>
         </tr>       
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
 </td>
         </tr>
         
@@ -5432,13 +5757,13 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
 </td>
         </tr>       
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
 </td>
         </tr>
         
@@ -5453,6 +5778,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0078" class="local-link"><small><code>dex:E0078 :: </code> Representing clauses or terms within a contract</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -5470,7 +5798,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-contract-clause"> LEGAL-BASIS-CONTRACT-CLAUSE</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-contract-clause"> LEGAL-BASIS-CONTRACT-CLAUSE</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -5517,8 +5845,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -5598,8 +5926,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -5678,8 +6006,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -5759,8 +6087,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -5839,8 +6167,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -5920,8 +6248,8 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
-            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
 </td>
         </tr>
@@ -7653,7 +7981,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0042" class="local-link"><small><code>dex:E0042 :: </code> Indicating legal compliance as a purpose along with the relevant law</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0042" class="local-link"><small><code>dex:E0042 :: </code> Indicating legal compliance as a purpose along with the relevant law</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0079" class="local-link"><small><code>dex:E0079 :: </code> Stating status of Legal Obligations</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -7967,6 +8295,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0079" class="local-link"><small><code>dex:E0079 :: </code> Stating status of Legal Obligations</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -7984,7 +8315,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-status"> LEGAL-BASIS-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-status"> LEGAL-BASIS-STATUS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -8044,7 +8375,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0065" class="local-link"><small><code>dex:E0065 :: </code> Specifying legitimate interest of a controller</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0065" class="local-link"><small><code>dex:E0065 :: </code> Specifying legitimate interest of a controller</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0080" class="local-link"><small><code>dex:E0080 :: </code> Stating status of Legitimate Interest</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -8598,6 +8929,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0080" class="local-link"><small><code>dex:E0080 :: </code> Stating status of Legitimate Interest</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -8615,7 +8949,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-status"> LEGAL-BASIS-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-status"> LEGAL-BASIS-STATUS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -8771,6 +9105,119 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-legal-basis-contract-types"> LEGAL-BASIS-CONTRACT-TYPES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+     <section class="term-def" id="ManageConsent">
+      <h4>Manage Consent</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ManageConsent</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Manage Consent</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#ManageConsent" class="local-link">https://w3id.org/dpv#ManageConsent</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvideConsent" class="local-link">dpv:ProvideConsent</a>
+             →             <a href="#ConsentControl" class="local-link">dpv:ConsentControl</a>
+             →             <a href="https://w3id.org/dpv#EntityInvolvement" class="local-link">dpv:EntityInvolvement</a>
+             →             <a href="https://w3id.org/dpv#ProcessingContext" class="local-link">dpv:ProcessingContext</a>
+             →             <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+                        </td>        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ProvideConsent" class="local-link">dpv:ProvideConsent</a>
+             →             <a href="https://w3id.org/dpv#OptingInToProcess" class="local-link">dpv:OptingInToProcess</a>
+             →             <a href="https://w3id.org/dpv#EntityPermissiveInvolvement" class="local-link">dpv:EntityPermissiveInvolvement</a>
+             →             <a href="https://w3id.org/dpv#EntityInvolvement" class="local-link">dpv:EntityInvolvement</a>
+             →             <a href="https://w3id.org/dpv#ProcessingContext" class="local-link">dpv:ProcessingContext</a>
+             →             <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+                        </td>        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ReaffirmConsent" class="local-link">dpv:ReaffirmConsent</a>
+             →             <a href="#ConsentControl" class="local-link">dpv:ConsentControl</a>
+             →             <a href="https://w3id.org/dpv#EntityInvolvement" class="local-link">dpv:EntityInvolvement</a>
+             →             <a href="https://w3id.org/dpv#ProcessingContext" class="local-link">dpv:ProcessingContext</a>
+             →             <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+                        </td>        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#WithdrawConsent" class="local-link">dpv:WithdrawConsent</a>
+             →             <a href="#ConsentControl" class="local-link">dpv:ConsentControl</a>
+             →             <a href="https://w3id.org/dpv#EntityInvolvement" class="local-link">dpv:EntityInvolvement</a>
+             →             <a href="https://w3id.org/dpv#ProcessingContext" class="local-link">dpv:ProcessingContext</a>
+             →             <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+                        </td>        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#WithdrawConsent" class="local-link">dpv:WithdrawConsent</a>
+             →             <a href="https://w3id.org/dpv#WithdrawingFromProcess" class="local-link">dpv:WithdrawingFromProcess</a>
+             →             <a href="https://w3id.org/dpv#EntityPermissiveInvolvement" class="local-link">dpv:EntityPermissiveInvolvement</a>
+             →             <a href="https://w3id.org/dpv#EntityInvolvement" class="local-link">dpv:EntityInvolvement</a>
+             →             <a href="https://w3id.org/dpv#ProcessingContext" class="local-link">dpv:ProcessingContext</a>
+             →             <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasConsentControl" class="local-link">dpv:hasConsentControl</a>, 
+            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="https://w3id.org/dpv#hasEntityInvolvement" class="local-link">dpv:hasEntityInvolvement</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Control for managing a given consent in terms of providing, reaffirming, or withdrawing it</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>Indicates how the data subject can manage their consent in terms of providing it, or reaffirming or withdrawing a given consent. This concept is useful to represent a single location or interface where multiple controls are provided for consent</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-17</i></td>
+        </tr>        
+       
+
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-legal-basis-consent-controls"> LEGAL-BASIS-CONSENT-CONTROLS</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -9383,6 +9830,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0081" class="local-link"><small><code>dex:E0081 :: </code> Stating status of using Official Authority</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -9400,7 +9850,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-status"> LEGAL-BASIS-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-status"> LEGAL-BASIS-STATUS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -9458,6 +9908,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0081" class="local-link"><small><code>dex:E0081 :: </code> Stating status of using Official Authority</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -9478,7 +9931,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis"> LEGAL-BASIS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis"> LEGAL-BASIS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -9703,6 +10156,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0082" class="local-link"><small><code>dex:E0082 :: </code> Stating status of using Public Interest</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -9723,7 +10179,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis"> LEGAL-BASIS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis"> LEGAL-BASIS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -10094,6 +10550,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0082" class="local-link"><small><code>dex:E0082 :: </code> Stating status of using Public Interest</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -10111,7 +10570,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-status"> LEGAL-BASIS-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-status"> LEGAL-BASIS-STATUS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -10186,6 +10645,88 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 <tr>
           <th>Date Created</th>
           <td><i>2024-05-11</i></td>
+        </tr>        
+       
+
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-legal-basis-consent-controls"> LEGAL-BASIS-CONSENT-CONTROLS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+     <section class="term-def" id="RefuseConsent">
+      <h4>Refuse Consent</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RefuseConsent</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Refuse Consent</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#RefuseConsent" class="local-link">https://w3id.org/dpv#RefuseConsent</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#ConsentControl" class="local-link">dpv:ConsentControl</a>
+             →             <a href="https://w3id.org/dpv#EntityInvolvement" class="local-link">dpv:EntityInvolvement</a>
+             →             <a href="https://w3id.org/dpv#ProcessingContext" class="local-link">dpv:ProcessingContext</a>
+             →             <a href="https://w3id.org/dpv#Context" class="local-link">dpv:Context</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasConsentControl" class="local-link">dpv:hasConsentControl</a>, 
+            <a href="https://w3id.org/dpv#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="https://w3id.org/dpv#hasEntityInvolvement" class="local-link">dpv:hasEntityInvolvement</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Control for refusing consent</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>Indicates how the controller (with dpv:ObtainConsent) or data subject (with dpv:ProvideConsent) can reaffirm consent e.g. used with dpv:isExercisedAt</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-17</i></td>
         </tr>        
        
 
@@ -10723,13 +11264,13 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
-            <a href="#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>, 
+            <a href="https://w3id.org/dpv#hasContractualFulfilmentStatus" class="local-link">dpv:hasContractualFulfilmentStatus</a>
 </td>
         </tr>       
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractualClause" class="local-link">dpv:hasContractualClause</a>
 </td>
         </tr>
         
@@ -11066,6 +11607,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0083" class="local-link"><small><code>dex:E0083 :: </code> Stating status of using Vital Interest</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -11086,7 +11630,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis"> LEGAL-BASIS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis"> LEGAL-BASIS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -11616,6 +12160,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0083" class="local-link"><small><code>dex:E0083 :: </code> Stating status of using Vital Interest</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -11633,7 +12180,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-status"> LEGAL-BASIS-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-status"> LEGAL-BASIS-STATUS</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -12119,7 +12666,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="#Contract" class="local-link">dpv:Contract</a>
+          <td>            <a href="https://w3id.org/dpv#Contract" class="local-link">dpv:Contract</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
@@ -12200,12 +12747,12 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="#Contract" class="local-link">dpv:Contract</a>
+          <td>            <a href="https://w3id.org/dpv#Contract" class="local-link">dpv:Contract</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#ContractStatus" class="local-link">dpv:ContractStatus</a>
+          <td>            <a href="https://w3id.org/dpv#ContractStatus" class="local-link">dpv:ContractStatus</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -12216,6 +12763,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0077" class="local-link"><small><code>dex:E0077 :: </code> Representing the status of contracts</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -12233,7 +12783,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-contract"> LEGAL-BASIS-CONTRACT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-contract"> LEGAL-BASIS-CONTRACT</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -12274,13 +12824,13 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="#Contract" class="local-link">dpv:Contract</a>
-            ,             <a href="#ContractualClause" class="local-link">dpv:ContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#Contract" class="local-link">dpv:Contract</a>
+            ,             <a href="https://w3id.org/dpv#ContractualClause" class="local-link">dpv:ContractualClause</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#ContractualClause" class="local-link">dpv:ContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#ContractualClause" class="local-link">dpv:ContractualClause</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -12291,6 +12841,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0078" class="local-link"><small><code>dex:E0078 :: </code> Representing clauses or terms within a contract</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -12308,7 +12861,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-contract"> LEGAL-BASIS-CONTRACT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-contract"> LEGAL-BASIS-CONTRACT</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -12351,19 +12904,19 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
 
 <tr class="technical-detail">
           <th>Sub-property of</th>
-          <td>            <a href="#hasContractStatus" class="local-link">dpv:hasContractStatus</a>
+          <td>            <a href="https://w3id.org/dpv#hasContractStatus" class="local-link">dpv:hasContractStatus</a>
                         </td>
         </tr>        
         
 <tr class="technical-detail">
           <th>Domain includes</th>
-          <td>            <a href="#Contract" class="local-link">dpv:Contract</a>
-            ,             <a href="#ContractualClause" class="local-link">dpv:ContractualClause</a>
+          <td>            <a href="https://w3id.org/dpv#Contract" class="local-link">dpv:Contract</a>
+            ,             <a href="https://w3id.org/dpv#ContractualClause" class="local-link">dpv:ContractualClause</a>
                       </td>
         </tr>        
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#ContractStatus" class="local-link">dpv:ContractStatus</a>
+          <td>            <a href="https://w3id.org/dpv#ContractStatus" class="local-link">dpv:ContractStatus</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -12374,6 +12927,9 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0077" class="local-link"><small><code>dex:E0077 :: </code> Representing the status of contracts</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0078" class="local-link"><small><code>dex:E0078 :: </code> Representing clauses or terms within a contract</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -12391,7 +12947,7 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-legal-basis-contract"> LEGAL-BASIS-CONTRACT</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-legal-basis-contract"> LEGAL-BASIS-CONTRACT</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -12690,6 +13246,10 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
         </tbody>
       </table>
     </section>
+      
+      
+      
+      
       
       
       
@@ -13141,24 +13701,10 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
        
       
-      
-       
-      
-       
-      
        
       
       
        
-      
-      
-       
-      
-      
-       
-      
-       
-      
       
        
       
@@ -13173,12 +13719,30 @@ link: <a href="https://w3id.org/dpv/examples/E0065.ttl">source file</a>;      co
       
        
       
+       
+      
+      
+       
       
        
       
       
        
       
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
       
        
       

@@ -1,0 +1,51 @@
+ex:ServiceContract a dpv:LegalBasis ;
+    skos:broader dpv:StandardFormContract, # pre-drafted contract with no negotiation
+        dpv:B2BContract, # Business-to-Business
+        dpv:ServiceLevelAgreement, # outlines use of service and quality/metrics
+        dpv:ControllerProcessorAgreement ; # agreement between processor and controller
+    dct:title "Contract for use of Cloud Service X"@en ;
+    dct:created "2024-01-01"^^xsd:date ; # when contract was drafted
+    dct:issued "2025-01-01"^^xsd:date ; # when contract was given to parties
+    dct:creator ex:BetaInc ; # who drafted the contract
+    dct:dateAccepted "2025-01-01"^^xsd:date ; # when all parties accepted it
+    dpv:hasIdentifier "C240101" ; # identifier for the contract
+    dct:language "en" ; # language of the contract
+    dct:format [ # machine-readable version in ODRL
+        dpv:hasLocation "https://example.com/C240101/ODRL"^^xsd:anyURI ;
+        dct:conformsTo "http://www.w3.org/ns/odrl/2/"^^xsd:anyURI ;
+    ], [ # human-readable version in English
+        dpv:hasLocation "https://example.com/C240101/text"^^xsd:anyURI ;
+        dct:language "en" ;
+    ]
+    dct:provenance [ # record for when entities signed the contract
+        a dpv:RecordsOfActivities ;
+        dct:hasPart [
+            dpv:hasEntity ex:AcmeInc ;
+            dct:dateAccepted "2025-01-01" ;
+        ], [
+            dpv:hasEntity ex:BetaInc ;
+            dct:dateAccepted "2025-01-01" ;
+        ] ;
+    ] ;
+    dct:subject ex:ServiceX ; # contract is about ServiceX by BetaInc
+    dpv:hasDuration [ # duration of contract i.e. validity
+        a dpv:TemporalDuration ;
+        rdf:value "P1Y"^^xsd:date ; # 1year
+    ], [
+        a dpv:UntilEventDuration ; # OR a party ends it
+        dct:description "A party terminates the contract"@en ;
+    ] ;
+    # Entities i.e. Parties involved in the contract
+    dpv:hasEntity ex:AcmeInc, ex:BetaInc ;
+    # Roles - Service Provider and Consumer
+    dpv:hasServiceProvider ex:BetaInc ;
+    dpv:hasServiceConsumer ex:AcmeInc ;
+    # Roles - GDPR Data Controller and Processor
+    dpv:hasDataController ex:AcmeInc ;
+    dpv:hasDataProcessor ex:BetaInc ;
+    dpv:hasApplicableLaw legal-eu:law-GDPR ;
+    dpv:hasContractControl [
+        a dpv:ContractControl ; # how to accept, refuse, or later terminate
+        skos:broader dpv:AcceptContract, dpv:RefuseContract, dpv:TerminateContract ;
+        dpv:isExercisedAt "https://example.com/C240101/manage"^^xsd:anyURI ;
+    ] .
