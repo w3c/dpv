@@ -473,11 +473,11 @@ def construct_risk_parent_CIA(term, data, namespace, header):
     triples = []
     if 'CIA' not in data: return triples
     if 'C' in data['CIA']:
-        triples.append((namespace[data['Term']], RDF.type, namespace['ConfidentialityConcept']))
+        triples.append((namespace[data['Term']], RDF.type, RISK.ConfidentialityConcept))
     if 'I' in data['CIA']:
-        triples.append((namespace[data['Term']], RDF.type, namespace['IntegrityConcept']))
+        triples.append((namespace[data['Term']], RDF.type, RISK.IntegrityConcept))
     if 'A' in data['CIA']:
-        triples.append((namespace[data['Term']], RDF.type, namespace['AvailabilityConcept']))
+        triples.append((namespace[data['Term']], RDF.type, RISK.AvailabilityConcept))
     return triples    
 
 
@@ -485,13 +485,13 @@ def construct_risk_parent_Role(term, data, namespace, header):
     triples = []
     if 'Role' not in data: return triples
     if 'S' in data['Role']:
-        triples.append((namespace[data['Term']], RDF.type, namespace['PotentialRiskSource']))
+        triples.append((namespace[data['Term']], RDF.type, RISK.PotentialRiskSource))
     if 'R' in data['Role']:
-        triples.append((namespace[data['Term']], RDF.type, namespace['PotentialRisk']))
+        triples.append((namespace[data['Term']], RDF.type, RISK.PotentialRisk))
     if 'C' in data['Role']:
-        triples.append((namespace[data['Term']], RDF.type, namespace['PotentialConsequence']))
+        triples.append((namespace[data['Term']], RDF.type, RISK.PotentialConsequence))
     if 'I' in data['Role']:
-        triples.append((namespace[data['Term']], RDF.type, namespace['PotentialImpact']))
+        triples.append((namespace[data['Term']], RDF.type, RISK.PotentialImpact))
     return triples    
 
 

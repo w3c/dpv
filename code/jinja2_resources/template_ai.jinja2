@@ -2,6 +2,43 @@
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+
+{% macro make_risk_table(concepts, head) %}
+<table class="sortable">
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th colspan="4">Roles</th>
+      <th colspan="3">CIA model</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Risk Source</th>
+      <th>Risk</th>
+      <th>Consequence</th>
+      <th>Impact</th>
+      <th>Confidentiality</th>
+      <th>Integrity</th>
+      <th>Availability</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for term, data in concepts.items()|sort(attribute='0') %}
+    <tr>
+      <td><a href="{{data['iri']}}" class="local-link">{{ term }}</a></td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:PotentialRiskSource') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:PotentialRisk') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:PotentialConsequence') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:PotentialImpact') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:ConfidentialityConcept') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:IntegrityConcept') %}&check;{% endif %}</td>
+      <td>{% if data['rdf:type']|check_rdf_type('risk:AvailabilityConcept') %}&check;{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endmacro %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,27 +138,123 @@
       <li><strong>Actors</strong> such as AI Developer and AI Deployer</li>
       <li><strong>Status</strong> associated with AI development</li>
     </ul>
-    <p>The AI extension is being created based on the following sources:</p>
+    <p>The AI extension is created based on the following sources:</p>
     <ol>
       <li>[[[ISO-22989]]]</li>
       <li>[[[AIAct]]], which is also supported by the [[EU-AIAct]] extension for DPV</li>
       <li><a href="https://ai-watch.ec.europa.eu/publications/defining-artificial-intelligence-10_en">AI Watch taxonomy</a></li>
-      <li><a href="https://w3id.org/airo">AI Risk Ontology (AIRO)</a> and <a href="https://w3id.org/vair">Vocabulary of AI Risks (VAIR)</a></li>
+      <li><a href="https://w3id.org/airo">AI Risk Ontology (AIRO)</a> and <a href="https://w3id.org/vair">Vocabulary of AI Risks (VAIR)</a> which have been integrated in DPV v2.1</li>
     </ol>
 
     <section>
       <h3>AI as a specific Technology</h3>
       <div class="issue" title="add content for section stating AI is just another technology, and we reuse DPV and TECH here"></div>
+      <p>Artificial Intelligence (AI) is a category of Technology that exihibits or satisfies specific behaviour. While the exact definition of what constitutes 'AI' has and and continues to be a subject of debate and regulation, we focus on the generally understood use of 'AI technologies' and thereby provide this extension to represent information about them in terms of developing and using them, and describing other relevant information about AI such as the specific risks involed and relevant mitigations and measures, documentation, involved data, and a description of the underlying technology itself in terms of specific operations and functions. As there is no consistent vocabulary or standard which is used uniformly within this domain, the concepts provided in this extension represent the specific way the DPVCG has chosen to represent information about AI technologies.</p>
+      <p>The AI extension is based on the modelling of technologies in DPV vocabularies. For this reason, it extends the [[TECH]] extension, and only provides AI-specific concepts in this extension. For example, the entity that is the developer of an AI system is represented by the same concept as the developer of any technology through the `tech:Developer` concept. If and when we identify AI-specific actors and roles, those will be defined in this extension by extending the relevant DPV and TECH entities.</p>
     </section>
 
     <section>
       <h3>Conceptual Model</h3>
       <div class="issue" title="add content section describing conceptual model: Technique to Capability to Purpose"></div>
+      <figure>
+        <svg width="766pt" height="134pt" viewBox="0.00 0.00 765.69 134.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 130)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-130 761.69,-130 761.69,4 -4,4"/>
+<!-- Purpose -->
+<g id="node1" class="node">
+<title>Purpose</title>
+<ellipse fill="none" stroke="black" cx="42.15" cy="-18" rx="42.15" ry="18"/>
+<text text-anchor="middle" x="42.15" y="-13.8" font-family="Times,serif" font-size="14.00">Purpose</text>
+</g>
+<!-- AI -->
+<g id="node4" class="node">
+<title>AI</title>
+<ellipse fill="none" stroke="black" cx="171.42" cy="-55" rx="27" ry="18"/>
+<text text-anchor="middle" x="171.42" y="-50.8" font-family="Times,serif" font-size="14.00">AI</text>
+</g>
+<!-- Purpose&#45;&gt;AI -->
+<g id="edge3" class="edge">
+<title>Purpose-&gt;AI</title>
+<path fill="none" stroke="black" d="M77.59,-28.01C95.43,-33.2 117.18,-39.52 135.13,-44.74"/>
+<polygon fill="black" stroke="black" points="134,-48.06 144.58,-47.49 135.95,-41.34 134,-48.06"/>
+<text text-anchor="middle" x="114.36" y="-46.18" font-family="Times,serif" font-size="14.00">uses</text>
+</g>
+<!-- Data -->
+<g id="node5" class="node">
+<title>Data</title>
+<ellipse fill="none" stroke="black" cx="728.42" cy="-61" rx="29.27" ry="18"/>
+<text text-anchor="middle" x="728.42" y="-56.8" font-family="Times,serif" font-size="14.00">Data</text>
+</g>
+<!-- Purpose&#45;&gt;Data -->
+<g id="edge5" class="edge">
+<title>Purpose-&gt;Data</title>
+<path fill="none" stroke="black" d="M81.14,-10.7C106.36,-6.48 140.24,-2 170.42,-2 170.42,-2 170.42,-2 550.17,-2 603.52,-2 661.48,-26.36 696.11,-43.77"/>
+<polygon fill="black" stroke="black" points="694.24,-46.74 704.73,-48.22 697.45,-40.53 694.24,-46.74"/>
+<text text-anchor="middle" x="386" y="-6.2" font-family="Times,serif" font-size="14.00">canInvolve</text>
+</g>
+<!-- Capability -->
+<g id="node2" class="node">
+<title>Capability</title>
+<ellipse fill="none" stroke="black" cx="386" cy="-108" rx="51.27" ry="18"/>
+<text text-anchor="middle" x="386" y="-103.8" font-family="Times,serif" font-size="14.00">Capability</text>
+</g>
+<!-- Technique -->
+<g id="node3" class="node">
+<title>Technique</title>
+<ellipse fill="none" stroke="black" cx="549.17" cy="-61" rx="51.79" ry="18"/>
+<text text-anchor="middle" x="549.17" y="-56.8" font-family="Times,serif" font-size="14.00">Technique</text>
+</g>
+<!-- Capability&#45;&gt;Technique -->
+<g id="edge4" class="edge">
+<title>Capability-&gt;Technique</title>
+<path fill="none" stroke="black" d="M426.43,-96.5C447.89,-90.24 474.68,-82.43 497.66,-75.73"/>
+<polygon fill="black" stroke="black" points="498.52,-79.13 507.14,-72.97 496.56,-72.41 498.52,-79.13"/>
+<text text-anchor="middle" x="467.32" y="-91.51" font-family="Times,serif" font-size="14.00">uses</text>
+</g>
+<!-- Capability&#45;&gt;Data -->
+<g id="edge6" class="edge">
+<title>Capability-&gt;Data</title>
+<path fill="none" stroke="black" d="M437.38,-107.79C451.02,-107.49 465.78,-106.95 479.38,-106 569.47,-99.68 594.17,-106.28 681.15,-82 685.74,-80.72 690.45,-79.04 695.03,-77.2"/>
+<polygon fill="black" stroke="black" points="696.2,-80.51 703.96,-73.29 693.4,-74.09 696.2,-80.51"/>
+<text text-anchor="middle" x="549.17" y="-108.94" font-family="Times,serif" font-size="14.00">canInvolve</text>
+</g>
+<!-- Technique&#45;&gt;Data -->
+<g id="edge7" class="edge">
+<title>Technique-&gt;Data</title>
+<path fill="none" stroke="black" d="M601.44,-61C628.8,-61 661.98,-61 687.41,-61"/>
+<polygon fill="black" stroke="black" points="687.35,-64.5 697.35,-61 687.35,-57.5 687.35,-64.5"/>
+<text text-anchor="middle" x="650.06" y="-65.2" font-family="Times,serif" font-size="14.00">canInvolve</text>
+</g>
+<!-- AI&#45;&gt;Capability -->
+<g id="edge1" class="edge">
+<title>AI-&gt;Capability</title>
+<path fill="none" stroke="black" d="M196.06,-62.91C202.62,-65 209.77,-67.18 216.42,-69 254.16,-79.35 297.14,-89.27 330.26,-96.51"/>
+<polygon fill="black" stroke="black" points="329.1,-99.84 339.62,-98.54 330.59,-93 329.1,-99.84"/>
+<text text-anchor="middle" x="266.57" y="-97.63" font-family="Times,serif" font-size="14.00">is described using</text>
+</g>
+<!-- AI&#45;&gt;Technique -->
+<g id="edge2" class="edge">
+<title>AI-&gt;Technique</title>
+<path fill="none" stroke="black" d="M198.84,-55.42C257.95,-56.37 402.21,-58.67 485.69,-60"/>
+<polygon fill="black" stroke="black" points="485.49,-63.5 495.54,-60.16 485.6,-56.5 485.49,-63.5"/>
+<text text-anchor="middle" x="386" y="-63.37" font-family="Times,serif" font-size="14.00">is described using</text>
+</g>
+</g>
+</svg>
+  <figcaption>A conceptual model describing AI</figcaption>
+      </figure>
+      <p>The concept [=AI=] represents the overarching broad and generic concept of 'AI', which is then granularly expressed in terms of the additinoal concepts. We have developed a 'three-layer approach' to describing the use of AI in terms of [=Technique=], [=Capability=]', and `dpv:Purpose` where the technical nature of AI is described through technique and capability, while its use is described through purpose.</p>
+      <p>[=Technique=] represents the underlying 'technique' or 'algorithm', such as [=MachineLearning=] and its specific forms [=NeuralNetwork=] and [=SupervisedLearning=]. A 'technique' represents a purely technical detail that does not have a specific goal or purpose in the implementation, and which is applied in different contexts to achieve different outcomes.</p>
+      <p>[=Capability=] refers to the use of a technique to achieve or perform a (technical) goal or objective. The focus on 'technical goal' is an important distinction as this allows the use of `dpv:Purpose` to describe the actual end-goal while 'capability' describes the role of the technology in achieving that. For example, [=FaceRecognition=] is a capability which can utilise a variety of [=Technique=] concepts to achieve its goal of recognising faces. However, by itself, we still don't know why this is being done - which is then described by `dpv:Purpose` e.g. for identity verification.</p>
+      <p>The separation of concepts in this manner also allows for an efficient and accurate representation of how AI technologies are developed and applied in practice. For example, Entity1 develops a algorithmic framework to ingest data and perform some statistical operations on it - this is represented as a [=Technique=]. This framework is then taken by Entity2 who uses it towards generating content - this is represented as a [=Capability=]. It then puts this on the market as a product. Entity3 then uses this product to provide a service to its customers in terms of recommendations - this is represented as a `dpv:Purpose`. In its knowledge graph, Entity3 records that it uses a technology with the relevant AI capability, while the knowledge graph of Entity2 represents that it tooks the framework produced by Entity1 and used it to achieve its intended capability.</p>
     </section>
   </section>
 
   <section id="vocab-techniques">
     <h2>Techniques</h2>
+    <p>[=Technique=] represents the underlying technical implementation, and is associated using [=hasTechnique=]. It represents the lowest level of technical details within the conceptual model used in this extension to describe 'AI technology'. By itself, a technique is not sufficient to describe what the AI technology is being used for, but it is useful to express how the AI technology functions.</p>
+    <p>An implementation of AI technology can be developed only based on a technique - for example as a library or as a framework that can be reused by others. Therefore, a technique can act as a component of a larger AI system where it represents a particular method for implementing something. A technique can also involve the use of other techniques in a composite or combined manner.</p>
     <aside class="issue" title="add content for Technique section - explain what is a Technique"></aside>
     {{ list_hierarchy(modules['techniques']['classes']) }}
   </section>
@@ -129,19 +262,30 @@
   <section id="vocab-capabilities">
     <h2>Capabilities</h2>
     <aside class="issue" title="add content for Capability section - explain what is a Capability"></aside>
+    <p>[=Capability=] represents the use of a technique to achieve some technical goal or objective, and is associated using [=hasCapability=]. It represents the middle level of technical details within the conceptual model used in this extension to describe 'AI technology'. By itself, a capability it not useful to describe what the end-goal of using the AI technology is, but it is useful to describe what the AI technology is used for in context of achieving an end-goal.</p>
+    <p>An implementation of AI technology can be developed with a capability - for example as a service or as a software, which can be used in a standalone manner or be integrated in to a larger AI system. Therefore, AI capabilities can occur as both components and systems, and be involved in processes directly or indirectly in this manner. A capability can also involve the use of other capabilities in a composite or combined manner.</p>
+    <aside class="note" title="Distinction between Capability and Purpose">
+      <p>As outlined earlier, the 'Capability' concept only represents the technical goal i.e. describing what the AI technology is achieving in a technical sense. By itself, it is not sufficient to describe <i>why</i> it is being used - for which the concept `dpv:Purpose` exists. However, despite this, there may be cases where a Capability is expressed without a purpose, such as to describe the development of specific capabilities, which may later be used in a particular use-case towards a specific purpose.</p>
+    </aside>
     {{ list_hierarchy(modules['capabilities']['classes']) }}
   </section>
 
   <section id="vocab-systems">
     <h2>AI Systems and Models</h2>
     <aside class="issue" title="add content for AI System and Model section - explain what is a AI System and Model"></aside>
-    <aside class="note" data-number="197"></aside>
+    <p>[=AISystem=] is defined by ISO/IEC 22989:2023 as "An engineered system that generates outputs such as content, forecasts, recommendations or decisions for a given set of human-defined objectives", and by OECD as "A machine-based system that, for explicit or implicit objectives, infers, from the input it receives, how to generate outputs such as predictions, content, recommendations, or decisions that can influence physical or virtual environments. Different AI systems vary in their levels of autonomy and adaptiveness after deployment." Or simply, it represents a 'system' which uses 'AI technologies'.<p>
+    <p>[=Model=] is defined as "a physical, mathematical or otherwise logical representation of a system, entity, phenomenon, process or data involving the use of AI techniques". Or simply, it represents a 'model' of something using 'AI technologies'.</p>
+    <p>The below taxonomy provides additional concepts based on categorisation of [=AISystem=] and [=Model=] in different contexts.</p>
     {{ list_hierarchy(modules['systems']['classes']) }}
+    <p>The DPVCG is interested in the modelling of 'Agents' in the context of AI technologies, including how they interact with systems and other agents, and how they operate through the use of AI technologies. For this, we welcome proposals and participation.</p>
+    <aside class="issue" data-number="197"></aside>
   </section>
 
   <section id="vocab-data">
     <h2>Data</h2>
     <aside class="issue" title="add content for Data section"></aside>
+    <p>The concept [=Data=] is a broad generic term for describing data involved in the context of AI technology. At the moment, this includes three categories - [=TrainingData=], [=ValidationData], and [=TestingData=]. The DPVCG welcomes proposals and participation to further enhance this taxonomy.</p>
+    <p>[=Data=] extends `dpv:Data`, and thus can be used with related properties such as `dpv:hasData`. To indicate the involvement of personal data, the concept `dpv:PersonalData` should be used along with its relation `dpv:hasPersonalData`. The [[DPV]] taxonomy contains specific concepts to model sensitive data - including that related to confidential and IP, and the [[PD]] extension provides a taxonomy of personal data categories that can be used to indicate involvement in AI technologies.</p>
     {{ list_hierarchy(modules['data']['classes']) }}
   </section>
 
@@ -164,8 +308,8 @@
 
     <section id="vocab-risks-data">
       <h3>Data Risks</h3>
-      <aside class="note" title="Add content for Data Risks section"></aside>
-      {{ list_hierarchy(modules['risks']['classes'], head='ai:DataRisk') }}
+      <p>[=DataRisk=] represent risks associated with the data invovled in AI technologies. To represent these risks in the context of the role the data is playing (training, testing, validation), the same set of data risks are expressed for each of the three data categories to accurately represent both the origin and occurence of the risk.</p>
+      {{ list_hierarchy(modules['risks']['classes'], head='DataRisk') }}
     </section>
 
     <section id="vocab-risks-bias">
@@ -186,11 +330,18 @@
       {{ list_hierarchy(modules['risks']['classes'], head='ai:SecurityAttack') }}
     </section>
 
-    <aside class="issue" title="Add overview table for roles each risk concept can take - see RISK docs for example (reuse code from there)"></aside>
+    <section id="vocab-risks-concepts">
+      <h3>Overview of Risk Concepts</h3>
+      <aside class="issue" title="Add overview table for roles each risk concept can take - see RISK docs for example (reuse code from there)"></aside>
+      <p>The below table provides suggestions for the role each concept can be used for in the context of risk assessment, and how they can be categorised within the conventional 'CIA security model'. For example, [=AdversarialAttack=] can be used as a risk source (i.e. it can cause further issues to arise), a risk (i.e. it is a risk of concern), or as a consequence (i.e. it can occur due to another risk), and it is classified as affecting 'integrity' in the CIA model.</p>
+      <p>This table is based on a similar table within the [[RISK]] extension which provides a detailed taxonomy of concepts and the potential roles they can take across use-cases.</p>
+      {{ make_risk_table(modules['risks']['classes']) }}
+    </section>
 
   <section id="vocab-measures">
     <h2>Risk Measures</h2>
     <aside class="note" title="Add content for Risk Measures concept - mention ai:Measure as parent concept and that we are looking to expand this in the future based on DPV TOMs taxonomies specifically for AI"></aside>
+    <p>The concept [=Measure=] is a specific measure associated with AI technologies to address risks related to AI technologies. While the [[DPV]] and [[RISK]] extension provide relevance and modelling of measures along with detailed taxonomies, this concept is useful to represent the measures developed and specifically used for AI technologies. The DPVCG welcomes proposals and participations to further expand the taxonomy of measures.</p>
   </section>
 
 </section>
@@ -198,6 +349,7 @@
 <section id="vocab-lifecycle">
     <h2>Lifecycle</h2>
     <aside class="issue" title="Add content for Lifecycle section"></aside>
+    <p>[=LifecycleStage=] models the lifecycle of AI technologies from its inception to deployment, use, and retirement. While we use the term 'lifecycle' here, these stages are also useful in other similar contexts such as 'AI Value Chain' and 'AI Supply Chain'. The AI-specific lifecycle is extended from the concept `tech:LifecycleStage` defined in the [[TECH]] extension to model lifecycle and stages of technologies in general. It can therefore be used with the existing relation `tech:hasLifecycleStage` to denote its applicability or involvement.</p>
     <aside class="note" title="Alignment with lifecycle of technology">
       <p>We are currently exploring the alignment of these concepts, which are based on ISO/IEC 22989:2022, with those for lifecycle of technology (in general) as defined in  ISO/IEC/IEEE 15288:2023 Systems and software engineering — System life cycle processes. We have proposed inclusion of technology lifecycle concepts in the [[TECH]] extension, which would then be extended here in the AI extension.</p>
     </aside>

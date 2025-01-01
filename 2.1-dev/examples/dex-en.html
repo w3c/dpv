@@ -343,6 +343,10 @@
       "href": "https://w3id.org/dpv/schema/DPV-29184",
       "title": "DPV Profile for implementing ISO/IEC TS 29184:2020 Privacy Notices"
   },
+  "MAPPING-ODRL": {
+      "href": "https://w3id.org/dpv/mapping/odrl",
+      "title": "Mapping DPV concepts to ODRL"
+  },
   "EXAMPLES": {
     "href": "https://w3id.org/dpv/examples",
     "title": "DPV Examples"
@@ -3147,6 +3151,94 @@ link: <a href="https://w3id.org/dpv/examples/E0082.ttl">source file</a>;      co
     <p><small>(<em>META</em> 
       Example ID: <a href="https://w3id.org/dpv/examples#E0083"><code>E0083</code></a>;
 link: <a href="https://w3id.org/dpv/examples/E0083.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-12-17)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0084">
+          <h4><strong><i>E0084</i>:</strong> Stating status of Rule fulfilment</h4>
+            <aside class="example" title="Stating status of Rule fulfilment">
+<p>This example shows how the status of rules can be expressed in terms of their fulfilment or violation.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Method 1) Rule and status in process</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Obligation</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ObligationFulfilled</span> .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 2) Rule with embedded status</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Obligation</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ObligationFulfilled</span> ;
+    ] .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 3) Embedded status with date</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> [
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Obligation</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasStatus</span> [
+            <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">RuleFulfilmentStatus</span> ;
+            <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ObligationFulfilled</span> ;
+            <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2025-01-01&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+        ] ;
+    ] .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 4) Rule status per entity</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Log1</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">RuleFulfilmentStatus</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ObligationFulfilled</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2025-01-01&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">Log2</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">RuleFulfilmentStatus</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ObligationUnfulfilled</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">BetaInc</span> ; <span style="color: #3D7B7B; font-style: italic"># as of this date</span>
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">date</span> <span style="color: #BA2121">&quot;2025-01-01&quot;</span>^^<span style="color: #0000FF; font-weight: bold">xsd</span>:<span style="color: #008000; font-weight: bold">date</span> ;
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0084"><code>E0084</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0084.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2025-01-01)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0085">
+          <h4><strong><i>E0085</i>:</strong> Role of dpv:Processing and using it in dpv:Process</h4>
+            <aside class="example" title="Role of dpv:Processing and using it in dpv:Process">
+<p>This example shows the myriad ways that processing could be used to describe other non-processing operation information such as personal data and entity involved. To accurately represent the information in a consistent and reusable manner, we recommend using dpv:Process as the way to combine concepts in to a 'unit' and to reuse this in other processes. This means dpv:Processing only specifies information about the processing operation involved, and optionally the technology being used if it is relevant to the context.</p>
+<p>In Method 1, the processing instance contains personal data and entity involved - this is not recommended as the instance now contains information not related to the processing operation itself. Method 2 shows a processing instance which is implemented using a specific technology. This is acceptable as it describes the processing operation in terms of involved technology, and can be a way to reuse the processing operation in other processes while someone (e.g. IT department) can change the underlying technology. Method 3 represents the best practice of using dpv:Process to describe all concepts in a modular and granular manner with a separation of concerns. Processes can include other processes - so we can describe processing and technology and data involved as a process and involve it in other processes. This makes the task of finding information easier as we only have to look for composition of processes, instead of investigating each purpose or processing or another concept involved for what data or technology it involves.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Method 1) Processing has non-processing concepts - not recommended</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Processing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedUsingTechnology</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeMethod</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedByEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 2) Processing has implementing technology</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Processing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedUsingTechnology</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeMethod</span> ;
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedByEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 3) Processing only covers operations - best practice</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Processing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span> ;
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedByEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedUsingTechnology</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeMethod</span> .
+
+<span style="color: #3D7B7B; font-style: italic"># Composition of processes and processing</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AnotherProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> ; <span style="color: #3D7B7B; font-style: italic"># collect, store location by Acme</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeOtherProcess</span> . <span style="color: #3D7B7B; font-style: italic"># share location with Beta</span>
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0085"><code>E0085</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0085.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2025-01-01)
     </small></p>
   </aside>
 
