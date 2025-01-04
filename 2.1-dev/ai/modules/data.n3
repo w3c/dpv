@@ -1,5 +1,6 @@
 @prefix ai: <https://w3id.org/dpv/ai#> .
 @prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix dcam: <http://purl.org/dc/dcam/> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix dpv: <https://w3id.org/dpv#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -70,7 +71,8 @@ ai:ValidationData a rdfs:Class,
     dct:bibliographicCitation "Data Privacy Vocabulary (DPV) -- Version 2. Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake https://doi.org/10.48550/arXiv.2404.13426" ;
     dct:conformsTo "http://www.w3.org/2000/01/rdf-schema",
         "http://www.w3.org/2004/02/skos/core" ;
-    dct:contributor "Delaram Golpayegani" ;
+    dct:contributor "Delaram Golpayegani",
+        "Harshvardhan J. Pandit" ;
     dct:created "2024-05-31"@en ;
     dct:creator "Delaram Golpayegani"@en,
         "Harshvardhan J. Pandit"@en ;
@@ -102,6 +104,60 @@ ai:ValidationData a rdfs:Class,
         <https://w3id.org/dpv/tech> ;
     foaf:logo <https://w3id.org/dpv/media/logo.png> ;
     schema:version "2.1-dev" .
+
+ai:hasTestingData a rdf:Property,
+        skos:Concept ;
+    dcam:domainIncludes ai:AI ;
+    dcam:rangeIncludes ai:ValidationData ;
+    dct:contributor "Delaram Golpayegani" ;
+    dct:created "2024-12-01"^^xsd:date ;
+    rdfs:isDefinedBy ai: ;
+    rdfs:subPropertyOf ai:hasData,
+        tech:hasInputData ;
+    sw:term_status "accepted"@en ;
+    skos:broader ai:hasData,
+        tech:hasInputData ;
+    skos:definition "Associates the data used for testing AI"@en ;
+    skos:inScheme ai:data-properties ;
+    skos:prefLabel "has testing data"@en ;
+    schema:domainIncludes ai:AI ;
+    schema:rangeIncludes ai:ValidationData .
+
+ai:hasTrainingData a rdf:Property,
+        skos:Concept ;
+    dcam:domainIncludes ai:AI ;
+    dcam:rangeIncludes ai:TestingData ;
+    dct:contributor "Delaram Golpayegani" ;
+    dct:created "2024-12-01"^^xsd:date ;
+    rdfs:isDefinedBy ai: ;
+    rdfs:subPropertyOf ai:hasData,
+        tech:hasInputData ;
+    sw:term_status "accepted"@en ;
+    skos:broader ai:hasData,
+        tech:hasInputData ;
+    skos:definition "Associates the data used for training AI"@en ;
+    skos:inScheme ai:data-properties ;
+    skos:prefLabel "has training data"@en ;
+    schema:domainIncludes ai:AI ;
+    schema:rangeIncludes ai:TestingData .
+
+ai:hasValidationData a rdf:Property,
+        skos:Concept ;
+    dcam:domainIncludes ai:AI ;
+    dcam:rangeIncludes ai:TrainingData ;
+    dct:contributor "Delaram Golpayegani" ;
+    dct:created "2024-12-01"^^xsd:date ;
+    rdfs:isDefinedBy ai: ;
+    rdfs:subPropertyOf ai:hasData,
+        tech:hasInputData ;
+    sw:term_status "accepted"@en ;
+    skos:broader ai:hasData,
+        tech:hasInputData ;
+    skos:definition "Associates the data used for validating AI"@en ;
+    skos:inScheme ai:data-properties ;
+    skos:prefLabel "has validation data"@en ;
+    schema:domainIncludes ai:AI ;
+    schema:rangeIncludes ai:TrainingData .
 
 ai:serialisation-html a profile:ResourceDescriptor ;
     dct:conformsTo <https://www.w3.org/TR/html/> ;
@@ -160,4 +216,22 @@ ai:serialisation-ttl a profile:ResourceDescriptor ;
     profile:hasRole role:guidance .
 
 ai:data-classes a skos:ConceptScheme .
+
+ai:data-properties a skos:ConceptScheme .
+
+ai:hasData a rdf:Property,
+        skos:Concept ;
+    dcam:domainIncludes ai:AI ;
+    dcam:rangeIncludes ai:Data ;
+    dct:contributor "Harshvardhan J. Pandit" ;
+    dct:created "2024-12-01"^^xsd:date ;
+    rdfs:isDefinedBy ai: ;
+    rdfs:subPropertyOf dpv:hasData ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:hasData ;
+    skos:definition "Associates data with an AI system or model or implementation"@en ;
+    skos:inScheme ai:data-properties ;
+    skos:prefLabel "has data"@en ;
+    schema:domainIncludes ai:AI ;
+    schema:rangeIncludes ai:Data .
 

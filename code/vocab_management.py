@@ -286,7 +286,8 @@ CSVFILES = {
     },
     'ai': {
         'core': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/ai-core.csv'
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-core.csv',
+            'properties': f'{IMPORT_CSV_PATH}/ai-properties.csv'
         },
         'techniques': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-techniques.csv'
@@ -304,7 +305,8 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-systems.csv'
         },
         'data': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/ai-data.csv'
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-data.csv',
+            'properties': f'{IMPORT_CSV_PATH}/ai-data-properties.csv'
         },
         'lifecycle': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-lifecycle.csv'
