@@ -313,9 +313,9 @@ CSVFILES = {
         },
     },
     'risk': {
-        'core': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/Risk.csv',
-            'properties': f'{IMPORT_CSV_PATH}/Risk_properties.csv',
+        'risk_management': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/RiskManagement.csv',
+            'properties': f'{IMPORT_CSV_PATH}/RiskManagement_properties.csv',
         },
         'risk_levels': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskLevels.csv',
@@ -325,12 +325,14 @@ CSVFILES = {
         },
         'risk_controls': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskControls.csv',
+            'properties': f'{IMPORT_CSV_PATH}/RiskControls_properties.csv',
         },
         'risk_taxonomy': {
             'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskEvents.csv',
         },
         'incident': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Incident.csv',
+            'properties': f'{IMPORT_CSV_PATH}/Incident_properties.csv',
         },
         'incident_status': {
             'taxonomy': f'{IMPORT_CSV_PATH}/IncidentStatus.csv',
@@ -904,7 +906,7 @@ RDF_VOCABS = {
         'template': 'template_risk.jinja2',
         'export': f'{EXPORT_PATH}/risk',
         'modules': {
-            'core': f'{IMPORT_PATH}/risk/modules/core.ttl',
+            'risk_management': f'{IMPORT_PATH}/risk/modules/risk_management.ttl',
             'risk_taxonomy': f'{IMPORT_PATH}/risk/modules/risk_taxonomy.ttl',
             'risk_levels': f'{IMPORT_PATH}/risk/modules/risk_levels.ttl',
             'risk_matrix': f'{IMPORT_PATH}/risk/modules/risk_matrix.ttl',

@@ -1,6 +1,6 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
-{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts, anchor %}
 {% from 'macro_example.jinja2' import example_aside %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
 
@@ -162,7 +162,7 @@
 {% endblock ABSTRACT %}
   <section id="motivation">
     <h2>Introduction</h2>
-    <p>[[DPV]] provides a minimal set of risk assessment concepts that include <code>dpv:RiskAssessment</code> <code>dpv:Risk</code>, <code>dpv:RiskMitigation</code>, <code>dpv:Severity</code>, <code>dpv:Likelihood</code>, <code>dpv:Consequence</code>, and <code>dpv:Impact</code> along with relations or properties to use them. To further assist tasks and representation of information regarding risk assessments, as well as to support the implementation of risk management, the [[RISK]] extension provide additional concepts and taxonomies through which risks and impacts can be defined - such as to describe incidents, data breaches, their associate reports and notices, risk matrices, and other risk management processes.</p>
+    <p>The [[[DPV]]] specification provides a minimal set of risk assessment concepts which enable simple representations of risks and impacts, and associating them with other concepts. To further assist tasks and representation of information regarding risk assessments, as well as to support the implementation of risk management, the [[RISK]] extension provide additional concepts and taxonomies through which risks and impacts can be defined - such as to describe incidents, data breaches, their associate reports and notices, risk matrices, and other risk management processes.</p>
     <p>The RISK extension utilises the following sources to guide and define its concepts and taxonomies:</p>
     <ol>
       <li>ISO 31000 series, which includes: 
@@ -180,16 +180,11 @@
         </ol>
         </li>
     </ol>
-    <p>In addition to these, the [[[AI]]] extension provides additional risks specific to development and use of AI technologies which reuse and extend the concepts provided in this RISK extension.</p>
-  </section>
-
-  <section id="vocab-core">
-    <h2>Core Concepts</h2>
     <figure>
       <img src="../diagrams/risk_management.svg">
       <figcaption>Overview of Risk Assessment and Management concepts in DPV and RISK extension</figcaption>
     </figure>
-    <p>The core concepts involves reuse of the following concepts from [[DPV]]:</p>
+    <p>The RISK extension relies on the following concepts defined in the [[DPV]]:</p>
     <ul>
       <li><a href="https://w3id.org/dpv#Risk"><code>dpv:Risk</code></a> represents the concept of 'risk' i.e. a possibility or potential of negative events to occur, and is indicated using the relation <a href="https://w3id.org/dpv#hasRisk"><code>dpv:hasRisk</code></a>.</li>
       <li><a href="https://w3id.org/dpv#RiskMitigation"><code>dpv:RiskMitigationMeasure</code></a> represents a method or process or control to mitigate the risk, and is associated using the relation <a href="https://w3id.org/dpv#hasRiskMitigationMeasure"><code>dpv:isMitigatedByMeasure</code></a></li>
@@ -205,86 +200,290 @@
       <li><a href="https://w3id.org/dpv#Likelihood"><code>dpv:Likelihood</code></a> represents the likelihood of risks and incidents, and is indicated using <a href="https://w3id.org/dpv#hasLikelihood"><code>dpv:hasLikelihood</code></a>.</li>
       <li><a href="https://w3id.org/dpv#RiskLevel"><code>dpv:RiskLevel</code></a> represents the level of risks and incidents, and is indicated using <a href="https://w3id.org/dpv#hasRiskLevel"><code>dpv:hasRiskLevel</code></a>. The [[RISK]] extension provides a <a href="#vocab-risk-levels">taxonomy of risk levels</a>.</li>
     </ul>
-    <p>The new concepts introduced in this extension include the following:</p>
-    <ul>
-      <li>[=Incident=] to represent an actual occurence of the risk i.e. to indicate a risk has materialised, which is associated with the risk with relation [=refersToRisk=]. To associate an incident with a context, such as a process or a system, the relation [=hasIncident=] is provided.</li>
-      <li>[=IncidentStatus=] to indicate the state or status of an incident, such as whether it is ongoing or has concluded. It is associated using the relation <a href="https://w3id.org/dpv#hasStatus"><code>dpv:hasStatus</code></a>.</li>
-      <li>[=RiskSource=] to represent the source or origin of risk, which is indicated using [=hasRiskSource=].</li>
-      <li>[=Threat=] is a [=RiskSource=] which causes the risk, and is indicated by the relation [=causedByThreat=].</li>
-      <li>[=ThreatSource=] is the agent or non-agent cause of the [=Threat=], and is indicated by the relation [=hasThreatSource=].</li>
-      <li>[=Vulnerability=] to describe the weakness of a process, system, or entity, which is exploited by the [=ThreatSource=] in a [=Threat=] event to give rise to risk and cause an incident. [=Vulnerability=] is associated using the relation [=hasVulnerability=], and the relation [=isVulnerabilityOf=] indicates what the vulnerability is associated with.</li>
-      <li>The relation [=exploitsVulnerability=] indicates a [=Threat=] exploits a [=Vulnerability=], and the relation [=isExploitedBy=] indicates how a [=Vulnerability=] is associated with a [=Threat=]. The relation [=causedByVulnerability=] indicates an incident is caused by a vulnerability.</li>
-      <li>[=RiskControl=] to represent specific controls used in risk mitigation such as changing likelihoods or removing the risk source. The relation [=hasControl=] is used to associate them.</li>
-      <li>[=RiskMatrix=] to represent the popular risk analysis method for calculating risk levels based on likelihood and severity.</li>
-    </ul>
-    {{ list_hierarchy(modules['core']['classes']) }}    
-    {{ example_aside('dex:E0068') }}
-    {{ example_aside('dex:E0069') }}
+    <p>This extension adds additional concepts related to <a href="#vocab-risk-management">Risk Management</a>, including <a href="#risk-assessment">Risk Assessment</a>, <a href="#vocab-incident">Incident Management</a>, and <a href="#vocab-risk-taxonomy">Taxonomies</a> for risks and impacts - including rights.</p>
+    </section>
+    
 
-    <section id="risk-management">
-      <h3>Risk Management</h3>
-      <p>lorem ipsum</p>
+    <section id="vocab-risk-management">
+      <h2>Risk Management</h2>
       <div class="issue" title="expand risk management section"></div>
+      <p>The RISK extension utilises the ISO 31000 series of standards for risk management to define and provide relevant concepts. In this, it considers the use and interpretation of these concepts within organisational as well as <i>legal</i> processes, and provides a framework through which the risk management information can be expressed in a consistent manner. The concept [=RiskManagement=] represents the process of risk management, and which can be associated with a context using the relation [=hasRiskManagement=]. Specific aspects of risk management are expressed through the following concepts and relations:</p>
+      <ol>
+        <li>Context establishment, which includes determination of scope and characteristics to define [=RiskPerception=] and [=RiskCriteria=], which are associated using the relations [=hasRiskPerception=] and [=hasRiskCriteria=] respectively.</li>
+        <li>Carrying out a [=RiskAssessment=], which is associated using the relation [=hasRiskAssessment=], and further includes:<ol type='a'>
+          <li>[=RiskIdentification=] which is associated using the relation [=hasRiskIdentification=], and which identifies {{anchor('dpv:Risk')}} based on an analysis of the following:<ol type='i'>
+            <li>[=RiskSource=], associated using [=hasRiskSource=] relation;</li>
+            <li>[=Threat=], which is associated with a context using [=causedByThreat=], and [=ThreatSource=] associated with a [=Threat=] using [=hasThreatSource=];</li>
+            <li>[=Vulnerability=], which is indicated as being applicable in a context through [=hasVulnerability=], and being the cause of a context through [=causedByVulnerability=]. It is indicated to be exploited by a [=Threat=] using [=exploitsVulnerability=], and conversely by [=isExploitedBy=].</li>
+          </ol></li>
+          <li>[=RiskAnalysis=], associated using [=hasRiskAnalysis=], where each risk is analysed for:<ol type='i'>
+            <li>{{ anchor('dpv:Likelihood') }}</li>
+            <li>{{ anchor('dpv:Severity') }} based on {{ anchor('dpv:Consequence') }} and {{ anchor('dpv:Impact') }}</li>
+            <li>- which is then used to determines a {{ anchor('dpv:RiskLevel') }}</li>
+            <li>A [=RiskMatrix=] is a common framework utilised for this step.</li>
+          </ol></li>
+          <li>[=RiskEvaluation=], associated using [=hasRiskEvaluation=], to determine acceptance and tolerance of identified risks</li>
+        </ol></li>
+        <li>[=RiskTreatment=] where identifies risks are treated with [=RiskControl=], and which is associated using [=hasRiskTreatment=].</li>
+        <li>Orthogonal to these are organisational processes (which are part of {{anchor('dpv:OrganisationalMeasure')}} taxonomy), and include assigning a [=RiskOwner=] (associated using [=hasRiskOwner=]) for accountability and management. Further organisational concepts can be expanded here in future iterations, such as to represent communication, consultation, monitoring and reviewing processes.</li>
+      </ol>
+      {{ list_hierarchy(modules['risk_management']['classes']) }}
     </section>
 
     <section id="risk-assessment">
-      <h3>Risk Assessment</h3>
-      <p>lorem ipsum</p>
+      <h2>Risk Assessment</h2>
       <div class="issue" title="expand risk assessment section"></div>
-    </section>
+      <p>The process of 'Risk Assessment' involves risk identification, analysis, and evaluation, through which information is identified and recorded regarding applicable risks. While the [[DPV]] specification already provides sufficient concepts to express relevant information, it does not contain practical concepts to represent commonly used information - such as quantified values used in risk analysis. The RISK extenstion therefore provides such values for risk assessments. The below example outlines how this is useful to represent information.</p>
+      {{ example_aside('dex:E0068') }}
 
     <section id="vocab-risk-levels">
-      <h2>Likelihood, Severity, and Levels</h2>
-      <p>To express likelihoods, severities, and levels in a convenient manner, the RISK extension provides the following groups of concepts. Each concept is associated with a suggested value to represent the extent or degree of the concept between <code>0..1</code> using <code>rdf:value</code> e.g. [=ExtremelyLowRisk=] has a value of <code>0.01</code> and [=HighLikelihood=] has a value of <code>0.75</code>. Each group uses these values to express a range within a group e.g. in [=3LikelihoodLevels=] the [=LowLikelihood=] (0.25) covers the range 0 to 0.25, while in [=7LikelihoodLevels=] it covers the range from 0.1 ([=VeryLowLikelihood=]) to 0.25. Adopters can thus choose the appropriate ranges, and as the values are suggestions - they can be changed to match the requirements of the use-case.</p>
+      <h3 id="likelihood">Risk Analysis - Likelihood</h3>
+      <p>To express likelihoods, the RISK extension provides the following groups of concepts. Each concept is associated with a suggested value to represent the extent or degree of the concept between <code>0..1</code> using <code>rdf:value</code> e.g. [=ExtremelyLowRisk=] has a value of <code>0.01</code> and [=HighLikelihood=] has a value of <code>0.75</code>. Each group uses these values to express a range within a group e.g. in [=3LikelihoodLevels=] the [=LowLikelihood=] (0.25) covers the range 0 to 0.25, while in [=7LikelihoodLevels=] it covers the range from 0.1 ([=VeryLowLikelihood=]) to 0.25. Adopters can thus choose the appropriate ranges, and as the values are suggestions - they can be changed to match the requirements of the use-case.</p>
       <ul>
-        <li>Likelihood:
-          <ul>
-            <li>[=3LikelihoodLevels=] which contains 3 likelihood levels of [=HighLikelihood=] (0.75), [=ModerateLikelihood=] (0.5), and [=LowLikelihood=] (0.25)</li>
-            <li>[=5LikelihoodLevels=] which contains the 3 likelihood levels from [=3LikelihoodLevels=] as well as [=VeryHighLikelihood=] (0.9) and [=VeryLowLikelihood=] (0.1) </li>
-            <li>[=7LikelihoodLevels=] which contains the 5 likelihood levels from [=5LikelihoodLevels=] as well as [=ExtremelyHighLikelihood=] (0.99) and [=ExtremelyLowLikelihood=] (0.01)</li>
-          </ul></li>
-        <li>Severity:
-          <ul>
-            <li>[=3SeverityLevels=] which contains 3 Severity levels of [=HighSeverity=] (0.75), [=ModerateSeverity=] (0.5), and [=LowSeverity=] (0.25)</li>
-            <li>[=5SeverityLevels=] which contains the 3 Severity levels from [=3SeverityLevels=] as well as [=VeryHighSeverity=] (0.9) and [=VeryLowSeverity=] (0.1) </li>
-            <li>[=7SeverityLevels=] which contains the 5 Severity levels from [=5SeverityLevels=] as well as [=ExtremelyHighSeverity=] (0.99) and [=ExtremelyLowSeverity=] (0.01)</li>
-          </ul></li>
-        <li>RiskLevel:
-          <ul>
-            <li>[=3RiskLevels=] which contains 3 RiskLevel levels of [=HighRisk=] (0.75), [=ModerateRisk=] (0.5), and [=LowRisk=] (0.25)</li>
-            <li>[=5RiskLevels=] which contains the 3 RiskLevel levels from [=3RiskLevels=] as well as [=VeryHighRisk=] (0.9) and [=VeryLowRisk=] (0.1) </li>
-            <li>[=7RiskLevels=] which contains the 5 RiskLevel levels from [=5RiskLevels=] as well as [=ExtremelyHighRisk=] (0.99) and [=ExtremelyLowRisk=] (0.01)</li>
-          </ul></li>
+        <li>[=3LikelihoodLevels=] which contains 3 likelihood levels of [=HighLikelihood=] (0.75), [=ModerateLikelihood=] (0.5), and [=LowLikelihood=] (0.25)</li>
+        <li>[=5LikelihoodLevels=] which contains the 3 likelihood levels from [=3LikelihoodLevels=] as well as [=VeryHighLikelihood=] (0.9) and [=VeryLowLikelihood=] (0.1) </li>
+        <li>[=7LikelihoodLevels=] which contains the 5 likelihood levels from [=5LikelihoodLevels=] as well as [=ExtremelyHighLikelihood=] (0.99) and [=ExtremelyLowLikelihood=] (0.01)</li>
       </ul>
+      {{ list_hierarchy(modules['risk_levels']['classes'], head='dpv:Likelihood') }}
+    </section>
+    <section id="severity">
+      <h3>Risk Analysis - Severity</h3>
+      <p>To express severities in a convenient manner, the RISK extension provides the following groups of concepts, where each concept is also associated with a suggested value similar to <a href="#likelihood">likelihood</a> to represent the extent or degree of the concept between <code>0..1</code> using <code>rdf:value</code></p>
+      <ul>
+        <li>[=3SeverityLevels=] which contains 3 Severity levels of [=HighSeverity=] (0.75), [=ModerateSeverity=] (0.5), and [=LowSeverity=] (0.25)</li>
+        <li>[=5SeverityLevels=] which contains the 3 Severity levels from [=3SeverityLevels=] as well as [=VeryHighSeverity=] (0.9) and [=VeryLowSeverity=] (0.1) </li>
+        <li>[=7SeverityLevels=] which contains the 5 Severity levels from [=5SeverityLevels=] as well as [=ExtremelyHighSeverity=] (0.99) and [=ExtremelyLowSeverity=] (0.01)</li>
+      </ul>
+      {{ list_hierarchy(modules['risk_levels']['classes'], head='dpv:Severity') }}
+    </section>
+    <section id="risk-level">
+      <h3>Risk Analysis - Risk Level</h3>
+      <p>To express risk levels in a convenient manner, the RISK extension provides the following groups of concepts where each concept is associated with a suggested value to represent the extent or degree of the concept between <code>0..1</code> using <code>rdf:value</code> similar to <a href="#likelihood">likelihood</a> and <a href="#severity">severity</a> concepts.</p>
+      <ul>
+        <li>[=3RiskLevels=] which contains 3 RiskLevel levels of [=HighRisk=] (0.75), [=ModerateRisk=] (0.5), and [=LowRisk=] (0.25)</li>
+        <li>[=5RiskLevels=] which contains the 3 RiskLevel levels from [=3RiskLevels=] as well as [=VeryHighRisk=] (0.9) and [=VeryLowRisk=] (0.1) </li>
+        <li>[=7RiskLevels=] which contains the 5 RiskLevel levels from [=5RiskLevels=] as well as [=ExtremelyHighRisk=] (0.99) and [=ExtremelyLowRisk=] (0.01)</li>
+      </ul>
+      {{ list_hierarchy(modules['risk_levels']['classes'], head='dpv:RiskLevel') }}
+    </section>
+    <section id="vocab-risk-matrix">
+      <h3>Risk Matrix</h3>
+      <p><a href="https://en.wikipedia.org/wiki/Risk_matrix">Risk Matrix</a> is a popularly used technique for qualitative risk analysis, through which a risk's likelihood and severity are used to obtain an overall risk level. To support its use, the RISK taxonomy provides concepts representing risk matrices of the format 3x3, 5x5, and 7x7. The concepts are expressed as combinations of Severity (<code>Sx</code>) and Likelihood (<code>Lx</code>) levels, and the resulting Risk Level (<code>Lx</code>) being used as its label. For example, the concept [=RM3x3S1L3=] represents a node in a 3x3 matrix with Severity and Likelihood level low (n=1) and Likelihood level high (n=3) with a resulting Risk Level of 'Moderate'. Similarly, [=RM7x7S4L7=] represents a node in a 7x7 risk matrix with Severity level moderate (n=4) and Likelihood level extremely high (n=7) with the resulting Risk Level of 'Very High Risk'.</p>
+      <p>It is possible to change the risk levels for the risk matrix by replacing the supplied labels with a custom one. For example, to indicate that the concept [=RM3x3S1L3=] should be 'Low Risk' instead of 'Moderate'. Ideally, this should be done by extending the relevant concepts to indicate a custom / use-case specific enumeration of risk levels and scores. The below table showcases the risk matrix collections provided in the RISK extension. The concepts in each cell can be clicked on for the full definition table. The colours are indicative and are not part of the vocabulary.</p>
 
-      {{ list_hierarchy(modules['risk_levels']['classes']) }}
+      <section id="vocab-risk-matrix-3x3">
+        <h4>Risk Matrix 3x3</h4>
+        <table>
+          <tr>
+              <td>Likelihood &#8595; Severity &#8594;</td>
+              <td>Low</td>
+              <td>Moderate</td>
+              <td>High</td>
+          </tr>
+          <tr>
+              <td>High</td>
+              <td style="background-color: #FFE761";>[=RM3x3S1L3=]</td>
+              <td style="background-color: #FF3333";>[=RM3x3S2L3=]</td>
+              <td style="background-color: #FF3333";>[=RM3x3S3L3=]</td>
+          </tr>
+          <tr>
+              <td>Moderate</td>
+              <td style="background-color: #B0FF8F";>[=RM3x3S1L2=]</td>
+              <td style="background-color: #FFE761";>[=RM3x3S2L2=]</td>
+              <td style="background-color: #FF3333";>[=RM3x3S3L2=]</td>
+          </tr>
+          <tr>
+              <td>Low</td>
+              <td style="background-color: #B0FF8F";>[=RM3x3S1L1=]</td>
+              <td style="background-color: #B0FF8F";>[=RM3x3S2L1=]</td>
+              <td style="background-color: #FFE761";>[=RM3x3S3L1=]</td>
+          </tr>
+      </table>
+        {# {{ list_hierarchy(modules['risk_matrix']['classes'], head='risk:RiskMatrix3x3') }} #}
+      </section>
 
+      <section id="vocab-risk-matrix-5x5">
+        <h4>Risk Matrix 5x5</h4>
+        <table>
+          <tr>
+              <td>Likelihood &#8595; Severity &#8594;</td>
+              <td>Very Low</td>
+              <td>Low</td>
+              <td>Moderate</td>
+              <td>High</td>
+              <td>Very High</td>
+          </tr>
+          <tr>
+              <td>Very High</td>
+              <td style="background-color: #FFE761";>[=RM5x5S1L5=]</td>
+              <td style="background-color: #FFB452";>[=RM5x5S2L5=]</td>
+              <td style="background-color: #FFB452";>[=RM5x5S3L5=]</td>
+              <td style="background-color: #FF3333";>[=RM5x5S4L5=]</td>
+              <td style="background-color: #FF3333";>[=RM5x5S5L5=]</td>
+          </tr>
+          <tr>
+              <td>High</td>
+              <td style="background-color: #FFE761";>[=RM5x5S1L4=]</td>
+              <td style="background-color: #FFE761";>[=RM5x5S2L4=]</td>
+              <td style="background-color: #FFB452";>[=RM5x5S3L4=]</td>
+              <td style="background-color: #FFB452";>[=RM5x5S4L4=]</td>
+              <td style="background-color: #FF3333";>[=RM5x5S5L4=]</td>
+          </tr>
+          <tr>
+              <td>Moderate</td>
+              <td style="background-color: #B0FF8F";>[=RM5x5S1L3=]</td>
+              <td style="background-color: #FFE761";>[=RM5x5S2L3=]</td>
+              <td style="background-color: #FFE761";>[=RM5x5S3L3=]</td>
+              <td style="background-color: #FFB452";>[=RM5x5S4L3=]</td>
+              <td style="background-color: #FFB452";>[=RM5x5S5L3=]</td>
+          </tr>
+          <tr>
+              <td>Low</td>
+              <td style="background-color: #CAFF80";>[=RM5x5S1L2=]</td>
+              <td style="background-color: #B0FF8F";>[=RM5x5S2L2=]</td>
+              <td style="background-color: #FFE761";>[=RM5x5S3L2=]</td>
+              <td style="background-color: #FFE761";>[=RM5x5S4L2=]</td>
+              <td style="background-color: #FFB452";>[=RM5x5S5L2=]</td>
+          </tr>
+          <tr>
+              <td>Very Low</td>
+              <td style="background-color: #CAFF80";>[=RM5x5S1L1=]</td>
+              <td style="background-color: #CAFF80";>[=RM5x5S2L1=]</td>
+              <td style="background-color: #B0FF8F";>[=RM5x5S3L1=]</td>
+              <td style="background-color: #FFE761";>[=RM5x5S4L1=]</td>
+              <td style="background-color: #FFE761";>[=RM5x5S5L1=]</td>
+          </tr>
+      </table>
+        {# {{ list_hierarchy(modules['risk_matrix']['classes'], head='risk:RiskMatrix5x5') }} #}
+      </section>
+
+      <section id="vocab-risk-matrix-7x7">
+        <h4>Risk Matrix 7x7</h4>
+        <table>
+          <tr>
+              <td>Likelihood &#8595; Severity &#8594;</td>
+              <td>Extremely Low</td>
+              <td>Very Low</td>
+              <td>Low</td>
+              <td>Moderate</td>
+              <td>High</td>
+              <td>Very High</td>
+              <td>Extremely High</td>
+          </tr>
+          <tr>
+              <td>Extremely High</td>
+              <td style="background-color: #FFE761";>[=RM7x7S1L7=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S2L7=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S3L7=]</td>
+              <td style="background-color: #FF7842";>[=RM7x7S4L7=]</td>
+              <td style="background-color: #FF7842";>[=RM7x7S5L7=]</td>
+              <td style="background-color: #FF3333";>[=RM7x7S6L7=]</td>
+              <td style="background-color: #FF3333";>[=RM7x7S7L7=]</td>
+          </tr>
+          <tr>
+              <td>Very High</td>
+              <td style="background-color: #FFE761";>[=RM7x7S1L6=]</td>
+              <td style="background-color: #FFE761";>[=RM7x7S2L6=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S3L6=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S4L6=]</td>
+              <td style="background-color: #FF7842";>[=RM7x7S5L6=]</td>
+              <td style="background-color: #FF7842";>[=RM7x7S6L6=]</td>
+              <td style="background-color: #FF3333";>[=RM7x7S7L6=]</td>
+          </tr>
+          <tr>
+              <td>High</td>
+              <td style="background-color: #ECFF70";>[=RM7x7S1L5=]</td>
+              <td style="background-color: #ECFF70";>[=RM7x7S2L5=]</td>
+              <td style="background-color: #FFE761";>[=RM7x7S3L5=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S4L5=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S5L5=]</td>
+              <td style="background-color: #FF7842";>[=RM7x7S6L5=]</td>
+              <td style="background-color: #FF7842";>[=RM7x7S7L5=]</td>
+          </tr>
+          <tr>
+              <td>Moderate</td>
+              <td style="background-color: #CAFF80";>[=RM7x7S1L4=]</td>
+              <td style="background-color: #ECFF70";>[=RM7x7S2L4=]</td>
+              <td style="background-color: #ECFF70";>[=RM7x7S3L4=]</td>
+              <td style="background-color: #FFE761";>[=RM7x7S4L4=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S5L4=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S6L4=]</td>
+              <td style="background-color: #FF7842";>[=RM7x7S7L4=]</td>
+          </tr>
+          <tr>
+              <td>Low</td>
+              <td style="background-color: #CAFF80";>[=RM7x7S1L3=]</td>
+              <td style="background-color: #CAFF80";>[=RM7x7S2L3=]</td>
+              <td style="background-color: #ECFF70";>[=RM7x7S3L3=]</td>
+              <td style="background-color: #FFE761";>[=RM7x7S4L3=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S5L3=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S6L3=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S7L3=]</td>
+          </tr>
+          <tr>
+              <td>Very Low</td>
+              <td style="background-color: #B0FF8F";>[=RM7x7S1L2=]</td>
+              <td style="background-color: #CAFF80";>[=RM7x7S2L2=]</td>
+              <td style="background-color: #CAFF80";>[=RM7x7S3L2=]</td>
+              <td style="background-color: #ECFF70";>[=RM7x7S4L2=]</td>
+              <td style="background-color: #FFE761";>[=RM7x7S5L2=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S6L2=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S7L2=]</td>
+          </tr>
+          <tr>
+              <td>Extremely Low</td>
+              <td style="background-color: #B0FF8F";>[=RM7x7S1L1=]</td>
+              <td style="background-color: #B0FF8F";>[=RM7x7S2L1=]</td>
+              <td style="background-color: #CAFF80";>[=RM7x7S3L1=]</td>
+              <td style="background-color: #ECFF70";>[=RM7x7S4L1=]</td>
+              <td style="background-color: #FFE761";>[=RM7x7S5L1=]</td>
+              <td style="background-color: #FFE761";>[=RM7x7S6L1=]</td>
+              <td style="background-color: #FFB452";>[=RM7x7S7L1=]</td>
+          </tr>
+      </table>
+      <aside class="issue" data-number="211"></aside>
+      </section>
     </section>
   </section>
 
   <section id="vocab-incident">
     <h2>Incident</h2>
-    <p>To represent details about an [=Incident=] such as what personal data was involved, what technical measures were present before the incident occured, who were data subjects involved, and other pertinent details, the [[DPV]] concepts and relations should be reused.</p>
-    <p>To indicate the duration of the incident, the [[DPV]] concept <code>dpv:Duration</code> and relation <code>dpv:hasRelation</code> can be used, or <code>dct:temporal</code> from [[DCT]] can be used, or other means such as the [[TIME]] ontology or XSD types. If this information is unknown, then <code>dpv:NotAvailable</code> should be used. If the incident is ongoing, only the start would be available (also see [=IncidentStatus=]).</li>
-    </ul>
-    <p>To indicate whether the incident is ongoing or concluded (on its own) or it was terminated due to some action taken, the concept [=IncidentStatus=] is provided along with a <a href="#vocab-incident-status">taxonomy of statuses</a> which are indicated using the relation <code>dpv:hasStatus</code>.</p>
+    <p>The concept [=Incident=] represents an event or 'incident' that has occurred, as compared to 'risk' which is a theoretical occurrence of an event. To represent specifics about an [=Incident=] such as what personal data was involved, what technical measures were present before the incident occurred, who were humans or data subjects involved, and other pertinent details - the [[DPV]] concepts and relations should be reused.</p>
+    <p>The RISK extension provides a taxonomy of incident types based on security and legal assessment needs. For example, the [=ConfidentialityIncident=] concept represents an incident affecting the 'confidentiality' dimension in the commonly utilised 'CIA' assessment model. Similarly, [=CrossBorderIncident=] represents an incident that affects multiple jurisdictions i.e. the incident 'crosses borders' - such as because there are multiple storage locations being present across jurisdictions, or because the effected entities are across jurisdictions. The concepts [=DeliberateIncident=] and [=AccidentalIncident=] model the 'intent' behind an incident, which is essential to categorise the continued threat assessment for the incident.</p>
+    
+    {{ example_aside('dex:E0069') }}
     {{ example_aside('dex:E0070') }}
-    {{ list_hierarchy(modules['incident']['classes']) }}
+    {{ list_hierarchy(modules['incident']['classes'], head='risk:Incident') }}
+
+    <section>
+      <h3>Incident Metadata</h3>
+      <p>To indicate the duration of the incident, the [[DPV]] concept <code>dpv:Duration</code> and relation <code>dpv:hasRelation</code> can be used, or <code>dct:temporal</code> from [[DCT]] can be used, or other means such as the [[TIME]] ontology or XSD types. If this information is unknown, then <code>dpv:NotAvailable</code> should be used. If the incident is ongoing, only the start would be available and represented within the period or duration information. The <a href="#vocab-incident-status">taxonomy of statuses</a> for [=IncidentStatus=] is provided to indicate whether the incident is ongoing or concluded (on its own) or it was terminated due to some action taken), which is indicated in context using the relation <code>dpv:hasStatus</code>.</p>
+      <p>[=IncidentIdentifier=] represents an identifier associated with an incident. This concept assists in specifying identifiers that may be assigned by the directly affected entity, or to share identifiers for tracking the same incident amongst entities, or to share an identifiers as a common reference when reporting an incident to authorities.</p>
+      <p>[=IncidentImpactAssessment=] represents an impact assessment conducted specifically for the incident. It can be associated in contexts, such as for an [=IncidentReport=] by using the relation {{anchor('dpv:hasAssessment')}} and {{anchor('dpv:hasImpactAssessment')}}.</p>
+      <p>An [=IncidentMitigationMeasure=] is a 'mitigation measure' taken specifically in relation to an incident - such as to reduce the effects or to inform affected stakeholders. The use of 'mitigation' here is from the legal terminology, and includes a broad range of options available under the typical risk management vocabulary such as eliminating, detecting, modifying, and so on. The relation {{anchor('dpv:isMitigatedByMeasure')}} can be useful to associate the measure with an incident.</p>
+      <p>[=IncidentNotice=] is a notice specifically about an incident, such as for providing information to stakeholders, or to report the incident to authorities. It can be associated in context using {{anchor('dpv:hasNotice')}}. Note that extensions modelling legal requirements such as [[EU-GDPR]] and [[EU-NIS2]] will provide specific concepts that extend this notice concept corresponding to obligations around reporting.</p>
+      <p>[=IncidentRegister=] is a record of incidents (including near-misses and other relevant statuses). It can be associated in context using {{anchor('dpv:hasRecordOfActivity')}}, and also through {{anchor('dpv:hasOrganisationalMeasure')}}.</p>
+      <p>Further metadata about incidents can be modelled through the [[DCTERMS]] vocabulary. The DPVCG also welcomes participation and contributions to expand this incident related vocabulary in the RISK extension.</p>
+    </section>
 
     <section id="vocab-incident-status">
       <h3>Incident Status</h3>
       <aside class="issue" title="Add content for Incident Status section"></aside>
+      <p>[=IncidentStatus=] refers to the status of the incident itself, and [=IncidentInvestigationStatus=] refers to the status of the investigation associated with an incident. Such investigations are obligations under specific legal requirements, such as for data breaches under GDPR, and security incidents under NIS2. These laws require notifying relevant authorities regarding an incident within specific time frames varying from initial preliminary notifications of an incident occurring, to later notifications with a full report when the incident handling has been completed.</p>
       {{ list_hierarchy(modules['incident_status']['classes']) }}
     </section>
 
     <section id="vocab-incident-report">
       <h3>Incident Report</h3>
       <div class="issue" title="expand incident report section"></div>
+      <p>An [=IncidentReport=] represents a report regarding an incident with the goal of documenting information about an incident found through investigations - such as when it occurred, its scope, effects, sources, as well as information about the investigations itself. The RISK extension defines specific categories of reports to support legal reporting obligations, such as [=IncidentDetectionReport=] for reporting when an incident has been detected, or [=IncidentPreliminaryReport=] for a preliminary (early) report when the incident and/or its investigation is still ongoing and the complete details may not be available.</p>
+      <p>As [=IncidentReport=] as defined as a kind of {{anchor('dpv:OrganisationalMeasure')}}, they can be associated or involved in context through the relations {{anchor('dpv:hasOrganisationalMeasure')}} for a broad reference to reporting as a measure, and {{anchor('dpv:hasRecordOfActivity')}} to specifically assert the report as a record of the investigation process.</p>
+      {{ list_hierarchy(modules['incident']['classes'], head='risk:IncidentReport') }}
     </section>
   </section>
 
   <section id="vocab-risk-controls">
-    <h2>Controls</h2>
+    <h2>Risk Controls</h2>
     <p>[=RiskControl=] allows expressing how [[DPV]] technical and organisational measures address the risk or incident. They are associated using the relation [=hasControl=]. For example, [=ConsequenceControl=] is applied to consequences and impacts to either change them ([=ChangeConsequence=]) such as by reducing their likelihood or severity, or removing them ([=RemoveConsequence=]) completely. [=MonitorControl=] represents controls used to monitor events or effectiveness, such as to detect impacts ([=MonitorImpact=]) or identify vulnerabilities ([=MonitorVulnerabilities=]).</p>
     {{ example_aside('dex:E0071') }}
     {{ list_hierarchy(modules['risk_controls']['classes']) }}
@@ -292,10 +491,16 @@
   </section>
 
   <section id="vocab-risk-taxonomy">
-    <h2>Taxonomies</h2>
-    <p>The RISK extension provides a single unified taxonomy of concepts that can take on the roles of `RiskSource`, `Risk`, `Consequence`, and `Impact` in an use-case. For example, the same concept `DataBreach` can be the the `Risk` in a risk assessment whose impacts are to be determined, or it can be the `Impact` whose causes must be discovered. By providing a single taxonomy, the adopter is free to choose which role the concept plays within their use-case - which offers significant benefits in terms of both extensibility and flexibility, allowing users to tailor the taxonomy to their specific use cases while maintaining a consistent framework.</p>
+    <h2>Risk/Impact Taxonomies</h2>
+
+    <section>
+      <h3>Conceptual Model</h3>
+      <p>The RISK extension provides a single unified taxonomy of concepts that can take on the roles of `RiskSource`, `Risk`, `Consequence`, and `Impact` in an use-case. For example, the same concept `DataBreach` can be the the `Risk` in a risk assessment whose impacts are to be determined, or it can be the `Impact` whose causes must be discovered. By providing a single taxonomy, the adopter is free to choose which role the concept plays within their use-case - which offers significant benefits in terms of both extensibility and flexibility, allowing users to tailor the taxonomy to their specific use cases while maintaining a consistent framework.</p>
     <p>The RISK taxonomy's design allows it to be highly and easily extensible as concepts are not required to be strictly categorised as risks or impacts within the DPV specifications itself. This is particularly valuable as the areas of cybersecurity and AI technologies are rapidly evolving landscapes where new risks and risk sources frequently emerge.</p>
-    <p>To enable the creation of this taxonomy, the concept `dpv:RiskConcept` acts as the parent or top concept, and `dpv:Risk`, `dpv:Consequence`, `dpv:Impact`, and `risk:RiskSource` are defined as its subclasses. To utilise these concepts in particular roles, the associated relations or properties such as `dpv:hasRisk` and `dpv:hasImpact` are used.</p>
+    <p>To enable the creation of this taxonomy, the concept {{anchor('dpv:RiskConcept')}} acts as the parent or top concept, and {{anchor('dpv:Risk')}}, {{anchor('dpv:Consequence')}}, {{anchor('dpv:Impact')}}, and `risk:RiskSource` are defined as its subclasses. To utilise these concepts in particular roles, the associated relations or properties such as {{anchor('dpv:hasRisk')}} and {{anchor('dpv:hasImpact')}} are used.</p>
+    <p>However, when providing the taxonomy in this extension, it cannot be asserted that the concept is <i>always</i> a risk or an impact - as this is determined by the context of the use-case. Therefore, the concepts [=PotentialRisk=], [=PotentialRiskSource=], [=PotentialConsequence=], and [=PotentialImpact=] are created and used to create the taxonomy with an indication of what roles each concept can <i>potentially</i> take. Use-cases can assert these roles in context, or ignore them and utilise a different set role - which allows the taxonomy to be be both useful and flexible.</p>
+    <p>To further support the utility of the taxonomy, where possible, concepts are also categorised based on the commonly utilised 'CIA triad model' in information security, where 'CIA' stands for <i>'Confidentiality'</i>, <i>'Integrity'</i>, and <i>'Availability'</i>. These are represented by the specific concept being declared as an instance of [=ConfidentialityConcept=], [=IntegrityConcept=], and [=AvailabilityConcept=] respectively.</p>
+    <p>Below are examples showing how the provided concepts can taken on contextually divergent roles in different use-cases. The taxonomy is provided through dedicated sections based on the potential roles each concept takes (<a href="#vocab-potential-risk-sources">as risk sources</a>, <a href="#vocab-potential-risk">as risks</a>, <a href="#vocab-potential-consequences">as consequences</a>, and <a href="#vocab-potential-impacts">as impacts</a>), as well as based on the categorisation of the concept as relating to <a href="#vocab-technical-risks">technical</a>, <a href="#vocab-organisational-risks">organisational</a>, <a href="#vocab-societal-risks">societal</a>, or <a href="#vocab-legal-risks">legal matters. An <a href="#overview-concepts-and-roles">overview table</a> shows each concept along with its categorisation in a convenient manner. Finally, a dedicated section provide further details on <a href="#risk-rights-impacts">modelling rights impacts</a> based on the provided taxonomy.</p>
     <aside class="example" title="Indicating risks and impacts using the RISK taxonomy">
       <p>This example shows how the same concept can take on multiple roles across different contexts or use-cases. The first part describes a development phase where technologies are assessed for vulnerabilities whose impact may result in a data breach. This represents a typical internal-facing risk assessment. The second part describes the deployment phase where technologies are assessed for the risk of data breaches which may cause significant impact on data subjects. This represents a typical external-facing data breach impact assessment.</p>
       <pre><code># Part 1: Risk Assessment for Data Breach
@@ -312,65 +517,73 @@ ex:ProcessB a dpv:Process ;
     dpv:hasConsequence risk:IntentionalMisuse ;
     dpv:hasImpact risk:RightsImpact .</code></pre>
     </aside>
+      {{ list_hierarchy(modules['risk_taxonomy']['classes'], head='risk:PotentialRiskConcept') }}
+    </section>
 
     <section id="vocab-potential-risk-sources">
       <h3>Potential Risk Sources</h3>
       <aside class="issue" title="Add content for what is a potential risk source"></aside>
+      <p>A [=PotentialRiskSource=] represents a concept which can be a risk source or act like a risk source in specific concepts. The concept can also be used to create domain or sector or use-case specific groupings of concepts which can act as risk sources in context. Concepts which can act as a potential risk source are defined as an instance of [=PotentialRiskSource=].</p>
       {{ list_hierarchy(modules['risk_taxonomy']['classes']|filter_type_dict('risk:PotentialRiskSource')) }}
     </section>
 
     <section id="vocab-potential-risk">
       <h3>Potential Risks</h3>
       <aside class="issue" title="Add content for what is a potential risk"></aside>
+      <p>A [=PotentialRisk=] represents a concept which can be a risk or act like a risk in specific concepts. The concept can also be used to create domain or sector or use-case specific groupings of concepts which can act as risks in context. Concepts which can act as a potential risks are defined as an instance of [=PotentialRisk=].</p>
       {{ list_hierarchy(modules['risk_taxonomy']['classes']|filter_type_dict('risk:PotentialRisk')) }}
     </section>
 
     <section id="vocab-potential-consequences">
       <h3>Potential Consequences</h3>
       <aside class="issue" title="Add content for what is a potential consequence"></aside>
+      <p>A [=PotentialConsequence=] represents a concept which can be a consequence or act like a consequence in specific concepts. The concept can also be used to create domain or sector or use-case specific groupings of concepts which can act as consequences in context. Concepts which can act as a potential consequence are defined as an instance of [=PotentialConsequence=].</p>
       {{ list_hierarchy(modules['risk_taxonomy']['classes']|filter_type_dict('risk:PotentialConsequence')) }}
     </section>
 
     <section id="vocab-potential-impacts">
       <h3>Potential Impacts</h3>
       <aside class="issue" title="Add content for what is a potential impact"></aside>
+      <p>A [=PotentialImpact=] represents a concept which can be an impact or act like an impact in specific concepts. The concept can also be used to create domain or sector or use-case specific groupings of concepts which can act as impacts in context. Concepts which can act as a potential impact are defined as an instance of [=PotentialImpact=].</p>
       {{ list_hierarchy(modules['risk_taxonomy']['classes']|filter_type_dict('risk:PotentialImpact')) }}
     </section>
 
     <section id="vocab-technical-risks">
       <h3>Technical Risk Concepts</h3>
       <aside class="issue" title="Add content for what is a technical risk"></aside>
+      <p>A [=TechnicalRiskConcept=] represents a concept that is technical in nature or relate to a technical or technological process, and which then can be applicable as a risk source, risk, consequence, or impact in specific concepts.</p>
       {{ list_hierarchy(modules['risk_taxonomy']['classes'], head='risk:TechnicalRiskConcept') }}
     </section>
 
     <section id="vocab-organisational-risks">
       <h3>Organisational Risk Concepts</h3>
       <aside class="issue" title="Add content for what is an organisaional  risk"></aside>
+      <p>A [=OrganisationalRiskConcept=] represents a concept that is  organisational in nature or relates to an organisational process, and which then can be applicable as a risk source, risk, consequence, or impact in specific concepts.</p>
       {{ list_hierarchy(modules['risk_taxonomy']['classes'], head='risk:OrganisationalRiskConcept') }}
     </section>
 
     <section id="vocab-societal-risks">
       <h3>Societal Risk Concepts</h3>
       <aside class="issue" title="Add content for what is a societal risk"></aside>
+      <p>A [=SocietalRiskConcept=] represents a concept that is societal in nature or relates to a societal process or event or effect, and which then can be applicable as a risk source, risk, consequence, or impact in specific concepts.</p>
       {{ list_hierarchy(modules['risk_taxonomy']['classes'], head='risk:SocietalRiskConcept') }}
     </section>
 
     <section id="vocab-legal-risks">
       <h3>Legal Risk Concepts</h3>
       <aside class="issue" title="Add content for what is a legal risk"></aside>
+      <p>A [=TechnicalRiskConcept=] represents a concept that is  legal in nature or relates to a legal process, and which then can be applicable as a risk source, risk, consequence, or impact in specific concepts.</p>
       {{ list_hierarchy(modules['risk_taxonomy']['classes'], head='risk:LegalRiskConcept') }}
     </section>
 
-    <section>
+    <section id="overview-concepts-and-roles">
       <h3>Overview of Concepts and Roles</h3>
       <aside class="issue" title="Add content describing the overview table for risk taxonomy"></aside>
       {{ make_risk_table(modules['risk_taxonomy']['classes'], head='risk:RiskConcept') }}
     </section>
 
-  </section>
-
-  <section id="risk-rights-impacts">
-    <h2>Rights Impacts</h2>
+    <section id="risk-rights-impacts">
+    <h2>Modelling Rights Impacts</h2>
     <p>Impacts on (legal) rights are modelled through the concept [=RightsImpact=], and are associated using the relations <code>dpv:hasRisk</code> to indicate a risk of an impact on rights and <code>dpv:hasImpact</code> to indicate an impact of rights. Here, 'right' refers to a broad concept encompassing rights, freedoms, privileges, claims, entitlements, or other similar concepts which form the basis for legal interpretations. While in this broad sense, 'right' also refers to corporate rights such as for intellectual property or copyright, the intent here is to model the societal notion of rights, such as the 'right of a customer' or 'rights protected by a constitution'.</p>
     <p>The [=RightsImpact=] concept is further expanded to distinguish between different kinds of impacts, which are then combined with a specific right or group of rights to indicate the impact in a more granular manner. These concepts are [=RightsDenied=], [=RightsEroded=], [=RightsExercisePrevented=], [=RightsLimited=], [=RightsObstructed=], [=RightsUnfulfilled=], and [=RightsViolated=]. Not all impact categories may apply for a particular right, and not all impacts may include all applicable categories. Further, the interpretation of some of these categories can be difficult to quantify, such as whether a particular right has been 'violated'. The intent therefore here is foremost to provide a vocabulary to express impacts on rights in terms of the right itself (e.g. right denied or right exercise being prevented), which can then be used to make assessments of a broader implication regarding the right (e.g. right is eroded or is violated).</p>
     <aside class="note" title="Expressing impact on rights defined in law">
@@ -393,186 +606,7 @@ ex:InvestigatedComplaint a dpv:Process ;
     ] .</code></pre>
     </aside>
   </section>
-
-  <section id="vocab-risk-matrix">
-    <h2>Risk Matrix</h2>
-    <p><a href="https://en.wikipedia.org/wiki/Risk_matrix">Risk Matrix</a> is a popularly used technique for qualitative risk analysis, through which a risk's likelihood and severity are used to obtain an overall risk level. To support its use, the RISK taxonomy provides concepts representing risk matrices of the format 3x3, 5x5, and 7x7. The concepts are expressed as combinations of Severity (<code>Sx</code>) and Likelihood (<code>Lx</code>) levels, and the resulting Risk Level (<code>Lx</code>) being used as its label. For example, the concept [=RM3x3S1L3=] represents a node in a 3x3 matrix with Severity and Likelihood level low (n=1) and Likelihood level high (n=3) with a resulting Risk Level of 'Moderate'. Similarly, [=RM7x7S4L7=] represents a node in a 7x7 risk matrix with Severity level moderate (n=4) and Likelihood level extremely high (n=7) with the resulting Risk Level of 'Very High Risk'.</p>
-    <p>It is possible to change the risk levels for the risk matrix by replacing the supplied labels with a custom one. For example, to indicate that the concept [=RM3x3S1L3=] should be 'Low Risk' instead of 'Moderate'.</p>
-
-    <section id="vocab-risk-matrix-3x3">
-      <h3>Risk Matrix 3x3</h3>
-      <table>
-        <tr>
-            <td>Likelihood &#8595; Severity &#8594;</td>
-            <td>Low</td>
-            <td>Moderate</td>
-            <td>High</td>
-        </tr>
-        <tr>
-            <td>High</td>
-            <td style="background-color: #FFE761";>[=RM3x3S1L3=]</td>
-            <td style="background-color: #FF3333";>[=RM3x3S2L3=]</td>
-            <td style="background-color: #FF3333";>[=RM3x3S3L3=]</td>
-        </tr>
-        <tr>
-            <td>Moderate</td>
-            <td style="background-color: #B0FF8F";>[=RM3x3S1L2=]</td>
-            <td style="background-color: #FFE761";>[=RM3x3S2L2=]</td>
-            <td style="background-color: #FF3333";>[=RM3x3S3L2=]</td>
-        </tr>
-        <tr>
-            <td>Low</td>
-            <td style="background-color: #B0FF8F";>[=RM3x3S1L1=]</td>
-            <td style="background-color: #B0FF8F";>[=RM3x3S2L1=]</td>
-            <td style="background-color: #FFE761";>[=RM3x3S3L1=]</td>
-        </tr>
-    </table>
-      {# {{ list_hierarchy(modules['risk_matrix']['classes'], head='risk:RiskMatrix3x3') }} #}
-    </section>
-
-    <section id="vocab-risk-matrix-5x5">
-      <h3>Risk Matrix 5x5</h3>
-      <table>
-        <tr>
-            <td>Likelihood &#8595; Severity &#8594;</td>
-            <td>Very Low</td>
-            <td>Low</td>
-            <td>Moderate</td>
-            <td>High</td>
-            <td>Very High</td>
-        </tr>
-        <tr>
-            <td>Very High</td>
-            <td style="background-color: #FFE761";>[=RM5x5S1L5=]</td>
-            <td style="background-color: #FFB452";>[=RM5x5S2L5=]</td>
-            <td style="background-color: #FFB452";>[=RM5x5S3L5=]</td>
-            <td style="background-color: #FF3333";>[=RM5x5S4L5=]</td>
-            <td style="background-color: #FF3333";>[=RM5x5S5L5=]</td>
-        </tr>
-        <tr>
-            <td>High</td>
-            <td style="background-color: #FFE761";>[=RM5x5S1L4=]</td>
-            <td style="background-color: #FFE761";>[=RM5x5S2L4=]</td>
-            <td style="background-color: #FFB452";>[=RM5x5S3L4=]</td>
-            <td style="background-color: #FFB452";>[=RM5x5S4L4=]</td>
-            <td style="background-color: #FF3333";>[=RM5x5S5L4=]</td>
-        </tr>
-        <tr>
-            <td>Moderate</td>
-            <td style="background-color: #B0FF8F";>[=RM5x5S1L3=]</td>
-            <td style="background-color: #FFE761";>[=RM5x5S2L3=]</td>
-            <td style="background-color: #FFE761";>[=RM5x5S3L3=]</td>
-            <td style="background-color: #FFB452";>[=RM5x5S4L3=]</td>
-            <td style="background-color: #FFB452";>[=RM5x5S5L3=]</td>
-        </tr>
-        <tr>
-            <td>Low</td>
-            <td style="background-color: #CAFF80";>[=RM5x5S1L2=]</td>
-            <td style="background-color: #B0FF8F";>[=RM5x5S2L2=]</td>
-            <td style="background-color: #FFE761";>[=RM5x5S3L2=]</td>
-            <td style="background-color: #FFE761";>[=RM5x5S4L2=]</td>
-            <td style="background-color: #FFB452";>[=RM5x5S5L2=]</td>
-        </tr>
-        <tr>
-            <td>Very Low</td>
-            <td style="background-color: #CAFF80";>[=RM5x5S1L1=]</td>
-            <td style="background-color: #CAFF80";>[=RM5x5S2L1=]</td>
-            <td style="background-color: #B0FF8F";>[=RM5x5S3L1=]</td>
-            <td style="background-color: #FFE761";>[=RM5x5S4L1=]</td>
-            <td style="background-color: #FFE761";>[=RM5x5S5L1=]</td>
-        </tr>
-    </table>
-      {# {{ list_hierarchy(modules['risk_matrix']['classes'], head='risk:RiskMatrix5x5') }} #}
-    </section>
-
-    <section id="vocab-risk-matrix-7x7">
-      <h3>Risk Matrix 7x7</h3>
-      <table>
-        <tr>
-            <td>Likelihood &#8595; Severity &#8594;</td>
-            <td>Extremely Low</td>
-            <td>Very Low</td>
-            <td>Low</td>
-            <td>Moderate</td>
-            <td>High</td>
-            <td>Very High</td>
-            <td>Extremely High</td>
-        </tr>
-        <tr>
-            <td>Extremely High</td>
-            <td style="background-color: #FFE761";>[=RM7x7S1L7=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S2L7=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S3L7=]</td>
-            <td style="background-color: #FF7842";>[=RM7x7S4L7=]</td>
-            <td style="background-color: #FF7842";>[=RM7x7S5L7=]</td>
-            <td style="background-color: #FF3333";>[=RM7x7S6L7=]</td>
-            <td style="background-color: #FF3333";>[=RM7x7S7L7=]</td>
-        </tr>
-        <tr>
-            <td>Very High</td>
-            <td style="background-color: #FFE761";>[=RM7x7S1L6=]</td>
-            <td style="background-color: #FFE761";>[=RM7x7S2L6=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S3L6=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S4L6=]</td>
-            <td style="background-color: #FF7842";>[=RM7x7S5L6=]</td>
-            <td style="background-color: #FF7842";>[=RM7x7S6L6=]</td>
-            <td style="background-color: #FF3333";>[=RM7x7S7L6=]</td>
-        </tr>
-        <tr>
-            <td>High</td>
-            <td style="background-color: #ECFF70";>[=RM7x7S1L5=]</td>
-            <td style="background-color: #ECFF70";>[=RM7x7S2L5=]</td>
-            <td style="background-color: #FFE761";>[=RM7x7S3L5=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S4L5=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S5L5=]</td>
-            <td style="background-color: #FF7842";>[=RM7x7S6L5=]</td>
-            <td style="background-color: #FF7842";>[=RM7x7S7L5=]</td>
-        </tr>
-        <tr>
-            <td>Moderate</td>
-            <td style="background-color: #CAFF80";>[=RM7x7S1L4=]</td>
-            <td style="background-color: #ECFF70";>[=RM7x7S2L4=]</td>
-            <td style="background-color: #ECFF70";>[=RM7x7S3L4=]</td>
-            <td style="background-color: #FFE761";>[=RM7x7S4L4=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S5L4=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S6L4=]</td>
-            <td style="background-color: #FF7842";>[=RM7x7S7L4=]</td>
-        </tr>
-        <tr>
-            <td>Low</td>
-            <td style="background-color: #CAFF80";>[=RM7x7S1L3=]</td>
-            <td style="background-color: #CAFF80";>[=RM7x7S2L3=]</td>
-            <td style="background-color: #ECFF70";>[=RM7x7S3L3=]</td>
-            <td style="background-color: #FFE761";>[=RM7x7S4L3=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S5L3=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S6L3=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S7L3=]</td>
-        </tr>
-        <tr>
-            <td>Very Low</td>
-            <td style="background-color: #B0FF8F";>[=RM7x7S1L2=]</td>
-            <td style="background-color: #CAFF80";>[=RM7x7S2L2=]</td>
-            <td style="background-color: #CAFF80";>[=RM7x7S3L2=]</td>
-            <td style="background-color: #ECFF70";>[=RM7x7S4L2=]</td>
-            <td style="background-color: #FFE761";>[=RM7x7S5L2=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S6L2=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S7L2=]</td>
-        </tr>
-        <tr>
-            <td>Extremely Low</td>
-            <td style="background-color: #B0FF8F";>[=RM7x7S1L1=]</td>
-            <td style="background-color: #B0FF8F";>[=RM7x7S2L1=]</td>
-            <td style="background-color: #CAFF80";>[=RM7x7S3L1=]</td>
-            <td style="background-color: #ECFF70";>[=RM7x7S4L1=]</td>
-            <td style="background-color: #FFE761";>[=RM7x7S5L1=]</td>
-            <td style="background-color: #FFE761";>[=RM7x7S6L1=]</td>
-            <td style="background-color: #FFB452";>[=RM7x7S7L1=]</td>
-        </tr>
-    </table>
-      {# {{ list_hierarchy(modules['risk_matrix']['classes'], head='risk:RiskMatrix7x7') }} #}
-    </section>
-
-  </section>
+</section>
 
 {% if proposed %}
 <section id="proposed-terms" class="appendix">

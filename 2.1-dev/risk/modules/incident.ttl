@@ -1,4 +1,5 @@
 @prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix dcam: <http://purl.org/dc/dcam/> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix dex: <https://w3id.org/dpv/examples#> .
 @prefix dpv: <https://w3id.org/dpv#> .
@@ -83,14 +84,19 @@ risk:EnvironmentalIncident a rdfs:Class,
 
 risk:Incident a rdfs:Class,
         skos:Concept ;
-    dct:created "2024-05-19"^^xsd:date ;
+    dct:contributor "Rob Brennan, Harshvardhan J. Pandit, Delaram Golpayegani, Julio Fernandez" ;
+    dct:created "2024-02-14"^^xsd:date ;
+    dct:modified "2024-08-16"^^xsd:date ;
     vann:example dex:E0069,
         dex:E0070 ;
     rdfs:isDefinedBy risk: ;
-    rdfs:subClassOf rdfs:Class ;
+    rdfs:subClassOf dpv:RiskConcept ;
     sw:term_status "accepted"@en ;
+    skos:broader dpv:RiskConcept ;
+    skos:definition "An actual or occured event"@en ;
     skos:inScheme risk:incident-classes ;
-    skos:prefLabel "Incident"@en .
+    skos:prefLabel "Incident"@en ;
+    skos:scopeNote "Incident is realised or materialised risk"@en .
 
 risk:IncidentAssessmentReport a rdfs:Class,
         skos:Concept ;
@@ -252,7 +258,10 @@ risk:IntegrityIncident a rdfs:Class,
     dct:bibliographicCitation "Data Privacy Vocabulary (DPV) -- Version 2. Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake https://doi.org/10.48550/arXiv.2404.13426" ;
     dct:conformsTo "http://www.w3.org/2000/01/rdf-schema",
         "http://www.w3.org/2004/02/skos/core" ;
-    dct:contributor "Harshvardhan J. Pandit" ;
+    dct:contributor "Delaram Golpayegani",
+        "Harshvardhan J. Pandit",
+        "Julio Fernandez",
+        "Rob Brennan" ;
     dct:created "2022-08-14"@en ;
     dct:creator "Beatriz Esteves"@en,
         "Delaram Golpayegani"@en,
@@ -289,6 +298,19 @@ risk:IntegrityIncident a rdfs:Class,
         <https://w3id.org/dpv> ;
     foaf:logo <https://w3id.org/dpv/media/logo.png> ;
     schema:version "2.1-dev" .
+
+risk:hasIncident a rdf:Property,
+        skos:Concept ;
+    dcam:rangeIncludes risk:Incident ;
+    dct:created "2024-02-14"^^xsd:date ;
+    rdfs:isDefinedBy risk: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates an incident is associated with the specified context"@en ;
+    skos:inScheme risk:incident-properties ;
+    skos:prefLabel "has incident"@en ;
+    schema:rangeIncludes risk:Incident .
+
+risk:incident-properties a skos:ConceptScheme .
 
 risk:serialisation-html a profile:ResourceDescriptor ;
     dct:conformsTo <https://www.w3.org/TR/html/> ;
