@@ -3243,6 +3243,124 @@ link: <a href="https://w3id.org/dpv/examples/E0085.ttl">source file</a>;      co
   </aside>
 
         </section>
+        <section id="E0086">
+          <h4><strong><i>E0086</i>:</strong> Using Risk Controls to indicate measures adopted for a specific event</h4>
+            <aside class="example" title="Using Risk Controls to indicate measures adopted for a specific event">
+<p>This example shows how risk controls can be used to represent the specific measures in place to detect, monitor, address, and inform stakeholders regarding risks, consequences, and impacts. The first part shows a risk with its associated consequence and resulting impact. The second part shows the process where this risk is present, and the specific controls put in place to: (1) monitor the process for vulnerabilities and avoid the source of risk with oversight,; (2) avoid the consequence event; and (3) monitor for occurence of the impact event, and if it occurs to halt it and to inform the affected person.</p>
+<p>In this example the specific details of the control such as the technology being used, or what characteristics are changed when avoiding an event are not specified to reduce the length of content. To express this information, the specific control can reference two events as Risk and Residual Risk respectively - one which shows the initial values such as likelihood, and another one which shows the modified values. Currently the DPVCG does not dictate a specific method for expressing such information, and welcomes suggestions on best practices for the same.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEvent</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Risk</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsequence</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEffect</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEffect</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consequence</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsequenceOn</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeTechnicalSystem</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasImpact</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEffectOnPerson</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEffectOnPerson</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Impact</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasImpactOn</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomePerson</span> .
+
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRisk</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEvent</span> ;
+  <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">hasControl</span> [
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">RiskControl</span> ;
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">AvoidSource</span>, <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">MonitorVulnerabilities</span>, <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">OversightControl</span> ;
+  ] ;
+  <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">hasControl</span> [
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">RiskControl</span> ;
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">DetectionControl</span>, <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">ContaimmentControl</span>, <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">LoggingControl</span> ;
+    <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">detects</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEvent</span> ; <span style="color: #3D7B7B; font-style: italic"># detect risk occuring</span>
+    <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">contains</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEvent</span> ; <span style="color: #3D7B7B; font-style: italic"># if it occurs, contain it</span>
+    <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">logs</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEvent</span> ; <span style="color: #3D7B7B; font-style: italic"># record it occurred</span>
+  ] ;
+  <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">hasControl</span> [
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">RiskControl</span> ;
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">AvoidConsequence</span> ; <span style="color: #3D7B7B; font-style: italic"># specifically avoid consequence event </span>
+    <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">avoids</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEffect</span> ; <span style="color: #3D7B7B; font-style: italic"># try to prevent consequence</span>
+  ] ;
+  <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">hasControl</span> [
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">RiskControl</span> ;
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">ImpactControl</span> ; <span style="color: #3D7B7B; font-style: italic"># specifically control the impact event</span>
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">MonitorImpact</span>, <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">TransparencyControl</span>, <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">HaltImpact</span> ;
+    <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">monitors</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEffectOnPerson</span> ; <span style="color: #3D7B7B; font-style: italic"># monitors for event</span>
+    <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">halts</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">UnwantedEvent</span> ; <span style="color: #3D7B7B; font-style: italic"># halts the event</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasNotice</span> [ <span style="color: #3D7B7B; font-style: italic"># informs the person about it</span>
+        <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">SecurityIncidentNotice</span> ;
+        <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRecipient</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomePerson</span> ;
+    ] ;
+  ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0086"><code>E0086</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0086.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2025-01-12)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0087">
+          <h4><strong><i>E0087</i>:</strong> Flexibility of RISK taxonomy in expressing varying roles</h4>
+            <aside class="example" title="Flexibility of RISK taxonomy in expressing varying roles">
+<p>This example shows how the same concept <code>risk:DataBreach</code> can take on different roles across contexts. The first part shows data breach as a consequence of a malware attack, while the second part shows it as a risk source which could lead to identity fraud and misuse. In these, the same concept of data breach being a consequence or a risk source is context-dependant. The RISK extension does not specify or assert that a data breach is always a risk source or risk or consequence - only that it has the potential to be these things. Therefore, inclusion of RISK extension in the graph does not 'pollute' it or cause misinterpretations such as data breach showing up as a consequence even though it has been asserted to (only) be a risk source.</p>
+<p>The third part shows how these different roles are associated with the concept, and how this can be used in UI/UX to provide users with a list of options for selecting risks. It also shows the distinction between marking or annotating a concept to include it in risk identification process (<code>risk:PotentialRisk</code>) and asserting that the concept is applicable as a risk in a process (<code>dpv:hasRisk</code>). This allows use-cases to directly use the RISK extension's subjective classification of concepts in UI/UX - such as to populate the dropdown of risks, and also provides flexibility to ignore that and create their own thesauri or categorisations by using the <code>risk:PotentialRisk</code> concept to annotate concepts, or to create specific subclasses for contextual classifications.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Part 1: Data Breach as a consequence</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ProcessA</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">hasRiskSource</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">MalwareAttack</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRisk</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">UnauthorisedDataAccess</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsequence</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">DataBreach</span> . <span style="color: #3D7B7B; font-style: italic"># &lt;-- same concept as consequence</span>
+
+<span style="color: #3D7B7B; font-style: italic"># Part 2: Data Breach as a risk source</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ProcessB</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">hasRiskSource</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">DataBreach</span> ; <span style="color: #3D7B7B; font-style: italic"># &lt;-- same concept as risk source</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRisk</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">IdentityFraud</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasConsequence</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">IntentionalMisuse</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasImpact</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">RightsImpact</span> .
+
+<span style="color: #3D7B7B; font-style: italic"># Part 3: Creating a UI/UX for selecting consequences</span>
+<span style="color: #3D7B7B; font-style: italic"># RISK extension contains:</span>
+<span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">DataBreach</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">PotentialRisk</span>. <span style="color: #3D7B7B; font-style: italic"># potential to be a risk </span>
+<span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">DataBreach</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">PotentialConsequence</span> . <span style="color: #3D7B7B; font-style: italic"># potential to be a consequence</span>
+<span style="color: #3D7B7B; font-style: italic"># UI/UX contains HTML dropdown showing risks to select from</span>
+<span style="border: 1px solid #FF0000">&lt;select</span> <span style="border: 1px solid #FF0000">id=</span><span style="color: #BA2121">&quot;risks&quot;</span><span style="border: 1px solid #FF0000">&gt;</span><span style="color: #19177C">&lt;/select&gt;</span>
+<span style="color: #3D7B7B; font-style: italic"># The options in &lt;select&gt; are populated using the query over RISK extension</span>
+<span style="border: 1px solid #FF0000">SELECT</span> <span style="border: 1px solid #FF0000">?concept</span> { <span style="border: 1px solid #FF0000">?concept</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">PotentialRisk</span> . }
+<span style="color: #3D7B7B; font-style: italic"># This gives</span>
+<span style="border: 1px solid #FF0000">&lt;select</span> <span style="border: 1px solid #FF0000">id=</span><span style="color: #BA2121">&quot;risks&quot;</span><span style="border: 1px solid #FF0000">&gt;</span>
+	<span style="border: 1px solid #FF0000">&lt;option</span> <span style="border: 1px solid #FF0000">value=</span><span style="color: #BA2121">&quot;...&quot;</span><span style="border: 1px solid #FF0000">&gt;</span>...<span style="color: #19177C">&lt;/option&gt;</span>
+	<span style="border: 1px solid #FF0000">&lt;option</span> <span style="border: 1px solid #FF0000">value=</span><span style="color: #BA2121">&quot;risk:DataBreach&quot;</span><span style="border: 1px solid #FF0000">&gt;Data</span> <span style="border: 1px solid #FF0000">Breach</span><span style="color: #19177C">&lt;/option&gt;</span>
+<span style="color: #19177C">&lt;/select&gt;</span>
+<span style="color: #3D7B7B; font-style: italic"># User selects risk:DataBreach, which is then recorded in the data</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+	<span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRisk</span> <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">DataBreach</span> .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0087"><code>E0087</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0087.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2025-01-12)
+    </small></p>
+  </aside>
+
+        </section>
+        <section id="E0088">
+          <h4><strong><i>E0088</i>:</strong> Expressing impact on specific rights</h4>
+            <aside class="example" title="Expressing impact on specific rights">
+<p>To express a specific right has been impacted, the relevant rights impact concept is utilised along with a rights impact category from the RISK extension, which together indicate a right is being impacted in the specified manner. In this example, a customer of a company has complained that their GDPR rights have been violated. Upon investigation, it was found that the GDPR&#39;s Transparency Right (Article 13) was impacted by limiting the scope of the right as not all processing was represented, and further the right was obstructed as it was not easy to obtain the information on the website.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SubmittedComplaint</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasImpact</span> <span style="color: #0000FF; font-weight: bold">eu-gdpr</span>:<span style="color: #008000; font-weight: bold">GDPRRightsImpact</span>, <span style="color: #0000FF; font-weight: bold">risk</span>:<span style="color: #008000; font-weight: bold">RightsViolated</span>  ;
+  <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">description</span> <span style="color: #BA2121">&quot;Customer complaint: GDPR rights have been violated&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> .
+
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">InvestigatedComplaint</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+  <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">subject</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SubmittedComplaint</span> ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasImpact</span> [
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">eu-gdpr</span>:<span style="color: #008000; font-weight: bold">A13-Limited</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">description</span> <span style="color: #BA2121">&quot;The privacy notice did not provide all information&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    ] ;
+  <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasImpact</span> [
+    <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">eu-gdpr</span>:<span style="color: #008000; font-weight: bold">A13-Obstructed</span> ;
+    <span style="color: #0000FF; font-weight: bold">dct</span>:<span style="color: #008000; font-weight: bold">description</span> <span style="color: #BA2121">&quot;The privacy notice was not easy to find on website&quot;</span><span style="color: #666666">@</span><span style="font-style: italic">en</span> ;
+    ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0088"><code>E0088</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0088.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2025-01-12)
+    </small></p>
+  </aside>
+
+        </section>
     </section>
 
     <section id="funding-acknowledgements" class="notoc">

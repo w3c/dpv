@@ -485,39 +485,39 @@
     <h2>Risk Controls</h2>
     <p>A [=RiskControl=] allows for modifying the risk (event) through various means with the aim of managing it. It is associated using the relation [=hasControl=]. The RISK extension provides a taxonomy of controls based on their use before the event ([=ProactiveControl=]) or in response to an event ([=ReactiveControl=]). The taxonomy also features control categorised based on the type of risk concept as - [=SourceControl=] for risk sources, [=ConsequenceControl=] for consequences, and [=ImpactControl=] for impacts.</p>
     <p>The below table shows the controls provided in this extension. The generic relation [=controls=] specifies which risk concept the control addresses. It is specialised into the following relations for use with specific controls: [=contains=], [=detects=], [=eliminates=], [=identifies=], [=interrupts=], [=intervenes=], [=investigates=], [=logs=], [=mitigates=], [=modifies=], [=monitors=], [=overrides=], [=recovers=], [=reduces=], [=remedies=], [=resolves=], [=reverses=], [=shares=], [=substitutes=], and [=transfers=].</p>
-    {{ example_aside('dex:E0071') }}
+    {{ example_aside('dex:E0076') }}
     {{ list_hierarchy(modules['risk_controls']['classes']) }}
 
   </section>
 
   <section id="vocab-risk-taxonomy">
     <h2>Risk/Impact Taxonomies</h2>
-
-    <section>
+    <p>The RISK extension provides a single unified taxonomy of concepts which can be used as risk sources, risks, consequences, or impacts - as required in specific contexts and use-cases. The underlying model which permits this flexibility and allows creation of thesauri and catalogues for providing curated collections of concepts in use-cases is described in the <a href="#conceptual-model">Conceptual Model</a> section.</p>
+    <p>The taxonomy consists of concepts which are annotated as being capable of or <i>having the potential to be</i> with specific roles and categorisations based on the conceptual model. These are described in sections as:</p>
+    <ul>
+      <li><a href="#vocab-potential-risk-sources">Risk Sources</a></li>
+      <li><a href="#vocab-potential-risk">Risks</a></li>
+      <li><a href="#vocab-potential-consequences">Consequences</a></li>
+      <li><a href="#vocab-potential-impacts">Impacts</a></li>
+      <li><a href="#vocab-technical-risks">Technical concepts</a></li>
+      <li><a href="#vocab-organisational-risks">Organisational concepts</a></li>
+      <li><a href="#vocab-societal-risks">Societal concepts</a></li>
+      <li><a href="#vocab-legal-risks">Legal concepts</a></li>
+    </ul>
+    <p>An <a href="#overview-concepts-and-roles">overview table</a> shows each concept along with its categorisation in a convenient manner. There is also a dedicated section provide details on <a href="#risk-rights-impacts">modelling rights impacts</a> based on the provided taxonomy.</p>
+    <section id="conceptual-model">
       <h3>Conceptual Model</h3>
-      <p>The RISK extension provides a single unified taxonomy of concepts that can take on the roles of `RiskSource`, `Risk`, `Consequence`, and `Impact` in an use-case. For example, the same concept `DataBreach` can be the the `Risk` in a risk assessment whose impacts are to be determined, or it can be the `Impact` whose causes must be discovered. By providing a single taxonomy, the adopter is free to choose which role the concept plays within their use-case - which offers significant benefits in terms of both extensibility and flexibility, allowing users to tailor the taxonomy to their specific use cases while maintaining a consistent framework.</p>
-    <p>The RISK taxonomy's design allows it to be highly and easily extensible as concepts are not required to be strictly categorised as risks or impacts within the DPV specifications itself. This is particularly valuable as the areas of cybersecurity and AI technologies are rapidly evolving landscapes where new risks and risk sources frequently emerge.</p>
-    <p>To enable the creation of this taxonomy, the concept {{anchor('dpv:RiskConcept')}} acts as the parent or top concept, and {{anchor('dpv:Risk')}}, {{anchor('dpv:Consequence')}}, {{anchor('dpv:Impact')}}, and `risk:RiskSource` are defined as its subclasses. To utilise these concepts in particular roles, the associated relations or properties such as {{anchor('dpv:hasRisk')}} and {{anchor('dpv:hasImpact')}} are used.</p>
-    <p>However, when providing the taxonomy in this extension, it cannot be asserted that the concept is <i>always</i> a risk or an impact - as this is determined by the context of the use-case. Therefore, the concepts [=PotentialRisk=], [=PotentialRiskSource=], [=PotentialConsequence=], and [=PotentialImpact=] are created and used to create the taxonomy with an indication of what roles each concept can <i>potentially</i> take. Use-cases can assert these roles in context, or ignore them and utilise a different set role - which allows the taxonomy to be be both useful and flexible.</p>
-    <p>To further support the utility of the taxonomy, where possible, concepts are also categorised based on the commonly utilised 'CIA triad model' in information security, where 'CIA' stands for <i>'Confidentiality'</i>, <i>'Integrity'</i>, and <i>'Availability'</i>. These are represented by the specific concept being declared as an instance of [=ConfidentialityConcept=], [=IntegrityConcept=], and [=AvailabilityConcept=] respectively.</p>
-    <p>Below are examples showing how the provided concepts can taken on contextually divergent roles in different use-cases. The taxonomy is provided through dedicated sections based on the potential roles each concept takes (<a href="#vocab-potential-risk-sources">as risk sources</a>, <a href="#vocab-potential-risk">as risks</a>, <a href="#vocab-potential-consequences">as consequences</a>, and <a href="#vocab-potential-impacts">as impacts</a>), as well as based on the categorisation of the concept as relating to <a href="#vocab-technical-risks">technical</a>, <a href="#vocab-organisational-risks">organisational</a>, <a href="#vocab-societal-risks">societal</a>, or <a href="#vocab-legal-risks">legal matters. An <a href="#overview-concepts-and-roles">overview table</a> shows each concept along with its categorisation in a convenient manner. Finally, a dedicated section provide further details on <a href="#risk-rights-impacts">modelling rights impacts</a> based on the provided taxonomy.</p>
-    <aside class="example" title="Indicating risks and impacts using the RISK taxonomy">
-      <p>This example shows how the same concept can take on multiple roles across different contexts or use-cases. The first part describes a development phase where technologies are assessed for vulnerabilities whose impact may result in a data breach. This represents a typical internal-facing risk assessment. The second part describes the deployment phase where technologies are assessed for the risk of data breaches which may cause significant impact on data subjects. This represents a typical external-facing data breach impact assessment.</p>
-      <pre><code># Part 1: Risk Assessment for Data Breach
-ex:ProcessA a dpv:Process ;
-    risk:hasRiskSource risk:MalwareAttack ;
-    dpv:hasRisk risk:UnauthorisedDataAccess ;
-    dpv:hasConsequence risk:CompromiseAccountCredentials ;
-    dpv:hasImpact risk:DataBreach .
-
-# Part 2: Data Breach Impact Assessment
-ex:ProcessB a dpv:Process ;
-    risk:hasRiskSource risk:DataBreach ;
-    dpv:hasRisk risk:IdentityFraud ;
-    dpv:hasConsequence risk:IntentionalMisuse ;
-    dpv:hasImpact risk:RightsImpact .</code></pre>
-    </aside>
-      {{ list_hierarchy(modules['risk_taxonomy']['classes'], head='risk:PotentialRiskConcept') }}
+      <p>The RISK extension provides a taxonomy of concepts such as [=HumanErrors=], [=Damage=], and [=Harm=] that represent 'events' that can used in specific roles within the use-case. For example, [=HumanErrors=] can be a '<i>source of risk</i>' where a software developer introduces a bug/error in the code; a '<i>risk</i>' where the software user accidentally deletes critical data while using the software - where the source is poorly designed UI/UX; and a '<i>consequence</i>' where the developer accidentally uses the incorrect backup when recovering from a data breach - where the risk is the data breach and the source is insecure system settings. This example highlights that 'roles' such as risk source, risk, consequence, and impacts are contextual assertions, and that the same 'event' or 'concept' can take on different roles in different settings.</p>
+      <p>The taxonomy provided in RISK is intended to support such broad use of concepts for taking on different roles as needed within the context. This is particularly valuable as the areas of cybersecurity and AI technologies are rapidly evolving landscapes where new risks and consequences frequently emerge, and depending on the perspective the same concept can act as a consequence (e.g. early in development stages) or be the source of risks (e.g. later in deployment stages). Further, the RISK extension also aims to support the creation of 'thesauri' or 'catalogues' of concepts - such as a 'risk catalogue', which provides a curated list of concepts that stakeholders can use in their respective contexts.</p>
+      <p>To enable such varied uses of the taxonomy, the RISK extension uses 'meta concepts' called [=PotentialRisk=], [=PotentialRiskSource=], [=PotentialConsequence=], and [=PotentialImpact=] that represent the <i>potential roles</i> that a concept can take within a context. A concept expressed as [=PotentialRisk=] and [=PotentialConsequence=] means that the concept can <i>potentially act</i> as a risk or a consequence based on common uses of that concept, but it <i>does not</i> mean that the concept is always a risk or a consequence. The person or system that is identifying risks and consequences can then refer to this categorisation as a <i>hint</i> for what concepts could be applicable in their use-case rather than having to go through the entire taxonomy.</p>
+      <p>The concepts such as [=PotentialRisk=] are also helpful to curate thesauri and catalogues. For example, when creating a risk catalogue associated with testing phase of software development, we can express the source of risks (as [=PotentialRiskSource=]) and then provide these to the developers and testers to assess for a particular software iteration, and record which risks are applicable (as {{anchor('dpv:Risk')}}). Similarly, if the organisation wants to create two catalogues of common software risks and user risks, it can extend [=PotentialRisk=] as <code>PotentialSoftwareRisks</code> for potential risks that may occur in software and <code>PotentialUserRisks</code> which may occur due to users, then annotate the RISK taxonomy using these, and provide it as inputs to consider in the risk assessment process.</p>
+      <aside class="note" title="Impact of not having the 'potential role concepts'">
+        <p>The necessity of having the 'potential role concepts' like [=PotentialRisk=] can be understood by considering the use-case where we are identifying what risks can hypothetically apply, and then checking which of them actually apply. Without the concept [=PotentialRisk=], we have to create or use other contextual concepts such as 'potential risks to consider' and 'identified risks' - which can be confusing and requires the two lists are never mixed in the same context to avoid ambiguity between concepts marked only as 'risks'. If these two lists were present in the same context, a search or query for 'risks' would identify concepts from both lists - which would not be accurate.</p>
+        <p>Another example: the ethics board has identified a list of impacts that must be considered when conducting an impact assessment, and which is used to develop a form where the user conducting the assessment selects applicable impacts from a dropdown. One way to represent this is to have two separate lists for impacts (as above example) - one for the form and one for the situation where both use <code>dpv:hasImpact</code> to indicate which concept is an impact. However, this requires having some concept to denote the list in the form is a suggestion and  not the impacts present in the use-case. Implicitly, this information is present in the way the form is used, but this also means the list in the form must not be mixed with the outputs from that form. The concept [=PotentialImpact=] represents this implicit context in an explicit and unambiguous manner - thereby enabling sharing of information without misinterpretation or confusion as to what concept applies where and how. This means the form and the outputs can be present in the same 'graph' without misinterpretation. Obviously, if the use-case doesn't mix the two lists - this issue never arises.</p>
+        <p>In summary, concepts like [=PotentialRisk=] and [=PotentialImpact=] are helpful for use-cases which want to create their own thesauri of concepts and distinguish these from the actual risks and impacts within the same context. Use-cases that only want to assert what are the risks and impacts will not require these concepts. The RISK extension uses these to indicate the roles each concept in the taxonomy can take in the <a href="#overview-concepts-and-roles">overview table</a> so as to avoid asserting that a specific concept is <i>always a risk or always an impact</i> - and provide use-cases the flexibility to decide.</p>
+      </aside>
+      {{ example_aside('dex:E0087') }}
+      <p>To further support the utility of the taxonomy, where possible, concepts are also categorised based on the commonly utilised 'CIA triad model' in information security, where 'CIA' stands for <i>'Confidentiality'</i>, <i>'Integrity'</i>, and <i>'Availability'</i>. These are represented by the specific concept being declared as an instance of [=ConfidentialityConcept=], [=IntegrityConcept=], and [=AvailabilityConcept=] respectively.</p>
     </section>
 
     <section id="vocab-potential-risk-sources">
@@ -589,22 +589,7 @@ ex:ProcessB a dpv:Process ;
     <aside class="note" title="Expressing impact on rights defined in law">
       <p>To support the expression of rights impact, DPV extensions modelling specific laws and regulations will be extending the [=RightsImpact=] concept for each specific right being modelled within the extension. Whether to also extend the granular impact categories (e.g. right denied) for each right is currently being discussed. We are also discussing more granular impacts to express the different ways in which a particular statement or part of a right may be affected - see [[EU-RIGHTS]] extension for example. We welcome comments and participation in this process.</p>
     </aside>
-    <aside class="example" title="Expressing impact on right">
-      <p>To express an impact on a right, the specific rights impact concept is utilised along with an rights impact category from the RISK extension, which together indicate a right is being impacted in the specified manner. In this example, a customer of a company has complained that their GDPR rights have been violated. Upon investigation, it was found that the GDPR's Transparency Right (Article 13) was impacted by limiting the scope of the right to only some personal data, and further obstructing the right by not providing an easy way to obtain the information.</p>
-      <pre class="nohighlight"><code>ex:SubmittedComplaint a dpv:Process ;
-  dpv:hasImpact eu-gdpr:GDPRRightsImpact, risk:RightsViolated  ;
-  dct:description "The customer has complained that their GDPR rights have been violated"@en .
-
-ex:InvestigatedComplaint a dpv:Process ;
-  dpv:hasImpact [
-    a eu-gdpr:A13-Limited ;
-    dct:description "The privacy notice did not provide all information"@en ;
-    ] ;
-  dpv:hasImpact [
-    a eu-gdpr:A13-Obstructed ;
-    dct:description "The privacy notice was not provided on the website"@en ;
-    ] .</code></pre>
-    </aside>
+    {{ example_aside('dex:E0088') }}
   </section>
 </section>
 
