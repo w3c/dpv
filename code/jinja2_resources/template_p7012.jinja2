@@ -1,0 +1,325 @@
+{% from 'macro_term_table.jinja2' import index_concepts, list_items, list_hierarchy, table_properties, ref_dedicated_documentation, language_selector, anchor %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}}){% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "p7012",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "{{DOCUMENT_STATUS}}",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/standards/p7012",
+    canonicalUri: "https://w3id.org/dpv/standards/p7012",
+    edDraftURI: "https://dev.dpvcg.org/standards/p7012",
+    github: "w3c/dpv",
+    subjectPrefix: "[pd]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+    }
+    ],
+    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
+      {
+        "name": "{{person}}",
+        "company": "{{ person | generate_author_affiliation }}"
+      }{{"," if not loop.last}}
+      {% endfor %}],
+    otherLinks: [
+      {
+        "key": "This Release",
+        "data": [
+            {
+              "value": "https://w3id.org/dpv/2.1/standards/p7012",
+              "href": "https://w3id.org/dpv/2.1/standards/p7012"
+            }
+        ]
+      },
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            }
+        ]
+      }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../../diagrams/common.css">
+<link rel="shortcut icon" href="../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+{% block ABSTRACT %}
+  <section id="abstract">
+    <p>This extension, abbreviated as [[STANDARD-P7012]], provides concepts that extend the [[DPV]] and its extensions with the goal of providing an information model and practical taxonomy that aids the implementation of [[[IEEE-P7012]]]. The canonical URL for the P7012 extension is <a href="https://w3id.org/dpv/standards/p7012">https://w3id.org/dpv/standards/p7012</a> and the namespace for terms is <a href="https://w3id.org/dpv/standards/p7012#"><code>https://w3id.org/dpv/standards/p7012#</code></a>, the suggested prefix is <code>p7012</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+  </section>
+    {{ sotd(data[vocab_name+'-metadata']) }}
+    {{ dpv_document_family(document='p7012-spec') }}
+{% endblock ABSTRACT %}
+{% block INTRODUCTION %}
+  <section>
+    <h2>Introduction</h2>
+    <p>The [[[IEEE-P7012]]] is an upcoming specification that describes a mechanism for discovering, negotiating, and executing contracts based on machine-readable privacy terms that represent the preferences and decisions of individuals in their interactions with service providers. The draft standard describes processes for the discovery of an individual's acceptable privacy terms - such as on a website, through which a service provider can initiate and execute contracts for the provision of services in accordance with the expressed terms. The standard also includes processes for negotiation to choose between a set of acceptable privacy terms, a common shared registry within which the privacy terms shall be listed for common reference, and how agents - acting on behalf of individuals and service providers - utilise these to complete the contract execution processes.</p>
+    <p>The [[IEEE-P7012]] draft standard references [[DPV]] in its appendix as an example of a vocabulary that can be used to express the relevant information for the creation and use of privacy terms in its defined processes. This includes concepts existing in [[DPV]] such as {{ anchor('dpv:Purpose') }} and {{ anchor('dpv:PersonalData') }}, but also includes other concepts which currently not present in [[DPV]] - such as to indicate preferences and to indicate agents that utilise these and negotiate the terms. This document describes and extension to the [[DPV]] specifications for representing the processes and information with the aim of supporting implementations of [[IEEE-P7012]].</p>
+  </section>
+{% endblock INTRODUCTION %}
+{% block VOCAB %}
+  <section id="vocab-entities">
+    <h2>Entities</h2>
+    <p>In [[IEEE-P7012]], entities are defined with a specific role in the context of a contract - such as the individual or natural person being the '<i>first party</i>', the service provider being the '<i>second party</i>', and others being '<i>third parties</i>'. In [[DPV]], the term {{ anchor('dpv:LegalEntity') }} represents a '<i>legal entity</i>' which - amongst other things - can enter in to contracts, and which can be a {{ anchor('dpv:NaturalPerson') }} or an {{ anchor('dpv:Organisation') }}.</p>
+    <p>In addition, [[IEEE-P7012]] requires and relies on '<i>agents</i>' that act on behalf of the first and second party to express their preferences, make decisions, and enter into contracts. Currently, [[DPV]] does not have the capability to express such (machine-)agents, though the legal concept {{ anchor('dpv:Representative') }} is present which has a similar use but is not indicative of agency via machine-agents.</p>
+    <p>To specifically indicate the interpretation of entities, including agents, as per [[IEEE-P7012]], this extension defines the following concepts:</p>  
+    {{ list_hierarchy(modules['entities']['classes']) }}
+  </section>
+
+  <section id="vocab-process">
+    <h2>Processes</h2>
+    <p>The way [[IEEE-P7012]] envisions an automated contract process is as follows:</p>
+    <figure>
+      <img src="../../diagrams/p7012-process-overview.png">
+      <figcaption>Overview of Contract Discovery and Negotiation Process</figcaption>
+    </figure>
+    <ol>
+      <li>To avoid repeated drafting and interpretation of terms in a contract, [[IEEE-P7012]] envisions a curated collection of terms (represented as a [=PrivacyTerm=] in this extension) that are stored and accessed through a common registry (represented as [=PrivacyTermRegistry=].</li>
+      <li>The individual i.e. [=Person=], as the first party, sets preferences (represented as [=PrivacyPreference=]) for which terms they would be willing to accept - which could be for any/all services, or could depend on specific services or contexts.</li>
+      <li>The [=ServiceProvider=] who wishes to engage with the [=Person=], and where both support [[IEEE-P7012]], first checks whether the person wants to initiate a contract by querying a well-defined mechanism or endpoint (represented as [=PrivacyEndpoint=]).</li>
+      <li>If the person's agent (represented as [=PersonAgent=]) responds that it supports contracts, the service provider's agent (represented as [=ProviderAgent=]) initiates the contract process by querying the person's agent for the privacy term that it must accept before it can provide its services.</li>
+      <li>The [=PersonAgent=] then returns a reference to a [=PrivacyTerm=] within the [=PrivacyTermRegistry=], which the [=ProviderAgent=] uses to determine whether the indicated term(s) are acceptable to it or not.</li>
+      <li>If the [=ProviderAgent=] accepts the term, the term(s) are used to initiate and execute a contract. If not, the [=ProviderAgent=] may offer a single option in negotiation by referencing another [=PrivacyTerm=] within the [=PrivacyTermRegistry=].</li>
+      <li>If the [=PersonAgent=] finds the offered term under negotiation as acceptable, it signals this to the [=ProviderAgent=] who then initiates and executes a contract. Otherwise the contract process terminates as [[IEEE-P7012]] only allows for a single round of negotiations.</li>
+      <li>The [=PrivacyAgent=] keeps a record of the request, negotiation, and contract by logging each step (as required or when relevant) within a [=PrivacyNegotiationRecord=]. Such records are useful as evidence for transparency, accountability, and for use in future interactions - such as to know a party has established good behaviour in the past, or to refuse interactions with a party that does not have a favourable record.</li>
+    </ol>
+    {{ list_hierarchy(modules['process']['classes']) }}
+  </section>
+
+  <section id="vocab-agreement">
+    <h2>Agreements</h2>  
+    <p>The following are a list of agreements for use with [[IEEE-P7012]]. They are, in effect, <i>contractual term templates</i> which contain <i>privacy terms</i> for use in P7012-style interactions between the individual and service provider. For example, using these concepts, the individual can specify that they will accept delivery of service with analytics but which will also allow them portability of data (i.e. providing a copy of their data) along with specific transparency information. If the service provider finds this acceptable, the terms are then <i>instantiated</i> for the specific provider and service in context to form the full text/contents of the contract.</p>
+    <p>The agreement concepts, defined as instances of [=PrivacyTerm=], are based on an acronym scheme following the well established <a href="https://creativecommons.org/share-your-work/cclicenses/">Creative Commons</a> licenses which have easy to use and interpret acronyms such as CC BY and CC BY-SD. For use with [[IEEE-P7012]], the following acronyms are used in combinations to create the agreements:</p>
+    <table>
+      <thead>
+        <th>Acronym</th>
+        <th>Meaning</th>
+      </thead>
+    <tbody>
+      <tr>
+          <td>SD</td>
+          <td>Service Delivery</td>
+      </tr>
+      <tr>
+          <td>DP</td>
+          <td>Data Portability</td>
+      </tr>
+      <tr>
+          <td>A</td>
+          <td>Analytics</td>
+      </tr>
+      <tr>
+          <td>AT</td>
+          <td>Analytics and First-Party Tracking</td>
+      </tr>
+      <tr>
+          <td>ATP</td>
+          <td>Analytics, and First-Party Tracking and Profiling</td>
+      </tr>
+      <tr>
+          <td>S3P</td>
+          <td>Share Anonymised Data with Third Party</td>
+      </tr>
+      <tr>
+          <td>PDC</td>
+          <td>Personal Data Contribution</td>
+      </tr>
+      <tr>
+          <td>INTENT</td>
+          <td>Intent Casting</td>
+      </tr>
+      <tr>
+          <td>AI</td>
+          <td>AI Training and Operation</td>
+      </tr>
+      <tr>
+          <td>GOOD</td>
+          <td>Public Good</td>
+      </tr>
+    </tbody>
+</table>
+    {{ list_hierarchy(modules['agreement']['classes']) }}
+  </section>
+
+  <section id="vocab-privacy-term">
+    <h2>Privacy Terms</h2>
+    <p>While the agreement concepts provide a set of useful privacy terms, their interpretation requires that the agent or system knows about the intended meaning associated with the concept. This may not always be possible - for example if the concepts are updated or if new concepts are updated which requires an update to all systems. To avoid this, the following concepts represent the granular components which when combined can create the intended meaning as used in the agreement concepts.</p>
+    <p>Each concept is represented as an instance of [=PrivacyTerm=] or its subclass, and can be directly referenced inside other terms to create a composite concept. To facilitate use and association, the following categories of concepts and their associated relations are provided:</p>
+    <ul>
+      <li>[=TrackingTerm=] representing whether tracking is allowed or not - for which a taxonomy is provide to indicate options such as tracking allowed but only within 'first party' context. This term is associated using the relation [=hasTrackingTerm=].</li>
+      <li>[=ProfilingTerm=] representing whether profiling is allowed or not - also for which a taxonomy is provided with options such as no profiling using PII. It is associated using the relation [=hasProfilingTerm=].</li>
+      <li>[=DataSharingTerm=] representing whether data sharing (with third parties) is allowed or not, for which options such as sharing is allowed only with anonymised data is provided. It is associated with the relation [=hasDataSharingTerm=].</li>
+      <li>[=PortabilityTerm=] representing whether a reciprocal data portability obligation exists for the service provider to provide a copy of involved personal data, which is indicated using the relation [=hasPortabilityTerm=].</li>
+      <li>[=TransparencyTerm=] representing a reciprocal obligation for the service provider to provide information regarding specific contexts. Specific transparency terms are provided for purposes ([=PurposeTransparencyTerm=]), parties ([=PartyTransparencyTerm=]), and involved data ([=DataTransparencyTerm=]), with the concepts specifying conditions such as transparency required before data processing or upon request. These terms are associated using the relation [=hasTransparencyTerm=].</li>
+    </ul>
+    <p>Along with these, the [[STANDARD-P7012]] extension also provides the following concepts which will be helpful in ensuring the consistent interpretation of machine-readable privacy terms, and which will aid agents in having consistent behaviour across systems and contexts.</p>
+    <ul>
+      <li>[=DeonticInterpretationTerm=] for how the terms should be interpreted when there is no specific permission or prohibition covering an activity. It is associated using the relation [=hasDeonticInterpretation=].</li>
+      <li>[=ConflictResolutionTerm=] for how conflicts between permissions, prohibitions, and obligations should be handled - whether one should be preferred over the other or both should be discarded. It is associated using the relation [=hasConflictResolution=].</li>
+      <li>[=PrivacyAgentBehaviour=] that dictates how privacy agents should behave regarding requests ([=AgentRequestBehaviour=]) - such as whether they should allow all requests or only from known parties, and regarding negotiations ([=AgentNegotiationBehaviour=]) - such as whether they should allow negotiation only for know parties or only for parties present in prior agreements. These concepts are associated using the relation [=hasAgentBehaviour=].</li>
+      <li>[=PreferenceApplicability=] for expressing when a privacy preference should be applicable - such as if it always applies or only contextually applies (where the context can be only during certain time periods or only for specific types of service or entities). It is associated using the relation [=hasPreferenceApplicability=].</li>
+    </ul>
+    <p>To enable context-appropriate human- or machine-readable representation of these privacy terms, the relation [=hasHumanReadableFormat=] is provided to reference a format that is intended for humans (e.g. a webpage), and [=hasMachineReadableFormat=] to reference formats intended for machines. The machine-readable format can utilise different specifications and semantics to represent the same agreement or term in different 'languages' such as one using [[DPV]] and another using [[ODRL]] - with the goal of allowing agents to choose the most suitable format for their system.</p>
+    {{ list_hierarchy(modules['privacy_term']['classes']) }}
+  </section>
+
+  <section id="vocab-data">
+    <h2>Data</h2> 
+    <p>The following are specific data categories required in the expression of [[IEEE-P7012]] style agreements. It is associated using <code>dpv:hasData</code> or <code>dpv:hasPersonalData</code> relations.</p> 
+    {{ list_hierarchy(modules['data']['classes']) }}
+  </section>
+
+  <section id="vocab-purpose">
+    <h2>Purposes</h2>  
+    <p>The following are specific purpose categories required in the expression of [[IEEE-P7012]] style agreements. It is associated using <code>dpv:hasPurpose</code> relation.</p>
+    {{ list_hierarchy(modules['purpose']['classes']) }}
+  </section>
+
+  <section id="vocab-status">
+    <h2>Statuses</h2>  
+    <p>The following are specific statuses for representing the negotiation workflow required in the [[IEEE-P7012]] processes. It is associated using <code>dpv:hasStatus</code> relation.</p>
+    {{ list_hierarchy(modules['status']['classes']) }}
+  </section>
+
+  <section id="examples">
+    <h2>Examples</h2>
+    <section>
+      <h3>Expressing Privacy Terms using DPV</h3>
+      <aside class="issue" title="Example: Privacy Term using DPV"></aside>
+    </section>
+    <section>
+      <h3>Expressing Privacy Terms using ODRL</h3>
+      <aside class="issue" title="Example: Privacy Term using ODRL"></aside>
+    </section>
+    <section>
+      <h3>Record showing full contract interaction</h3>
+      <aside class="issue" title="Example: Record showing full contract interaction using DPV"></aside>
+      <h4>Simple Discovery and Negotiation</h4>
+      <ol>
+        <li>ServiceProvider queries PrivacyEndpoint of PrivacyAgent to start the privacy negotiation process by using p7012:PrivacyNegotiationRequested</li>
+        <li>PrivacyAgent responds to ServiceProvider that it agrees to negotiate by using p7012:PrivacyNegotiationInitiated</li>
+        <li>ServiceProvider requests PrivacyAgent to share its p7012:PrivacyPreference</li>
+        <li>PrivacyAgent informs ServiceProvider it will accept p7012:SD-BY-ATP-DP</li>
+        <li>ServiceProvider queries the PrivacyTermRegistry to retrieve p7012:SD-BY-ATP-DP and analyses whether it is acceptable for it or not</li>
+        <li>ServiceProvider informs PrivacyAgent that the PrivacyTerm is acceptable by using p7012:PrivacyTermsAccepted</li>
+        <li>PrivacyAgent sends a dpv:StandardFormContract to the ServiceAgent based on the selected PrivacyTerm</li>
+        <li>ServiceProvider accepts/signs the contract and sends it to the PrivacyAgent with status dpv:ContractUnderNegotiation (as all parties have not signed it yet)</li>
+        <li>PrivacyAgent accepts/signs the contract and sends it to the ServiceProvider with status dpv:ContractAccepted (indicating all parties have signed it)</li>
+      </ol>
+      <h4>Discovery and Negotiation with CounterOffer</h4>
+      <ol>
+        <li>ServiceProvider queries PrivacyEndpoint of PrivacyAgent to start the privacy negotiation process by using p7012:PrivacyNegotiationRequested</li>
+        <li>PrivacyAgent responds to ServiceProvider that it agrees to negotiate by using p7012:PrivacyNegotiationInitiated</li>
+        <li>ServiceProvider requests PrivacyAgent to share its p7012:PrivacyPreference</li>
+        <li>PrivacyAgent informs ServiceProvider it will accept p7012:SD-BY-ATP-DP</li>
+        <li>ServiceProvider informs PrivacyAgent it will not accept p7012:SD-BY-ATP-DP but will accept p7012:SD-BY-ATP by using p7012:PrivacyNegotiationCounterOfferMade</li>
+        <li>PrivacyAgent queries the PrivacyTermRegistry to retrieve p7012:SD-BY-ATP and analyses whether it is acceptable for it or not</li>
+        <li>PrivacyAgent informs ServiceProvider that the PrivacyTerm is acceptable by using p7012:PrivacyTermsAccepted</li>
+        <li>PrivacyAgent sends a dpv:StandardFormContract to the ServiceAgent based on the selected PrivacyTerm</li>
+        <li>ServiceProvider accepts/signs the contract and sends it to the PrivacyAgent with status dpv:ContractUnderNegotiation (as all parties have not signed it yet)</li>
+        <li>PrivacyAgent accepts/signs the contract and sends it to the ServiceProvider with status dpv:ContractAccepted (indicating all parties have signed it)</li>
+      </ol>
+      <h4>Using Contextual Privacy Preference</h4>
+      <p>Always express this preference using p7012:PrivacyPreferenceAlwaysApplies and conditionally express using p7012:PrivacyPreferenceConditionallyApplies. Conditional means there is a 'context' that represents the condition, expressed using 'dpv:hasContext' and some 'dpv:Context'. For example,</p>
+      <ol>
+        <li>Based on type of organisation, e.g. for non-profit (dpv:NonProfitOrganisation), the PrivacyTerm expressed is p7012:PDC-AI and p7012:PDC-GOOD</li>
+        <li>Based on location of the individual, e.g. if they are at work (loc:AtWork), the Privacy Term expressed is p7012:SD-BY</li>
+        <li>Based on age of the individual, e.g. if they are a child (dpv:Child), the Privacy Term expressed is p7012:SD-BY</li>
+      </ol>
+      <h4>Using Privacy Terms and Modifiers</h4>
+<pre><code>p7012:SD-BY a p7012:PrivacyTerm ;
+    dpv:hasPurpose p7012:ServiceDelivery ;
+    p7012:hasPrivacyInterpretationModifier p7012:ProhibitiveInterpretation ;
+    p7012:hasConflictResolutionModifier p7012:ResolvePreferringProhibition,
+          p7012:ResolveOnlyWithinContext ;
+    p7012:TrackingModifier p7012:TrackingDisallowed ;
+    p7012:hasProfilingModifier p7012:ProfilingDisallowed ;
+    p7012:hasDataSharingModifier p7012:DataSharingDisallowed ;
+    p7012:hasPortabilityModifier p7012:PortabilityNotRequired ;
+    rdfs:comment "lorem ipsum"@en .</code></pre>
+    <p>Using PrivacyModifier in a PrivacyTerm, we can also express actions to be taken after the contract process has completed. In the below example, presuming this ia privacy term that is being used for a research organisation like a hospital to use data for research where purposes and parties may not be known ahead of time, the modifiers state that the purposes and data being created and used till that point should be communicated upon request, and that parties involved should be communicated or declared after the processing starts.</p>
+<pre><code>ex:Example a p7012:PrivacyTerm ;
+    p7012:hasPurposeTransparencyModifier p7012:PurposeTransparencyOnRequest ;
+    p7012:hasPartyTransparencyModifier p7012:PartyTransparencyExPost ;
+    p7012:hasDataTransparencyModifier p7012:DataTransparencyOnRequest .</code></pre>
+    </section>
+  </section>
+
+  <section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    {{ index_concepts(vocab, vocab_name, filter="classes") }}
+  </section>
+  <section id="dpv-properties">
+    {{ index_concepts(vocab, vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>The following external concepts are re-used within PD:</p>
+    {{ index_concepts(vocab, vocab_name, filter="external") }}
+  </section>
+</section>
+  
+{% endblock VOCAB %}
+
+{% block ACKNOWLEDGEMENTS %}
+<section id="contributors">
+  <h2>Contributors</h2>
+  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
+  <ul>
+  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
+    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
+  {% endfor %}
+  </ul>
+</section>
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+
+</section>
+{% endblock ACKNOWLEDGEMENTS %}
+
+{% block PROPOSED %}
+{% if proposed %}
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  <ul>{% for term in proposed %}
+      <li>{{term}}</li>
+    {% endfor %}</ul>
+</section>
+{% endif %}
+{% endblock PROPOSED %}
+
+{# <section class="appendix" id="issue-summary"></section> #}
+
+<script type="text/javascript" src="../../diagrams/common.js" defer></script>
+</body>
+</html>

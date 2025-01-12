@@ -246,6 +246,32 @@ CSVFILES = {
             'properties': f'{IMPORT_CSV_PATH}/Rules_properties.csv',
         },
     },
+    'p7012': {
+        'entities': {
+            'classes': f'{IMPORT_CSV_PATH}/p7012_entities.csv',
+            'properties': f'{IMPORT_CSV_PATH}/p7012_entities_properties.csv',
+        },
+        'process': {
+            'classes': f'{IMPORT_CSV_PATH}/p7012_process.csv',
+            'properties': f'{IMPORT_CSV_PATH}/p7012_process_properties.csv',
+        },
+        'agreement': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_agreement.csv',
+        },
+        'status': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_status.csv',
+        },
+        'data': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_data.csv',
+        },
+        'purpose': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_purpose.csv',
+        },
+        'privacy_term': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_privacy_term.csv',
+            'properties': f'{IMPORT_CSV_PATH}/p7012_privacy_term_properties.csv',
+        },
+    },
     'pd': {
         'core': {
             'taxonomy': f'{IMPORT_CSV_PATH}/pd-core.csv',
@@ -829,6 +855,31 @@ RDF_VOCABS = {
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "",
             "bibo:status": "published",
+        },
+    },
+    # STANDARDS
+    'p7012': {
+        'vocab': f'{IMPORT_PATH}/standards/p7012/p7012.ttl',
+        'template': 'template_p7012.jinja2',
+        'export': f'{EXPORT_PATH}/standards/p7012',
+        'modules': {
+            'entities': f'{IMPORT_PATH}/standards/p7012/modules/entities.ttl',
+            'process': f'{IMPORT_PATH}/standards/p7012/modules/process.ttl',
+            'agreement': f'{IMPORT_PATH}/standards/p7012/modules/agreement.ttl',
+            'status': f'{IMPORT_PATH}/standards/p7012/modules/status.ttl',
+            'data': f'{IMPORT_PATH}/standards/p7012/modules/data.ttl',
+            'purpose': f'{IMPORT_PATH}/standards/p7012/modules/purpose.ttl',
+            'privacy_term': f'{IMPORT_PATH}/standards/p7012/modules/privacy_term.ttl',
+        },
+        'metadata': {
+            "dct:title": "Extension for IEEE P7012",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for implementing IEEE P7012",
+            "dct:created": "2025-01-12",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit, Iain Henderson, Beatriz Esteves",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
         },
     },
     # EXTENSIONS
@@ -1908,6 +1959,10 @@ RDF_STRUCTURE = {
     'dpv': {
         'main': f'{EXPORT_RDF_PATH}/dpv',
         'modules': f'{EXPORT_RDF_PATH}/dpv/modules',
+    },
+    'p7012': {
+        'main': f'{EXPORT_RDF_PATH}/standards/p7012',
+        'modules': f'{EXPORT_RDF_PATH}/standards/p7012/modules',
     },
     'pd': {
         'main': f'{EXPORT_RDF_PATH}/pd',
