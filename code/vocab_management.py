@@ -102,7 +102,7 @@ NS.ns = { k:v for k,v in NAMESPACES.items() }
 
 # DPV Version
 DPV_VERSION = "2.1-dev"
-DPV_PUBLISH_DATE = "2024-10-22"
+DPV_PUBLISH_DATE = "2025-01-16"
 # Document status: should be one of CG-DRAFT or CG-FINAL
 DOCUMENT_STATUS = "CG-DRAFT"
 
@@ -949,7 +949,7 @@ RDF_VOCABS = {
             "dct:creator": "Delaram Golpayegani, Harshvardhan J. Pandit",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "tech",
-            "bibo:status": "draft",
+            "bibo:status": "published",
         },
     },
     'risk': {
@@ -1890,7 +1890,7 @@ RDF_VOCABS = {
             "dct:creator": "Delaram Golpayegani",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
-            "bibo:status": "draft",
+            "bibo:status": "published",
         },
     },
     'eu-nis2': {
@@ -1949,7 +1949,7 @@ RDF_VOCABS = {
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
-            "bibo:status": "draft",
+            "bibo:status": "published",
         },
     },
 }

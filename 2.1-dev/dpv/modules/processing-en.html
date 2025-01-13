@@ -285,6 +285,10 @@
     "href": "https://w3id.org/dpv/legal/eu/rights",
     "title": "EU Fundamental Rights concepts for DPV"
   },
+  "STANDARD-P7012": {
+    "href": "https://w3id.org/dpv/standards/p7012",
+    "title": "Extension for IEEE P7012"
+  },
   "DPV-OWL": {
     "href": "https://w3id.org/dpv/dpv-owl",
     "title": "DPV serialised in OWL2"
@@ -360,6 +364,10 @@
   "DPV-29184": {
       "href": "https://w3id.org/dpv/schema/DPV-29184",
       "title": "DPV Profile for implementing ISO/IEC TS 29184:2020 Privacy Notices"
+  },
+  "MAPPING-ODRL": {
+      "href": "https://w3id.org/dpv/mapping/odrl",
+      "title": "Mapping DPV concepts to ODRL"
   },
   "EXAMPLES": {
     "href": "https://w3id.org/dpv/examples",
@@ -485,6 +493,10 @@
     "href": "https://www.iso.org/iso-8601-date-and-time-format.html",
     "title": "ISO 8601 Date and time format"
   },
+  "IEEE-P7012": {
+    "title": "IEEE Draft Standard for Machine Readable Personal Privacy Terms",
+    "href": "https://standards.ieee.org/ieee/7012/7192/",
+  }
 }  };
 </script>
 <link rel="stylesheet" type="text/css" href="../../diagrams/common.css">
@@ -815,6 +827,48 @@
 </ul>
   </li>
 </ul></div>
+  <p>The 'unit of composition' in DPV is `dpv:Process`. Therefore it should be used to represent details about processing operations which are not directly describing the operation itself but are tangential or are disjoint from it - such as what data is being collected, why it is being collected (purpose). Details which describe the processing itself - such as what technology is being utilised or what entity is carrying it out - can be expressed as information about the processing. However, the suggested method is to always use a process where feasible as this supports the explicit depiction of information and allows composition i.e. the reuse of a process in a different context.</p>
+    <aside class="example" title="Role of dpv:Processing and using it in dpv:Process">
+<p>This example shows the myriad ways that processing could be used to describe other non-processing operation information such as personal data and entity involved. To accurately represent the information in a consistent and reusable manner, we recommend using dpv:Process as the way to combine concepts in to a 'unit' and to reuse this in other processes. This means dpv:Processing only specifies information about the processing operation involved, and optionally the technology being used if it is relevant to the context.</p>
+<p>In Method 1, the processing instance contains personal data and entity involved - this is not recommended as the instance now contains information not related to the processing operation itself. Method 2 shows a processing instance which is implemented using a specific technology. This is acceptable as it describes the processing operation in terms of involved technology, and can be a way to reuse the processing operation in other processes while someone (e.g. IT department) can change the underlying technology. Method 3 represents the best practice of using dpv:Process to describe all concepts in a modular and granular manner with a separation of concerns. Processes can include other processes - so we can describe processing and technology and data involved as a process and involve it in other processes. This makes the task of finding information easier as we only have to look for composition of processes, instead of investigating each purpose or processing or another concept involved for what data or technology it involves.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Method 1) Processing has non-processing concepts - not recommended</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Processing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedUsingTechnology</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeMethod</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedByEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> .
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 2) Processing has implementing technology</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Processing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedUsingTechnology</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeMethod</span> ;
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedByEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 3) Processing only covers operations - best practice</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Processing</span> ;
+    <span style="color: #0000FF; font-weight: bold">skos</span>:<span style="color: #008000; font-weight: bold">broader</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Collect</span>, <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Store</span> ;
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Location</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcessing</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedByEntity</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AcmeInc</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">isImplementedUsingTechnology</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeMethod</span> .
+
+<span style="color: #3D7B7B; font-style: italic"># Composition of processes and processing</span>
+<span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">AnotherProcess</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> ; <span style="color: #3D7B7B; font-style: italic"># collect, store location by Acme</span>
+    <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> <span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeOtherProcess</span> . <span style="color: #3D7B7B; font-style: italic"># share location with Beta</span>
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0085"><code>E0085</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0085.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2025-01-01)
+    </small></p>
+  </aside>
+
 </section>
 
 <section id="processing-operations">
@@ -822,22 +876,39 @@
   <section>
     <h3>Collect</h3>
     <aside class="issue" title="Add content for Processing category - Collect"></aside>
+    <p>[=Obtain=] is the broad concept representing various ways of obtaining or collecting data. [=Collect=] is a specific way of obtaining data, with other ways being to [=Derive=] or [=Infer=] it from existing data, or to [=Observe=] it. While it can be argued that [=Collect=] and [=Observe=] are the same method since observing data implies collecting data, the model here represents distinctions which become important in context. For example, to distinguish between data obtained from a person (collect) and data being detected through a signal (observe). Further [=Generate=] represents data being generated i.e. where it didn't exist before, whereas [=Derive=] and [=Infer=] have a link to some existing data which is used to produce the new data. Similarly, [=Acquire=] implies the data already exists elsewhere and is being 'acquired' in to the current context - for example by way of taking over a process or company.</p>
+    <p>Most common uses of processing operations use the term 'collect' to represent all of the above, which can be misleading or ambigious. Therefore, we suggest using the accurate verb to represent the processing operation accurately, or failing that, to use [=Obtain=] as the generic term. In particular, we caution again misappopriating [=Collect=] for [=Infer=] as there is an important distinction which is lost in context regarding the potential inaccuracy of inferred data which is a result of the method of inference. Data quality issues with collection can also be present, but represent a different category of 'errors' in operation. Further, inferences also have an important role when it comes to privacy matters - such as when inferencing sensitive or special categories of data which are not typically visible to the individual or source, whereas collection is explicit about the data being collected.</p>
+    <p>Similarly, we also caution against mixing [=Derive=] which implies a derivation or transformation operation on existing information, such as a first name from a full name, with [=Infer=] where the intended output is not already present within the information. Sometimes these distinctions are not clear, or can involve ethical concerns which can vary from minor concerns such as inferring emotions from text to severe pseudoscientific theories such as phrenology. Accurately depicting the processing operations is a key factor in carrying out risk and impact assessments as the risks associated with derived and inferred data are distinct and have different assessments and mitigations.</p>
   </section>
   <section>
     <h3>Store</h3>
     <aside class="issue" title="Add content for Processing category - Store"></aside>
+    <p>[=Store=] represents the processing operation where data is stored i.e. preserved for later use. Merely stating [=Obtain=] does not imply that data is stored e.g. it could be collected, used, and then discarded. Therefore, whenever data is stored, we strongly suggest explicitly denoting [=Store=] as the processing operation. The processing operation [=Store=] does not distinguish the manner in which data is stored (e.g. as bytes, documents, images), nor the location of storage (e.g. on device, in cloud). These are all described through <a href="#storage-conditions">Storage Conditions</a>.</p>
+    <p>
   </section>
   <section>
     <h3>Use</h3>
     <aside class="issue" title="Add content for Processing category - Use"></aside>
+    <p>[=Use=] is a generic concept that represents data that has been obtained or is stored is being used to do something (which could be a purpose). There are specific forms of usage, such as [=Access=], [=Query=], and [=Retrieve=] which are technical operations, and [=Profiling=] and [=Tracking=] which are complex operations which involve additinoal concepts, but are expressed as processing operations to denote their nature as technical operations which by itself does not describe why they are taking place (i.e. the purpose).</p>
+  </section>
+  <section>
+    <h3>Transform</h3>
+    <p>Operations where data is not being actively used (towards something) but is being technically organised or transformed is represented by [=Transform=] and its specific concepts. This includes [=Anonymise=] and [=Pseudonymise=], as well as [=Combine=] which includes other data. Transformations can happen as part of general data management, and do not by themselves necessarily imply they are being done towards a goal e.g. data is being aggregated and then later it is used by retrieving. This separation allows representing information about transformations in a granular manner without involving the use of this information (later) in various contexts.</p>
   </section>
   <section>
     <h3>Share</h3>
     <aside class="issue" title="Add content for Processing category - Share"></aside>
+    <p>[=Disclose=] means to disclose the data (to someone or something). It is the generic concept for more specific forms of disclosure such as [=Display=], [=Export=], and the commonly used [=Share=]. We recommend using [=Disclose=] concepts to represent data being disclosed between entities, such as when showing the user some data, or sharing information with another entity. We also highlight the distinction between the use of [=Disclose=] and [=Transfer=] - where transfers simply means movement of data, whereas disclosure has an implication regarding crossing a boundary of an entity and may or may not involve a transfer.</p>
+  </section>
+  <section>
+    <h3>Transfer</h3>
+    <p>[=Transfer=] represents the technical notion of data movement from one location to another. Legally, this is an important concept where this movement happens between locations that cross a jurisdictional boundary. To represent this, we suggest using [=CrossBorderTransfer=]. Merely transferring data does not by itself imply concepts such as [=Share=] or [=Disclose=]. Therefore, to accurately and unambigiously express what processing operations are taking place, we recommend using [=Transfer=] with another concept where necessary.</p>
+    <p>For [=CrossBorderTransfer=], it may be desirable to state the location or jurisdiction in question. This can be declared within the instance through `dpv:hasLocation` and `dpv:hasJurisdiction`. Note that we only recommend stating the location the data is being transferred to i.e. the target and not the current or source location, as that is the relevant information within a 'cross-border transfer'. The current location should be stated in its own context e.g. for [=Store=] or [=Obtain=] or [=Use=].</p>
   </section>
   <section>
     <h3>Erase</h3>
     <aside class="issue" title="Add content for Processing category - Erase"></aside>
+    <p>[=Remove=] is the generic concept representing removal of data from the current context. This removal can be through [=Delete=] operations where data is logically removed - but where in theory it can be retrieved again (e.g. disk retrieval algorithms), or [=Erase=] where the data is removed in a way that retrieval is not possible (e.g. overwriting with null values). There is also [=Destruct=] which has a stronger implication of no recovery possible from any method - which can be used to describe aspects such as deletion of all copies of data from backups.</p>
   </section>
   <section>
     <h3>Tracking and Profiling</h3>
@@ -1370,7 +1441,7 @@ link: <a href="https://w3id.org/dpv/examples/E0047.ttl">source file</a>;      co
 
     <p>The [[TECH]] extension provides relevant concepts to indicate technical aspects such as a server located in a specific location and provided by a cloud provider, which is being used to carry out the processing operations.</p>
   </section>
-  <section>
+  <section id="storage-conditions">
     <h3>Storage Conditions</h3>
     <p>This taxonomy provides concepts for representing information about storage conditions, e.g. how long the data will be stored for, its erasure, or its restoration. It also enables representing the source(s) of data, the use of automation, and the extent of human involvement within the automation.</p>
     <p>The processing taxonomy uses the concept [=Store=] to indicate data is being stored. To specify additionally information such as its location, erasure or deletion, the generic concepts and relations associated with processing (i.e. <i>location</i> and <i>duration</i>) can be used. However, to emphasise that information about storage - such as policies, conditions, rules, or documentation - are critical on considerations of data protection and privacy as well as legal compliance, DPV provide specific concepts related to these.</p>
@@ -1753,7 +1824,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -1832,7 +1903,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -1911,7 +1982,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -1991,7 +2062,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -2162,7 +2233,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -2241,7 +2312,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -2320,7 +2391,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -2403,7 +2474,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -2486,7 +2557,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -4338,7 +4409,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -4421,7 +4492,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -4594,7 +4665,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -4676,7 +4747,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -5011,7 +5082,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -5665,7 +5736,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -5744,7 +5815,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -5833,7 +5904,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -5911,7 +5982,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -5990,7 +6061,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -6069,7 +6140,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -6151,7 +6222,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -6230,7 +6301,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -7230,7 +7301,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -7476,7 +7547,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -7558,7 +7629,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -7638,7 +7709,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -7810,7 +7881,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -9129,7 +9200,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -9897,7 +9968,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -9976,7 +10047,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -10308,7 +10379,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -10388,7 +10459,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -10467,7 +10538,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -11052,7 +11123,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -11130,7 +11201,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -11372,7 +11443,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -11536,7 +11607,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -11551,6 +11622,9 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0085" class="local-link"><small><code>dex:E0085 :: </code> Role of dpv:Processing and using it in dpv:Process</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -11581,7 +11655,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -12044,7 +12118,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -12126,7 +12200,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -12293,7 +12367,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -12372,7 +12446,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -12453,7 +12527,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -12617,7 +12691,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -12696,7 +12770,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -12775,7 +12849,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -13277,7 +13351,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -13356,7 +13430,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -14463,7 +14537,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -14542,7 +14616,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -14858,7 +14932,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -14944,7 +15018,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -15027,7 +15101,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -15108,7 +15182,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -15193,7 +15267,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -15272,7 +15346,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -15350,7 +15424,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasProcessing" class="local-link">dpv:hasProcessing</a>
+          <td>            <a href="https://w3id.org/dpv#hasProcessing" class="local-link">dpv:hasProcessing</a>
 </td>
         </tr>
         
@@ -16569,7 +16643,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
         
 <tr class="technical-detail">
           <th>Range includes</th>
-          <td>            <a href="#Processing" class="local-link">dpv:Processing</a>
+          <td>            <a href="https://w3id.org/dpv#Processing" class="local-link">dpv:Processing</a>
                       </td>
         </tr>        
         <tr class="table-separator"></tr>
@@ -16580,6 +16654,9 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
         </tr>        
        
        
+        <tr class="table-separator"></tr>
+          <th>Examples</th>
+          <td>            <a href="https://w3id.org/dpv/examples#E0085" class="local-link"><small><code>dex:E0085 :: </code> Role of dpv:Processing and using it in dpv:Process</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -16606,7 +16683,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
         <tr>
           <th>See More:</th>
-          <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DPV</a>
+          <td>              section <a href="#vocab-processing"> PROCESSING</a> in <a href="https://w3id.org/dpv#">DEX</a>
                       </td>
         </tr>
         </tbody>
@@ -17106,7 +17183,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0037" class="local-link"><small><code>dex:E0037 :: </code> Indicating type of organisation and involvement of specific orgnisational units</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0037" class="local-link"><small><code>dex:E0037 :: </code> Indicating type of organisation and involvement of specific orgnisational units</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0085" class="local-link"><small><code>dex:E0085 :: </code> Role of dpv:Processing and using it in dpv:Process</small></a></td>
 
         <tr class="table-separator"></tr>
         
@@ -17189,7 +17266,7 @@ link: <a href="https://w3id.org/dpv/examples/E0049.ttl">source file</a>;      co
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
-          <td>            <a href="https://w3id.org/dpv/examples#E0064" class="local-link"><small><code>dex:E0064 :: </code> Indicating use of a technical measure and its implementation</small></a></td>
+          <td>            <a href="https://w3id.org/dpv/examples#E0064" class="local-link"><small><code>dex:E0064 :: </code> Indicating use of a technical measure and its implementation</small></a><br/>            <a href="https://w3id.org/dpv/examples#E0085" class="local-link"><small><code>dex:E0085 :: </code> Role of dpv:Processing and using it in dpv:Process</small></a></td>
 
         <tr class="table-separator"></tr>
         
