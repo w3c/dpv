@@ -5,9 +5,9 @@ and group meeting minutes.
 
 links: [Community Group](https://www.w3.org/community/dpvcg/) | [GitHub wiki](https://github.com/w3c/dpv/wiki/)
 
-> **Announcement: DPV 2.0 Beta Release**
+> **Announcement: DPV 2.0 Release**
 >
-> ![Static Badge](https://img.shields.io/badge/DPV-version%202.0-green?labelColor=black) release is complete and is now being provided in _beta_ mode for feedback. The **period for feedback is until 31 July**. The completed 2.0 release will be published after this on 01 August - unless major issues are identified. See the [v2 changelog](https://w3id.org/dpv/2.0/changelog). The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. The draft article [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Pandit et al. (2024) describes DPV v2 in terms of its contents, methodology, current adoptions and uses, and future potential. It also describes the relevance and role of DPV in acting as a common vocabulary to support various regulatory (e.g. EU's DGA and AI Act) and community initiatives (e.g. Solid) emerging across the globe. A [Search Index](https://w3id.org/dpv/2.0/search) of all concepts from DPV and extensions is available.
+> ![Static Badge](https://img.shields.io/badge/DPV-version%202.0-green?labelColor=black) The scope of DPV has been expanded to include non-personal data and AI technologies - though the focus of the group remains on privacy and data protection. The structure of the repo has also been changed to incorporate multiple jurisdictions and regulations, and their names have been changed e.g. `dpv-gdpr` is `legal/eu/gdpr`. The article [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Pandit et al. (2024), accepted for presentation at the 23rd International Semantic Web Conference (ISWC 2024), describes DPV v2 in terms of its contents, methodology, current adoptions and uses, and future potential. It also describes the relevance and role of DPV in acting as a common vocabulary to support various regulatory (e.g. EU's DGA and AI Act) and community initiatives (e.g. Solid) emerging across the globe. A [Search Index](https://w3id.org/dpv/2.0/search) of all concepts from DPV and extensions is available.
 
 > ![Static Badge](https://img.shields.io/badge/DPV-version%201.0-red?labelColor=black) is available under a new versioned IRI for continued use - though the DPVCG recommends using the latest version of DPV. Versioned IRIs have been created to refer to specific versions, with https://w3id.org/dpv/1.0 for v1 and https://w3id.org/dpv/2.0 for v2. The versionless IRI https://w3id.org/dpv will always point to the latest version. See the [v2 changelog](https://w3id.org/dpv/2.0/changelog) for more details. 
 
@@ -60,7 +60,7 @@ The legal extensions provide concepts associated with specific jurisdictions and
 The [NACE Taxonomy serialised in RDFS](https://w3id.org/dpv/dpv-nace) provides a serialisation of the NACE v2 taxonomy in RDFS for use with DPV terms. Since then, NACE v2.1 has been published by the EU Commission. The DPVCG has decided to retire/not provide an alternative serialisation of NACE as it provided no significant benefit and the best practice for using NACE is to always utilise the official authoritative version.
 
 ## Guides
-- The [Primer](https://w3id.org/dpv/primer) is an introductory document for newcomers to understand the DPV and its concepts. A [2 Page Short Primer](https://w3id.org/dpv/primer/short) provides a succint introduction to the DPV. 
+- The [Primer](https://w3id.org/dpv/primer) is an introductory document for newcomers to understand the DPV and its concepts. A [2 Page Short Primer](https://w3id.org/dpv/primer/concise) provides a succint introduction to the DPV. 
 - The [Use-Cases and Requirements](https://w3id.org/dpv/use-cases/) document lists the use-cases and requirements that led to the development of DPV. 
 - The [Examples](https://w3id.org/dpv/examples/) page provides an index of examples describing the use of DPV concepts.
 - The [Guides](https://w3id.org/dpv/guides) page lists guides for use of DPV in specific domains and applications
@@ -73,7 +73,7 @@ The [NACE Taxonomy serialised in RDFS](https://w3id.org/dpv/dpv-nace) provides a
 
 ## Acknowledgements and Citation
 
-* For use of DPV from v2 onwards, **Cite as:** [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake https://arxiv.org/abs/2404.13426 (2024)
+* For use of DPV from v2 onwards, **Cite as:** [Data Privacy Vocabulary (DPV) -- Version 2](https://arxiv.org/abs/2404.13426) by Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake https://arxiv.org/abs/2404.13426 (accepted for presentation at the 23rd International Semantic Web Conference (ISWC 2024))
 *  For use of DPV up to v1 and v1.1, **Cite as:** The peer-reviewed article “[Creating A Vocabulary for Data Privacy](https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44)” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed [here](http://hdl.handle.net/2262/91581), [here](http://doras.dcu.ie/23801/), and [here](https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf).
 
 ## Releases
@@ -85,10 +85,25 @@ Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/
 ### Final Reports
 
 The following are final reports i.e. formally published by the W3C:
-#### v2
-- these reports will be published and available after the release of v2
-- [Search Index](https://w3id.org/dpv/2.0/search) of all concepts from DPV and extensions
-#### v1
+
+#### DPV 2.0
+- Primer [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-primer-20240801/)
+- DPV [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-20240801/)
+- Personal Data (PD) extension [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-pd-20240801/)
+- Technology (TECH) extension [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-tech-20240801/)
+- Risk (RISK) extension [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-risk-20240801/)
+- Locations (LOC) extension [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-loc-20240801/)
+- AI Technology (AI) extension [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-ai-20240801/)
+- Justifications extension [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-justifications-20240801/)
+- Legal extensions [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-20240801/)
+    - Germany (DE) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-de-20240801/)
+    - European Union (EU) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-eu-20240801/)
+    - United Kingdom of Great Britain and Northern Ireland (GB) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-gb-20240801/)
+    - Ireland (IE) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-ie-20240801/)
+    - India (IN) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-in-20240801/)
+    - United Stated of America (US) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-us-20240801/)
+
+#### DPV 1.0
 - Primer [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-primer-20221205)
 - DPV [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-20221205)
 - DPV-GDPR [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-dpv-gdpr-20221205)

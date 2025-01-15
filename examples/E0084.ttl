@@ -1,0 +1,32 @@
+# Method 1) Rule and status in process
+ex:SomeProcess a dpv:Process ;
+    dpv:hasRule dpv:Obligation ;
+    dpv:hasStatus dpv:ObligationFulfilled .
+
+# Method 2) Rule with embedded status
+ex:SomeProcess a dpv:Process ;
+    dpv:hasRule [
+        a dpv:Obligation ;
+        dpv:hasStatus dpv:ObligationFulfilled ;
+    ] .
+
+# Method 3) Embedded status with date
+ex:SomeProcess a dpv:Process ;
+    dpv:hasRule [
+        a dpv:Obligation ;
+        dpv:hasStatus [
+            a dpv:RuleFulfilmentStatus ;
+            skos:broader dpv:ObligationFulfilled ;
+            dct:date "2025-01-01"^^xsd:date ;
+        ] ;
+    ] .
+
+# Method 4) Rule status per entity
+ex:Log1 a dpv:RuleFulfilmentStatus ;
+    skos:broader dpv:ObligationFulfilled ;
+    dpv:hasEntity ex:AcmeInc ;
+    dct:date "2025-01-01"^^xsd:date ;
+ex:Log2 a dpv:RuleFulfilmentStatus ;
+    skos:broader dpv:ObligationUnfulfilled ;
+    dpv:hasEntity ex:BetaInc ; # as of this date
+    dct:date "2025-01-01"^^xsd:date ;

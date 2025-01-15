@@ -48,6 +48,10 @@ SCHEMA['taxonomy'] = {
     'Contributors': vocab_funcs.construct_contributors,
     'Resolution': vocab_funcs.construct_resolution, 
 }
+SCHEMA['taxonomy-risk'] = SCHEMA['taxonomy'].copy()
+SCHEMA['taxonomy-risk']['ParentTerm'] = None
+SCHEMA['taxonomy-risk']['CIA'] = vocab_funcs.construct_risk_parent_CIA
+SCHEMA['taxonomy-risk']['Role'] = vocab_funcs.construct_risk_parent_Role
 
 SCHEMA['properties'] = {
     '_description': 'lorem ipsum',
@@ -134,6 +138,9 @@ SCHEMA['laws'] = {
     'Contributors': vocab_funcs.construct_contributors,
     'Resolution': vocab_funcs.construct_resolution, 
 }
+
+SCHEMA['gdpr-rights-justifications'] = SCHEMA['taxonomy'].copy()
+SCHEMA['gdpr-rights-justifications']['Right'] = vocab_funcs.contruct_gdpr_right_justification
 
 SCHEMA['examples'] = {
     'Term': vocab_funcs.construct_example,

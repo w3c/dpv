@@ -80,9 +80,9 @@
   <section id="abstract">
     <p>The {{vocab_name|upper}} extension extends the [[[DPV]]] to represent laws, authorities, and other legal concepts in {% if '-' in vocab_name %} {{vocab_name.split('-')[1]|upper}} jurisdiction{% else %}various jurisdictions{% endif %}.</p>
     <p>The canonical URL for {{vocab_name|upper}} extension is <a href="{{RDF_VOCABS[vocab_name]['metadata']['iri']}}">{{RDF_VOCABS[vocab_name]['metadata']['iri']}}</a>, the namespace is <a href="{{RDF_VOCABS[vocab_name]['metadata']['iri']}}#"><code>{{RDF_VOCABS[vocab_name]['metadata']['iri']}}#</code></a>, the suggested prefix is <code>{{vocab_name}}</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+  </section>
     {{ sotd(data[vocab_name+'-metadata']) }}
     {{ dpv_document_family(document='dpv-pd-spec') }}
-  </section>
 {% endblock ABSTRACT %}
 {% block INTRODUCTION %}
 
@@ -99,7 +99,7 @@
     <ol>
         {% if modules['legal']['classes']|filter_type('dpv:Law')|length > 0 %}
         <li><a href="#laws">Laws</a></li>{% endif %}
-        {% if modules['legal']['classes']|filter_type('dpv:Authority')|length > 0 %}
+        {% if modules['legal']['classes']|filter_type('dpv:DataProtectionAuthority')|length > 0 %}
         <li><a href="#authorities">Authorities</a></li>{% endif %}
         {% if vocab_name == 'legal-eu' and modules['legal']['classes']|filter_type('eu-gdpr:AdequacyDecision')|length > 0 %}
         <li><a href="#vocab-adequacy">Adequacy Decisions</a></li>{% endif %}
@@ -108,14 +108,53 @@
 
 {% if vocab_name == 'legal' or vocab_name == 'legal-eu' %}
     <section id="dpv-extensions">
-        <h2>DPV Extensions for Laws</h2>
-        <p>The following extensions to the [[DPV]] exist for modelling concepts from laws and regulations:</p>
+        <h2>DPV Extensions</h2>
         <ul>
-            <li>[[[EU-GDPR]]]</li>
-            <li>[[[EU-DGA]]]</li>
-            <li>[[[EU-NIS2]]]</li>
-            <li>[[[EU-AIAct]]]</li>
-        </ul>
+      <li>[[LEGAL-EU]] representing (only) the European Union, with each Member State within the EU/EEA region being defined in its own separate namespace and extension to allow modelling both EU and Country-level laws and knowledge without conflicts:<ul>
+        <li>[[LEGAL-AT]] for Austria</li>
+        <li>[[LEGAL-BE]] for Belgium</li>
+        <li>[[LEGAL-BG]] for Bulgaria</li>
+        <li>[[LEGAL-CY]] for Cyprus</li>
+        <li>[[LEGAL-CZ]] for Czech Republic</li>
+        <li>[[LEGAL-DE]] for Germany</li>
+        <li>[[LEGAL-DK]] for Denmark</li>
+        <li>[[LEGAL-EE]] for Estonia</li>
+        <li>[[LEGAL-ES]] for Spain</li>
+        <li>[[LEGAL-FI]] for Finland</li>
+        <li>[[LEGAL-FR]] for France</li>
+        <li>[[LEGAL-GR]] for Greece</li>
+        <li>[[LEGAL-HR]] for Croatia</li>
+        <li>[[LEGAL-HU]] for Hungary</li>
+        <li>[[LEGAL-IE]] for Ireland</li>
+        <li>[[LEGAL-IS]] for Iceland</li>
+        <li>[[LEGAL-IT]] for Italy</li>
+        <li>[[LEGAL-LI]] for Liechtenstein</li>
+        <li>[[LEGAL-LT]] for Lithuania</li>
+        <li>[[LEGAL-LU]] for Luxembourg</li>
+        <li>[[LEGAL-LV]] for Latvia</li>
+        <li>[[LEGAL-MT]] for Malta</li>
+        <li>[[LEGAL-NL]] for Netherlands</li>
+        <li>[[LEGAL-NO]] for Norway</li>
+        <li>[[LEGAL-PL]] for Poland</li>
+        <li>[[LEGAL-PT]] for Portugal</li>
+        <li>[[LEGAL-RO]] for Romania</li>
+        <li>[[LEGAL-SE]] for Sweden</li>
+        <li>[[LEGAL-SI]] for Slovenia</li>
+        <li>[[LEGAL-SK]] for Slovakia</li>
+        </ul></li>
+      <li>[[LEGAL-GB]] for Great Britain and Northern Ireland</li>
+      <li>[[LEGAL-IN]] for India</li>
+      <li>[[LEGAL-US]] for United States of America</li>
+    </ul>
+    <p>Within the [[LEGAL-EU]] extension namespace, the following laws are defined as separate extensions with their own namespaces:</p>
+    <ul>
+      <li>[[[EU-GDPR]]]</li>
+      <li>[[[EU-DGA]]]</li>
+      <li>[[[EU-NIS2]]]</li>
+      <li>[[[EU-AIAct]]]</li>
+      <li>[[[EU-EHDS]]]</li>
+      <li>[[[EU-RIGHTS]]]</li>
+      </ul>
     </section>
 {% endif %}
 
@@ -128,6 +167,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Jurisdictions</th>
+            <th>Authorities</th>
             <th>Webpage</th>
             <th>Start/End</th>
         </thead>
@@ -147,6 +187,10 @@
                 <a href="{{loc['iri']}}">{{ loc['skos:prefLabel'] }}</a>{% if 'skos:broader' in loc %}{% for loc_broader in loc['skos:broader']|ensure_list|filter_type("dpv:Country", vocab="loc") %}, <a href="{{loc_broader['iri']}}">{{ loc_broader['skos:prefLabel'] }}</a>
                     {% endfor %}{% endif %}
                 {{ "; " if not loop.last }}{% endfor %}</td>
+                {# AUTHORITIES #}
+                <td>{% for auth in law['dpv:hasAuthority']|ensure_list_unique|sort_iris %}
+                    <a href="{{auth['iri']}}">{{ auth|prefix_this }}</a>{{ ", " if not loop.last }}
+                {% endfor %}</td>
                 <td>{% for page in law['foaf:homepage']|ensure_list_unique %}<a href="{{page}}">link</a>{{ ", " if not loop.first }}{% endfor %}</td>
                 <td>{{ law|expand_time_interval('dct:temporal') }}</td>
             </tr>
@@ -156,7 +200,8 @@
 </section>
 {% endif %}
 
-{% if modules['legal']['classes']|filter_type('dpv:Authority')|length > 0 %}
+{% set authority_types = ['dpv:Authority', 'dpv:DataProtectionAuthority', 'eu-gdpr:DataProtectionAuthority'] %}
+{% if modules['legal']['classes']|filter_type(authority_types)|length > 0 %}
 <section id="authorities">
     <h2>Authorities</h2>
     <p>Authorities are represented as instances of <code>dpv:Authority</code>, and are associated with specific jurisdictions using <code>dpv:hasJurisdiction</code>. The law which the authorities enforce is indicated by <code>dpv:hasApplicableLaw</code>. The webpage for the authority, if available, is indicated using <code>foaf:homepage</code>.</p>
@@ -169,7 +214,7 @@
             <th>Webpage</th>
         </thead>
         <tbody>
-        {% for law in modules['legal']['classes']|filter_type('dpv:Authority')|ensure_list_unique|sort_iris %}
+        {% for law in modules['legal']['classes']|filter_type(authority_types)|ensure_list_unique|sort_iris %}
             <tr>
                 <td>
                     {% if law['prefix'] != vocab_name %}<a href="#{{law['prefixed']}}"><code>{{ law['prefixed'] }}</code></a>
@@ -270,6 +315,6 @@
 {% endblock ACKNOWLEDGEMENTS %}
 
 {% endblock VOCAB %}
-
+<section class="appendix" id="issue-summary"></section>
 </body>
 </html>

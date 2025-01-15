@@ -229,8 +229,9 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     # If any are present, they are called here to update the graph.
     # Hooks can insert, update, or delete triples in the graph.
     if hook in RDF_EXPORT_HOOK:
-        for query in RDF_EXPORT_HOOK[hook]:
-            graph.update(query)
+        for data in RDF_EXPORT_HOOK[hook]:
+                DEBUG(f"Applying hook {data['title']} for {vocab}")
+                graph.update(data['query'])
         DEBUG(f"Updated graph with {len(RDF_EXPORT_HOOK[hook])} queries")
 
     # Add **ontology metadata**, retrieve manual metadata from `RDF_VOCABS`

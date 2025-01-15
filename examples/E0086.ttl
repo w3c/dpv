@@ -1,0 +1,37 @@
+ex:UnwantedEvent a dpv:Risk ;
+    dpv:hasConsequence ex:UnwantedEffect .
+ex:UnwantedEffect a dpv:Consequence ;
+    dpv:hasConsequenceOn ex:SomeTechnicalSystem ;
+    dpv:hasImpact ex:UnwantedEffectOnPerson .
+ex:UnwantedEffectOnPerson a dpv:Impact ;
+    dpv:hasImpactOn ex:SomePerson .
+
+ex:SomeProcess a dpv:Process ;
+  dpv:hasRisk ex:UnwantedEvent ;
+  risk:hasControl [
+    a risk:RiskControl ;
+    a risk:AvoidSource, risk:MonitorVulnerabilities, risk:OversightControl ;
+  ] ;
+  risk:hasControl [
+    a risk:RiskControl ;
+    a risk:DetectionControl, risk:ContaimmentControl, risk:LoggingControl ;
+    risk:detects ex:UnwantedEvent ; # detect risk occuring
+    risk:contains ex:UnwantedEvent ; # if it occurs, contain it
+    risk:logs ex:UnwantedEvent ; # record it occurred
+  ] ;
+  risk:hasControl [
+    a risk:RiskControl ;
+    a risk:AvoidConsequence ; # specifically avoid consequence event 
+    risk:avoids ex:UnwantedEffect ; # try to prevent consequence
+  ] ;
+  risk:hasControl [
+    a risk:RiskControl ;
+    a risk:ImpactControl ; # specifically control the impact event
+    a risk:MonitorImpact, risk:TransparencyControl, risk:HaltImpact ;
+    risk:monitors ex:UnwantedEffectOnPerson ; # monitors for event
+    risk:halts ex:UnwantedEvent ; # halts the event
+    dpv:hasNotice [ # informs the person about it
+        a dpv:SecurityIncidentNotice ;
+        dpv:hasRecipient ex:SomePerson ;
+    ] ;
+  ] .

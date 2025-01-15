@@ -121,15 +121,23 @@ def construct_parent_taxonomy(item, data, namespace, header):
                         triples.append((parent, SKOS.narrower, namespace[term]))
         return triples
     # parent is a topconcept
-    prefix_top, topconcept = data['ParentType'].split(':')
-    topconcept = NAMESPACES[prefix_top][topconcept]
-    triples.append((namespace[term], RDF.type, topconcept))
+    if ',' in data['ParentType']:
+        topconcepts = data['ParentType'].split(',')
+    else:
+        topconcepts = [data['ParentType']]
+    for topconcept in topconcepts:
+        prefix_top, topconcept = topconcept.split(':')
+        topconcept = NAMESPACES[prefix_top][topconcept]
+        triples.append((namespace[term], RDF.type, topconcept))
     # parent non-empty means not a top concept, state relation
     if not parents:
-        triples.append((namespace[term], SKOS.broader, topconcept))
-        if term.split(':')[0] == topconcept.split(':')[0]:
-            triples.append((topconcept, SKOS.narrower, namespace[term]))
-        # DEBUG(f'skos {term} <-> {topconcept} topconcept')
+        for topconcept in topconcepts:
+            prefix_top, topconcept = topconcept.split(':')
+            topconcept = NAMESPACES[prefix_top][topconcept]
+            triples.append((namespace[term], SKOS.broader, topconcept))
+            if term.split(':')[0] == prefix_top:
+                triples.append((topconcept, SKOS.narrower, namespace[term]))
+            # DEBUG(f'skos {term} <-> {topconcept} topconcept')
         return triples
     for parent in parents:
         triples.append((namespace[term], SKOS.broader, parent))
@@ -459,4 +467,37 @@ def add_example_concepts(term, data, namespace, header):
         if concept not in EXAMPLES: # add to list of examples by concept
             EXAMPLES[concept] = []
         EXAMPLES[concept].append(data['Term'])
+    return triples
+
+def construct_risk_parent_CIA(term, data, namespace, header):
+    triples = []
+    if 'CIA' not in data: return triples
+    if 'C' in data['CIA']:
+        triples.append((namespace[data['Term']], RDF.type, RISK.ConfidentialityConcept))
+    if 'I' in data['CIA']:
+        triples.append((namespace[data['Term']], RDF.type, RISK.IntegrityConcept))
+    if 'A' in data['CIA']:
+        triples.append((namespace[data['Term']], RDF.type, RISK.AvailabilityConcept))
+    return triples    
+
+
+def construct_risk_parent_Role(term, data, namespace, header):
+    triples = []
+    if 'Role' not in data: return triples
+    if 'S' in data['Role']:
+        triples.append((namespace[data['Term']], RDF.type, RISK.PotentialRiskSource))
+    if 'R' in data['Role']:
+        triples.append((namespace[data['Term']], RDF.type, RISK.PotentialRisk))
+    if 'C' in data['Role']:
+        triples.append((namespace[data['Term']], RDF.type, RISK.PotentialConsequence))
+    if 'I' in data['Role']:
+        triples.append((namespace[data['Term']], RDF.type, RISK.PotentialImpact))
+    return triples    
+
+
+def contruct_gdpr_right_justification(term, data, namespace, header):
+    triples = []
+    rights = [namespace[x.strip()] for x in term.split(',')]
+    for right in rights:
+        triples.append((right, DPV.hasJustification, namespace[data['Term']]))
     return triples

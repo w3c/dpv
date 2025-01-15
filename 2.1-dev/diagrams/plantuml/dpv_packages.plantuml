@@ -1,0 +1,86 @@
+@startuml
+!include style.plantuml
+
+'left to right direction
+
+class Thing #silver
+Thing -> dpv.Process: hasProcess >
+
+package dpv {
+	class Process
+	class PersonalData
+	class Risk
+	class Technology
+	class Location
+	class Law
+	class Justification
+
+	Process -- Data : hasData >	
+	Process -- Justification: hasJustification >
+	Process -- PersonalData: hasPersonalData >
+	Process -- Risk: hasRisk >
+	Process -- Technology: isImplementedUsingTechnology >
+	Process -- Location: hasLocation >
+	Process -- Law: hasApplicableLaw >
+}
+
+package dpv.pd {
+}
+dpv.PersonalData <.. dpv.pd : <<extends>>
+
+package dpv.risk {
+}
+dpv.Risk <.. dpv.risk : <<extends>>
+
+package dpv.tech {
+}
+dpv.Technology <.. dpv.tech : <<extends>>
+
+package dpv.justification {
+}
+dpv.Justification <.. dpv.justification : <<extends>>
+
+package dpv.loc {
+}
+dpv.Location <.. dpv.loc : <<extends>>
+package dpv.ai {
+}
+dpv.tech <.. dpv.ai : <<extends>>
+package dpv.legal {
+}
+dpv.Law <.. dpv.legal : <<extends>>
+package dpv.legal.de {
+}
+package dpv.legal.eu {
+}
+package dpv.legal.eu.aiact {
+}
+package dpv.legal.eu.dga {
+}
+package dpv.legal.eu.gdpr {
+}
+package dpv.legal.eu.nis2 {
+}
+package dpv.legal.eu.rights {
+}
+package dpv.legal.gb {
+}
+package dpv.legal.ie {
+}
+package dpv.legal.in {
+}
+package dpv.legal.us {
+}
+
+' tweak package arrangement
+dpv.legal.gb -[hidden]d-dpv.legal.us
+dpv.legal.gb -[hidden]r-dpv.legal.ie
+dpv.legal.ie -[hidden]r-dpv.legal.de
+dpv.legal.ie -[hidden]d-dpv.legal.in
+
+dpv.legal.eu.rights -[hidden]d-dpv.legal.eu.dga
+dpv.legal.eu.gdpr -[hidden]d-dpv.legal.eu.aiact
+dpv.legal.eu.gdpr -[hidden]r-dpv.legal.eu.nis2
+
+
+@enduml

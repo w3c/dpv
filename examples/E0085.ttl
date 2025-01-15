@@ -1,0 +1,34 @@
+# Method 1) Processing has non-processing concepts - not recommended
+ex:SomeProcessing a dpv:Processing ;
+    skos:broader dpv:Collect, dpv:Store ;
+    dpv:hasPersonalData dpv:Location ;
+    dpv:isImplementedUsingTechnology ex:SomeMethod ;
+    dpv:isImplementedByEntity ex:AcmeInc .
+ex:SomeProcess a dpv:Process ;
+    dpv:hasProcessing ex:SomeProcessing .
+
+# Method 2) Processing has implementing technology
+ex:SomeProcessing a dpv:Processing ;
+    skos:broader dpv:Collect, dpv:Store ;
+    dpv:isImplementedUsingTechnology ex:SomeMethod ;
+ex:SomeProcess a dpv:Process ;
+    dpv:hasPersonalData pd:Location ;
+    dpv:hasProcessing ex:SomeProcessing ;
+    dpv:isImplementedByEntity ex:AcmeInc .
+
+# Method 3) Processing only covers operations - best practice
+ex:SomeProcessing a dpv:Processing ;
+    skos:broader dpv:Collect, dpv:Store ;
+ex:SomeProcess a dpv:Process ;
+    dpv:hasPersonalData dpv:Location ;
+    dpv:hasProcessing ex:SomeProcessing ;
+    dpv:isImplementedByEntity ex:AcmeInc ;
+    dpv:isImplementedUsingTechnology ex:SomeMethod .
+
+# Composition of processes and processing
+ex:AnotherProcess a dpv:Process ;
+    dpv:hasProcess ex:SomeProcess ; # collect, store location by Acme
+    dpv:hasProcess ex:SomeOtherProcess . # share location with Beta
+
+
+

@@ -1,0 +1,242 @@
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{data.title}}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "mappings-odrl",
+    title: "{{data.title}}",
+    subtitle: "Work in Progress",
+    publishDate: "2024-12-07",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/mappings/odrl",
+    canonicalUri: "https://w3id.org/dpv/mappings/odrl",
+    edDraftURI: "https://dev.dpvcg.org/mappings/odrl",
+    github: "w3c/dpv",
+    subjectPrefix: "[mappings-odrl]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false },
+    editors: [{
+      "name": "Beatriz Esteves",
+      "company": "{{ "Beatriz Esteves" | generate_author_affiliation }}"
+    }, {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+    }],
+    otherLinks: [
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            }
+        ]
+      },
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": " Enhancing Data Use Ontology (DUO) for Health-Data Sharing by Extending it with ODRL and DPV",
+              "href": "https://doi.org/10.3233/SW-243583"
+            }
+        ]
+      },
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="../../diagrams/common.css">
+<link rel="shortcut icon" href="../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+<section id="abstract">
+    <p>This document provides a mapping from [[[ODRL-VOCAB]]] concepts to DPV concepts to assist implementations using both of them together. Currently, this activity is a work in progress and the DPVCG welcomes contributions and participations for it.</p>
+</section>
+    {{ sotd('mappings-odrl') }}
+    {{ dpv_document_family() }}
+
+<section id="introduction">
+  <h2>Introduction</h2>
+  <p>Concepts in DPV are aligned with those from [[[ODRL-VOCAB]]] by using [[SKOS]] relations. In addition, to enable the use of DPV in ODRL policies, certain relations are expressed as instances of ODRL's Operand concepts. This mapping is also provided in <a href="dpv-odrl.ttl">RDF</a> and <a href="dpv-odrl.csv">CSV</a> form for convenience. This mapping will assist the [[[GUIDE-ODRL]]].</p>
+  <p>The DPVCG aims to create and provide a profile containing DPV concepts to enable the use of all DPV vocabularies in adherence with ODRL recommendations, and welcomes contributions and participations in this process.</p>
+  <aside class="issue" data-number="130"></aside>
+  <p>The following namespaces are used in the document:</p>
+  <table class="tg">
+      <thead>
+          <tr>
+              <th class="tg-0lax">Prefix</th>
+              <th class="tg-0lax">Namespace</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td class="tg-0lax">dpv</td>
+              <td class="tg-0lax"><a href="https://w3id.org/dpv#" target="_blank">https://w3id.org/dpv#</a></td>
+          </tr>
+          <tr>
+              <td class="tg-0lax">odrl</td>
+              <td class="tg-0lax"><a href="http://www.w3.org/ns/odrl/2/" target="_blank">http://www.w3.org/ns/odrl/2/</a></td>
+          </tr>
+      </tbody>
+  </table>
+</section>
+
+<section id="mapping">
+  <h2>Mapping</h2>
+  <table>
+    <thead>
+        <tr>
+            <th>ExternalConcept</th>
+            <th>DPVconcept</th>
+            <th>MappingType</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>odrl:Party</td>
+            <td>dpv:Entity</td>
+            <td>skos:narrower</td>
+        </tr>
+        <tr>
+            <td>odrl:Purpose</td>
+            <td>dpv:Purpose</td>
+            <td>skos:narrower</td>
+        </tr>
+        <tr>
+            <td>odrl:Action</td>
+            <td>dpv:Processing</td>
+            <td>skos:narrower</td>
+        </tr>
+        <tr>
+            <td>odrl:Asset</td>
+            <td>dpv:Data</td>
+            <td>skos:narrower</td>
+        </tr>
+        <tr>
+            <td>odrl:Asset</td>
+            <td>dpv:PersonalData</td>
+            <td>skos:narrower</td>
+        </tr>
+        <tr>
+            <td>odrl:Policy</td>
+            <td>dpv:LegalAgreement</td>
+            <td>skos:narrower</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasTechnicalOrganisationalMeasure</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasTechnicalMeasure</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasOrganisationalMeasure</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasLocation</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasJurisdiction</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasApplicableLaw</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasLegalBasis</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasRecipient</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasRight</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasRisk</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasData</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasPersonalData</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasDataController</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasDataProcessor</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasHumanSubject</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasDataSubject</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasContext</td>
+            <td>rdf:type</td>
+        </tr>
+        <tr>
+            <td>odrl:LeftOperand</td>
+            <td>dpv:hasTechnology</td>
+            <td>rdf:type</td>
+        </tr>
+    </tbody>
+  </table>
+</section>
+
+{% block ACKNOWLEDGEMENTS %}
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+
+</section>
+{% endblock ACKNOWLEDGEMENTS %}
+<script type="text/javascript" src="../../2.0/diagrams/common.js" defer></script>
+</body>
+</html>

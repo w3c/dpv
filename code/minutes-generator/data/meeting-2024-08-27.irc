@@ -1,0 +1,72 @@
+14:54:20 <RRSAgent> RRSAgent has joined #dpvcg
+20:09:03 <harsh> Scribe: harshPandit
+20:09:23 <harsh> ScribeNick: harsh
+14:55:03 <harsh> repo: w3c/dpv
+14:55:13 <harsh> Meeting: DPVCG Meeting Call
+14:55:18 <harsh> Present: harshPandit, tyttiRintamaki, iainHenderson, paulRyan, danielDoherty, julioHernandez, prinonDas
+14:55:18 <harsh> Regrets: delaramGolpayegani, beatrizEsteves, julianFlake
+14:55:22 <harsh> Date: 27 AUG 2024
+14:55:26 <harsh> Agenda: https://www.w3.org/events/meetings/0e21485e-d959-4f78-930a-bd66650adace/20240827T133000/
+14:55:31 <harsh> Meeting minutes: https://w3id.org/dpv/meetings
+14:55:35 <harsh> purl for this meeting: https://w3id.org/dpv/meetings/meeting-2024-08-27
+14:55:18 <harsh> \ Noted AOB item: Tytti to discuss DPIA work
+14:55:18 <harsh> Topic: Intro
+14:55:18 <harsh> prinonDas: Masters research in Aachen, Germany ; proposed mapping between GDPR and DPV
+14:55:18 <harsh> Topic: Legal Basis
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/111 -> Issue 111 Model information about legal bases (by coolharsh55)
+14:55:18 <harsh> Subtopic: Consolidating Contract concepts
+14:55:18 <harsh> harshPandit: following last week's discussion, we agreed that the different kinds of contracts and agreements are all legal bases and should be consolidated into a coherent and consistent vocabulary. To reflect this, I have moved the contract concepts from Legal Measures to create a single set of concepts. However, there is now duplicacy in the concepts e.g. `DataProcessorContract` and `ControllerProcessorAgreement` reflect the same concept. The name commonly used in industry is `...Agreement`, therefore we should keep these concepts and remove the other ones.
+14:55:18 <harsh> paulRyan: agree on this, and also that Agreement is the preferred term in use for such concepts
+14:55:18 <harsh> harshPandit: instead of immediately removing the old concepts we can sunset them so as to give time to make changes if needed
+14:55:18 <harsh> ACTION: consolidate contract taxonomy and sunset the not required concepts
+14:55:18 <harsh> Topic: Contract Taxonomy
+14:55:18 <harsh> harshPandit: should we keep the the B2C etc. concepts? Are they useful? I also added in G2B and other relevant government concepts - except C2G which seems to not be well adopted and defined as compared to the others.
+14:55:18 <harsh> georgKrog: yes, these would be useful to have and we should add them
+14:55:18 <harsh> \ agreed to add these
+14:55:18 <harsh> harshPandit: Other contract concepts include contract clause types, contract statuses, contract controls, and contract/clause fulfilment states. 
+14:55:18 <harsh> \ agreed to add these
+14:55:18 <harsh> ACTION: add contract clause types, contract statuses, contract controls, and contract/clause fulfilment states
+14:55:18 <harsh> Subtopic: Standard Form Contract 
+14:55:18 <harsh> harshPandit: From the IEEE P7012 perspective of modelling contracts, we have Negotiated contract and non-negotiated contract which is called _Standard Form Contract_. For non-negotiated contract, which entity drafted the terms is relevant - typically it is the controller or service provider, but with P7012 it can also be the individual or consumer. To reflect these, two new concepts are proposed as subclasses of Standard Form Contract - `ProviderStandardFormContract` to indicate the provider drafted it and `ConsumerStandardFormContract` to indicate the consumer drafted it.
+14:55:18 <harsh> iainHenderson: would prefer to use individual instead of consumer to indicate the onus or burden is not on the person to do everything and to highlight that the work is done in an individual capacity
+14:55:18 <harsh> harshPandit: agreed, though in this case it is _consumer_ because the entity may or may not be a person e.g. an organisation receiving the service
+14:55:18 <harsh> \ agreed to add these
+14:55:18 <harsh> Subtopic: Statuses
+14:55:18 <harsh> harshPandit: for the other legal bases other than consent and contract, no further concepts are needed to model them as the required concepts are present in DPV already e.g. for Legal Obligation there is `dpv:hasApplicableLaw`. Should we model statuses to keep track of the fulfilment of these other legal bases?
+14:55:18 <harsh> georgKrog: yes, these would be essential to model the legal bases
+14:55:18 <harsh> harshPandit: okay, so we have the statuses for Legitimate Interest. For others, they can be as follows: Legal Obligation - fulfilled, not fulfilled, being fulfilled. Official Authority - exercised, not exercised, being exercised. Vital Interest - (vital interest) identified, protected, not protected, being protected, objected. Public Interest - (benefit) identified, being provided, provided, not provided, objected.
+14:55:18 <harsh> ACTION: create statuses for other legal bases
+14:55:18 <harsh> Topic: Fee
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/185 -> Issue 185 [Concept]: Add Fee concept to DPV, remove it from RISK (by coolharsh55)
+14:55:18 <harsh> harshPandit: as discussed in the last meeting, `Fee` is not a kind of risk or impact, and we discussed moving it to DPV. Instead of directly moving the concept `Fee`, it would be better to have the concept as a context - `FeeRequirement` with two concepts representing whether fee applies `FeeRequired` and doesn't appy `FeeNotRequired`. To indicate the value of the fee, `rdf:value` is used or another way of representing this.
+14:55:18 <harsh> harshPandit: the advantage of creating a separate concept instead of directly specifying the value is that the concept enables attaching other information to it e.g. specific currencies or duration within which fee must be paid or to whom and when
+14:55:18 <harsh> georgKrog: we should indicate who should pay it? when? etc.? 
+14:55:18 <harsh> harshPandit: this might be property for who pays the fee e.g. `dpv:hasFeePayer` and we can reuse `dpv:hasRecipient` here to indicate who receives the fee. Duration, Frequency, etc. can be used to indicate more information about the fee.
+14:55:18 <harsh> georgKrog: we should also have statuses to keep track of whether fee is paid e.g. fee paid, fee unpaid
+14:55:18 <harsh> \ agree to add these
+14:55:18 <harsh> ACTION: create Fee concepts
+14:55:18 <harsh> Topic: Rights Impact
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/184 -> Issue 184 Add Rights Impact concepts for each Right (by coolharsh55)
+14:55:18 <harsh> harshPandit: to model impacts on rights, we have the concept `RightsImpact`. To model specific categories of impacts, we will need different kinds of impacts - should we create specific kinds of impacts? For each specific right?
+14:55:18 <harsh> \ georg and tytti agree that this would be helpful
+14:55:18 <harsh> ACTION: Create rights impact categories and create rights impact concepts for each right
+14:55:18 <harsh> Topic: Mapping between GDPR and DPV
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/186 -> Issue 186 Create Mapping between GDPR and DPV (by coolharsh55)
+14:55:18 <harsh> harshPandit: Prinon proposed that we do a mapping between GDPR and DPV concepts i.e. for which GDPR clause which concept in DPV is relevant. Through this exercise, we can see where we lack concepts, and also for GDPR practioners this will give useful information on how to use DPV. The idea is to put this as a table in the EU-GDPR extension. 
+14:55:18 <harsh> georgKrog: this would be a good idea, we should also show  which concepts are required in which process e.g. what is needed for a ROPA, what is needed for a DPIA
+14:55:18 <harsh> paulRyan: for ROPA - there is the DPCat work that does this
+14:55:18 <harsh> georgKrog: good start with ROPA by paul and harsh - we can start with that
+14:55:18 <harsh> \ agree to do this
+14:55:18 <harsh> prinonDas: what would be the timeline for this? Would prefer to get this done by 9th October.
+14:55:18 <harsh> harshPandit: okay, that's doable
+14:55:18 <harsh> georgKrog: interested in participating in this
+14:55:18 <harsh> ACTION: Create a mapping from GDPR to DPV
+14:55:18 <harsh> Topic: DPIA
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/183 -> Issue 183 Represent activities where DPIA is required in EU-GDPR (by coolharsh55)
+14:55:18 <harsh> tyttiRintamaki: proposing 76 concepts to be added to EU-GDPR extension for conducting DPIA based on analysis of DPIA guidelines; will share the list by email for feedback. Each concept is derived from a DPIA requirement i.e. what processing activities require a DPIA based on DPIA guideline. On github, there will be an example for how to represent the activity in RDF using DPV.
+14:55:18 <harsh> harshPandit: We created a new concept called `eu-gdpr:DPIARequiredProcess` which will be a subclass of `dpv:Process` and represents the cases where a DPIA is required based on GDPR, EDPB, or a DPA guideline. The idea is that the process concepts is used to match processes, e.g. purpose and personal data - and if there is a match, then it means a DPIA is required.
+14:55:18 <harsh> Topic: AI Bias
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/182 -> Issue 182 Adding AI bias concepts (by DelaramGlp)
+14:55:18 <harsh> danielDoherty: added the RDF for the AI Bias concept - though there is an error in the ISO standard being noted - it should be 2021 for the final published document and not 2020 as noted in the RDF. The version I used was the CD draft. Will update the definitions to the final published version - the concepts are the same as verified through the table of concepts.
+14:55:18 <harsh> Topic: Next Meeting
+16:03:29 <harsh> \ next meeting will be in 1 week on TUESDAY 03 September at 13:30 WEST / 14:40 CEST. Agenda will be continuation of today's topics with any updates on github/mailing list and AOB. Harsh will be away at the Annual Privacy Forum presenting the ISO 27560 DPV paper.

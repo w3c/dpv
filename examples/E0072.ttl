@@ -1,0 +1,58 @@
+ex:ExampleNotice a dpv:ConsentNotice ;
+    dct:title "Consent Notice for Service X"@en ;
+    dct:hasLocation "https://example.com/service-x"^^xsd:anyURI ;
+    dpv:hasNoticeLayer [  # Layer showing the 'overview'
+        a dpv:NoticeLayer ;
+        dct:description "Consent to use location for providing x"@en ;
+        dpv:hasPurpose dpv:ServicePersonalisation ;
+        dpv:hasPersonalData pd:Location, pd:Email ;
+        dpv:hasLegalBasis dpv:ExpressedConsent ;
+        dpv:hasConsentControl [  # Consent control with label and icon
+            a dpv:ProvideConsent ; 
+            dct:title "Accept"@en ;
+            dpv:hasNoticeIcon ex:iconGiveConsent ; 
+        ], [ 
+            a dpv:RefuseConsent ;
+            dct:title "Refuse"@en ; 
+            dpv:hasNoticeIcon ex:iconRefuseConsent ; 
+        ] ;
+    ], [  # Layer showing the 'detailed' view
+        a dpv:NoticeLayer ;
+        # link to full privacy notice for the service
+        dpv:hasNotice "https://example.com/privacy-notice"^^xsd:anyURI ;
+        dpv:hasProcess [ # process for use of location
+                a dpv:Process ;
+                dpv:hasPurpose dpv:ServicePersonalisation ;
+                dpv:hasPersonalData pd:Location ;
+                dpv:hasProcessing dpv:Collect, dpv:Use ;
+                dpv:hasLegalBasis eu-gdpr:A6-1-a ;
+            ], [ # process stating location is also used to prevent fraud
+                a dpv:Process ;
+                dpv:hasPurpose dpv:FraudPreventionAndDetection ;
+                dpv:hasPersonalData pd:Location ;
+                dpv:hasProcessing dpv:Collect, dpv:Store, dpv:Use ;
+                dpv:hasLegalBasis dpv:LegitimateInterest ;
+                dpv:hasStorageLocation loc:EU ;
+                dpv:hasRecipient ex:AcmeInc ;
+            ] ;
+        dpv:hasConsentControl [
+            a dpv:ManageConsent ; 
+            dct:title "Manage Consent"@en ;
+            dpv:hasNoticeIcon ex:iconManageConsent ; 
+        ], [ 
+            a dpv:WithdrawConsent ;
+            dpv:hasRight eu-gdpr:A7-3 ;  # asserts control includes a right
+            dct:title "Withdraw Consent"@en ;
+            dpv:hasNoticeIcon ex:iconWithdrawConsent ; 
+        ] ;
+        dpv:hasRight [
+            a eu-gdpr:A20 ; # icon used to indicate rights exercise
+            dct:title "Right to Data Portability"@en ;
+            dpv:isExercisedAt "https://example.com/rights"^^xsd:anyURI ;
+            dpv:hasNoticeIcon ex:iconExerciseRight ; 
+        ] ;
+        dpv:hasDataController ex:Company ;
+        dpv:hasDataProcessor ex:AcmeInc ;
+        dpv:hasApplicableLaw legal-eu:law-GDPR ;
+        ] ;
+    ] .
