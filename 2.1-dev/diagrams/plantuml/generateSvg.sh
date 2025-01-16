@@ -12,13 +12,18 @@ if [ ! -f $PLANTUML_JAR_PATH ]; then
     wget $PLANTUML_URL -O $PLANTUML_JAR_PATH
 fi
 
-for i in `ls -1 *.plantuml`
-do
-    if [[ ${EXCLUDES[@]} =~ $i ]]
-    then
-	echo "skip $i"
-    else
-	echo "render $i"
-	java -jar $PLANTUML_JAR_PATH -headless -tsvg -o .. "$i"
-    fi
-done
+if [[ $# -eq 0 ]]; then
+    for i in `ls -1 *.plantuml`
+    do
+        if [[ ${EXCLUDES[@]} =~ $i ]]
+        then
+    	echo "skip $i"
+        else
+    	echo "render $i"
+    	java -jar $PLANTUML_JAR_PATH -headless -tsvg -o .. "$i"
+        fi
+    done
+else
+    echo "render $1"
+    java -jar $PLANTUML_JAR_PATH -headless -tsvg -o .. "$1"
+fi
