@@ -102,6 +102,7 @@ NS.ns = { k:v for k,v in NAMESPACES.items() }
 
 # DPV Version
 DPV_VERSION = "2.1-dev"
+DPV_PREVIOUS_VERSION = "2.0"
 DPV_PUBLISH_DATE = "2025-01-16"
 # Document status: should be one of CG-DRAFT or CG-FINAL
 DOCUMENT_STATUS = "CG-DRAFT"
@@ -1883,7 +1884,7 @@ RDF_VOCABS = {
             'sector': f'{IMPORT_PATH}/legal/eu/aiact/modules/sector.ttl',
         },
         'metadata': {
-            "dct:title": "EU AI Act",
+            "dct:title": "EU Artificial Intelligence Act (AI Act)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU AI Act",
             "dct:created": "2024-04-10",
             "dct:modified": DPV_PUBLISH_DATE,
@@ -1902,7 +1903,7 @@ RDF_VOCABS = {
             'compliance': f'{IMPORT_PATH}/legal/eu/nis2/modules/compliance.ttl',
         },
         'metadata': {
-            "dct:title": "EU NIS2",
+            "dct:title": "EU Network and Information Services Directive (NIS2)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU NIS2",
             "dct:created": "2024-05-19",
             "dct:modified": DPV_PUBLISH_DATE,
@@ -1923,7 +1924,7 @@ RDF_VOCABS = {
             'process': f'{IMPORT_PATH}/legal/eu/ehds/modules/process.ttl',
         },
         'metadata': {
-            "dct:title": "EU EHDS",
+            "dct:title": "EU European Health Data Spaces (EHDS)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU Health Data Spaces (EHDS)",
             "dct:created": "2024-12-01",
             "dct:modified": DPV_PUBLISH_DATE,

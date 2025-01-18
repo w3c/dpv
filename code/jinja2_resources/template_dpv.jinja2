@@ -15,7 +15,7 @@
     title: "{{data[vocab_name+'-metadata']['dct:title']}}",
     subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/",
     canonicalUri: "https://w3id.org/dpv/",
@@ -42,8 +42,8 @@
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0",
-              "href": "https://w3id.org/dpv/2.0"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}"
             }
         ]
       },
@@ -51,8 +51,8 @@
         "key": "Previous Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/1.0",
-              "href": "https://w3id.org/dpv/1.0"
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}"
             }
         ]
       },
@@ -60,7 +60,7 @@
         "key": "Changelog",
         "data": [
             {
-              "value": "Changelog for v2.1",
+              "value": "Changelog for v{{DPV_VERSION}}",
               "href": "#changelog"
             }
         ]
@@ -508,7 +508,6 @@
     <p>The [[[DPV-29184]]] provides guidance on creation of privacy notices following the [[[ISO-29184]]] standard.</p>
   </aside>
   <aside class="issue" data-number="91"></aside>
-  <aside class="issue" title="Add content for Notice section"></aside>
   <p>The concept [=Notice=] represents a 'notice' which provides information and can be used to offer choices and make decisions - such as for privacy and consent. The relation [=hasNotice=] is used to indicate the inclusion or association of a notice within a context. DPV provides a taxonomy to represent the different notices commonly utilised in the context of data and technology use-cases. These include notices categorised by their role in providing information, such as [=PrivacyNotice=] and [=ConsentNotice=], and notices categorised by their UI/UX aspects, such as [=GraphicalNotice=], [=DashboardNotice=], and [=LayeredNotice=].</p>
   <p>The contents of a notice can be represented through other DPV concepts, for example a privacy notice can represent specific services and processes along with their purposes, personal data, and involved entities by utilising the relevant concepts and relations for these. Notices can also contain metadata, such as for their creation date, titles and descriptions, versions, and publisher information by utilising a common standard such as [[DCTERMS]].</p>
   <p>[=NoticeStatus=] represents a status about a [=Notice=], and is associated using the relation [=hasNotice=]. The DPV provides specific statuses modelling the lifecycle associated with notice provision and usage, such as [=NoticeCommunicated=] to indicate a notice has been provided, [=NoticeUpdated=] to indicate a notice has been updated, and [=NoticeLatest=] to indicate a notice is at its 'latest' iteration.</p>
@@ -534,7 +533,6 @@
 
   <section id="vocab-legal-basis-contract">
     <h3>Contract</h3>
-    <aside class="issue" title="Add content for Contract section"></aside>
     <aside class="issue" title="Add info for contracts about Party and using dpv:hasParty"></aside>
     <p>The concept [=Contract=] represents a legal contract, which can be used as a legal basis through the [=hasLegalBasis=] relation to justify data processing or use of technologies.</p>
     <section id="vocab-legal-basis-contract-types">
@@ -551,14 +549,12 @@
     </section>
     <section id="vocab-legal-basis-contract-clause">
       <h4>Contractual Clauses</h4>
-      <aside class="issue" title="Add content for Contract clause section"></aside>
       <p>[=ContractualClause=] represents the contents of a contract, commonly referred to as 'clauses' or 'terms' or 'conditions'. They are associated with a contract using the relation [=hasContractualClause=]. A taxonomy is provided to represent commonly utilised clauses. The concept [=ContractualClauseFulfilmentStatus=] represents the fulfilment state of the contractual clause, and is indicated using the relation [=hasContractualFulfilmentStatus=].</p>
       {{ list_hierarchy(modules['legal_basis-contract-clause']['classes']) }}
     </section>
     <section id="vocab-legal-basis-contract-control">
       <h4>Contract Controls</h4>
       <p>[=ContractControl=] represents a control for an entity to make or exercise a decision regarding a contract. A taxonomy of common controls is provided, for example [=AcceptContract=], [=OfferContract=], and [=TerminateContract=]. The relation [=hasContractControl=] is used to associate the control with a contract or clause. Controls can be used to indicate where specific actions can be taken, for example to indicate that accepting a contract can be done by sending a request or visiting the stated URL, or to express specific requirements which must be satisfied before the action can be completed, for example to state termination of a contract occurs over a duration.</p>
-      <aside class="issue" title="Add content for Contract control section"></aside>
       {{ list_hierarchy(modules['legal_basis-contract-control']['classes']) }}
     </section>
   </section>

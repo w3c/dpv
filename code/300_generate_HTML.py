@@ -743,6 +743,23 @@ def check_rdf_type(parents, verify_parent):
     return False
 
 
+def get_document_status(vocab_name):
+    # specStatus: "cg-{{data[vocab_name+'-metadata']['bibo:status']}}"
+    vocab_metadata = DATA.data[f'{vocab_name}-metadata']
+    try:
+        status = vocab_metadata['bibo:status']
+    except Exception:
+        raise Exception(f'{vocab_name} metadata has an issue with bibo:status')
+    status = status.split('/')[-1].upper()
+    DEBUG(f"{vocab_name} -- {status} -- {DOCUMENT_STATUS}")
+    if status == 'PUBLISHED' and DOCUMENT_STATUS == 'CG-FINAL':
+        status = 'CG-FINAL'
+    else:
+        status = 'CG-DRAFT'
+    DEBUG(f"{vocab_name} -- {status}")
+    return status
+
+
 # == HTML Export ==
 
 # === Jinja setup ===
@@ -779,6 +796,7 @@ JINJA2_FILTERS = {
     'get_attrib': get_attrib,
     'is_sunset': is_sunset,
     'check_rdf_type': check_rdf_type,
+    'get_document_status': get_document_status,
 }
 template_env.filters.update(JINJA2_FILTERS)
 
@@ -804,6 +822,7 @@ def _write_template(
         'template': template_env.get_template(template),
         'RDF_VOCABS': RDF_VOCABS,
         'DPV_VERSION': DPV_VERSION,
+        'DPV_PREVIOUS_VERSION': DPV_PREVIOUS_VERSION,
         'DOCUMENT_STATUS': DOCUMENT_STATUS,
     }
     template = template_env.get_template(template)
