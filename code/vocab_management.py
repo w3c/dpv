@@ -257,7 +257,7 @@ CSVFILES = {
             'properties': f'{IMPORT_CSV_PATH}/p7012_process_properties.csv',
         },
         'agreement': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_agreement.csv',
+            'p7012-terms': f'{IMPORT_CSV_PATH}/p7012_agreement.csv',
         },
         'status': {
             'taxonomy': f'{IMPORT_CSV_PATH}/p7012_status.csv',

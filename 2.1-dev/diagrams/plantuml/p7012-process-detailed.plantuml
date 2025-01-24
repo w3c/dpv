@@ -14,6 +14,15 @@ PRA --> PA : P7012 supported, what are your preferred terms?
 
 alt P7012 Supported
     PA --> PRA : SD-BY as defined in Agreement_Registry
+    PRA --> PRA : do I know what is SD-BY?
+    alt Entity_Agent knows SD-BY
+      PRA --> PRA: assess SD-BY
+    
+    else Entity_Agent does not know SD-BY
+      PRA --> R: retrieve terms in format X
+      R --> PRA: here are terms in format X
+      SP --> PRA : assess terms, set preferences for future
+    end
     
     alt SD-BY is Acceptable
         PRA --> PA : SD-BY accepted, let's execute a contract
@@ -22,7 +31,13 @@ alt P7012 Supported
         note over PRA, PA : Contract is fully executed and is now in effect, both parties save a copy
     else SD-BY is Unacceptable, but SD BY-AT is Acceptable
         PRA --> PA : SD-BY not accepted, is SD BY-A negotiable?
-
+        alt PA knows SD BY-A
+          PA --> PA : assess SD BY-A
+        else PA does not know SD BY-A
+          PA --> R: retrieve SD BY-A in format X
+          R --> PA: SD BY-A in format X
+          PA --> PA: is it compatible with preferences?
+        end
         alt SD BY-A is Acceptable
             PA --> PRA : SD BY-A agreed (here is the signed contract)
             PRA --> PA : agreed (here is fully signed contract)

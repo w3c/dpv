@@ -1,6 +1,7 @@
 @prefix bibo: <http://purl.org/ontology/bibo/> .
 @prefix dcam: <http://purl.org/dc/dcam/> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix dpv: <https://w3id.org/dpv#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix p7012: <https://w3id.org/dpv/standards/p7012#> .
@@ -14,68 +15,80 @@
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-p7012:PrivacyEndpoint a rdfs:Class,
+p7012:Agreement a rdfs:Class,
         skos:Concept ;
     dct:created "2024-12-17"^^xsd:date ;
     rdfs:isDefinedBy p7012: ;
+    rdfs:subClassOf dpv:ContractualClause ;
     sw:term_status "accepted"@en ;
-    skos:definition "An endpoint, such as a URL or an address, where privacy related communications can be made"@en ;
+    skos:broader dpv:ContractualClause ;
+    skos:definition "A compound set of terms or clauses, proposed and offered before a formal contract between parties, and also referred to as a \"proposal\" pr \"proposed agreement\""@en ;
     skos:inScheme p7012:process-classes ;
-    skos:prefLabel "Privacy Endpoint"@en .
+    skos:prefLabel "Agreement"@en .
 
-p7012:PrivacyNegotiation a rdfs:Class,
+p7012:AgreementInteractionRecord a rdfs:Class,
         skos:Concept ;
     dct:created "2024-12-17"^^xsd:date ;
     rdfs:isDefinedBy p7012: ;
+    rdfs:subClassOf dpv:RecordsOfActivities ;
     sw:term_status "accepted"@en ;
-    skos:definition "A negotiation between parties regarding choosing the appropriate privacy terms"@en ;
+    skos:broader dpv:RecordsOfActivities ;
+    skos:definition "A record of a interactions conducted in the course of establishing and negotiating agreements, including failed attemps, creation of contracts, and subsequent interactions"@en ;
     skos:inScheme p7012:process-classes ;
-    skos:prefLabel "Privacy Negotiation"@en .
+    skos:prefLabel "Agreement Interaction Record"@en .
 
-p7012:PrivacyNegotiationRecord a rdfs:Class,
+p7012:AgreementNegotiation a rdfs:Class,
         skos:Concept ;
     dct:created "2024-12-17"^^xsd:date ;
     rdfs:isDefinedBy p7012: ;
+    rdfs:subClassOf dpv:Process ;
     sw:term_status "accepted"@en ;
-    skos:definition "A record of a privacy negotiation, including both accepted and rejected negotiations as well as the creation of contracts"@en ;
+    skos:broader dpv:Process ;
+    skos:definition "A negotiation between parties regarding an agreement"@en ;
     skos:inScheme p7012:process-classes ;
-    skos:prefLabel "Privacy Negotiation Record"@en .
+    skos:prefLabel "Agreement Negotiation"@en .
 
-p7012:PrivacyNegotiationRequest a rdfs:Class,
+p7012:AgreementNegotiationRequest a rdfs:Class,
         skos:Concept ;
     dct:created "2024-12-17"^^xsd:date ;
     rdfs:isDefinedBy p7012: ;
+    rdfs:subClassOf dpv:Process ;
     sw:term_status "accepted"@en ;
-    skos:definition "A request to initiate a privacy negotiation"@en ;
+    skos:broader dpv:Process ;
+    skos:definition "A request to initiate negotiation with the goal of finding an acceptable agreement"@en ;
     skos:inScheme p7012:process-classes ;
-    skos:prefLabel "Privacy Negotiation Request"@en .
+    skos:prefLabel "Agreement Negotiation Request"@en .
 
-p7012:PrivacyPreference a rdfs:Class,
+p7012:AgreementPreference a rdfs:Class,
         skos:Concept ;
     dct:created "2024-12-17"^^xsd:date ;
     rdfs:isDefinedBy p7012: ;
+    rdfs:subClassOf dpv:Rule ;
     sw:term_status "accepted"@en ;
-    skos:definition "A preference regarding privacy term(s) which indicates the terms are preferred over other terms, or are acceptable, or are unacceptable"@en ;
+    skos:broader dpv:Rule ;
+    skos:definition "A preference regarding agreements, such as to indicate which terms are acceptable or unacceptable"@en ;
     skos:inScheme p7012:process-classes ;
-    skos:prefLabel "Privacy Preference"@en .
+    skos:prefLabel "Agreement Preference"@en .
 
-p7012:PrivacyTerm a rdfs:Class,
+p7012:AgreementRegistry a rdfs:Class,
         skos:Concept ;
     dct:created "2024-12-17"^^xsd:date ;
     rdfs:isDefinedBy p7012: ;
     sw:term_status "accepted"@en ;
-    skos:definition "A (contractual) term regarding privacy that expresses permissions, prohibitions, and obligations"@en ;
+    skos:definition "A registry hosting agreements that acts as a common repository for parties to utilise as a reference within requests and for negotiating acceptable terms"@en ;
     skos:inScheme p7012:process-classes ;
-    skos:prefLabel "Privacy Term"@en .
+    skos:prefLabel "Agreement Term Registry"@en .
 
-p7012:PrivacyTermRegistry a rdfs:Class,
+p7012:P7012Endpoint a rdfs:Class,
         skos:Concept ;
     dct:created "2024-12-17"^^xsd:date ;
     rdfs:isDefinedBy p7012: ;
+    rdfs:subClassOf dpv:Location ;
     sw:term_status "accepted"@en ;
-    skos:definition "A registry of privacy terms"@en ;
+    skos:broader dpv:Location ;
+    skos:definition "A location that acts as an endpoint, such as a URL, for carrying out communications and interactions between parties as defined in P7012"@en ;
     skos:inScheme p7012:process-classes ;
-    skos:prefLabel "Privacy Term Registry"@en .
+    skos:prefLabel "P7012 Endpoint"@en .
 
 <https://w3id.org/dpv/standards/p7012> a owl:Ontology,
         profile:Profile ;
@@ -115,6 +128,39 @@ p7012:PrivacyTermRegistry a rdfs:Class,
     foaf:logo <https://w3id.org/dpv/media/logo.png> ;
     schema:version "2.1-dev" .
 
+p7012:hasAgreement a rdf:Property,
+        skos:Concept ;
+    dcam:rangeIncludes p7012:Agreement ;
+    dct:created "2024-12-17"^^xsd:date ;
+    rdfs:isDefinedBy p7012: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the inclusion or applicability of the specified Privacy Term"@en ;
+    skos:inScheme p7012:process-properties ;
+    skos:prefLabel "has agreement"@en ;
+    schema:rangeIncludes p7012:Agreement .
+
+p7012:hasAgreementPreference a rdf:Property,
+        skos:Concept ;
+    dcam:rangeIncludes p7012:AgreementPreference ;
+    dct:created "2024-12-17"^^xsd:date ;
+    rdfs:isDefinedBy p7012: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the inclusion or applicability of the specified Privacy Preference"@en ;
+    skos:inScheme p7012:process-properties ;
+    skos:prefLabel "has privacy preference"@en ;
+    schema:rangeIncludes p7012:AgreementPreference .
+
+p7012:hasAgreementRegistry a rdf:Property,
+        skos:Concept ;
+    dcam:rangeIncludes p7012:AgreementRegistry ;
+    dct:created "2024-12-17"^^xsd:date ;
+    rdfs:isDefinedBy p7012: ;
+    sw:term_status "accepted"@en ;
+    skos:definition "Indicates the inclusion or applicability of the specified Privacy Term Registry"@en ;
+    skos:inScheme p7012:process-properties ;
+    skos:prefLabel "has agreement registry"@en ;
+    schema:rangeIncludes p7012:AgreementRegistry .
+
 p7012:hasHumanReadableFormat a rdf:Property,
         skos:Concept ;
     dcam:rangeIncludes xsd:anyURI ;
@@ -138,71 +184,16 @@ p7012:hasMachineReadableFormat a rdf:Property,
     skos:scopeNote "To assist in interpreting the resource, we strongly suggest using dct:conformsTo with an appropriate URI to indicate the specific standard or specification used to express the resource"@en ;
     schema:rangeIncludes xsd:anyURI .
 
-p7012:hasPrivacyEndpoint a rdf:Property,
+p7012:hasP7012Endpoint a rdf:Property,
         skos:Concept ;
-    dcam:rangeIncludes p7012:PrivacyEndpoint ;
+    dcam:rangeIncludes p7012:P7012Endpoint ;
     dct:created "2024-12-17"^^xsd:date ;
     rdfs:isDefinedBy p7012: ;
     sw:term_status "accepted"@en ;
-    skos:definition "Indicates the endpoint, such as a URL or an address, where privacy related communications can be made"@en ;
+    skos:definition "Indicates the endpoint, such as a URL or an address, where P7012 related communications and interactions can be made"@en ;
     skos:inScheme p7012:process-properties ;
-    skos:prefLabel "has privacy endpoint"@en ;
-    schema:rangeIncludes p7012:PrivacyEndpoint .
-
-p7012:hasPrivacyNegotiation a rdf:Property,
-        skos:Concept ;
-    dcam:rangeIncludes p7012:PrivacyNegotiation ;
-    dct:created "2024-12-17"^^xsd:date ;
-    rdfs:isDefinedBy p7012: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates the inclusion or applicability of the specified Privacy Negotiation"@en ;
-    skos:inScheme p7012:process-properties ;
-    skos:prefLabel "has privacy negotiation"@en ;
-    schema:rangeIncludes p7012:PrivacyNegotiation .
-
-p7012:hasPrivacyNegotiationRequest a rdf:Property,
-        skos:Concept ;
-    dcam:rangeIncludes p7012:PrivacyNegotiationRequest ;
-    dct:created "2024-12-17"^^xsd:date ;
-    rdfs:isDefinedBy p7012: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates the inclusion or applicability of the specified Privacy Negotiation Request"@en ;
-    skos:inScheme p7012:process-properties ;
-    skos:prefLabel "has privacy negotiation request"@en ;
-    schema:rangeIncludes p7012:PrivacyNegotiationRequest .
-
-p7012:hasPrivacyPreference a rdf:Property,
-        skos:Concept ;
-    dcam:rangeIncludes p7012:PrivacyPreference ;
-    dct:created "2024-12-17"^^xsd:date ;
-    rdfs:isDefinedBy p7012: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates the inclusion or applicability of the specified Privacy Preference"@en ;
-    skos:inScheme p7012:process-properties ;
-    skos:prefLabel "has privacy preference"@en ;
-    schema:rangeIncludes p7012:PrivacyPreference .
-
-p7012:hasPrivacyTerm a rdf:Property,
-        skos:Concept ;
-    dcam:rangeIncludes p7012:PrivacyTerm ;
-    dct:created "2024-12-17"^^xsd:date ;
-    rdfs:isDefinedBy p7012: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates the inclusion or applicability of the specified Privacy Term"@en ;
-    skos:inScheme p7012:process-properties ;
-    skos:prefLabel "has privacy term"@en ;
-    schema:rangeIncludes p7012:PrivacyTerm .
-
-p7012:hasPrivacyTermRegistry a rdf:Property,
-        skos:Concept ;
-    dcam:rangeIncludes p7012:PrivacyTermRegistry ;
-    dct:created "2024-12-17"^^xsd:date ;
-    rdfs:isDefinedBy p7012: ;
-    sw:term_status "accepted"@en ;
-    skos:definition "Indicates the inclusion or applicability of the specified Privacy Term Registry"@en ;
-    skos:inScheme p7012:process-properties ;
-    skos:prefLabel "has privacy term registry"@en ;
-    schema:rangeIncludes p7012:PrivacyTermRegistry .
+    skos:prefLabel "has P7012 endpoint"@en ;
+    schema:rangeIncludes p7012:P7012Endpoint .
 
 p7012:serialisation-html a profile:ResourceDescriptor ;
     dct:conformsTo <https://www.w3.org/TR/html/> ;
@@ -260,7 +251,7 @@ p7012:serialisation-ttl a profile:ResourceDescriptor ;
     profile:hasArtifact <https://w3id.org/dpv/primer> ;
     profile:hasRole role:guidance .
 
-p7012:process-classes a skos:ConceptScheme .
-
 p7012:process-properties a skos:ConceptScheme .
+
+p7012:process-classes a skos:ConceptScheme .
 
