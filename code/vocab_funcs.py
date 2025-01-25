@@ -501,3 +501,23 @@ def contruct_gdpr_right_justification(term, data, namespace, header):
     for right in rights:
         triples.append((right, DPV.hasJustification, namespace[data['Term']]))
     return triples
+
+
+def p7012_term_rule(term, data, namespace, header):
+    triples = []
+    subject = namespace[data['Term']]
+    if header == 'Permits':
+        rule = DPV.hasPermission
+    elif header == 'Prohibits':
+        rule = DPV.hasProhibition
+    elif header == 'Obligates':
+        rule = DPV.hasObligation
+    else:
+        raise Exception(f"Unknown rule {header} in P7012 spreadsheet column")
+
+    for item in term.split(','):
+        item_namespace, item_label = item.split(':')
+        item_namespace = NAMESPACES[item_namespace]
+        item = item_namespace[item_label]
+        triples.append((subject, rule, item))
+    return triples
