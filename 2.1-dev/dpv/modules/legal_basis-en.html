@@ -963,6 +963,10 @@ link: <a href="https://w3id.org/dpv/examples/E0076.ttl">source file</a>;      co
     </section>
     <section id="vocab-legal-basis-contract-status">
       <h3>Contract Status</h3>
+      <figure>
+        <img src="../../diagrams/contract_states.svg">
+        <figcaption>State diagram representing how contract states are interpreted and defined in DPV. The individual boxes or section represent a collection of states that represent a specific aspect of the contract lifecycle. The red arrows represent transition between these states. The multiple start symbols represent only representing the states from that stage onward.</figcaption>
+      </figure>
       <p>To represent the status associated with a contract, the concept [=ContractStatus=] and the relation [=hasContractStatus=] are provided. A taxonomy of statuses representing the lifecycle of contract formation and use is provided, for example [=ContractDrafted=] to indicate the completion of contract drafting process, [=ContractUnderNegotiation=] to indicate the contents of the contract are being negotiated and that the contract is being accepted/signed by involved parties, [=ContractFullySigned=] indicating all parties have signed the contract, and [=ContractTerminated=] indicating the contract has been terminated.</p>
       <p>[=ContractFulfilmentStatus=] represents the status associated with fulfilment of a contract in terms of its requirements and obligations. It is associated using the relation [=hasContractualFulfilmentStatus=]. Specific fulfilment states are provided, for example [=ContractFulfiled=] indicating all requirements of the contract have been fulfiled, [=ContractBreached=] indicating a breach of contract, and [=ContractNotFulfiled=] indicating the requirements have not been fulfiled (but it isn't a breach yet e.g. there is still time/opportunity to complete them).</p>
       <div class="list-hierarchy"><ul class="concept-list">
@@ -1360,7 +1364,6 @@ link: <a href="https://w3id.org/dpv/examples/E0078.ttl">source file</a>;      co
     </ul>
     <p>To indicate the duration or validity of a given consent instance, the existing contextual relation `dpv:hasDuration` along with specific forms of `dpv:Duration` can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype `dpv:UntilEventDuration` can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, `dpv:UntilTimeDuration` indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and `dpv:TemporalDuration` indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, `dpv:EndlessDuration` can be used. To indicate the notice used for informed consent, the concept `dpv:ConsentNotice` is provided, which can be used with the relation `dpv:hasNotice`.</p>
     <p>To specify consent provided by delegation, such as in the case of a parent or guardian providing consent for/with a child, the `dpv:isIndicatedBy` relation can be used to associate the parent or guardian responsible for providing consent (or its affirmation). Since by default the consent is presumed to be provided by the individual, when such individuals are associated with their consent, i.e. through `dpv:hasDataSubject`, the additional information provided by `dpv:isIndicatedBy` can be considered redundant and is often omitted.</p>
-    <p>[=ConsentControl=] represents information about how to exercise a control regarding consent. To indicate how an organisation obtains consent, the concept [=ObtainConsent=] is provided. Its corresponding concept [=ProvideConsent=] specifies how a data subject can indicate their consent (decision). The concept [=ReaffirmConsent=] is used to indicate how to perform reaffirmation or confirmation of a previous control (e.g. provide or obtain consent). To associate consent controls, the relation [=hasConsentControl=] is provided. Consent controls are defined by extending relevant `dpv:EntityInvolvement` concepts `dpv:OptingIntoProcess` and `dpv:WithdrawingFromProcess`.</p>
 
       <aside class="example" title="Denoting Legal Basis within a Process">
 <p>The <code>LegalBasis</code> can be associated with any concept using the relation <code>hasLegalBasis</code>. Such associations are of three types: (1) where the legal basis refers to an instance, such as the consent or contract associated with a particular data subject; (2)  where the legal basis refers to the category that will be used to justify processing, such as the concept <i>consent</i> to denote consent will be the basis for indicated processing; and lastly (3) where the legal basis is defined with a context, such as <i>consent of service consumers</i>.</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># 1: instance of legal basis</span>
@@ -1560,12 +1563,61 @@ link: <a href="https://w3id.org/dpv/examples/E0018.ttl">source file</a>;      co
 
     <section id="vocab-legal-basis-consent-controls">
       <h4>Consent Controls</h4>
-      <ol>
-        <li>[=ObtainConsent=] for controllers to obtain consent</li>
-        <li>[=ProvideConsent=] for data subjects to provide consent</li>
-        <li>[=WithdrawConsent=] for data subjects to withdraw consent</li>
-        <li>[=ReaffirmConsent=] for controllers and data subjects to reaffirm consent (use with [=ObtainConsent=] or [=ProvideConsent=])</li>
-      </ol>
+      <p> represents information about how to exercise a control regarding consent. To indicate how an organisation obtains consent, the concept [=ObtainConsent=] is provided. Its corresponding concept [=ProvideConsent=] specifies how a data subject can indicate their consent (decision). The concept [=ReaffirmConsent=] is used to indicate how to perform reaffirmation or confirmation of a previous control (e.g. provide or obtain consent).</p>
+      <p>[=ConsentControl=] allows representing activities associated with control over consent, such as to give/obtain consent, to refuse it, or to withdraw it. These concepts are useful to represent which actions are involved or applicable in the specified context (e.g. to state a notice layer provides controls to accept and refuse consent), and to represent information on how to exercise them (e.g. consent can be withdrawn through the indicated process or at the given url). To associate consent controls, the relation [=hasConsentControl=] is provided.</p>
+      <p>The concept [=ManageConsent=] is a broad concept that encompasses other consent controls to reflect its common use in use-cases, such as to provide a common interface to perform all actions associated with consent. The interpretation used here is that managing consent refers to providing, withdrawing, and reaffirming given consent. Refusing consent is not included as part of managing consent currently, but may be added in the future to represent cases where a consent request is received and stored awaiting the individual's decision - where 'managing consent' for the individual would involve both providing and refusing consent.</p>
+      <p>Consent controls are defined by extending relevant `dpv:EntityInvolvement` concepts `dpv:OptingIntoProcess` and `dpv:WithdrawingFromProcess` so that commonly used terms such as 'opt-in' and 'opt-out' (more specifically, withdrawing from an opted-in process) are aligned with managing consent by defining them as a broader concept than 'provide consent' and 'withdraw consent' respectively.</p>
+      <div class="list-hierarchy"><ul class="concept-list">
+  <li>
+    <strong>dpv:ConsentControl</strong>: The control or activity associated with obtaining, providing, withdrawing, or reaffirming consent
+      <small><a href="https://w3id.org/dpv#ConsentControl" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:ObtainConsent</strong>: Control for obtaining consent
+      <small><a href="https://w3id.org/dpv#ObtainConsent" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:ProvideConsent</strong>: Control for providing consent
+      <small><a href="https://w3id.org/dpv#ProvideConsent" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:ManageConsent</strong>: Control for managing a given consent in terms of providing, reaffirming, or withdrawing it
+      <small><a href="https://w3id.org/dpv#ManageConsent" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:ReaffirmConsent</strong>: Control for affirming consent
+      <small><a href="https://w3id.org/dpv#ReaffirmConsent" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:ManageConsent</strong>: Control for managing a given consent in terms of providing, reaffirming, or withdrawing it
+      <small><a href="https://w3id.org/dpv#ManageConsent" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:RefuseConsent</strong>: Control for refusing consent
+      <small><a href="https://w3id.org/dpv#RefuseConsent" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:WithdrawConsent</strong>: Control for withdrawing consent
+      <small><a href="https://w3id.org/dpv#WithdrawConsent" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:ManageConsent</strong>: Control for managing a given consent in terms of providing, reaffirming, or withdrawing it
+      <small><a href="https://w3id.org/dpv#ManageConsent" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul></div>
     </section>
       <aside class="example" title="Using Notice Layer and Icon in a Consent Notice">
 <p>This example shows a Consent Notice that is structured in 2 layers - first for a summary and a second layer providing detailed overview of the intended processing. The layers contain controls for consent and rights which are accompanied by the label to be used e.g. for the button in the UI, and the icon to be displayed alongside it. This example also shows how a consent notice can be expressed in a machine-readable form in a manner that is similar to and can be used to create a graphical notice such as on a website or in a mobile app.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #0000FF; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">ExampleNotice</span> <span style="color: #B00040">a</span> <span style="color: #0000FF; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ConsentNotice</span> ;
