@@ -1,6 +1,6 @@
 @startuml
 !include style.plantuml
-left to right direction
+'left to right direction
 
 class Thing #silver
 
@@ -21,21 +21,32 @@ package ai {
     class Capability
     class Measure
     class Model
-    class Risk
+    class GPAIModel
     class Technique
+    class Data
+    class RiskConcept
+    class Measure
+    class LifecycleStage
+    class AIBias
+    RiskConcept <|-- AIBias
+    class DataRisk
+    RiskConcept <|-- DataRisk
+    AI -- RiskConcept : risk:hasRiskSource\ndpv:hasRisk\ndpv:hasConsequence\ndpv:hasImpact >
+    AI -- Data : ai:hasData >
+    AI -- LifecycleStage : ai:hasLifecycleStage
 }
 
 Thing -- AI : dpv:isImplementedUsingTechnology >
 Technology <|-- AI
-AI -- ProvisionMethod : tech:hasProvisionMethod >
-AI -- Documentation : tech:hasDocumentation >
-AI -- IntendedUse : tech:hasIntendedUse >
-AI -- TechnologyStatus : dpv:hasStatus >
-AI -- Capability : ai:hasCapability >
+Technology -- ProvisionMethod : tech:hasProvisionMethod >
+Technology -- Documentation : tech:hasDocumentation >
+Technology -- IntendedUse : tech:hasIntendedUse >
+Technology -- TechnologyStatus : dpv:hasStatus >
+AI -up- Capability : ai:hasCapability >
 AI -- Measure : ai:hasMeasure >
-AI <|-- Model
-AI <|-- AISystem
-AI -- Risk : dpv:hasRisk >
+AI <|-up- Model
+AI <|-up- AISystem
+Model <|-right- GPAIModel
 AI -- Technique : ai:hasTechnique >
 
 @enduml

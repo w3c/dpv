@@ -36,9 +36,9 @@ package dpv.tech {
 }
 dpv.Technology <.. dpv.tech : <<extends>>
 
-package dpv.justification {
+package dpv.justifications {
 }
-dpv.Justification <.. dpv.justification : <<extends>>
+dpv.Justification <.. dpv.justifications : <<extends>>
 
 package dpv.loc {
 }
@@ -46,41 +46,105 @@ dpv.Location <.. dpv.loc : <<extends>>
 package dpv.ai {
 }
 dpv.tech <.. dpv.ai : <<extends>>
-package dpv.legal {
+
+package dpv.legal <<Node>> {
+	dpv.Law <.. dpv.legal : <<extends>>
+	package eu {
+		package aiact {}
+		package dga {}
+		package gdpr {}
+		package nis2 {}
+		package rights {}
+		package ehds {}
+	}
+	eu -[hidden]d- at
+	package at {}
+	at -[hidden]r- be  
+	package be {}
+	be -[hidden]r- bg  
+	package bg {}
+	bg -[hidden]r- cy  
+	package cy {}
+	cy -[hidden]r- cz  
+	package cz {}
+	cz -[hidden]r- de  
+	package de {}
+	de -[hidden]r- dk  
+	package dk {}
+	dk -[hidden]r- ee  
+	package ee {}
+	ee -[hidden]d- es  
+	package es {}
+	es -[hidden]r- fi  
+	package fi {}
+	fi -[hidden]r- fr  
+	package fr {}
+	fr -[hidden]r- gb  
+	package gb {}
+	gb -[hidden]r- gr  
+	package gr {}
+	gr -[hidden]r- hr  
+	package hr {}
+	hr -[hidden]r- hu  
+	package hu {}
+	hu -[hidden]r- ie  
+	package ie {}
+	ie -[hidden]d- in  
+	package in {}
+	in -[hidden]r- is  
+	package is {}
+	is -[hidden]r- it  
+	package it {}
+	it -[hidden]r- li  
+	package li {}
+	li -[hidden]r- lt  
+	package lt {}
+	lt -[hidden]r- lu  
+	package lu {}
+	lu -[hidden]r- lv  
+	package lv {}
+	lv -[hidden]r- mt  
+	package mt {}
+	mt -[hidden]d- nl  
+	package nl {}
+	nl -[hidden]r- no  
+	package no {}
+	no -[hidden]r- pl  
+	package pl {}
+	pl -[hidden]r- pt  
+	package pt {}
+	pt -[hidden]r- ro  
+	package ro {}
+	ro -[hidden]r- se  
+	package se {}
+	se -[hidden]r- si  
+	package si {}
+	si -[hidden]r- sk  
+	package sk {}
+	sk -[hidden]r- us  
+	package us {}
+
 }
-dpv.Law <.. dpv.legal : <<extends>>
-package dpv.legal.de {
+
+package dpv.sector <<Node>> {
+	package education {}
+	package finance {}
+	package health {}
+	package infra {}
+	package law {}
+	package publicservices {}
 }
-package dpv.legal.eu {
-}
-package dpv.legal.eu.aiact {
-}
-package dpv.legal.eu.dga {
-}
-package dpv.legal.eu.gdpr {
-}
-package dpv.legal.eu.nis2 {
-}
-package dpv.legal.eu.rights {
-}
-package dpv.legal.gb {
-}
-package dpv.legal.ie {
-}
-package dpv.legal.in {
-}
-package dpv.legal.us {
+
+package dpv.standards <<Node>> {
+	package p7012 {}
 }
 
 ' tweak package arrangement
-dpv.legal.gb -[hidden]d-dpv.legal.us
-dpv.legal.gb -[hidden]r-dpv.legal.ie
-dpv.legal.ie -[hidden]r-dpv.legal.de
-dpv.legal.ie -[hidden]d-dpv.legal.in
 
-dpv.legal.eu.rights -[hidden]d-dpv.legal.eu.dga
-dpv.legal.eu.gdpr -[hidden]d-dpv.legal.eu.aiact
-dpv.legal.eu.gdpr -[hidden]r-dpv.legal.eu.nis2
-
+dpv.loc -[hidden]d- dpv.sector
+dpv.sector -[hidden]d- dpv.standards
+dpv.ai -[hidden]l- dpv.legal
+dpv.PersonalData -[hidden]l- dpv.Justification
+dpv.ai -[hidden]d- dpv.sector
 
 @enduml
