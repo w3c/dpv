@@ -2382,7 +2382,7 @@ def prefix_from_iri(iri):
 
 # === contributors ==
 import json
-with open('../contributors.json', 'r') as fd:
+with open(f'./contributors.json', 'r') as fd:
     contributors = json.load(fd)
 
 

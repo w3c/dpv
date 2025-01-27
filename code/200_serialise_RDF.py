@@ -270,6 +270,7 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     for _, _, persons in results:
         persons = persons.replace(';', ',')
         for person in persons.split(','):
+            if not person.strip(): continue
             contributors.add(person.strip())
     for person in contributors:
         graph.add((vocab_iri, DCTERMS.contributor, Literal(person)))
