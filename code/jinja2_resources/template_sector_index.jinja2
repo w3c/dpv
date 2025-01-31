@@ -2,7 +2,7 @@
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
 {% from 'macro_example.jinja2' import example_aside %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,6 +66,7 @@
   <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+  {{ contributors_list(data, vocab_name) }}
   <section id="abstract">
     <p>The Sector-specific extensions provide concepts extending the [[[DPV]]] for representing information, technologies, and processes for a specific sector. These extensions are provided under the common namespace {{data[vocab_name+'-metadata']['iri']}} with further sector-specific prefixes to distinguish them in a modular fashion. The vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
   </section>
@@ -103,15 +104,6 @@
 {% endif %}
 
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
