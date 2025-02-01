@@ -72,6 +72,27 @@ To execute the tests, and to use the TopBraid SHACL binary, download the latest 
 
 The output of the script lists the data and shapes files being used in the validation process, the number of errors found, and a list of data nodes and the corresponding failure message.
 
+### Spellcheck
+
+The spell check is run for HTML documents by using [aspell](http://aspell.net/)
+or a similar tool, with the dictionary containing words used in documents
+provided as `./dictionary-aspell-en.pws`. If using `aspell`, the command is:
+
+```bash
+aspell -d en_GB --extra-dicts=./dictionary-aspell-en.pws -c <file>
+```
+
+If not using `aspell`, the file above is a simple text file with one word
+per limit - which can be added or linked to whatever spell check is being
+used.
+
+For spell check in RDF / source, currently this is best done in the source
+tool e.g. Google Sheets has a spell check option which should be used to
+check for english valid terms. Running `aspell` on a CSV can be cumbersome
+and difficult to complete as there are a large number of files to process.
+Another reason to prefer the source tool is that if the CSV are modified,
+the changes will still need to be synced back to the GSheets.
+
 ## FAQ
 
 1. Fixing an error in the vocabulary terms i.e. term label, property, annotation --> Make the changes in the Google Sheet, and run the `100` script to download CSV, then `200` to produce RDF, then `300` to produce HTML.
