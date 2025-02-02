@@ -4,7 +4,7 @@
 '''Data and configurations for vocabulary management'''
 
 import csv
-from rdflib import Namespace
+from rdflib import Namespace, BNode, Literal
 
 import logging
 logging.basicConfig(
@@ -409,15 +409,15 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_PublicServices.csv',
         },
     },
-    # 'loc': {
-    #     'locations': {
-    #         'locations': f'{IMPORT_CSV_PATH}/location.csv',
-    #         'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
-    #     },
-    #     'memberships': {
-    #         'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
-    #     },
-    # },
+    'loc': {
+        'locations': {
+            'locations': f'{IMPORT_CSV_PATH}/location.csv',
+            'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
+        },
+        'memberships': {
+            'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
+        },
+    },
     # Laws-Authorities
     'legal-at': {
         'at': {
@@ -922,7 +922,7 @@ RDF_VOCABS = {
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information about technologies and its provision",
             "dct:created": "2024-05-31",
             "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Harshvardhan J. Pandit, Georg P Krog, Paul Ryan, Julian Flake, Delaram Golpayegani",
+            "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog, Paul Ryan, Julian Flake, Delaram Golpayegani",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             "bibo:status": "published",
@@ -2390,7 +2390,25 @@ def generate_author_affiliation(author):
     '''takes author name, returns affiliation'''
     author = str(author)
     if author in contributors:
-        return contributors[author]
+        return contributors[author]['affiliation']
+    return ''
+
+
+def generate_author_orcid(author):
+    '''takes author name, returns affiliation'''
+    author = str(author)
+    if author in contributors:
+        if 'ORCID' in contributors[author]:
+            return contributors[author]['ORCID']
+    return ''
+
+
+def generate_author_website(author):
+    '''takes author name, returns affiliation'''
+    author = str(author)
+    if author in contributors:
+        if 'website' in contributors[author]:
+            return contributors[author]['website']
     return ''
 
 
@@ -2398,3 +2416,45 @@ def generate_authors_affiliations(authors):
     '''takes author name, returns affiliation'''
     authors = [contributors[author] for author in contributors]
     return authors
+
+
+def _person_slugify():
+    '''person is a string, slugify means make it IRI compatible'
+    - e.g. 'Harshvardhan J. Pandit' should be 'HarshvardhanJPandit'
+    - for creating IRIs, we create a BNode and return it
+    - to maintain consistency, we use the same BNode, and maintain
+    a register/dict of people handled so far
+    - PREFIX = 'person-'  # to distinguish what this is
+    '''
+    people = {}
+    def _helper(person_name):
+        nonlocal people
+        person_name = person_name.strip()
+        person = person_name.replace(',','').replace('.','').replace(' ','')
+        # if person_name.startswith('n')
+        if person in people:
+            return people[person]
+        bnode_person = BNode()
+        bnode_org = BNode()
+        triples = []
+        triples.append((bnode_person, RDF.type, FOAF.Person))
+        triples.append((bnode_person, RDF.type, DCT.Agent))
+        triples.append((bnode_person, FOAF.name, Literal(person_name)))
+        if generate_author_orcid(person_name):
+            triples.append((bnode_person, SCORO.hasORCID, Literal(generate_author_orcid(person_name))))
+        if generate_author_website(person_name):
+            triples.append((bnode_person, FOAF.homepage, Literal(generate_author_website(person_name))))
+        triples.append((bnode_org, RDF.type, FOAF.Organization))
+        triples.append((bnode_org, FOAF.name, Literal(generate_author_affiliation(person_name))))
+        if not generate_author_affiliation(person_name):
+            raise Exception(f"{person_name} org is empty!")
+        triples.append((bnode_person, ORG.memberOf, bnode_org))
+        people[person] = {
+            'person': bnode_person,
+            'org': bnode_org,
+            'triples': triples,
+        }
+        return people[person]
+    return _helper
+
+PERSON_DICT = _person_slugify()

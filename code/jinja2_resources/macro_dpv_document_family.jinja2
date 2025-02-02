@@ -49,7 +49,24 @@ at the specified link e.g. for specific module #}
 {% endmacro %}
 
 {% macro contributors_list(data, vocab_name) %}
-{% if data[vocab_name+'-metadata']['dct:contributor'] %}<p><strong>Contributors:</strong> (ordered alphabetically) {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-  <span><b>{{ person }}</b></span> <small><i>({{person|generate_author_affiliation}})</i></small>{{ ", " if not loop.last }}{{ "." if loop.last }}
+{# for list of contributors as a HTML para #}
+{% if data[vocab_name+'-metadata']['dct:contributor'] %}<p><strong>Contributors:</strong> (ordered alphabetically) {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|resolve_concepts|sort(attribute='foaf:name') %}
+  <span>{% if person['foaf:homepage'] %}<a href="{{person['foaf:homepage']}}"><b>{{ person['foaf:name'] }}</b></a>
+    {% elif person['scoro:hasORCID'] %}<a href="https://orcid.org/{{person['scoro:hasORCID']}}"><b>{{ person['foaf:name'] }}</b></a>
+    {% else %}<b>{{ person['foaf:name'] }}</b>{% endif %}
+  </span>
+  <small><i>({% set org = person['org:memberOf']|resolve_concepts %}{{org['foaf:name']}})</i></small>{{ ", " if not loop.last }}{{ "." if loop.last }}
 {% endfor %}<small>NOTE: The affiliations are informative, do not represent formal endorsements, and may be outdated as this list is generated automatically from existing data.</small></p>{% endif %}
+{% endmacro %}
+
+{% macro authors_list(data, vocab_name) %}
+{# for list of authors in ReSpec json #}
+[{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|resolve_concepts|sort(attribute='foaf:name') %}
+  { 
+    "name": "{{person['foaf:name']}}",
+    "company": "{% set org = person['org:memberOf']|resolve_concepts %}{{org['foaf:name']}}"{% if person['scoro:hasORCID'] %},
+    "orcid": "{{person['scoro:hasORCID']}}"{% endif %}{% if person['foaf:homepage'] %},
+    "url": "{{person['foaf:homepage']}}"{% endif %}
+  }{{"," if not loop.last}}
+{% endfor %}]
 {% endmacro %}

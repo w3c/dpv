@@ -1,5 +1,5 @@
 {% from 'macro_term_table.jinja2' import index_concepts, list_items, list_hierarchy, table_properties, ref_dedicated_documentation, language_selector %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +15,7 @@
     subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
     specStatus: "{{vocab_name|get_document_status}}",
-    group: "DPVCG",
+    group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/pd",
     canonicalUri: "https://w3id.org/dpv/pd",
     edDraftURI: "https://dev.dpvcg.org/pd",
@@ -30,12 +30,7 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }
     ],
-    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
-      {
-        "name": "{{person}}",
-        "company": "{{ person | generate_author_affiliation }}"
-      }{{"," if not loop.last}}
-      {% endfor %}],
+    authors: {{ authors_list(data, vocab_name) }},
     otherLinks: [
       {
         "key": "This Release",

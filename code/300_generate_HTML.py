@@ -751,12 +751,11 @@ def get_document_status(vocab_name):
     except Exception:
         raise Exception(f'{vocab_name} metadata has an issue with bibo:status')
     status = status.split('/')[-1].upper()
-    DEBUG(f"{vocab_name} -- {status} -- {DOCUMENT_STATUS}")
+    DEBUG(f"{vocab_name} status = {status} with global status = {DOCUMENT_STATUS}")
     if status == 'PUBLISHED' and DOCUMENT_STATUS == 'CG-FINAL':
         status = 'CG-FINAL'
     else:
         status = 'CG-DRAFT'
-    DEBUG(f"{vocab_name} -- {status}")
     return status
 
 

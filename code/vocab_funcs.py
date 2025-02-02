@@ -270,7 +270,11 @@ def construct_contributors(item, data, namespace, header):
     triples = []
     # TODO: make contributor be URI or a literal (if website available)
     term = _term_with_namespace(data['Term'], namespace)
-    triples.append((term, DCT.contributor, Literal(item)))
+    item = item.replace(';',',')
+    for person in item.split(','):
+        triples.append((term, DCT.contributor, PERSON_DICT(person)['person']))
+        for triple in PERSON_DICT(person)['triples']:
+            triples.append(triple)
     return triples
 
 

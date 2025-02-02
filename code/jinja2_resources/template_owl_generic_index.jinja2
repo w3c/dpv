@@ -1,4 +1,5 @@
 {% from 'owl_macro_term_table.jinja2' import index_concepts, list_items, list_hierarchy, table_properties %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 
 <!DOCTYPE html>
 <html lang="{{lang}}">
@@ -30,12 +31,7 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}",
     }
     ],
-    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort%}
-      {
-        "name": "{{person}}",
-        "company": "{{ person | generate_author_affiliation }}"
-      }{{"," if not loop.last}}
-      {% endfor %}],
+    authors: {{ authors_list(data, vocab_name) }},
     otherLinks: [
       {
         "key": "Key Publications",
