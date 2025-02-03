@@ -1,30 +1,30 @@
 #!/usr/bin/env python3
 
+import os
+
 from rdflib import Graph
 from rdflib.term import BNode
 
-COMPARE = (
-    ('DPV', '2.0/dpv/dpv.ttl', 'v1.0/dpv/dpv.ttl'),
-    ('PD', '2.0/pd/pd.ttl', 'v1.0/dpv-pd/dpv-pd.ttl'),
-    ('EU-GDPR', '2.0/legal/eu/gdpr/eu-gdpr.ttl', 'v1.0/dpv-gdpr/dpv-gdpr.ttl'),
-    ('LEGAL', '2.0/legal/legal.ttl', 'v1.0/dpv-legal/dpv-legal.ttl'),
-    ('LOC', '2.0/loc/loc.ttl', 'v1.0/dpv-legal/dpv-legal.ttl'),
-    ('TECH', '2.0/tech/tech.ttl', 'v1.0/dpv-tech/dpv-tech.ttl'),
-    ('EU-RIGHTS', '2.0/legal/eu/rights/eu-rights.ttl', 'v1.0/rights/eu/rights-eu.ttl'),
-    ('RISK', '2.0/risk/risk.ttl', 'v1.0/risk/risk.ttl'),
-    ('AI', '2.0/ai/ai.ttl', None), # None means there is no old version
-    ('Justifications', '2.0/justifications/justifications.ttl', None),
-    ('EU-DGA', '2.0/legal/eu/dga/eu-dga.ttl', None),
-    ('EU-AIAct', '2.0/legal/eu/aiact/eu-aiact.ttl', None),
-    ('EU-NIS2', '2.0/legal/eu/nis2/eu-nis2.ttl', None),
-    ('LEGAL-IE', '2.0/legal/ie/legal-ie.ttl', None),
-    ('LEGAL-IN', '2.0/legal/in/legal-in.ttl', None),
-    ('LEGAL-DE', '2.0/legal/de/legal-de.ttl', None),
-    ('LEGAL-GB', '2.0/legal/gb/legal-gb.ttl', None),
-    ('LEGAL-US', '2.0/legal/us/legal-us.ttl', None),
-    ('LEGAL-EU', '2.0/legal/eu/legal-eu.ttl', None),
-    )
+from vocab_management import DPV_VERSION, DPV_PREVIOUS_VERSION
+from vocab_management import EXPORT_RDF_PATH
+from vocab_management import RDF_VOCABS
 
+COMPARE = []
+
+for vocab, data in RDF_VOCABS.items():
+    path = data['vocab']
+    path_prev = path.replace(DPV_VERSION, DPV_PREVIOUS_VERSION)
+    if not os.path.exists(path_prev):
+        path_prev = None
+    else:
+        path_prev = path_prev.replace('../', '')
+    COMPARE.append((
+        data['metadata']['dct:title'],
+        path.replace('../', ''),
+        path_prev,
+        ))
+
+# import sys; sys.exit(0)
 
 TOTAL = 0
 ADDED = 0
@@ -112,6 +112,6 @@ else:
             else:
                 print(line)
 
-# print(TOTAL)
-# print(ADDED)
-# print(REMOVED)
+print(TOTAL)
+print(ADDED)
+print(REMOVED)
