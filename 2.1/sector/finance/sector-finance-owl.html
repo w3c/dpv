@@ -1,0 +1,4414 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Finance Sector Concepts</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "Finance Sector Concepts",
+    subtitle: "version 2.1 - OWL serialisation",
+    publishDate: "2025-02-01",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
+    canonicalUri: "https://w3id.org/dpv/",
+    edDraftURI: "https://w3id.org/dpv/",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "ADAPT Centre, Dublin City University",
+    }
+    ],
+    authors: [  { 
+    "name": "Harshvardhan J. Pandit",
+    "company": "ADAPT Centre, Dublin City University",
+    "orcid": "0000-0002-5068-3714",
+    "url": "https://harshp.com/"  }
+]
+,
+    otherLinks: [
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            }
+        ]
+      }
+    ],
+    localBiblio: {
+  "DPVCG": {
+    "href": "https://www.w3.org/community/dpvcg/",
+    "title": "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)"
+  },
+  "DPV": {
+    "href": "https://w3id.org/dpv",
+    "title": "Data Privacy Vocabulary (DPV) Specification"
+  },
+  "EU-GDPR": {
+    "href": "https://w3id.org/dpv/legal/eu/gdpr",
+    "title": "EU GDPR concepts for DPV"
+  },
+  "EU-DGA": {
+    "href": "https://w3id.org/dpv/legal/eu/dga",
+    "title": "EU DGA concepts for DPV"
+  },
+  "EU-AIAct": {
+    "href": "https://w3id.org/dpv/legal/eu/aiact",
+    "title": "EU AI Act concepts for DPV"
+  },
+  "EU-NIS2": {
+    "href": "https://w3id.org/dpv/legal/eu/nis2",
+    "title": "EU NIS2 concepts for DPV"
+  },
+  "EU-EHDS": {
+    "href": "https://w3id.org/dpv/legal/eu/ehds",
+    "title": "EU Health Data Space (EHDS) concepts for DPV"
+  },
+  "DPV-NACE": {
+    "href": "https://w3id.org/dpv/nace",
+    "title": "NACE Taxonomy serialised in RDFS/OWL"
+  },
+  "PD": {
+    "href": "https://w3id.org/dpv/pd",
+    "title": "Personal Data categories for DPV"
+  },
+  "TECH": {
+    "href": "https://w3id.org/dpv/tech",
+    "title": "Technology concepts for DPV"
+  },
+  "AI": {
+    "href": "https://w3id.org/dpv/ai",
+    "title": "AI Technology concepts for DPV"
+  },
+  "RISK": {
+    "href": "https://w3id.org/dpv/risk",
+    "title": "Risk Assessment and Management concepts for DPV"
+  },
+  "LOC": {
+    "href": "https://w3id.org/dpv/loc",
+    "title": "Location and Geo-Political Membership concepts for DPV"
+  },
+  "SECTOR": {
+    "href": "https://w3id.org/dpv/sector",
+    "title": "Sector-specific Extensions for DPV"
+  },
+  "SECTOR-EDUCATION": {
+    "href": "https://w3id.org/dpv/sector/education",
+    "title": "Education Sector Extension for DPV"
+  },
+  "SECTOR-FINANCE": {
+    "href": "https://w3id.org/dpv/sector/finance",
+    "title": "Finance Sector Extension for DPV"
+  },
+  "SECTOR-HEALTH": {
+    "href": "https://w3id.org/dpv/sector/health",
+    "title": "Health Sector Extension for DPV"
+  },
+  "SECTOR-INFRA": {
+    "href": "https://w3id.org/dpv/sector/infra",
+    "title": "Infrastructure Sector Extension for DPV"
+  },
+  "SECTOR-LAW": {
+    "href": "https://w3id.org/dpv/sector/law",
+    "title": "Law Enforcement & Justice Sector Extension for DPV"
+  },
+  "SECTOR-PUBLICSERVICES": {
+    "href": "https://w3id.org/dpv/sector/publicservices",
+    "title": "Public Services Sector Extension for DPV"
+  },
+  "JUSTIFICATIONS": {
+    "href": "https://w3id.org/dpv/justifications",
+    "title": "Concepts representing Justifications for DPV"
+  },
+  "LEGAL": {
+    "href": "https://w3id.org/dpv/legal",
+    "title": "Legal Jurisdiction-relevant concepts for DPV"
+  },
+  "LEGAL-AT": {
+        "href": "https://w3id.org/dpv/legal/at",
+        "title": "Legal concepts for Austria (AT)"
+  },
+  "LEGAL-BE": {
+          "href": "https://w3id.org/dpv/legal/be",
+          "title": "Legal concepts for Belgium (BE)"
+  },
+  "LEGAL-BG": {
+          "href": "https://w3id.org/dpv/legal/bg",
+          "title": "Legal concepts for Bulgaria (BG)"
+  },
+  "LEGAL-CY": {
+          "href": "https://w3id.org/dpv/legal/cy",
+          "title": "Legal concepts for Cyprus (CY)"
+  },
+  "LEGAL-CZ": {
+          "href": "https://w3id.org/dpv/legal/cz",
+          "title": "Legal concepts for Czech Republic (CZ)"
+  },
+  "LEGAL-DE": {
+          "href": "https://w3id.org/dpv/legal/de",
+          "title": "Legal concepts for Germany (DE)"
+  },
+  "LEGAL-DK": {
+          "href": "https://w3id.org/dpv/legal/dk",
+          "title": "Legal concepts for Denmark (DK)"
+  },
+  "LEGAL-EE": {
+          "href": "https://w3id.org/dpv/legal/ee",
+          "title": "Legal concepts for Estonia (EE)"
+  },
+  "LEGAL-ES": {
+          "href": "https://w3id.org/dpv/legal/es",
+          "title": "Legal concepts for Spain (ES)"
+  },
+  "LEGAL-FI": {
+          "href": "https://w3id.org/dpv/legal/fi",
+          "title": "Legal concepts for Finland (FI)"
+  },
+  "LEGAL-FR": {
+          "href": "https://w3id.org/dpv/legal/fr",
+          "title": "Legal concepts for France (FR)"
+  },
+  "LEGAL-GR": {
+          "href": "https://w3id.org/dpv/legal/gr",
+          "title": "Legal concepts for Greece (GR)"
+  },
+  "LEGAL-HR": {
+          "href": "https://w3id.org/dpv/legal/hr",
+          "title": "Legal concepts for Croatia (HR)"
+  },
+  "LEGAL-HU": {
+          "href": "https://w3id.org/dpv/legal/hu",
+          "title": "Legal concepts for Hungary (HU)"
+  },
+  "LEGAL-IE": {
+          "href": "https://w3id.org/dpv/legal/ie",
+          "title": "Legal concepts for Ireland (IE)"
+  },
+  "LEGAL-IS": {
+          "href": "https://w3id.org/dpv/legal/is",
+          "title": "Legal concepts for Iceland (IS)"
+  },
+  "LEGAL-IT": {
+          "href": "https://w3id.org/dpv/legal/it",
+          "title": "Legal concepts for Italy (IT)"
+  },
+  "LEGAL-LI": {
+          "href": "https://w3id.org/dpv/legal/li",
+          "title": "Legal concepts for Liechtenstein (LI)"
+  },
+  "LEGAL-LT": {
+          "href": "https://w3id.org/dpv/legal/lt",
+          "title": "Legal concepts for Lithuania (LT)"
+  },
+  "LEGAL-LU": {
+          "href": "https://w3id.org/dpv/legal/lu",
+          "title": "Legal concepts for Luxembourg (LU)"
+  },
+  "LEGAL-LV": {
+          "href": "https://w3id.org/dpv/legal/lv",
+          "title": "Legal concepts for Latvia (LV)"
+  },
+  "LEGAL-MT": {
+          "href": "https://w3id.org/dpv/legal/mt",
+          "title": "Legal concepts for Malta (MT)"
+  },
+  "LEGAL-NL": {
+          "href": "https://w3id.org/dpv/legal/nl",
+          "title": "Legal concepts for Netherlands (NL)"
+  },
+  "LEGAL-NO": {
+          "href": "https://w3id.org/dpv/legal/no",
+          "title": "Legal concepts for Norway (NO)"
+  },
+  "LEGAL-PL": {
+          "href": "https://w3id.org/dpv/legal/pl",
+          "title": "Legal concepts for Poland (PL)"
+  },
+  "LEGAL-PT": {
+          "href": "https://w3id.org/dpv/legal/pt",
+          "title": "Legal concepts for Portugal (PT)"
+  },
+  "LEGAL-RO": {
+          "href": "https://w3id.org/dpv/legal/ro",
+          "title": "Legal concepts for Romania (RO)"
+  },
+  "LEGAL-SE": {
+          "href": "https://w3id.org/dpv/legal/se",
+          "title": "Legal concepts for Sweden (SE)"
+  },
+  "LEGAL-SI": {
+          "href": "https://w3id.org/dpv/legal/si",
+          "title": "Legal concepts for Slovenia (SI)"
+  },
+  "LEGAL-SK": {
+          "href": "https://w3id.org/dpv/legal/sk",
+          "title": "Legal concepts for Slovakia (SK)"
+  },
+  "LEGAL-GB": {
+          "href": "https://w3id.org/dpv/legal/gb",
+          "title": "Legal concepts for Great Britain and Northern Ireland (GB)"
+  },
+  "LEGAL-IN": {
+          "href": "https://w3id.org/dpv/legal/in",
+          "title": "Legal concepts for India (IN)"
+  },
+  "LEGAL-US": {
+          "href": "https://w3id.org/dpv/legal/us",
+          "title": "Legal concepts for United States of America (US)"
+  },
+  "LEGAL-EU": {
+          "href": "https://w3id.org/dpv/legal/eu",
+          "title": "Legal concepts for European Union (EU)"
+  },
+  "EU-RIGHTS": {
+    "href": "https://w3id.org/dpv/legal/eu/rights",
+    "title": "EU Fundamental Rights concepts for DPV"
+  },
+  "STANDARD-P7012": {
+    "href": "https://w3id.org/dpv/standards/p7012",
+    "title": "Extension for IEEE P7012"
+  },
+  "DPV-OWL": {
+    "href": "https://w3id.org/dpv/dpv-owl",
+    "title": "DPV serialised in OWL2"
+  },
+  "PRIMER": {
+    "href": "https://w3id.org/dpv/primer",
+    "title": "Primer for Data Privacy Vocabulary"
+  },
+  "PRIMER-concise": {
+    "href": "https://w3id.org/dpv/primer/concise",
+    "title": "Concise Primer for Data Privacy Vocabulary"
+  },
+  "DPV-ADOPTION": {
+    "href": "https://github.com/w3c/dpv/wiki/Adoption-and-Uses-of-DPVCG",
+    "title": "Adoption and Uses of DPV"
+  },
+  "GUIDES": {
+    "href": "https://w3id.org/dpv/guides",
+    "title": "Guides for DPV"
+  },
+  "GUIDE-Consent-27560": {
+    "href": "https://w3id.org/dpv/guides/consent-27560",
+    "title": "Consent Records and Receipts as per ISO/IEC TS 27560:2023 using DPV"
+  },
+  "GUIDE-Notice-29184": {
+    "href": "https://w3id.org/dpv/guides/notice-29184",
+    "title": "Privacy Notices as per ISO/IEC 29184:2020 using DPV"
+  },
+  "GUIDE-Notice": {
+    "href": "https://w3id.org/dpv/guides/notice",
+    "title": "Guide for Privacy Notices using DPV"
+  },
+  "GUIDE-Serialisations": {
+    "href": "https://w3id.org/dpv/guides/serialisations",
+    "title": "Guide on DPV's serialisations and semantics"
+  },
+  "GUIDE-SKOS": {
+    "href": "https://w3id.org/dpv/guides/dpv-skos",
+    "title": "Guide for using DPV with RDFS and SKOS"
+  },
+  "GUIDE-OWL2": {
+    "href": "https://w3id.org/dpv/guides/dpv-owl",
+    "title": "Guide for using DPV in OWL2"
+  },
+  "GUIDE-ODRL": {
+    "href": "https://w3id.org/dpv/guides/dpv-odrl",
+    "title": "Guide for using DPV with ODRL"
+  },
+  "GUIDE-MISCFORMAT": {
+    "href": "https://w3id.org/dpv/guides/dpv-misc",
+    "title": "Guide for using DPV in miscellaneous formats e.g. CSV, JSON"
+  },
+  "GUIDE-GDPR-DPIA": {
+    "href": "https://w3id.org/dpv/guides/gdpr-dpia",
+    "title": "Guide for GDPR DPIA's using DPV"
+  },
+  "GUIDE-GDPR-ROPA": {
+    "href": "https://w3id.org/dpv/guides/gdpr-ropa",
+    "title": "Guide for GDPR ROPA's using DPV"
+  },
+  "GUIDE-GDPR-DataBreach": {
+    "href": "https://w3id.org/dpv/guides/gdpr-data-breach",
+    "title": "Guide for GDPR Data Breach records, notifications, and assessments using DPV"
+  },
+  "GUIDE-Rights": {
+    "href": "https://w3id.org/dpv/guides/rights",
+    "title": "Guide for Rights Exercise and Management using DPV"
+  },
+  "DPV-27560": {
+      "href": "https://w3id.org/dpv/schema/dpv-27560",
+      "title": "DPV Profile for implementing ISO/IEC TS 27560:2023 Consent Records and Receipts"
+  },
+  "DPV-29184": {
+      "href": "https://w3id.org/dpv/schema/DPV-29184",
+      "title": "DPV Profile for implementing ISO/IEC TS 29184:2020 Privacy Notices"
+  },
+  "MAPPING-ODRL": {
+      "href": "https://w3id.org/dpv/mapping/odrl",
+      "title": "Mapping DPV concepts to ODRL"
+  },
+  "EXAMPLES": {
+    "href": "https://w3id.org/dpv/examples",
+    "title": "DPV Examples"
+  },
+  "UseCases-Requirements": {
+    "href": "https://w3id.org/dpv/use-cases",
+    "title": "Use-Cases and Requirements for DPV"
+  },
+  "RDF": {
+    "href": "https://www.w3.org/TR/rdf11-concepts/",
+    "title": "RDF 1.1 Concepts and Abstract Syntax"
+  },
+  "RDFS": {
+    "href": "https://www.w3.org/TR/rdf-schema/",
+    "title": "RDF Schema 1.1"
+  },
+  "OWL" :{
+    "href": "https://www.w3.org/TR/owl2-overview/",
+    "title": "OWL 2 Web Ontology Language Document Overview (Second Edition)"
+  },
+  "SKOS": {
+    "href": "https://www.w3.org/TR/skos-reference/",
+    "title": "SKOS Simple Knowledge Organization System"
+  },
+  "SPECIAL": {
+    "href": "https://www.specialprivacy.eu/",
+    "title": "SPECIAL H2020 Project"
+  },
+  "GDPR": {
+    "href": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+    "title": "General Data Protection Regulation (GDPR)"
+  },
+  "DGA": {
+    "href": "https://eur-lex.europa.eu/eli/reg/2022/868/oj",
+    "title": "Data Governance Act (DGA)"
+  },
+  "AIAct": {
+    "href": "http://data.europa.eu/eli/reg/2024/1689/oj",
+    "title": "Artificial Intelligence Act (AI Act)"
+  },
+  "NIS2": {
+    "href": "http://data.europa.eu/eli/dir/2022/2555/2022-12-27",
+    "title": "Network Information Security Directive (NIS2)"
+  },
+  "NACE": {
+    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+    "title": "Statistical Classification of Economic Activities in the European Community (NACE)"
+  },
+  "NAICS": {
+    "href": "https://www.census.gov/eos/www/naics/",
+    "title": "North American Industry Classification System (NAICS)"
+  },
+  "ISIC": {
+    "href": "https://unstats.un.org/unsd/classifications",
+    "title": "International Standard Industrial Classification of All Economic Activities (ISIC)"
+  },
+  "GICS": {
+    "href": "https://www.msci.com/gics",
+    "title": "Global Industry Classification Standard (GICS)"
+  },
+  "NACE-NAICS": {
+    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+    "title": "NACE to NAICS mapping"
+  },
+  "EnterPrivacy": {
+    "href": "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
+    "title": "Taxonomy of Personal Data Categories"
+  },
+  "TIME": {
+    "href": "https://www.w3.org/TR/owl-time/",
+    "title": "Time Ontology in OWL"
+  },
+  "ISO-27017": {
+    "href": "https://www.iso.org/standard/43757.html",
+    "title": "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
+  },
+  "ISO-27560": {
+    "href": "https://www.iso.org/standard/80392.html",
+    "title": "ISO/IEC TS 27560 Privacy technologies — Consent record information structure"
+  },
+  "ISO-29184": {
+    "href": "https://www.iso.org/standard/70331.html",
+    "title": "ISO/IEC 29184:2020 Privacy Notices and Consent"
+  },
+  "ISO-22989": {
+    "href": "https://www.iso.org/standard/74296.html",
+    "title": " ISO/IEC 22989:2022 Artificial intelligence concepts and terminology"
+  },
+  "SHACL-UseCases": {
+    "href": "https://www.w3.org/TR/shacl-ucr/",
+    "title": "SHACL Use Cases and Requirements"
+  },
+  "SHACL": {
+    "href": "https://www.w3.org/TR/shacl",
+    "title": "Shape and Contraint Language (SHACL)"
+  },
+  "ODRL": {
+    "href": "https://www.w3.org/TR/odrl-model/",
+    "title": "Open Digital Rights Language (ODRL) Model"
+  },
+  "DCT": {
+    "title": "DCMI Metadata Terms (DCT)",
+    "href": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
+  },
+  "DCAT": {
+    "title": "Data Catalog Vocabulary (DCAT)",
+    "href": "http://www.w3.org/ns/dcat"
+  },
+  "RuleML": {
+    "title": "RuleML: Rule Markup Language",
+    "href": "www.ruleml.org/"
+  },
+  "SKOS-OWL": {
+    "title": "Using OWL and SKOS",
+    "href": "https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html",
+  },
+  "DPCat": {
+    "title": "DPCat: Specification for an Interoperable and Machine-Readable Data Processing Catalogue Based on GDPR",
+    "href": "https://w3id.org/dpcat"
+  },
+  "ISO-8601": {
+    "href": "https://www.iso.org/iso-8601-date-and-time-format.html",
+    "title": "ISO 8601 Date and time format"
+  },
+  "IEEE-P7012": {
+    "title": "IEEE Draft Standard for Machine Readable Personal Privacy Terms",
+    "href": "https://standards.ieee.org/ieee/7012/7192/",
+  }
+}  };
+</script>
+  <link rel="stylesheet" type="text/css" href="../diagrams/common.css">
+<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+
+<section id="abstract">
+  <p>This document describes (only) the <strong><emph>OWL serialisation</emph> of Finance Sector Concepts</strong>. For information on the concepts, their usage, and further documentation, please consult the canonical page for the vocabulary at: <a href="https://w3id.org/dpv/sector/finance">https://w3id.org/dpv/sector/finance</a></p>
+</section>
+
+<section id="sotd"></section>
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    <h3>Classes</h3>       
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+     <section class="term-def" id="AccountManagement">
+      <h4>Account Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>AccountManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Account Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#AccountManagement">https://w3id.org/dpv/sector/finance/owl/#AccountManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#AccountManagement">https://w3id.org/dpv/sector/finance#AccountManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of accounts in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="AntiMoneyLaunderingCompliance">
+      <h4>Anti Money Laundering Compliance</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>AntiMoneyLaunderingCompliance</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Anti Money Laundering Compliance</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#AntiMoneyLaunderingCompliance">https://w3id.org/dpv/sector/finance/owl/#AntiMoneyLaunderingCompliance</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#AntiMoneyLaunderingCompliance">https://w3id.org/dpv/sector/finance#AntiMoneyLaunderingCompliance</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#AntiMoneyLaunderingManagement">sector-finance-owl:AntiMoneyLaunderingManagement</a>
+             →             <a href="#FraudManagement">sector-finance-owl:FraudManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#AntiMoneyLaunderingManagement">sector-finance-owl:AntiMoneyLaunderingManagement</a>
+             →             <a href="#FraudManagement">sector-finance-owl:FraudManagement</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RegulatoryCompliance">sector-finance-owl:RegulatoryCompliance</a>
+             →             <a href="https://w3id.org/dpv/owl/#LegalCompliance">dpv-owl:LegalCompliance</a>
+             →             <a href="https://w3id.org/dpv/owl/#FulfilmentOfObligation">dpv-owl:FulfilmentOfObligation</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RegulatoryCompliance">sector-finance-owl:RegulatoryCompliance</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with compliance assessment, documentation, and reporting activities in relation to anti-money laundering legislations for financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="AntiMoneyLaunderingManagement">
+      <h4>Anti-Money Laundering Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>AntiMoneyLaunderingManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Anti-Money Laundering Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#AntiMoneyLaunderingManagement">https://w3id.org/dpv/sector/finance/owl/#AntiMoneyLaunderingManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#AntiMoneyLaunderingManagement">https://w3id.org/dpv/sector/finance#AntiMoneyLaunderingManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FraudManagement">sector-finance-owl:FraudManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FraudManagement">sector-finance-owl:FraudManagement</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with discovery, handling, prediction, and assessment of anti-money laundering activities in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="BudgetPlanningAssistance">
+      <h4>Budget Planning Assistance</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>BudgetPlanningAssistance</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Budget Planning Assistance</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#BudgetPlanningAssistance">https://w3id.org/dpv/sector/finance/owl/#BudgetPlanningAssistance</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#BudgetPlanningAssistance">https://w3id.org/dpv/sector/finance#BudgetPlanningAssistance</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with planning of budgets, spending, and related activities in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CreditChecking">
+      <h4>Credit Checking</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CreditChecking</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Credit Checking</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#CreditChecking">https://w3id.org/dpv/sector/finance/owl/#CreditChecking</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#CreditChecking">https://w3id.org/dpv/sector/finance#CreditChecking</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with maintaining, evaluating, and related activities in relation to calculation of credit scores and related metrics within financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-04-20</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>n6a239d0453e94bcdbda9e425847a2e31b1</i></td>
+        </tr>       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CreditHistoryEvaluation">
+      <h4>Credit History Evaluation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CreditHistoryEvaluation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Credit History Evaluation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#CreditHistoryEvaluation">https://w3id.org/dpv/sector/finance/owl/#CreditHistoryEvaluation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#CreditHistoryEvaluation">https://w3id.org/dpv/sector/finance#CreditHistoryEvaluation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CreditChecking">sector-finance-owl:CreditChecking</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with evaluation and assessment of credit history in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CreditLimitDetermination">
+      <h4>Credit Limit Determination</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CreditLimitDetermination</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Credit Limit Determination</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#CreditLimitDetermination">https://w3id.org/dpv/sector/finance/owl/#CreditLimitDetermination</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#CreditLimitDetermination">https://w3id.org/dpv/sector/finance#CreditLimitDetermination</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CreditChecking">sector-finance-owl:CreditChecking</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with determination and calculation of credit limits in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CreditScoreEvaluation">
+      <h4>Credit Score Evaluation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CreditScoreEvaluation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Credit Score Evaluation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#CreditScoreEvaluation">https://w3id.org/dpv/sector/finance/owl/#CreditScoreEvaluation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#CreditScoreEvaluation">https://w3id.org/dpv/sector/finance#CreditScoreEvaluation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CreditChecking">sector-finance-owl:CreditChecking</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with evaluation and calculation of credit scores in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CustomerDueDiligence">
+      <h4>Customer Due Diligence</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CustomerDueDiligence</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Customer Due Diligence</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#CustomerDueDiligence">https://w3id.org/dpv/sector/finance/owl/#CustomerDueDiligence</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#CustomerDueDiligence">https://w3id.org/dpv/sector/finance#CustomerDueDiligence</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RegulatoryCompliance">sector-finance-owl:RegulatoryCompliance</a>
+             →             <a href="https://w3id.org/dpv/owl/#LegalCompliance">dpv-owl:LegalCompliance</a>
+             →             <a href="https://w3id.org/dpv/owl/#FulfilmentOfObligation">dpv-owl:FulfilmentOfObligation</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RegulatoryCompliance">sector-finance-owl:RegulatoryCompliance</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with compliance assessment, documentation, and reporting activities in relation to customer due diligence legislations for financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="DebtManagement">
+      <h4>Debt Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>DebtManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Debt Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#DebtManagement">https://w3id.org/dpv/sector/finance/owl/#DebtManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#DebtManagement">https://w3id.org/dpv/sector/finance#DebtManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of debt in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ExpenseManagement">
+      <h4>Expense Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ExpenseManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Expense Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#ExpenseManagement">https://w3id.org/dpv/sector/finance/owl/#ExpenseManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#ExpenseManagement">https://w3id.org/dpv/sector/finance#ExpenseManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of expenses and related activities in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="FinancialServiceManagement">
+      <h4>Financial Service Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>FinancialServiceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Financial Service Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#FinancialServiceManagement">https://w3id.org/dpv/sector/finance/owl/#FinancialServiceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#FinancialServiceManagement">https://w3id.org/dpv/sector/finance#FinancialServiceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="FraudManagement">
+      <h4>Fraud Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>FraudManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Fraud Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#FraudManagement">https://w3id.org/dpv/sector/finance/owl/#FraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#FraudManagement">https://w3id.org/dpv/sector/finance#FraudManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of fraud, including fraud prevention and detection, in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="IdentityFraudManagement">
+      <h4>Identity Fraud Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>IdentityFraudManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Identity Fraud Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#IdentityFraudManagement">https://w3id.org/dpv/sector/finance/owl/#IdentityFraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#IdentityFraudManagement">https://w3id.org/dpv/sector/finance#IdentityFraudManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FraudManagement">sector-finance-owl:FraudManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FraudManagement">sector-finance-owl:FraudManagement</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with discovery, handling, prediction, and assessment of identity frauds in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InstabilityRiskAssessment">
+      <h4>Instability Risk Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InstabilityRiskAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Instability Risk Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InstabilityRiskAssessment">https://w3id.org/dpv/sector/finance/owl/#InstabilityRiskAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InstabilityRiskAssessment">https://w3id.org/dpv/sector/finance#InstabilityRiskAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CreditChecking">sector-finance-owl:CreditChecking</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with financial instability risk assessments in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceClaimDisputeResolution">
+      <h4>Insurance Claim Dispute Resolution</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceClaimDisputeResolution</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Claim Dispute Resolution</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceClaimDisputeResolution">https://w3id.org/dpv/sector/finance/owl/#InsuranceClaimDisputeResolution</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceClaimDisputeResolution">https://w3id.org/dpv/sector/finance#InsuranceClaimDisputeResolution</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceClaimsManagement">sector-finance-owl:InsuranceClaimsManagement</a>
+             →             <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with dispute resolution regarding insurnace claims</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceClaimEligibilityAssessment">
+      <h4>Insurance Claim Eligibility Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceClaimEligibilityAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Claim Eligibility Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceClaimEligibilityAssessment">https://w3id.org/dpv/sector/finance/owl/#InsuranceClaimEligibilityAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceClaimEligibilityAssessment">https://w3id.org/dpv/sector/finance#InsuranceClaimEligibilityAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceClaimsManagement">sector-finance-owl:InsuranceClaimsManagement</a>
+             →             <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessing the eligibility of insurance claims</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceClaimFraudManagement">
+      <h4>Insurance Claim Fraud Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceClaimFraudManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Claim Fraud Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceClaimFraudManagement">https://w3id.org/dpv/sector/finance/owl/#InsuranceClaimFraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceClaimFraudManagement">https://w3id.org/dpv/sector/finance#InsuranceClaimFraudManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceClaimsManagement">sector-finance-owl:InsuranceClaimsManagement</a>
+             →             <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceFraudManagement">sector-finance-owl:InsuranceFraudManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceFraudManagement">sector-finance-owl:InsuranceFraudManagement</a>
+             →             <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with fraud prevention and detection related to insurnace claims</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceClaimPayoutAssessment">
+      <h4>Insurance Claim Payout Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceClaimPayoutAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Claim Payout Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceClaimPayoutAssessment">https://w3id.org/dpv/sector/finance/owl/#InsuranceClaimPayoutAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceClaimPayoutAssessment">https://w3id.org/dpv/sector/finance#InsuranceClaimPayoutAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceClaimsManagement">sector-finance-owl:InsuranceClaimsManagement</a>
+             →             <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessing the amount, validity, and method for payout of insurance claims</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceClaimsManagement">
+      <h4>Insurance Claims Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceClaimsManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Claims Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceClaimsManagement">https://w3id.org/dpv/sector/finance/owl/#InsuranceClaimsManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceClaimsManagement">https://w3id.org/dpv/sector/finance#InsuranceClaimsManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of insurance claims</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceCoverageAssessment">
+      <h4>Insurance Coverage Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceCoverageAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Coverage Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceCoverageAssessment">https://w3id.org/dpv/sector/finance/owl/#InsuranceCoverageAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceCoverageAssessment">https://w3id.org/dpv/sector/finance#InsuranceCoverageAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessing the validity of existing insurance coverage for specific situations and contexts</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceEligibilityAssessment">
+      <h4>Insurance Eligibility Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceEligibilityAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Eligibility Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceEligibilityAssessment">https://w3id.org/dpv/sector/finance/owl/#InsuranceEligibilityAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceEligibilityAssessment">https://w3id.org/dpv/sector/finance#InsuranceEligibilityAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of elibility for receiving or continuing to receive insurance</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceFraudManagement">
+      <h4>Insurance Fraud Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceFraudManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Fraud Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceFraudManagement">https://w3id.org/dpv/sector/finance/owl/#InsuranceFraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceFraudManagement">https://w3id.org/dpv/sector/finance#InsuranceFraudManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with fraud prevention and detection related to insurance</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceIdentityFraudManagement">
+      <h4>Insurance Identity Fraud Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceIdentityFraudManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Identity Fraud Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceIdentityFraudManagement">https://w3id.org/dpv/sector/finance/owl/#InsuranceIdentityFraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceIdentityFraudManagement">https://w3id.org/dpv/sector/finance#InsuranceIdentityFraudManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceFraudManagement">sector-finance-owl:InsuranceFraudManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceFraudManagement">sector-finance-owl:InsuranceFraudManagement</a>
+             →             <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with identity fraud prevention and detection related to insurance</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceManagement">
+      <h4>Insurance Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceManagement">https://w3id.org/dpv/sector/finance/owl/#InsuranceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceManagement">https://w3id.org/dpv/sector/finance#InsuranceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of insurance</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsurancePersonalisedPricingManagement">
+      <h4>Insurance Personalised Pricing Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsurancePersonalisedPricingManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Personalised Pricing Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsurancePersonalisedPricingManagement">https://w3id.org/dpv/sector/finance/owl/#InsurancePersonalisedPricingManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsurancePersonalisedPricingManagement">https://w3id.org/dpv/sector/finance#InsurancePersonalisedPricingManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ServicePersonalisation">dpv-owl:ServicePersonalisation</a>
+             →             <a href="https://w3id.org/dpv/owl/#Personalisation">dpv-owl:Personalisation</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ServicePersonalisation">dpv-owl:ServicePersonalisation</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with the use of personalisation in determination, optimisation, and other processes related to pricing of insurance premiums</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsurancePricingManagement">
+      <h4>Insurance Pricing Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsurancePricingManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Pricing Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsurancePricingManagement">https://w3id.org/dpv/sector/finance/owl/#InsurancePricingManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsurancePricingManagement">https://w3id.org/dpv/sector/finance#InsurancePricingManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with determination, optimisation, and other processes related to pricing of insurance premiums</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InsuranceRiskAssessment">
+      <h4>Insurance Risk Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InsuranceRiskAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Insurance Risk Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InsuranceRiskAssessment">https://w3id.org/dpv/sector/finance/owl/#InsuranceRiskAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InsuranceRiskAssessment">https://w3id.org/dpv/sector/finance#InsuranceRiskAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InsuranceManagement">sector-finance-owl:InsuranceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with conducting risk assessments in the context of insurance services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InvestmentManagement">
+      <h4>Investment Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InvestmentManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Investment Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#InvestmentManagement">https://w3id.org/dpv/sector/finance/owl/#InvestmentManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#InvestmentManagement">https://w3id.org/dpv/sector/finance#InvestmentManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of investments, portfolios, and related activities as part of financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="LoanServiceProvision">
+      <h4>Loan Service Provision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>LoanServiceProvision</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Loan Service Provision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#LoanServiceProvision">https://w3id.org/dpv/sector/finance/owl/#LoanServiceProvision</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#LoanServiceProvision">https://w3id.org/dpv/sector/finance#LoanServiceProvision</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with provision of loans and related activities in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="MaintainCreditCheckingDatabase">
+      <h4>Maintain Credit Checking Database</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>MaintainCreditCheckingDatabase</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Maintain Credit Checking Database</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#MaintainCreditCheckingDatabase">https://w3id.org/dpv/sector/finance/owl/#MaintainCreditCheckingDatabase</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#MaintainCreditCheckingDatabase">https://w3id.org/dpv/sector/finance#MaintainCreditCheckingDatabase</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CreditChecking">sector-finance-owl:CreditChecking</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with maintaining a Credit Checking Database</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-06-15</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>[rdflib.term.BNode(&#39;n6a239d0453e94bcdbda9e425847a2e31b1&#39;), rdflib.term.BNode(&#39;n6a239d0453e94bcdbda9e425847a2e31b2&#39;)]</i></td>
+        </tr>       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="MaintainCreditRatingDatabase">
+      <h4>Maintain Credit Rating Database</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>MaintainCreditRatingDatabase</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Maintain Credit Rating Database</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#MaintainCreditRatingDatabase">https://w3id.org/dpv/sector/finance/owl/#MaintainCreditRatingDatabase</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#MaintainCreditRatingDatabase">https://w3id.org/dpv/sector/finance#MaintainCreditRatingDatabase</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CreditChecking">sector-finance-owl:CreditChecking</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with maintaining a Credit Rating Database</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2022-06-15</i></td>
+        </tr>        
+<tr>
+          <th>Date Modified</th>
+          <td><i>2024-12-01</i></td>
+        </tr>       
+<tr>
+          <th>Contributors</th>
+          <td><i>[rdflib.term.BNode(&#39;n6a239d0453e94bcdbda9e425847a2e31b2&#39;), rdflib.term.BNode(&#39;n6a239d0453e94bcdbda9e425847a2e31b1&#39;)]</i></td>
+        </tr>       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PaymentProcessing">
+      <h4>Payment Processing</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PaymentProcessing</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Payment Processing</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#PaymentProcessing">https://w3id.org/dpv/sector/finance/owl/#PaymentProcessing</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#PaymentProcessing">https://w3id.org/dpv/sector/finance#PaymentProcessing</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with payment processing and related payment activities in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PersonalisedServiceProvision">
+      <h4>Personalised Service Provision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PersonalisedServiceProvision</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Personalised Service Provision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#PersonalisedServiceProvision">https://w3id.org/dpv/sector/finance/owl/#PersonalisedServiceProvision</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#PersonalisedServiceProvision">https://w3id.org/dpv/sector/finance#PersonalisedServiceProvision</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ServicePersonalisation">dpv-owl:ServicePersonalisation</a>
+             →             <a href="https://w3id.org/dpv/owl/#Personalisation">dpv-owl:Personalisation</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ServicePersonalisation">dpv-owl:ServicePersonalisation</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with providing personalised financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PhishingAttackManagement">
+      <h4>Phishing Attack Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PhishingAttackManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Phishing Attack Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#PhishingAttackManagement">https://w3id.org/dpv/sector/finance/owl/#PhishingAttackManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#PhishingAttackManagement">https://w3id.org/dpv/sector/finance#PhishingAttackManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FraudManagement">sector-finance-owl:FraudManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FraudManagement">sector-finance-owl:FraudManagement</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with discovery, handling, prediction, and assessment of phishing attacks in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ProductRecommendation">
+      <h4>Product Recommendation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ProductRecommendation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Product Recommendation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#ProductRecommendation">https://w3id.org/dpv/sector/finance/owl/#ProductRecommendation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#ProductRecommendation">https://w3id.org/dpv/sector/finance#ProductRecommendation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with providing product recommendations as part of financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+      
+      
+      
+     <section class="term-def" id="RegulatoryCompliance">
+      <h4>Regulatory Compliance</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RegulatoryCompliance</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Regulatory Compliance</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#RegulatoryCompliance">https://w3id.org/dpv/sector/finance/owl/#RegulatoryCompliance</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#RegulatoryCompliance">https://w3id.org/dpv/sector/finance#RegulatoryCompliance</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#LegalCompliance">dpv-owl:LegalCompliance</a>
+             →             <a href="https://w3id.org/dpv/owl/#FulfilmentOfObligation">dpv-owl:FulfilmentOfObligation</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with regulatory compliance assessment, documentation, and reporting activities in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+      
+      
+      
+      
+      
+     <section class="term-def" id="ServiceImprovement">
+      <h4>Service Improvement</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ServiceImprovement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Service Improvement</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#ServiceImprovement">https://w3id.org/dpv/sector/finance/owl/#ServiceImprovement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#ServiceImprovement">https://w3id.org/dpv/sector/finance#ServiceImprovement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ServiceOptimisation">dpv-owl:ServiceOptimisation</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with identifying, planning, and carrying out improvements to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ServiceProvision">
+      <h4>Service Provision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ServiceProvision</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Service Provision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#ServiceProvision">https://w3id.org/dpv/sector/finance/owl/#ServiceProvision</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#ServiceProvision">https://w3id.org/dpv/sector/finance#ServiceProvision</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with provision of financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="TaxReportingCompliance">
+      <h4>Tax Reporting Compliance</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>TaxReportingCompliance</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Tax Reporting Compliance</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#TaxReportingCompliance">https://w3id.org/dpv/sector/finance/owl/#TaxReportingCompliance</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#TaxReportingCompliance">https://w3id.org/dpv/sector/finance#TaxReportingCompliance</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RegulatoryCompliance">sector-finance-owl:RegulatoryCompliance</a>
+             →             <a href="https://w3id.org/dpv/owl/#LegalCompliance">dpv-owl:LegalCompliance</a>
+             →             <a href="https://w3id.org/dpv/owl/#FulfilmentOfObligation">dpv-owl:FulfilmentOfObligation</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RegulatoryCompliance">sector-finance-owl:RegulatoryCompliance</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with compliance assessment, documentation, and reporting activities in relation to taxation legislations for financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="TransactionFraudManagement">
+      <h4>Transaction Fraud Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>TransactionFraudManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Transaction Fraud Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#TransactionFraudManagement">https://w3id.org/dpv/sector/finance/owl/#TransactionFraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#TransactionFraudManagement">https://w3id.org/dpv/sector/finance#TransactionFraudManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FraudManagement">sector-finance-owl:FraudManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#FraudManagement">sector-finance-owl:FraudManagement</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with discovery, handling, prediction, and assessment of transaction frauds in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="TransactionReportingCompliance">
+      <h4>Transaction Reporting Compliance</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>TransactionReportingCompliance</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Transaction Reporting Compliance</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#TransactionReportingCompliance">https://w3id.org/dpv/sector/finance/owl/#TransactionReportingCompliance</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#TransactionReportingCompliance">https://w3id.org/dpv/sector/finance#TransactionReportingCompliance</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RegulatoryCompliance">sector-finance-owl:RegulatoryCompliance</a>
+             →             <a href="https://w3id.org/dpv/owl/#LegalCompliance">dpv-owl:LegalCompliance</a>
+             →             <a href="https://w3id.org/dpv/owl/#FulfilmentOfObligation">dpv-owl:FulfilmentOfObligation</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RegulatoryCompliance">sector-finance-owl:RegulatoryCompliance</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with compliance assessment, documentation, and reporting activities in relation to transaction reporting legislations for financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="WealthManagement">
+      <h4>Wealth Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>WealthManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-finance-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Wealth Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/finance/owl/#WealthManagement">https://w3id.org/dpv/sector/finance/owl/#WealthManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/finance#WealthManagement">https://w3id.org/dpv/sector/finance#WealthManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-finance-owl:ServiceProvision</a>
+             →             <a href="#FinancialServiceManagement">sector-finance-owl:FinancialServiceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with wealth management in relation to financial services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/finance#vocab-purposes">Sector-finance Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </section>
+  <section id="dpv-properties">
+    <h3>Properties</h3>       
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+  </section>
+  <section id="external-concepts">
+    <p>The following external concepts are re-used within DPV:</p>
+    <h3>External</h3>        
+      
+      
+        
+      
+       
+      
+       
+      
+       
+       
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+        
+       
+      
+      
+       
+       
+       
+       
+       
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+
+  </section>
+</section>
+
+</body>
+</html>

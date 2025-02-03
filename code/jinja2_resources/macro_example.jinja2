@@ -6,7 +6,7 @@
     <p><small>(<em>META</em> 
       Example ID: <a href="{{ex['iri']}}"><code>{{ex['term']}}</code></a>;
       {% if 'dct:source' in ex %}link: <a href="https://w3id.org/dpv/examples/{{ex['dct:source']}}">source file</a>;{% endif %}
-      contributed by {{ex['dct:contributor']}} on {{ex['dct:created']}})
+      contributed by {% for person in ex['dct:contributor']|ensure_list|resolve_concepts|sort(attribute='foaf:name') %}{{ person['foaf:name'] }}{{ ", " if not loop.last }}{% endfor %} on {{ex['dct:created']}})
     </small></p>
   </aside>
 {% endmacro %}
