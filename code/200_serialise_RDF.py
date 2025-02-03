@@ -262,7 +262,7 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     graph.add((vocab_iri, DCTERMS.conformsTo, Literal(str(RDFS)[:-1])))
     graph.add((vocab_iri, DCTERMS.conformsTo, Literal(str(SKOS)[:-1])))
     graph.add((vocab_iri, BIBO.doi, Literal("10.5281/zenodo.12505841")))
-    graph.add((vocab_iri, DCTERMS.bibliographicCitation, Literal("Data Privacy Vocabulary (DPV) -- Version 2. Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake https://doi.org/10.48550/arXiv.2404.13426")))
+    graph.add((vocab_iri, DCTERMS.bibliographicCitation, Literal("Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake (2025) Data Privacy Vocabulary (DPV) – Version 2.0. In: Demartini, G., et al. The Semantic Web – ISWC 2024. ISWC 2024. Lecture Notes in Computer Science, vol 15233. Springer, Cham. https://doi.org/10.1007/978-3-031-77847-6_10")))
     graph.add((vocab_iri, DCTERMS.publisher, URIRef("https://www.w3.org/")))
     graph.add((vocab_iri, FOAF.logo, URIRef("https://w3id.org/dpv/media/logo.png")))
     for lang in IMPORT_TRANSLATIONS:
