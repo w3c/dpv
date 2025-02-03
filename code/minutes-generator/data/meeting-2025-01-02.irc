@@ -1,0 +1,50 @@
+16:15:34 <RRSAgent> RRSAgent has joined #dpvcg
+16:15:44 <harsh> Scribe: harshPandit
+16:18:43 <harsh> ScribeNick: harsh
+16:15:47 <harsh> repo: w3c/dpv
+16:15:47 <ghurlbot> OK.
+16:15:55 <harsh> Meeting: DPVCG Meeting Call
+16:15:57 <harsh> Chair: harsh
+16:16:51 <harsh> Present: harshPandit, paulRyan, georgKrog, tyttiRintamaki, delaramGolpayegani, soheilRoshankish 
+16:18:43 <harsh> Regrets: beatrizEsteves
+16:17:14 <harsh> Date: 02 JAN 2025
+16:17:28 <harsh> Agenda: https://www.w3.org/events/meetings/bee43a5f-9537-4fb0-8f93-eaad94bfce47/
+16:17:37 <harsh> \ Meeting minutes: https://w3id.org/dpv/meetings
+16:17:47 <harsh> \ purl for this meeting: https://w3id.org/dpv/meetings/meeting-2025-01-02
+16:18:43 <harsh> \ See DPV v2.1 update: changelist / review tasks https://lists.w3.org/Archives/Public/public-dpvcg/2024Dec/0002.html
+16:17:47 <harsh> Topic: Changes needed for v2.1
+16:17:47 <harsh> harsh: In the course of completing the documentation for v2.1, e.g. while writing examples, several concepts were found missing which are needed for implementations and would be good to provide with this release.
+16:17:47 <harsh> Subtopic: Consent Controls
+16:17:47 <harsh> harsh: In consent controls, we have controls for providing and withdrawing consent, but not for rejecting consent. Therefore, added `dpv:RefuseConsent` as a control. Additionally, added `dpv:ManageConsent` as a control that is commonly used for multiple actions like provide, withdraw, and reaffirm. These concepts were found to be needed when writing the example for the notice layers and icons - https://dev.dpvcg.org/2.1-dev/dpv/modules/TOM#example-using-notice-layer-and-icon-in-a-consent-notice
+16:17:47 <harsh> georgKrog: Agree these should be modelled, though what is the wording on the control? How can implementations have correct phrasing like on buttons?
+16:17:47 <harsh> harsh: It is "refuse consent" and the accepting one is "provide consent" - these are modelled from the perspective of the data subject. In implementations, these can be used as is, or can be customised to suit the use-case.
+16:17:47 <harsh> georgKrog: The 27560 record lacks recording this information. How to store this information in a record?
+16:17:47 <harsh> harsh: 27560 only deals with the consent decision - so it only records the information associated with the processing that the consent is about, not the specifics of what was presented and what was shown. For that, we will need a record of 29184 - that's what I'm slowly working on. It won't be ready for v2.1, but the goal is to write data in DPV and then use that to generate a UI/UX for consent based on 29184, or vice-versa to record a notice using DPV based on 29184.
+16:17:47 <harsh> Subtopic: AI properties
+16:17:47 <harsh> harsh: I didn't find `ai:hasTechnique` and `ai:hasCapability` in the AI extension, and don't recall whether we discussed these and they didn't get added (mea culpa) or there are instead other properties for these?
+16:17:47 <harsh> delaramGolpayegani: I think for capability, the TECH extension had a property `tech:hasCapability` and that's why we didn't have it in AI.
+16:17:47 <harsh> harsh: yes, I see the property - though I think it would be good to also have it in AI since we extend the concept?
+16:17:47 <harsh> delaramGolpayegani: yes, both properties should be added.
+16:17:47 <harsh> ACTION: Add `ai:hasTechnique` and `ai:hasCapability` to AI
+16:17:47 <harsh> harsh: Should we reuse examples from your (Delaram's) thesis and work in the AI and AIAct extension? How can they be adapted?
+16:17:47 <harsh> delaramGolpayegani: yes, I think so - the Proctoring and Uber use-cases can be reused. The Proctoring example should be generic and can be put in AI, and the Uber use-case is based on existing decisions - so it can be put in AIAct or elsewhere based on concepts.
+16:17:47 <harsh> ACTION: Add examples to AI and AIAct extensions based on Delaram's existing examples
+16:17:47 <harsh> Subtopic: Legal Basis
+16:17:47 <harsh> harsh: For contracts, we have statuses in 2.1, but we need two concepts to represent 1) contracts being accepted or signed by all parties, and 2) contract being signed by some but not all parties.
+16:17:47 <harsh> georgKrog: yes, this should be modelled - generally the contract is said to be accepted when someone signs it.
+16:17:47 <harsh> harsh: Yes, from that entity's perspective. But how to represent _all parties_ have signed it, and only _some parties_ have signed and others are yet to sign? How about `PartiallyAccepted` and `Accepted`?
+16:17:47 <harsh> georgKrog: Not sure about the wording.
+16:17:47 <harsh> harsh: Let's keep this as a placeholder - if we find a better phrasing we can replace it.
+16:17:47 <harsh> ACTION: Create concepts to represent contract accepted by 1 party, N parties, and ALL parties
+16:17:47 <harsh> ACTION: FIX DPV Legal Basis module page - add status table for each basis section
+16:17:47 <harsh> Subtopic: GDPR Mappings
+16:17:47 <harsh> harsh: Added a simple table showing which concept in GDPR has which corresponding concept in DPV - https://dev.dpvcg.org/2.1-dev/legal/eu/gdpr/#mapping 
+16:17:47 <harsh> ACTION: Add references to the GDPR concept e.g. Art.4-1
+16:17:47 <harsh> P7012
+16:17:47 <harsh> harsh: Sharing updates - discussed with Iain and Beatriz in the last month. The idea is to provide these concepts in DPV as a draft extension. While P7012 models 'contracts', we use 'privacy term' to denote a term which can be combined or be used to create a contract on its own. These terms are then expressed using the DPV vocabulary. To express specifics - like something is permitted or is prohibited - we have 'privacy modifiers' e.g. tracking allowed or not allowed. This is to support explicit interpretations in jurisdictions where absence of permission or prohibition has differing interpretations.
+16:17:47 <harsh> Topic: Future Concepts
+16:17:47 <harsh> paulRyan: Would be good to have DPV used for data sharing agreements, controller-processing agreements, and such - now that we have contracts being modelled.
+16:17:47 <harsh> georgKrog: Agree - I went through hundreds of such agreements, and there are a lot of common clauses which we should represent. DPV would be a good resource of help here. These are related to Article 28.
+16:17:47 <harsh> harsh: Generally, representing the contracts and information in them should be in scope of DPV as we model GDPR and these are about instructions from controller to processor etc. - so we can certainly look at that. I've been thinking about something like a 'template' for contracts, DPIA, etc. which we can provide using DPV, which is then used in an use-case and populated with the use-case specific information.
+16:17:47 <harsh> Topic: Next Meeting
+16:17:47 <harsh> \ Next meeting is scheduled for THU JAN-09 13:30 WET / 14:30 CET. Harsh will circulate agenda/invite. For deciding on a regular meeting slot for the next year, Harsh will circulate a poll on Monday, and then we will take a decision based on that.

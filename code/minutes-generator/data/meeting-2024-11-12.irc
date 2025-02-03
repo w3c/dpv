@@ -1,0 +1,109 @@
+16:15:34 <RRSAgent> RRSAgent has joined #dpvcg
+16:15:38 <RRSAgent> logging to https://www.w3.org/2024/11/12-dpvcg-irc
+16:15:44 <harsh> Scribe: harsh
+16:15:47 <harsh> repo: w3c/dpv
+16:15:47 <ghurlbot> OK.
+16:15:55 <harsh> Meeting: DPVCG Meeting Call
+16:15:57 <harsh> Chair: harsh
+16:16:51 <harsh> Present: harsh, beatrizEsteves, paulRyan, delaramGolpayegani, georgKrog, catarinaSilva, julianFlake
+16:17:06 <harsh> Regrets: tyttiRintamaki
+16:17:14 <harsh> Date: 12 NOV 2024
+16:17:28 <harsh> Agenda: https://www.w3.org/events/meetings/0e21485e-d959-4f78-930a-bd66650adace/20241112T133000/
+16:17:37 <harsh> \ Meeting minutes: https://w3id.org/dpv/meetings
+16:17:47 <harsh> \purl for this meeting: https://w3id.org/dpv/meetings/meeting-2024-11-12
+16:18:43 <harsh> Topic: Integrating AIRO/VAIR
+16:19:28 <harsh> see issue #143
+16:19:28 <ghurlbot> https://github.com/w3c/dpv/issues/143 -> Issue 143 Integrate AIRO/VAIR concepts for AI and AI Act vocabulary (by coolharsh55) [todo] [help-wanted] [AI] [eu-aiact]
+16:20:09 <harsh> \ We reviewed the concepts proposed to be integrated from AIRO/VAIR using this spreadsheet - https://docs.google.com/spreadsheets/d/1DgVwEeIN9afSdBMYXmW_lnwZNAWKjhleqB512AIpf7Q/
+16:20:23 <harsh> Subtopic: AIRO
+16:20:50 <harsh> harsh: have added notes under the column _ed-note_ - most concepts are okay to integrate. So we will discuss the differences / open issues.
+16:22:06 <harsh> harsh: for `airo:AILifecyclePhase` I think we should use _Stage_ rather than _Phase_ as that is the term used in the ISO 22989 document. I tried to understand the difference between phase and stage, and apparently it is that phase is fuzzy it can go across different activities whereas stage is expected to be more discrete and things move from one stage to another.
+16:22:32 <harsh> harsh: `airo:Change` refers to AI Act requiring assessment of change. Delaram to review the concept resolution comment.
+16:23:10 <harsh> harsh: For risk controls, have added properties as discussed before e.g. `risk:mitigates` and the concept `risk:MitigationControl` as its domain and `dpv:RiskConcept` as its range.
+16:23:53 <harsh> harsh: For data, suggest we add `tech:hasInputData` and `tech:hasOutputData` along with classes for input/output data to enable expressing use of data in a technical manner while the main DPV continues modelling the legal context.
+16:25:02 <harsh> Subtopic: VAIR domains
+16:25:25 <harsh> harsh: These domains would be useful in other places as well. So perhaps we should add a note stating we may move this concept elsewhere?
+16:25:50 <harsh> delaramGolpayegani: yes, that is okay - we are providing these concepts as they are needed for AI Act e.g. to model the high-risk categorisations.
+16:26:21 <harsh> Subtopic: VAIR AI
+16:27:45 <harsh> harsh: Concepts are mostly resolved. My only reservation is regarding `ai/tech:MultiAgentSystem` which I don't think we should model right now because the term _Agent_ is also used in the legal domain and in AI domain its use is quickly evolving to a controversial stage because it also refers to independence. So we can look to model this carefully in v2.2.
+16:27:55 <harsh> \ group agreed to this resolution
+16:28:10 <harsh> Subtopic: VAIR component
+16:32:51 <harsh> harsh: Concepts are mostly okay, except for the use of `tech:Component` which in TECH is a role or a provision method rather than actually stating it is a component or a part. So we model those as `dpv:Technology` instead. The other change is `tech:Platform` which is also a relevant concept for DSA/DMA so we can reuse it there.
+16:33:10 <harsh> Subtopic: VAIR capability
+16:34:54 <harsh> harsh: Have added top concepts here to try to create a hierarchy. The only two concepts that need discussion are `ai:SensitiveAttributeInference` and `ai:Profiling`. For `ai:SensitiveAttributeInference` - there is no source in 22989. Do you rememner where this was obtained from?
+16:35:17 <harsh> delaramGolpayegani: probably from an earlier version of the AI Act - the parliament version.
+16:35:56 <harsh> harsh: Okay, IMO this is too specific and we shouldn't model this if isn't strictly needed in the context of AI capabilities. We can model it using DPV infer as processing and sensitive data.
+16:36:09 <harsh> delaramGolpayegani: Profiling in AI Act is dependant on the GDPR definition of profiling.
+16:36:51 <harsh> harsh: Okay, so in DPV we have just a generic definition of profiling. So the only difference here should be the use of AI to do profiling. Hence the simple defintion. We should model profiling as defined in GDPR in the EU-GDPR extension.
+16:36:55 <harsh> paulRyan: +1
+16:36:57 <harsh> georgKrog: +1
+16:37:21 <harsh> delaramGolpayegani: okay, so we add the definition in AI extension, but not the AI Act extension. If it is needed, we can extend it as a concept in the AI Act extension.
+16:37:32 <harsh> Subtopic: VAIR technique
+16:38:13 <harsh> harsh: all concepts are fairly technical and don't need any changes as such.
+16:38:19 <harsh> Subtopic: VAIR provision
+16:39:03 <harsh> harsh: These concepts existing in TECH, so nothing to be added here. Though in TECH, we model Software as a type of technology rather than a provision method as software can be provided as a product, service, etc. Safety component is defined in AI Act, so perhaps it is not needed as a subtype of component in TECH.
+16:39:11 <harsh> Subtopic: VAIR risk
+16:39:16 <harsh> harsh: am yet to review these
+16:39:46 <harsh> delaramGolpayegani: not sure how to model these as specific risk concepts
+16:40:19 <harsh> harsh: I just create a column called _Role_ and then enter `S,R,C,I` to indicate which category of risk concept it is, and then the table is generated automatically. I can review these concepts to see how to do that here.
+16:41:16 <harsh> georgKrog: the CEN/CENELEC work on standards is currently having issues with the definition of risk in ISO 31000 series as it is incompatible with the requirements of the Act
+16:41:38 <harsh> delaramGolpayegani: the definition in the AI Act is that risk is a combination of likelihood and severity for a harm. The one in ISO is generic.
+16:42:12 <harsh> harsh: What does this mean for DPV? We have defined risk also as a negative event but haven't included likelihood and severity in the definition. I think its mostly compatible?
+16:42:19 <harsh> delaramGolpayegani: I think so.
+16:42:36 <harsh> harsh: Let's check with Dave. He would have more context about the risk definition being discussed.
+16:42:47 <harsh> Subtopic: VAIR stakeholders
+16:44:00 <harsh> harsh: Propose we model the organisation types in DPV as they will be useful also elsewhere - have created a structure for this in the spreadsheet.
+16:44:17 <harsh> delaramGolpayegani: The AI Act has a definition for law enforcement authority
+16:44:53 <harsh> harsh: Wouldn't these concepts be commonly well known? Or is the AI Act redefining what they mean? I don't think so. But if they are needed in the AI Act, then we can extend them to state the entity as defined in the Act.
+16:45:15 <harsh> delaramGolpayegani: There is also the question of how to model _Agent_ as in agent acting on behalf of the entity.
+16:45:57 <harsh> harsh: As before, let's postpone this discussion as we should be careful in our approach for modelling agents as here they refer to the legal meaning and in the other place they were a technical concept. Is there a difference between Representative and Agent?
+16:46:09 <harsh> georgKrog: yes, they are different concepts
+16:46:26 <harsh> georgKrog: we can model these agents and state who they are acting on behalf of
+16:46:56 <harsh> harsh: Okay, let's make a note to discuss for v2.2: `LegalAgent` and its relation `actingOnBehalfOf`
+16:47:21 <harsh> ISSUE: Model `Agent` and `LegalAgent`
+16:47:22 <ghurlbot> Created -> issue #197 https://github.com/w3c/dpv/issues/197 Model `Agent` and `LegalAgent`
+16:47:46 <harsh> Subtopic: VAIR outputs
+16:49:59 <harsh> harsh: We are trying to model how the data is being used as an output? E.g. as an action, as a decision? So my worry is that the concept `ai:Action` might get mistaken to mean the action as an activity instead of being a data.
+16:50:12 <harsh> delaramGolpayegani: no, these are actions as in actions made by a robot
+16:51:50 <harsh> harsh: I see, so do we model these as `SystemInput` and `SystemOutput`?
+16:52:03 <harsh> delaramGolpayegani: maybe, but then how do we use these as an output of the model - which is different from a system?
+16:54:07 <harsh> harsh: good point, okay - so here some of these outputs may be data and `ai:Content` is always data. So we can represent content directly as output data, whereas for the other concepts we want to indicate how the outputs are being used i.e. their role. So can we remove `ai:Content` and model the rest as `OutputRole`? Delaram can make the decision of how to finalise this.
+16:54:15 <harsh> Subtopic: VAIR involvement
+16:55:05 <harsh> harsh: concepts are okay - two changes where I added prefix _Entity_ here to indicate these are specific to entities and added parent concept `EntityInvolvement` to have this be in that taxonomy and allow the reuse of property `hasEntityInvolvement` along with `hasIntentionStatus`.
+16:55:12 <harsh> Subtopic: VAIR lifecycle
+16:56:01 <harsh> harsh: the ISO 22989 describes these stages with specific words, so added some more proposed concepts - Delaram to review and finalise. Also added concepts from ISO 15288 for software development which can be in TECH, and then we extend them for AI
+16:56:14 <harsh> Subtopic: VAIR documentation
+16:57:13 <harsh> harsh: concepts are okay, though some are quite long at 48 characters `eu-aiact:PostMarketMonitoringSystemDocumentation` - any way to shorten these?
+16:57:24 <harsh> delaramGolpayegani: could shorten _Documentation_ to _Doc_ ?
+16:57:35 <harsh> harsh: doesn't read well and the AI Act uses the full phrase - so maybe lets keep it for now
+16:57:42 <harsh> Subtopic: VAIR purpose
+16:57:54 <harsh> harsh: These are still WIP - what should do with these?
+16:58:15 <harsh> delaramGolpayegani: review them as is - I started working on these but it isn't clear how to align them with the DPV purpose taxonomy
+16:58:38 <harsh> harsh: in general, I think we want to keep the breadth of top concepts narrow and have as much depth as needed as it helps in the selection process. I will take a look at these.
+16:59:19 <harsh> Subtopic: Bias work
+16:59:31 <harsh> delaramGolpayegani: the concepts for bias that were proposed by me and Daniel will be present in v2.1?
+16:59:39 <harsh> harsh: yes, we discussed and accepted them.
+17:00:04 <harsh> delaramGolpayegani: there is also the work by Mayra https://github.com/tibonto/Doc-BIAS which we are aligning with AIRO
+17:00:31 <harsh> harsh: okay, so what you can do is since we are adding your concepts to DPV, you can align these concepts with DPV v2.1 and then add them in v2.2
+17:01:14 <harsh> delaramGolpayegani: there is also an ontology on Machine Learning which we can mention for modelling more specific ML context
+17:01:19 <harsh> \ Note: to add these references to the HTML
+17:01:35 <harsh> Topic: v2.2 release
+17:02:31 <harsh> s/v2.2/v2.1/
+17:02:55 <harsh> ISSUE: DPV v2.1 release management
+17:02:56 <ghurlbot> Created -> issue #198 https://github.com/w3c/dpv/issues/198 DPV v2.1 release management
+17:03:11 <harsh> harsh: Let's use the remaining time to discuss which items we should complete in 2.1 and which ones to move in v2.2
+17:04:05 <harsh> harsh: so taking issues from https://github.com/w3c/dpv/milestone/5 and deciding whether they will be completed in v2.1, and if not then we move them to v2.2 https://github.com/w3c/dpv/milestone/7
+17:04:16 <harsh> \ group discussed and moved issues to v2.2 future release
+17:05:42 <harsh> harsh: For the release itself, do we think we will have this completed by DEC-17 which is likely to be our last DPVCG meeting this year?
+17:05:59 <harsh> julianFlake: there is an issue for NIS2 - so is the NIS2 extension complete?
+17:06:21 <harsh> harsh: No, the issue is only for creating the NIS2 extension, which is done, so we will add more NIS2 concepts in the next release
+17:07:19 <harsh> georgKrog: there is a NIS2 consultation paper recently published by ENISA (probably this - https://www.enisa.europa.eu/news/asking-for-your-feedback-enisa-technical-guidance-for-the-cybersecurity-measures-of-the-nis2-implementing-act)
+17:07:36 <harsh> georgKrog: there is also a Data Spaces webinar on NOV-22 (to be shared on mailing list)
+17:07:50 <harsh> julianFlake: we can have a release candidate in December, and then we have a final release in January
+17:07:56 <harsh> \ group agreed to this approach
+17:08:08 <harsh> Topic: Next Meeting
+17:08:57 <harsh> \ next meeting will be in 1 week on TUESDAY 19 November at 13:30 WEST / 14:40 CEST. Agenda will be discussing AIRO/VAIR integration, selecting the next set of items/issues on GitHub with any updates on github/mailing list and AOB. This meeting we also continue discussion and resolutions for publishing DPV 2.1 release.
+17:10:06 <harsh> harsh: Two important topics that are relevant for DPV 2.1 and we should aim to support them. First is the AI/AI Act stuff -we went through that today and we will be able to integrate that. Second is the set of concepts required for P7012 use of DPV, which I will discuss and propose together with Beatriz.
+17:10:14 <harsh> rrsagent, publish minutes v2
+17:10:15 <RRSAgent> I have made the request to generate https://www.w3.org/2024/11/12-dpvcg-minutes.html harsh
+17:10:17 <harsh> rrsagent, set logs world-visible
