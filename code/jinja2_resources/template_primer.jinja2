@@ -1,4 +1,4 @@
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 {% from 'macro_example.jinja2' import example_aside %}
 <!DOCTYPE html>
 <html>
@@ -11,12 +11,12 @@
     title: "Primer",
     subtitle: "Data Privacy Vocabulary (DPV)",
     shortName: "primer",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    publishDate: "2025-01-16",
+    specStatus: "CG-FINAL",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/primer",
     canonicalUri: "https://w3id.org/dpv/primer",
     edDraftURI: "https://dev.dpvcg.org/primer",
-    publishDate: "2024-08-01",
     // isPreview: true,
     subjectPrefix: "[primer]",
     doJsonLd: true,
@@ -30,6 +30,7 @@
     authors: [{
       name: "Harshvardhan J. Pandit",
       url: "https://harshp.com/",
+      orcid: "0000-0002-5068-3714",
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }, {
       name: "Georg P. Krog",
@@ -227,7 +228,7 @@
     <section class="notoc"><h4>Technical Organisational Measure</h4>
     <figure>
         <img src="../2.0/diagrams/overview_TechnicalOrganisationalMeasure.svg"/>
-        <figcaption>Specfiying Technical, Organisational, Legal, and Physical measures using DPV</figcaption>
+        <figcaption>Specifying Technical, Organisational, Legal, and Physical measures using DPV</figcaption>
       </figure>
     <blockquote>
       <p>see more information: 
@@ -266,7 +267,7 @@
   <section class="notoc"><h4>Technology</h4>
     <figure>
         <img src="../2.0/diagrams/overview_Technology.svg"/>
-        <figcaption>Specfiying Technology using DPV. The TECH extension provides additional concepts to describe the technology such as involved actors, intended use, capabilities and functions, and documentation</figcaption>
+        <figcaption>Specifying Technology using DPV. The TECH extension provides additional concepts to describe the technology such as involved actors, intended use, capabilities and functions, and documentation</figcaption>
       </figure>
     <blockquote>
       <p>see more information: 
@@ -366,10 +367,10 @@ ex:AcmeMarketing rdf:type dpv:Purpose ;
     <p>In addition to being used as a semantic web resource, the DPV can also be used without (or alongside) semantic web by utilising a format such as [[JSON-LD]] that retains the semantics and provides convenience of using JSON, or through other formats such as a CSV or a flat-list of concepts which do not capture 'semantics'. This section provides an overview of such approaches where DPV can be used both with and without semantic web.</p>
     <p>The following are four (non-exhaustive) ways DPV can be used based on the requirements of an use-case. For guidance on how to adopt DPV concepts within an use-case, refer to [[[GUIDES]]].</p>
     <ol>
-    <li>As a <b>taxonomy or collection of concepts</b>: The [[DPV]] specification provides taxonomies of concepts (e.g. <code>Purpose</code>). This is useful where only the 'taxonomy' in DPV is needed, for example to populate forms or annotate information. For this, the default serialisation of [[SKOS]] is useful, or implementers can utilise other formats such as CSVs or JSON while retaining the IRIs for interoperability.</li>
+    <li>As a <b>taxonomy or collection of concepts</b>: The [[DPV]] specification provides taxonomies of concepts (e.g. <code>Purpose</code>). This is useful where only the 'taxonomy' in DPV is needed, for example to populate forms or annotate information. For this, the default serialisation of [[SKOS]] is useful, or implementers can utilise other formats such as CSV or JSON while retaining the IRIs for interoperability.</li>
     <li>As a <b>'schema' or 'lightweight-ontology'</b>: The [[DPV]] uses [[RDFS]] and [[SKOS]] as its default serialisation to define 'classes' and 'properties' as well as 'taxonomies' that can be used with it (e.g. <code>hasPurpose</code> and instances of <code>Purpose</code> taxonomy). The classes and properties form a 'data model' or 'schema' to represent how information should be structured and organised, and do not contain any complex restrictions (e.g. unions and intersections of concepts). It is suitable for cases where the use-case wants to use DPV as a schema or data model or to describe its activities, and where creating constraints, inferences, or reasoning is either implemented separately (e.g. SWRL or SHACL) or is not required.</li>
     <li>As an <b>'logic-based ontology'</b>: The [[DPV-OWL]] is a serialisation of the [[DPV]] specification using [[OWL]] language that contains the same concepts but is provided under a separate namespace. It enables the use of description logic in [[OWL]] for modelling knowledge and describing desired inferences through a logic-based reasoner. OWL offers more powerful (and complex) features compared to RDFS+SKOS regarding expression of information and its use to produce desired inferences in a coherent manner. It also restricts ways in which DPV concepts can be used - see <a href="#example-implications-of-using-skos-vs-owl">example showing implications of using SKOS vs OWL</a>. Also see the [[[GUIDE-OWL2]]].</li>
-    <li><b>Other Uses</b>: For cases where the above are not suitable or sufficient, an adopter can create their own serialisation of the DPV by implementing the [[DPV]] specification in RDF (or other semantics-aware languages) or for alternate formats and environments such as CSVs, programming APIs, and frameworks. When using DPV in such a manner, it is advised to retain compatibility (and interoperability) by either using the entire IRI (e.g. <a href="https://w3id.org/dpv#Purpose">https://w3id.org/dpv#Purpose</a>) or providing documentation for how the custom implementation aligns with the [[DPV]] specification (e.g. stating <em>MyPurposeConcept</em> is the same as <code>dpv:Purpose</code>). Doing this ensures that the data remains compatible and interoperable with the other uses and applications of DPV.</li>
+    <li><b>Other Uses</b>: For cases where the above are not suitable or sufficient, an adopter can create their own serialisation of the DPV by implementing the [[DPV]] specification in RDF (or other semantics-aware languages) or for alternate formats and environments such as CSV, programming APIs, and frameworks. When using DPV in such a manner, it is advised to retain compatibility (and interoperability) by either using the entire IRI (e.g. <a href="https://w3id.org/dpv#Purpose">https://w3id.org/dpv#Purpose</a>) or providing documentation for how the custom implementation aligns with the [[DPV]] specification (e.g. stating <em>MyPurposeConcept</em> is the same as <code>dpv:Purpose</code>). Doing this ensures that the data remains compatible and interoperable with the other uses and applications of DPV.</li>
   </ol>
 </section>
     <section id="areas-application">
@@ -549,7 +550,7 @@ ex:AcmeMarketing rdf:type dpv:Purpose ;
 
   <section id="extension-ai">
     <h3>Artificial Intelligence (AI)</h3>
-    <p>[[[AI]]] is an extension under development which will further extend the [[TECH]] extension to represent concepts associated with AI. These will include representation of:</p>
+    <p>The [[[AI]]] extension provides concepts specifically regarding AI by extending the [[TECH]] extension. It consists of:</p>
     <ul>
       <li><strong>Techniques</strong> such as machine learning and natural language programming</li>
       <li><strong>Capabilities</strong> such as image recognition and text generation</li>
@@ -557,8 +558,8 @@ ex:AcmeMarketing rdf:type dpv:Purpose ;
       <li><strong>Risks</strong> such as data poisoning, statistical noise and bias, etc.</li>
       <li><strong>Risk Measures</strong> to address the AI specific risks</li>
       <li><strong>Documentation</strong> such as Data Sheets and Model Cards</li>
-      <li><strong>Actors</strong> such as AI Developer and AI Deployer</li>
-      <li><strong>Status</strong> associated with AI development</li>
+      <li><strong>Data</strong> associated with AI development, training, validation, and use.</li>
+      <li><strong>Systems and Models</strong> such as General Purpose, Robotics, Expert Systems.</li>
     </ul>
   </section>
 
@@ -572,38 +573,76 @@ ex:AcmeMarketing rdf:type dpv:Purpose ;
     <p>[[[LEGAL]]] provides concepts to represent laws, authorities, and other legal concepts in various jurisdictions. It is structured to create a separate namespace for each country or jurisdiction by using the ISO 3166-2 code, for example <code>IE</code> represents Ireland and <code>EU</code> represents the European Union. Within this namespace, the specific laws and authorities for that jurisdiction are defined.</p>
     <p>At the moment, the following jurisdictions are defined:</p>
     <ul>
-      <li>[[[LEGAL-DE]]]</li>
-      <li>[[[LEGAL-EU]]]</li>
-      <li>[[[LEGAL-GB]]]</li>
-      <li>[[[LEGAL-IE]]]</li>
-      <li>[[[LEGAL-IN]]]</li>
-      <li>[[[LEGAL-US]]]</li>
+      <li>[[LEGAL-EU]] representing (only) the European Union, with each Member State within the EU/EEA region being defined in its own separate namespace and extension to allow modelling both EU and Country-level laws and knowledge without conflicts:<ul>
+        <li>[[LEGAL-AT]] for Austria</li>
+        <li>[[LEGAL-BE]] for Belgium</li>
+        <li>[[LEGAL-BG]] for Bulgaria</li>
+        <li>[[LEGAL-CY]] for Cyprus</li>
+        <li>[[LEGAL-CZ]] for Czech Republic</li>
+        <li>[[LEGAL-DE]] for Germany</li>
+        <li>[[LEGAL-DK]] for Denmark</li>
+        <li>[[LEGAL-EE]] for Estonia</li>
+        <li>[[LEGAL-ES]] for Spain</li>
+        <li>[[LEGAL-FI]] for Finland</li>
+        <li>[[LEGAL-FR]] for France</li>
+        <li>[[LEGAL-GR]] for Greece</li>
+        <li>[[LEGAL-HR]] for Croatia</li>
+        <li>[[LEGAL-HU]] for Hungary</li>
+        <li>[[LEGAL-IE]] for Ireland</li>
+        <li>[[LEGAL-IS]] for Iceland</li>
+        <li>[[LEGAL-IT]] for Italy</li>
+        <li>[[LEGAL-LI]] for Liechtenstein</li>
+        <li>[[LEGAL-LT]] for Lithuania</li>
+        <li>[[LEGAL-LU]] for Luxembourg</li>
+        <li>[[LEGAL-LV]] for Latvia</li>
+        <li>[[LEGAL-MT]] for Malta</li>
+        <li>[[LEGAL-NL]] for Netherlands</li>
+        <li>[[LEGAL-NO]] for Norway</li>
+        <li>[[LEGAL-PL]] for Poland</li>
+        <li>[[LEGAL-PT]] for Portugal</li>
+        <li>[[LEGAL-RO]] for Romania</li>
+        <li>[[LEGAL-SE]] for Sweden</li>
+        <li>[[LEGAL-SI]] for Slovenia</li>
+        <li>[[LEGAL-SK]] for Slovakia</li>
+        </ul></li>
+      <li>[[LEGAL-GB]] for Great Britain and Northern Ireland</li>
+      <li>[[LEGAL-IN]] for India</li>
+      <li>[[LEGAL-US]] for United States of America</li>
     </ul>
-    <p>At the moment, the following EU laws are defined:</p>
-    <section id="extension-eu-gdpr">
-      <h4>EU GDPR</h4>
-      <p>While several of DPV's concepts are inspired from the GDPR, the use of DPV itself does not point towards specific concepts from GDPR such as legal bases in Article.6. This is to enable use of DPV with different jurisdictional and domain terminologies through the use of extensions. [[[EU-GDPR]]] provides an extension of DPV's concepts for the [[GDPR]] for the following non-exhaustive list of concepts:</p>
-      <ul>
-        <li><strong>Legal Bases (Art.6)</strong> - DPV's legal bases are extended to represent specific clauses from GDPR Art.6 (e.g. A.6-1a consent).</li>
-        <li><strong>Legal Bases (Art.9)</strong> - DPV's legal bases are extended to represent specific clauses from GDPR Art.9 (e.g. A.9-2a explicit consent).</li>
-        <li><strong>Legal Bases (Data Transfers)</strong> - DPV's <code>DataTransferLegalBasis</code> is extended to represent GDPR's Articles 45, 46, and 49.</li>
-        <li><strong>Data Transfer Tools</strong> - Mechanisms defined by the GDPR for data transfers, e.g. contractual clauses.</li>
-        <li><strong>DPIA</strong> - Statuses for representing DPIA related procedures and outcomes, e.g. necessity, high-risk, and consultation required.</li>
+    <p>Within the [[LEGAL-EU]] extension namespace, the following laws are defined as separate extensions with their own namespaces:</p>
+    <ul>
+      <li>[[[EU-GDPR]]]</li>
+      <li>[[[EU-DGA]]]</li>
+      <li>[[[EU-NIS2]]]</li>
+      <li>[[[EU-AIAct]]]</li>
+      <li>[[[EU-EHDS]]]</li>
+      <li>[[[EU-RIGHTS]]]</li>
       </ul>
-    </section>
-    <section id="extension-eu-dga">
-      <h4>EU DGA</h4>
-      <p>The [[[EU-DGA]]] extension provides concepts for the [[[DGA]]].</p>
-    </section>
-    <section id="extension-eu-aiact">
-      <h4>EU AI Act</h4>
-      <p>The [[[EU-AIAct]]] extension provides concepts for the [[[AIAct]]].</p>
-    </section>
-    <section id="extension-eu-nis2">
-      <h4>EU NIS2</h4>
-      <p>The [[[EU-NIS2]]] extension provides concepts for the [[[NIS2]]].</p>
-    </section>
   </section>
+
+  <section id="extension-sector">
+    <h3>Sector</h3>
+    <p>[[SECTOR]] provides extensions modelling specific sectors by using those sector-specific concepts, terms, and modelling which extends the concepts in other DPV extensions. At the moment, it only extends the Purpose taxonomy in [[DPV]]. In the future, we plan to provide more concepts such as Data and PersonalData categories.</p>
+    <p>The following sectorial extensions are currently provided:</p>
+    <ul>
+      <li>[[SECTOR-EDUCATION]] for Education Sector</li>
+      <li>[[SECTOR-FINANCE]] for Finance Sector</li>
+      <li>[[SECTOR-HEALTH]] for Health Sector</li>
+      <li>[[SECTOR-INFRA]] for (Critical) Infrastructure Sector</li>
+      <li>[[SECTOR-LAW]] for Law Enforcement & Justice Sector</li>
+      <li>[[SECTOR-PUBLICSERVICES]] for Public Services Sector</li>
+    </ul>
+  </section>
+
+  <section id="extension-standards">
+    <h3>Standards</h3>
+    <p>The STANDARD extensions model specific concepts and processes along with the terminology defined and used within specific standards. The goal of this is to represent concepts and processes defined in standards produced in forums such as ISO, CEN/CENELEC, NIST, and IEEE so that they can be used with DPV. It is not intended to duplicate the existing standards, especially when they are already provided as semantic web representations.</p>
+    <p>The following standards are currently provided:</p>
+    <ul>
+      <li>[[STANDARD-P7012]] for [[[IEEE-P7012]]]</li>
+    </ul>
+  </section>
+</section>
 
   <section id="working-notes" class="notoc">
     <h3>Notes</h3>

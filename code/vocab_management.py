@@ -4,7 +4,7 @@
 '''Data and configurations for vocabulary management'''
 
 import csv
-from rdflib import Namespace
+from rdflib import Namespace, BNode, Literal
 
 import logging
 logging.basicConfig(
@@ -101,10 +101,11 @@ NS.ns = { k:v for k,v in NAMESPACES.items() }
 # === Import/Export for RDF and HTML ===
 
 # DPV Version
-DPV_VERSION = "2.1-dev"
-DPV_PUBLISH_DATE = "2024-08-18"
+DPV_VERSION = "2.1"
+DPV_PREVIOUS_VERSION = "2.0"
+DPV_PUBLISH_DATE = "2025-02-01"
 # Document status: should be one of CG-DRAFT or CG-FINAL
-DOCUMENT_STATUS = "CG-FINAL"
+DOCUMENT_STATUS = "CG-DRAFT"
 
 # Root folder to import RDF files from
 IMPORT_PATH = f'../{DPV_VERSION}'
@@ -205,7 +206,7 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/ContractStatus.csv',
         },
         'contract_clause': {
-            'classes': f'{IMPORT_CSV_PATH}/ContractClause.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/ContractClause.csv',
         },
         'contract_control': {
             'classes': f'{IMPORT_CSV_PATH}/ContractControl.csv',
@@ -246,6 +247,32 @@ CSVFILES = {
             'properties': f'{IMPORT_CSV_PATH}/Rules_properties.csv',
         },
     },
+    'p7012': {
+        'entities': {
+            'classes': f'{IMPORT_CSV_PATH}/p7012_entities.csv',
+            'properties': f'{IMPORT_CSV_PATH}/p7012_entities_properties.csv',
+        },
+        'process': {
+            'classes': f'{IMPORT_CSV_PATH}/p7012_process.csv',
+            'properties': f'{IMPORT_CSV_PATH}/p7012_process_properties.csv',
+        },
+        'agreement': {
+            'p7012-terms': f'{IMPORT_CSV_PATH}/p7012_agreement.csv',
+        },
+        'status': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_status.csv',
+        },
+        'data': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_data.csv',
+        },
+        'purpose': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_purpose.csv',
+        },
+        'privacy_term': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_privacy_term.csv',
+            'properties': f'{IMPORT_CSV_PATH}/p7012_privacy_term_properties.csv',
+        },
+    },
     'pd': {
         'core': {
             'taxonomy': f'{IMPORT_CSV_PATH}/pd-core.csv',
@@ -266,6 +293,9 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-actors.csv',
             'properties': f'{IMPORT_CSV_PATH}/tech-actors-properties.csv',
         },
+        'io': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/tech-io.csv',
+        },
         'comms': {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-comms.csv',
         },
@@ -278,11 +308,13 @@ CSVFILES = {
         },
         'tools': {
             'taxonomy': f'{IMPORT_CSV_PATH}/tech-tools.csv',
+            'properties': f'{IMPORT_CSV_PATH}/tech-tools-properties.csv',
         }, 
     },
     'ai': {
         'core': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/ai-core.csv'
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-core.csv',
+            'properties': f'{IMPORT_CSV_PATH}/ai-properties.csv'
         },
         'techniques': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-techniques.csv'
@@ -291,19 +323,26 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-capabilities.csv'
         },
         'risks': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/ai-risks.csv'
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/ai-risks.csv'
         },
         'measures': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-measures.csv'
         },
-        'bias': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/ai-bias.csv'
+        'systems': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-systems.csv'
+        },
+        'data': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-data.csv',
+            'properties': f'{IMPORT_CSV_PATH}/ai-data-properties.csv'
+        },
+        'lifecycle': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-lifecycle.csv'
         },
     },
     'risk': {
-        'core': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/Risk.csv',
-            'properties': f'{IMPORT_CSV_PATH}/Risk_properties.csv',
+        'risk_management': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/RiskManagement.csv',
+            'properties': f'{IMPORT_CSV_PATH}/RiskManagement_properties.csv',
         },
         'risk_levels': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskLevels.csv',
@@ -313,12 +352,14 @@ CSVFILES = {
         },
         'risk_controls': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskControls.csv',
+            'properties': f'{IMPORT_CSV_PATH}/RiskControls_properties.csv',
         },
         'risk_taxonomy': {
-            'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskConsequences.csv',
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskEvents.csv',
         },
         'incident': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Incident.csv',
+            'properties': f'{IMPORT_CSV_PATH}/Incident_properties.csv',
         },
         'incident_status': {
             'taxonomy': f'{IMPORT_CSV_PATH}/IncidentStatus.csv',
@@ -338,15 +379,45 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/Justifications_Exercise.csv',
         },
     },
-    # 'loc': {
-    #     'locations': {
-    #         'locations': f'{IMPORT_CSV_PATH}/location.csv',
-    #         'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
-    #     },
-    #     'memberships': {
-    #         'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
-    #     },
-    # },
+    'sector-education': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Education.csv',
+        },
+    },
+    'sector-finance': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Finance.csv',
+        },
+    },
+    'sector-health': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Healthcare.csv',
+        },
+    },
+    'sector-infra': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Infrastructure.csv',
+        },
+    },
+    'sector-law': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Justice.csv',
+        },
+    },
+    'sector-publicservices': {
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_PublicServices.csv',
+        },
+    },
+    'loc': {
+        'locations': {
+            'locations': f'{IMPORT_CSV_PATH}/location.csv',
+            'properties': f'{IMPORT_CSV_PATH}/location_properties.csv',
+        },
+        'memberships': {
+            'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
+        },
+    },
     # Laws-Authorities
     'legal-at': {
         'at': {
@@ -521,6 +592,9 @@ CSVFILES = {
 
     # EU Regulations
     'eu-gdpr': {
+        'misc_concepts': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_MiscConcepts.csv',
+        },
         'legal_basis': {
             'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_LegalBasis.csv',
         },
@@ -532,6 +606,12 @@ CSVFILES = {
         },
         'rights': {
             'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_LegalRights.csv',
+        },
+        'rights_impacts': {
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/GDPR_LegalRights_Impacts.csv',
+        },
+        'rights_justifications': {
+            'gdpr-rights-justifications': f'{IMPORT_CSV_PATH}/GDPR_LegalRights_Justifications.csv',
         },
         'data_transfers': {
             'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_DataTransfers.csv',
@@ -564,6 +644,9 @@ CSVFILES = {
         'legal_rights': {
             'taxonomy': f'{IMPORT_CSV_PATH}/DGA_LegalRights.csv',
         },
+        'rights_impacts': {
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/DGA_LegalRights_Impacts.csv',
+        },
         'services': {
             'taxonomy': f'{IMPORT_CSV_PATH}/DGA_Services.csv',
         },
@@ -576,6 +659,9 @@ CSVFILES = {
         'entities': {
             'taxonomy': f'{IMPORT_CSV_PATH}/DGA_entities.csv',
             'properties': f'{IMPORT_CSV_PATH}/DGA_properties.csv',
+        },
+        'compliance': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/DGA_compliance.csv',
         },
     },
     'eu-aiact': {
@@ -599,6 +685,7 @@ CSVFILES = {
         },
         'status': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-status.csv',
+            'properties': f'{IMPORT_CSV_PATH}/aiact-status-properties.csv',
         },
         'misc': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-misc.csv',
@@ -606,15 +693,41 @@ CSVFILES = {
         'assessment': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-assessment.csv',
         },
+        'compliance': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-compliance.csv',
+        },
+        'sector': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-sector.csv',
+        },
     },
     'eu-nis2': {
         'notice': {
             'taxonomy': f'{IMPORT_CSV_PATH}/NIS2_Notice.csv',
-        }
+        },
+        'compliance': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/NIS2_compliance.csv',
+        },
+    },
+    'eu-ehds': {
+        'data': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Data.csv',
+        },
+        'purposes': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Purpose.csv',
+        },
+        'entities': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Entities.csv',
+        },
+        'process': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Process.csv',
+        },
     },
     'eu-rights': {
         'fundamental': {
             'taxonomy': f'{IMPORT_CSV_PATH}/EUFundamentalRights.csv',
+        },
+        'impacts': {
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/EUFundamentalRights_Impacts.csv',
         },
     },
 }
@@ -745,6 +858,31 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
+    # STANDARDS
+    'p7012': {
+        'vocab': f'{IMPORT_PATH}/standards/p7012/p7012.ttl',
+        'template': 'template_p7012.jinja2',
+        'export': f'{EXPORT_PATH}/standards/p7012',
+        'modules': {
+            'entities': f'{IMPORT_PATH}/standards/p7012/modules/entities.ttl',
+            'process': f'{IMPORT_PATH}/standards/p7012/modules/process.ttl',
+            'agreement': f'{IMPORT_PATH}/standards/p7012/modules/agreement.ttl',
+            'status': f'{IMPORT_PATH}/standards/p7012/modules/status.ttl',
+            'data': f'{IMPORT_PATH}/standards/p7012/modules/data.ttl',
+            'purpose': f'{IMPORT_PATH}/standards/p7012/modules/purpose.ttl',
+            'privacy_term': f'{IMPORT_PATH}/standards/p7012/modules/privacy_term.ttl',
+        },
+        'metadata': {
+            "dct:title": "Extension for IEEE P7012",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for implementing IEEE P7012",
+            "dct:created": "2025-01-12",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit, Iain Henderson, Beatriz Esteves",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
     # EXTENSIONS
     'pd': {
         'vocab': f'{IMPORT_PATH}/pd/pd.ttl',
@@ -777,13 +915,14 @@ RDF_VOCABS = {
             'docs': f'{IMPORT_PATH}/tech/modules/docs.ttl',
             'status': f'{IMPORT_PATH}/tech/modules/status.ttl',
             'tools': f'{IMPORT_PATH}/tech/modules/tools.ttl',
+            'io': f'{IMPORT_PATH}/tech/modules/io.ttl',
         },
         'metadata': {
             "dct:title": "Technology Concepts",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information about technologies and its provision",
             "dct:created": "2024-05-31",
             "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Harshvardhan J. Pandit, Georg P Krog, Paul Ryan, Julian Flake, Delaram Golpayegani",
+            "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog, Paul Ryan, Julian Flake, Delaram Golpayegani",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             "bibo:status": "published",
@@ -799,7 +938,9 @@ RDF_VOCABS = {
             'capabilities': f'{IMPORT_PATH}/ai/modules/capabilities.ttl',
             'risks': f'{IMPORT_PATH}/ai/modules/risks.ttl',
             'measures': f'{IMPORT_PATH}/ai/modules/measures.ttl',
-            'bias': f'{IMPORT_PATH}/ai/modules/bias.ttl',
+            'systems': f'{IMPORT_PATH}/ai/modules/systems.ttl',
+            'data': f'{IMPORT_PATH}/ai/modules/data.ttl',
+            'lifecycle': f'{IMPORT_PATH}/ai/modules/lifecycle.ttl',
         },
         'metadata': {
             "dct:title": "AI Technology Concepts",
@@ -809,7 +950,7 @@ RDF_VOCABS = {
             "dct:creator": "Delaram Golpayegani, Harshvardhan J. Pandit",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "tech",
-            "bibo:status": "draft",
+            "bibo:status": "published",
         },
     },
     'risk': {
@@ -817,7 +958,7 @@ RDF_VOCABS = {
         'template': 'template_risk.jinja2',
         'export': f'{EXPORT_PATH}/risk',
         'modules': {
-            'core': f'{IMPORT_PATH}/risk/modules/core.ttl',
+            'risk_management': f'{IMPORT_PATH}/risk/modules/risk_management.ttl',
             'risk_taxonomy': f'{IMPORT_PATH}/risk/modules/risk_taxonomy.ttl',
             'risk_levels': f'{IMPORT_PATH}/risk/modules/risk_levels.ttl',
             'risk_matrix': f'{IMPORT_PATH}/risk/modules/risk_matrix.ttl',
@@ -874,6 +1015,132 @@ RDF_VOCABS = {
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             "bibo:status": "published",
+        },
+    },
+    # SECTOR VOCABS
+    'sector-education': {
+        'vocab': f'{IMPORT_PATH}/sector/education/sector-education.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/education',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/education/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Education Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the education sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector-finance': {
+        'vocab': f'{IMPORT_PATH}/sector/finance/sector-finance.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/finance',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/finance/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Finance Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the finance sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector-health': {
+        'vocab': f'{IMPORT_PATH}/sector/health/sector-health.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/health',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/health/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Health Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the health sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector-infra': {
+        'vocab': f'{IMPORT_PATH}/sector/infra/sector-infra.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/infra',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/infra/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Infrastructure Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the infrastructure sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector-law': {
+        'vocab': f'{IMPORT_PATH}/sector/law/sector-law.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/law',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/law/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Law Enforcement & Justice Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the law enforcement and justice sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector-publicservices': {
+        'vocab': f'{IMPORT_PATH}/sector/publicservices/sector-publicservices.ttl',
+        'template': 'template_sector.jinja2',
+        'export': f'{EXPORT_PATH}/sector/publicservices',
+        'modules': {
+            'purposes': f'{IMPORT_PATH}/sector/publicservices/modules/purposes.ttl',
+        },
+        'metadata': {
+            "dct:title": "Public Services Sector Concepts",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the public services sector",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
+    'sector': {
+        'vocab': f'{IMPORT_PATH}/sector/sector.ttl',
+        'template': 'template_sector_index.jinja2',
+        'export': f'{EXPORT_PATH}/sector',
+        'modules': {},
+        'metadata': {
+            "dct:title": "Sector-Specific Concepts for DPV",
+            "dct:description": "Sector-specific Extensions to the Data Privacy Vocabulary (DPV)",
+            "dct:created": "2024-12-17",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/sector',
+            "bibo:status": "draft",
         },
     },
     # LEGAL VOCABS
@@ -1548,10 +1815,13 @@ RDF_VOCABS = {
         'template': 'template_legal_eu_gdpr.jinja2',
         'export': f'{EXPORT_PATH}/legal/eu/gdpr',
         'modules': {
+            'misc_concepts': f'{IMPORT_PATH}/legal/eu/gdpr/modules/misc_concepts.ttl',
             'legal_basis': f'{IMPORT_PATH}/legal/eu/gdpr/modules/legal_basis.ttl',
             'legal_basis-special': f'{IMPORT_PATH}/legal/eu/gdpr/modules/legal_basis_special.ttl',
             'legal_basis-data_transfer': f'{IMPORT_PATH}/legal/eu/gdpr/modules/legal_basis_data_transfer.ttl',
             'rights': f'{IMPORT_PATH}/legal/eu/gdpr/modules/rights.ttl',
+            'rights-impacts': f'{IMPORT_PATH}/legal/eu/gdpr/modules/rights_impacts.ttl',
+            'rights-justifications': f'{IMPORT_PATH}/legal/eu/gdpr/modules/rights_justifications.ttl',
             'data_transfers': f'{IMPORT_PATH}/legal/eu/gdpr/modules/data_transfers.ttl',
             'dpia': f'{IMPORT_PATH}/legal/eu/gdpr/modules/dpia.ttl',
             'data_breach': f'{IMPORT_PATH}/legal/eu/gdpr/modules/data_breach.ttl',
@@ -1579,9 +1849,11 @@ RDF_VOCABS = {
             'entities': f'{IMPORT_PATH}/legal/eu/dga/modules/entities.ttl',
             'legal_basis': f'{IMPORT_PATH}/legal/eu/dga/modules/legal_basis.ttl',
             'legal_rights': f'{IMPORT_PATH}/legal/eu/dga/modules/legal_rights.ttl',
+            'rights-impacts': f'{IMPORT_PATH}/legal/eu/dga/modules/rights_impacts.ttl',
             'registers': f'{IMPORT_PATH}/legal/eu/dga/modules/registers.ttl',
             'services': f'{IMPORT_PATH}/legal/eu/dga/modules/services.ttl',
             'toms': f'{IMPORT_PATH}/legal/eu/dga/modules/toms.ttl',
+            'compliance': f'{IMPORT_PATH}/legal/eu/dga/modules/compliance.ttl',
         },
         'metadata': {
             "dct:title": "EU Data Governance Act (DGA)",
@@ -1608,16 +1880,18 @@ RDF_VOCABS = {
             'status': f'{IMPORT_PATH}/legal/eu/aiact/modules/status.ttl',
             'misc': f'{IMPORT_PATH}/legal/eu/aiact/modules/misc.ttl',
             'assessment': f'{IMPORT_PATH}/legal/eu/aiact/modules/assessment.ttl',
+            'compliance': f'{IMPORT_PATH}/legal/eu/aiact/modules/compliance.ttl',
+            'sector': f'{IMPORT_PATH}/legal/eu/aiact/modules/sector.ttl',
         },
         'metadata': {
-            "dct:title": "EU AI Act",
+            "dct:title": "EU Artificial Intelligence Act (AI Act)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU AI Act",
             "dct:created": "2024-04-10",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Delaram Golpayegani",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
-            "bibo:status": "draft",
+            "bibo:status": "published",
         },
     },
     'eu-nis2': {
@@ -1626,9 +1900,10 @@ RDF_VOCABS = {
         'export': f'{EXPORT_PATH}/legal/eu/nis2',
         'modules': {
             'notice': f'{IMPORT_PATH}/legal/eu/nis2/modules/notice.ttl',
+            'compliance': f'{IMPORT_PATH}/legal/eu/nis2/modules/compliance.ttl',
         },
         'metadata': {
-            "dct:title": "EU NIS2",
+            "dct:title": "EU Network and Information Services Directive (NIS2)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU NIS2",
             "dct:created": "2024-05-19",
             "dct:modified": DPV_PUBLISH_DATE,
@@ -1638,11 +1913,35 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
+    'eu-ehds': {
+        'vocab': f'{IMPORT_PATH}/legal/eu/ehds/eu-ehds.ttl',
+        'template': 'template_legal_eu_ehds.jinja2',
+        'export': f'{EXPORT_PATH}/legal/eu/ehds',
+        'modules': {
+            'data': f'{IMPORT_PATH}/legal/eu/ehds/modules/data.ttl',
+            'purposes': f'{IMPORT_PATH}/legal/eu/ehds/modules/purposes.ttl',
+            'entities': f'{IMPORT_PATH}/legal/eu/ehds/modules/entities.ttl',
+            'process': f'{IMPORT_PATH}/legal/eu/ehds/modules/process.ttl',
+        },
+        'metadata': {
+            "dct:title": "EU European Health Data Spaces (EHDS)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU Health Data Spaces (EHDS)",
+            "dct:created": "2024-12-01",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Beatriz Esteves, Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            "bibo:status": "draft",
+        },
+    },
     'eu-rights': {
         'vocab': f'{IMPORT_PATH}/legal/eu/rights/eu-rights.ttl',
         'template': 'template_legal_eu_rights.jinja2',
         'export': f'{EXPORT_PATH}/legal/eu/rights',
-        'modules': {},
+        'modules': {
+            'fundamental': f'{IMPORT_PATH}/legal/eu/rights/modules/fundamental.ttl',
+            'impacts': f'{IMPORT_PATH}/legal/eu/rights/modules/impacts.ttl',
+        },
         'metadata': {
             "dct:title": "EU Fundamental Rights and Freedoms",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information associated with EU's Fundamental Rights and Freedoms",
@@ -1651,7 +1950,7 @@ RDF_VOCABS = {
             "dct:creator": "Harshvardhan J. Pandit",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
-            "bibo:status": "draft",
+            "bibo:status": "published",
         },
     },
 }
@@ -1661,6 +1960,10 @@ RDF_STRUCTURE = {
     'dpv': {
         'main': f'{EXPORT_RDF_PATH}/dpv',
         'modules': f'{EXPORT_RDF_PATH}/dpv/modules',
+    },
+    'p7012': {
+        'main': f'{EXPORT_RDF_PATH}/standards/p7012',
+        'modules': f'{EXPORT_RDF_PATH}/standards/p7012/modules',
     },
     'pd': {
         'main': f'{EXPORT_RDF_PATH}/pd',
@@ -1681,6 +1984,30 @@ RDF_STRUCTURE = {
     'justifications': {
         'main': f'{EXPORT_RDF_PATH}/justifications',
         'modules': f'{EXPORT_RDF_PATH}/justifications/modules',
+    },
+    'sector-education': {
+        'main': f'{EXPORT_RDF_PATH}/sector/education',
+        'modules': f'{EXPORT_RDF_PATH}/sector/education/modules',
+    },
+    'sector-finance': {
+        'main': f'{EXPORT_RDF_PATH}/sector/finance',
+        'modules': f'{EXPORT_RDF_PATH}/sector/finance/modules',
+    },
+    'sector-health': {
+        'main': f'{EXPORT_RDF_PATH}/sector/health',
+        'modules': f'{EXPORT_RDF_PATH}/sector/health/modules',
+    },
+    'sector-infra': {
+        'main': f'{EXPORT_RDF_PATH}/sector/infra',
+        'modules': f'{EXPORT_RDF_PATH}/sector/infra/modules',
+    },
+    'sector-law': {
+        'main': f'{EXPORT_RDF_PATH}/sector/law',
+        'modules': f'{EXPORT_RDF_PATH}/sector/law/modules',
+    },
+    'sector-publicservices': {
+        'main': f'{EXPORT_RDF_PATH}/sector/publicservices',
+        'modules': f'{EXPORT_RDF_PATH}/sector/publicservices/modules',
     },
     'loc': {
         'main': f'{EXPORT_RDF_PATH}/loc',
@@ -1841,6 +2168,10 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/eu/nis2',
         'modules': f'{EXPORT_RDF_PATH}/legal/eu/nis2/modules',
     },
+    'eu-ehds': {
+        'main': f'{EXPORT_RDF_PATH}/legal/eu/ehds',
+        'modules': f'{EXPORT_RDF_PATH}/legal/eu/ehds/modules',
+    },
     'eu-rights': {
         'main': f'{EXPORT_RDF_PATH}/legal/eu/rights',
         'modules': f'{EXPORT_RDF_PATH}/legal/eu/rights/modules',
@@ -1926,7 +2257,11 @@ query = {
             }}
             """
         }
-for loc in ('eu', 'de', 'ie', 'gb', 'us', 'in'):
+for loc in (
+        'at','be','bg','cy','cz','de','dk','ee','es','eu',
+        'fi','fr','gb','gr','hr','hu','ie','in','is','it',
+        'li','lt','lu','lv','mt','nl','no','pl','pt','ro',
+        'se','si','sk','us',):
     if f'legal-{loc}' not in RDF_EXPORT_HOOK:
         RDF_EXPORT_HOOK[f'legal-{loc}'] = []
     RDF_EXPORT_HOOK[f'legal-{loc}'].append(query)
@@ -1979,6 +2314,59 @@ GUIDES = {
     },
 }
 
+# === mappings ===
+MAPPINGS = {
+    'dcat': {
+        'template': 'template_mappings_dcat.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/dcat',
+        'output': '../mappings/dcat/index.html',
+        'rdf': '../mappings/dcat/dpv-dcat.ttl',
+        'title': 'Mapping from DPV to DCAT',
+    },
+    'dct': {
+        'template': 'template_mappings_dct.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/dct',
+        'output': '../mappings/dct/index.html',
+        'rdf': '../mappings/dct/dpv-dct.ttl',
+        'title': 'Mapping from DPV to DCT',
+    },
+    'gist': {
+        'template': 'template_mappings_gist.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/gist',
+        'output': '../mappings/gist/index.html',
+        'rdf': '../mappings/gist/dpv-gist.ttl',
+        'title': 'Mapping from DPV to GIST',
+    },
+    'odrl': {
+        'template': 'template_mappings_odrl.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/odrl',
+        'output': '../mappings/odrl/index.html',
+        'rdf': '../mappings/odrl/dpv-odrl.ttl',
+        'title': 'Mapping from DPV to ODRL',
+    },
+    'prov': {
+        'template': 'template_mappings_prov.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/prov',
+        'output': '../mappings/prov/index.html',
+        'rdf': '../mappings/prov/dpv-prov.ttl',
+        'title': 'Mapping from DPV to PROV',
+    },
+    'schema.org': {
+        'template': 'template_mappings_schema.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/schema.org',
+        'output': '../mappings/schema.org/index.html',
+        'rdf': '../mappings/schema/dpv-schema.org.ttl',
+        'title': 'Mapping from DPV to Schema.org',
+    },
+    'semic': {
+        'template': 'template_mappings_semic.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/semic',
+        'output': '../mappings/semic/index.html',
+        'rdf': '../mappings/semic/dpv-semic.ttl',
+        'title': 'Mapping from DPV to SEMIC vocabularies',
+    },
+}
+
 # === examples ===
 EXAMPLES = {}
 
@@ -1994,7 +2382,7 @@ def prefix_from_iri(iri):
 
 # === contributors ==
 import json
-with open('../contributors.json', 'r') as fd:
+with open(f'./contributors.json', 'r') as fd:
     contributors = json.load(fd)
 
 
@@ -2002,7 +2390,25 @@ def generate_author_affiliation(author):
     '''takes author name, returns affiliation'''
     author = str(author)
     if author in contributors:
-        return contributors[author]
+        return contributors[author]['affiliation']
+    return ''
+
+
+def generate_author_orcid(author):
+    '''takes author name, returns affiliation'''
+    author = str(author)
+    if author in contributors:
+        if 'ORCID' in contributors[author]:
+            return contributors[author]['ORCID']
+    return ''
+
+
+def generate_author_website(author):
+    '''takes author name, returns affiliation'''
+    author = str(author)
+    if author in contributors:
+        if 'website' in contributors[author]:
+            return contributors[author]['website']
     return ''
 
 
@@ -2010,3 +2416,45 @@ def generate_authors_affiliations(authors):
     '''takes author name, returns affiliation'''
     authors = [contributors[author] for author in contributors]
     return authors
+
+
+def _person_slugify():
+    '''person is a string, slugify means make it IRI compatible'
+    - e.g. 'Harshvardhan J. Pandit' should be 'HarshvardhanJPandit'
+    - for creating IRIs, we create a BNode and return it
+    - to maintain consistency, we use the same BNode, and maintain
+    a register/dict of people handled so far
+    - PREFIX = 'person-'  # to distinguish what this is
+    '''
+    people = {}
+    def _helper(person_name):
+        nonlocal people
+        person_name = person_name.strip()
+        person = person_name.replace(',','').replace('.','').replace(' ','')
+        # if person_name.startswith('n')
+        if person in people:
+            return people[person]
+        bnode_person = BNode()
+        bnode_org = BNode()
+        triples = []
+        triples.append((bnode_person, RDF.type, FOAF.Person))
+        triples.append((bnode_person, RDF.type, DCT.Agent))
+        triples.append((bnode_person, FOAF.name, Literal(person_name)))
+        if generate_author_orcid(person_name):
+            triples.append((bnode_person, SCORO.hasORCID, Literal(generate_author_orcid(person_name))))
+        if generate_author_website(person_name):
+            triples.append((bnode_person, FOAF.homepage, Literal(generate_author_website(person_name))))
+        triples.append((bnode_org, RDF.type, FOAF.Organization))
+        triples.append((bnode_org, FOAF.name, Literal(generate_author_affiliation(person_name))))
+        if not generate_author_affiliation(person_name):
+            raise Exception(f"{person_name} org is empty!")
+        triples.append((bnode_person, ORG.memberOf, bnode_org))
+        people[person] = {
+            'person': bnode_person,
+            'org': bnode_org,
+            'triples': triples,
+        }
+        return people[person]
+    return _helper
+
+PERSON_DICT = _person_slugify()

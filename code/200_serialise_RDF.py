@@ -251,8 +251,11 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     graph.add((vocab_iri, DCTERMS.issued, Literal(metadata['dct:created'], lang='en')))
     if 'dct:modified' in metadata:
         graph.add((vocab_iri, DCTERMS.modified, Literal(metadata['dct:modified'], lang='en')))
-    for creator in metadata['dct:creator'].split(','):
-        graph.add((vocab_iri, DCTERMS.creator, Literal(creator.strip(), lang='en')))
+    for person in metadata['dct:creator'].split(','):
+        person = PERSON_DICT(person)
+        graph.add((vocab_iri, DCTERMS.creator, person['person']))
+        for triple in person['triples']:
+            graph.add(triple)
     graph.add((vocab_iri, SDO.version, Literal(metadata['schema:version'])))
     graph.add((vocab_iri, OWL.versionInfo, Literal(metadata['schema:version'])))
     graph.add((vocab_iri, DCTERMS.identifier, Literal(vocab_iri)))
@@ -265,14 +268,9 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     for lang in IMPORT_TRANSLATIONS:
         graph.add((vocab_iri, DCTERMS.language, Literal(lang)))
     # Contributor are collected from all concept contributors
-    contributors = set()
-    results = list(graph.triples((None, NAMESPACES['dct'].contributor, None)))
-    for _, _, persons in results:
-        persons = persons.replace(';', ',')
-        for person in persons.split(','):
-            contributors.add(person.strip())
+    contributors = set(x[2] for x in graph.triples((None, NAMESPACES['dct'].contributor, None)))
     for person in contributors:
-        graph.add((vocab_iri, DCTERMS.contributor, Literal(person)))
+        graph.add((vocab_iri, DCTERMS.contributor, person))
     # TODO: dct:hasFormat/dct:isFormatOf - defined for each serialisation
     # TODO: dct:hasVersion/dct:isVersionOf - between RDFS/SKOS and OWL variants
     graph.add((
@@ -566,8 +564,7 @@ for vocab, vocab_data in CSVFILES.items():
             # CSV is organised, which dictates which functions to
             # call to handle each row within that CSV
             schema = vocab_schemas.get_schema(schema_name)
-            INFO(f'MODULE: {module}')
-            INFO(f'parsing {filepath} with schema: {schema_name}')
+            INFO(f'MODULE: {module} - parsing {filepath} with schema: {schema_name}')
             header, csvdata = load_CSV(filepath)
             header = [x.strip() for x in header]
             # csvdata is a list of dicts containing column:value

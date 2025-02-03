@@ -2,7 +2,7 @@
 {% from 'macro_term_table.jinja2' import list_hierarchy %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_example.jinja2' import example_aside %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +16,8 @@
     shortName: "dpv",
     title: "Context",
     subtitle: "concepts in Data Privacy Vocabulary (DPV)",
-    publishDate: "2024-07-01",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/dpv/modules/context",
     canonicalUri: "https://w3id.org/dpv/dpv/modules/context",
@@ -38,8 +38,8 @@
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0",
-              "href": "https://w3id.org/dpv/2.0"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/context",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/context"
             }
         ]
       },
@@ -47,8 +47,17 @@
         "key": "Previous Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/1.0",
-              "href": "https://w3id.org/dpv/1.0"
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/context",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/context"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v{{DPV_VERSION}}",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/dpv#changelog"
             }
         ]
       },
@@ -58,6 +67,10 @@
             {
               "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
               "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
             }
         ]
       }
@@ -71,6 +84,7 @@
   <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+{{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
     <section id="abstract">
       <p>This document provides additional details and examples for contextual concepts such as durations, frequencies, and locations used in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
@@ -98,11 +112,11 @@
     <li>[=FixedOccurrencesDuration=] - a duration that is based on number of Occurrences, e.g. until you view it 3 times</li>
     <li>[=EndlessDuration=] - indicating a duration without an end condition or temporal notation.</li>
     </ul>
-    <p>[=Frequency=] indicates how frequently something occurs. Statistically, this can be expressed as the combination of number of Occurrences and a time period, which can further be expressed as a probabilitic value or a percentage. For example, for something occuring once every year, the frequency is: 1 or 100% for 1 year. While such <i>quantified</i> representations are important for determining metrics and performing operations, DPV focuses on the <i>qualitative</i> labelling of such representations within a specific context.</p>
+    <p>[=Frequency=] indicates how frequently something occurs. Statistically, this can be expressed as the combination of number of Occurrences and a time period, which can further be expressed as a probabilistic value or a percentage. For example, for something occurring once every year, the frequency is: 1 or 100% for 1 year. While such <i>quantified</i> representations are important for determining metrics and performing operations, DPV focuses on the <i>qualitative</i> labelling of such representations within a specific context.</p>
     <p>The relation [=hasFrequency=] associates a frequency with a context, and can be expressed using the following subtypes:</p>
     <ul>
-      <li>[=ContinuousFrequency=] - indicates things occuring Continuously, e.g. location collection happens Continuously.</li>
-      <li>[=SporadicFrequency=] - indicates things occuring sporadically or rarely or not often, e.g. collecting system usage logs every month.</li>
+      <li>[=ContinuousFrequency=] - indicates things occurring Continuously, e.g. location collection happens Continuously.</li>
+      <li>[=SporadicFrequency=] - indicates things occurring sporadically or rarely or not often, e.g. collecting system usage logs every month.</li>
       <li>[=OftenFrequency=] - indicates things happen often or regularly or commonly, e.g. online status is reported every 5 mins.</li>
       <li>[=SingularFrequency=] - indicates things happen only once.</li>
     </ul>
@@ -165,7 +179,7 @@
     <img src="../../diagrams/overview_Location.svg">
     <figcaption></figcaption>
   </figure>
-  <p>To represent location, the concept [=Location=] along with relations [=hasLocation=] is provided. For geo-political locations, the concepts such as [=Country=] and [=SupraNationalUnion=] are subtyped, with [=hasCountry=] and [=ThirdCountry=] with [=hasThirdCountry=] provided for convenience in common uses (e.g. data storage, transfers).</p>
+  <p>To represent location, the concept [=Location=] along with relations [=hasLocation=] is provided. For geo-political locations, the concepts such as [=Country=] and [=SupraNationalUnion=] are subtypes, with [=hasCountry=] and [=ThirdCountry=] with [=hasThirdCountry=] provided for convenience in common uses (e.g. data storage, transfers).</p>
   <p>To define contextual location concepts, such as there being several locations, or that the location is 'local' to an event, DPV provides two concepts. [=LocationFixture=] specifies whether the location is 'fixed' or 'deterministic', and is extended with concepts [=FixedLocation=], [=FederatedLocations=], [=DecentralisedLocations=], [=RandomLocation=], and [=VariableLocation=]. [=LocationLocality=] specifies whether the location is 'local' within the context, and is extended as [=LocalLocation=] and [=RemoteLocation=]. Local locations provided include [=PrivateLocation=], [=PublicLocation=], [=WithinDevice=], [=WithinPhysicalEnvironment=], and [=WithinVirtualEnvironment=]. Remote location is extended to represent [=CloudLocation=].</p>
   <p>To represent locations as jurisdictions, the relation [=hasJurisdiction=] is provided. The concept [=Law=] represents an official or authoritative law or regulation created by a government or an authority. To indicate applicability of laws within a jurisdiction, the relation [=hasApplicableLaw=] is provided.</p>
   <p>[[[LEGAL]]] provides taxonomies extending these concepts, such as to represent specific countries, their laws, authorities, memberships, adequacy decisions, and other information.</p>
@@ -205,15 +219,6 @@
 </section>
 
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 

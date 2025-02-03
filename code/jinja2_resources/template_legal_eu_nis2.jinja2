@@ -1,7 +1,7 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
     title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
     subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/legal/eu/nis2",
     canonicalUri: "https://w3id.org/dpv/legal/eu/nis2",
@@ -32,19 +32,32 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }
     ],
-    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
-      {
-        "name": "{{person}}",
-        "company": "{{ person | generate_author_affiliation }}"
-      }{{"," if not loop.last}}
-      {% endfor %}],
+    authors: {{ authors_list(data, vocab_name) }},
     otherLinks: [
       {
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0/legal/eu/nis2",
-              "href": "https://w3id.org/dpv/2.0/legal/eu/nis2"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/legal/eu/nis2",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/legal/eu/nis2"
+            }
+        ]
+      },
+      {
+        "key": "Previous Release",
+        "data": [
+            {
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/legal/eu/nis2",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/legal/eu/nis2"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v2.1",
+              "href": "#changelog"
             }
         ]
       },
@@ -69,6 +82,7 @@
   <link rel="shortcut icon" href="../../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+  {{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
   <section id="abstract">
     <p>The [[[NIS2]]] aims to increase the level of cybersecurity in EU and regulates 'Digital Service Providers' (DSPs) and 'Operators of Essential Services' (OESs). This extension provides concepts to support the implementation of NIS2 and align its requirements with those of other regulations, such as [[GDPR]], [[DGA]], and [[AIAct]].</p>
@@ -83,6 +97,7 @@
     <p>The extension supports the implementation of [[NIS2]] by providing concepts based on extending [[DPV]] to represent notifications, technical and organisational measures, reporting and compliance documentation, and other relevant information. It provides the following concepts:</p>
     <ul>
       <li><a href="#vocab-notice">Notifications for Incident Reporting</a></li>
+      <li><a href="#vocab-compliance">Statuses for indicating Compliance with NIS2</a></li>
     </ul>
   </section>
 {% endblock INTRODUCTION %}
@@ -93,6 +108,23 @@
     <p>Incident reporting is one of the important requirements for implementing [[NIS2]]. In such reporting, notifications containing relevant information about information are shared between entities and authorities at various stages from when the incident was detected to how the investigation proceeded and concluded. This is similar to data breach reporting requirements under [[GDPR]]. The [[EU-NIS2]] extension supports such reporting notifications by providing concepts that extend the <code>risk:IncidentNotice</code> concept to represent specific notices required in the incident reporting lifecycle.</p>
     
     {{ list_hierarchy(modules['notice']['classes']) }}
+  </section>
+
+  <section id="vocab-compliance">
+    <h2>Compliance</h2>
+    <p>The concepts in this section reflect the status of processing operations being in <i>compliance with NIS2</i>, by extending the <code>ComplianceStatus</code> from DPV for NIS2. It does not define the requirements for compliance itself. To indicate these, the relation <code>dpv:hasLawfulness</code> can be used.</p>
+    <aside class="example" title="Indicating status of NIS2 lawfulness">
+      <p>This example shows the use of EU-NIS2 to indicate the state of NIS2 lawfulness associated with two processes. The first is asserted to be compliant, while the compliance status for the second is unknown at the moment. Both processes assert the applicability of NIS2 for brevity.</p>
+      <pre class="nohighlight"><code>ex:PDH1 a dpv:Process ;
+  dpv:hasApplicableLaw legal-eu:NIS2 ;
+  dpv:hasLawfulness eu-nis2:NIS2Compliant .
+
+ex:PDH2 a dpv:Process ;
+  dpv:hasApplicableLaw legal-eu:NIS2 ;
+  dpv:hasLawfulness eu-nis2:NIS2ComplianceUnknown .
+      </code></pre>
+    </aside>
+    {{ list_hierarchy(modules['compliance']['classes']) }}
   </section>
 
 <section id="vocabulary">
@@ -118,15 +150,6 @@
 {% endblock VOCAB %}
 
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
@@ -138,6 +161,15 @@
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
+
+<section id="future-work" class="appendix">
+  <h2>Future Work</h2>
+  <aside class="issue" data-number="123"></aside>
+  <aside class="issue" data-number="222"></aside>
+  <aside class="issue" data-number="223"></aside>
+  <aside class="issue" data-number="224"></aside>
+  <aside class="issue" data-number="225"></aside>
+</section>
 
 {% block PROPOSED %}
 {% if proposed %}
@@ -153,6 +185,11 @@
 </section>
 {% endif %}
 {% endblock PROPOSED %}
+
+<section id="changelog">
+  <h2>Changelog for v2.1</h2>
+  <div class="issue" title="Changelog for v2.1"></div>
+</section>
 
 <script type="text/javascript" src="../../../diagrams/common.js" defer></script>
 </body>

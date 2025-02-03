@@ -79,6 +79,12 @@ DPV_FILES = {
            'ProcessingContext_properties', 
            'ProcessingScale', 
            'ProcessingScale_properties',
+           'Purpose_Education',
+           'Purpose_Infrastructure',
+           'Purpose_PublicServices',
+           'Purpose_Justice',
+           'Purpose_Healthcare',
+           'Purpose_Finance',
            ),
     },
     # Sheets for Context and Statuses
@@ -161,6 +167,7 @@ DPV_FILES = {
         'sheets': (
             'tech-core',
             'tech-core-properties',
+            'tech-io',
             'tech-provision',
             'tech-actors',
             'tech-actors-properties',
@@ -169,7 +176,7 @@ DPV_FILES = {
             'tech-status',
             'tech-status-properties',
             'tech-tools',
-            'tech-algorithms',
+            'tech-tools-properties',
             ),
     },
     'ai': {
@@ -177,11 +184,15 @@ DPV_FILES = {
         'doc_id': '1H3nSZ6Z4GL5ZdaVKrH2_oZPc8sRvNg-MiiosZE-qAOo',
         'sheets': (
             'ai-core',
+            'ai-properties',
+            'ai-systems',
+            'ai-data',
+            'ai-data-properties',
             'ai-techniques',
             'ai-capabilities',
-            'ai-risks',
             'ai-measures',
-            'ai-bias',
+            'ai-lifecycle',
+            'ai-risks',
             ),
     },
     # Sheets for Risk extension
@@ -191,15 +202,17 @@ DPV_FILES = {
         'sheets': (
             'dpv-Risk', 
             'dpv-Risk_properties', 
-            'Risk', 
-            'Risk_properties', 
+            'RiskManagement', 
+            'RiskManagement_properties', 
             'RiskLevels', 
             'RiskMatrix', 
-            'RiskControls', 
+            'RiskControls',
+            'RiskControls_properties', 
             'RiskSource',
             'Incident',
+            'Incident_properties',
             'IncidentStatus',
-            'RiskConsequences',
+            'RiskEvents',
             ),
     },
     # Sheets for Rights extension
@@ -210,6 +223,7 @@ DPV_FILES = {
             'Rights', 
             'Rights_properties', 
             'EUFundamentalRights',
+            'EUFundamentalRights_Impacts',
             ),
     },
     # Sheets for Rules extension
@@ -286,11 +300,14 @@ DPV_FILES = {
         'name': 'eu-gdpr',
         'doc_id': '1lDJZpl0UND8Bm_4iWKVQtgmMUz0YwP2R63CgP7Gro-U',
         'sheets': (
+            'GDPR_MiscConcepts',
             'GDPR_LegalBasis', 
             'GDPR_LegalBasis_SpecialCategory', 
             'GDPR_LegalBasis_DataTransfer', 
             'GDPR_LegalRights', 
+            'GDPR_LegalRights_Impacts', 
             'GDPR_LegalBasis_Rights_Mapping', 
+            'GDPR_LegalRights_Justifications',
             'GDPR_DataTransfers', 
             'GDPR_DPIA',
             'GDPR_DPIA_properties',
@@ -309,6 +326,7 @@ DPV_FILES = {
         'sheets': (
             'DGA_LegalBasis',
             'DGA_LegalRights',
+            'DGA_LegalRights_Impacts',
             'DGA_Services',
             'DGA_Registers',
             'DGA_TOMs',
@@ -328,9 +346,11 @@ DPV_FILES = {
             'aiact-roles',
             'aiact-docs',
             'aiact-status',
+            'aiact-status-properties',
             'aiact-misc',
             'aiact-assessment',
             'aiact-compliance',
+            'aiact-sector',
             ),
     },
     'eu-nis2': {
@@ -339,6 +359,33 @@ DPV_FILES = {
         'sheets': (
             'NIS2_Notice',
             'NIS2_compliance',
+            ),
+    },
+    'eu-ehds': {
+        'name': 'eu-ehds',
+        'doc_id': '1pEyUXsCsMKMjVFODOpYRmL_q_Z6_1evCz6GXF8UV5ZY',
+        'sheets': (
+            'EHDS_Data',
+            'EHDS_Purpose',
+            'EHDS_Entities',
+            'EHDS_Process',
+            ),
+    },
+    # Standards - P7012
+    'p7012': {
+        'name': 'p7012',
+        'doc_id': '1mhnDukj_OHNJJPoG8Yu4FsbPdyeb9FFl_2xXnYemOGU',
+        'sheets': (
+            'p7012_entities',
+            'p7012_entities_properties',
+            'p7012_process',
+            'p7012_process_properties',
+            'p7012_agreement',
+            'p7012_status',
+            'p7012_data',
+            'p7012_purpose',
+            'p7012_privacy_term',
+            'p7012_privacy_term_properties',
             ),
     },
     # Sheets for Use-Cases, Requirements, and Examples
@@ -361,7 +408,15 @@ DPV_FILES = {
             'DE_glossary',
             # TODO: Add sheets for FR, IT, etc. languages
             )
-    }
+    },
+    # Mappings
+    'mappings': {
+        'name': 'mappings',
+        'doc_id': '1g6t_axf8VPW0I_iqOrRe6iaUCvrtIDPphbSgwB6couE',
+        'sheets': (
+            'Mapping_ODRL',
+        )
+    },
 }
 
 # == Downloading files ==

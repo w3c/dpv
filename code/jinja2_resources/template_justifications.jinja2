@@ -2,7 +2,7 @@
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
 {% from 'macro_example.jinja2' import example_aside %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
     title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
     subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/justifications",
     canonicalUri: "https://w3id.org/dpv/justifications",
@@ -36,19 +36,32 @@
       "company": "{{ "Beatriz Esteves" | generate_author_affiliation }}"
     }
     ],
-    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
-      {
-        "name": "{{person}}",
-        "company": "{{ person | generate_author_affiliation }}"
-      }{{"," if not loop.last}}
-      {% endfor %}],
+    authors: {{ authors_list(data, vocab_name) }},
     otherLinks: [
       {
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0/justifications",
-              "href": "https://w3id.org/dpv/2.0/justifications"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/justifications",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/justifications"
+            }
+        ]
+      },
+      {
+        "key": "Previous Release",
+        "data": [
+            {
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/justifications",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/justifications"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v2.1",
+              "href": "#changelog"
             }
         ]
       },
@@ -70,6 +83,7 @@
   <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+  {{ contributors_list(data, vocab_name) }}
   <section id="abstract">
     <p>The Justification extension provides a taxonomy extending the [[[DPV]]] concept <code>Justification</code> to enable representing specific justifications associated with non-fulfilment, non-requirement, delays, and exercising reasons involved in processes. The namespace for terms in justifications is <a href="http://www.w3id.org/dpv/justifications#"><code>https://www.w3id.org/dpv/justifications#</code></a>, the suggested prefix  is <code>justifications</code>, and the justifications vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
   </section>
@@ -85,7 +99,7 @@
     </aside>
   </section>
 
-  <section id="vocab-justificaitons">
+  <section id="vocab-justifications">
     <h2>Justification Types</h2>
     <p>Justifications are broadly categorised as:</p>
     <ul>
@@ -166,15 +180,6 @@
 </section>
 
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
@@ -182,11 +187,17 @@
   {{ funding_acknowledgements() }}
 
   <h3>Funding Acknowledgements for Contributors</h3>
-  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497. Beatriz Esteves is funded by <a href="https://solidlab.be/">SolidLab Vlaanderen</a> (Flemish Government, EWI and RRF project VV023/10), and by the imec.icon project PACSOI (HBC.2023.0752) which was co-financed by imec and VLAIO.</p>
   <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
+
+<section id="changelog">
+  <h2>Changelog for v2.1</h2>
+  <div class="issue" title="Changelog for v2.1"></div>
+</section>
+
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
 </body>
 </html>

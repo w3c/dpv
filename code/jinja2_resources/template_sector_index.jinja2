@@ -1,0 +1,112 @@
+{% from 'macro_term_table.jinja2' import table_classes %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_example.jinja2' import example_aside %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "sector",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "{{vocab_name|get_document_status}}",
+    group: "dpvcg",
+    latestVersion: "{{data[vocab_name+'-metadata']['dct:identifier']}}",
+    canonicalUri: "{{data[vocab_name+'-metadata']['dct:identifier']}}",
+    edDraftURI: "{{data[vocab_name+'-metadata']['dct:identifier'].replace('w3id.org/dpv', 'dev.dpvcg.org')}}",
+    github: "w3c/dpv",
+    subjectPrefix: "[sector]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+    }
+    ],
+    authors: {{ authors_list(data, vocab_name) }},
+    otherLinks: [
+      {
+        "key": "This Release",
+        "data": [
+            {
+              "value": "{{data[vocab_name+'-metadata']['iri']}}",
+              "href": "{{data[vocab_name+'-metadata']['iri']}}"
+            }
+        ]
+      },
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            }
+        ]
+      }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="../../diagrams/common.css">
+<link rel="shortcut icon" href="../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+  {{ contributors_list(data, vocab_name) }}
+  <section id="abstract">
+    <p>The Sector-specific extensions provide concepts extending the [[[DPV]]] for representing information, technologies, and processes for a specific sector. These extensions are provided under the common namespace {{data[vocab_name+'-metadata']['iri']}} with further sector-specific prefixes to distinguish them in a modular fashion. The vocabulary and its documentation is available on <a href="https://github.com/w3c/dpv">GitHub</a>.</p>
+  </section>
+    {{ sotd(data[vocab_name+'-metadata']) }}
+    {{ dpv_document_family(document='sector-spec') }}
+  <section id="motivation">
+    <h2>Introduction</h2>
+    <p>The Data Privacy Vocabulary (DPV) and its extensions provide concepts intended for <i>general</i> use-cases which have a wide applicability. The SECTOR extensions provide concepts <i>specific to a sector</i> to support the use of DPV within that sector. At the moment, these extensions only provide <i>Purposes</i> which extend the DPV's Purpose taxonomy. The DPVCG plans to provide additional sector specific concepts in the future - such as <i>Data categories</i>, <i>Technical and Organisational Measures</i>, <i>Risks and Impacts</i>, and <i>Technologies</i> - and <a href="https://www.w3.org/groups/cg/dpvcg/">welcomes contributions and participation</a> for these.</p>
+  </section>
+
+  <section id="extensions">
+    <h2>List of Extensions</h2>
+    <p>Currently, the following extensions are provided:</p>
+    <ol>
+      <li>[[[SECTOR-EDUCATION]]] (SECTOR-EDUCATION)</li>
+      <li>[[[SECTOR-FINANCE]]] (SECTOR-FINANCE)</li>
+      <li>[[[SECTOR-HEALTH]]] (SECTOR-HEALTH)</li>
+      <li>[[[SECTOR-INFRA]]] (SECTOR-INFRA)</li>
+      <li>[[[SECTOR-LAW]]] (SECTOR-LAW)</li>
+      <li>[[[SECTOR-PUBLICSERVICES]]] (SECTOR-PUBLICSERVICES)</li>
+    </ol>
+  </section>
+
+{% if proposed %}
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  {% for name, terms in proposed.items() %}
+    <strong>{{name}}</strong>
+    <ul>{% for term in terms %}
+      <li>{{term}}</li>
+    {% endfor %}</ul>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% block ACKNOWLEDGEMENTS %}
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+</section>
+{% endblock ACKNOWLEDGEMENTS %}
+<script type="text/javascript" src="../../diagrams/common.js" defer></script>
+</body>
+</html>

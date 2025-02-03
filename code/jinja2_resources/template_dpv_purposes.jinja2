@@ -2,7 +2,7 @@
 {% from 'macro_term_table.jinja2' import list_hierarchy %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_example.jinja2' import example_aside %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +16,8 @@
     shortName: "dpv",
     title: "Purposes",
     subtitle: "concepts in Data Privacy Vocabulary (DPV)",
-    publishDate: "2024-01-28",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/dpv/modules/purposes",
     canonicalUri: "https://w3id.org/dpv/dpv/modules/purposes",
@@ -38,8 +38,8 @@
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0",
-              "href": "https://w3id.org/dpv/2.0"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/purposes",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/purposes"
             }
         ]
       },
@@ -47,8 +47,17 @@
         "key": "Previous Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/1.0",
-              "href": "https://w3id.org/dpv/1.0"
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/purposes",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/purposes"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v{{DPV_VERSION}}",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/dpv#changelog"
             }
         ]
       },
@@ -58,6 +67,10 @@
             {
               "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
               "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
             }
         ]
       }
@@ -71,6 +84,7 @@
   <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+  {{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
     <section id="abstract">
       <p>This document provides additional details and examples for purpose concepts in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
@@ -115,7 +129,7 @@
   <section id="desc-purpose-guidelines">
     <h2>Guidelines on Purposes</h2>
     <p>DPV's purpose taxonomy enables expressing the <i>category</i> of purpose i.e the broader goal or reason. To enable accurate representation of purposes, we recommend further describing the purposes in a contextual manner where relevant. For example, the concept [=Marketing=] refers to the broad purpose of 'marketing', which may not be sufficient to represent information such as the marketing is about a specific campaign associated with the holiday season. Such additional details are necessary to understand where the 'initial' purpose may differ with 'subsequent' purposes of data. For example, if consent was given only for the use of personal data for marketing during holiday seasons, other non-holiday marketing purposes would not be compatible with it. Additional details can be added to DPV purposes by two methods: (1) extending the DPV taxonomy; and (2) adding annotations containing human-readable descriptions. We recommend always using (2), and using (1) where necessary or relevant.</p>
-    <p>To enable the accurate representations of purposes, we also recommend choosing the most relevant or closest concept from purpose taxonomy so that the purpose is as specific as possible. For example, choosing [=ProvidePersonalisedRecommendations=] instead of [=Personalisation=] allows communicating that the personalisation is of a specific kind and that other kinds of personalisations such as for UI/UX or advertising are not part of this purpose.</p>
+    <p>To enable the accurate representations of purposes, we also recommend choosing the most relevant or closest concept from purpose taxonomy so that the purpose is as specific as possible. For example, choosing [=ProvidePersonalisedRecommendations=] instead of [=Personalisation=] allows communicating that the personalisation is of a specific kind and that other kinds of personalisation such as for UI/UX or advertising are not part of this purpose.</p>
     {{ example_aside('dex:E0040') }}
   </section>
 
@@ -136,8 +150,12 @@
     <p>DPV provides <code>Sector</code> that can be used to indicate the relevant information to further clarify or indicate how a purpose should be interpreted. <code>Sector</code>, used with the <code>hasSector</code> relation, denotes the <i>sector</i> or <i>domain</i> of application, such as Manufacturing. This can be used alongside existing official sector taxonomies such as [[NACE]] (EU), [[NAICS]] (USA), or [[ISIC]] (UN), as well as commercial industry taxonomies such as [[GICS]] maintained by organisations MSCI and S&amp;P. Multiple classifications can be used through mappings between sector codes such as the [[[NACE-NAICS]]] provided by EU.</p>
     <p>The DPVCG welcomes discussions on the alignment of concepts in NACE, NAICS, ISIC, and GICS with DPV's Purpose taxonomy to further expand on how specific purposes can be represented within the context of a particular domain or sector.</p>
 
+    <aside class="note" title="Additional Purposes provided in SECTOR extensions">
+      <p>The [[[SECTOR]]] provide further concepts for purposes specific to a sector, for example [[SECTOR-EDUCATION]], [[SECTOR-HEALTH]], and [[SECTOR-LAW]].</p></aside>
+    </aside>
+
     <div class="note" title="Discontinuation of DPV-NACE extension">
-      <p>DPVCG initially provided an interpretation of the NACE revision 2 codes which uses <code>rdfs:subClassOf</code> to specify the hierarchy between sector concepts instead of the SKOS relations used in NACE. In 2.0, the NACE extension has been removed as there was no added benefits provided in DPV's NACE extension and the recommendation is to use the official/authoritative NACE concepts and IRIs. Further, NACE revision 2.1 has been published which should be reffered to as the latest version.</p>
+      <p>DPVCG initially provided an interpretation of the NACE revision 2 codes which uses <code>rdfs:subClassOf</code> to specify the hierarchy between sector concepts instead of the SKOS relations used in NACE. In 2.0, the NACE extension has been removed as there was no added benefits provided in DPV's NACE extension and the recommendation is to use the official/authoritative NACE concepts and IRIs. Further, NACE revision 2.1 has been published which should be referred to as the latest version.</p>
     </div>
     {{ example_aside('dex:E0008') }}
     {{ example_aside('dex:E0043') }}
@@ -194,15 +212,6 @@
   </section>
 </section>
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 

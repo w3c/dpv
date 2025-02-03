@@ -1,0 +1,92 @@
+@startuml
+!theme plain
+
+left to right direction
+hide empty description
+
+!define IDEAL #RED
+
+[*] --> ContractPreparationStatus
+
+state ContractPreparationStatus {
+  state ContractRejected
+  state ContractDrafted
+  state ContractOffered
+  state ContractUnderReview
+  state ContractUnderNegotiation
+  state ContractNegotiated
+  state ContractApproved
+  ContractNegotiated --> ContractRejected
+  ContractDrafted --> ContractOffered
+  ContractOffered --> ContractUnderReview
+  ContractOffered --> ContractRejected
+  ContractUnderReview --> ContractUnderNegotiation
+  ContractUnderReview --> ContractApproved
+  ContractUnderReview --> ContractRejected
+  ContractUnderNegotiation --> ContractNegotiated
+  
+  ContractNegotiated --> ContractApproved
+}
+
+state ContractExecutionStatus {
+  state ContractPartiallySigned
+  state ContractFullySigned
+  state ContractSignedByParty
+  state ContractFullyExecuted
+  [*] --> ContractSignedByParty
+  ContractSignedByParty --> ContractPartiallySigned
+  ContractPartiallySigned --> ContractFullySigned
+  ContractFullySigned --> ContractFullyExecuted
+}
+ContractApproved -up[IDEAL]-> ContractSignedByParty
+
+state ContractActivationStatus {
+    state ContractInactive
+    state ContractActive
+    ContractInactive --> ContractActive
+}
+ContractFullyExecuted -up[IDEAL]-> ContractActivationStatus
+ContractActivationStatus -right[IDEAL]-> ContractPerformanceStatus
+
+state ContractPerformanceStatus {
+    state ContractBeingPerformed
+    state ContractAmended
+    state ContractTemporarilySuspended
+    state ContractRenewed
+    state ContractExtended
+    [*] --> ContractBeingPerformed
+    ContractBeingPerformed --> ContractAmended
+    ContractBeingPerformed --> ContractTemporarilySuspended
+    ContractBeingPerformed --> ContractRenewed
+    ContractBeingPerformed --> ContractExtended
+    ContractRenewed --> ContractBeingPerformed
+    ContractExtended --> ContractBeingPerformed
+    ContractTemporarilySuspended --> ContractBeingPerformed
+    ContractAmended --> ContractBeingPerformed
+}
+
+ContractActivationStatus -[IDEAL]-> ContractTerminationStatus
+ContractPerformanceStatus -[IDEAL]-> ContractTerminationStatus
+
+state ContractTerminationStatus {
+    state ContractTerminated
+    state ContractExpired
+    state ContractBreached
+    state ContractDisputed
+}
+
+ContractActivationStatus -left[IDEAL]-> ContractFulfilmentStatus
+ContractPerformanceStatus -left[IDEAL]-> ContractFulfilmentStatus
+ContractFulfilmentStatus -left[IDEAL]-> ContractTerminationStatus
+
+state ContractFulfilmentStatus {
+    state ContractFulfiled
+    state ContractPartiallyFulfiled
+    state ContractNotFulfiled
+    state ContractViolated
+    ContractPartiallyFulfiled --> ContractFulfiled
+    ContractPartiallyFulfiled --> ContractNotFulfiled
+    ContractPartiallyFulfiled --> ContractViolated
+}
+
+@enduml

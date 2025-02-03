@@ -2,7 +2,7 @@
 {% from 'macro_term_table.jinja2' import list_hierarchy %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_example.jinja2' import example_aside %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +17,7 @@
     title: "Technical & Organisational Measures (TOMs)",
     subtitle: "concepts in Data Privacy Vocabulary (DPV)",
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/dpv/modules/TOM",
     canonicalUri: "https://w3id.org/dpv/dpv/modules/TOM",
@@ -38,8 +38,8 @@
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0",
-              "href": "https://w3id.org/dpv/2.0"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/TOM",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/TOM"
             }
         ]
       },
@@ -47,8 +47,17 @@
         "key": "Previous Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/1.0",
-              "href": "https://w3id.org/dpv/1.0"
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/TOM",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/TOM"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v{{DPV_VERSION}}",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/dpv#changelog"
             }
         ]
       },
@@ -58,6 +67,10 @@
             {
               "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
               "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
             }
         ]
       }
@@ -71,6 +84,7 @@
   <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+{{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
     <section id="abstract">
       <p>This document provides additional details and examples for technical and organisational measures in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
@@ -86,7 +100,7 @@
     </a>
     <figcaption>Overview of Technical & Organisational Measures taxonomy in DPV (click to open in new window)</figcaption>
   </figure>
-  <p>DPV's taxonomy of tech/org measures are structured into four groups representing [=TechnicalMeasure=] such as encryption or deidentification which operate at a technical level, [=OrganisationalMeasure=] such as policies and training which operate at an organisational level, [=LegalMeasure=] which are organisational measures with legal enforcement such as contracts and NDAs, and [=PhysicalMeasure=] which are associated with physical aspects such as environmental protection and physical security. Each of these is provided with a taxonomy that expands upon the core idea to provide a rich list of measures that are intended to protect personal data and technologies (and its associated entities and consequences).</p>
+  <p>DPV's taxonomy of tech/org measures are structured into four groups representing [=TechnicalMeasure=] such as encryption or de-identification which operate at a technical level, [=OrganisationalMeasure=] such as policies and training which operate at an organisational level, [=LegalMeasure=] which are organisational measures with legal enforcement such as contracts and NDAs, and [=PhysicalMeasure=] which are associated with physical aspects such as environmental protection and physical security. Each of these is provided with a taxonomy that expands upon the core idea to provide a rich list of measures that are intended to protect personal data and technologies (and its associated entities and consequences).</p>
   <p>To indicate applicability of measures, the relations [=hasTechnicalMeasure=], [=hasOrganisationalMeasure=], [=hasLegalMeasure=], and [=hasPhysicalMeasure=] are provided. In addition to these, specific relations are also provided for concepts commonly used or which are important for legal considerations - such as [=hasNotice=] and [=hasPolicy=].</p>
   {{ list_hierarchy(modules['TOM']['classes']) }}
   </section>
@@ -133,11 +147,31 @@
       <p>Assessments which refer to risks and/or impacts, such as risk assessment, privacy impact assessment, data protection impact assessment, and data breach impact assessment are defined in the 'risk' module within DPV due to their role within the risk management processes.</p>
     </section>
 
-    <section>
+    <section id="vocab-TOM-notice">
       <h3>Notices</h3>
-      <p>[=Notice=] represents notification of information i.e. providing information about something to an entity. Notices are commonly used to communicate in situations such as providing information about privacy practices ([=PrivacyNotice=]), requests for informed consent ([=ConsentNotice=]), informing about security incidents ([=SecurityIncidentNotice=]) such as data breaches ([=DataBreachNotice=]), or to describe the transfer of data ([=DataTransferNotice=]). Notices are associated by using the relation [=hasNotice=].</p>
-      <p>Notices may contain only information, or also have interactive components intended to make decisions, offer choices and controls, or otherwise carry out processes that go beyond mere provision of information. </p>
+      <aside class="note" title="Guide on implementing consent records as per ISO/IEC 29184:2020">
+        <p>The [[[DPV-29184]]] provides guidance on creation of privacy notices following the [[[ISO-29184]]] standard.</p>
+      </aside>
+      <aside class="issue" data-number="91"></aside>
+      <p>The concept [=Notice=] represents a 'notice' which provides information and can be used to offer choices and make decisions - such as for privacy and consent. The relation [=hasNotice=] is used to indicate the inclusion or association of a notice within a context.</p>
+      <p>The contents of a notice can be represented through other DPV concepts, for example a privacy notice can represent specific services and processes along with their purposes, personal data, and involved entities by utilising the relevant concepts and relations for these. Notices can also contain metadata, such as for their creation date, titles and descriptions, versions, and publisher information by utilising a common standard such as [[DCTERMS]].</p>
       {{ example_aside('dex:E0022') }}
+      <section>
+        <h4>Notice Types</h4>
+        <p>DPV provides a taxonomy to represent the different notices commonly utilised in the context of data and technology use-cases. These include notices categorised by their role in providing information, such as [=PrivacyNotice=] and [=ConsentNotice=], and notices categorised by their UI/UX aspects, such as [=GraphicalNotice=], [=DashboardNotice=], and [=LayeredNotice=].</p>
+        {{ list_hierarchy(modules['TOM-notice']['classes'], head='dpv:Notice') }}
+      </section>
+      <section>
+        <h4>Notice Layer and Icons</h4>
+        <p>For graphical notices that are composites of multiple 'layers' or utilise visual elements, the concepts [=NoticeLayer=] and [=NoticeIcon=] along with their corresponding relations [=hasNoticeLayer=] and [=hasNoticeIcon=] are useful to express to represent notices in terms of modular components.</p>
+        {{ example_aside('dex:E0072') }}
+      </section>
+      <section>
+        <h4>Notice Statuses</h4>
+        <p>[=NoticeStatus=] represents a status about a [=Notice=], and is associated using the relation [=hasNoticeStatus=]. The DPV provides specific statuses modelling the lifecycle associated with notice provision and usage, such as [=NoticeCommunicated=] to indicate a notice has been provided, [=NoticeUpdated=] to indicate a notice has been updated, and [=NoticeLatest=] to indicate a notice is at its 'latest' iteration.</p>
+        {{ list_hierarchy(modules['TOM-notice']['classes'], head='dpv:NoticeStatus') }}
+        {{ example_aside('dex:E0073') }}
+      </section>
       <section>
         <h4>Consent Notice</h4>
         <p>Requirements for <i>informed</i> consent require provision of information before the consent is obtained so as to inform the individual. This information is typically provided through a <i>notice</i>, which can be specified using the concept <code>ConsentNotice</code> and the relation <code>hasNotice</code>. As with the previous notice example, a consent notice can be a link to the actual notice document or web-page, or contain description of the notice contents regarding processing of personal data.</p>
@@ -184,13 +218,13 @@
 
 </section>
 
-  <section>
+  <section id="vocab-TOM-legal">
     <h2>Legal Measures</h2>
     <p>[=LegalMeasure=] represents organisational measures which have a legal enforcement mechanism or are legally defined/interpreted. For example, through contracts, NDAs, agreements. They are associated by using [=hasLegalMeasure=].</p>
     {{ list_hierarchy(modules['TOM-legal']['classes']) }}
   </section>
 
-  <section>
+  <section id="vocab-TOM-physical">
     <h2>Physical Measures</h2>
     <p>[=PhysicalMeasure=] represents measures that have a physical implementation - such as physical access control or environment controls for floods, power outages, etc. They are associated by using [=hasPhysicalMeasure=].</p>
     {{ list_hierarchy(modules['TOM-physical']['classes']) }}
@@ -234,6 +268,12 @@
   {% set _ = module_combined.update(modules['TOM-technical']['properties']) %}
   {% set _ = module_combined.update(modules['TOM-organisational']['classes']) %}
   {% set _ = module_combined.update(modules['TOM-organisational']['properties']) %}
+  {% set _ = module_combined.update(modules['TOM-legal']['classes']) %}
+  {% set _ = module_combined.update(modules['TOM-legal']['properties']) %}
+  {% set _ = module_combined.update(modules['TOM-physical']['classes']) %}
+  {% set _ = module_combined.update(modules['TOM-physical']['properties']) %}
+  {% set _ = module_combined.update(modules['TOM-notice']['classes']) %}
+  {% set _ = module_combined.update(modules['TOM-notice']['properties']) %}
   <section id="classes">
     {{ index_concepts(module_combined, vocab_name, filter="classes") }}
   </section>
@@ -254,15 +294,6 @@
 </section>
 
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 

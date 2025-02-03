@@ -1,7 +1,7 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
     title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
     subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/legal/eu/dga",
     canonicalUri: "https://w3id.org/dpv/legal/eu/dga",
@@ -36,19 +36,32 @@
         "company": "{{ "Beatriz Esteves" | generate_author_affiliation }}"
     }
     ],
-    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
-      {
-        "name": "{{person}}",
-        "company": "{{ person | generate_author_affiliation }}"
-      }{{"," if not loop.last}}
-      {% endfor %}],
+    authors: {{ authors_list(data, vocab_name) }},
     otherLinks: [
       {
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0/legal/eu/dga",
-              "href": "https://w3id.org/dpv/2.0/legal/eu/dga"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/legal/eu/dga",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/legal/eu/dga"
+            }
+        ]
+      },
+      {
+        "key": "Previous Release",
+        "data": [
+            {
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/legal/eu/dga",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/legal/eu/dga"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v2.1",
+              "href": "#changelog"
             }
         ]
       },
@@ -58,10 +71,6 @@
             {
               "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
               "href": "https://arxiv.org/abs/2404.13426"
-            },
-            {
-              "value": "Semantics for Implementing Data Reuse and Altruism under EU's Data Governance Act (2023)",
-              "href": "https://doi.org/10.3233/SSW230015"
             }
         ]
       }
@@ -75,6 +84,7 @@
   <link rel="shortcut icon" href="../../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+  {{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
   <section id="abstract">
     <p>The EU-DGA extension extends the [[[DPV]]] to provide concepts such as entities, rights, and other relevant concepts based on the [[[DGA]]]. The canonical URL for the EU-DGA extension is <a href="https://w3id.org/dpv/legal/eu/dga">https://w3id.org/dpv/legal/eu/dga</a>, the namespace for EU-DGA terms is <a href="https://w3id.org/dpv/legal/eu/dga#"><code>https://w3id.org/dpv/legal/eu/dga#</code></a>, the suggested prefix is <code>eu-dga</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
@@ -124,6 +134,14 @@
     <p>The [[DGA]] provides several rights to the data subject and data holders whose applicability depends on the context and nature of processing taking place. Since these rights are applicable for both data subjects and non-data subjects (data holders), they are represented by extending <code>dpv:Right</code> instead of <code>dpv:DataSubjectRight</code>. To indicate a right is applicable or available, the relation <code>dpv:hasRight</code> is used.</p>
 
     {{ list_hierarchy(modules['legal_rights']['classes']) }}
+
+    <section id="vocab-rights-impacts">
+      <h3>Rights Impacts</h3>
+      <p>[=DGARightsImpact=],  a specialised form of `risk:RightsImpact`,  represents an impact on right(s) within the DGA. Further concepts are defined by extending this for each right within the DGA, such as [=A27-Impact=] for impacts on [=A27=] Right to Complaint. These concepts are provided to aid in risk and impact assessments, particularly those associated with impacts on rights, and are to be used along with the relevant concepts and properties from [[DPV]] and [[RISK]] vocabularies.</p>
+      <p>The scope of each rights impact concept is to represent the impact at a broad level without providing specifics on the nature or category of impact. For example, [=A27-Impact=] only represents an impact on [=A27=] and doesn't state what the impact is or what it implies. While the [[RISK]] extension provides a taxonomy of consequences and impacts which could be used to represent the nature of the impact, the DPVCG is currently exploring whether more contextual and appropriate concepts can be represented for the specific impacts associated with a right. For examples of this, see experimental impacts on rights modelling in [[EU-GDPR]] and [[EU-RIGHTS]] extensions.</p>
+      {{ list_hierarchy(modules['rights-impacts']['classes']) }}
+      <aside class="issue" data-number="210"></aside>
+    </section>
   </section>
 
   <section id="vocab-services">
@@ -145,6 +163,23 @@
     <p>The specific technical and organisational measures defined or implied in the [[DGA]] are defined by extending the <code>dpv:TechnicalOrganisationalMeasure</code> concepts. These can be associated by using the relations <code>dpv:hasTechnicalMeasure</code> and <code>dpv:hasOrganisationalMeasure</code>. In addition to these, if a measure has legal enforcement, then the concept <code>dpv:LegalMeasure</code> and relation <code>dpv:hasLegalMeasure</code> can be used.</p>
     
     {{ list_hierarchy(modules['toms']['classes']) }}
+  </section>
+
+  <section id="vocab-compliance">
+    <h2>Compliance</h2>
+    <p>The concepts in this section reflect the status of processing operations being in <i>compliance with DGA</i>, by extending the <code>ComplianceStatus</code> from DPV for DGA. It does not define the requirements for compliance itself. To indicate these, the relation <code>dpv:hasLawfulness</code> can be used.</p>
+    <aside class="example" title="Indicating status of DGA lawfulness">
+      <p>This example shows the use of EU-DGA to indicate the state of GDPR lawfulness associated with two processes. The first is asserted to be compliant, while the compliance status for the second is unknown at the moment. Both processes assert the applicability of GDPR for brevity.</p>
+      <pre class="nohighlight"><code>ex:PDH1 a dpv:Process ;
+  dpv:hasApplicableLaw legal-eu:DGA ;
+  dpv:hasLawfulness eu-gdpr:DGACompliant .
+
+ex:PDH2 a dpv:Process ;
+  dpv:hasApplicableLaw legal-eu:DGA ;
+  dpv:hasLawfulness eu-gdpr:DGAComplianceUnknown .
+      </code></pre>
+    </aside>
+    {{ list_hierarchy(modules['compliance']['classes']) }}
   </section>
 
   <section id="vocabulary">
@@ -171,15 +206,6 @@
 {% endblock VOCAB %}
 
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
@@ -187,7 +213,7 @@
   {{ funding_acknowledgements() }}
 
   <h3>Funding Acknowledgements for Contributors</h3>
-  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497. Beatriz Esteves is funded by <a href="https://solidlab.be/">SolidLab Vlaanderen</a> (Flemish Government, EWI and RRF project VV023/10), and by the imec.icon project PACSOI (HBC.2023.0752) which was co-financed by imec and VLAIO.</p>
   <p>The contributions of Harshvardhan J. Pandit and Dave Lewis have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
@@ -206,6 +232,13 @@
 </section>
 {% endif %}
 {% endblock PROPOSED %}
+
+<section class="appendix" id="issue-summary"></section>
+
+<section id="changelog">
+  <h2>Changelog for v2.1</h2>
+  <div class="issue" title="Changelog for v2.1"></div>
+</section>
 
 <script type="text/javascript" src="../../../diagrams/common.js" defer></script>
 </body>

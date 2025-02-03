@@ -743,6 +743,22 @@ def check_rdf_type(parents, verify_parent):
     return False
 
 
+def get_document_status(vocab_name):
+    # specStatus: "cg-{{data[vocab_name+'-metadata']['bibo:status']}}"
+    vocab_metadata = DATA.data[f'{vocab_name}-metadata']
+    try:
+        status = vocab_metadata['bibo:status']
+    except Exception:
+        raise Exception(f'{vocab_name} metadata has an issue with bibo:status')
+    status = status.split('/')[-1].upper()
+    DEBUG(f"{vocab_name} status = {status} with global status = {DOCUMENT_STATUS}")
+    if status == 'PUBLISHED' and DOCUMENT_STATUS == 'CG-FINAL':
+        status = 'CG-FINAL'
+    else:
+        status = 'CG-DRAFT'
+    return status
+
+
 # == HTML Export ==
 
 # === Jinja setup ===
@@ -779,6 +795,7 @@ JINJA2_FILTERS = {
     'get_attrib': get_attrib,
     'is_sunset': is_sunset,
     'check_rdf_type': check_rdf_type,
+    'get_document_status': get_document_status,
 }
 template_env.filters.update(JINJA2_FILTERS)
 
@@ -804,6 +821,7 @@ def _write_template(
         'template': template_env.get_template(template),
         'RDF_VOCABS': RDF_VOCABS,
         'DPV_VERSION': DPV_VERSION,
+        'DPV_PREVIOUS_VERSION': DPV_PREVIOUS_VERSION,
         'DOCUMENT_STATUS': DOCUMENT_STATUS,
     }
     template = template_env.get_template(template)
@@ -1019,6 +1037,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # - `-d` will download and extract ALL files
     parser.add_argument('-G', '--guides', action='store_true', help="generate guides")
+    parser.add_argument('-M', '--mappings', action='store_true', help="generate mappings")
     # - `-x` will extract ALL files
     # parser.add_argument('-x', '--x', action='store_true', default=True, help="extract CSVs from all data files")
     # # - `-ds <foo>` will download and extract ONLY `foo` files
@@ -1041,5 +1060,21 @@ if __name__ == '__main__':
         with open('../guides/index.html', 'w') as fd:
             template = template_env.get_template('template_guides_index.jinja2')
             fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
-        INFO(f"wrote guide {doc} at {filepath}")
+        INFO(f"wrote guide index at {filepath}")
+        INFO('*'*40)
+
+    if args.mappings:
+        INFO('Generating MAPPINGS')
+        for doc, data in MAPPINGS.items():
+            DEBUG(f'generating mapping: {doc}')
+            template = data['template']
+            filepath = f"{data['output']}"
+            with open(filepath, 'w') as fd:
+                template = template_env.get_template(template)
+                fd.write(template.render(data=data))
+            INFO(f"wrote guide {doc} at {filepath}")
+        with open('../mappings/index.html', 'w') as fd:
+            template = template_env.get_template('template_mappings_index.jinja2')
+            fd.write(template.render(mappings=MAPPINGS.items()))
+        INFO(f"wrote mapping index at {filepath}")
         INFO('*'*40)

@@ -1,7 +1,7 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
     title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
     subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/legal/eu/gdpr",
     canonicalUri: "https://w3id.org/dpv/legal/eu/gdpr",
@@ -32,19 +32,14 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }
     ],
-    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
-      {
-        "name": "{{person}}",
-        "company": "{{ person | generate_author_affiliation }}"
-      }{{"," if not loop.last}}
-      {% endfor %}],
+    authors: {{ authors_list(data, vocab_name) }},
     otherLinks: [
       {
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0/legal/eu/gdpr",
-              "href": "https://w3id.org/dpv/2.0/legal/eu/gdpr"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/legal/eu/gdpr",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/legal/eu/gdpr"
             }
         ]
       },
@@ -52,8 +47,17 @@
         "key": "Previous Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/1.0/dpv-gdpr",
-              "href": "https://w3id.org/dpv/1.0/dpv-gdpr"
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/legal/eu/gdpr",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/legal/eu/gdpr"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v2.1",
+              "href": "#changelog"
             }
         ]
       },
@@ -63,10 +67,6 @@
             {
               "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
               "href": "https://arxiv.org/abs/2404.13426"
-            },
-            {
-              "value": "Creating a Vocabulary for Data Privacy (2019)",
-              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
             }
         ]
       }
@@ -80,6 +80,7 @@
   <link rel="shortcut icon" href="../../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+  {{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
   <section id="abstract">
     <p>The EU-GDPR extension extends the [[[DPV]]] to provide concepts such as legal bases, rights, and data transfer tools based on the [[[GDPR]]]. The canonical URL for EU-GDPR extension is <a href="https://w3id.org/dpv/legal/eu/gdpr">https://w3id.org/dpv/legal/eu/gdpr</a>, the namespace for terms is <a href="https://w3id.org/dpv/legal/eu/gdpr#"><code>https://w3id.org/dpv/legal/eu/gdpr#</code></a>, the suggested prefix is <code>eu-gdpr</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
@@ -101,16 +102,145 @@
     <ul>
       <li><a href="#vocab-legal-basis">Legal Bases</a> for processing personal data as defined in Articles 6 and 9 (special categories of personal data) and 45-49 (data transfer)</li>
       <li><a href="#vocab-principles">Principles</a> as defined in Article 5</li>
-      <li><a href="#vocab-rights">Data Subject Rights</a> as defined in Articles 7, 12-22, and 77, as well as notices required to be provided</li>
-      <li><a href="#vocab-legal-basis-rights-mapping">mapping between Rights and Legal Bases</a> which indicates which right must be provided for each legal basis</li>
-      <li><a href="#vocab-data-transfers">Data Transfer Tools</a> as defiend by <a href="https://edpb.europa.eu/system/files/2021-06/edpb_recommendations_202001vo.2.0_supplementarymeasurestransferstools_en.pdf">EDPB Recommendations 01/2020 on Supplementary Measures and Transfer Tools</a> </li>
+      <li><a href="#vocab-rights">Data Subject Rights</a> as defined in Articles 7, 12-22, and 77-79, as well as notices required to be provided</li>
+      <li><a href="#vocab-legal-basis-rights-mapping">Mapping between Rights and Legal Bases</a> which indicates which right must be provided for each legal basis</li>
+      <li><a href="#vocab-rights-justifications">Justifications associated with exercising, delaying, and non-fulfilment of Rights</a></li>
+      <li><a href="#vocab-data-transfers">Data Transfer Tools</a> as defined by <a href="https://edpb.europa.eu/system/files/2021-06/edpb_recommendations_202001vo.2.0_supplementarymeasurestransferstools_en.pdf">EDPB Recommendations 01/2020 on Supplementary Measures and Transfer Tools</a> </li>
       <li><a href="#vocab-dpia">Data Protection Impact Assessment (DPIA)</a> information as defined in Article 35, such as necessity to conduct a DPIA, indicating the findings of DPIA in terms of risk levels and impacts, and the outcomes of DPIAs regarding continuation of processing</li>
       <li><a href="#vocab-data-breach">Data Breach</a> information such as types of breaches, notices, reporting requirements, and risk levels</li>
-      <li><a href="#vocab-entities-establishment">Establishment &amp; Authorities</a> to indicate aspects such as 'main' etablishment of an organisation, and to indicate role of DPAs as 'lead' supervisory authority</li>
+      <li><a href="#vocab-entities-establishment">Establishment &amp; Authorities</a> to indicate aspects such as 'main' establishment of an organisation, and to indicate role of DPAs as 'lead' supervisory authority</li>
       <li><a href="#vocab-compliance">Compliance</a> to express whether the specific process or context is compliant with the GDPR</li>
     </ul>
   </section>
 {% endblock INTRODUCTION %}
+
+<section id="mapping">
+  <h2>Mapping GDPR concepts to DPV</h2>
+  <aside class="issue" data-number="186"></aside>
+  <p>This draft mapping table shows how the DPV and EU-GDPR extension represents specific concepts within the GDPR.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>GDPR concept</th>
+        <th>EU-GDPR concept</th>
+        <th>Parent concept</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_1/oj">Art.4-1 Personal Data</a></td>
+          <td>[=PersonalData=]</td>
+          <td>`dpv:PersonalData`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_1/oj">Art.4-1 Data Subject</a></td>
+          <td>[=DataSubject=]</td>
+          <td>`dpv:DataSubject`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_2/oj">Art.4-2 Processing</a></td>
+          <td>[=Processing=]</td>
+          <td>`dpv:Processing`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_4/oj">Art.4-4 Profiling</a></td>
+          <td>[=Profiling=]</td>
+          <td>`dpv:Profiling`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_5/oj">Art.4-5 Pseudonymisation</a></td>
+          <td>[=Pseudonymisation=]</td>
+          <td>`dpv:Pseudonymisation`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_7/oj">Art.4-7 Controller</a></td>
+          <td>[=Controller=]</td>
+          <td>`dpv:DataController`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_8/oj">Art.4-8 Processor</a></td>
+          <td>[=Processor=]</td>
+          <td>`dpv:DataProcessor`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_9/oj">Art.4-9 Recipient</a></td>
+          <td>[=Recipient=]</td>
+          <td>`dpv:Recipient`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_10/oj">Art.4-10 Third Party</a></td>
+          <td>[=ThirdParty=]</td>
+          <td>`dpv:ThirdParty`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_11/oj">Art.4-11 Consent</a></td>
+          <td>[=Consent=]</td>
+          <td>`dpv:Consent`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_12/oj">Art.4-12 Personal Data Breach</a></td>
+          <td>[=DataBreach=]</td>
+          <td>`risk:DataBreach`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_13/oj">Art.4-13 Genetic Data</a></td>
+          <td>[=GeneticData=]</td>
+          <td>`pd:Genetic`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_14/oj">Art.4-14 Biometric Data</a></td>
+          <td>[=BiometricData=]</td>
+          <td>`pd:Biometric`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_15/oj">Art.4-15 Health Data</a></td>
+          <td>[=HealthData=]</td>
+          <td>`pd:MedicalHealth`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_16/oj">Art.4-16 Main Establishment</a></td>
+          <td>[=MainEstablishment=]</td>
+          <td>`dpv:Organisation`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_17/oj">Art.4-17 Representative</a></td>
+          <td>[=Representative=]</td>
+          <td>`dpv:Representative`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_20/oj">Art.4-20 Binding Corporate Rules</a></td>
+          <td>[=BindingCorporateRules=]</td>
+          <td>`dpv:OrganisationMeasure`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_21/oj">Art.4-21 Supervisory Authority</a></td>
+          <td>[=DataProtectionAuthority=]</td>
+          <td>`dpv:DataProtectionAuthority`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_22/oj">Art.4-22 Concerned Supervisory Authority</a></td>
+          <td>[=ConcernedSupervisoryAuthority=]</td>
+          <td>`dpv:DataProtectionAuthority`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_23/oj">Art.4-23 Cross Border Processing</a></td>
+          <td>[=CrossBorderProcessing=]</td>
+          <td>`dpv:Processing`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_25/oj">Art.4-25 Information Society Service</a></td>
+          <td>[=InformationSocietyService=]</td>
+          <td>`dpv:Service`</td>
+      </tr>
+      <tr>
+          <td><a href="https://eur-lex.europa.eu/eli/reg/2016/679/art_4/par_26/oj">Art.4-26 International Organisation</a></td>
+          <td>[=InternationalOrganisation=]</td>
+          <td>`dpv:InternationalOrganisation`</td>
+      </tr> 
+    </tbody>
+  </table>
+</section>
+
 {% block VOCAB %}
   <section id="vocab-legal-basis">
     <h2>Legal Basis</h2>
@@ -130,7 +260,7 @@ ex:PDH2 a dpv:Process ;
       </code></pre>
     </aside>
     <aside class="example" title="Expressing legal basis using both DPV and EU-GDPR">
-      <p>This example shows how DPV concepts are general/abstract notions of legal basis, and the use of extensions such as EU-GDPR enables expressing legally defined legal basis for accurate representation of requirements. It first represents a process which uses DPV consent to indicate, in general, that consent is the legal basis for the process, and EU-GDPR to specificly indicate that the consent is as defined in Art.6-1a. The second process demonstrates declaring explicitly expressed consent as the legal basis with GDPR as the applicable law, but no explicit reference to a particular clause within GDPR. The implication of this is that an assessment is necessary to determine how the consent must be interpreted within GDPR's framework as the personal data involved is of special category. Therefore, where GDPR is known to be applied, we recommend specifying the EU-GDPR defined legal basis by itself or in addition to the general legal basis from DPV.</p>
+      <p>This example shows how DPV concepts are general/abstract notions of legal basis, and the use of extensions such as EU-GDPR enables expressing legally defined legal basis for accurate representation of requirements. It first represents a process which uses DPV consent to indicate, in general, that consent is the legal basis for the process, and EU-GDPR to specifically indicate that the consent is as defined in Art.6-1a. The second process demonstrates declaring explicitly expressed consent as the legal basis with GDPR as the applicable law, but no explicit reference to a particular clause within GDPR. The implication of this is that an assessment is necessary to determine how the consent must be interpreted within GDPR's framework as the personal data involved is of special category. Therefore, where GDPR is known to be applied, we recommend specifying the EU-GDPR defined legal basis by itself or in addition to the general legal basis from DPV.</p>
       <pre class="nohighlight"><code>ex:PDH1 a dpv:Process ;
   dpv:hasLegalBasis dpv:ExpressedConsent ; # general legal basis
   dpv:hasLegalBasis eu-gdpr:A6-1-a . # GDPR specific consent
@@ -199,45 +329,74 @@ ex:PDH2 a dpv:Process ;
   </section>
 
   <section id="vocab-rights">
-    <h2>Data Subject Rights</h2>
-      <figure>
-	<object type="image/svg+xml" data="../../../diagrams/gdpr_DataSubjectRights.svg">
-	  <img src="../../../diagrams/gdpr_DataSubjectRights.svg" />
-	</object>
-	<figcaption>Data Subject Rights as defined by GDPR extending DPV's core concept "Right"</figcaption>
-      </figure>
-    <p>GDPR provides several rights to the data subject, whose applicability depends on the context and nature of processing taking place. DPV lists these rights at an abstract level as concepts along with their origin in specific clauses of the GDPR.</p>
-    <p>In addition to DPV's concepts regarding exercise of rights, EU-GDPR provides additional concepts specific to the implementation of its rights. For example, [=SARNotice=] refers to the information provided in fulfilment of [=A15=] Right of Access, or using [=dcat:Resource=] to represent the dataset provided in fulfilment of [=A20=] Right to Data Portability.</p>
-    <aside class="note" title="Forthcoming guidance on implementation of rights">
-      <p>The [[[GUIDE-Rights]]] is a work-in-progress document that will provide guidance and examples for use of DPV concepts to discover, exercise, and respond to rights, including those defined by GDPR.</p>
-    </aside>
-    {{ list_hierarchy(modules['rights']['classes']) }}
-  </section>
+    <h2>Rights and Impact on Rights</h2>
+    <section id="data-subject-rights">
+      <h3>Data Subject Rights</h3>
+        <figure>
+  	<object type="image/svg+xml" data="../../../diagrams/gdpr_DataSubjectRights.svg">
+  	  <img src="../../../diagrams/gdpr_DataSubjectRights.svg" />
+  	</object>
+  	<figcaption>Data Subject Rights as defined by GDPR extending DPV's core concept "Right"</figcaption>
+        </figure>
+      <p>GDPR provides several rights to the data subject, whose applicability depends on the context and nature of processing taking place. DPV lists these rights at an abstract level as concepts along with their origin in specific clauses of the GDPR.</p>
+      <p>In addition to DPV's concepts regarding exercise of rights, EU-GDPR provides additional concepts specific to the implementation of its rights. For example, [=SARNotice=] refers to the information provided in fulfilment of [=A15=] Right of Access, or using [=dcat:Resource=] to represent the dataset provided in fulfilment of [=A20=] Right to Data Portability.</p>
+      <aside class="note" title="Forthcoming guidance on implementation of rights">
+        <p>The [[[GUIDE-Rights]]] is a work-in-progress document that will provide guidance and examples for use of DPV concepts to discover, exercise, and respond to rights, including those defined by GDPR.</p>
+      </aside>
+      {{ list_hierarchy(modules['rights']['classes']) }}
+    </section>
 
-  <section id="vocab-legal-basis-rights-mapping">
-    <h2>Mapping: Legal Basis × Rights</h2>
-    <p>To support the effective implementation of GDPR, the [[EU-GDPR]] extension provides a mapping between legal bases and data subject rights to indicate which right should be provided based on the selected legal basis. This information is represented in machine-readable form within the [[EU-GDPR]] extension by using the relation <code>dpv:hasRight</code> between instances of GDPR legal basis and rights.</p>
-    <table>
-      <thead>
-      <th>Legal Basis (rows), Right (columns)</th>
-      {% for row_legalbasis in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
-        <th>{{ row_legalbasis['skos:prefLabel'] }}</th>
-      {% endfor %}
-    </thead>
-    <tbody>
-      {% for item in modules['legal_basis-rights_mapping']['classes']|sort %}
-      {% if item != "prefix" %}
-      <tr>
-      {% set item = vocab[item] %}
-        <td><a href="{{item['iri']}}">{{item['skos:prefLabel']}}</a></td>
-        {% for legalbasis in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
-        {% if legalbasis['iri'] in item['dpv:hasRight'] %}<td style="color:green; background-color: rgba(0, 255, 0, 0.2);">☒{% else %}<td style="color: red; background-color: rgba(255, 0, 0, 0.1);">☐</span>{% endif %}</td>        
+    <section id="vocab-rights-impacts">
+      <h3>Rights Impacts</h3>
+      <p>[=GDPRRightsImpact=],  a specialised form of `risk:RightsImpact`,  represents an impact on right(s) within the GDPR. Further concepts are defined by extending this for each right within the GDPR, such as [=A20-Impact=] for impacts on [=A20=] Right to Data Portability. These concepts are provided to aid in risk and impact assessments, particularly those associated with impacts on rights, and are to be used along with the relevant concepts and properties from [[DPV]] and [[RISK]] vocabularies.</p>
+      <p>The scope of each rights impact concept is to represent the impact at a broad level without providing specifics on the nature or category of impact. For example, [=A13-Impact=] only represents an impact on [=A13=] and doesn't state what the impact is or what it implies. While the [[RISK]] extension provides a taxonomy of consequences and impacts which could be used to represent the nature of the impact, the DPVCG is currently exploring whether more contextual and appropriate concepts can be represented for the specific impacts associated with a right. For this, the [=A13-Impact=] is experimentally extended to represent categories of impact, e.g. A13 incorrectly being considered as not being applicable as [=A13-Denied=]. This follows a similar exercise for modelling impacts on EU Fundamental Rights and Freedoms in the [[EU-RIGHTS]] extension.</p>
+      {{ list_hierarchy(modules['rights-impacts']['classes']) }}
+      <aside class="issue" data-number="210"></aside>
+    </section>
+
+    <section id="vocab-legal-basis-rights-mapping">
+      <h2>Mapping: Legal Basis × Rights</h2>
+      <p>To support the effective implementation of GDPR, the [[EU-GDPR]] extension provides a mapping between legal bases and data subject rights to indicate which right should be provided based on the selected legal basis. This information is represented in machine-readable form within the [[EU-GDPR]] extension by using the relation <code>dpv:hasRight</code> between instances of GDPR legal basis and rights.</p>
+      <table>
+        <thead>
+        <th>Legal Basis (rows), Right (columns)</th>
+        {% for row_legalbasis in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
+          <th>{{ row_legalbasis['skos:prefLabel'] }}</th>
         {% endfor %}
-      </tr>
-      {% endif %}     
-      {% endfor %}    
-    </tbody>
-    </table>    
+      </thead>
+      <tbody>
+        {% for item in modules['legal_basis-rights_mapping']['classes']|sort %}
+        {% if item != "prefix" %}
+        <tr>
+        {% set item = vocab[item] %}
+          <td><a href="{{item['iri']}}">{{item['skos:prefLabel']}}</a></td>
+          {% for legalbasis in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
+          {% if legalbasis['iri'] in item['dpv:hasRight'] %}<td style="color:green; background-color: rgba(0, 255, 0, 0.2);">☒{% else %}<td style="color: red; background-color: rgba(255, 0, 0, 0.1);">☐</span></td>{% endif %}
+          {% endfor %}
+        </tr>
+        {% endif %}     
+        {% endfor %}    
+      </tbody>
+      </table>    
+    </section>
+
+    <section id="vocab-rights-justifications">
+      <h3>Justifications for Rights Exercise</h3>
+      <p>GDPR defines instances for where right exercise can be denied, delayed, or be put on hold while more information or activities are required. For example, GDPR Art.12-3 states that fulfilling a rights exercise request may be delayed if it is sufficiently complex and/or there are a large number of requests to be handled at that time. These are modelled as [=JustificationA12Complexity=] and [=JustificationA12HighVolume=] respectively, which are instances of `dpv:Justification` and can be associated using the relation `dpv:hasJustification`. The justification concepts expand broader concepts in the [[JUSTIFICATIONS]] extension and are defined for interpretation in the context of specific rights. The below list provides a list of justifications derived from the GDPR for each specific right (click to expand).</p>
+      {% for right in modules['rights']['classes'].keys()|sort|filter_type('dpv:Right', vocab='eu-gdpr') %}
+      {% if right['dpv:hasJustification']|filter_type('dpv:Justification')|length > 0 %}
+      <details>
+        <summary>{{ right['skos:prefLabel'] }} ({{right['dpv:hasJustification']|filter_type('dpv:Justification')|length}} justifications)</summary>
+        <ul>
+        {% for justification in right['dpv:hasJustification']|sort|filter_type('dpv:Justification') %}
+          <li>[={{ justification['term'] }}=] {{ justification['skos:definition'] }}</li>
+        {% endfor %}
+        </ul>
+      </details>
+      {% endif %}
+      {% endfor %}
+    </section>
+
   </section>
 
   <section id="vocab-data-transfers">
@@ -262,7 +421,7 @@ ex:PDH2 a dpv:Process ;
     <p>[[GDPR]] Article 35 specifies the conditions and requirements associated with Data Protection Impact Assessments. EU-GDPR expands on the <code>DPIA</code> concept defined as an Organisational Measure within DPV by considering a DPIA as consisting of the following iterative process, and providing statuses for documenting their progression and outputs:</p>
     <ol>
       <li>Identifying activities for which a DPIA is to be undertaken (represented using DPV and EU-GDPR)</li>
-      <li>Checking whether a DPIA is needed as per GDPR Art.35 and other jurisdictional requirements: the activitiy is [=DPIANecessityAssessment=] and its output is denoted using [=DPIANecessityStatus=]</li>
+      <li>Checking whether a DPIA is needed as per GDPR Art.35 and other jurisdictional requirements: the activity is [=DPIANecessityAssessment=] and its output is denoted using [=DPIANecessityStatus=]</li>
       <li>Conducting the DPIA to identify risks and impacts: the activity is [=DPIAProcedure=] and its output is denoted using [=DPIARiskStatus=]</li>
       <li>Determining the outcome based on risk mitigation: the activity is [=DPIAOutcome=] and its output is denoted using [=DPIAOutcomeStatus=]</li>
       <li>Determining whether processing should be permitted to continue or be carried out, with the outcome being denote using [=DPIAProcessingRecommendation=]</li>
@@ -274,6 +433,7 @@ ex:PDH2 a dpv:Process ;
     </div>
 
     {{ list_hierarchy(modules['dpia']['classes']) }}
+    <aside class="issue" data-number="183"></aside>
   </section>
 
   <section id="vocab-data-breach">
@@ -286,7 +446,8 @@ ex:PDH2 a dpv:Process ;
     <p>[=DataBreachNotice=] represents the communication of information regarding a data breach to another entity, such as reporting it to the authority or sending communications to data subjects. Specific notice concepts are defined to reflect the recipients, for example [=ControllerBreachNotice=] is a notice sent to the controller and [=DataSubjectBreachNotice=] is a notice sent to the data subject. For reporting data breaches to authorities, there are multiple types of notifications at various stages of investigations - these are represented by [=DPABreachNotice=] with additional concepts for initial notice sent within 72 hours, as well as 'phased' notices which are sent as information becomes available.</p>
     <p>To represent status of GDPR obligations regarding data breach notifications, the concept [=DataBreachNoticeRequirement=] provides specific outcomes which can be documented. For example, [=BreachNotificationNotNeeded=] indicates that notifications are not needed, and [=DPABreachNotificationNeeded=] represents a notification to the authority is needed.</p>
     <p>To support the documentation of data breaches, the concept [=DataBreachReport=] represents a report associated with the breach, which can contain information on how the breach was discovered, the duration and coverage of the breach, what measures were taken to handle it, and what notifications were sent as part of the data breach handling processes. Specific concepts are provided to represent different reports required for fulfilling GDPR requirements, for example [=DataBreachDetectionReport=] as a report regarding the detection of a data breach and [=DataBreachPreliminaryReport=] as a preliminary report (e.g. within 72 hours) when an investigation is underway.</p>
-    <p>GDPR also requires carrying out an impact assessment to determine the level of risk associated with the data breach, in particular on the processing of personal data and on the rights and freedoms of the data subjects. To represent this, the concept [=DBIARiskStatus=] is provided with specific outcomes. For example, [=DBIAIndicatesHighRisk=] indicates the data breach has a 'high-risk' status.</p>
+    <p>[=DataBreachJustification=] represents a `dpv:Justification` defined in the context of a data breach handling procedure, with specific concepts defined based on the provisions defined in the GDPR. For example, [=JustificationA33NotificationDelay=] represents the justification for why a data breach notification was delayed - which would require additional information for that particular instance, and [=JustificationA33RiskUnlikely=] represents the specific justification that a notification was deemed to not be necessary as the risk level was found to be low or unlikely (while this doesn't require more information to describe the justification, it is good practice to associate the risk/impact assessment with this for record keeping).</p>
+    <p>GDPR requires carrying out an impact assessment to determine the level of risk associated with the data breach, in particular on the processing of personal data and on the rights and freedoms of the data subjects. To represent this, the concept [=DBIARiskStatus=] is provided with specific outcomes. For example, [=DBIAIndicatesHighRisk=] indicates the data breach has a 'high-risk' status.</p>
     {{ list_hierarchy(modules['data_breach']['classes']) }}
   </section>
 
@@ -294,7 +455,7 @@ ex:PDH2 a dpv:Process ;
     <h2>Establishment and Authorities</h2>
     <section id="vocab-entities-establishment">
       <h3>Establishment</h3>
-      <p>The concept 'establishment' is defined in the GPDR in Article 4-16 as 'main establishment' which is used to determine who will be the 'lead' supervisory authority responsible. An establishment in this context can be a subsidiary, a division or branch, or other forms of corporate structures through which multi-national corporations and organisations operate. To support representation of this, [[EU-GDPR]] defines the concept [=Establishment=], and extends it as [=MainEstablishment=] to indicate which establishment is the 'main'. To indicate that there is only a single establishment and no other locations are involved, the concept [=SingleEstablishment=] is provided.</p>
+      <p>The concept 'establishment' is defined in the GDPR in Article 4-16 as 'main establishment' which is used to determine who will be the 'lead' supervisory authority responsible. An establishment in this context can be a subsidiary, a division or branch, or other forms of corporate structures through which multi-national corporations and organisations operate. To support representation of this, [[EU-GDPR]] defines the concept [=Establishment=], and extends it as [=MainEstablishment=] to indicate which establishment is the 'main'. To indicate that there is only a single establishment and no other locations are involved, the concept [=SingleEstablishment=] is provided.</p>
       <p>Establishments are indicated by using the relation [=hasEstablishment=]. Main establishment is associated by using the relation [=isMainEstablishmentFor=], or the main establishment can be indicated using [=hasMainEstablishment=]. To represent organisation structures such as subsidiaries, the relation <code>dpv:hasSubsidiary</code> and <code>dpv:isSubsidiaryOf</code> can be reused.</p>
       <aside class="example" title="Indicating Main Establishment of Organisation for GDPR">
         <p>This example shows the use of EU-GDPR to represent the main and other establishments associated with an organisation. The example uses CompanyX, established in the USA, as a fictional company which is headquartered in Ireland as X-IE and has subsidiaries in Netherlands (X-NL) and Luxembourg (X-LU). The main establishment for CompanyX in EU is X-IE. Another organisation called CompanyY is also headquartered in Ireland but does not have any other establishments - it is thus declared as a single establishment. The locations are defined using the LOC extension.</p>
@@ -316,7 +477,7 @@ ex:X-LU a dpv:Organisation, dpv:Subsidiary, eu-gdpr:Establishment ;
   dpv:isSubsidiaryOf ex:CompanyX ;
   dpv:hasLocation loc:LU .
 
-ex:CompanyY a dpv:Orgnanisation, eu-gdpr:SingleEstablishment ;
+ex:CompanyY a dpv:Organisation, eu-gdpr:SingleEstablishment ;
   dpv:hasLocation loc:IE .
         </code></pre>
       </aside>
@@ -355,6 +516,12 @@ ex:PDH2 a dpv:Process ;
     {{ list_hierarchy(modules['compliance']['classes']) }}
   </section>
 
+  <section id="vocab-misc-concepts">
+    <h2>Misc. Concepts</h2>
+    <p>These concepts are additionally defined in the EU-GDPR extension, but are not placed within the sections described earlier.</p>
+    {{ list_hierarchy(modules['misc_concepts']['classes']) }}
+  </section>
+
   <section id="vocabulary">
 <h2>Vocabulary Index</h2>
   <section id="dpv-classes">
@@ -378,15 +545,6 @@ ex:PDH2 a dpv:Process ;
 {% endblock VOCAB %}
 
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
@@ -395,7 +553,7 @@ ex:PDH2 a dpv:Process ;
 
   <h3>Funding Acknowledgements for Contributors</h3>
   <p>The contributions of Axel Polleres, Javier Fernandez, Piero Bonatti, and Luigi Sauro to the DPVCG have been funded by the European Union’s Horizon 2020 research and innovation programme under grant agreement N. 731601 (<a href="https://specialprivacy.ercim.eu/">project SPECIAL</a>) until 2019, and that for Piero Bonatti and Luigi Sauro were under grant agreement N. 883464 (<a href="https://trapeze-project.eu/">project TRAPEZE</a>) from 2020 until 2023.</p>
-  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497.</p>
+  <p>The contributions of Beatriz Esteves have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497. Beatriz Esteves is funded by <a href="https://solidlab.be/">SolidLab Vlaanderen</a> (Flemish Government, EWI and RRF project VV023/10), and by the imec.icon project PACSOI (HBC.2023.0752) which was co-financed by imec and VLAIO.</p>
   <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
 
 </section>
@@ -415,6 +573,24 @@ ex:PDH2 a dpv:Process ;
 </section>
 {% endif %}
 {% endblock PROPOSED %}
+
+<section id="future-work" class="appendix">
+  <h2>Future Work</h2>
+  <aside class="issue" data-number="66"></aside>
+  <aside class="issue" data-number="67"></aside>
+  <aside class="issue" data-number="103"></aside>
+  <aside class="issue" data-number="183"></aside>
+  <aside class="issue" data-number="186"></aside>
+  <aside class="issue" data-number="191"></aside>
+  <aside class="issue" data-number="210"></aside>
+</section>
+
+<section class="appendix" id="issue-summary"></section>
+
+<section id="changelog">
+  <h2>Changelog for v2.1</h2>
+  <div class="issue" title="Changelog for v2.1"></div>
+</section>
 
 <script type="text/javascript" src="../../../diagrams/common.js" defer></script>
 </body>

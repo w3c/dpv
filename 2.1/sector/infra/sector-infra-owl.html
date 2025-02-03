@@ -1,0 +1,4712 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Infrastructure Sector Concepts</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "Infrastructure Sector Concepts",
+    subtitle: "version 2.1 - OWL serialisation",
+    publishDate: "2025-02-01",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
+    canonicalUri: "https://w3id.org/dpv/",
+    edDraftURI: "https://w3id.org/dpv/",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "ADAPT Centre, Dublin City University",
+    }
+    ],
+    authors: [  { 
+    "name": "Harshvardhan J. Pandit",
+    "company": "ADAPT Centre, Dublin City University",
+    "orcid": "0000-0002-5068-3714",
+    "url": "https://harshp.com/"  }
+]
+,
+    otherLinks: [
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            }
+        ]
+      }
+    ],
+    localBiblio: {
+  "DPVCG": {
+    "href": "https://www.w3.org/community/dpvcg/",
+    "title": "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)"
+  },
+  "DPV": {
+    "href": "https://w3id.org/dpv",
+    "title": "Data Privacy Vocabulary (DPV) Specification"
+  },
+  "EU-GDPR": {
+    "href": "https://w3id.org/dpv/legal/eu/gdpr",
+    "title": "EU GDPR concepts for DPV"
+  },
+  "EU-DGA": {
+    "href": "https://w3id.org/dpv/legal/eu/dga",
+    "title": "EU DGA concepts for DPV"
+  },
+  "EU-AIAct": {
+    "href": "https://w3id.org/dpv/legal/eu/aiact",
+    "title": "EU AI Act concepts for DPV"
+  },
+  "EU-NIS2": {
+    "href": "https://w3id.org/dpv/legal/eu/nis2",
+    "title": "EU NIS2 concepts for DPV"
+  },
+  "EU-EHDS": {
+    "href": "https://w3id.org/dpv/legal/eu/ehds",
+    "title": "EU Health Data Space (EHDS) concepts for DPV"
+  },
+  "DPV-NACE": {
+    "href": "https://w3id.org/dpv/nace",
+    "title": "NACE Taxonomy serialised in RDFS/OWL"
+  },
+  "PD": {
+    "href": "https://w3id.org/dpv/pd",
+    "title": "Personal Data categories for DPV"
+  },
+  "TECH": {
+    "href": "https://w3id.org/dpv/tech",
+    "title": "Technology concepts for DPV"
+  },
+  "AI": {
+    "href": "https://w3id.org/dpv/ai",
+    "title": "AI Technology concepts for DPV"
+  },
+  "RISK": {
+    "href": "https://w3id.org/dpv/risk",
+    "title": "Risk Assessment and Management concepts for DPV"
+  },
+  "LOC": {
+    "href": "https://w3id.org/dpv/loc",
+    "title": "Location and Geo-Political Membership concepts for DPV"
+  },
+  "SECTOR": {
+    "href": "https://w3id.org/dpv/sector",
+    "title": "Sector-specific Extensions for DPV"
+  },
+  "SECTOR-EDUCATION": {
+    "href": "https://w3id.org/dpv/sector/education",
+    "title": "Education Sector Extension for DPV"
+  },
+  "SECTOR-FINANCE": {
+    "href": "https://w3id.org/dpv/sector/finance",
+    "title": "Finance Sector Extension for DPV"
+  },
+  "SECTOR-HEALTH": {
+    "href": "https://w3id.org/dpv/sector/health",
+    "title": "Health Sector Extension for DPV"
+  },
+  "SECTOR-INFRA": {
+    "href": "https://w3id.org/dpv/sector/infra",
+    "title": "Infrastructure Sector Extension for DPV"
+  },
+  "SECTOR-LAW": {
+    "href": "https://w3id.org/dpv/sector/law",
+    "title": "Law Enforcement & Justice Sector Extension for DPV"
+  },
+  "SECTOR-PUBLICSERVICES": {
+    "href": "https://w3id.org/dpv/sector/publicservices",
+    "title": "Public Services Sector Extension for DPV"
+  },
+  "JUSTIFICATIONS": {
+    "href": "https://w3id.org/dpv/justifications",
+    "title": "Concepts representing Justifications for DPV"
+  },
+  "LEGAL": {
+    "href": "https://w3id.org/dpv/legal",
+    "title": "Legal Jurisdiction-relevant concepts for DPV"
+  },
+  "LEGAL-AT": {
+        "href": "https://w3id.org/dpv/legal/at",
+        "title": "Legal concepts for Austria (AT)"
+  },
+  "LEGAL-BE": {
+          "href": "https://w3id.org/dpv/legal/be",
+          "title": "Legal concepts for Belgium (BE)"
+  },
+  "LEGAL-BG": {
+          "href": "https://w3id.org/dpv/legal/bg",
+          "title": "Legal concepts for Bulgaria (BG)"
+  },
+  "LEGAL-CY": {
+          "href": "https://w3id.org/dpv/legal/cy",
+          "title": "Legal concepts for Cyprus (CY)"
+  },
+  "LEGAL-CZ": {
+          "href": "https://w3id.org/dpv/legal/cz",
+          "title": "Legal concepts for Czech Republic (CZ)"
+  },
+  "LEGAL-DE": {
+          "href": "https://w3id.org/dpv/legal/de",
+          "title": "Legal concepts for Germany (DE)"
+  },
+  "LEGAL-DK": {
+          "href": "https://w3id.org/dpv/legal/dk",
+          "title": "Legal concepts for Denmark (DK)"
+  },
+  "LEGAL-EE": {
+          "href": "https://w3id.org/dpv/legal/ee",
+          "title": "Legal concepts for Estonia (EE)"
+  },
+  "LEGAL-ES": {
+          "href": "https://w3id.org/dpv/legal/es",
+          "title": "Legal concepts for Spain (ES)"
+  },
+  "LEGAL-FI": {
+          "href": "https://w3id.org/dpv/legal/fi",
+          "title": "Legal concepts for Finland (FI)"
+  },
+  "LEGAL-FR": {
+          "href": "https://w3id.org/dpv/legal/fr",
+          "title": "Legal concepts for France (FR)"
+  },
+  "LEGAL-GR": {
+          "href": "https://w3id.org/dpv/legal/gr",
+          "title": "Legal concepts for Greece (GR)"
+  },
+  "LEGAL-HR": {
+          "href": "https://w3id.org/dpv/legal/hr",
+          "title": "Legal concepts for Croatia (HR)"
+  },
+  "LEGAL-HU": {
+          "href": "https://w3id.org/dpv/legal/hu",
+          "title": "Legal concepts for Hungary (HU)"
+  },
+  "LEGAL-IE": {
+          "href": "https://w3id.org/dpv/legal/ie",
+          "title": "Legal concepts for Ireland (IE)"
+  },
+  "LEGAL-IS": {
+          "href": "https://w3id.org/dpv/legal/is",
+          "title": "Legal concepts for Iceland (IS)"
+  },
+  "LEGAL-IT": {
+          "href": "https://w3id.org/dpv/legal/it",
+          "title": "Legal concepts for Italy (IT)"
+  },
+  "LEGAL-LI": {
+          "href": "https://w3id.org/dpv/legal/li",
+          "title": "Legal concepts for Liechtenstein (LI)"
+  },
+  "LEGAL-LT": {
+          "href": "https://w3id.org/dpv/legal/lt",
+          "title": "Legal concepts for Lithuania (LT)"
+  },
+  "LEGAL-LU": {
+          "href": "https://w3id.org/dpv/legal/lu",
+          "title": "Legal concepts for Luxembourg (LU)"
+  },
+  "LEGAL-LV": {
+          "href": "https://w3id.org/dpv/legal/lv",
+          "title": "Legal concepts for Latvia (LV)"
+  },
+  "LEGAL-MT": {
+          "href": "https://w3id.org/dpv/legal/mt",
+          "title": "Legal concepts for Malta (MT)"
+  },
+  "LEGAL-NL": {
+          "href": "https://w3id.org/dpv/legal/nl",
+          "title": "Legal concepts for Netherlands (NL)"
+  },
+  "LEGAL-NO": {
+          "href": "https://w3id.org/dpv/legal/no",
+          "title": "Legal concepts for Norway (NO)"
+  },
+  "LEGAL-PL": {
+          "href": "https://w3id.org/dpv/legal/pl",
+          "title": "Legal concepts for Poland (PL)"
+  },
+  "LEGAL-PT": {
+          "href": "https://w3id.org/dpv/legal/pt",
+          "title": "Legal concepts for Portugal (PT)"
+  },
+  "LEGAL-RO": {
+          "href": "https://w3id.org/dpv/legal/ro",
+          "title": "Legal concepts for Romania (RO)"
+  },
+  "LEGAL-SE": {
+          "href": "https://w3id.org/dpv/legal/se",
+          "title": "Legal concepts for Sweden (SE)"
+  },
+  "LEGAL-SI": {
+          "href": "https://w3id.org/dpv/legal/si",
+          "title": "Legal concepts for Slovenia (SI)"
+  },
+  "LEGAL-SK": {
+          "href": "https://w3id.org/dpv/legal/sk",
+          "title": "Legal concepts for Slovakia (SK)"
+  },
+  "LEGAL-GB": {
+          "href": "https://w3id.org/dpv/legal/gb",
+          "title": "Legal concepts for Great Britain and Northern Ireland (GB)"
+  },
+  "LEGAL-IN": {
+          "href": "https://w3id.org/dpv/legal/in",
+          "title": "Legal concepts for India (IN)"
+  },
+  "LEGAL-US": {
+          "href": "https://w3id.org/dpv/legal/us",
+          "title": "Legal concepts for United States of America (US)"
+  },
+  "LEGAL-EU": {
+          "href": "https://w3id.org/dpv/legal/eu",
+          "title": "Legal concepts for European Union (EU)"
+  },
+  "EU-RIGHTS": {
+    "href": "https://w3id.org/dpv/legal/eu/rights",
+    "title": "EU Fundamental Rights concepts for DPV"
+  },
+  "STANDARD-P7012": {
+    "href": "https://w3id.org/dpv/standards/p7012",
+    "title": "Extension for IEEE P7012"
+  },
+  "DPV-OWL": {
+    "href": "https://w3id.org/dpv/dpv-owl",
+    "title": "DPV serialised in OWL2"
+  },
+  "PRIMER": {
+    "href": "https://w3id.org/dpv/primer",
+    "title": "Primer for Data Privacy Vocabulary"
+  },
+  "PRIMER-concise": {
+    "href": "https://w3id.org/dpv/primer/concise",
+    "title": "Concise Primer for Data Privacy Vocabulary"
+  },
+  "DPV-ADOPTION": {
+    "href": "https://github.com/w3c/dpv/wiki/Adoption-and-Uses-of-DPVCG",
+    "title": "Adoption and Uses of DPV"
+  },
+  "GUIDES": {
+    "href": "https://w3id.org/dpv/guides",
+    "title": "Guides for DPV"
+  },
+  "GUIDE-Consent-27560": {
+    "href": "https://w3id.org/dpv/guides/consent-27560",
+    "title": "Consent Records and Receipts as per ISO/IEC TS 27560:2023 using DPV"
+  },
+  "GUIDE-Notice-29184": {
+    "href": "https://w3id.org/dpv/guides/notice-29184",
+    "title": "Privacy Notices as per ISO/IEC 29184:2020 using DPV"
+  },
+  "GUIDE-Notice": {
+    "href": "https://w3id.org/dpv/guides/notice",
+    "title": "Guide for Privacy Notices using DPV"
+  },
+  "GUIDE-Serialisations": {
+    "href": "https://w3id.org/dpv/guides/serialisations",
+    "title": "Guide on DPV's serialisations and semantics"
+  },
+  "GUIDE-SKOS": {
+    "href": "https://w3id.org/dpv/guides/dpv-skos",
+    "title": "Guide for using DPV with RDFS and SKOS"
+  },
+  "GUIDE-OWL2": {
+    "href": "https://w3id.org/dpv/guides/dpv-owl",
+    "title": "Guide for using DPV in OWL2"
+  },
+  "GUIDE-ODRL": {
+    "href": "https://w3id.org/dpv/guides/dpv-odrl",
+    "title": "Guide for using DPV with ODRL"
+  },
+  "GUIDE-MISCFORMAT": {
+    "href": "https://w3id.org/dpv/guides/dpv-misc",
+    "title": "Guide for using DPV in miscellaneous formats e.g. CSV, JSON"
+  },
+  "GUIDE-GDPR-DPIA": {
+    "href": "https://w3id.org/dpv/guides/gdpr-dpia",
+    "title": "Guide for GDPR DPIA's using DPV"
+  },
+  "GUIDE-GDPR-ROPA": {
+    "href": "https://w3id.org/dpv/guides/gdpr-ropa",
+    "title": "Guide for GDPR ROPA's using DPV"
+  },
+  "GUIDE-GDPR-DataBreach": {
+    "href": "https://w3id.org/dpv/guides/gdpr-data-breach",
+    "title": "Guide for GDPR Data Breach records, notifications, and assessments using DPV"
+  },
+  "GUIDE-Rights": {
+    "href": "https://w3id.org/dpv/guides/rights",
+    "title": "Guide for Rights Exercise and Management using DPV"
+  },
+  "DPV-27560": {
+      "href": "https://w3id.org/dpv/schema/dpv-27560",
+      "title": "DPV Profile for implementing ISO/IEC TS 27560:2023 Consent Records and Receipts"
+  },
+  "DPV-29184": {
+      "href": "https://w3id.org/dpv/schema/DPV-29184",
+      "title": "DPV Profile for implementing ISO/IEC TS 29184:2020 Privacy Notices"
+  },
+  "MAPPING-ODRL": {
+      "href": "https://w3id.org/dpv/mapping/odrl",
+      "title": "Mapping DPV concepts to ODRL"
+  },
+  "EXAMPLES": {
+    "href": "https://w3id.org/dpv/examples",
+    "title": "DPV Examples"
+  },
+  "UseCases-Requirements": {
+    "href": "https://w3id.org/dpv/use-cases",
+    "title": "Use-Cases and Requirements for DPV"
+  },
+  "RDF": {
+    "href": "https://www.w3.org/TR/rdf11-concepts/",
+    "title": "RDF 1.1 Concepts and Abstract Syntax"
+  },
+  "RDFS": {
+    "href": "https://www.w3.org/TR/rdf-schema/",
+    "title": "RDF Schema 1.1"
+  },
+  "OWL" :{
+    "href": "https://www.w3.org/TR/owl2-overview/",
+    "title": "OWL 2 Web Ontology Language Document Overview (Second Edition)"
+  },
+  "SKOS": {
+    "href": "https://www.w3.org/TR/skos-reference/",
+    "title": "SKOS Simple Knowledge Organization System"
+  },
+  "SPECIAL": {
+    "href": "https://www.specialprivacy.eu/",
+    "title": "SPECIAL H2020 Project"
+  },
+  "GDPR": {
+    "href": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+    "title": "General Data Protection Regulation (GDPR)"
+  },
+  "DGA": {
+    "href": "https://eur-lex.europa.eu/eli/reg/2022/868/oj",
+    "title": "Data Governance Act (DGA)"
+  },
+  "AIAct": {
+    "href": "http://data.europa.eu/eli/reg/2024/1689/oj",
+    "title": "Artificial Intelligence Act (AI Act)"
+  },
+  "NIS2": {
+    "href": "http://data.europa.eu/eli/dir/2022/2555/2022-12-27",
+    "title": "Network Information Security Directive (NIS2)"
+  },
+  "NACE": {
+    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+    "title": "Statistical Classification of Economic Activities in the European Community (NACE)"
+  },
+  "NAICS": {
+    "href": "https://www.census.gov/eos/www/naics/",
+    "title": "North American Industry Classification System (NAICS)"
+  },
+  "ISIC": {
+    "href": "https://unstats.un.org/unsd/classifications",
+    "title": "International Standard Industrial Classification of All Economic Activities (ISIC)"
+  },
+  "GICS": {
+    "href": "https://www.msci.com/gics",
+    "title": "Global Industry Classification Standard (GICS)"
+  },
+  "NACE-NAICS": {
+    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+    "title": "NACE to NAICS mapping"
+  },
+  "EnterPrivacy": {
+    "href": "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
+    "title": "Taxonomy of Personal Data Categories"
+  },
+  "TIME": {
+    "href": "https://www.w3.org/TR/owl-time/",
+    "title": "Time Ontology in OWL"
+  },
+  "ISO-27017": {
+    "href": "https://www.iso.org/standard/43757.html",
+    "title": "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
+  },
+  "ISO-27560": {
+    "href": "https://www.iso.org/standard/80392.html",
+    "title": "ISO/IEC TS 27560 Privacy technologies — Consent record information structure"
+  },
+  "ISO-29184": {
+    "href": "https://www.iso.org/standard/70331.html",
+    "title": "ISO/IEC 29184:2020 Privacy Notices and Consent"
+  },
+  "ISO-22989": {
+    "href": "https://www.iso.org/standard/74296.html",
+    "title": " ISO/IEC 22989:2022 Artificial intelligence concepts and terminology"
+  },
+  "SHACL-UseCases": {
+    "href": "https://www.w3.org/TR/shacl-ucr/",
+    "title": "SHACL Use Cases and Requirements"
+  },
+  "SHACL": {
+    "href": "https://www.w3.org/TR/shacl",
+    "title": "Shape and Contraint Language (SHACL)"
+  },
+  "ODRL": {
+    "href": "https://www.w3.org/TR/odrl-model/",
+    "title": "Open Digital Rights Language (ODRL) Model"
+  },
+  "DCT": {
+    "title": "DCMI Metadata Terms (DCT)",
+    "href": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
+  },
+  "DCAT": {
+    "title": "Data Catalog Vocabulary (DCAT)",
+    "href": "http://www.w3.org/ns/dcat"
+  },
+  "RuleML": {
+    "title": "RuleML: Rule Markup Language",
+    "href": "www.ruleml.org/"
+  },
+  "SKOS-OWL": {
+    "title": "Using OWL and SKOS",
+    "href": "https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html",
+  },
+  "DPCat": {
+    "title": "DPCat: Specification for an Interoperable and Machine-Readable Data Processing Catalogue Based on GDPR",
+    "href": "https://w3id.org/dpcat"
+  },
+  "ISO-8601": {
+    "href": "https://www.iso.org/iso-8601-date-and-time-format.html",
+    "title": "ISO 8601 Date and time format"
+  },
+  "IEEE-P7012": {
+    "title": "IEEE Draft Standard for Machine Readable Personal Privacy Terms",
+    "href": "https://standards.ieee.org/ieee/7012/7192/",
+  }
+}  };
+</script>
+  <link rel="stylesheet" type="text/css" href="../diagrams/common.css">
+<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+
+<section id="abstract">
+  <p>This document describes (only) the <strong><emph>OWL serialisation</emph> of Infrastructure Sector Concepts</strong>. For information on the concepts, their usage, and further documentation, please consult the canonical page for the vocabulary at: <a href="https://w3id.org/dpv/sector/infra">https://w3id.org/dpv/sector/infra</a></p>
+</section>
+
+<section id="sotd"></section>
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    <h3>Classes</h3>       
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+     <section class="term-def" id="AviationInfrastructureManagement">
+      <h4>Aviation Infrastructure Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>AviationInfrastructureManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Aviation Infrastructure Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#AviationInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#AviationInfrastructureManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#AviationInfrastructureManagement">https://w3id.org/dpv/sector/infra#AviationInfrastructureManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of aviation transport infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalCommunicationManagement">
+      <h4>Critical Communication Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalCommunicationManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Communication Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalCommunicationManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalCommunicationManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalCommunicationManagement">https://w3id.org/dpv/sector/infra#CriticalCommunicationManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of critical communications infrastructure and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalDigitalInfrastructureManagement">
+      <h4>Critical Digital Infrastructure Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalDigitalInfrastructureManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Digital Infrastructure Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalDigitalInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalDigitalInfrastructureManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalDigitalInfrastructureManagement">https://w3id.org/dpv/sector/infra#CriticalDigitalInfrastructureManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of digital infrastructure considered as part of critical infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalElectricityManagement">
+      <h4>Critical Electricity Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalElectricityManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Electricity Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalElectricityManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalElectricityManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalElectricityManagement">https://w3id.org/dpv/sector/infra#CriticalElectricityManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalEnergyManagement">sector-infra-owl:CriticalEnergyManagement</a>
+             →             <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of critical electric energy infrastructure and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalEmergencyResponseCommunicationManagement">
+      <h4>Critical Emergency Response Communication Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalEmergencyResponseCommunicationManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Emergency Response Communication Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseCommunicationManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseCommunicationManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseCommunicationManagement">https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseCommunicationManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalEmergencyResponseManagement">sector-infra-owl:CriticalEmergencyResponseManagement</a>
+             →             <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with communications involved to request and use emergency response services such as fire fighters and paramedics considered as part of critical infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalEmergencyResponseDispatchManagement">
+      <h4>Critical Emergency Response Dispatch Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalEmergencyResponseDispatchManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Emergency Response Dispatch Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseDispatchManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseDispatchManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseDispatchManagement">https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseDispatchManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalEmergencyResponseManagement">sector-infra-owl:CriticalEmergencyResponseManagement</a>
+             →             <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with identifying routes and other dispatch related activities for emergency response services such as fire fighters and paramedics considered as part of critical infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalEmergencyResponseEligibilityAssessment">
+      <h4>Critical Emergency Response Eligibility Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalEmergencyResponseEligibilityAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Emergency Response Eligibility Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseEligibilityAssessment">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseEligibilityAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseEligibilityAssessment">https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseEligibilityAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalEmergencyResponseManagement">sector-infra-owl:CriticalEmergencyResponseManagement</a>
+             →             <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of eligibility to dispatch and use emergency response services such as fire fighters and paramedics considered as part of critical infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalEmergencyResponseManagement">
+      <h4>Critical Emergency Response Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalEmergencyResponseManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Emergency Response Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseManagement">https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of emergency response services such as fire fighters and paramedics considered as part of critical infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalEmergencyResponseTriage">
+      <h4>Critical Emergency Response Triage</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalEmergencyResponseTriage</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Emergency Response Triage</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseTriage">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseTriage</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseTriage">https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseTriage</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalEmergencyResponseManagement">sector-infra-owl:CriticalEmergencyResponseManagement</a>
+             →             <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with prioritisation and other triage procedures to dispatch and use emergency response services such as fire fighters and paramedics considered as part of critical infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalEnergyManagement">
+      <h4>Critical Energy Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalEnergyManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Energy Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEnergyManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEnergyManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalEnergyManagement">https://w3id.org/dpv/sector/infra#CriticalEnergyManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of critical energy infrastructure and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalGasManagement">
+      <h4>Critical Gas Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalGasManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Gas Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalGasManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalGasManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalGasManagement">https://w3id.org/dpv/sector/infra#CriticalGasManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalEnergyManagement">sector-infra-owl:CriticalEnergyManagement</a>
+             →             <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of critical gas energy infrastructure and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalHeatingManagement">
+      <h4>Critical Heating Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalHeatingManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Heating Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalHeatingManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalHeatingManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalHeatingManagement">https://w3id.org/dpv/sector/infra#CriticalHeatingManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of critical heating infrastructure and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalInfrastructureManagement">
+      <h4>Critical Infrastructure Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalInfrastructureManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Infrastructure Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalInfrastructureManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalInfrastructureManagement">https://w3id.org/dpv/sector/infra#CriticalInfrastructureManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of infrastructure considered essential or critical for functioning of society and economy as defined by a government or a legislation</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalWasteManagement">
+      <h4>Critical Waste Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalWasteManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Waste Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalWasteManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalWasteManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalWasteManagement">https://w3id.org/dpv/sector/infra#CriticalWasteManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of waste collection and management considered as part of critical infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="CriticalWaterManagement">
+      <h4>Critical Water Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>CriticalWaterManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Critical Water Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalWaterManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalWaterManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#CriticalWaterManagement">https://w3id.org/dpv/sector/infra#CriticalWaterManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#CriticalInfrastructureManagement">sector-infra-owl:CriticalInfrastructureManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of critical water infrastructure and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="InfrastructureManagement">
+      <h4>Infrastructure Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>InfrastructureManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Infrastructure Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#InfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#InfrastructureManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#InfrastructureManagement">https://w3id.org/dpv/sector/infra#InfrastructureManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PublicTransportComplaintManagement">
+      <h4>Public Transport Complaint Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PublicTransportComplaintManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Public Transport Complaint Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportComplaintManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportComplaintManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#PublicTransportComplaintManagement">https://w3id.org/dpv/sector/infra#PublicTransportComplaintManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with collection, resolution, and analysis of complaints in relation to use of public transport services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PublicTransportDemandForecasting">
+      <h4>Public Transport Demand Forecasting</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PublicTransportDemandForecasting</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Public Transport Demand Forecasting</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportDemandForecasting">https://w3id.org/dpv/sector/infra/owl/#PublicTransportDemandForecasting</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#PublicTransportDemandForecasting">https://w3id.org/dpv/sector/infra#PublicTransportDemandForecasting</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with predicting demand in relation to public transport services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PublicTransportFraudManagement">
+      <h4>Public Transport Fraud Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PublicTransportFraudManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Public Transport Fraud Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportFraudManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportFraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#PublicTransportFraudManagement">https://w3id.org/dpv/sector/infra#PublicTransportFraudManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with detection, resolution, and analysis of fraud in use of public transport services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PublicTransportManagement">
+      <h4>Public Transport Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PublicTransportManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Public Transport Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#PublicTransportManagement">https://w3id.org/dpv/sector/infra#PublicTransportManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of public transport services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PublicTransportPassengerFlowAnalysis">
+      <h4>Public Transport Passenger Flow Analysis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PublicTransportPassengerFlowAnalysis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Public Transport Passenger Flow Analysis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportPassengerFlowAnalysis">https://w3id.org/dpv/sector/infra/owl/#PublicTransportPassengerFlowAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#PublicTransportPassengerFlowAnalysis">https://w3id.org/dpv/sector/infra#PublicTransportPassengerFlowAnalysis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with analysis of passenger movements in relation to use of public transport services, such as for identifying which areas are most busy on specific days</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PublicTransportPerformanceAnalysis">
+      <h4>Public Transport Performance Analysis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PublicTransportPerformanceAnalysis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Public Transport Performance Analysis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportPerformanceAnalysis">https://w3id.org/dpv/sector/infra/owl/#PublicTransportPerformanceAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#PublicTransportPerformanceAnalysis">https://w3id.org/dpv/sector/infra#PublicTransportPerformanceAnalysis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
+             →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with analysis of performance and other characteristics  with the goal of identifying and making improvements related to public transport services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PublicTransportResearchDevelopment">
+      <h4>Public Transport Research Development</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PublicTransportResearchDevelopment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Public Transport Research Development</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportResearchDevelopment">https://w3id.org/dpv/sector/infra/owl/#PublicTransportResearchDevelopment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#PublicTransportResearchDevelopment">https://w3id.org/dpv/sector/infra#PublicTransportResearchDevelopment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with research and development activities in relation to public transport services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PublicTransportSafetyManagement">
+      <h4>Public Transport Safety Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PublicTransportSafetyManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Public Transport Safety Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportSafetyManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportSafetyManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#PublicTransportSafetyManagement">https://w3id.org/dpv/sector/infra#PublicTransportSafetyManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of safety in use of public transport services, such as through deployment of CCTV cameras in buses or on public transport premises</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PublicTransportServiceProvision">
+      <h4>Public Transport Service Provision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PublicTransportServiceProvision</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Public Transport Service Provision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportServiceProvision">https://w3id.org/dpv/sector/infra/owl/#PublicTransportServiceProvision</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#PublicTransportServiceProvision">https://w3id.org/dpv/sector/infra#PublicTransportServiceProvision</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with provision of public transport services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="PublicTransportTicketManagement">
+      <h4>Public Transport Ticket Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>PublicTransportTicketManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Public Transport Ticket Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportTicketManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportTicketManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#PublicTransportTicketManagement">https://w3id.org/dpv/sector/infra#PublicTransportTicketManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportServiceProvision">sector-infra-owl:PublicTransportServiceProvision</a>
+             →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#PublicTransportServiceProvision">sector-infra-owl:PublicTransportServiceProvision</a>
+             →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of ticketing and other forms of documentation enabling use of public transport services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+      
+      
+      
+     <section class="term-def" id="RailTransportManagement">
+      <h4>Rail Transport Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RailTransportManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Rail Transport Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RailTransportManagement">https://w3id.org/dpv/sector/infra/owl/#RailTransportManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RailTransportManagement">https://w3id.org/dpv/sector/infra#RailTransportManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of rail transport infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadAccidentAnalysis">
+      <h4>Road Accident Analysis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadAccidentAnalysis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Accident Analysis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadAccidentAnalysis">https://w3id.org/dpv/sector/infra/owl/#RoadAccidentAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadAccidentAnalysis">https://w3id.org/dpv/sector/infra#RoadAccidentAnalysis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadResearchDevelopment">sector-infra-owl:RoadResearchDevelopment</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with analysis of accidens with the goal of researching and developing improvements to road infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadAccidentMonitoring">
+      <h4>Road Accident Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadAccidentMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Accident Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadAccidentMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadAccidentMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadAccidentMonitoring">https://w3id.org/dpv/sector/infra#RoadAccidentMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadSafetyMonitoring">sector-infra-owl:RoadSafetyMonitoring</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of accidents on roads</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadConditionMonitoring">
+      <h4>Road Condition Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadConditionMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Condition Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadConditionMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadConditionMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadConditionMonitoring">https://w3id.org/dpv/sector/infra#RoadConditionMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadSafetyMonitoring">sector-infra-owl:RoadSafetyMonitoring</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of road conditions, including weather conditions for safety</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadEmergencyResponseManagement">
+      <h4>Road Emergency Response Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadEmergencyResponseManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Emergency Response Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyResponseManagement">https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyResponseManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadEmergencyResponseManagement">https://w3id.org/dpv/sector/infra#RoadEmergencyResponseManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of emergency response and other safety activities in relation to emergencies in use of road transport infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadEmergencyRouteManagement">
+      <h4>Road Emergency Route Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadEmergencyRouteManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Emergency Route Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyRouteManagement">https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyRouteManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadEmergencyRouteManagement">https://w3id.org/dpv/sector/infra#RoadEmergencyRouteManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadEmergencyResponseManagement">sector-infra-owl:RoadEmergencyResponseManagement</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of routes used for emergency response or managing traffic in response to an emergency response in use of road transport infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadEmergencySceneManagement">
+      <h4>Road Emergency Scene Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadEmergencySceneManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Emergency Scene Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEmergencySceneManagement">https://w3id.org/dpv/sector/infra/owl/#RoadEmergencySceneManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadEmergencySceneManagement">https://w3id.org/dpv/sector/infra#RoadEmergencySceneManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadEmergencyResponseManagement">sector-infra-owl:RoadEmergencyResponseManagement</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of the scene during an accident or other emergencies in use of road transport infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadEnvironmentalImpactAnalysis">
+      <h4>Road Environmental Impact Analysis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadEnvironmentalImpactAnalysis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Environmental Impact Analysis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEnvironmentalImpactAnalysis">https://w3id.org/dpv/sector/infra/owl/#RoadEnvironmentalImpactAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadEnvironmentalImpactAnalysis">https://w3id.org/dpv/sector/infra#RoadEnvironmentalImpactAnalysis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadResearchDevelopment">sector-infra-owl:RoadResearchDevelopment</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with conducting environmental impact analysis regarding use and development of road infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadInfrastructureManagement">
+      <h4>Road Infrastructure Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadInfrastructureManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Infrastructure Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructureManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadInfrastructureManagement">https://w3id.org/dpv/sector/infra#RoadInfrastructureManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of road transport infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadInfrastructurePlanning">
+      <h4>Road Infrastructure Planning</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadInfrastructurePlanning</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Infrastructure Planning</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructurePlanning">https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructurePlanning</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadInfrastructurePlanning">https://w3id.org/dpv/sector/infra#RoadInfrastructurePlanning</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadResearchDevelopment">sector-infra-owl:RoadResearchDevelopment</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with planning road infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadMaintenanceScheduling">
+      <h4>Road Maintenance Scheduling</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadMaintenanceScheduling</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Maintenance Scheduling</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadMaintenanceScheduling">https://w3id.org/dpv/sector/infra/owl/#RoadMaintenanceScheduling</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadMaintenanceScheduling">https://w3id.org/dpv/sector/infra#RoadMaintenanceScheduling</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with scheduling and managing road maintainence</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadManagement">
+      <h4>Road Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadManagement">https://w3id.org/dpv/sector/infra/owl/#RoadManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadManagement">https://w3id.org/dpv/sector/infra#RoadManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of roads as a transport infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadPedestrianSafetyMonitoring">
+      <h4>Road Pedestrian Safety Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadPedestrianSafetyMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Pedestrian Safety Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadPedestrianSafetyMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadPedestrianSafetyMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadPedestrianSafetyMonitoring">https://w3id.org/dpv/sector/infra#RoadPedestrianSafetyMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadSafetyMonitoring">sector-infra-owl:RoadSafetyMonitoring</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of conditions, pedestrians, and traffic for safety related to use of roads for pedestrians</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadResearchDevelopment">
+      <h4>Road Research Development</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadResearchDevelopment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Research Development</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadResearchDevelopment">https://w3id.org/dpv/sector/infra/owl/#RoadResearchDevelopment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadResearchDevelopment">https://w3id.org/dpv/sector/infra#RoadResearchDevelopment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of research and development for road infrastructure, including planning changes and new infrastructure, analysing traffic and accident patterns, and environmental impact analysis</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadSafetyMonitoring">
+      <h4>Road Safety Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadSafetyMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Safety Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadSafetyMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadSafetyMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadSafetyMonitoring">https://w3id.org/dpv/sector/infra#RoadSafetyMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of road safety</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadSchoolZoneSafetyMonitoring">
+      <h4>Road School Zone Safety Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadSchoolZoneSafetyMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road School Zone Safety Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadSchoolZoneSafetyMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadSchoolZoneSafetyMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadSchoolZoneSafetyMonitoring">https://w3id.org/dpv/sector/infra#RoadSchoolZoneSafetyMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadSafetyMonitoring">sector-infra-owl:RoadSafetyMonitoring</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of conditions, pedestrians, and traffic for safety in an area nearby or including a school or other similar institutes</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadTollCollection">
+      <h4>Road Toll Collection</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadTollCollection</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Toll Collection</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTollCollection">https://w3id.org/dpv/sector/infra/owl/#RoadTollCollection</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadTollCollection">https://w3id.org/dpv/sector/infra#RoadTollCollection</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadTollManagement">sector-infra-owl:RoadTollManagement</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with collection of tolls and other forms of fees for use of road transport infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadTollManagement">
+      <h4>Road Toll Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadTollManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Toll Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTollManagement">https://w3id.org/dpv/sector/infra/owl/#RoadTollManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadTollManagement">https://w3id.org/dpv/sector/infra#RoadTollManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of tolls and other forms of fees for use of road infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadTrafficAnalysis">
+      <h4>Road Traffic Analysis</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadTrafficAnalysis</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Traffic Analysis</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTrafficAnalysis">https://w3id.org/dpv/sector/infra/owl/#RoadTrafficAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadTrafficAnalysis">https://w3id.org/dpv/sector/infra#RoadTrafficAnalysis</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadResearchDevelopment">sector-infra-owl:RoadResearchDevelopment</a>
+             →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with analysis of road traffic with the goal of researching and developing improvements to road infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RoadTrafficManagement">
+      <h4>Road Traffic Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RoadTrafficManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Road Traffic Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTrafficManagement">https://w3id.org/dpv/sector/infra/owl/#RoadTrafficManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#RoadTrafficManagement">https://w3id.org/dpv/sector/infra#RoadTrafficManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
+             →             <a href="#RoadInfrastructureManagement">sector-infra-owl:RoadInfrastructureManagement</a>
+             →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
+             →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of road traffic</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+      
+      
+      
+      
+      
+     <section class="term-def" id="TransportManagement">
+      <h4>Transport Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>TransportManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-infra-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Transport Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#TransportManagement">https://w3id.org/dpv/sector/infra/owl/#TransportManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra#TransportManagement">https://w3id.org/dpv/sector/infra#TransportManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of transport infrastructure</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/infra#vocab-purposes">Sector-infra Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </section>
+  <section id="dpv-properties">
+    <h3>Properties</h3>       
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+  </section>
+  <section id="external-concepts">
+    <p>The following external concepts are re-used within DPV:</p>
+    <h3>External</h3>        
+      
+      
+        
+      
+       
+      
+       
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+        
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+       
+       
+       
+       
+       
+      
+      
+
+  </section>
+</section>
+
+</body>
+</html>

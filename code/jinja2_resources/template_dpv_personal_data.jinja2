@@ -2,7 +2,7 @@
 {% from 'macro_term_table.jinja2' import list_hierarchy %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_example.jinja2' import example_aside %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +16,8 @@
     shortName: "dpv",
     title: "Data & Personal Data",
     subtitle: "concepts in Data Privacy Vocabulary (DPV)",
-    publishDate: "2024-01-28",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/dpv/modules/personal_data",
     canonicalUri: "https://w3id.org/dpv/dpv/modules/personal_data",
@@ -38,8 +38,8 @@
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0",
-              "href": "https://w3id.org/dpv/2.0"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/personal_data",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/personal_data"
             }
         ]
       },
@@ -47,8 +47,17 @@
         "key": "Previous Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/1.0",
-              "href": "https://w3id.org/dpv/1.0"
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/personal_data",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/personal_data"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v{{DPV_VERSION}}",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/dpv#changelog"
             }
         ]
       },
@@ -58,6 +67,10 @@
             {
               "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
               "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
             }
         ]
       }
@@ -71,6 +84,7 @@
   <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+{{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
     <section id="abstract">
       <p>This document provides additional details and examples for data and personal data concepts in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
@@ -82,7 +96,7 @@
   <section id="vocab-personal-data">
   <h2>Introduction</h2>
     <figure>
-      <img src="../../diagrams/overview_PD.svg" />
+      <img src="../../diagrams/overview_Data.svg" />
       <figcaption>Indicating Data and Personal Data using DPV</figcaption>
     </figure>
     <figure>
@@ -100,7 +114,7 @@
 
 <section id="personal-data">
   <h2>Personal Data</h2>
-  <p>The [[[PD]]] extension provides a taxonomy of personal data categories to represent commonly used categories such as 'Email Address' and 'Birth Date'. These concepts are organised in a hierarchical taxonomy where the super/parent concept is a broader form of the sub/child concept, and where these concepts act as sets i.e. everything in the sub/child concept is present in the super/parent concept. For example, consider the concept 'Email' - it can refer to email addresses, actual emails, metadata or attachments associated with emails, and so on. To distinguish between these, the 'Email' concept must be further 'extended' or 'refined' with subclasses or child concepts such as 'Email Address', 'Email Contents', etc. The [[PD]] taxonomy categories are modelled with such interpretations in mind. This helps align the use of DPV with practical use-cases where such ambiguous use of terms can be identified and rectified by choosing a more specific concept from the taxonomy (e.g. Email Address instead of Email above).</p>
+  <p>The [[[PD]]] extension provides a taxonomy of personal data categories to represent commonly used categories such as 'Email Address' and 'Birth Date'. These concepts are organised in a hierarchical taxonomy where the super/parent concept is a broader form of the sub/child concept, and where these concepts act as sets i.e. everything in the sub/child concept is present in the super/parent concept. For example, consider the concept 'Email' - it can refer to email addresses, actual emails, metadata or attachments associated with emails, and so on. To distinguish between these, the 'Email' concept must be further 'extended' or 'refined' with subclass or child concepts such as 'Email Address', 'Email Contents', etc. The [[PD]] taxonomy categories are modelled with such interpretations in mind. This helps align the use of DPV with practical use-cases where such ambiguous use of terms can be identified and rectified by choosing a more specific concept from the taxonomy (e.g. Email Address instead of Email above).</p>
   <p>The relation [=hasPersonalData=] can be used to indicate both the category and instance of personal data. For example, to indicate the personal data being collected is of category 'Email Address', or to specify a particular email address. We recommend using `rdf:value` to represent such 'values' of personal data associated with a category. Alternatively, other vocabularies such as [[FOAF]] or [[schema-org]] can also be used to further specify the contents of personal data. Through we strongly recommend always using a DPV concept and a [[PD]] taxonomy concept for interoperability.</p>
   <div class="note" title="Clarity on Personal Data concepts being Categories and Instances">
       <p>Real-world and common usage of <i>personal data</i> is at both an abstract level as well as specific level. For example, consider the sentence "We use your Email information...", which uses "<i>Email</i>" to represent a reference to what personal data is involved. Here, one may interpret <i>Email</i> as representing only the <i>email address</i>, or as a broad set of possible information related to emails, such as <i>email address, email senders and recipients list, email service provider, email usage statistics</i> and so on.</p>
@@ -188,15 +202,6 @@
   </section>
 </section>
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 

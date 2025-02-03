@@ -1,7 +1,7 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
     title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
     subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
     publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/loc",
     canonicalUri: "https://w3id.org/dpv/loc",
@@ -32,19 +32,14 @@
       "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
     }
     ],
-    authors: [{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|sort %}
-      {
-        "name": "{{person}}",
-        "company": "{{ person | generate_author_affiliation }}"
-      }{{"," if not loop.last}}
-      {% endfor %}],
+    authors: {{ authors_list(data, vocab_name) }},
     otherLinks: [
       {
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0/loc",
-              "href": "https://w3id.org/dpv/2.0/loc"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/loc",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/loc"
             }
         ]
       },
@@ -52,8 +47,17 @@
         "key": "Previous Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/1.0/dpv-legal",
-              "href": "https://w3id.org/dpv/1.0/dpv-legal"
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/loc",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/loc"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v2.1",
+              "href": "#changelog"
             }
         ]
       },
@@ -82,6 +86,7 @@
   <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+  {{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
   <section id="abstract">
     <p>Locations (LOC) extension extends the [[[DPV]]] to provide additional concepts regarding locations such as countries and regions. The canonical URL for LOC is <a href="https://w3id.org/dpv/loc">https://w3id.org/dpv/loc</a>, the namespace is <a href="https://w3id.org/dpv/loc#"><code>https://w3id.org/dpv/loc#</code></a>, the suggested prefix is <code>loc</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
@@ -96,15 +101,17 @@
     <img src="../diagrams/overview_loc.svg">
     <figcaption>Overview of Location concepts and annotation properties in LOC extension</figcaption>
   </figure>
-  <p>The Locations ([[LOC]]) extension extends the [[DPV]] to provide concepts representing locations based on the <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> and <a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a> standards. At the moment, it only provides country codes with plans for future iterations to provide additional concepts representing subdivisions in countries such as provinces and cities. In addition to ISO 3166 countries and subdivisions, the extension also provides a representation of geo-political supraunions such as the EU with a list of its member countries. Through these concepts, the [[LOC]] extension enables representation and use of locations with other DPV concepts, such as to indicate where the data is being stored or processed, or to indicate the data subjects are from a particular location. The [[[LEGAL]]] extensions use these concepts to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities.</p>
+  <p>The Locations ([[LOC]]) extension extends the [[DPV]] to provide concepts representing locations based on the <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> and <a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a> standards. At the moment, it only provides country codes with plans for future iterations to provide additional concepts representing subdivisions in countries such as provinces and cities. In addition to ISO 3166 countries and subdivisions, the extension also provides a representation of geo-political supra-unions such as the EU with a list of its member countries. Through these concepts, the [[LOC]] extension enables representation and use of locations with other DPV concepts, such as to indicate where the data is being stored or processed, or to indicate the data subjects are from a particular location. The [[[LEGAL]]] extensions use these concepts to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities.</p>
   <p>To express the ISO and UN codes for specific locations, the following properties have been introduced:</p>
   <ol>
     <li>[=iso_alpha2=] to represent the 2-letter ISO 3166 alpha2 codes</li>
     <li>[=iso_alpha3=] to represent the 3-letter ISO 3166 alpha3 codes</li>
-    <li>[=iso_numeric=] to represent the ISO 3166 numberic codes</li>
+    <li>[=iso_numeric=] to represent the ISO 3166 numeric codes</li>
     <li>[=un_m49=] to represent the 2-letter UN M49 codes</li>
   </ol>
   <p>To express unions and memberships such as for [=EEA=] and [=EU=], the [[SKOS]] relations <i>narrower/broader</i> are used, with the union expressed as an instance of <code>dpv:SupraNationalUnion</code>.</p>
+  <aside class="issue" data-number="208"></aside>
+  <aside class="issue" data-number="209"></aside>
 </section>
 {% endblock INTRODUCTION %}
 {% block VOCAB %}
@@ -533,16 +540,13 @@
 </section>  
 {% endblock VOCAB %}
 
-{% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
+<section id="future-work" class="appendix">
+  <h2>Future Work</h2>
+  <aside class="issue" data-number="208"></aside>
+  <aside class="issue" data-number="209"></aside>
 </section>
+
+{% block ACKNOWLEDGEMENTS %}
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 
@@ -554,6 +558,13 @@
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
+
+<section class="appendix" id="issue-summary"></section>
+
+<section id="changelog">
+  <h2>Changelog for v2.1</h2>
+  <div class="issue" title="Changelog for v2.1"></div>
+</section>
 
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
 </body>

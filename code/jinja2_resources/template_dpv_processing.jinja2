@@ -2,7 +2,7 @@
 {% from 'macro_term_table.jinja2' import list_hierarchy %}
 {% from 'macro_term_table.jinja2' import table_properties %}
 {% from 'macro_example.jinja2' import example_aside %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +16,8 @@
     shortName: "dpv",
     title: "Processing Operations",
     subtitle: "concepts in Data Privacy Vocabulary (DPV)",
-    publishDate: "2024-01-28",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/dpv/modules/processing",
     canonicalUri: "https://w3id.org/dpv/dpv/modules/processing",
@@ -38,8 +38,8 @@
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0",
-              "href": "https://w3id.org/dpv/2.0"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/processing",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/processing"
             }
         ]
       },
@@ -47,8 +47,17 @@
         "key": "Previous Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/1.0",
-              "href": "https://w3id.org/dpv/1.0"
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/processing",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/processing"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v{{DPV_VERSION}}",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/dpv#changelog"
             }
         ]
       },
@@ -58,6 +67,10 @@
             {
               "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
               "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
             }
         ]
       }
@@ -71,6 +84,7 @@
   <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
+{{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
     <section id="abstract">
       <p>This document provides additional details and examples for processing and processing context concepts in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
@@ -92,6 +106,50 @@
       <p>The definitions for describing and interpreting each processing concept is based on the following sources: language dictionaries (predominantly Oxford English), use of the term within legal documents (e.g. GDPR case law), and technology-specific interpretations such as for IT systems. Despite these, there may be distinct interpretations for what a term represents based on differences in practices, culture, language, and domains. In case an adopter or a use-case foresees such ambiguity or confusion, it is advisable to extend the relevant concepts and define them as needed, or create a separate extension.</p>
     </div>
   {{ list_hierarchy(modules['processing']['classes']) }}
+  <p>The 'unit of composition' in DPV is `dpv:Process`. Therefore it should be used to represent details about processing operations which are not directly describing the operation itself but are tangential or are disjoint from it - such as what data is being collected, why it is being collected (purpose). Details which describe the processing itself - such as what technology is being utilised or what entity is carrying it out - can be expressed as information about the processing. However, the suggested method is to always use a process where feasible as this supports the explicit depiction of information and allows composition i.e. the reuse of a process in a different context.</p>
+  {{ example_aside('dex:E0085') }}
+</section>
+
+<section id="processing-operations">
+  <h2>Categories of Processing</h2>
+  <section>
+    <h3>Collect</h3>
+    <p>[=Obtain=] is the broad concept representing various ways of obtaining or collecting data. [=Collect=] is a specific way of obtaining data, with other ways being to [=Derive=] or [=Infer=] it from existing data, or to [=Observe=] it. While it can be argued that [=Collect=] and [=Observe=] are the same method since observing data implies collecting data, the model here represents distinctions which become important in context. For example, to distinguish between data obtained from a person (collect) and data being detected through a signal (observe). Further [=Generate=] represents data being generated i.e. where it didn't exist before, whereas [=Derive=] and [=Infer=] have a link to some existing data which is used to produce the new data. Similarly, [=Acquire=] implies the data already exists elsewhere and is being 'acquired' in to the current context - for example by way of taking over a process or company.</p>
+    <p>Most common uses of processing operations use the term 'collect' to represent all of the above, which can be misleading or ambiguous. Therefore, we suggest using the accurate verb to represent the processing operation accurately, or failing that, to use [=Obtain=] as the generic term. In particular, we caution again misappropriating [=Collect=] for [=Infer=] as there is an important distinction which is lost in context regarding the potential inaccuracy of inferred data which is a result of the method of inference. Data quality issues with collection can also be present, but represent a different category of 'errors' in operation. Further, inferences also have an important role when it comes to privacy matters - such as when inferencing sensitive or special categories of data which are not typically visible to the individual or source, whereas collection is explicit about the data being collected.</p>
+    <p>Similarly, we also caution against mixing [=Derive=] which implies a derivation or transformation operation on existing information, such as a first name from a full name, with [=Infer=] where the intended output is not already present within the information. Sometimes these distinctions are not clear, or can involve ethical concerns which can vary from minor concerns such as inferring emotions from text to severe pseudo-scientific theories such as phrenology. Accurately depicting the processing operations is a key factor in carrying out risk and impact assessments as the risks associated with derived and inferred data are distinct and have different assessments and mitigations.</p>
+  </section>
+  <section>
+    <h3>Store</h3>
+    <p>[=Store=] represents the processing operation where data is stored i.e. preserved for later use. Merely stating [=Obtain=] does not imply that data is stored e.g. it could be collected, used, and then discarded. Therefore, whenever data is stored, we strongly suggest explicitly denoting [=Store=] as the processing operation. The processing operation [=Store=] does not distinguish the manner in which data is stored (e.g. as bytes, documents, images), nor the location of storage (e.g. on device, in cloud). These are all described through <a href="#storage-conditions">Storage Conditions</a>.</p>
+    <p>
+  </section>
+  <section>
+    <h3>Use</h3>
+    <p>[=Use=] is a generic concept that represents data that has been obtained or is stored is being used to do something (which could be a purpose). There are specific forms of usage, such as [=Access=], [=Query=], and [=Retrieve=] which are technical operations, and [=Profiling=] and [=Tracking=] which are complex operations which involve additional concepts, but are expressed as processing operations to denote their nature as technical operations which by itself does not describe why they are taking place (i.e. the purpose).</p>
+  </section>
+  <section>
+    <h3>Transform</h3>
+    <p>Operations where data is not being actively used (towards something) but is being technically organised or transformed is represented by [=Transform=] and its specific concepts. This includes [=Anonymise=] and [=Pseudonymise=], as well as [=Combine=] which includes other data. Transformations can happen as part of general data management, and do not by themselves necessarily imply they are being done towards a goal e.g. data is being aggregated and then later it is used by retrieving. This separation allows representing information about transformations in a granular manner without involving the use of this information (later) in various contexts.</p>
+  </section>
+  <section>
+    <h3>Share</h3>
+    <p>[=Disclose=] means to disclose the data (to someone or something). It is the generic concept for more specific forms of disclosure such as [=Display=], [=Export=], and the commonly used [=Share=]. We recommend using [=Disclose=] concepts to represent data being disclosed between entities, such as when showing the user some data, or sharing information with another entity. We also highlight the distinction between the use of [=Disclose=] and [=Transfer=] - where transfers simply means movement of data, whereas disclosure has an implication regarding crossing a boundary of an entity and may or may not involve a transfer.</p>
+  </section>
+  <section>
+    <h3>Transfer</h3>
+    <p>[=Transfer=] represents the technical notion of data movement from one location to another. Legally, this is an important concept where this movement happens between locations that cross a jurisdictional boundary. To represent this, we suggest using [=CrossBorderTransfer=]. Merely transferring data does not by itself imply concepts such as [=Share=] or [=Disclose=]. Therefore, to accurately and unambiguously express what processing operations are taking place, we recommend using [=Transfer=] with another concept where necessary.</p>
+    <p>For [=CrossBorderTransfer=], it may be desirable to state the location or jurisdiction in question. This can be declared within the instance through `dpv:hasLocation` and `dpv:hasJurisdiction`. Note that we only recommend stating the location the data is being transferred to i.e. the target and not the current or source location, as that is the relevant information within a 'cross-border transfer'. The current location should be stated in its own context e.g. for [=Store=] or [=Obtain=] or [=Use=].</p>
+  </section>
+  <section>
+    <h3>Erase</h3>
+    <p>[=Remove=] is the generic concept representing removal of data from the current context. This removal can be through [=Delete=] operations where data is logically removed - but where in theory it can be retrieved again (e.g. disk retrieval algorithms), or [=Erase=] where the data is removed in a way that retrieval is not possible (e.g. overwriting with null values). There is also [=Destruct=] which has a stronger implication of no recovery possible from any method - which can be used to describe aspects such as deletion of all copies of data from backups.</p>
+  </section>
+  <section>
+    <h3>Tracking and Profiling</h3>
+    <p>To indicate that the process involves profiling and tracking processing operations, the concepts [=Profiling=] and [=Tracking=] are provided. While profiling and tracking are more complex concepts as compared to collect or use or store as 'simple' operations, they are included in the processing operations taxonomy as they represent specific ways of using (personal) data, and by themselves do not provide sufficient indication of the <i>purpose</i> or intended objective for why they are being performed.</p>
+    <p>[=Tracking=] is further distinguished as [=TrackingByFirstParty=] and [=TrackingByThirdParty=] to reflect the commonly used terms for tracking performed by entities considered as 'first' and 'third' parties within a context. While the DPV itself does not (yet) model these first/third relations, these concepts reflect existing uses of the term and therefore the DPV relies on these existing definitions and uses to guide the usage of these concepts. For reference, see the <a href="https://www.w3.org/TR/tracking-dnt/#terminology">Do Not Track terminology</a> page. Similarly, DPV's definition of [=Profiling=] is a minimal representation of creating a profile of a person based on the use of (some) data. To indicate specific definitions of profiling, e.g. in a law like the EU's GDPR, this concept should be extended to reflect the specific definition, such as the `eu-gdpr:Profiling` concept defined in the [[EU-GDPR]] extension based on the definition in GDPR's Article 4-4.</p>
+    {{ example_aside('dex:E0075') }}
+  </section>
 </section>
 
 <section id="vocab-processing-context">
@@ -111,7 +169,7 @@
     {{ example_aside('dex:E0047') }}
     <p>The [[TECH]] extension provides relevant concepts to indicate technical aspects such as a server located in a specific location and provided by a cloud provider, which is being used to carry out the processing operations.</p>
   </section>
-  <section>
+  <section id="storage-conditions">
     <h3>Storage Conditions</h3>
     <p>This taxonomy provides concepts for representing information about storage conditions, e.g. how long the data will be stored for, its erasure, or its restoration. It also enables representing the source(s) of data, the use of automation, and the extent of human involvement within the automation.</p>
     <p>The processing taxonomy uses the concept [=Store=] to indicate data is being stored. To specify additionally information such as its location, erasure or deletion, the generic concepts and relations associated with processing (i.e. <i>location</i> and <i>duration</i>) can be used. However, to emphasise that information about storage - such as policies, conditions, rules, or documentation - are critical on considerations of data protection and privacy as well as legal compliance, DPV provide specific concepts related to these.</p>
@@ -180,7 +238,10 @@
       <img src="../../diagrams/Processing_Scale.svg">
       <figcaption>Overview of Processing Scale concepts in DPV</figcaption>
     </figure>
-    <p>DPV provides (qualitative) scales for expressing <i>Data Volume</i>, <i>Data subjects</i>, and <i>Geographical Coverage</i> of processing. Along with these, DPV also provides a <i>Processing Scale</i> to express combinations of these. NOTE: The actual meaning or quantified amounts for each concept are not defined due to their interpretation based on contextual factors such as legislations, guidelines, domains, and variations across industries.</p>
+    <p>DPV provides the (qualitative) concept [=Scale=], with further specialisations for expressing [=DataVolume=], [=DataSubjectScale=], and [=GeographicCoverage=] related to activities. Along with these, DPV also provides a [=ProcessingScale=] to express combinations of these (e.g. [=LargeScaleProcessing=]). The relation [=hasScale=] is used to indicate the scale, with specific relations [=hasDataVolume=], [=hasDataSubjectScale=], [=hasGeographicCoverage=], and [=hasProcessingScale=] to indicate the different types of scales.</p>
+    <aside class="note" title="Scales are qualitative and require additional information to be used quantitatively">
+      <p>DPV's concepts for 'Scale' are qualitative attributes used within the particular domain or context. The actual meaning or quantified amounts for each scale are not defined due to their interpretation based on contextual factors such as legislation, guidelines, domains, and variations across industries. To indicate these, the relevant scale concept should be extended along with information (e.g. `rdf:value`) or description (e.g. `dct:description`) of the quantitative value of the scale.</p>
+    </aside>
     <p>[=DataVolume=] refers to the volume of data. Concepts provided to represent this range from [=SingularDataVolume=] as the least/smallest to [=LargeDataVolume=] and then [=HugeDataVolume=] as the most/greatest. The relation [=hasDataVolume=] is used to indicate the volume of data.</p>
     <p>[=GeographicCoverage=] represents the scale in terms of geographic coverage - which can be used to indicate the spread of processing operations, or to indicate diversity of data subjects in terms of locations, or to indicate other location based scales. The concepts provided range from [=LocalEnvironmentScale=] to represent 'local environment' (e.g. a room, a device) to [=GlobalScale=] to represent operations at a global scale. The relation [=hasGeographicCoverage=] is used to indicate the geographic coverage.</p>
     <p>[=DataSubjectScale=] represents the scale of data subjects, which can be regarding the amount of data subjects represented within some data, or those involved in processing operations, or other similar representations. Provided concepts range from: [=SingularScaleOfDataSubjects=] as the least/smallest to [=LargeScaleOfDataSubjects=] and then [=HugeScaleOfDataSubjects=] as the most/largest. The relation [=hasDataSubjectScale=] is used to indicate the scale of data subjects.</p>
@@ -216,15 +277,6 @@
   </section>
 </section>
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 

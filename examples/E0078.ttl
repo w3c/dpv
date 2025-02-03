@@ -1,0 +1,25 @@
+dpv:SomeContract a dpv:Contract ;
+    dpv:hasContractualClause [
+        a dpv:ContractualClause ; # types of clause - use one or many
+        skos:broader dpv:ContractPreamble ;
+        skos:broader dpv:ContractDefinitions ;
+        skos:broader dpv:ContractJurisdictionClause ;
+        rdf:value "Contents ..."@en ; # directly embed contents
+        foaf:page "..."^^xsd:anyURI ; # URL
+        dct:format "..."^^xsd:anyURI ; # different formats e.g. languages
+        # Fulfilment status can be within the clause
+        dpv:hasContractualFulfilmentStatus [
+            a dpv:ContractStatus ;
+            skos:broader dpv:ContractFulfilled ;
+            dct:date "2024-12-31"^^xsd:date ;
+        ] ;
+    ] .
+# OR, Fulfilment status can also be expressed per entity
+# with a reference to a common clause or template
+dpv:hasContractualFulfilmentStatus [
+    a dpv:ContractStatus ;
+    skos:broader dpv:ContractFulfilled ;
+    dpv:hasContractualClause ex:SomeClause ;
+    dpv:hasEntity ex:SomeEntity ;
+    dct:date "2024-12-31"^^xsd:date ;
+] .

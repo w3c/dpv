@@ -2,7 +2,7 @@
 {% from 'macro_term_table.jinja2' import list_hierarchy %}
 {% from 'macro_term_table.jinja2' import table_properties, anchor %}
 {% from 'macro_example.jinja2' import example_aside %}
-{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,8 +19,8 @@
     shortName: "dpv",
     title: "Legal Basis",
     subtitle: "concepts in Data Privacy Vocabulary (DPV)",
-    publishDate: "2024-01-28",
-    specStatus: "{{DOCUMENT_STATUS}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "{{vocab_name|get_document_status}}",
     group: "dpvcg",
     latestVersion: "https://w3id.org/dpv/dpv/modules/legal_basis",
     canonicalUri: "https://w3id.org/dpv/dpv/modules/legal_basis",
@@ -41,8 +41,8 @@
         "key": "This Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/2.0",
-              "href": "https://w3id.org/dpv/2.0"
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/legal_basis",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/legal_basis"
             }
         ]
       },
@@ -50,8 +50,17 @@
         "key": "Previous Release",
         "data": [
             {
-              "value": "https://w3id.org/dpv/1.0",
-              "href": "https://w3id.org/dpv/1.0"
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/legal_basis",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/legal_basis"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v{{DPV_VERSION}}",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/dpv#changelog"
             }
         ]
       },
@@ -61,6 +70,10 @@
             {
               "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
               "href": "https://arxiv.org/abs/2404.13426"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
             }
         ]
       }
@@ -71,6 +84,7 @@
   {% endblock RESPEC %}
 </head>
 <body>
+{{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
     <section id="abstract">
       <p>This document provides additional details and examples for legal bases used in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
@@ -81,6 +95,7 @@
 {% endblock ABSTRACT %}
   <section id="vocab-legal-basis">
     <h2>Introduction</h2>
+    <span id="vocab-legal-basis-status"></span>
   <figure>
     <img src="../../diagrams/legal_bases.svg">
     <figcaption>Legal Bases in DPV</figcaption>
@@ -97,42 +112,64 @@
 
   </section>
 
-  <section id="desc-contract">
-    <h3>Contract</h3>
-    <p>[=Contract=] as a legal basis covers activities associated with creation of the contract ([=EnterIntoContract=]) and the performance of the contract [=ContractPerformance=]. Metadata associated with the contract such as date, time, subject, etc. can be represented using [[[DCT]]].</p>
+  <section id="vocab-legal-basis-contract">
+    <h2>Contract</h2>
+    <p>The concept [=Contract=] represents a legal contract, which can be used as a legal basis through the [=hasLegalBasis=] relation to justify data processing or use of technologies. [=Contract=] as a legal basis covers activities associated with creation of the contract ([=EnterIntoContract=]) and the performance of the contract [=ContractPerformance=]. Metadata associated with the contract such as date, time, subject, etc. can be represented using [[[DCT]]].</p>
     <p>Contracts are also a `dpv:LegalMeasure` that can be used by organisations to enforce obligations e.g. by a controller on a processor. Similarly, contracts can also be 'agreements' e.g. between a controller and a processor, where the processor uses this agreement as a legal basis to process personal data.</p>
-    <aside class="note" title="Extending the contract concepts in DPV">
-      <p>The current state of DPV does not enable modelling aspects of contracts such as the involved 'parties' or the specific 'clauses' and 'terms' of the contract as defined in legal procedures. This can be done by using other resources such as <a href="https://spec.edmcouncil.org/fibo/">Financial Industry Business Ontology</a>. We are also exploring adapting existing efforts from the <a href="https://smashhiteu.github.io/smashHitCore/">SmashHit project</a> which models contract concepts and uses DPV.</p>
-    </aside>
 
     {{ example_aside('dex:E0041') }}
-
+    <section id="vocab-legal-basis-contract-metadata">
+      <h3>Contract Metadata</h3>
+      <p>Metadata about the contract is suggested to be expressed using the following properties based on [[DCTERMS]]:</p>
+    <ul>
+      <li><code>dct:title</code> - Indicates title of contract</li>
+      <li><code>dct:conformsTo</code> - Indicates a standard or specification to which the contract conforms to e.g. a technical specification outlining which fields are present in the contract or a legal requirement or a standard for expressing contracts</li>
+      <li><code>dct:created</code> - Indicates date of contract creation. Date of creation is not the same as date of enforcement or when the contract becomes 'active', and only refers to when a contract was completed in terms of its drafting</li>
+      <li><code>dct:issued</code> - Indicates when the contract was issued or given to a party</li>
+      <li><code>dct:creator</code> - Indicates entity that created or drafted the contract. Creator refers to the entity that was responsible for determining the contents of the contract. For standard form contracts, only the parties involved in determining the terms and conditions should be listed as creators. In a negotiated contract, all parties will be listed as creators</li>
+      <li><code>dct:modified</code> - Indicates the date when the contract was modified e.g. as part of the negotiation process</li>
+      <li><code>dct:dateAccepted</code> - Indicates date when contract was accepted all parties. All parties may not accept the contract at the same date, in which case the date of the last party accepting the contract should be used</li>
+      <li><code>dct:hasPart</code> - Associates a contract with a contractual part. A contractual part can contain clauses or other elements and is a useful abstraction to create modular resources that can be independently used or reused across contracts</li>
+      <li><code>dpv:hasIdentifier</code> - Indicates the legally relevant identifier of the contract. Legally relevant here refers to an identifier that is relevant to legal obligations and investigations e.g. tax identifiers shared with the tax office. For other identifiers, use dct:identifier</li>
+      <li><code>dct:language</code> - Indicates the language used in the contract</li>
+      <li><code>dct:provenance</code> - Indicates the provenance of the contract e.g. previous versions in a negotiation process. The [[PROV-O]] ontology can be useful to represent provenance information associated with activities and artefacts</li>
+      <li><code>dct:subject</code> - Indicates the subject of the contract. The subject can be the description used in the contract as to its main topic or subject. To indicate specifics such as service, purpose, or technology - the relevant DPV concepts should be used</li>
+      <li><code>dpv:hasDuration</code> - Indicates the duration for validity of the contract</li>
+      <li><code>dpv:hasEntity</code> - Indicates a party to the contract. If the party has a specific role in the contract, e.g. Controller, Data Subject, Service Provider/Consumer - then the relevant DPV concept and property should be used instead</li>
+      {{ example_aside('dex:E0076') }}
+    </ul>
+    </section>
     <section id="vocab-legal-basis-contract-types">
-      <h4>Contract Types</h4>
+      <h3>Contract Types</h3>
+      <p>Contract types represent the vocabulary of contract types which reflects the way contracts are defined and interpreted towards specific purposes. For example, [=DataProcessingAgreement=] represents contract concepts typically used for processes involving (personal) data, [=ContractByEntityType=] represents contracts such as B2B (Business-to-Business), B2C (Business-to-Consumer), etc., and [=ContractByDomain=] represent contracts with specific interpretations such as for licensing agreements and employment.</p>
       {{ list_hierarchy(modules['legal_basis-contract-types']['classes'], head='dpv:Contract') }}
     </section>
     <section id="vocab-legal-basis-contract-status">
-      <h4>Contract Status</h4>
+      <h3>Contract Status</h3>
+      <figure>
+        <img src="../../diagrams/contract_states.svg">
+        <figcaption>State diagram representing how contract states are interpreted and defined in DPV. The individual boxes or section represent a collection of states that represent a specific aspect of the contract lifecycle. The red arrows represent transition between these states. The multiple start symbols represent only representing the states from that stage onward.</figcaption>
+      </figure>
+      <p>To represent the status associated with a contract, the concept [=ContractStatus=] and the relation [=hasContractStatus=] are provided. A taxonomy of statuses representing the lifecycle of contract formation and use is provided, for example [=ContractDrafted=] to indicate the completion of contract drafting process, [=ContractUnderNegotiation=] to indicate the contents of the contract are being negotiated and that the contract is being accepted/signed by involved parties, [=ContractFullySigned=] indicating all parties have signed the contract, and [=ContractTerminated=] indicating the contract has been terminated.</p>
+      <p>[=ContractFulfilmentStatus=] represents the status associated with fulfilment of a contract in terms of its requirements and obligations. It is associated using the relation [=hasContractualFulfilmentStatus=]. Specific fulfilment states are provided, for example [=ContractFulfiled=] indicating all requirements of the contract have been fulfilled, [=ContractBreached=] indicating a breach of contract, and [=ContractNotFulfiled=] indicating the requirements have not been fulfilled (but it isn't a breach yet e.g. there is still time/opportunity to complete them).</p>
       {{ list_hierarchy(modules['legal_basis-contract-status']['classes']) }}
+      {{ example_aside('dex:E0077') }}
     </section>
     <section id="vocab-legal-basis-contract-clause">
-      <h4>Contractual Clauses</h4>
+      <h3>Contractual Clauses</h3>
+      <p>[=ContractualClause=] represents the contents of a contract, commonly referred to as 'clauses' or 'terms' or 'conditions'. They are associated with a contract using the relation [=hasContractualClause=]. A taxonomy is provided to represent commonly utilised clauses. The concept [=ContractualClauseFulfilmentStatus=] represents the fulfilment state of the contractual clause, and is indicated using the relation [=hasContractualFulfilmentStatus=].</p>
       {{ list_hierarchy(modules['legal_basis-contract-clause']['classes']) }}
+      {{ example_aside('dex:E0078') }}
     </section>
     <section id="vocab-legal-basis-contract-control">
-      <h4>Contract Controls</h4>
+      <h3>Contract Controls</h3>
+      <p>[=ContractControl=] represents a control for an entity to make or exercise a decision regarding a contract. A taxonomy of common controls is provided, for example [=AcceptContract=], [=OfferContract=], and [=TerminateContract=]. The relation [=hasContractControl=] is used to associate the control with a contract or clause. Controls can be used to indicate where specific actions can be taken, for example to indicate that accepting a contract can be done by sending a request or visiting the stated URL, or to express specific requirements which must be satisfied before the action can be completed, for example to state termination of a contract occurs over a duration.</p>
       {{ list_hierarchy(modules['legal_basis-contract-control']['classes']) }}
     </section>
   </section>
 
-  <section id="desc-legal-obligation">
-    <h3>Legal Obligation</h3>
-    <p>[=LegalObligation=] represents using the justification of an obligation to perform the activity as defined in law or required by a legal procedure such as a court or authority order. When using legal obligations as the legal basis, it is good practice (and necessary for its legality) to also define the specific law or legal mechanism under which the obligation is defined. This can be done using `dpv:hasApplicableLaw`.</p>
-    {{ example_aside('dex:E0042') }}
-  </section>
-
   <section id="vocab-legal-basis-consent">
-    <h3>Consent</h3>
+    <h2>Consent</h2>
       <figure>
       <a href="../../diagrams/Consent.svg"><img src="../../diagrams/Consent.svg"></a>
       <figcaption></figcaption>
@@ -148,7 +185,6 @@
     </ul>
     <p>To indicate the duration or validity of a given consent instance, the existing contextual relation `dpv:hasDuration` along with specific forms of `dpv:Duration` can be used. For example, to indicate consent is valid until a specific event such as account closure, the duration subtype `dpv:UntilEventDuration` can be used with additional instantiation or annotation to indicate more details about the event (in this case the closure of account). Similarly, `dpv:UntilTimeDuration` indicates validity until a specific time instance or timestamp (e.g. 31 December 2022), and `dpv:TemporalDuration` indicates a relative time duration (e.g. 6 months). To indicate validity without an end condition, `dpv:EndlessDuration` can be used. To indicate the notice used for informed consent, the concept `dpv:ConsentNotice` is provided, which can be used with the relation `dpv:hasNotice`.</p>
     <p>To specify consent provided by delegation, such as in the case of a parent or guardian providing consent for/with a child, the `dpv:isIndicatedBy` relation can be used to associate the parent or guardian responsible for providing consent (or its affirmation). Since by default the consent is presumed to be provided by the individual, when such individuals are associated with their consent, i.e. through `dpv:hasDataSubject`, the additional information provided by `dpv:isIndicatedBy` can be considered redundant and is often omitted.</p>
-    <p>[=ConsentControl=] represents information about how to exercise a control regarding consent. To indicate how an organisation obtains consent, the concept [=ObtainConsent=] is provided. Its corresponding concept [=ProvideConsent=] specifies how a data subject can indicate their consent (decision). The concept [=ReaffirmConsent=] is used to indicate how to perform reaffirmation or confirmation of a previous control (e.g. provide or obtain consent). To associate consent controls, the relation [=hasConsentControl=] is provided. Consent controls are defined by extending relevant `dpv:EntityInvolvement` concepts `dpv:OptingIntoProcess` and `dpv:WithdrawingFromProcess`.</p>
 
     {{ example_aside('dex:E0014') }}
     {{ example_aside('dex:E0016') }}
@@ -182,7 +218,7 @@
 
     <section id="vocab-legal-basis-consent-indication">
       <h4>Consent Indication</h4>
-      <p>To indicate which entity is responsible for a specific consent stage (e.g. individual for given consent, requestor for consent requested), the relation <code>isIndicatedBy</code> is provided. It can be used with any <code>Entity</code> such as <code>DataSubject</code> or its subtypes such as <code>User</code> or specific instances of these to record information regarding who was responsible for the indicated status and consent action. To indicate the method by which an entity has indicated the specific consent, the relation <code>hasIndicationMethod</code> is provided. To indicate the time (or similar temporal information), the relation <code>isIndicatedAtTime</code> is provided.</p>
+      <p>To indicate which entity is responsible for a specific consent stage (e.g. individual for given consent, requester for consent requested), the relation <code>isIndicatedBy</code> is provided. It can be used with any <code>Entity</code> such as <code>DataSubject</code> or its subtypes such as <code>User</code> or specific instances of these to record information regarding who was responsible for the indicated status and consent action. To indicate the method by which an entity has indicated the specific consent, the relation <code>hasIndicationMethod</code> is provided. To indicate the time (or similar temporal information), the relation <code>isIndicatedAtTime</code> is provided.</p>
       <div class="note" title="Common legal concepts/properties">
         <p>The concepts and relations mentioned here regarding consent, such as <i>isIndicatedBy</i>, are also applicable and suitable for use with other legal bases or actions, such as contracts, legal requests, or exercising rights. Therefore, these can also be used in other contexts as deemed suitable. We are working on providing specific concepts and guidance for more detailed representation of information for such other legal bases and actions.</p>
       </div>
@@ -198,43 +234,69 @@
 
     <section id="vocab-legal-basis-consent-controls">
       <h4>Consent Controls</h4>
-      <ol>
-        <li>[=ObtainConsent=] for controllers to obtain consent</li>
-        <li>[=ProvideConsent=] for data subjects to provide consent</li>
-        <li>[=WithdrawConsent=] for data subjects to withdraw consent</li>
-        <li>[=ReaffirmConsent=] for controllers and data subjects to reaffirm consent (use with [=ObtainConsent=] or [=ProvideConsent=])</li>
-      </ol>
+      <p> represents information about how to exercise a control regarding consent. To indicate how an organisation obtains consent, the concept [=ObtainConsent=] is provided. Its corresponding concept [=ProvideConsent=] specifies how a data subject can indicate their consent (decision). The concept [=ReaffirmConsent=] is used to indicate how to perform reaffirmation or confirmation of a previous control (e.g. provide or obtain consent).</p>
+      <p>[=ConsentControl=] allows representing activities associated with control over consent, such as to give/obtain consent, to refuse it, or to withdraw it. These concepts are useful to represent which actions are involved or applicable in the specified context (e.g. to state a notice layer provides controls to accept and refuse consent), and to represent information on how to exercise them (e.g. consent can be withdrawn through the indicated process or at the given url). To associate consent controls, the relation [=hasConsentControl=] is provided.</p>
+      <p>The concept [=ManageConsent=] is a broad concept that encompasses other consent controls to reflect its common use in use-cases, such as to provide a common interface to perform all actions associated with consent. The interpretation used here is that managing consent refers to providing, withdrawing, and reaffirming given consent. Refusing consent is not included as part of managing consent currently, but may be added in the future to represent cases where a consent request is received and stored awaiting the individual's decision - where 'managing consent' for the individual would involve both providing and refusing consent.</p>
+      <p>Consent controls are defined by extending relevant `dpv:EntityInvolvement` concepts `dpv:OptingIntoProcess` and `dpv:WithdrawingFromProcess` so that commonly used terms such as 'opt-in' and 'opt-out' (more specifically, withdrawing from an opted-in process) are aligned with managing consent by defining them as a broader concept than 'provide consent' and 'withdraw consent' respectively.</p>
+      {{ list_hierarchy(modules['legal_basis-consent-controls']['classes']) }}
     </section>
-    {{ example_aside('dex:E0018') }}
+    {{ example_aside('dex:E0072') }}
   </section>
 
   <section id="desc-legitimate-interest">
     <h3>Legitimate Interest</h3>
     <p>[=LegitimateInterest=] represents a 'legitimate' reason for the entity to carry out an activity. This reason can be about benefits to the entity, or risks/harms to another entity. Where such benefits or risks/harms can be considered to be of 'vital interest', the legal basis [=VitalInterest=] should be used. Where this benefit or risks/harms pertains to the wider society or general public, the legal basis [=PublicInterest=] should be used. Legitimate interests can be associated with the controller, or data subject, or third party, or other entities. As good practice (and for their legality), the relevant entity must always be specified. We recommend using a relevant property such as `dpv:hasDataController` for data controller's legitimate interest to specify this. If a relevant property is not present in DPV, `dpv:hasEntity` can be used.</p>
     <p>[=LegitimateInterestOfController=] represents a legitimate interest of the controller - such as carrying out `dpv:FraudPreventionDetection`. [=LegitimateInterestOfDataSubject=] represents a legitimate interest of the data subject - such as having a copy of the transaction (data or agreement) that it is providing or keeping their own records. [=LegitimateInterestOfThirdParty=] represents a legitimate interest of a third party - for example to investigate  `dpv:CounterTerrorism` activities.</p>
+    <p>[=LegitimateInterestStatus=] represents concepts that model the state of legitimate interest in terms of the data subject being informed about it ([=LegitimateInterestInformed=] and [=LegitimateInterestUninformed=]) and whether they have objected to it ([=LegitimateInterestObjected=] and [=LegitimateInterestNotObjected=]). These can be associated or expressed using the relation `dpv:hasStatus`.</p>
+    {{ list_hierarchy(modules['legal_basis-status']['classes'], head='dpv:LegitimateInterestStatus') }}
     {{ example_aside('dex:E0065') }}
+    {{ example_aside('dex:E0080') }}
   </section>
+
+  <section id="desc-legal-obligation">
+    <h2>Legal Obligation</h2>
+    <p>[=LegalObligation=] represents using the justification of an obligation to perform the activity as defined in law or required by a legal procedure such as a court or authority order. When using legal obligations as the legal basis, it is good practice (and necessary for its legality) to also define the specific law or legal mechanism under which the obligation is defined. This can be done using `dpv:hasApplicableLaw`.</p>
+    <p>[=LegalObligationStatus=] represents concepts that model the state of legal obligation in terms of it not being initiated or started yet ([=LegalObligationPending=]), where it is ongoing ([=LegalObligationOngoing=], and where it has been completed ([=LegalObligationCompleted=]). These can be expressed or associated using the relation `dpv:hasStatus`.</p>
+    {{ list_hierarchy(modules['legal_basis-status']['classes'], head='dpv:LegalObligationStatus') }}
+    {{ example_aside('dex:E0042') }}
+    {{ example_aside('dex:E0079') }}
+  </section>
+
 
   <section id="desc-official-authority">
     <h3>Official Authority of Controller</h3>
-    <p>[=OfficialAuthorityOfController=] represents the legal basis where the official authority vested in the controller (by law) is used as the justification for carrying out activities. Such official authority is provided to specific departments to enable them to carry out their duties - such as maintainence of tax records, or provision of postal serviecs. The relevant law should be indicated as part of the legal basis if needed by using `dpv:hasApplicableLaw`.</p>
+    <p>[=OfficialAuthorityOfController=] represents the legal basis where the official authority vested in the controller (by law) is used as the justification for carrying out activities. Such official authority is provided to specific departments to enable them to carry out their duties - such as maintenance of tax records, or provision of postal services. The relevant law should be indicated as part of the legal basis if needed by using `dpv:hasApplicableLaw`.</p>
+    <p>[=OfficialAuthorityExerciseStatus=] represents the state of the official authority being exercised in terms of it yet to be exercised ([=OfficialAuthorityExercisePending=]), it being exercised ([=OfficialAuthorityExerciseOngoing=]), and the completion of the exercise ([=OfficialAuthorityExerciseCompleted=]). These can be associated or expressed using the relation `dpv:hasStatus`.</p>
+    {{ list_hierarchy(modules['legal_basis-status']['classes'], head='dpv:OfficialAuthorityExerciseStatus') }}
+    {{ example_aside('dex:E0081') }}
   </section>
 
   <section id="desc-public-interest">
     <h3>Public Interest</h3>
     <p>[=PublicInterest=] represents activities carried out because they are 'in the interest of the general public' or are necessary to 'provide benefit to the public', where such benefit might be actual benefits (e.g. archiving data of cultural importance) or prevention of harms (e.g. identify relevant medical conditions quickly to prevent an outbreak). We strongly recommend providing a description of the relevant 'benefits' when using this legal basis e.g. by using  `dpv:hasJustification` for contextual justifications associated with the benefit.</p>
+    <p>[=PublicInterestStatus=] represents the state of the public interest being exercised or utilised or applied, specifically in terms of when it has been declared but hasn't been utilised yet ([=PublicInterestPending=]), it is being exercised ([=PublicInterestOngoing=]), and the completion of the exercise ([=PublicInterestCompleted=]). These can be associated or expressed using the relation `dpv:hasStatus`.</p>
+    {{ list_hierarchy(modules['legal_basis-status']['classes'], head='dpv:PublicInterestStatus') }}
+    {{ example_aside('dex:E0082') }}
   </section>
 
   <section id="desc-vital-interest">
     <h3>Protecting Vital Interests</h3>
     <p>[=VitalInterest=] represents activities that are necessary or required to protect vital interests of a data subject or other natural person. For more specific indication, [=VitalInterestOfNaturalPerson=] refers to vital interests of (any or a specific) natural person, and [=VitalInterestOfDataSubject=] represents vital interests of (any or a specific) data subject. As with [=PublicInterest=] and [=LegitimateInterest=], we strongly recommend specifying relevant information - the vital interest in this case - by using `dpv:hasJustification`. </p>
-
-
+    <p>[=VitalInterestStatus=] represents the state of the vital interest being exercised or utilised or applied, specifically in terms of when it is yet to be utilised ([=VitalInterestPending=]), it is being utilised ([=VitalInterestOngoing=]), and it has been applied to completion ([=VitalInterestCompleted=]).</p>
+    {{ list_hierarchy(modules['legal_basis-status']['classes'], head='dpv:VitalInterestStatus') }}
+    {{ example_aside('dex:E0083') }}
   </section>
 
 <section>
   <h2>Vocabulary Index</h2>
   {% set module_combined = modules['legal_basis']['classes'].copy() %}
+  {% set _ = module_combined.update(modules['legal_basis-contract']['classes']) %}
+  {% set _ = module_combined.update(modules['legal_basis-contract']['properties']) %}
+  {% set _ = module_combined.update(modules['legal_basis-contract-types']['classes']) %}
+  {% set _ = module_combined.update(modules['legal_basis-contract-status']['classes']) %}
+  {% set _ = module_combined.update(modules['legal_basis-contract-status']['properties']) %}
+  {% set _ = module_combined.update(modules['legal_basis-contract-clause']['classes']) %}
+  {% set _ = module_combined.update(modules['legal_basis-contract-control']['classes']) %}
   {% set _ = module_combined.update(modules['legal_basis']['properties']) %}
   {% set _ = module_combined.update(modules['legal_basis-consent']['classes']) %}
   {% set _ = module_combined.update(modules['legal_basis-consent']['properties']) %}
@@ -244,6 +306,7 @@
   {% set _ = module_combined.update(modules['legal_basis-consent-status']['properties']) %}
   {% set _ = module_combined.update(modules['legal_basis-consent-controls']['classes']) %}
   {% set _ = module_combined.update(modules['legal_basis-consent-controls']['properties']) %}
+  {% set _ = module_combined.update(modules['legal_basis-status']['classes']) %}
   <section id="classes">
     {{ index_concepts(module_combined, vocab_name, filter="classes") }}
   </section>
@@ -263,15 +326,6 @@
   </section>
 </section>
 {% block ACKNOWLEDGEMENTS %}
-<section id="contributors">
-  <h2>Contributors</h2>
-  <p>The following people have contributed to this vocabulary. The names are ordered alphabetically. The affiliations are informative do not represent formal endorsements. Affiliations may be outdated. The list is generated automatically from the contributors listed for defined concepts.</p>
-  <ul>
-  {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|sort %}
-    <li>{{ person }} ({{person|generate_author_affiliation}})</li>
-  {% endfor %}
-  </ul>
-</section>
 <section id="funding-acknowledgements" class="notoc">
   <h2>Funding Acknowledgements</h2>
 

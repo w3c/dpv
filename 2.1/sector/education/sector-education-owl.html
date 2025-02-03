@@ -1,0 +1,4993 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Education Sector Concepts</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "Education Sector Concepts",
+    subtitle: "version 2.1 - OWL serialisation",
+    publishDate: "2025-02-01",
+    specStatus: "CG-DRAFT",
+    group: "dpvcg",
+    latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
+    canonicalUri: "https://w3id.org/dpv/",
+    edDraftURI: "https://w3id.org/dpv/",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "ADAPT Centre, Dublin City University",
+    }
+    ],
+    authors: [  { 
+    "name": "Harshvardhan J. Pandit",
+    "company": "ADAPT Centre, Dublin City University",
+    "orcid": "0000-0002-5068-3714",
+    "url": "https://harshp.com/"  }
+]
+,
+    otherLinks: [
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2 (2024)",
+              "href": "https://arxiv.org/abs/2404.13426"
+            }
+        ]
+      }
+    ],
+    localBiblio: {
+  "DPVCG": {
+    "href": "https://www.w3.org/community/dpvcg/",
+    "title": "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)"
+  },
+  "DPV": {
+    "href": "https://w3id.org/dpv",
+    "title": "Data Privacy Vocabulary (DPV) Specification"
+  },
+  "EU-GDPR": {
+    "href": "https://w3id.org/dpv/legal/eu/gdpr",
+    "title": "EU GDPR concepts for DPV"
+  },
+  "EU-DGA": {
+    "href": "https://w3id.org/dpv/legal/eu/dga",
+    "title": "EU DGA concepts for DPV"
+  },
+  "EU-AIAct": {
+    "href": "https://w3id.org/dpv/legal/eu/aiact",
+    "title": "EU AI Act concepts for DPV"
+  },
+  "EU-NIS2": {
+    "href": "https://w3id.org/dpv/legal/eu/nis2",
+    "title": "EU NIS2 concepts for DPV"
+  },
+  "EU-EHDS": {
+    "href": "https://w3id.org/dpv/legal/eu/ehds",
+    "title": "EU Health Data Space (EHDS) concepts for DPV"
+  },
+  "DPV-NACE": {
+    "href": "https://w3id.org/dpv/nace",
+    "title": "NACE Taxonomy serialised in RDFS/OWL"
+  },
+  "PD": {
+    "href": "https://w3id.org/dpv/pd",
+    "title": "Personal Data categories for DPV"
+  },
+  "TECH": {
+    "href": "https://w3id.org/dpv/tech",
+    "title": "Technology concepts for DPV"
+  },
+  "AI": {
+    "href": "https://w3id.org/dpv/ai",
+    "title": "AI Technology concepts for DPV"
+  },
+  "RISK": {
+    "href": "https://w3id.org/dpv/risk",
+    "title": "Risk Assessment and Management concepts for DPV"
+  },
+  "LOC": {
+    "href": "https://w3id.org/dpv/loc",
+    "title": "Location and Geo-Political Membership concepts for DPV"
+  },
+  "SECTOR": {
+    "href": "https://w3id.org/dpv/sector",
+    "title": "Sector-specific Extensions for DPV"
+  },
+  "SECTOR-EDUCATION": {
+    "href": "https://w3id.org/dpv/sector/education",
+    "title": "Education Sector Extension for DPV"
+  },
+  "SECTOR-FINANCE": {
+    "href": "https://w3id.org/dpv/sector/finance",
+    "title": "Finance Sector Extension for DPV"
+  },
+  "SECTOR-HEALTH": {
+    "href": "https://w3id.org/dpv/sector/health",
+    "title": "Health Sector Extension for DPV"
+  },
+  "SECTOR-INFRA": {
+    "href": "https://w3id.org/dpv/sector/infra",
+    "title": "Infrastructure Sector Extension for DPV"
+  },
+  "SECTOR-LAW": {
+    "href": "https://w3id.org/dpv/sector/law",
+    "title": "Law Enforcement & Justice Sector Extension for DPV"
+  },
+  "SECTOR-PUBLICSERVICES": {
+    "href": "https://w3id.org/dpv/sector/publicservices",
+    "title": "Public Services Sector Extension for DPV"
+  },
+  "JUSTIFICATIONS": {
+    "href": "https://w3id.org/dpv/justifications",
+    "title": "Concepts representing Justifications for DPV"
+  },
+  "LEGAL": {
+    "href": "https://w3id.org/dpv/legal",
+    "title": "Legal Jurisdiction-relevant concepts for DPV"
+  },
+  "LEGAL-AT": {
+        "href": "https://w3id.org/dpv/legal/at",
+        "title": "Legal concepts for Austria (AT)"
+  },
+  "LEGAL-BE": {
+          "href": "https://w3id.org/dpv/legal/be",
+          "title": "Legal concepts for Belgium (BE)"
+  },
+  "LEGAL-BG": {
+          "href": "https://w3id.org/dpv/legal/bg",
+          "title": "Legal concepts for Bulgaria (BG)"
+  },
+  "LEGAL-CY": {
+          "href": "https://w3id.org/dpv/legal/cy",
+          "title": "Legal concepts for Cyprus (CY)"
+  },
+  "LEGAL-CZ": {
+          "href": "https://w3id.org/dpv/legal/cz",
+          "title": "Legal concepts for Czech Republic (CZ)"
+  },
+  "LEGAL-DE": {
+          "href": "https://w3id.org/dpv/legal/de",
+          "title": "Legal concepts for Germany (DE)"
+  },
+  "LEGAL-DK": {
+          "href": "https://w3id.org/dpv/legal/dk",
+          "title": "Legal concepts for Denmark (DK)"
+  },
+  "LEGAL-EE": {
+          "href": "https://w3id.org/dpv/legal/ee",
+          "title": "Legal concepts for Estonia (EE)"
+  },
+  "LEGAL-ES": {
+          "href": "https://w3id.org/dpv/legal/es",
+          "title": "Legal concepts for Spain (ES)"
+  },
+  "LEGAL-FI": {
+          "href": "https://w3id.org/dpv/legal/fi",
+          "title": "Legal concepts for Finland (FI)"
+  },
+  "LEGAL-FR": {
+          "href": "https://w3id.org/dpv/legal/fr",
+          "title": "Legal concepts for France (FR)"
+  },
+  "LEGAL-GR": {
+          "href": "https://w3id.org/dpv/legal/gr",
+          "title": "Legal concepts for Greece (GR)"
+  },
+  "LEGAL-HR": {
+          "href": "https://w3id.org/dpv/legal/hr",
+          "title": "Legal concepts for Croatia (HR)"
+  },
+  "LEGAL-HU": {
+          "href": "https://w3id.org/dpv/legal/hu",
+          "title": "Legal concepts for Hungary (HU)"
+  },
+  "LEGAL-IE": {
+          "href": "https://w3id.org/dpv/legal/ie",
+          "title": "Legal concepts for Ireland (IE)"
+  },
+  "LEGAL-IS": {
+          "href": "https://w3id.org/dpv/legal/is",
+          "title": "Legal concepts for Iceland (IS)"
+  },
+  "LEGAL-IT": {
+          "href": "https://w3id.org/dpv/legal/it",
+          "title": "Legal concepts for Italy (IT)"
+  },
+  "LEGAL-LI": {
+          "href": "https://w3id.org/dpv/legal/li",
+          "title": "Legal concepts for Liechtenstein (LI)"
+  },
+  "LEGAL-LT": {
+          "href": "https://w3id.org/dpv/legal/lt",
+          "title": "Legal concepts for Lithuania (LT)"
+  },
+  "LEGAL-LU": {
+          "href": "https://w3id.org/dpv/legal/lu",
+          "title": "Legal concepts for Luxembourg (LU)"
+  },
+  "LEGAL-LV": {
+          "href": "https://w3id.org/dpv/legal/lv",
+          "title": "Legal concepts for Latvia (LV)"
+  },
+  "LEGAL-MT": {
+          "href": "https://w3id.org/dpv/legal/mt",
+          "title": "Legal concepts for Malta (MT)"
+  },
+  "LEGAL-NL": {
+          "href": "https://w3id.org/dpv/legal/nl",
+          "title": "Legal concepts for Netherlands (NL)"
+  },
+  "LEGAL-NO": {
+          "href": "https://w3id.org/dpv/legal/no",
+          "title": "Legal concepts for Norway (NO)"
+  },
+  "LEGAL-PL": {
+          "href": "https://w3id.org/dpv/legal/pl",
+          "title": "Legal concepts for Poland (PL)"
+  },
+  "LEGAL-PT": {
+          "href": "https://w3id.org/dpv/legal/pt",
+          "title": "Legal concepts for Portugal (PT)"
+  },
+  "LEGAL-RO": {
+          "href": "https://w3id.org/dpv/legal/ro",
+          "title": "Legal concepts for Romania (RO)"
+  },
+  "LEGAL-SE": {
+          "href": "https://w3id.org/dpv/legal/se",
+          "title": "Legal concepts for Sweden (SE)"
+  },
+  "LEGAL-SI": {
+          "href": "https://w3id.org/dpv/legal/si",
+          "title": "Legal concepts for Slovenia (SI)"
+  },
+  "LEGAL-SK": {
+          "href": "https://w3id.org/dpv/legal/sk",
+          "title": "Legal concepts for Slovakia (SK)"
+  },
+  "LEGAL-GB": {
+          "href": "https://w3id.org/dpv/legal/gb",
+          "title": "Legal concepts for Great Britain and Northern Ireland (GB)"
+  },
+  "LEGAL-IN": {
+          "href": "https://w3id.org/dpv/legal/in",
+          "title": "Legal concepts for India (IN)"
+  },
+  "LEGAL-US": {
+          "href": "https://w3id.org/dpv/legal/us",
+          "title": "Legal concepts for United States of America (US)"
+  },
+  "LEGAL-EU": {
+          "href": "https://w3id.org/dpv/legal/eu",
+          "title": "Legal concepts for European Union (EU)"
+  },
+  "EU-RIGHTS": {
+    "href": "https://w3id.org/dpv/legal/eu/rights",
+    "title": "EU Fundamental Rights concepts for DPV"
+  },
+  "STANDARD-P7012": {
+    "href": "https://w3id.org/dpv/standards/p7012",
+    "title": "Extension for IEEE P7012"
+  },
+  "DPV-OWL": {
+    "href": "https://w3id.org/dpv/dpv-owl",
+    "title": "DPV serialised in OWL2"
+  },
+  "PRIMER": {
+    "href": "https://w3id.org/dpv/primer",
+    "title": "Primer for Data Privacy Vocabulary"
+  },
+  "PRIMER-concise": {
+    "href": "https://w3id.org/dpv/primer/concise",
+    "title": "Concise Primer for Data Privacy Vocabulary"
+  },
+  "DPV-ADOPTION": {
+    "href": "https://github.com/w3c/dpv/wiki/Adoption-and-Uses-of-DPVCG",
+    "title": "Adoption and Uses of DPV"
+  },
+  "GUIDES": {
+    "href": "https://w3id.org/dpv/guides",
+    "title": "Guides for DPV"
+  },
+  "GUIDE-Consent-27560": {
+    "href": "https://w3id.org/dpv/guides/consent-27560",
+    "title": "Consent Records and Receipts as per ISO/IEC TS 27560:2023 using DPV"
+  },
+  "GUIDE-Notice-29184": {
+    "href": "https://w3id.org/dpv/guides/notice-29184",
+    "title": "Privacy Notices as per ISO/IEC 29184:2020 using DPV"
+  },
+  "GUIDE-Notice": {
+    "href": "https://w3id.org/dpv/guides/notice",
+    "title": "Guide for Privacy Notices using DPV"
+  },
+  "GUIDE-Serialisations": {
+    "href": "https://w3id.org/dpv/guides/serialisations",
+    "title": "Guide on DPV's serialisations and semantics"
+  },
+  "GUIDE-SKOS": {
+    "href": "https://w3id.org/dpv/guides/dpv-skos",
+    "title": "Guide for using DPV with RDFS and SKOS"
+  },
+  "GUIDE-OWL2": {
+    "href": "https://w3id.org/dpv/guides/dpv-owl",
+    "title": "Guide for using DPV in OWL2"
+  },
+  "GUIDE-ODRL": {
+    "href": "https://w3id.org/dpv/guides/dpv-odrl",
+    "title": "Guide for using DPV with ODRL"
+  },
+  "GUIDE-MISCFORMAT": {
+    "href": "https://w3id.org/dpv/guides/dpv-misc",
+    "title": "Guide for using DPV in miscellaneous formats e.g. CSV, JSON"
+  },
+  "GUIDE-GDPR-DPIA": {
+    "href": "https://w3id.org/dpv/guides/gdpr-dpia",
+    "title": "Guide for GDPR DPIA's using DPV"
+  },
+  "GUIDE-GDPR-ROPA": {
+    "href": "https://w3id.org/dpv/guides/gdpr-ropa",
+    "title": "Guide for GDPR ROPA's using DPV"
+  },
+  "GUIDE-GDPR-DataBreach": {
+    "href": "https://w3id.org/dpv/guides/gdpr-data-breach",
+    "title": "Guide for GDPR Data Breach records, notifications, and assessments using DPV"
+  },
+  "GUIDE-Rights": {
+    "href": "https://w3id.org/dpv/guides/rights",
+    "title": "Guide for Rights Exercise and Management using DPV"
+  },
+  "DPV-27560": {
+      "href": "https://w3id.org/dpv/schema/dpv-27560",
+      "title": "DPV Profile for implementing ISO/IEC TS 27560:2023 Consent Records and Receipts"
+  },
+  "DPV-29184": {
+      "href": "https://w3id.org/dpv/schema/DPV-29184",
+      "title": "DPV Profile for implementing ISO/IEC TS 29184:2020 Privacy Notices"
+  },
+  "MAPPING-ODRL": {
+      "href": "https://w3id.org/dpv/mapping/odrl",
+      "title": "Mapping DPV concepts to ODRL"
+  },
+  "EXAMPLES": {
+    "href": "https://w3id.org/dpv/examples",
+    "title": "DPV Examples"
+  },
+  "UseCases-Requirements": {
+    "href": "https://w3id.org/dpv/use-cases",
+    "title": "Use-Cases and Requirements for DPV"
+  },
+  "RDF": {
+    "href": "https://www.w3.org/TR/rdf11-concepts/",
+    "title": "RDF 1.1 Concepts and Abstract Syntax"
+  },
+  "RDFS": {
+    "href": "https://www.w3.org/TR/rdf-schema/",
+    "title": "RDF Schema 1.1"
+  },
+  "OWL" :{
+    "href": "https://www.w3.org/TR/owl2-overview/",
+    "title": "OWL 2 Web Ontology Language Document Overview (Second Edition)"
+  },
+  "SKOS": {
+    "href": "https://www.w3.org/TR/skos-reference/",
+    "title": "SKOS Simple Knowledge Organization System"
+  },
+  "SPECIAL": {
+    "href": "https://www.specialprivacy.eu/",
+    "title": "SPECIAL H2020 Project"
+  },
+  "GDPR": {
+    "href": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+    "title": "General Data Protection Regulation (GDPR)"
+  },
+  "DGA": {
+    "href": "https://eur-lex.europa.eu/eli/reg/2022/868/oj",
+    "title": "Data Governance Act (DGA)"
+  },
+  "AIAct": {
+    "href": "http://data.europa.eu/eli/reg/2024/1689/oj",
+    "title": "Artificial Intelligence Act (AI Act)"
+  },
+  "NIS2": {
+    "href": "http://data.europa.eu/eli/dir/2022/2555/2022-12-27",
+    "title": "Network Information Security Directive (NIS2)"
+  },
+  "NACE": {
+    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+    "title": "Statistical Classification of Economic Activities in the European Community (NACE)"
+  },
+  "NAICS": {
+    "href": "https://www.census.gov/eos/www/naics/",
+    "title": "North American Industry Classification System (NAICS)"
+  },
+  "ISIC": {
+    "href": "https://unstats.un.org/unsd/classifications",
+    "title": "International Standard Industrial Classification of All Economic Activities (ISIC)"
+  },
+  "GICS": {
+    "href": "https://www.msci.com/gics",
+    "title": "Global Industry Classification Standard (GICS)"
+  },
+  "NACE-NAICS": {
+    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+    "title": "NACE to NAICS mapping"
+  },
+  "EnterPrivacy": {
+    "href": "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
+    "title": "Taxonomy of Personal Data Categories"
+  },
+  "TIME": {
+    "href": "https://www.w3.org/TR/owl-time/",
+    "title": "Time Ontology in OWL"
+  },
+  "ISO-27017": {
+    "href": "https://www.iso.org/standard/43757.html",
+    "title": "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
+  },
+  "ISO-27560": {
+    "href": "https://www.iso.org/standard/80392.html",
+    "title": "ISO/IEC TS 27560 Privacy technologies — Consent record information structure"
+  },
+  "ISO-29184": {
+    "href": "https://www.iso.org/standard/70331.html",
+    "title": "ISO/IEC 29184:2020 Privacy Notices and Consent"
+  },
+  "ISO-22989": {
+    "href": "https://www.iso.org/standard/74296.html",
+    "title": " ISO/IEC 22989:2022 Artificial intelligence concepts and terminology"
+  },
+  "SHACL-UseCases": {
+    "href": "https://www.w3.org/TR/shacl-ucr/",
+    "title": "SHACL Use Cases and Requirements"
+  },
+  "SHACL": {
+    "href": "https://www.w3.org/TR/shacl",
+    "title": "Shape and Contraint Language (SHACL)"
+  },
+  "ODRL": {
+    "href": "https://www.w3.org/TR/odrl-model/",
+    "title": "Open Digital Rights Language (ODRL) Model"
+  },
+  "DCT": {
+    "title": "DCMI Metadata Terms (DCT)",
+    "href": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
+  },
+  "DCAT": {
+    "title": "Data Catalog Vocabulary (DCAT)",
+    "href": "http://www.w3.org/ns/dcat"
+  },
+  "RuleML": {
+    "title": "RuleML: Rule Markup Language",
+    "href": "www.ruleml.org/"
+  },
+  "SKOS-OWL": {
+    "title": "Using OWL and SKOS",
+    "href": "https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html",
+  },
+  "DPCat": {
+    "title": "DPCat: Specification for an Interoperable and Machine-Readable Data Processing Catalogue Based on GDPR",
+    "href": "https://w3id.org/dpcat"
+  },
+  "ISO-8601": {
+    "href": "https://www.iso.org/iso-8601-date-and-time-format.html",
+    "title": "ISO 8601 Date and time format"
+  },
+  "IEEE-P7012": {
+    "title": "IEEE Draft Standard for Machine Readable Personal Privacy Terms",
+    "href": "https://standards.ieee.org/ieee/7012/7192/",
+  }
+}  };
+</script>
+  <link rel="stylesheet" type="text/css" href="../diagrams/common.css">
+<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+
+<section id="abstract">
+  <p>This document describes (only) the <strong><emph>OWL serialisation</emph> of Education Sector Concepts</strong>. For information on the concepts, their usage, and further documentation, please consult the canonical page for the vocabulary at: <a href="https://w3id.org/dpv/sector/education">https://w3id.org/dpv/sector/education</a></p>
+</section>
+
+<section id="sotd"></section>
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    <h3>Classes</h3>       
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+     <section class="term-def" id="AccessManagement">
+      <h4>AccessManagement</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>AccessManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>AccessManagement</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#AccessManagement">https://w3id.org/dpv/sector/education/owl/#AccessManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#AccessManagement">https://w3id.org/dpv/sector/education#AccessManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with determination and management of access to educational programs, resources, and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="EducationManagement">
+      <h4>Education Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>EducationManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Education Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#EducationManagement">https://w3id.org/dpv/sector/education/owl/#EducationManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#EducationManagement">https://w3id.org/dpv/sector/education#EducationManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with running and management of educational organisations and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+       
+      
+      
+      
+     <section class="term-def" id="ResearchDataManagement">
+      <h4>Research Data Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ResearchDataManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Research Data Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#ResearchDataManagement">https://w3id.org/dpv/sector/education/owl/#ResearchDataManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#ResearchDataManagement">https://w3id.org/dpv/sector/education#ResearchDataManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ResearchManagement">sector-education-owl:ResearchManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#AcademicResearch">dpv-owl:AcademicResearch</a>
+             →             <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ResearchManagement">sector-education-owl:ResearchManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of data in an educational or academic research context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ResearchIntegrityManagement">
+      <h4>Research Integrity Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ResearchIntegrityManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Research Integrity Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#ResearchIntegrityManagement">https://w3id.org/dpv/sector/education/owl/#ResearchIntegrityManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#ResearchIntegrityManagement">https://w3id.org/dpv/sector/education#ResearchIntegrityManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ResearchManagement">sector-education-owl:ResearchManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#AcademicResearch">dpv-owl:AcademicResearch</a>
+             →             <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ResearchManagement">sector-education-owl:ResearchManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment, determination, and management of integrity for or of research activities and outputs in an educational or academic research context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ResearchManagement">
+      <h4>Research Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ResearchManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Research Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#ResearchManagement">https://w3id.org/dpv/sector/education/owl/#ResearchManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#ResearchManagement">https://w3id.org/dpv/sector/education#ResearchManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#AcademicResearch">dpv-owl:AcademicResearch</a>
+             →             <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with research activities and management of research activities within an educational context e.g. within university departments or research groups</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="ResearchUserStudyManagement">
+      <h4>Research User Study Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ResearchUserStudyManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Research User Study Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#ResearchUserStudyManagement">https://w3id.org/dpv/sector/education/owl/#ResearchUserStudyManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#ResearchUserStudyManagement">https://w3id.org/dpv/sector/education#ResearchUserStudyManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ResearchManagement">sector-education-owl:ResearchManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#AcademicResearch">dpv-owl:AcademicResearch</a>
+             →             <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ResearchManagement">sector-education-owl:ResearchManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with conducting and assessing studies involving people (as user studies) in an educational or academic research context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+      
+      
+      
+      
+      
+     <section class="term-def" id="ServiceProvision">
+      <h4>Service Provision</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>ServiceProvision</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Service Provision</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#ServiceProvision">https://w3id.org/dpv/sector/education/owl/#ServiceProvision</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#ServiceProvision">https://w3id.org/dpv/sector/education#ServiceProvision</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with provision of educational services, including lectures, seminars, laboratory work, and other similar activities within the context of provision of education</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StaffManagement">
+      <h4>Staff Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StaffManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Staff Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StaffManagement">https://w3id.org/dpv/sector/education/owl/#StaffManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StaffManagement">https://w3id.org/dpv/sector/education#StaffManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of staff and related personnel in educational organisations</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StaffPerformanceAssessment">
+      <h4>Staff Performance Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StaffPerformanceAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Staff Performance Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StaffPerformanceAssessment">https://w3id.org/dpv/sector/education/owl/#StaffPerformanceAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StaffPerformanceAssessment">https://w3id.org/dpv/sector/education#StaffPerformanceAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#PersonnelPerformanceMonitoring">dpv-owl:PersonnelPerformanceMonitoring</a>
+             →             <a href="https://w3id.org/dpv/owl/#PersonnelMonitoring">dpv-owl:PersonnelMonitoring</a>
+             →             <a href="https://w3id.org/dpv/owl/#PersonnelManagement">dpv-owl:PersonnelManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#HumanResourceManagement">dpv-owl:HumanResourceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#PersonnelPerformanceMonitoring">dpv-owl:PersonnelPerformanceMonitoring</a>
+             →             <a href="https://w3id.org/dpv/owl/#PersonnelPerformanceManagement">dpv-owl:PersonnelPerformanceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PersonnelManagement">dpv-owl:PersonnelManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#HumanResourceManagement">dpv-owl:HumanResourceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#PersonnelPerformanceMonitoring">dpv-owl:PersonnelPerformanceMonitoring</a>
+             →             <a href="https://w3id.org/dpv/owl/#PersonnelPerformanceManagement">dpv-owl:PersonnelPerformanceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#PersonnelMonitoring">dpv-owl:PersonnelMonitoring</a>
+             →             <a href="https://w3id.org/dpv/owl/#PersonnelManagement">dpv-owl:PersonnelManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#HumanResourceManagement">dpv-owl:HumanResourceManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StaffManagement">sector-education-owl:StaffManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of performance of staff and related personnel in the context of an educational organisation</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentAcademicPotentialAssessment">
+      <h4>Student Academic Potential Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentAcademicPotentialAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Academic Potential Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentAcademicPotentialAssessment">https://w3id.org/dpv/sector/education/owl/#StudentAcademicPotentialAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentAcademicPotentialAssessment">https://w3id.org/dpv/sector/education#StudentAcademicPotentialAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentPerformanceAssessment">sector-education-owl:StudentPerformanceAssessment</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of academic potential as a measure of the capability of the student for specific academic or educational courses, programs, or services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentAdmissionManagement">
+      <h4>Student Admission Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentAdmissionManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Admission Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentAdmissionManagement">https://w3id.org/dpv/sector/education/owl/#StudentAdmissionManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentAdmissionManagement">https://w3id.org/dpv/sector/education#StudentAdmissionManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#AccessManagement">sector-education-owl:AccessManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of admission process for current and prospective students</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentAdmissionScreening">
+      <h4>Student Admission Screening</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentAdmissionScreening</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Admission Screening</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentAdmissionScreening">https://w3id.org/dpv/sector/education/owl/#StudentAdmissionScreening</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentAdmissionScreening">https://w3id.org/dpv/sector/education#StudentAdmissionScreening</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#AccessManagement">sector-education-owl:AccessManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with screening and filtering students and prospective students for the purposes of admission to educational organisations, resources, and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentAllocation">
+      <h4>StudentAllocation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentAllocation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>StudentAllocation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentAllocation">https://w3id.org/dpv/sector/education/owl/#StudentAllocation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentAllocation">https://w3id.org/dpv/sector/education#StudentAllocation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with allocation of students to educational institutes, resources, and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentAssignmentAssessment">
+      <h4>Student Assignment Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentAssignmentAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Assignment Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentAssignmentAssessment">https://w3id.org/dpv/sector/education/owl/#StudentAssignmentAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentAssignmentAssessment">https://w3id.org/dpv/sector/education#StudentAssignmentAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentLearningOutcomeAssessment">sector-education-owl:StudentLearningOutcomeAssessment</a>
+             →             <a href="#StudentPerformanceAssessment">sector-education-owl:StudentPerformanceAssessment</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of student performance in the context of an educational assignment or task or other processes where the student is required to perform an activity which is then assessed</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentAttendanceManagement">
+      <h4>Student Attendance Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentAttendanceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Attendance Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentAttendanceManagement">https://w3id.org/dpv/sector/education/owl/#StudentAttendanceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentAttendanceManagement">https://w3id.org/dpv/sector/education#StudentAttendanceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-education-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-education-owl:ServiceProvision</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with undertaking and management of attendance of students within an educational context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentCheatingAssessment">
+      <h4>Student Cheating Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentCheatingAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Cheating Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentCheatingAssessment">https://w3id.org/dpv/sector/education/owl/#StudentCheatingAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentCheatingAssessment">https://w3id.org/dpv/sector/education#StudentCheatingAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with detection, assessment, and management of activities considered as cheating or other activities considered to subvert rules or to obtain unfair advantage in the context of educational services and assessments</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentContentDelivery">
+      <h4>Student Content Delivery</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentContentDelivery</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Content Delivery</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentContentDelivery">https://w3id.org/dpv/sector/education/owl/#StudentContentDelivery</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentContentDelivery">https://w3id.org/dpv/sector/education#StudentContentDelivery</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-education-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-education-owl:ServiceProvision</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with delivery of content to student or group of students in the context of educational services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentCourseAllocation">
+      <h4>Student Course Allocation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentCourseAllocation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Course Allocation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentCourseAllocation">https://w3id.org/dpv/sector/education/owl/#StudentCourseAllocation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentCourseAllocation">https://w3id.org/dpv/sector/education#StudentCourseAllocation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAllocation">sector-education-owl:StudentAllocation</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with allocation of students to specific courses in the context of educational services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentCourseRecommendation">
+      <h4>Student Course Recommendation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentCourseRecommendation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Course Recommendation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentCourseRecommendation">https://w3id.org/dpv/sector/education/owl/#StudentCourseRecommendation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentCourseRecommendation">https://w3id.org/dpv/sector/education#StudentCourseRecommendation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#AccessManagement">sector-education-owl:AccessManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with providing recommendations to students regarding prospective courses for education</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentEligibilityAssessment">
+      <h4>Student Eligibility Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentEligibilityAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Eligibility Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentEligibilityAssessment">https://w3id.org/dpv/sector/education/owl/#StudentEligibilityAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentEligibilityAssessment">https://w3id.org/dpv/sector/education#StudentEligibilityAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#AccessManagement">sector-education-owl:AccessManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with eligibility assessment of students and prospective students for the purposes of admission and access to educational institutes, resources, and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentEnrollmentManagement">
+      <h4>Student Enrollment Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentEnrollmentManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Enrollment Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentEnrollmentManagement">https://w3id.org/dpv/sector/education/owl/#StudentEnrollmentManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentEnrollmentManagement">https://w3id.org/dpv/sector/education#StudentEnrollmentManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#AccessManagement">sector-education-owl:AccessManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with enrollement of students and prospective students in educational courses, programs, and institutes</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentExamAssessment">
+      <h4>Student Exam Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentExamAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Exam Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentExamAssessment">https://w3id.org/dpv/sector/education/owl/#StudentExamAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentExamAssessment">https://w3id.org/dpv/sector/education#StudentExamAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentLearningOutcomeAssessment">sector-education-owl:StudentLearningOutcomeAssessment</a>
+             →             <a href="#StudentPerformanceAssessment">sector-education-owl:StudentPerformanceAssessment</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of student performance in the context of an educational exam</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentFeesManagement">
+      <h4>Student Fees Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentFeesManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Fees Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentFeesManagement">https://w3id.org/dpv/sector/education/owl/#StudentFeesManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentFeesManagement">https://w3id.org/dpv/sector/education#StudentFeesManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#AccessManagement">sector-education-owl:AccessManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of fees from or for students in the context of educational resources and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentFinancialBenefitsManagement">
+      <h4>Student Financial Benefits Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentFinancialBenefitsManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Financial Benefits Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentFinancialBenefitsManagement">https://w3id.org/dpv/sector/education/owl/#StudentFinancialBenefitsManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentFinancialBenefitsManagement">https://w3id.org/dpv/sector/education#StudentFinancialBenefitsManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#AccessManagement">sector-education-owl:AccessManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of financial benefits for students in the context of educational resources and services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentGuidanceManagement">
+      <h4>Student Guidance Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentGuidanceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Guidance Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentGuidanceManagement">https://w3id.org/dpv/sector/education/owl/#StudentGuidanceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentGuidanceManagement">https://w3id.org/dpv/sector/education#StudentGuidanceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentWellbeingManagement">sector-education-owl:StudentWellbeingManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with providing and managing guidance, counselling, and other related services within the context of educational services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentIdentityVerification">
+      <h4>Student Identity Verification</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentIdentityVerification</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Identity Verification</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentIdentityVerification">https://w3id.org/dpv/sector/education/owl/#StudentIdentityVerification</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentIdentityVerification">https://w3id.org/dpv/sector/education#StudentIdentityVerification</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#IdentityVerification">dpv-owl:IdentityVerification</a>
+             →             <a href="https://w3id.org/dpv/owl/#Verification">dpv-owl:Verification</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with verification of a student&#39;s identity in an educational context, such as for exams or access to resources</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentInPersonProctoring">
+      <h4>Student In Person Proctoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentInPersonProctoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student In Person Proctoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentInPersonProctoring">https://w3id.org/dpv/sector/education/owl/#StudentInPersonProctoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentInPersonProctoring">https://w3id.org/dpv/sector/education#StudentInPersonProctoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentProctoring">sector-education-owl:StudentProctoring</a>
+             →             <a href="#StudentCheatingAssessment">sector-education-owl:StudentCheatingAssessment</a>
+             →             <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentProctoring">sector-education-owl:StudentProctoring</a>
+             →             <a href="#StudentCheatingAssessment">sector-education-owl:StudentCheatingAssessment</a>
+             →             <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentProctoring">sector-education-owl:StudentProctoring</a>
+             →             <a href="#StudentCheatingAssessment">sector-education-owl:StudentCheatingAssessment</a>
+             →             <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with in-person or physical proctoring i.e. monitoring of students physically present within a particular location during an assessment with the aim of ensuring they do not cheat</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentInstituteAllocation">
+      <h4>Student Institute Allocation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentInstituteAllocation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Institute Allocation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentInstituteAllocation">https://w3id.org/dpv/sector/education/owl/#StudentInstituteAllocation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentInstituteAllocation">https://w3id.org/dpv/sector/education#StudentInstituteAllocation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAllocation">sector-education-owl:StudentAllocation</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with allocation of students to specific educational or other institutes in the context of educational services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentInstituteRecommendation">
+      <h4>Student Institute Recommendation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentInstituteRecommendation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Institute Recommendation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentInstituteRecommendation">https://w3id.org/dpv/sector/education/owl/#StudentInstituteRecommendation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentInstituteRecommendation">https://w3id.org/dpv/sector/education#StudentInstituteRecommendation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#AccessManagement">sector-education-owl:AccessManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with providing recommendations to students regarding prospective institutes for education</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentIntegrityManagement">
+      <h4>Student Integrity Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentIntegrityManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Integrity Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentIntegrityManagement">https://w3id.org/dpv/sector/education/owl/#StudentIntegrityManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentIntegrityManagement">https://w3id.org/dpv/sector/education#StudentIntegrityManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with integrity assessment and management of students and activities by students in an educational context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentIntegrityTraining">
+      <h4>Student Integrity Training</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentIntegrityTraining</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Integrity Training</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentIntegrityTraining">https://w3id.org/dpv/sector/education/owl/#StudentIntegrityTraining</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentIntegrityTraining">https://w3id.org/dpv/sector/education#StudentIntegrityTraining</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with providing, assessing, and managing training for students regarding integrity in an educational context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentLearningFeedbackManagement">
+      <h4>Student Learning Feedback Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentLearningFeedbackManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Learning Feedback Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentLearningFeedbackManagement">https://w3id.org/dpv/sector/education/owl/#StudentLearningFeedbackManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentLearningFeedbackManagement">https://w3id.org/dpv/sector/education#StudentLearningFeedbackManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-education-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-education-owl:ServiceProvision</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with creating, providing, and managing feedback for students regarding their learning potential and outcomes in the context of educational services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentLearningNeedsAssessment">
+      <h4>Student Learning Needs Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentLearningNeedsAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Learning Needs Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentLearningNeedsAssessment">https://w3id.org/dpv/sector/education/owl/#StudentLearningNeedsAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentLearningNeedsAssessment">https://w3id.org/dpv/sector/education#StudentLearningNeedsAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentPerformanceAssessment">sector-education-owl:StudentPerformanceAssessment</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of learning needs or a measure of what resources, services, and approaches are needed for a student to learn and gain specific knowledge or group of knowledge within an educational context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentLearningOutcomeAssessment">
+      <h4>Student Learning Outcome Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentLearningOutcomeAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Learning Outcome Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentLearningOutcomeAssessment">https://w3id.org/dpv/sector/education/owl/#StudentLearningOutcomeAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentLearningOutcomeAssessment">https://w3id.org/dpv/sector/education#StudentLearningOutcomeAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentPerformanceAssessment">sector-education-owl:StudentPerformanceAssessment</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of student performance in the context of meeting learning outcomes as set within the educational course or program</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentManagement">
+      <h4>Student Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentManagement">https://w3id.org/dpv/sector/education/owl/#StudentManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentManagement">https://w3id.org/dpv/sector/education#StudentManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of current and prospective students</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentMisconductInvestigation">
+      <h4>Student Misconduct Investigation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentMisconductInvestigation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Misconduct Investigation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentMisconductInvestigation">https://w3id.org/dpv/sector/education/owl/#StudentMisconductInvestigation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentMisconductInvestigation">https://w3id.org/dpv/sector/education#StudentMisconductInvestigation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with investigating and assessing potential misconduct by or on a student or a group of students in an educational context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentOnlineProctoring">
+      <h4>Student Online Proctoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentOnlineProctoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Online Proctoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentOnlineProctoring">https://w3id.org/dpv/sector/education/owl/#StudentOnlineProctoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentOnlineProctoring">https://w3id.org/dpv/sector/education#StudentOnlineProctoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentProctoring">sector-education-owl:StudentProctoring</a>
+             →             <a href="#StudentCheatingAssessment">sector-education-owl:StudentCheatingAssessment</a>
+             →             <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentProctoring">sector-education-owl:StudentProctoring</a>
+             →             <a href="#StudentCheatingAssessment">sector-education-owl:StudentCheatingAssessment</a>
+             →             <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentProctoring">sector-education-owl:StudentProctoring</a>
+             →             <a href="#StudentCheatingAssessment">sector-education-owl:StudentCheatingAssessment</a>
+             →             <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with online or virtual or remote proctoring i.e. monitoring of students present virtually over an online platform or within their remote physical location during an assessment with the aim of ensuring they do not cheat</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentPerformanceAssessment">
+      <h4>Student Performance Assessment</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentPerformanceAssessment</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Performance Assessment</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentPerformanceAssessment">https://w3id.org/dpv/sector/education/owl/#StudentPerformanceAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentPerformanceAssessment">https://w3id.org/dpv/sector/education#StudentPerformanceAssessment</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with assessment of student performance, including through exams and assignments, in educational contexts</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentPerformanceManagement">
+      <h4>Student Performance Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentPerformanceManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Performance Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentPerformanceManagement">https://w3id.org/dpv/sector/education/owl/#StudentPerformanceManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentPerformanceManagement">https://w3id.org/dpv/sector/education#StudentPerformanceManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of student performance in educational contexts</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentPerformanceMonitoring">
+      <h4>Student Performance Monitoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentPerformanceMonitoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Performance Monitoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentPerformanceMonitoring">https://w3id.org/dpv/sector/education/owl/#StudentPerformanceMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentPerformanceMonitoring">https://w3id.org/dpv/sector/education#StudentPerformanceMonitoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with monitoring of student performance in educational contexts</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentPersonalisedContentDelivery">
+      <h4>Student Personalised Content Delivery</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentPersonalisedContentDelivery</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Personalised Content Delivery</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentPersonalisedContentDelivery">https://w3id.org/dpv/sector/education/owl/#StudentPersonalisedContentDelivery</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentPersonalisedContentDelivery">https://w3id.org/dpv/sector/education#StudentPersonalisedContentDelivery</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#Personalisation">dpv-owl:Personalisation</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-education-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-education-owl:ServiceProvision</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with personalisation of the content delivery for an individual student or a group of students in the context of educational services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentPlagiarismDetection">
+      <h4>Student Plagiarism Detection</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentPlagiarismDetection</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Plagiarism Detection</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentPlagiarismDetection">https://w3id.org/dpv/sector/education/owl/#StudentPlagiarismDetection</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentPlagiarismDetection">https://w3id.org/dpv/sector/education#StudentPlagiarismDetection</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with determination of plagiarism demonstrated by a student or students or present within the work submitted by a student or students in an educational context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentProctoring">
+      <h4>Student Proctoring</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentProctoring</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Proctoring</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentProctoring">https://w3id.org/dpv/sector/education/owl/#StudentProctoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentProctoring">https://w3id.org/dpv/sector/education#StudentProctoring</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentCheatingAssessment">sector-education-owl:StudentCheatingAssessment</a>
+             →             <a href="https://w3id.org/dpv/owl/#FraudPreventionAndDetection">dpv-owl:FraudPreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#MisusePreventionAndDetection">dpv-owl:MisusePreventionAndDetection</a>
+             →             <a href="https://w3id.org/dpv/owl/#EnforceSecurity">dpv-owl:EnforceSecurity</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentCheatingAssessment">sector-education-owl:StudentCheatingAssessment</a>
+             →             <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationRiskManagement">dpv-owl:OrganisationRiskManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#OrganisationGovernance">dpv-owl:OrganisationGovernance</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentCheatingAssessment">sector-education-owl:StudentCheatingAssessment</a>
+             →             <a href="#StudentIntegrityManagement">sector-education-owl:StudentIntegrityManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with proctoring i.e. monitoring of students during an assessment with the aim of ensuring they do not cheat</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentProgramAllocation">
+      <h4>Student Program Allocation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentProgramAllocation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Program Allocation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentProgramAllocation">https://w3id.org/dpv/sector/education/owl/#StudentProgramAllocation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentProgramAllocation">https://w3id.org/dpv/sector/education#StudentProgramAllocation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAllocation">sector-education-owl:StudentAllocation</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with allocation of students to specific programs in the context of educational services</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentProgramRecommendation">
+      <h4>Student Program Recommendation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentProgramRecommendation</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Program Recommendation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentProgramRecommendation">https://w3id.org/dpv/sector/education/owl/#StudentProgramRecommendation</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentProgramRecommendation">https://w3id.org/dpv/sector/education#StudentProgramRecommendation</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#AccessManagement">sector-education-owl:AccessManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with providing recommendations to students regarding prospective programs for education</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentResourceAccessManagement">
+      <h4>Student Resource Access Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentResourceAccessManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Resource Access Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentResourceAccessManagement">https://w3id.org/dpv/sector/education/owl/#StudentResourceAccessManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentResourceAccessManagement">https://w3id.org/dpv/sector/education#StudentResourceAccessManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-education-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#ServiceProvision">dpv-owl:ServiceProvision</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#ServiceProvision">sector-education-owl:ServiceProvision</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with determining and managing access to students to specific resources within an educational context, such as laboratory equipment or library resources</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentSocialActivitiesManagement">
+      <h4>Student Social Activities Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentSocialActivitiesManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Social Activities Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentSocialActivitiesManagement">https://w3id.org/dpv/sector/education/owl/#StudentSocialActivitiesManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentSocialActivitiesManagement">https://w3id.org/dpv/sector/education#StudentSocialActivitiesManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with promotion, admission, and management of social activities for students within an educational context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentSpecialNeedsManagement">
+      <h4>Student Special Needs Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentSpecialNeedsManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Special Needs Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentSpecialNeedsManagement">https://w3id.org/dpv/sector/education/owl/#StudentSpecialNeedsManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentSpecialNeedsManagement">https://w3id.org/dpv/sector/education#StudentSpecialNeedsManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#AccessManagement">sector-education-owl:AccessManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentAdmissionManagement">sector-education-owl:StudentAdmissionManagement</a>
+             →             <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with determination and management of special needs of students and prospective students in the context of educational services and resources</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="StudentWellbeingManagement">
+      <h4>Student Wellbeing Management</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>StudentWellbeingManagement</dfn></td>
+          <th>Prefix</th>
+          <td>sector-education-owl</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Student Wellbeing Management</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <td>
+            <a href="https://w3id.org/dpv/sector/education/owl/#StudentWellbeingManagement">https://w3id.org/dpv/sector/education/owl/#StudentWellbeingManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/education#StudentWellbeingManagement">https://w3id.org/dpv/sector/education#StudentWellbeingManagement</a>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td>              <a href="http://www.w3.org/2000/01/rdf-schema#Class">rdfs:Class</a>
+            ,               <a href="http://www.w3.org/2002/07/owl#Class">owl:Class</a>
+            ,               <a href="https://w3id.org/dpv#Purpose">dpv-owl:Purpose</a>
+                      </td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Sub-class of</th>
+          <td>            <a href="#StudentManagement">sector-education-owl:StudentManagement</a>
+             →             <a href="#EducationManagement">sector-education-owl:EducationManagement</a>
+             →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>in Range of</th>
+          <td>            <a href="https://w3id.org/dpv#hasPurpose">dpv-owl:hasPurpose</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Purposes associated with management of student wellbeing in an educational context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2024-12-01</i></td>
+        </tr>        
+       
+       
+        <tr>
+          <th>Documented in</th>
+          <td><a href="https://w3id.org/dpv/sector/education#vocab-purposes">Sector-education Purposes</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </section>
+  <section id="dpv-properties">
+    <h3>Properties</h3>       
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+  </section>
+  <section id="external-concepts">
+    <p>The following external concepts are re-used within DPV:</p>
+    <h3>External</h3>        
+      
+      
+        
+      
+       
+      
+       
+       
+      
+      
+       
+      
+      
+        
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+       
+       
+       
+       
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+
+  </section>
+</section>
+
+</body>
+</html>

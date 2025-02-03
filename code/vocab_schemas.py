@@ -139,6 +139,9 @@ SCHEMA['laws'] = {
     'Resolution': vocab_funcs.construct_resolution, 
 }
 
+SCHEMA['gdpr-rights-justifications'] = SCHEMA['taxonomy'].copy()
+SCHEMA['gdpr-rights-justifications']['Right'] = vocab_funcs.contruct_gdpr_right_justification
+
 SCHEMA['examples'] = {
     'Term': vocab_funcs.construct_example,
     'Title': vocab_funcs.construct_dct_title,
@@ -152,3 +155,13 @@ SCHEMA['examples'] = {
     'Date': vocab_funcs.construct_date_created,
     'Contributor': vocab_funcs.construct_contributors,
 }
+
+SCHEMA['p7012-terms'] = SCHEMA['taxonomy'].copy()
+SCHEMA['p7012-terms'].update({
+    # 'Permits': vocab_funcs.p7012_term_permit,
+    # 'Prohibits': vocab_funcs.p7012_term_prohibit,
+    # 'Obligates': vocab_funcs.p7012_term_obligate,
+    'Permits': vocab_funcs.p7012_term_rule,
+    'Prohibits': vocab_funcs.p7012_term_rule,
+    'Obligates': vocab_funcs.p7012_term_rule,
+    })
