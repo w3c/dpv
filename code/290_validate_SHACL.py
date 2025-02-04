@@ -8,6 +8,8 @@ SHACL validation tests
 # Path to data files to be validated.
 # Only the .ttl files are included for convenience in debugging.
 from vocab_management import EXPORT_PATH
+# OVERRIDE
+# EXPORT_PATH = '../2.0'
 
 DATA_PATHS = [
     f'{EXPORT_PATH}/ai/ai.ttl',
@@ -76,7 +78,8 @@ for file in DATA_PATHS:
 # Shapes to use as validation tests.
 # There can be multiple shapes e.g. associated with specific modules.
 SHAPES = [
-    './shacl_shapes/shapes.ttl',
+    './shacl_shapes/term_metadata.ttl',
+    './shacl_shapes/vocab_metadata.ttl',
     ]
 shacl_graph = Graph()
 for file in SHAPES:
@@ -166,10 +169,16 @@ vocabs = {}
 
 for node, message, component, shape in errors:
     # Ignore errors for external concepts
-    if not node.startswith('https://w3id.org/dpv'): continue
+    if node.startswith('http'):
+        if not node.startswith('https://w3id.org/dpv'):
+            continue
     # Organise errors under vocabs and then by concepts
     node = node.n3(results_graph.namespace_manager)
-    vocab, term = node.split(':')
+    if ':' in node:
+        vocab, term = node.split(':')
+    else:
+        vocab = 'default'
+        term = node
     shape = shape.n3(results_graph.namespace_manager)
     if vocab in IGNORE_ERRORS and shape in IGNORE_ERRORS[vocab]:
         continue
