@@ -1,510 +1,676 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="generator" content="ReSpec 35.2.2">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+dfn{cursor:pointer}
+.dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font-family:"Helvetica Neue",sans-serif;font-size:small;background:#fff;background:var(--indextable-hover-bg,#fff);color:#000;color:var(--text,#000);box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);box-shadow:0 1em 3em -.4em var(--tocsidebar-shadow,rgba(0,0,0,.3)),0 0 1px 1px var(--tocsidebar-shadow,rgba(0,0,0,.05));border-radius:2px}
+.dfn-panel:not(.docked)>.caret{position:absolute;top:-9px}
+.dfn-panel:not(.docked)>.caret::after,.dfn-panel:not(.docked)>.caret::before{content:"";position:absolute;border:10px solid transparent;border-top:0;border-bottom:10px solid #fff;border-bottom-color:var(--indextable-hover-bg,#fff);top:0}
+.dfn-panel:not(.docked)>.caret::before{border-bottom:9px solid #a2a9b1;border-bottom-color:var(--indextable-hover-bg,#a2a9b1)}
+.dfn-panel *{margin:0}
+.dfn-panel b{display:block;color:#000;color:var(--text,#000);margin-top:.25em}
+.dfn-panel ul a[href]{color:#333;color:var(--text,#333)}
+.dfn-panel>div{display:flex}
+.dfn-panel a.self-link{font-weight:700;margin-right:auto}
+.dfn-panel .marker{padding:.1em;margin-left:.5em;border-radius:.2em;text-align:center;white-space:nowrap;font-size:90%;color:#040b1c}
+.dfn-panel .marker.dfn-exported{background:#d1edfd;box-shadow:0 0 0 .125em #1ca5f940}
+.dfn-panel .marker.idl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel a:not(:hover){text-decoration:none!important;border-bottom:none!important}
+.dfn-panel a[href]:hover{border-bottom-width:1px}
+.dfn-panel ul{padding:0}
+.dfn-panel li{margin-left:1em}
+.dfn-panel.docked{position:fixed;left:.5em;top:unset;bottom:2em;margin:0 auto;max-width:calc(100vw - .75em * 2 - .5em - .2em * 2);max-height:30vh;overflow:auto}
+</style>
+  
+  
+<title>Infrastructure Sector Concepts</title>
+  
+  
+  
+<link rel="stylesheet" type="text/css" href="../diagrams/common.css">
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Infrastructure Sector Concepts</title>
-  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
-  <script class="remove">
-   // All config options at https://respec.org/docs/ 
-   var respecConfig = {
-    shortName: "dpv",
-    title: "Infrastructure Sector Concepts",
-    subtitle: "version 2.1 - OWL serialisation",
-    publishDate: "2025-02-01",
-    specStatus: "CG-DRAFT",
-    group: "dpvcg",
-    latestVersion: "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
-    canonicalUri: "https://w3id.org/dpv/",
-    edDraftURI: "https://w3id.org/dpv/",
-    github: "w3c/dpv",
-    subjectPrefix: "[dpv]",
-    doJsonLd: true,
-    lint: { "no-unused-dfns": false, "local-refs-exist": true },
-    editors: [
+<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16">
+  
+<link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32">
+
+<style id="respec-mainstyle">
+@keyframes pop{
+0%{transform:scale(1,1)}
+25%{transform:scale(1.25,1.25);opacity:.75}
+100%{transform:scale(1,1)}
+}
+a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
+a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
+a.bibref{text-decoration:none}
+.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}
+.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}
+@supports not (text-decoration:red wavy underline){
+.respec-offending-element:not(pre){display:inline-block}
+.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
+}
+#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
+cite .bibref{font-style:normal}
+a[href].orcid{padding-left:4px;padding-right:4px}
+a[href].orcid>svg{margin-bottom:-2px}
+ol.tof,ul.tof{list-style:none outside none}
+.caption{margin-top:.5em;font-style:italic}
+#issue-summary>ul{column-count:2}
+#issue-summary li{list-style:none;display:inline-block}
+details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
+details.respec-tests-details>*{padding-right:2em}
+details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}
+details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}
+details.respec-tests-details>ul{width:100%;margin-top:-.3em}
+details.respec-tests-details>li{padding-left:1em}
+.self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
+aside.example .marker>a.self-link{color:inherit}
+.header-wrapper{display:flex;align-items:baseline}
+:is(h2,h3,h4,h5,h6):not(#toc>h2,#abstract>h2,#sotd>h2,.head>h2){position:relative;left:-.5em}
+:is(h2,h3,h4,h5,h6):not(#toch2)+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;font-size:1rem;opacity:.5}
+:is(h2,h3,h4,h5,h6)+a.self-link::before{content:"§";text-decoration:none;color:var(--heading-text)}
+:is(h2,h3)+a.self-link{top:-.2em}
+:is(h4,h5,h6)+a.self-link::before{color:#000}
+@media (max-width:767px){
+dd{margin-left:0}
+}
+@media print{
+.removeOnSave{display:none}
+}
+</style>
+<meta name="color-scheme" content="light">
+<meta name="description" content="This document describes (only) the OWL serialisation of Infrastructure Sector Concepts. For information on the concepts, their usage, and further documentation, please consult the canonical page for the vocabulary at: https://w3id.org/dpv/sector/infra">
+<style>
+var{position:relative;cursor:pointer}
+var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}
+var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#222}
+var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#222;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}
+var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
+</style>
+<script id="initialUserConfig" type="application/json">{
+  "shortName": "dpv",
+  "title": "Infrastructure Sector Concepts",
+  "subtitle": "version 2.1 - OWL serialisation",
+  "publishDate": "2025-03-16",
+  "specStatus": "CG-DRAFT",
+  "group": "dpvcg",
+  "latestVersion": "https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/",
+  "canonicalUri": "https://w3id.org/dpv/",
+  "edDraftURI": "https://w3id.org/dpv/",
+  "github": "w3c/dpv",
+  "subjectPrefix": "[dpv]",
+  "doJsonLd": true,
+  "lint": {
+    "no-unused-dfns": false,
+    "local-refs-exist": true
+  },
+  "editors": [
     {
-      name: "Harshvardhan J. Pandit",
-      url: "https://harshp.com/",
-      "company": "ADAPT Centre, Dublin City University",
+      "name": "Harshvardhan J. Pandit",
+      "url": "https://harshp.com/",
+      "company": "ADAPT Centre, Dublin City University"
     }
-    ],
-    authors: [  { 
-    "name": "Harshvardhan J. Pandit",
-    "company": "ADAPT Centre, Dublin City University",
-    "orcid": "0000-0002-5068-3714",
-    "url": "https://harshp.com/"  }
-]
-,
-    otherLinks: [
-      {
-        "key": "Key Publications",
-        "data": [
-            {
-              "value": "Data Privacy Vocabulary (DPV) -- Version 2.0 (2024)",
-              "href": "https://doi.org/10.1007/978-3-031-77847-6_10"
-            }
-        ]
-      }
-    ],
-    localBiblio: {
-  "DPVCG": {
-    "href": "https://www.w3.org/community/dpvcg/",
-    "title": "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)"
-  },
-  "DPV": {
-    "href": "https://w3id.org/dpv",
-    "title": "Data Privacy Vocabulary (DPV) Specification"
-  },
-  "EU-GDPR": {
-    "href": "https://w3id.org/dpv/legal/eu/gdpr",
-    "title": "EU GDPR concepts for DPV"
-  },
-  "EU-DGA": {
-    "href": "https://w3id.org/dpv/legal/eu/dga",
-    "title": "EU DGA concepts for DPV"
-  },
-  "EU-AIAct": {
-    "href": "https://w3id.org/dpv/legal/eu/aiact",
-    "title": "EU AI Act concepts for DPV"
-  },
-  "EU-NIS2": {
-    "href": "https://w3id.org/dpv/legal/eu/nis2",
-    "title": "EU NIS2 concepts for DPV"
-  },
-  "EU-EHDS": {
-    "href": "https://w3id.org/dpv/legal/eu/ehds",
-    "title": "EU Health Data Space (EHDS) concepts for DPV"
-  },
-  "DPV-NACE": {
-    "href": "https://w3id.org/dpv/nace",
-    "title": "NACE Taxonomy serialised in RDFS/OWL"
-  },
-  "PD": {
-    "href": "https://w3id.org/dpv/pd",
-    "title": "Personal Data categories for DPV"
-  },
-  "TECH": {
-    "href": "https://w3id.org/dpv/tech",
-    "title": "Technology concepts for DPV"
-  },
-  "AI": {
-    "href": "https://w3id.org/dpv/ai",
-    "title": "AI Technology concepts for DPV"
-  },
-  "RISK": {
-    "href": "https://w3id.org/dpv/risk",
-    "title": "Risk Assessment and Management concepts for DPV"
-  },
-  "LOC": {
-    "href": "https://w3id.org/dpv/loc",
-    "title": "Location and Geo-Political Membership concepts for DPV"
-  },
-  "SECTOR": {
-    "href": "https://w3id.org/dpv/sector",
-    "title": "Sector-specific Extensions for DPV"
-  },
-  "SECTOR-EDUCATION": {
-    "href": "https://w3id.org/dpv/sector/education",
-    "title": "Education Sector Extension for DPV"
-  },
-  "SECTOR-FINANCE": {
-    "href": "https://w3id.org/dpv/sector/finance",
-    "title": "Finance Sector Extension for DPV"
-  },
-  "SECTOR-HEALTH": {
-    "href": "https://w3id.org/dpv/sector/health",
-    "title": "Health Sector Extension for DPV"
-  },
-  "SECTOR-INFRA": {
-    "href": "https://w3id.org/dpv/sector/infra",
-    "title": "Infrastructure Sector Extension for DPV"
-  },
-  "SECTOR-LAW": {
-    "href": "https://w3id.org/dpv/sector/law",
-    "title": "Law Enforcement & Justice Sector Extension for DPV"
-  },
-  "SECTOR-PUBLICSERVICES": {
-    "href": "https://w3id.org/dpv/sector/publicservices",
-    "title": "Public Services Sector Extension for DPV"
-  },
-  "JUSTIFICATIONS": {
-    "href": "https://w3id.org/dpv/justifications",
-    "title": "Concepts representing Justifications for DPV"
-  },
-  "LEGAL": {
-    "href": "https://w3id.org/dpv/legal",
-    "title": "Legal Jurisdiction-relevant concepts for DPV"
-  },
-  "LEGAL-AT": {
-        "href": "https://w3id.org/dpv/legal/at",
-        "title": "Legal concepts for Austria (AT)"
-  },
-  "LEGAL-BE": {
-          "href": "https://w3id.org/dpv/legal/be",
-          "title": "Legal concepts for Belgium (BE)"
-  },
-  "LEGAL-BG": {
-          "href": "https://w3id.org/dpv/legal/bg",
-          "title": "Legal concepts for Bulgaria (BG)"
-  },
-  "LEGAL-CY": {
-          "href": "https://w3id.org/dpv/legal/cy",
-          "title": "Legal concepts for Cyprus (CY)"
-  },
-  "LEGAL-CZ": {
-          "href": "https://w3id.org/dpv/legal/cz",
-          "title": "Legal concepts for Czech Republic (CZ)"
-  },
-  "LEGAL-DE": {
-          "href": "https://w3id.org/dpv/legal/de",
-          "title": "Legal concepts for Germany (DE)"
-  },
-  "LEGAL-DK": {
-          "href": "https://w3id.org/dpv/legal/dk",
-          "title": "Legal concepts for Denmark (DK)"
-  },
-  "LEGAL-EE": {
-          "href": "https://w3id.org/dpv/legal/ee",
-          "title": "Legal concepts for Estonia (EE)"
-  },
-  "LEGAL-ES": {
-          "href": "https://w3id.org/dpv/legal/es",
-          "title": "Legal concepts for Spain (ES)"
-  },
-  "LEGAL-FI": {
-          "href": "https://w3id.org/dpv/legal/fi",
-          "title": "Legal concepts for Finland (FI)"
-  },
-  "LEGAL-FR": {
-          "href": "https://w3id.org/dpv/legal/fr",
-          "title": "Legal concepts for France (FR)"
-  },
-  "LEGAL-GR": {
-          "href": "https://w3id.org/dpv/legal/gr",
-          "title": "Legal concepts for Greece (GR)"
-  },
-  "LEGAL-HR": {
-          "href": "https://w3id.org/dpv/legal/hr",
-          "title": "Legal concepts for Croatia (HR)"
-  },
-  "LEGAL-HU": {
-          "href": "https://w3id.org/dpv/legal/hu",
-          "title": "Legal concepts for Hungary (HU)"
-  },
-  "LEGAL-IE": {
-          "href": "https://w3id.org/dpv/legal/ie",
-          "title": "Legal concepts for Ireland (IE)"
-  },
-  "LEGAL-IS": {
-          "href": "https://w3id.org/dpv/legal/is",
-          "title": "Legal concepts for Iceland (IS)"
-  },
-  "LEGAL-IT": {
-          "href": "https://w3id.org/dpv/legal/it",
-          "title": "Legal concepts for Italy (IT)"
-  },
-  "LEGAL-LI": {
-          "href": "https://w3id.org/dpv/legal/li",
-          "title": "Legal concepts for Liechtenstein (LI)"
-  },
-  "LEGAL-LT": {
-          "href": "https://w3id.org/dpv/legal/lt",
-          "title": "Legal concepts for Lithuania (LT)"
-  },
-  "LEGAL-LU": {
-          "href": "https://w3id.org/dpv/legal/lu",
-          "title": "Legal concepts for Luxembourg (LU)"
-  },
-  "LEGAL-LV": {
-          "href": "https://w3id.org/dpv/legal/lv",
-          "title": "Legal concepts for Latvia (LV)"
-  },
-  "LEGAL-MT": {
-          "href": "https://w3id.org/dpv/legal/mt",
-          "title": "Legal concepts for Malta (MT)"
-  },
-  "LEGAL-NL": {
-          "href": "https://w3id.org/dpv/legal/nl",
-          "title": "Legal concepts for Netherlands (NL)"
-  },
-  "LEGAL-NO": {
-          "href": "https://w3id.org/dpv/legal/no",
-          "title": "Legal concepts for Norway (NO)"
-  },
-  "LEGAL-PL": {
-          "href": "https://w3id.org/dpv/legal/pl",
-          "title": "Legal concepts for Poland (PL)"
-  },
-  "LEGAL-PT": {
-          "href": "https://w3id.org/dpv/legal/pt",
-          "title": "Legal concepts for Portugal (PT)"
-  },
-  "LEGAL-RO": {
-          "href": "https://w3id.org/dpv/legal/ro",
-          "title": "Legal concepts for Romania (RO)"
-  },
-  "LEGAL-SE": {
-          "href": "https://w3id.org/dpv/legal/se",
-          "title": "Legal concepts for Sweden (SE)"
-  },
-  "LEGAL-SI": {
-          "href": "https://w3id.org/dpv/legal/si",
-          "title": "Legal concepts for Slovenia (SI)"
-  },
-  "LEGAL-SK": {
-          "href": "https://w3id.org/dpv/legal/sk",
-          "title": "Legal concepts for Slovakia (SK)"
-  },
-  "LEGAL-GB": {
-          "href": "https://w3id.org/dpv/legal/gb",
-          "title": "Legal concepts for Great Britain and Northern Ireland (GB)"
-  },
-  "LEGAL-IN": {
-          "href": "https://w3id.org/dpv/legal/in",
-          "title": "Legal concepts for India (IN)"
-  },
-  "LEGAL-US": {
-          "href": "https://w3id.org/dpv/legal/us",
-          "title": "Legal concepts for United States of America (US)"
-  },
-  "LEGAL-EU": {
-          "href": "https://w3id.org/dpv/legal/eu",
-          "title": "Legal concepts for European Union (EU)"
-  },
-  "EU-RIGHTS": {
-    "href": "https://w3id.org/dpv/legal/eu/rights",
-    "title": "EU Fundamental Rights concepts for DPV"
-  },
-  "STANDARD-P7012": {
-    "href": "https://w3id.org/dpv/standards/p7012",
-    "title": "Extension for IEEE P7012"
-  },
-  "DPV-OWL": {
-    "href": "https://w3id.org/dpv/dpv-owl",
-    "title": "DPV serialised in OWL2"
-  },
-  "PRIMER": {
-    "href": "https://w3id.org/dpv/primer",
-    "title": "Primer for Data Privacy Vocabulary"
-  },
-  "PRIMER-concise": {
-    "href": "https://w3id.org/dpv/primer/concise",
-    "title": "Concise Primer for Data Privacy Vocabulary"
-  },
-  "DPV-ADOPTION": {
-    "href": "https://github.com/w3c/dpv/wiki/Adoption-and-Uses-of-DPVCG",
-    "title": "Adoption and Uses of DPV"
-  },
-  "GUIDES": {
-    "href": "https://w3id.org/dpv/guides",
-    "title": "Guides for DPV"
-  },
-  "GUIDE-Consent-27560": {
-    "href": "https://w3id.org/dpv/guides/consent-27560",
-    "title": "Consent Records and Receipts as per ISO/IEC TS 27560:2023 using DPV"
-  },
-  "GUIDE-Notice-29184": {
-    "href": "https://w3id.org/dpv/guides/notice-29184",
-    "title": "Privacy Notices as per ISO/IEC 29184:2020 using DPV"
-  },
-  "GUIDE-Notice": {
-    "href": "https://w3id.org/dpv/guides/notice",
-    "title": "Guide for Privacy Notices using DPV"
-  },
-  "GUIDE-Serialisations": {
-    "href": "https://w3id.org/dpv/guides/serialisations",
-    "title": "Guide on DPV's serialisations and semantics"
-  },
-  "GUIDE-SKOS": {
-    "href": "https://w3id.org/dpv/guides/dpv-skos",
-    "title": "Guide for using DPV with RDFS and SKOS"
-  },
-  "GUIDE-OWL2": {
-    "href": "https://w3id.org/dpv/guides/dpv-owl",
-    "title": "Guide for using DPV in OWL2"
-  },
-  "GUIDE-ODRL": {
-    "href": "https://w3id.org/dpv/guides/dpv-odrl",
-    "title": "Guide for using DPV with ODRL"
-  },
-  "GUIDE-MISCFORMAT": {
-    "href": "https://w3id.org/dpv/guides/dpv-misc",
-    "title": "Guide for using DPV in miscellaneous formats e.g. CSV, JSON"
-  },
-  "GUIDE-GDPR-DPIA": {
-    "href": "https://w3id.org/dpv/guides/gdpr-dpia",
-    "title": "Guide for GDPR DPIA's using DPV"
-  },
-  "GUIDE-GDPR-ROPA": {
-    "href": "https://w3id.org/dpv/guides/gdpr-ropa",
-    "title": "Guide for GDPR ROPA's using DPV"
-  },
-  "GUIDE-GDPR-DataBreach": {
-    "href": "https://w3id.org/dpv/guides/gdpr-data-breach",
-    "title": "Guide for GDPR Data Breach records, notifications, and assessments using DPV"
-  },
-  "GUIDE-Rights": {
-    "href": "https://w3id.org/dpv/guides/rights",
-    "title": "Guide for Rights Exercise and Management using DPV"
-  },
-  "DPV-27560": {
+  ],
+  "authors": [
+    {
+      "name": "Harshvardhan J. Pandit",
+      "company": "ADAPT Centre, Dublin City University",
+      "orcid": "https://orcid.org/0000-0002-5068-3714",
+      "url": "https://harshp.com/"
+    }
+  ],
+  "otherLinks": [
+    {
+      "key": "Key Publications",
+      "data": [
+        {
+          "value": "Data Privacy Vocabulary (DPV) -- Version 2.0 (2024)",
+          "href": "https://doi.org/10.1007/978-3-031-77847-6_10"
+        }
+      ]
+    }
+  ],
+  "localBiblio": {
+    "DPVCG": {
+      "href": "https://www.w3.org/community/dpvcg/",
+      "title": "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)"
+    },
+    "DPV": {
+      "href": "https://w3id.org/dpv",
+      "title": "Data Privacy Vocabulary (DPV) Specification"
+    },
+    "EU-GDPR": {
+      "href": "https://w3id.org/dpv/legal/eu/gdpr",
+      "title": "EU GDPR concepts for DPV"
+    },
+    "EU-DGA": {
+      "href": "https://w3id.org/dpv/legal/eu/dga",
+      "title": "EU DGA concepts for DPV"
+    },
+    "EU-AIAct": {
+      "href": "https://w3id.org/dpv/legal/eu/aiact",
+      "title": "EU AI Act concepts for DPV"
+    },
+    "EU-NIS2": {
+      "href": "https://w3id.org/dpv/legal/eu/nis2",
+      "title": "EU NIS2 concepts for DPV"
+    },
+    "EU-EHDS": {
+      "href": "https://w3id.org/dpv/legal/eu/ehds",
+      "title": "EU Health Data Space (EHDS) concepts for DPV"
+    },
+    "DPV-NACE": {
+      "href": "https://w3id.org/dpv/nace",
+      "title": "NACE Taxonomy serialised in RDFS/OWL"
+    },
+    "PD": {
+      "href": "https://w3id.org/dpv/pd",
+      "title": "Personal Data categories for DPV"
+    },
+    "TECH": {
+      "href": "https://w3id.org/dpv/tech",
+      "title": "Technology concepts for DPV"
+    },
+    "AI": {
+      "href": "https://w3id.org/dpv/ai",
+      "title": "AI Technology concepts for DPV"
+    },
+    "RISK": {
+      "href": "https://w3id.org/dpv/risk",
+      "title": "Risk Assessment and Management concepts for DPV"
+    },
+    "LOC": {
+      "href": "https://w3id.org/dpv/loc",
+      "title": "Location and Geo-Political Membership concepts for DPV"
+    },
+    "SECTOR": {
+      "href": "https://w3id.org/dpv/sector",
+      "title": "Sector-specific Extensions for DPV"
+    },
+    "SECTOR-EDUCATION": {
+      "href": "https://w3id.org/dpv/sector/education",
+      "title": "Education Sector Extension for DPV"
+    },
+    "SECTOR-FINANCE": {
+      "href": "https://w3id.org/dpv/sector/finance",
+      "title": "Finance Sector Extension for DPV"
+    },
+    "SECTOR-HEALTH": {
+      "href": "https://w3id.org/dpv/sector/health",
+      "title": "Health Sector Extension for DPV"
+    },
+    "SECTOR-INFRA": {
+      "href": "https://w3id.org/dpv/sector/infra",
+      "title": "Infrastructure Sector Extension for DPV"
+    },
+    "SECTOR-LAW": {
+      "href": "https://w3id.org/dpv/sector/law",
+      "title": "Law Enforcement & Justice Sector Extension for DPV"
+    },
+    "SECTOR-PUBLICSERVICES": {
+      "href": "https://w3id.org/dpv/sector/publicservices",
+      "title": "Public Services Sector Extension for DPV"
+    },
+    "JUSTIFICATIONS": {
+      "href": "https://w3id.org/dpv/justifications",
+      "title": "Concepts representing Justifications for DPV"
+    },
+    "LEGAL": {
+      "href": "https://w3id.org/dpv/legal",
+      "title": "Legal Jurisdiction-relevant concepts for DPV"
+    },
+    "LEGAL-AT": {
+      "href": "https://w3id.org/dpv/legal/at",
+      "title": "Legal concepts for Austria (AT)"
+    },
+    "LEGAL-BE": {
+      "href": "https://w3id.org/dpv/legal/be",
+      "title": "Legal concepts for Belgium (BE)"
+    },
+    "LEGAL-BG": {
+      "href": "https://w3id.org/dpv/legal/bg",
+      "title": "Legal concepts for Bulgaria (BG)"
+    },
+    "LEGAL-CY": {
+      "href": "https://w3id.org/dpv/legal/cy",
+      "title": "Legal concepts for Cyprus (CY)"
+    },
+    "LEGAL-CZ": {
+      "href": "https://w3id.org/dpv/legal/cz",
+      "title": "Legal concepts for Czech Republic (CZ)"
+    },
+    "LEGAL-DE": {
+      "href": "https://w3id.org/dpv/legal/de",
+      "title": "Legal concepts for Germany (DE)"
+    },
+    "LEGAL-DK": {
+      "href": "https://w3id.org/dpv/legal/dk",
+      "title": "Legal concepts for Denmark (DK)"
+    },
+    "LEGAL-EE": {
+      "href": "https://w3id.org/dpv/legal/ee",
+      "title": "Legal concepts for Estonia (EE)"
+    },
+    "LEGAL-ES": {
+      "href": "https://w3id.org/dpv/legal/es",
+      "title": "Legal concepts for Spain (ES)"
+    },
+    "LEGAL-FI": {
+      "href": "https://w3id.org/dpv/legal/fi",
+      "title": "Legal concepts for Finland (FI)"
+    },
+    "LEGAL-FR": {
+      "href": "https://w3id.org/dpv/legal/fr",
+      "title": "Legal concepts for France (FR)"
+    },
+    "LEGAL-GR": {
+      "href": "https://w3id.org/dpv/legal/gr",
+      "title": "Legal concepts for Greece (GR)"
+    },
+    "LEGAL-HR": {
+      "href": "https://w3id.org/dpv/legal/hr",
+      "title": "Legal concepts for Croatia (HR)"
+    },
+    "LEGAL-HU": {
+      "href": "https://w3id.org/dpv/legal/hu",
+      "title": "Legal concepts for Hungary (HU)"
+    },
+    "LEGAL-IE": {
+      "href": "https://w3id.org/dpv/legal/ie",
+      "title": "Legal concepts for Ireland (IE)"
+    },
+    "LEGAL-IS": {
+      "href": "https://w3id.org/dpv/legal/is",
+      "title": "Legal concepts for Iceland (IS)"
+    },
+    "LEGAL-IT": {
+      "href": "https://w3id.org/dpv/legal/it",
+      "title": "Legal concepts for Italy (IT)"
+    },
+    "LEGAL-LI": {
+      "href": "https://w3id.org/dpv/legal/li",
+      "title": "Legal concepts for Liechtenstein (LI)"
+    },
+    "LEGAL-LT": {
+      "href": "https://w3id.org/dpv/legal/lt",
+      "title": "Legal concepts for Lithuania (LT)"
+    },
+    "LEGAL-LU": {
+      "href": "https://w3id.org/dpv/legal/lu",
+      "title": "Legal concepts for Luxembourg (LU)"
+    },
+    "LEGAL-LV": {
+      "href": "https://w3id.org/dpv/legal/lv",
+      "title": "Legal concepts for Latvia (LV)"
+    },
+    "LEGAL-MT": {
+      "href": "https://w3id.org/dpv/legal/mt",
+      "title": "Legal concepts for Malta (MT)"
+    },
+    "LEGAL-NL": {
+      "href": "https://w3id.org/dpv/legal/nl",
+      "title": "Legal concepts for Netherlands (NL)"
+    },
+    "LEGAL-NO": {
+      "href": "https://w3id.org/dpv/legal/no",
+      "title": "Legal concepts for Norway (NO)"
+    },
+    "LEGAL-PL": {
+      "href": "https://w3id.org/dpv/legal/pl",
+      "title": "Legal concepts for Poland (PL)"
+    },
+    "LEGAL-PT": {
+      "href": "https://w3id.org/dpv/legal/pt",
+      "title": "Legal concepts for Portugal (PT)"
+    },
+    "LEGAL-RO": {
+      "href": "https://w3id.org/dpv/legal/ro",
+      "title": "Legal concepts for Romania (RO)"
+    },
+    "LEGAL-SE": {
+      "href": "https://w3id.org/dpv/legal/se",
+      "title": "Legal concepts for Sweden (SE)"
+    },
+    "LEGAL-SI": {
+      "href": "https://w3id.org/dpv/legal/si",
+      "title": "Legal concepts for Slovenia (SI)"
+    },
+    "LEGAL-SK": {
+      "href": "https://w3id.org/dpv/legal/sk",
+      "title": "Legal concepts for Slovakia (SK)"
+    },
+    "LEGAL-GB": {
+      "href": "https://w3id.org/dpv/legal/gb",
+      "title": "Legal concepts for Great Britain and Northern Ireland (GB)"
+    },
+    "LEGAL-IN": {
+      "href": "https://w3id.org/dpv/legal/in",
+      "title": "Legal concepts for India (IN)"
+    },
+    "LEGAL-US": {
+      "href": "https://w3id.org/dpv/legal/us",
+      "title": "Legal concepts for United States of America (US)"
+    },
+    "LEGAL-EU": {
+      "href": "https://w3id.org/dpv/legal/eu",
+      "title": "Legal concepts for European Union (EU)"
+    },
+    "EU-RIGHTS": {
+      "href": "https://w3id.org/dpv/legal/eu/rights",
+      "title": "EU Fundamental Rights concepts for DPV"
+    },
+    "STANDARD-P7012": {
+      "href": "https://w3id.org/dpv/standards/p7012",
+      "title": "Extension for IEEE P7012"
+    },
+    "DPV-OWL": {
+      "href": "https://w3id.org/dpv/dpv-owl",
+      "title": "DPV serialised in OWL2"
+    },
+    "PRIMER": {
+      "href": "https://w3id.org/dpv/primer",
+      "title": "Primer for Data Privacy Vocabulary"
+    },
+    "PRIMER-concise": {
+      "href": "https://w3id.org/dpv/primer/concise",
+      "title": "Concise Primer for Data Privacy Vocabulary"
+    },
+    "DPV-ADOPTION": {
+      "href": "https://github.com/w3c/dpv/wiki/Adoption-and-Uses-of-DPVCG",
+      "title": "Adoption and Uses of DPV"
+    },
+    "GUIDES": {
+      "href": "https://w3id.org/dpv/guides",
+      "title": "Guides for DPV"
+    },
+    "GUIDE-Consent-27560": {
+      "href": "https://w3id.org/dpv/guides/consent-27560",
+      "title": "Consent Records and Receipts as per ISO/IEC TS 27560:2023 using DPV"
+    },
+    "GUIDE-Notice-29184": {
+      "href": "https://w3id.org/dpv/guides/notice-29184",
+      "title": "Privacy Notices as per ISO/IEC 29184:2020 using DPV"
+    },
+    "GUIDE-Notice": {
+      "href": "https://w3id.org/dpv/guides/notice",
+      "title": "Guide for Privacy Notices using DPV"
+    },
+    "GUIDE-Serialisations": {
+      "href": "https://w3id.org/dpv/guides/serialisations",
+      "title": "Guide on DPV's serialisations and semantics"
+    },
+    "GUIDE-SKOS": {
+      "href": "https://w3id.org/dpv/guides/dpv-skos",
+      "title": "Guide for using DPV with RDFS and SKOS"
+    },
+    "GUIDE-OWL2": {
+      "href": "https://w3id.org/dpv/guides/dpv-owl",
+      "title": "Guide for using DPV in OWL2"
+    },
+    "GUIDE-ODRL": {
+      "href": "https://w3id.org/dpv/guides/dpv-odrl",
+      "title": "Guide for using DPV with ODRL"
+    },
+    "GUIDE-MISCFORMAT": {
+      "href": "https://w3id.org/dpv/guides/dpv-misc",
+      "title": "Guide for using DPV in miscellaneous formats e.g. CSV, JSON"
+    },
+    "GUIDE-GDPR-DPIA": {
+      "href": "https://w3id.org/dpv/guides/gdpr-dpia",
+      "title": "Guide for GDPR DPIA's using DPV"
+    },
+    "GUIDE-GDPR-ROPA": {
+      "href": "https://w3id.org/dpv/guides/gdpr-ropa",
+      "title": "Guide for GDPR ROPA's using DPV"
+    },
+    "GUIDE-GDPR-DataBreach": {
+      "href": "https://w3id.org/dpv/guides/gdpr-data-breach",
+      "title": "Guide for GDPR Data Breach records, notifications, and assessments using DPV"
+    },
+    "GUIDE-Rights": {
+      "href": "https://w3id.org/dpv/guides/rights",
+      "title": "Guide for Rights Exercise and Management using DPV"
+    },
+    "DPV-27560": {
       "href": "https://w3id.org/dpv/schema/dpv-27560",
       "title": "DPV Profile for implementing ISO/IEC TS 27560:2023 Consent Records and Receipts"
-  },
-  "DPV-29184": {
+    },
+    "DPV-29184": {
       "href": "https://w3id.org/dpv/schema/DPV-29184",
       "title": "DPV Profile for implementing ISO/IEC TS 29184:2020 Privacy Notices"
-  },
-  "MAPPING-ODRL": {
+    },
+    "MAPPING-ODRL": {
       "href": "https://w3id.org/dpv/mapping/odrl",
       "title": "Mapping DPV concepts to ODRL"
+    },
+    "EXAMPLES": {
+      "href": "https://w3id.org/dpv/examples",
+      "title": "DPV Examples"
+    },
+    "UseCases-Requirements": {
+      "href": "https://w3id.org/dpv/use-cases",
+      "title": "Use-Cases and Requirements for DPV"
+    },
+    "RDF": {
+      "href": "https://www.w3.org/TR/rdf11-concepts/",
+      "title": "RDF 1.1 Concepts and Abstract Syntax"
+    },
+    "RDFS": {
+      "href": "https://www.w3.org/TR/rdf-schema/",
+      "title": "RDF Schema 1.1"
+    },
+    "OWL": {
+      "href": "https://www.w3.org/TR/owl2-overview/",
+      "title": "OWL 2 Web Ontology Language Document Overview (Second Edition)"
+    },
+    "SKOS": {
+      "href": "https://www.w3.org/TR/skos-reference/",
+      "title": "SKOS Simple Knowledge Organization System"
+    },
+    "SPECIAL": {
+      "href": "https://www.specialprivacy.eu/",
+      "title": "SPECIAL H2020 Project"
+    },
+    "GDPR": {
+      "href": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+      "title": "General Data Protection Regulation (GDPR)"
+    },
+    "DGA": {
+      "href": "https://eur-lex.europa.eu/eli/reg/2022/868/oj",
+      "title": "Data Governance Act (DGA)"
+    },
+    "AIAct": {
+      "href": "http://data.europa.eu/eli/reg/2024/1689/oj",
+      "title": "Artificial Intelligence Act (AI Act)"
+    },
+    "NIS2": {
+      "href": "http://data.europa.eu/eli/dir/2022/2555/2022-12-27",
+      "title": "Network Information Security Directive (NIS2)"
+    },
+    "NACE": {
+      "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+      "title": "Statistical Classification of Economic Activities in the European Community (NACE)"
+    },
+    "NAICS": {
+      "href": "https://www.census.gov/eos/www/naics/",
+      "title": "North American Industry Classification System (NAICS)"
+    },
+    "ISIC": {
+      "href": "https://unstats.un.org/unsd/classifications",
+      "title": "International Standard Industrial Classification of All Economic Activities (ISIC)"
+    },
+    "GICS": {
+      "href": "https://www.msci.com/gics",
+      "title": "Global Industry Classification Standard (GICS)"
+    },
+    "NACE-NAICS": {
+      "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+      "title": "NACE to NAICS mapping"
+    },
+    "EnterPrivacy": {
+      "href": "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
+      "title": "Taxonomy of Personal Data Categories"
+    },
+    "TIME": {
+      "href": "https://www.w3.org/TR/owl-time/",
+      "title": "Time Ontology in OWL"
+    },
+    "ISO-27017": {
+      "href": "https://www.iso.org/standard/43757.html",
+      "title": "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
+    },
+    "ISO-27560": {
+      "href": "https://www.iso.org/standard/80392.html",
+      "title": "ISO/IEC TS 27560 Privacy technologies — Consent record information structure"
+    },
+    "ISO-29184": {
+      "href": "https://www.iso.org/standard/70331.html",
+      "title": "ISO/IEC 29184:2020 Privacy Notices and Consent"
+    },
+    "ISO-22989": {
+      "href": "https://www.iso.org/standard/74296.html",
+      "title": " ISO/IEC 22989:2022 Artificial intelligence concepts and terminology"
+    },
+    "SHACL-UseCases": {
+      "href": "https://www.w3.org/TR/shacl-ucr/",
+      "title": "SHACL Use Cases and Requirements"
+    },
+    "SHACL": {
+      "href": "https://www.w3.org/TR/shacl",
+      "title": "Shape and Contraint Language (SHACL)"
+    },
+    "ODRL": {
+      "href": "https://www.w3.org/TR/odrl-model/",
+      "title": "Open Digital Rights Language (ODRL) Model"
+    },
+    "DCT": {
+      "title": "DCMI Metadata Terms (DCT)",
+      "href": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
+    },
+    "DCAT": {
+      "title": "Data Catalog Vocabulary (DCAT)",
+      "href": "http://www.w3.org/ns/dcat"
+    },
+    "RuleML": {
+      "title": "RuleML: Rule Markup Language",
+      "href": "www.ruleml.org/"
+    },
+    "SKOS-OWL": {
+      "title": "Using OWL and SKOS",
+      "href": "https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html"
+    },
+    "DPCat": {
+      "title": "DPCat: Specification for an Interoperable and Machine-Readable Data Processing Catalogue Based on GDPR",
+      "href": "https://w3id.org/dpcat"
+    },
+    "ISO-8601": {
+      "href": "https://www.iso.org/iso-8601-date-and-time-format.html",
+      "title": "ISO 8601 Date and time format"
+    },
+    "IEEE-P7012": {
+      "title": "IEEE Draft Standard for Machine Readable Personal Privacy Terms",
+      "href": "https://standards.ieee.org/ieee/7012/7192/"
+    },
+    "HealthDCAT-AP": {
+      "title": "HealthDCAT-AP",
+      "href": "https://healthdcat-ap.github.io/"
+    },
+    "EHDS": {
+      "title": "Proposal for a REGULATION OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on the European Health Data Space",
+      "href": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52022PC0197"
+    }
   },
-  "EXAMPLES": {
-    "href": "https://w3id.org/dpv/examples",
-    "title": "DPV Examples"
-  },
-  "UseCases-Requirements": {
-    "href": "https://w3id.org/dpv/use-cases",
-    "title": "Use-Cases and Requirements for DPV"
-  },
-  "RDF": {
-    "href": "https://www.w3.org/TR/rdf11-concepts/",
-    "title": "RDF 1.1 Concepts and Abstract Syntax"
-  },
-  "RDFS": {
-    "href": "https://www.w3.org/TR/rdf-schema/",
-    "title": "RDF Schema 1.1"
-  },
-  "OWL" :{
-    "href": "https://www.w3.org/TR/owl2-overview/",
-    "title": "OWL 2 Web Ontology Language Document Overview (Second Edition)"
-  },
-  "SKOS": {
-    "href": "https://www.w3.org/TR/skos-reference/",
-    "title": "SKOS Simple Knowledge Organization System"
-  },
-  "SPECIAL": {
-    "href": "https://www.specialprivacy.eu/",
-    "title": "SPECIAL H2020 Project"
-  },
-  "GDPR": {
-    "href": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
-    "title": "General Data Protection Regulation (GDPR)"
-  },
-  "DGA": {
-    "href": "https://eur-lex.europa.eu/eli/reg/2022/868/oj",
-    "title": "Data Governance Act (DGA)"
-  },
-  "AIAct": {
-    "href": "http://data.europa.eu/eli/reg/2024/1689/oj",
-    "title": "Artificial Intelligence Act (AI Act)"
-  },
-  "NIS2": {
-    "href": "http://data.europa.eu/eli/dir/2022/2555/2022-12-27",
-    "title": "Network Information Security Directive (NIS2)"
-  },
-  "NACE": {
-    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
-    "title": "Statistical Classification of Economic Activities in the European Community (NACE)"
-  },
-  "NAICS": {
-    "href": "https://www.census.gov/eos/www/naics/",
-    "title": "North American Industry Classification System (NAICS)"
-  },
-  "ISIC": {
-    "href": "https://unstats.un.org/unsd/classifications",
-    "title": "International Standard Industrial Classification of All Economic Activities (ISIC)"
-  },
-  "GICS": {
-    "href": "https://www.msci.com/gics",
-    "title": "Global Industry Classification Standard (GICS)"
-  },
-  "NACE-NAICS": {
-    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
-    "title": "NACE to NAICS mapping"
-  },
-  "EnterPrivacy": {
-    "href": "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
-    "title": "Taxonomy of Personal Data Categories"
-  },
-  "TIME": {
-    "href": "https://www.w3.org/TR/owl-time/",
-    "title": "Time Ontology in OWL"
-  },
-  "ISO-27017": {
-    "href": "https://www.iso.org/standard/43757.html",
-    "title": "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
-  },
-  "ISO-27560": {
-    "href": "https://www.iso.org/standard/80392.html",
-    "title": "ISO/IEC TS 27560 Privacy technologies — Consent record information structure"
-  },
-  "ISO-29184": {
-    "href": "https://www.iso.org/standard/70331.html",
-    "title": "ISO/IEC 29184:2020 Privacy Notices and Consent"
-  },
-  "ISO-22989": {
-    "href": "https://www.iso.org/standard/74296.html",
-    "title": " ISO/IEC 22989:2022 Artificial intelligence concepts and terminology"
-  },
-  "SHACL-UseCases": {
-    "href": "https://www.w3.org/TR/shacl-ucr/",
-    "title": "SHACL Use Cases and Requirements"
-  },
-  "SHACL": {
-    "href": "https://www.w3.org/TR/shacl",
-    "title": "Shape and Contraint Language (SHACL)"
-  },
-  "ODRL": {
-    "href": "https://www.w3.org/TR/odrl-model/",
-    "title": "Open Digital Rights Language (ODRL) Model"
-  },
-  "DCT": {
-    "title": "DCMI Metadata Terms (DCT)",
-    "href": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
-  },
-  "DCAT": {
-    "title": "Data Catalog Vocabulary (DCAT)",
-    "href": "http://www.w3.org/ns/dcat"
-  },
-  "RuleML": {
-    "title": "RuleML: Rule Markup Language",
-    "href": "www.ruleml.org/"
-  },
-  "SKOS-OWL": {
-    "title": "Using OWL and SKOS",
-    "href": "https://www.w3.org/2006/07/SWD/SKOS/skos-and-owl/master.html",
-  },
-  "DPCat": {
-    "title": "DPCat: Specification for an Interoperable and Machine-Readable Data Processing Catalogue Based on GDPR",
-    "href": "https://w3id.org/dpcat"
-  },
-  "ISO-8601": {
-    "href": "https://www.iso.org/iso-8601-date-and-time-format.html",
-    "title": "ISO 8601 Date and time format"
-  },
-  "IEEE-P7012": {
-    "title": "IEEE Draft Standard for Machine Readable Personal Privacy Terms",
-    "href": "https://standards.ieee.org/ieee/7012/7192/",
-  }
-}  };
-</script>
-  <link rel="stylesheet" type="text/css" href="../diagrams/common.css">
-<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
-  <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
-</head>
-<body>
+  "publishISODate": "2025-03-16T00:00:00.000Z",
+  "generatedSubtitle": "Draft Community Group Report 16 March 2025"
+}</script>
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/cg-draft"></head>
+<body class="h-entry informative"><div class="head">
+    
+    <h1 id="title" class="title">Infrastructure Sector Concepts</h1> <h2 id="subtitle" class="subtitle">version 2.1 - OWL serialisation</h2>
+    <p id="w3c-state">
+      <a href="https://www.w3.org/standards/types#reports">Draft Community Group Report</a>
+      <time class="dt-published" datetime="2025-03-16">16 March 2025</time>
+    </p>
+    <dl>
+      
+      <dt>Latest published version:</dt><dd>
+              <a href="https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/">https://www.w3.org/community/dpvcg/2022/12/05/dpv-v1-release/</a>
+            </dd>
+      <dt>Latest editor's draft:</dt><dd><a href="https://w3id.org/dpv/">https://w3id.org/dpv/</a></dd>
+      
+      
+      
+      
+      <dt>Editor:</dt><dd class="editor p-author h-card vcard">
+    <a class="u-url url p-name fn" href="https://harshp.com/">Harshvardhan J. Pandit</a> (<span class="p-org org h-org">ADAPT Centre, Dublin City University</span>)
+  </dd>
+      
+      <dt>Author:</dt><dd class="editor p-author h-card vcard">
+    <a class="u-url url p-name fn" href="https://harshp.com/">Harshvardhan J. Pandit</a><a class="p-name orcid" href="https://orcid.org/0000-0002-5068-3714"><svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+    <style>
 
-<section id="abstract">
+      .st1 {
+        fill: #fff;
+      }
+    
+</style>
+    <path d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z" fill="#a6ce39"></path>
+    <path class="st1" d="M86.3 186.2H70.9V79.1h15.4v107.1zM108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-21.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7C191.7 111.2 178 93 148 93h-23.7v79.4zM88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.6 10.1 10.1z"></path>
+  </svg></a> (<span class="p-org org h-org">ADAPT Centre, Dublin City University</span>)
+  </dd>
+      <dt>Feedback:</dt><dd>
+        <a href="https://github.com/w3c/dpv/">GitHub w3c/dpv</a>
+        (<a href="https://github.com/w3c/dpv/pulls/">pull requests</a>,
+        <a href="https://github.com/w3c/dpv/issues/new/choose">new issue</a>,
+        <a href="https://github.com/w3c/dpv/issues/">open issues</a>)
+      </dd>
+      <dt>Key Publications</dt><dd>
+    <a href="https://doi.org/10.1007/978-3-031-77847-6_10">Data Privacy Vocabulary (DPV) -- Version 2.0 (2024)</a>
+  </dd>
+    </dl>
+    
+    <p class="copyright">
+          <a href="https://www.w3.org/policies/#copyright">Copyright</a>
+          ©
+          2025
+          
+          the Contributors to the Infrastructure Sector Concepts
+          Specification, published by the
+          <a href="https://www.w3.org/groups/cg/dpvcg">Data Privacy Vocabularies and Controls Community Group</a> under the
+          <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>. A human-readable
+                <a href="https://www.w3.org/community/about/agreements/cla-deed/">summary</a>
+                is available.
+              
+        </p>
+    <hr title="Separator for header">
+  </div>
+
+<section id="abstract" class="introductory"><h2>Abstract</h2>
   <p>This document describes (only) the <strong><emph>OWL serialisation</emph> of Infrastructure Sector Concepts</strong>. For information on the concepts, their usage, and further documentation, please consult the canonical page for the vocabulary at: <a href="https://w3id.org/dpv/sector/infra">https://w3id.org/dpv/sector/infra</a></p>
 </section>
 
-<section id="sotd"></section>
+<section id="sotd" class="introductory"><h2>Status of This Document</h2><p>
+      This specification was published by the
+      <a href="https://www.w3.org/groups/cg/dpvcg">Data Privacy Vocabularies and Controls Community Group</a>. It is not a W3C Standard nor is it
+      on the W3C Standards Track.
+      
+            Please note that under the
+            <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>
+            there is a limited opt-out and other conditions apply.
+          
+      Learn more about
+      <a href="https://www.w3.org/community/">W3C Community and Business Groups</a>.
+    </p><p>
+    <a href="https://github.com/w3c/dpv/issues/">GitHub Issues</a> are preferred for
+          discussion of this specification.
+        
+    
+  </p></section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#vocabulary"><bdi class="secno">1. </bdi>Vocabulary Index</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#dpv-classes"><bdi class="secno">1.1 </bdi>Classes</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#AviationInfrastructureManagement"><bdi class="secno">1.1.1 </bdi>Aviation Infrastructure Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalCommunicationManagement"><bdi class="secno">1.1.2 </bdi>Critical Communication Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalDigitalInfrastructureManagement"><bdi class="secno">1.1.3 </bdi>Critical Digital Infrastructure Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalElectricityManagement"><bdi class="secno">1.1.4 </bdi>Critical Electricity Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalEmergencyResponseCommunicationManagement"><bdi class="secno">1.1.5 </bdi>Critical Emergency Response Communication Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalEmergencyResponseDispatchManagement"><bdi class="secno">1.1.6 </bdi>Critical Emergency Response Dispatch Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalEmergencyResponseEligibilityAssessment"><bdi class="secno">1.1.7 </bdi>Critical Emergency Response Eligibility Assessment</a></li><li class="tocline"><a class="tocxref" href="#CriticalEmergencyResponseManagement"><bdi class="secno">1.1.8 </bdi>Critical Emergency Response Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalEmergencyResponseTriage"><bdi class="secno">1.1.9 </bdi>Critical Emergency Response Triage</a></li><li class="tocline"><a class="tocxref" href="#CriticalEnergyManagement"><bdi class="secno">1.1.10 </bdi>Critical Energy Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalGasManagement"><bdi class="secno">1.1.11 </bdi>Critical Gas Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalHeatingManagement"><bdi class="secno">1.1.12 </bdi>Critical Heating Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalInfrastructureManagement"><bdi class="secno">1.1.13 </bdi>Critical Infrastructure Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalWasteManagement"><bdi class="secno">1.1.14 </bdi>Critical Waste Management</a></li><li class="tocline"><a class="tocxref" href="#CriticalWaterManagement"><bdi class="secno">1.1.15 </bdi>Critical Water Management</a></li><li class="tocline"><a class="tocxref" href="#InfrastructureManagement"><bdi class="secno">1.1.16 </bdi>Infrastructure Management</a></li><li class="tocline"><a class="tocxref" href="#PublicTransportComplaintManagement"><bdi class="secno">1.1.17 </bdi>Public Transport Complaint Management</a></li><li class="tocline"><a class="tocxref" href="#PublicTransportDemandForecasting"><bdi class="secno">1.1.18 </bdi>Public Transport Demand Forecasting</a></li><li class="tocline"><a class="tocxref" href="#PublicTransportFraudManagement"><bdi class="secno">1.1.19 </bdi>Public Transport Fraud Management</a></li><li class="tocline"><a class="tocxref" href="#PublicTransportManagement"><bdi class="secno">1.1.20 </bdi>Public Transport Management</a></li><li class="tocline"><a class="tocxref" href="#PublicTransportPassengerFlowAnalysis"><bdi class="secno">1.1.21 </bdi>Public Transport Passenger Flow Analysis</a></li><li class="tocline"><a class="tocxref" href="#PublicTransportPerformanceAnalysis"><bdi class="secno">1.1.22 </bdi>Public Transport Performance Analysis</a></li><li class="tocline"><a class="tocxref" href="#PublicTransportResearchDevelopment"><bdi class="secno">1.1.23 </bdi>Public Transport Research Development</a></li><li class="tocline"><a class="tocxref" href="#PublicTransportSafetyManagement"><bdi class="secno">1.1.24 </bdi>Public Transport Safety Management</a></li><li class="tocline"><a class="tocxref" href="#PublicTransportServiceProvision"><bdi class="secno">1.1.25 </bdi>Public Transport Service Provision</a></li><li class="tocline"><a class="tocxref" href="#PublicTransportTicketManagement"><bdi class="secno">1.1.26 </bdi>Public Transport Ticket Management</a></li><li class="tocline"><a class="tocxref" href="#RailTransportManagement"><bdi class="secno">1.1.27 </bdi>Rail Transport Management</a></li><li class="tocline"><a class="tocxref" href="#RoadAccidentAnalysis"><bdi class="secno">1.1.28 </bdi>Road Accident Analysis</a></li><li class="tocline"><a class="tocxref" href="#RoadAccidentMonitoring"><bdi class="secno">1.1.29 </bdi>Road Accident Monitoring</a></li><li class="tocline"><a class="tocxref" href="#RoadConditionMonitoring"><bdi class="secno">1.1.30 </bdi>Road Condition Monitoring</a></li><li class="tocline"><a class="tocxref" href="#RoadEmergencyResponseManagement"><bdi class="secno">1.1.31 </bdi>Road Emergency Response Management</a></li><li class="tocline"><a class="tocxref" href="#RoadEmergencyRouteManagement"><bdi class="secno">1.1.32 </bdi>Road Emergency Route Management</a></li><li class="tocline"><a class="tocxref" href="#RoadEmergencySceneManagement"><bdi class="secno">1.1.33 </bdi>Road Emergency Scene Management</a></li><li class="tocline"><a class="tocxref" href="#RoadEnvironmentalImpactAnalysis"><bdi class="secno">1.1.34 </bdi>Road Environmental Impact Analysis</a></li><li class="tocline"><a class="tocxref" href="#RoadInfrastructureManagement"><bdi class="secno">1.1.35 </bdi>Road Infrastructure Management</a></li><li class="tocline"><a class="tocxref" href="#RoadInfrastructurePlanning"><bdi class="secno">1.1.36 </bdi>Road Infrastructure Planning</a></li><li class="tocline"><a class="tocxref" href="#RoadMaintenanceScheduling"><bdi class="secno">1.1.37 </bdi>Road Maintenance Scheduling</a></li><li class="tocline"><a class="tocxref" href="#RoadManagement"><bdi class="secno">1.1.38 </bdi>Road Management</a></li><li class="tocline"><a class="tocxref" href="#RoadPedestrianSafetyMonitoring"><bdi class="secno">1.1.39 </bdi>Road Pedestrian Safety Monitoring</a></li><li class="tocline"><a class="tocxref" href="#RoadResearchDevelopment"><bdi class="secno">1.1.40 </bdi>Road Research Development</a></li><li class="tocline"><a class="tocxref" href="#RoadSafetyMonitoring"><bdi class="secno">1.1.41 </bdi>Road Safety Monitoring</a></li><li class="tocline"><a class="tocxref" href="#RoadSchoolZoneSafetyMonitoring"><bdi class="secno">1.1.42 </bdi>Road School Zone Safety Monitoring</a></li><li class="tocline"><a class="tocxref" href="#RoadTollCollection"><bdi class="secno">1.1.43 </bdi>Road Toll Collection</a></li><li class="tocline"><a class="tocxref" href="#RoadTollManagement"><bdi class="secno">1.1.44 </bdi>Road Toll Management</a></li><li class="tocline"><a class="tocxref" href="#RoadTrafficAnalysis"><bdi class="secno">1.1.45 </bdi>Road Traffic Analysis</a></li><li class="tocline"><a class="tocxref" href="#RoadTrafficManagement"><bdi class="secno">1.1.46 </bdi>Road Traffic Management</a></li><li class="tocline"><a class="tocxref" href="#TransportManagement"><bdi class="secno">1.1.47 </bdi>Transport Management</a></li></ol></li><li class="tocline"><a class="tocxref" href="#dpv-properties"><bdi class="secno">1.2 </bdi>Properties</a></li><li class="tocline"><a class="tocxref" href="#external-concepts"><bdi class="secno">1.3 </bdi>External</a></li></ol></li></ol></nav>
 
-<section id="vocabulary">
-<h2>Vocabulary Index</h2>
-  <section id="dpv-classes">
-    <h3>Classes</h3>       
+<section id="vocabulary"><div class="header-wrapper"><h2 id="x1-vocabulary-index"><bdi class="secno">1. </bdi>Vocabulary Index</h2><a class="self-link" href="#vocabulary" aria-label="Permalink for Section 1."></a></div>
+
+  <section id="dpv-classes"><div class="header-wrapper"><h3 id="x1-1-classes"><bdi class="secno">1.1 </bdi>Classes</h3><a class="self-link" href="#dpv-classes" aria-label="Permalink for Section 1.1"></a></div>
+           
       
       
        
@@ -515,13 +681,13 @@
       
       
       
-     <section class="term-def" id="AviationInfrastructureManagement">
-      <h4>Aviation Infrastructure Management</h4>
+     <section class="term-def" id="AviationInfrastructureManagement"><div class="header-wrapper"><h4 id="x1-1-1-aviation-infrastructure-management"><bdi class="secno">1.1.1 </bdi>Aviation Infrastructure Management</h4><a class="self-link" href="#AviationInfrastructureManagement" aria-label="Permalink for Section 1.1.1"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>AviationInfrastructureManagement</dfn></td>
+          <td><dfn id="dfn-aviationinfrastructuremanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">AviationInfrastructureManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -530,11 +696,11 @@
           <td><i>Aviation Infrastructure Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#AviationInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#AviationInfrastructureManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#AviationInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#AviationInfrastructureManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#AviationInfrastructureManagement">https://w3id.org/dpv/sector/infra#AviationInfrastructureManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -594,13 +760,13 @@
       
       
       
-     <section class="term-def" id="CriticalCommunicationManagement">
-      <h4>Critical Communication Management</h4>
+     <section class="term-def" id="CriticalCommunicationManagement"><div class="header-wrapper"><h4 id="x1-1-2-critical-communication-management"><bdi class="secno">1.1.2 </bdi>Critical Communication Management</h4><a class="self-link" href="#CriticalCommunicationManagement" aria-label="Permalink for Section 1.1.2"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalCommunicationManagement</dfn></td>
+          <td><dfn id="dfn-criticalcommunicationmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalCommunicationManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -609,11 +775,11 @@
           <td><i>Critical Communication Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalCommunicationManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalCommunicationManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalCommunicationManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalCommunicationManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalCommunicationManagement">https://w3id.org/dpv/sector/infra#CriticalCommunicationManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -673,13 +839,13 @@
       
       
       
-     <section class="term-def" id="CriticalDigitalInfrastructureManagement">
-      <h4>Critical Digital Infrastructure Management</h4>
+     <section class="term-def" id="CriticalDigitalInfrastructureManagement"><div class="header-wrapper"><h4 id="x1-1-3-critical-digital-infrastructure-management"><bdi class="secno">1.1.3 </bdi>Critical Digital Infrastructure Management</h4><a class="self-link" href="#CriticalDigitalInfrastructureManagement" aria-label="Permalink for Section 1.1.3"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalDigitalInfrastructureManagement</dfn></td>
+          <td><dfn id="dfn-criticaldigitalinfrastructuremanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalDigitalInfrastructureManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -688,11 +854,11 @@
           <td><i>Critical Digital Infrastructure Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalDigitalInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalDigitalInfrastructureManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalDigitalInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalDigitalInfrastructureManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalDigitalInfrastructureManagement">https://w3id.org/dpv/sector/infra#CriticalDigitalInfrastructureManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -752,13 +918,13 @@
       
       
       
-     <section class="term-def" id="CriticalElectricityManagement">
-      <h4>Critical Electricity Management</h4>
+     <section class="term-def" id="CriticalElectricityManagement"><div class="header-wrapper"><h4 id="x1-1-4-critical-electricity-management"><bdi class="secno">1.1.4 </bdi>Critical Electricity Management</h4><a class="self-link" href="#CriticalElectricityManagement" aria-label="Permalink for Section 1.1.4"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalElectricityManagement</dfn></td>
+          <td><dfn id="dfn-criticalelectricitymanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalElectricityManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -767,11 +933,11 @@
           <td><i>Critical Electricity Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalElectricityManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalElectricityManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalElectricityManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalElectricityManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalElectricityManagement">https://w3id.org/dpv/sector/infra#CriticalElectricityManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -832,13 +998,13 @@
       
       
       
-     <section class="term-def" id="CriticalEmergencyResponseCommunicationManagement">
-      <h4>Critical Emergency Response Communication Management</h4>
+     <section class="term-def" id="CriticalEmergencyResponseCommunicationManagement"><div class="header-wrapper"><h4 id="x1-1-5-critical-emergency-response-communication-management"><bdi class="secno">1.1.5 </bdi>Critical Emergency Response Communication Management</h4><a class="self-link" href="#CriticalEmergencyResponseCommunicationManagement" aria-label="Permalink for Section 1.1.5"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalEmergencyResponseCommunicationManagement</dfn></td>
+          <td><dfn id="dfn-criticalemergencyresponsecommunicationmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalEmergencyResponseCommunicationManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -847,11 +1013,11 @@
           <td><i>Critical Emergency Response Communication Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseCommunicationManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseCommunicationManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseCommunicationManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseCommunicationManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseCommunicationManagement">https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseCommunicationManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -912,13 +1078,13 @@
       
       
       
-     <section class="term-def" id="CriticalEmergencyResponseDispatchManagement">
-      <h4>Critical Emergency Response Dispatch Management</h4>
+     <section class="term-def" id="CriticalEmergencyResponseDispatchManagement"><div class="header-wrapper"><h4 id="x1-1-6-critical-emergency-response-dispatch-management"><bdi class="secno">1.1.6 </bdi>Critical Emergency Response Dispatch Management</h4><a class="self-link" href="#CriticalEmergencyResponseDispatchManagement" aria-label="Permalink for Section 1.1.6"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalEmergencyResponseDispatchManagement</dfn></td>
+          <td><dfn id="dfn-criticalemergencyresponsedispatchmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalEmergencyResponseDispatchManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -927,11 +1093,11 @@
           <td><i>Critical Emergency Response Dispatch Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseDispatchManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseDispatchManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseDispatchManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseDispatchManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseDispatchManagement">https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseDispatchManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -992,13 +1158,13 @@
       
       
       
-     <section class="term-def" id="CriticalEmergencyResponseEligibilityAssessment">
-      <h4>Critical Emergency Response Eligibility Assessment</h4>
+     <section class="term-def" id="CriticalEmergencyResponseEligibilityAssessment"><div class="header-wrapper"><h4 id="x1-1-7-critical-emergency-response-eligibility-assessment"><bdi class="secno">1.1.7 </bdi>Critical Emergency Response Eligibility Assessment</h4><a class="self-link" href="#CriticalEmergencyResponseEligibilityAssessment" aria-label="Permalink for Section 1.1.7"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalEmergencyResponseEligibilityAssessment</dfn></td>
+          <td><dfn id="dfn-criticalemergencyresponseeligibilityassessment" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalEmergencyResponseEligibilityAssessment</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1007,11 +1173,11 @@
           <td><i>Critical Emergency Response Eligibility Assessment</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseEligibilityAssessment">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseEligibilityAssessment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseEligibilityAssessment">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseEligibilityAssessment</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseEligibilityAssessment">https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseEligibilityAssessment</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1072,13 +1238,13 @@
       
       
       
-     <section class="term-def" id="CriticalEmergencyResponseManagement">
-      <h4>Critical Emergency Response Management</h4>
+     <section class="term-def" id="CriticalEmergencyResponseManagement"><div class="header-wrapper"><h4 id="x1-1-8-critical-emergency-response-management"><bdi class="secno">1.1.8 </bdi>Critical Emergency Response Management</h4><a class="self-link" href="#CriticalEmergencyResponseManagement" aria-label="Permalink for Section 1.1.8"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalEmergencyResponseManagement</dfn></td>
+          <td><dfn id="dfn-criticalemergencyresponsemanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalEmergencyResponseManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1087,11 +1253,11 @@
           <td><i>Critical Emergency Response Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseManagement">https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1151,13 +1317,13 @@
       
       
       
-     <section class="term-def" id="CriticalEmergencyResponseTriage">
-      <h4>Critical Emergency Response Triage</h4>
+     <section class="term-def" id="CriticalEmergencyResponseTriage"><div class="header-wrapper"><h4 id="x1-1-9-critical-emergency-response-triage"><bdi class="secno">1.1.9 </bdi>Critical Emergency Response Triage</h4><a class="self-link" href="#CriticalEmergencyResponseTriage" aria-label="Permalink for Section 1.1.9"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalEmergencyResponseTriage</dfn></td>
+          <td><dfn id="dfn-criticalemergencyresponsetriage" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalEmergencyResponseTriage</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1166,11 +1332,11 @@
           <td><i>Critical Emergency Response Triage</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseTriage">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseTriage</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseTriage">https://w3id.org/dpv/sector/infra/owl/#CriticalEmergencyResponseTriage</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseTriage">https://w3id.org/dpv/sector/infra#CriticalEmergencyResponseTriage</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1231,13 +1397,13 @@
       
       
       
-     <section class="term-def" id="CriticalEnergyManagement">
-      <h4>Critical Energy Management</h4>
+     <section class="term-def" id="CriticalEnergyManagement"><div class="header-wrapper"><h4 id="x1-1-10-critical-energy-management"><bdi class="secno">1.1.10 </bdi>Critical Energy Management</h4><a class="self-link" href="#CriticalEnergyManagement" aria-label="Permalink for Section 1.1.10"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalEnergyManagement</dfn></td>
+          <td><dfn id="dfn-criticalenergymanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalEnergyManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1246,11 +1412,11 @@
           <td><i>Critical Energy Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEnergyManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEnergyManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalEnergyManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalEnergyManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalEnergyManagement">https://w3id.org/dpv/sector/infra#CriticalEnergyManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1310,13 +1476,13 @@
       
       
       
-     <section class="term-def" id="CriticalGasManagement">
-      <h4>Critical Gas Management</h4>
+     <section class="term-def" id="CriticalGasManagement"><div class="header-wrapper"><h4 id="x1-1-11-critical-gas-management"><bdi class="secno">1.1.11 </bdi>Critical Gas Management</h4><a class="self-link" href="#CriticalGasManagement" aria-label="Permalink for Section 1.1.11"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalGasManagement</dfn></td>
+          <td><dfn id="dfn-criticalgasmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalGasManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1325,11 +1491,11 @@
           <td><i>Critical Gas Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalGasManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalGasManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalGasManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalGasManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalGasManagement">https://w3id.org/dpv/sector/infra#CriticalGasManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1390,13 +1556,13 @@
       
       
       
-     <section class="term-def" id="CriticalHeatingManagement">
-      <h4>Critical Heating Management</h4>
+     <section class="term-def" id="CriticalHeatingManagement"><div class="header-wrapper"><h4 id="x1-1-12-critical-heating-management"><bdi class="secno">1.1.12 </bdi>Critical Heating Management</h4><a class="self-link" href="#CriticalHeatingManagement" aria-label="Permalink for Section 1.1.12"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalHeatingManagement</dfn></td>
+          <td><dfn id="dfn-criticalheatingmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalHeatingManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1405,11 +1571,11 @@
           <td><i>Critical Heating Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalHeatingManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalHeatingManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalHeatingManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalHeatingManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalHeatingManagement">https://w3id.org/dpv/sector/infra#CriticalHeatingManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1469,13 +1635,13 @@
       
       
       
-     <section class="term-def" id="CriticalInfrastructureManagement">
-      <h4>Critical Infrastructure Management</h4>
+     <section class="term-def" id="CriticalInfrastructureManagement"><div class="header-wrapper"><h4 id="x1-1-13-critical-infrastructure-management"><bdi class="secno">1.1.13 </bdi>Critical Infrastructure Management</h4><a class="self-link" href="#CriticalInfrastructureManagement" aria-label="Permalink for Section 1.1.13"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalInfrastructureManagement</dfn></td>
+          <td><dfn id="dfn-criticalinfrastructuremanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalInfrastructureManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1484,11 +1650,11 @@
           <td><i>Critical Infrastructure Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalInfrastructureManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalInfrastructureManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalInfrastructureManagement">https://w3id.org/dpv/sector/infra#CriticalInfrastructureManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1547,13 +1713,13 @@
       
       
       
-     <section class="term-def" id="CriticalWasteManagement">
-      <h4>Critical Waste Management</h4>
+     <section class="term-def" id="CriticalWasteManagement"><div class="header-wrapper"><h4 id="x1-1-14-critical-waste-management"><bdi class="secno">1.1.14 </bdi>Critical Waste Management</h4><a class="self-link" href="#CriticalWasteManagement" aria-label="Permalink for Section 1.1.14"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalWasteManagement</dfn></td>
+          <td><dfn id="dfn-criticalwastemanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalWasteManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1562,11 +1728,11 @@
           <td><i>Critical Waste Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalWasteManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalWasteManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalWasteManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalWasteManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalWasteManagement">https://w3id.org/dpv/sector/infra#CriticalWasteManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1626,13 +1792,13 @@
       
       
       
-     <section class="term-def" id="CriticalWaterManagement">
-      <h4>Critical Water Management</h4>
+     <section class="term-def" id="CriticalWaterManagement"><div class="header-wrapper"><h4 id="x1-1-15-critical-water-management"><bdi class="secno">1.1.15 </bdi>Critical Water Management</h4><a class="self-link" href="#CriticalWaterManagement" aria-label="Permalink for Section 1.1.15"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>CriticalWaterManagement</dfn></td>
+          <td><dfn id="dfn-criticalwatermanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">CriticalWaterManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1641,11 +1807,11 @@
           <td><i>Critical Water Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalWaterManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalWaterManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#CriticalWaterManagement">https://w3id.org/dpv/sector/infra/owl/#CriticalWaterManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#CriticalWaterManagement">https://w3id.org/dpv/sector/infra#CriticalWaterManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1705,13 +1871,13 @@
       
       
       
-     <section class="term-def" id="InfrastructureManagement">
-      <h4>Infrastructure Management</h4>
+     <section class="term-def" id="InfrastructureManagement"><div class="header-wrapper"><h4 id="x1-1-16-infrastructure-management"><bdi class="secno">1.1.16 </bdi>Infrastructure Management</h4><a class="self-link" href="#InfrastructureManagement" aria-label="Permalink for Section 1.1.16"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>InfrastructureManagement</dfn></td>
+          <td><dfn id="dfn-infrastructuremanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">InfrastructureManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1720,11 +1886,11 @@
           <td><i>Infrastructure Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#InfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#InfrastructureManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#InfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#InfrastructureManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#InfrastructureManagement">https://w3id.org/dpv/sector/infra#InfrastructureManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1782,13 +1948,13 @@
       
       
       
-     <section class="term-def" id="PublicTransportComplaintManagement">
-      <h4>Public Transport Complaint Management</h4>
+     <section class="term-def" id="PublicTransportComplaintManagement"><div class="header-wrapper"><h4 id="x1-1-17-public-transport-complaint-management"><bdi class="secno">1.1.17 </bdi>Public Transport Complaint Management</h4><a class="self-link" href="#PublicTransportComplaintManagement" aria-label="Permalink for Section 1.1.17"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>PublicTransportComplaintManagement</dfn></td>
+          <td><dfn id="dfn-publictransportcomplaintmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">PublicTransportComplaintManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1797,11 +1963,11 @@
           <td><i>Public Transport Complaint Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportComplaintManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportComplaintManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportComplaintManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportComplaintManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#PublicTransportComplaintManagement">https://w3id.org/dpv/sector/infra#PublicTransportComplaintManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1818,7 +1984,7 @@
           <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
@@ -1867,13 +2033,13 @@
       
       
       
-     <section class="term-def" id="PublicTransportDemandForecasting">
-      <h4>Public Transport Demand Forecasting</h4>
+     <section class="term-def" id="PublicTransportDemandForecasting"><div class="header-wrapper"><h4 id="x1-1-18-public-transport-demand-forecasting"><bdi class="secno">1.1.18 </bdi>Public Transport Demand Forecasting</h4><a class="self-link" href="#PublicTransportDemandForecasting" aria-label="Permalink for Section 1.1.18"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>PublicTransportDemandForecasting</dfn></td>
+          <td><dfn id="dfn-publictransportdemandforecasting" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">PublicTransportDemandForecasting</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1882,11 +2048,11 @@
           <td><i>Public Transport Demand Forecasting</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportDemandForecasting">https://w3id.org/dpv/sector/infra/owl/#PublicTransportDemandForecasting</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportDemandForecasting">https://w3id.org/dpv/sector/infra/owl/#PublicTransportDemandForecasting</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#PublicTransportDemandForecasting">https://w3id.org/dpv/sector/infra#PublicTransportDemandForecasting</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -1903,18 +2069,18 @@
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
@@ -1964,13 +2130,13 @@
       
       
       
-     <section class="term-def" id="PublicTransportFraudManagement">
-      <h4>Public Transport Fraud Management</h4>
+     <section class="term-def" id="PublicTransportFraudManagement"><div class="header-wrapper"><h4 id="x1-1-19-public-transport-fraud-management"><bdi class="secno">1.1.19 </bdi>Public Transport Fraud Management</h4><a class="self-link" href="#PublicTransportFraudManagement" aria-label="Permalink for Section 1.1.19"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>PublicTransportFraudManagement</dfn></td>
+          <td><dfn id="dfn-publictransportfraudmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">PublicTransportFraudManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -1979,11 +2145,11 @@
           <td><i>Public Transport Fraud Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportFraudManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportFraudManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportFraudManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportFraudManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#PublicTransportFraudManagement">https://w3id.org/dpv/sector/infra#PublicTransportFraudManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2000,7 +2166,7 @@
           <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
@@ -2049,13 +2215,13 @@
       
       
       
-     <section class="term-def" id="PublicTransportManagement">
-      <h4>Public Transport Management</h4>
+     <section class="term-def" id="PublicTransportManagement"><div class="header-wrapper"><h4 id="x1-1-20-public-transport-management"><bdi class="secno">1.1.20 </bdi>Public Transport Management</h4><a class="self-link" href="#PublicTransportManagement" aria-label="Permalink for Section 1.1.20"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>PublicTransportManagement</dfn></td>
+          <td><dfn id="dfn-publictransportmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">PublicTransportManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2064,11 +2230,11 @@
           <td><i>Public Transport Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#PublicTransportManagement">https://w3id.org/dpv/sector/infra#PublicTransportManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2084,7 +2250,7 @@
           <th>Sub-class of</th>
           <td>            <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
              →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
@@ -2132,13 +2298,13 @@
       
       
       
-     <section class="term-def" id="PublicTransportPassengerFlowAnalysis">
-      <h4>Public Transport Passenger Flow Analysis</h4>
+     <section class="term-def" id="PublicTransportPassengerFlowAnalysis"><div class="header-wrapper"><h4 id="x1-1-21-public-transport-passenger-flow-analysis"><bdi class="secno">1.1.21 </bdi>Public Transport Passenger Flow Analysis</h4><a class="self-link" href="#PublicTransportPassengerFlowAnalysis" aria-label="Permalink for Section 1.1.21"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>PublicTransportPassengerFlowAnalysis</dfn></td>
+          <td><dfn id="dfn-publictransportpassengerflowanalysis" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">PublicTransportPassengerFlowAnalysis</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2147,11 +2313,11 @@
           <td><i>Public Transport Passenger Flow Analysis</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportPassengerFlowAnalysis">https://w3id.org/dpv/sector/infra/owl/#PublicTransportPassengerFlowAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportPassengerFlowAnalysis">https://w3id.org/dpv/sector/infra/owl/#PublicTransportPassengerFlowAnalysis</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#PublicTransportPassengerFlowAnalysis">https://w3id.org/dpv/sector/infra#PublicTransportPassengerFlowAnalysis</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2168,18 +2334,18 @@
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
@@ -2229,13 +2395,13 @@
       
       
       
-     <section class="term-def" id="PublicTransportPerformanceAnalysis">
-      <h4>Public Transport Performance Analysis</h4>
+     <section class="term-def" id="PublicTransportPerformanceAnalysis"><div class="header-wrapper"><h4 id="x1-1-22-public-transport-performance-analysis"><bdi class="secno">1.1.22 </bdi>Public Transport Performance Analysis</h4><a class="self-link" href="#PublicTransportPerformanceAnalysis" aria-label="Permalink for Section 1.1.22"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>PublicTransportPerformanceAnalysis</dfn></td>
+          <td><dfn id="dfn-publictransportperformanceanalysis" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">PublicTransportPerformanceAnalysis</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2244,11 +2410,11 @@
           <td><i>Public Transport Performance Analysis</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportPerformanceAnalysis">https://w3id.org/dpv/sector/infra/owl/#PublicTransportPerformanceAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportPerformanceAnalysis">https://w3id.org/dpv/sector/infra/owl/#PublicTransportPerformanceAnalysis</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#PublicTransportPerformanceAnalysis">https://w3id.org/dpv/sector/infra#PublicTransportPerformanceAnalysis</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2265,18 +2431,18 @@
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportResearchDevelopment">sector-infra-owl:PublicTransportResearchDevelopment</a>
              →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
@@ -2326,13 +2492,13 @@
       
       
       
-     <section class="term-def" id="PublicTransportResearchDevelopment">
-      <h4>Public Transport Research Development</h4>
+     <section class="term-def" id="PublicTransportResearchDevelopment"><div class="header-wrapper"><h4 id="x1-1-23-public-transport-research-development"><bdi class="secno">1.1.23 </bdi>Public Transport Research Development</h4><a class="self-link" href="#PublicTransportResearchDevelopment" aria-label="Permalink for Section 1.1.23"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>PublicTransportResearchDevelopment</dfn></td>
+          <td><dfn id="dfn-publictransportresearchdevelopment" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">PublicTransportResearchDevelopment</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2341,11 +2507,11 @@
           <td><i>Public Transport Research Development</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportResearchDevelopment">https://w3id.org/dpv/sector/infra/owl/#PublicTransportResearchDevelopment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportResearchDevelopment">https://w3id.org/dpv/sector/infra/owl/#PublicTransportResearchDevelopment</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#PublicTransportResearchDevelopment">https://w3id.org/dpv/sector/infra#PublicTransportResearchDevelopment</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2362,13 +2528,13 @@
           <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
              →             <a href="#InfrastructureManagement">sector-infra-owl:InfrastructureManagement</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
@@ -2415,13 +2581,13 @@
       
       
       
-     <section class="term-def" id="PublicTransportSafetyManagement">
-      <h4>Public Transport Safety Management</h4>
+     <section class="term-def" id="PublicTransportSafetyManagement"><div class="header-wrapper"><h4 id="x1-1-24-public-transport-safety-management"><bdi class="secno">1.1.24 </bdi>Public Transport Safety Management</h4><a class="self-link" href="#PublicTransportSafetyManagement" aria-label="Permalink for Section 1.1.24"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>PublicTransportSafetyManagement</dfn></td>
+          <td><dfn id="dfn-publictransportsafetymanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">PublicTransportSafetyManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2430,11 +2596,11 @@
           <td><i>Public Transport Safety Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportSafetyManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportSafetyManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportSafetyManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportSafetyManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#PublicTransportSafetyManagement">https://w3id.org/dpv/sector/infra#PublicTransportSafetyManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2451,7 +2617,7 @@
           <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
@@ -2500,13 +2666,13 @@
       
       
       
-     <section class="term-def" id="PublicTransportServiceProvision">
-      <h4>Public Transport Service Provision</h4>
+     <section class="term-def" id="PublicTransportServiceProvision"><div class="header-wrapper"><h4 id="x1-1-25-public-transport-service-provision"><bdi class="secno">1.1.25 </bdi>Public Transport Service Provision</h4><a class="self-link" href="#PublicTransportServiceProvision" aria-label="Permalink for Section 1.1.25"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>PublicTransportServiceProvision</dfn></td>
+          <td><dfn id="dfn-publictransportserviceprovision" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">PublicTransportServiceProvision</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2515,11 +2681,11 @@
           <td><i>Public Transport Service Provision</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportServiceProvision">https://w3id.org/dpv/sector/infra/owl/#PublicTransportServiceProvision</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportServiceProvision">https://w3id.org/dpv/sector/infra/owl/#PublicTransportServiceProvision</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#PublicTransportServiceProvision">https://w3id.org/dpv/sector/infra#PublicTransportServiceProvision</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2536,7 +2702,7 @@
           <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="#TransportManagement">sector-infra-owl:TransportManagement</a>
@@ -2585,13 +2751,13 @@
       
       
       
-     <section class="term-def" id="PublicTransportTicketManagement">
-      <h4>Public Transport Ticket Management</h4>
+     <section class="term-def" id="PublicTransportTicketManagement"><div class="header-wrapper"><h4 id="x1-1-26-public-transport-ticket-management"><bdi class="secno">1.1.26 </bdi>Public Transport Ticket Management</h4><a class="self-link" href="#PublicTransportTicketManagement" aria-label="Permalink for Section 1.1.26"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>PublicTransportTicketManagement</dfn></td>
+          <td><dfn id="dfn-publictransportticketmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">PublicTransportTicketManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2600,11 +2766,11 @@
           <td><i>Public Transport Ticket Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportTicketManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportTicketManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#PublicTransportTicketManagement">https://w3id.org/dpv/sector/infra/owl/#PublicTransportTicketManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#PublicTransportTicketManagement">https://w3id.org/dpv/sector/infra#PublicTransportTicketManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2622,7 +2788,7 @@
              →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
              →             <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#PublicTransportServiceProvision">sector-infra-owl:PublicTransportServiceProvision</a>
              →             <a href="#PublicTransportManagement">sector-infra-owl:PublicTransportManagement</a>
@@ -2673,13 +2839,13 @@
       
       
       
-     <section class="term-def" id="RailTransportManagement">
-      <h4>Rail Transport Management</h4>
+     <section class="term-def" id="RailTransportManagement"><div class="header-wrapper"><h4 id="x1-1-27-rail-transport-management"><bdi class="secno">1.1.27 </bdi>Rail Transport Management</h4><a class="self-link" href="#RailTransportManagement" aria-label="Permalink for Section 1.1.27"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RailTransportManagement</dfn></td>
+          <td><dfn id="dfn-railtransportmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RailTransportManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2688,11 +2854,11 @@
           <td><i>Rail Transport Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RailTransportManagement">https://w3id.org/dpv/sector/infra/owl/#RailTransportManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RailTransportManagement">https://w3id.org/dpv/sector/infra/owl/#RailTransportManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RailTransportManagement">https://w3id.org/dpv/sector/infra#RailTransportManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2752,13 +2918,13 @@
       
       
       
-     <section class="term-def" id="RoadAccidentAnalysis">
-      <h4>Road Accident Analysis</h4>
+     <section class="term-def" id="RoadAccidentAnalysis"><div class="header-wrapper"><h4 id="x1-1-28-road-accident-analysis"><bdi class="secno">1.1.28 </bdi>Road Accident Analysis</h4><a class="self-link" href="#RoadAccidentAnalysis" aria-label="Permalink for Section 1.1.28"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadAccidentAnalysis</dfn></td>
+          <td><dfn id="dfn-roadaccidentanalysis" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadAccidentAnalysis</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2767,11 +2933,11 @@
           <td><i>Road Accident Analysis</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadAccidentAnalysis">https://w3id.org/dpv/sector/infra/owl/#RoadAccidentAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadAccidentAnalysis">https://w3id.org/dpv/sector/infra/owl/#RoadAccidentAnalysis</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadAccidentAnalysis">https://w3id.org/dpv/sector/infra#RoadAccidentAnalysis</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2834,13 +3000,13 @@
       
       
       
-     <section class="term-def" id="RoadAccidentMonitoring">
-      <h4>Road Accident Monitoring</h4>
+     <section class="term-def" id="RoadAccidentMonitoring"><div class="header-wrapper"><h4 id="x1-1-29-road-accident-monitoring"><bdi class="secno">1.1.29 </bdi>Road Accident Monitoring</h4><a class="self-link" href="#RoadAccidentMonitoring" aria-label="Permalink for Section 1.1.29"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadAccidentMonitoring</dfn></td>
+          <td><dfn id="dfn-roadaccidentmonitoring" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadAccidentMonitoring</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2849,11 +3015,11 @@
           <td><i>Road Accident Monitoring</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadAccidentMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadAccidentMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadAccidentMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadAccidentMonitoring</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadAccidentMonitoring">https://w3id.org/dpv/sector/infra#RoadAccidentMonitoring</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2916,13 +3082,13 @@
       
       
       
-     <section class="term-def" id="RoadConditionMonitoring">
-      <h4>Road Condition Monitoring</h4>
+     <section class="term-def" id="RoadConditionMonitoring"><div class="header-wrapper"><h4 id="x1-1-30-road-condition-monitoring"><bdi class="secno">1.1.30 </bdi>Road Condition Monitoring</h4><a class="self-link" href="#RoadConditionMonitoring" aria-label="Permalink for Section 1.1.30"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadConditionMonitoring</dfn></td>
+          <td><dfn id="dfn-roadconditionmonitoring" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadConditionMonitoring</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -2931,11 +3097,11 @@
           <td><i>Road Condition Monitoring</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadConditionMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadConditionMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadConditionMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadConditionMonitoring</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadConditionMonitoring">https://w3id.org/dpv/sector/infra#RoadConditionMonitoring</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -2998,13 +3164,13 @@
       
       
       
-     <section class="term-def" id="RoadEmergencyResponseManagement">
-      <h4>Road Emergency Response Management</h4>
+     <section class="term-def" id="RoadEmergencyResponseManagement"><div class="header-wrapper"><h4 id="x1-1-31-road-emergency-response-management"><bdi class="secno">1.1.31 </bdi>Road Emergency Response Management</h4><a class="self-link" href="#RoadEmergencyResponseManagement" aria-label="Permalink for Section 1.1.31"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadEmergencyResponseManagement</dfn></td>
+          <td><dfn id="dfn-roademergencyresponsemanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadEmergencyResponseManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3013,11 +3179,11 @@
           <td><i>Road Emergency Response Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyResponseManagement">https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyResponseManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyResponseManagement">https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyResponseManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadEmergencyResponseManagement">https://w3id.org/dpv/sector/infra#RoadEmergencyResponseManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3079,13 +3245,13 @@
       
       
       
-     <section class="term-def" id="RoadEmergencyRouteManagement">
-      <h4>Road Emergency Route Management</h4>
+     <section class="term-def" id="RoadEmergencyRouteManagement"><div class="header-wrapper"><h4 id="x1-1-32-road-emergency-route-management"><bdi class="secno">1.1.32 </bdi>Road Emergency Route Management</h4><a class="self-link" href="#RoadEmergencyRouteManagement" aria-label="Permalink for Section 1.1.32"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadEmergencyRouteManagement</dfn></td>
+          <td><dfn id="dfn-roademergencyroutemanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadEmergencyRouteManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3094,11 +3260,11 @@
           <td><i>Road Emergency Route Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyRouteManagement">https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyRouteManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyRouteManagement">https://w3id.org/dpv/sector/infra/owl/#RoadEmergencyRouteManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadEmergencyRouteManagement">https://w3id.org/dpv/sector/infra#RoadEmergencyRouteManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3161,13 +3327,13 @@
       
       
       
-     <section class="term-def" id="RoadEmergencySceneManagement">
-      <h4>Road Emergency Scene Management</h4>
+     <section class="term-def" id="RoadEmergencySceneManagement"><div class="header-wrapper"><h4 id="x1-1-33-road-emergency-scene-management"><bdi class="secno">1.1.33 </bdi>Road Emergency Scene Management</h4><a class="self-link" href="#RoadEmergencySceneManagement" aria-label="Permalink for Section 1.1.33"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadEmergencySceneManagement</dfn></td>
+          <td><dfn id="dfn-roademergencyscenemanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadEmergencySceneManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3176,11 +3342,11 @@
           <td><i>Road Emergency Scene Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEmergencySceneManagement">https://w3id.org/dpv/sector/infra/owl/#RoadEmergencySceneManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEmergencySceneManagement">https://w3id.org/dpv/sector/infra/owl/#RoadEmergencySceneManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadEmergencySceneManagement">https://w3id.org/dpv/sector/infra#RoadEmergencySceneManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3243,13 +3409,13 @@
       
       
       
-     <section class="term-def" id="RoadEnvironmentalImpactAnalysis">
-      <h4>Road Environmental Impact Analysis</h4>
+     <section class="term-def" id="RoadEnvironmentalImpactAnalysis"><div class="header-wrapper"><h4 id="x1-1-34-road-environmental-impact-analysis"><bdi class="secno">1.1.34 </bdi>Road Environmental Impact Analysis</h4><a class="self-link" href="#RoadEnvironmentalImpactAnalysis" aria-label="Permalink for Section 1.1.34"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadEnvironmentalImpactAnalysis</dfn></td>
+          <td><dfn id="dfn-roadenvironmentalimpactanalysis" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadEnvironmentalImpactAnalysis</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3258,11 +3424,11 @@
           <td><i>Road Environmental Impact Analysis</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEnvironmentalImpactAnalysis">https://w3id.org/dpv/sector/infra/owl/#RoadEnvironmentalImpactAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadEnvironmentalImpactAnalysis">https://w3id.org/dpv/sector/infra/owl/#RoadEnvironmentalImpactAnalysis</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadEnvironmentalImpactAnalysis">https://w3id.org/dpv/sector/infra#RoadEnvironmentalImpactAnalysis</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3325,13 +3491,13 @@
       
       
       
-     <section class="term-def" id="RoadInfrastructureManagement">
-      <h4>Road Infrastructure Management</h4>
+     <section class="term-def" id="RoadInfrastructureManagement"><div class="header-wrapper"><h4 id="x1-1-35-road-infrastructure-management"><bdi class="secno">1.1.35 </bdi>Road Infrastructure Management</h4><a class="self-link" href="#RoadInfrastructureManagement" aria-label="Permalink for Section 1.1.35"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadInfrastructureManagement</dfn></td>
+          <td><dfn id="dfn-roadinfrastructuremanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadInfrastructureManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3340,11 +3506,11 @@
           <td><i>Road Infrastructure Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructureManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructureManagement">https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructureManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadInfrastructureManagement">https://w3id.org/dpv/sector/infra#RoadInfrastructureManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3404,13 +3570,13 @@
       
       
       
-     <section class="term-def" id="RoadInfrastructurePlanning">
-      <h4>Road Infrastructure Planning</h4>
+     <section class="term-def" id="RoadInfrastructurePlanning"><div class="header-wrapper"><h4 id="x1-1-36-road-infrastructure-planning"><bdi class="secno">1.1.36 </bdi>Road Infrastructure Planning</h4><a class="self-link" href="#RoadInfrastructurePlanning" aria-label="Permalink for Section 1.1.36"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadInfrastructurePlanning</dfn></td>
+          <td><dfn id="dfn-roadinfrastructureplanning" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadInfrastructurePlanning</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3419,11 +3585,11 @@
           <td><i>Road Infrastructure Planning</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructurePlanning">https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructurePlanning</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructurePlanning">https://w3id.org/dpv/sector/infra/owl/#RoadInfrastructurePlanning</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadInfrastructurePlanning">https://w3id.org/dpv/sector/infra#RoadInfrastructurePlanning</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3439,11 +3605,11 @@
           <th>Sub-class of</th>
           <td>            <a href="https://w3id.org/dpv/owl/#PublicBenefit">dpv-owl:PublicBenefit</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="https://w3id.org/dpv/owl/#ResearchAndDevelopment">dpv-owl:ResearchAndDevelopment</a>
              →             <a href="https://w3id.org/dpv/owl/#Purpose">dpv-owl:Purpose</a>
-                        </td>        <tr class="technical-detail">
+                        </td>        </tr><tr class="technical-detail">
           <th>Sub-class of</th>
           <td>            <a href="#RoadResearchDevelopment">sector-infra-owl:RoadResearchDevelopment</a>
              →             <a href="#RoadManagement">sector-infra-owl:RoadManagement</a>
@@ -3494,13 +3660,13 @@
       
       
       
-     <section class="term-def" id="RoadMaintenanceScheduling">
-      <h4>Road Maintenance Scheduling</h4>
+     <section class="term-def" id="RoadMaintenanceScheduling"><div class="header-wrapper"><h4 id="x1-1-37-road-maintenance-scheduling"><bdi class="secno">1.1.37 </bdi>Road Maintenance Scheduling</h4><a class="self-link" href="#RoadMaintenanceScheduling" aria-label="Permalink for Section 1.1.37"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadMaintenanceScheduling</dfn></td>
+          <td><dfn id="dfn-roadmaintenancescheduling" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadMaintenanceScheduling</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3509,11 +3675,11 @@
           <td><i>Road Maintenance Scheduling</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadMaintenanceScheduling">https://w3id.org/dpv/sector/infra/owl/#RoadMaintenanceScheduling</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadMaintenanceScheduling">https://w3id.org/dpv/sector/infra/owl/#RoadMaintenanceScheduling</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadMaintenanceScheduling">https://w3id.org/dpv/sector/infra#RoadMaintenanceScheduling</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3575,13 +3741,13 @@
       
       
       
-     <section class="term-def" id="RoadManagement">
-      <h4>Road Management</h4>
+     <section class="term-def" id="RoadManagement"><div class="header-wrapper"><h4 id="x1-1-38-road-management"><bdi class="secno">1.1.38 </bdi>Road Management</h4><a class="self-link" href="#RoadManagement" aria-label="Permalink for Section 1.1.38"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadManagement</dfn></td>
+          <td><dfn id="dfn-roadmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3590,11 +3756,11 @@
           <td><i>Road Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadManagement">https://w3id.org/dpv/sector/infra/owl/#RoadManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadManagement">https://w3id.org/dpv/sector/infra/owl/#RoadManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadManagement">https://w3id.org/dpv/sector/infra#RoadManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3655,13 +3821,13 @@
       
       
       
-     <section class="term-def" id="RoadPedestrianSafetyMonitoring">
-      <h4>Road Pedestrian Safety Monitoring</h4>
+     <section class="term-def" id="RoadPedestrianSafetyMonitoring"><div class="header-wrapper"><h4 id="x1-1-39-road-pedestrian-safety-monitoring"><bdi class="secno">1.1.39 </bdi>Road Pedestrian Safety Monitoring</h4><a class="self-link" href="#RoadPedestrianSafetyMonitoring" aria-label="Permalink for Section 1.1.39"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadPedestrianSafetyMonitoring</dfn></td>
+          <td><dfn id="dfn-roadpedestriansafetymonitoring" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadPedestrianSafetyMonitoring</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3670,11 +3836,11 @@
           <td><i>Road Pedestrian Safety Monitoring</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadPedestrianSafetyMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadPedestrianSafetyMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadPedestrianSafetyMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadPedestrianSafetyMonitoring</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadPedestrianSafetyMonitoring">https://w3id.org/dpv/sector/infra#RoadPedestrianSafetyMonitoring</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3737,13 +3903,13 @@
       
       
       
-     <section class="term-def" id="RoadResearchDevelopment">
-      <h4>Road Research Development</h4>
+     <section class="term-def" id="RoadResearchDevelopment"><div class="header-wrapper"><h4 id="x1-1-40-road-research-development"><bdi class="secno">1.1.40 </bdi>Road Research Development</h4><a class="self-link" href="#RoadResearchDevelopment" aria-label="Permalink for Section 1.1.40"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadResearchDevelopment</dfn></td>
+          <td><dfn id="dfn-roadresearchdevelopment" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadResearchDevelopment</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3752,11 +3918,11 @@
           <td><i>Road Research Development</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadResearchDevelopment">https://w3id.org/dpv/sector/infra/owl/#RoadResearchDevelopment</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadResearchDevelopment">https://w3id.org/dpv/sector/infra/owl/#RoadResearchDevelopment</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadResearchDevelopment">https://w3id.org/dpv/sector/infra#RoadResearchDevelopment</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3818,13 +3984,13 @@
       
       
       
-     <section class="term-def" id="RoadSafetyMonitoring">
-      <h4>Road Safety Monitoring</h4>
+     <section class="term-def" id="RoadSafetyMonitoring"><div class="header-wrapper"><h4 id="x1-1-41-road-safety-monitoring"><bdi class="secno">1.1.41 </bdi>Road Safety Monitoring</h4><a class="self-link" href="#RoadSafetyMonitoring" aria-label="Permalink for Section 1.1.41"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadSafetyMonitoring</dfn></td>
+          <td><dfn id="dfn-roadsafetymonitoring" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadSafetyMonitoring</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3833,11 +3999,11 @@
           <td><i>Road Safety Monitoring</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadSafetyMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadSafetyMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadSafetyMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadSafetyMonitoring</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadSafetyMonitoring">https://w3id.org/dpv/sector/infra#RoadSafetyMonitoring</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3899,13 +4065,13 @@
       
       
       
-     <section class="term-def" id="RoadSchoolZoneSafetyMonitoring">
-      <h4>Road School Zone Safety Monitoring</h4>
+     <section class="term-def" id="RoadSchoolZoneSafetyMonitoring"><div class="header-wrapper"><h4 id="x1-1-42-road-school-zone-safety-monitoring"><bdi class="secno">1.1.42 </bdi>Road School Zone Safety Monitoring</h4><a class="self-link" href="#RoadSchoolZoneSafetyMonitoring" aria-label="Permalink for Section 1.1.42"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadSchoolZoneSafetyMonitoring</dfn></td>
+          <td><dfn id="dfn-roadschoolzonesafetymonitoring" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadSchoolZoneSafetyMonitoring</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3914,11 +4080,11 @@
           <td><i>Road School Zone Safety Monitoring</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadSchoolZoneSafetyMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadSchoolZoneSafetyMonitoring</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadSchoolZoneSafetyMonitoring">https://w3id.org/dpv/sector/infra/owl/#RoadSchoolZoneSafetyMonitoring</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadSchoolZoneSafetyMonitoring">https://w3id.org/dpv/sector/infra#RoadSchoolZoneSafetyMonitoring</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -3981,13 +4147,13 @@
       
       
       
-     <section class="term-def" id="RoadTollCollection">
-      <h4>Road Toll Collection</h4>
+     <section class="term-def" id="RoadTollCollection"><div class="header-wrapper"><h4 id="x1-1-43-road-toll-collection"><bdi class="secno">1.1.43 </bdi>Road Toll Collection</h4><a class="self-link" href="#RoadTollCollection" aria-label="Permalink for Section 1.1.43"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadTollCollection</dfn></td>
+          <td><dfn id="dfn-roadtollcollection" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadTollCollection</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -3996,11 +4162,11 @@
           <td><i>Road Toll Collection</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTollCollection">https://w3id.org/dpv/sector/infra/owl/#RoadTollCollection</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTollCollection">https://w3id.org/dpv/sector/infra/owl/#RoadTollCollection</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadTollCollection">https://w3id.org/dpv/sector/infra#RoadTollCollection</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -4063,13 +4229,13 @@
       
       
       
-     <section class="term-def" id="RoadTollManagement">
-      <h4>Road Toll Management</h4>
+     <section class="term-def" id="RoadTollManagement"><div class="header-wrapper"><h4 id="x1-1-44-road-toll-management"><bdi class="secno">1.1.44 </bdi>Road Toll Management</h4><a class="self-link" href="#RoadTollManagement" aria-label="Permalink for Section 1.1.44"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadTollManagement</dfn></td>
+          <td><dfn id="dfn-roadtollmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadTollManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -4078,11 +4244,11 @@
           <td><i>Road Toll Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTollManagement">https://w3id.org/dpv/sector/infra/owl/#RoadTollManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTollManagement">https://w3id.org/dpv/sector/infra/owl/#RoadTollManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadTollManagement">https://w3id.org/dpv/sector/infra#RoadTollManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -4144,13 +4310,13 @@
       
       
       
-     <section class="term-def" id="RoadTrafficAnalysis">
-      <h4>Road Traffic Analysis</h4>
+     <section class="term-def" id="RoadTrafficAnalysis"><div class="header-wrapper"><h4 id="x1-1-45-road-traffic-analysis"><bdi class="secno">1.1.45 </bdi>Road Traffic Analysis</h4><a class="self-link" href="#RoadTrafficAnalysis" aria-label="Permalink for Section 1.1.45"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadTrafficAnalysis</dfn></td>
+          <td><dfn id="dfn-roadtrafficanalysis" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadTrafficAnalysis</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -4159,11 +4325,11 @@
           <td><i>Road Traffic Analysis</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTrafficAnalysis">https://w3id.org/dpv/sector/infra/owl/#RoadTrafficAnalysis</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTrafficAnalysis">https://w3id.org/dpv/sector/infra/owl/#RoadTrafficAnalysis</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadTrafficAnalysis">https://w3id.org/dpv/sector/infra#RoadTrafficAnalysis</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -4226,13 +4392,13 @@
       
       
       
-     <section class="term-def" id="RoadTrafficManagement">
-      <h4>Road Traffic Management</h4>
+     <section class="term-def" id="RoadTrafficManagement"><div class="header-wrapper"><h4 id="x1-1-46-road-traffic-management"><bdi class="secno">1.1.46 </bdi>Road Traffic Management</h4><a class="self-link" href="#RoadTrafficManagement" aria-label="Permalink for Section 1.1.46"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>RoadTrafficManagement</dfn></td>
+          <td><dfn id="dfn-roadtrafficmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">RoadTrafficManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -4241,11 +4407,11 @@
           <td><i>Road Traffic Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTrafficManagement">https://w3id.org/dpv/sector/infra/owl/#RoadTrafficManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#RoadTrafficManagement">https://w3id.org/dpv/sector/infra/owl/#RoadTrafficManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#RoadTrafficManagement">https://w3id.org/dpv/sector/infra#RoadTrafficManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -4312,13 +4478,13 @@
       
       
       
-     <section class="term-def" id="TransportManagement">
-      <h4>Transport Management</h4>
+     <section class="term-def" id="TransportManagement"><div class="header-wrapper"><h4 id="x1-1-47-transport-management"><bdi class="secno">1.1.47 </bdi>Transport Management</h4><a class="self-link" href="#TransportManagement" aria-label="Permalink for Section 1.1.47"></a></div>
+      
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>TransportManagement</dfn></td>
+          <td><dfn id="dfn-transportmanagement" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">TransportManagement</dfn></td>
           <th>Prefix</th>
           <td>sector-infra-owl</td>
         </tr>
@@ -4327,11 +4493,11 @@
           <td><i>Transport Management</i></td>
         </tr>
         <tr class="technical-detail">
-          <th>IRI (owl) <br/> IRI (canonical)</th>
+          <th>IRI (owl) <br> IRI (canonical)</th>
           <td>
-            <a href="https://w3id.org/dpv/sector/infra/owl/#TransportManagement">https://w3id.org/dpv/sector/infra/owl/#TransportManagement</a> <br/>
+            <a href="https://w3id.org/dpv/sector/infra/owl/#TransportManagement">https://w3id.org/dpv/sector/infra/owl/#TransportManagement</a> <br>
             <a href="https://w3id.org/dpv/sector/infra#TransportManagement">https://w3id.org/dpv/sector/infra#TransportManagement</a>
-        </tr>
+        </td></tr>
         
         <tr class="table-separator"></tr>
         
@@ -4389,8 +4555,8 @@
     </section>
 
   </section>
-  <section id="dpv-properties">
-    <h3>Properties</h3>       
+  <section id="dpv-properties"><div class="header-wrapper"><h3 id="x1-2-properties"><bdi class="secno">1.2 </bdi>Properties</h3><a class="self-link" href="#dpv-properties" aria-label="Permalink for Section 1.2"></a></div>
+           
       
       
        
@@ -4547,9 +4713,9 @@
       
 
   </section>
-  <section id="external-concepts">
+  <section id="external-concepts"><div class="header-wrapper"><h3 id="x1-3-external"><bdi class="secno">1.3 </bdi>External</h3><a class="self-link" href="#external-concepts" aria-label="Permalink for Section 1.3"></a></div>
     <p>The following external concepts are re-used within DPV:</p>
-    <h3>External</h3>        
+            
       
       
         
@@ -4708,5 +4874,699 @@
   </section>
 </section>
 
-</body>
-</html>
+
+<p role="navigation" id="back-to-top">
+    <a href="#title"><abbr title="Back to Top">↑</abbr></a>
+  </p><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-aviationinfrastructuremanagement" aria-label="Links in this document to definition: AviationInfrastructureManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-aviationinfrastructuremanagement" aria-label="Permalink for definition: AviationInfrastructureManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalcommunicationmanagement" aria-label="Links in this document to definition: CriticalCommunicationManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalcommunicationmanagement" aria-label="Permalink for definition: CriticalCommunicationManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticaldigitalinfrastructuremanagement" aria-label="Links in this document to definition: CriticalDigitalInfrastructureManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticaldigitalinfrastructuremanagement" aria-label="Permalink for definition: CriticalDigitalInfrastructureManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalelectricitymanagement" aria-label="Links in this document to definition: CriticalElectricityManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalelectricitymanagement" aria-label="Permalink for definition: CriticalElectricityManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalemergencyresponsecommunicationmanagement" aria-label="Links in this document to definition: CriticalEmergencyResponseCommunicationManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalemergencyresponsecommunicationmanagement" aria-label="Permalink for definition: CriticalEmergencyResponseCommunicationManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalemergencyresponsedispatchmanagement" aria-label="Links in this document to definition: CriticalEmergencyResponseDispatchManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalemergencyresponsedispatchmanagement" aria-label="Permalink for definition: CriticalEmergencyResponseDispatchManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalemergencyresponseeligibilityassessment" aria-label="Links in this document to definition: CriticalEmergencyResponseEligibilityAssessment">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalemergencyresponseeligibilityassessment" aria-label="Permalink for definition: CriticalEmergencyResponseEligibilityAssessment. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalemergencyresponsemanagement" aria-label="Links in this document to definition: CriticalEmergencyResponseManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalemergencyresponsemanagement" aria-label="Permalink for definition: CriticalEmergencyResponseManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalemergencyresponsetriage" aria-label="Links in this document to definition: CriticalEmergencyResponseTriage">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalemergencyresponsetriage" aria-label="Permalink for definition: CriticalEmergencyResponseTriage. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalenergymanagement" aria-label="Links in this document to definition: CriticalEnergyManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalenergymanagement" aria-label="Permalink for definition: CriticalEnergyManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalgasmanagement" aria-label="Links in this document to definition: CriticalGasManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalgasmanagement" aria-label="Permalink for definition: CriticalGasManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalheatingmanagement" aria-label="Links in this document to definition: CriticalHeatingManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalheatingmanagement" aria-label="Permalink for definition: CriticalHeatingManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalinfrastructuremanagement" aria-label="Links in this document to definition: CriticalInfrastructureManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalinfrastructuremanagement" aria-label="Permalink for definition: CriticalInfrastructureManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalwastemanagement" aria-label="Links in this document to definition: CriticalWasteManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalwastemanagement" aria-label="Permalink for definition: CriticalWasteManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-criticalwatermanagement" aria-label="Links in this document to definition: CriticalWaterManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-criticalwatermanagement" aria-label="Permalink for definition: CriticalWaterManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-infrastructuremanagement" aria-label="Links in this document to definition: InfrastructureManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-infrastructuremanagement" aria-label="Permalink for definition: InfrastructureManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-publictransportcomplaintmanagement" aria-label="Links in this document to definition: PublicTransportComplaintManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-publictransportcomplaintmanagement" aria-label="Permalink for definition: PublicTransportComplaintManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-publictransportdemandforecasting" aria-label="Links in this document to definition: PublicTransportDemandForecasting">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-publictransportdemandforecasting" aria-label="Permalink for definition: PublicTransportDemandForecasting. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-publictransportfraudmanagement" aria-label="Links in this document to definition: PublicTransportFraudManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-publictransportfraudmanagement" aria-label="Permalink for definition: PublicTransportFraudManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-publictransportmanagement" aria-label="Links in this document to definition: PublicTransportManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-publictransportmanagement" aria-label="Permalink for definition: PublicTransportManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-publictransportpassengerflowanalysis" aria-label="Links in this document to definition: PublicTransportPassengerFlowAnalysis">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-publictransportpassengerflowanalysis" aria-label="Permalink for definition: PublicTransportPassengerFlowAnalysis. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-publictransportperformanceanalysis" aria-label="Links in this document to definition: PublicTransportPerformanceAnalysis">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-publictransportperformanceanalysis" aria-label="Permalink for definition: PublicTransportPerformanceAnalysis. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-publictransportresearchdevelopment" aria-label="Links in this document to definition: PublicTransportResearchDevelopment">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-publictransportresearchdevelopment" aria-label="Permalink for definition: PublicTransportResearchDevelopment. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-publictransportsafetymanagement" aria-label="Links in this document to definition: PublicTransportSafetyManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-publictransportsafetymanagement" aria-label="Permalink for definition: PublicTransportSafetyManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-publictransportserviceprovision" aria-label="Links in this document to definition: PublicTransportServiceProvision">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-publictransportserviceprovision" aria-label="Permalink for definition: PublicTransportServiceProvision. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-publictransportticketmanagement" aria-label="Links in this document to definition: PublicTransportTicketManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-publictransportticketmanagement" aria-label="Permalink for definition: PublicTransportTicketManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-railtransportmanagement" aria-label="Links in this document to definition: RailTransportManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-railtransportmanagement" aria-label="Permalink for definition: RailTransportManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadaccidentanalysis" aria-label="Links in this document to definition: RoadAccidentAnalysis">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadaccidentanalysis" aria-label="Permalink for definition: RoadAccidentAnalysis. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadaccidentmonitoring" aria-label="Links in this document to definition: RoadAccidentMonitoring">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadaccidentmonitoring" aria-label="Permalink for definition: RoadAccidentMonitoring. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadconditionmonitoring" aria-label="Links in this document to definition: RoadConditionMonitoring">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadconditionmonitoring" aria-label="Permalink for definition: RoadConditionMonitoring. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roademergencyresponsemanagement" aria-label="Links in this document to definition: RoadEmergencyResponseManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roademergencyresponsemanagement" aria-label="Permalink for definition: RoadEmergencyResponseManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roademergencyroutemanagement" aria-label="Links in this document to definition: RoadEmergencyRouteManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roademergencyroutemanagement" aria-label="Permalink for definition: RoadEmergencyRouteManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roademergencyscenemanagement" aria-label="Links in this document to definition: RoadEmergencySceneManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roademergencyscenemanagement" aria-label="Permalink for definition: RoadEmergencySceneManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadenvironmentalimpactanalysis" aria-label="Links in this document to definition: RoadEnvironmentalImpactAnalysis">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadenvironmentalimpactanalysis" aria-label="Permalink for definition: RoadEnvironmentalImpactAnalysis. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadinfrastructuremanagement" aria-label="Links in this document to definition: RoadInfrastructureManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadinfrastructuremanagement" aria-label="Permalink for definition: RoadInfrastructureManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadinfrastructureplanning" aria-label="Links in this document to definition: RoadInfrastructurePlanning">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadinfrastructureplanning" aria-label="Permalink for definition: RoadInfrastructurePlanning. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadmaintenancescheduling" aria-label="Links in this document to definition: RoadMaintenanceScheduling">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadmaintenancescheduling" aria-label="Permalink for definition: RoadMaintenanceScheduling. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadmanagement" aria-label="Links in this document to definition: RoadManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadmanagement" aria-label="Permalink for definition: RoadManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadpedestriansafetymonitoring" aria-label="Links in this document to definition: RoadPedestrianSafetyMonitoring">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadpedestriansafetymonitoring" aria-label="Permalink for definition: RoadPedestrianSafetyMonitoring. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadresearchdevelopment" aria-label="Links in this document to definition: RoadResearchDevelopment">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadresearchdevelopment" aria-label="Permalink for definition: RoadResearchDevelopment. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadsafetymonitoring" aria-label="Links in this document to definition: RoadSafetyMonitoring">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadsafetymonitoring" aria-label="Permalink for definition: RoadSafetyMonitoring. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadschoolzonesafetymonitoring" aria-label="Links in this document to definition: RoadSchoolZoneSafetyMonitoring">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadschoolzonesafetymonitoring" aria-label="Permalink for definition: RoadSchoolZoneSafetyMonitoring. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadtollcollection" aria-label="Links in this document to definition: RoadTollCollection">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadtollcollection" aria-label="Permalink for definition: RoadTollCollection. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadtollmanagement" aria-label="Links in this document to definition: RoadTollManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadtollmanagement" aria-label="Permalink for definition: RoadTollManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadtrafficanalysis" aria-label="Links in this document to definition: RoadTrafficAnalysis">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadtrafficanalysis" aria-label="Permalink for definition: RoadTrafficAnalysis. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-roadtrafficmanagement" aria-label="Links in this document to definition: RoadTrafficManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-roadtrafficmanagement" aria-label="Permalink for definition: RoadTrafficManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-transportmanagement" aria-label="Links in this document to definition: TransportManagement">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-transportmanagement" aria-label="Permalink for definition: TransportManagement. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><script id="respec-dfn-panel">(() => {
+// @ts-check
+if (document.respec) {
+  document.respec.ready.then(setupPanel);
+} else {
+  setupPanel();
+}
+
+function setupPanel() {
+  const listener = panelListener();
+  document.body.addEventListener("keydown", listener);
+  document.body.addEventListener("click", listener);
+}
+
+function panelListener() {
+  /** @type {HTMLElement} */
+  let panel = null;
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (type === "keydown" && event.key !== "Enter") return;
+
+    const action = deriveAction(event);
+
+    switch (action) {
+      case "show": {
+        hidePanel(panel);
+        /** @type {HTMLElement} */
+        const dfn = target.closest("dfn, .index-term");
+        panel = document.getElementById(`dfn-panel-for-${dfn.id}`);
+        const coords = deriveCoordinates(event);
+        displayPanel(dfn, panel, coords);
+        break;
+      }
+      case "dock": {
+        panel.style.left = null;
+        panel.style.top = null;
+        panel.classList.add("docked");
+        break;
+      }
+      case "hide": {
+        hidePanel(panel);
+        panel = null;
+        break;
+      }
+    }
+  };
+}
+
+/**
+ * @param {MouseEvent|KeyboardEvent} event
+ */
+function deriveCoordinates(event) {
+  const target = /** @type HTMLElement */ (event.target);
+
+  // We prevent synthetic AT clicks from putting
+  // the dialog in a weird place. The AT events sometimes
+  // lack coordinates, so they have clientX/Y = 0
+  const rect = target.getBoundingClientRect();
+  if (
+    event instanceof MouseEvent &&
+    event.clientX >= rect.left &&
+    event.clientY >= rect.top
+  ) {
+    // The event probably happened inside the bounding rect...
+    return { x: event.clientX, y: event.clientY };
+  }
+
+  // Offset to the middle of the element
+  const x = rect.x + rect.width / 2;
+  // Placed at the bottom of the element
+  const y = rect.y + rect.height;
+  return { x, y };
+}
+
+/**
+ * @param {Event} event
+ */
+function deriveAction(event) {
+  const target = /** @type {HTMLElement} */ (event.target);
+  const hitALink = !!target.closest("a");
+  if (target.closest("dfn:not([data-cite]), .index-term")) {
+    return hitALink ? "none" : "show";
+  }
+  if (target.closest(".dfn-panel")) {
+    if (hitALink) {
+      return target.classList.contains("self-link") ? "hide" : "dock";
+    }
+    const panel = target.closest(".dfn-panel");
+    return panel.classList.contains("docked") ? "hide" : "none";
+  }
+  if (document.querySelector(".dfn-panel:not([hidden])")) {
+    return "hide";
+  }
+  return "none";
+}
+
+/**
+ * @param {HTMLElement} dfn
+ * @param {HTMLElement} panel
+ * @param {{ x: number, y: number }} clickPosition
+ */
+function displayPanel(dfn, panel, { x, y }) {
+  panel.hidden = false;
+  // distance (px) between edge of panel and the pointing triangle (caret)
+  const MARGIN = 20;
+
+  const dfnRects = dfn.getClientRects();
+  // Find the `top` offset when the `dfn` can be spread across multiple lines
+  let closestTop = 0;
+  let minDiff = Infinity;
+  for (const rect of dfnRects) {
+    const { top, bottom } = rect;
+    const diffFromClickY = Math.abs((top + bottom) / 2 - y);
+    if (diffFromClickY < minDiff) {
+      minDiff = diffFromClickY;
+      closestTop = top;
+    }
+  }
+
+  const top = window.scrollY + closestTop + dfnRects[0].height;
+  const left = x - MARGIN;
+  panel.style.left = `${left}px`;
+  panel.style.top = `${top}px`;
+
+  // Find if the panel is flowing out of the window
+  const panelRect = panel.getBoundingClientRect();
+  const SCREEN_WIDTH = Math.min(window.innerWidth, window.screen.width);
+  if (panelRect.right > SCREEN_WIDTH) {
+    const newLeft = Math.max(MARGIN, x + MARGIN - panelRect.width);
+    const newCaretOffset = left - newLeft;
+    panel.style.left = `${newLeft}px`;
+    /** @type {HTMLElement} */
+    const caret = panel.querySelector(".caret");
+    caret.style.left = `${newCaretOffset}px`;
+  }
+
+  // As it's a dialog, we trap focus.
+  // TODO: when <dialog> becomes a implemented, we should really
+  // use that.
+  trapFocus(panel, dfn);
+}
+
+/**
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function trapFocus(panel, dfn) {
+  /** @type NodeListOf<HTMLAnchorElement> elements */
+  const anchors = panel.querySelectorAll("a[href]");
+  // No need to trap focus
+  if (!anchors.length) return;
+
+  // Move focus to first anchor element
+  const first = anchors.item(0);
+  first.focus();
+
+  const trapListener = createTrapListener(anchors, panel, dfn);
+  panel.addEventListener("keydown", trapListener);
+
+  // Hiding the panel releases the trap
+  const mo = new MutationObserver(records => {
+    const [record] = records;
+    const target = /** @type HTMLElement */ (record.target);
+    if (target.hidden) {
+      panel.removeEventListener("keydown", trapListener);
+      mo.disconnect();
+    }
+  });
+  mo.observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+}
+
+/**
+ *
+ * @param {NodeListOf<HTMLAnchorElement>} anchors
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function createTrapListener(anchors, panel, dfn) {
+  const lastIndex = anchors.length - 1;
+  let currentIndex = 0;
+  return event => {
+    switch (event.key) {
+      // Hitting "Tab" traps us in a nice loop around elements.
+      case "Tab": {
+        event.preventDefault();
+        currentIndex += event.shiftKey ? -1 : +1;
+        if (currentIndex < 0) {
+          currentIndex = lastIndex;
+        } else if (currentIndex > lastIndex) {
+          currentIndex = 0;
+        }
+        anchors.item(currentIndex).focus();
+        break;
+      }
+
+      // Hitting "Enter" on an anchor releases the trap.
+      case "Enter":
+        hidePanel(panel);
+        break;
+
+      // Hitting "Escape" returns focus to dfn.
+      case "Escape":
+        hidePanel(panel);
+        dfn.focus();
+        return;
+    }
+  };
+}
+
+/** @param {HTMLElement} panel */
+function hidePanel(panel) {
+  if (!panel) return;
+  panel.hidden = true;
+  panel.classList.remove("docked");
+}
+})()</script><script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script></body></html>
