@@ -8,7 +8,7 @@ The Data Privacy Vocabulary (DPV) is available at https://w3id.org/dpv and its r
 
 There are 3 scripts to executre for each of the three tasks.
 
-If you have updated concepts or want to regenerate the spreadsheets from which all RDF and HTML is produced - use `./100_download_CSV.py` (by default it will download and extract all spreadsheets). You can use `-d <name>` to only download and extract specific spreadsheets. See the _Downloading CSV data_ section below for more information on this.
+If you have updated concepts or want to regenerate the spreadsheets from which all RDF and HTML is produced - use `./100_download_CSV.py` (by default it will download and extract all spreadsheets). You can use `--ds <name>` to only download and extract specific spreadsheets. See the _Downloading CSV data_ section below for more information on this.
 
 If you want to generate the RDF files - `./200_serialise_RDF.py` which will will create RDF serialisations for all DPV modules and extensions.
 
@@ -37,7 +37,7 @@ The below are optional additional requirements for validations using SHACL:
 
 ### Downloading CSV data
 
-`./100_download_CSV.py` will download the CSV data from a Google Sheets document and store it in the `vocab_csv` path specified. The outcome will be a CSV file for each sheet. To only download and generate the CSVs for specific modules/extensions, use `-d <name>` where `name` is the key in `DPV_FILES` present in the script. E.g. to download spreadsheets containing purposes, use `-d purpose_processing`. Running the script without any parameters will download and extract all spreadsheets.
+`./100_download_CSV.py` will download the CSV data from a Google Sheets document and store it in the `vocab_csv` path specified. The outcome will be a CSV file for each sheet. To only download and generate the CSVs for specific modules/extensions, use `--ds <name>` where `name` is the key in `DPV_FILES` present in the script. E.g. to download spreadsheets containing purposes, use `--ds purpose_processing`. Running the script without any parameters will download and extract all spreadsheets.
 
 This uses the Google Sheet export link to download the sheet data in CSV form. Needs specifying the document ID in `DPV_DOCUMENT_ID` variable and listing the sheet name(s) in `DPV_SHEETS`. The default save path for CSV is `vocab_csv`. This results in downloading the Google Sheet as a Excel spreadsheet and then locally exporting each tab as a CSV file.
 
