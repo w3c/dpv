@@ -66,8 +66,7 @@ IANA_TYPES = {
 
 
 ## === term-statuses ===
-# VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified', 'sunset')  # original
-VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified', 'sunset', 'proposed')  # dev
+VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified', 'sunset')
 VOCAB_TERM_REJECT = ('deprecated', 'removed')
 
 ## === term-ignored
