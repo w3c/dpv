@@ -66,8 +66,7 @@ IANA_TYPES = {
 
 
 ## === term-statuses ===
-# VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified', 'sunset')  # original
-VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified', 'sunset', 'proposed')  # dev
+VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified', 'sunset')
 VOCAB_TERM_REJECT = ('deprecated', 'removed')
 
 ## === term-ignored
@@ -490,11 +489,6 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-gr.csv',
         },
     },
-    'legal-hk': {
-        'hk': {
-            'laws': f'{IMPORT_CSV_PATH}/legal-hk.csv',
-        },
-    },
     'legal-hr': {
         'hr': {
             'laws': f'{IMPORT_CSV_PATH}/legal-hr.csv',
@@ -525,16 +519,6 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-it.csv',
         },
     },
-    'legal-jp': {
-        'jp': {
-            'laws': f'{IMPORT_CSV_PATH}/legal-jp.csv',
-        },
-    },
-    'legal-kr': {
-        'kr': {
-            'laws': f'{IMPORT_CSV_PATH}/legal-kr.csv',
-        },
-    },
     'legal-li': {
         'li': {
             'laws': f'{IMPORT_CSV_PATH}/legal-li.csv',
@@ -555,19 +539,9 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-lv.csv',
         },
     },
-    'legal-mo': {
-        'mo': {
-            'laws': f'{IMPORT_CSV_PATH}/legal-mo.csv',
-        },
-    },
     'legal-mt': {
         'mt': {
             'laws': f'{IMPORT_CSV_PATH}/legal-mt.csv',
-        },
-    },
-    'legal-my': {
-        'my': {
-            'laws': f'{IMPORT_CSV_PATH}/legal-my.csv',
         },
     },
     'legal-nl': {
@@ -578,11 +552,6 @@ CSVFILES = {
     'legal-no': {
         'no': {
             'laws': f'{IMPORT_CSV_PATH}/legal-no.csv',
-        },
-    },
-    'legal-ph': {
-        'ph': {
-            'laws': f'{IMPORT_CSV_PATH}/legal-ph.csv',
         },
     },
     'legal-pl': {
@@ -605,11 +574,6 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-se.csv',
         },
     },
-    'legal-sg': {
-        'sg': {
-            'laws': f'{IMPORT_CSV_PATH}/legal-sg.csv',
-        },
-    },
     'legal-si': {
         'si': {
             'laws': f'{IMPORT_CSV_PATH}/legal-si.csv',
@@ -618,11 +582,6 @@ CSVFILES = {
     'legal-sk': {
         'sk': {
             'laws': f'{IMPORT_CSV_PATH}/legal-sk.csv',
-        },
-    },
-    'legal-th': {
-        'th': {
-            'laws': f'{IMPORT_CSV_PATH}/legal-th.csv',
         },
     },
     'legal-us': {
@@ -1451,25 +1410,6 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
-    'legal-hk': {
-        'vocab': f'{IMPORT_PATH}/legal/hk/legal-hk.ttl',
-        'template': 'template_legal_jurisdiction.jinja2',
-        'export': f'{EXPORT_PATH}/legal/hk',
-        'modules': {
-            'legal': f'{IMPORT_PATH}/legal/hk/legal-hk.ttl',
-        },
-        'metadata': {
-            "dct:title": "Legal Concepts for Hong Kong (HK)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Hong Kong as jurisdiction",
-            "dct:created": "2025-03-19",
-            "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Arthit Suriyawongkul",
-            "schema:version": DPV_VERSION,
-            "profile:isProfileOf": "dpv",
-            'iri': 'https://w3id.org/dpv/legal/hk',
-            "bibo:status": "proposed",
-        },
-    },
     'legal-hr': {
         'vocab': f'{IMPORT_PATH}/legal/hr/legal-hr.ttl',
         'template': 'template_legal_jurisdiction.jinja2',
@@ -1584,44 +1524,6 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
-    'legal-jp': {
-        'vocab': f'{IMPORT_PATH}/legal/jp/legal-jp.ttl',
-        'template': 'template_legal_jurisdiction.jinja2',
-        'export': f'{EXPORT_PATH}/legal/jp',
-        'modules': {
-            'legal': f'{IMPORT_PATH}/legal/jp/legal-jp.ttl',
-        },
-        'metadata': {
-            "dct:title": "Legal Concepts for Japan (JP)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Japan as jurisdiction",
-            "dct:created": "2025-03-19",
-            "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Arthit Suriyawongkul",
-            "schema:version": DPV_VERSION,
-            "profile:isProfileOf": "dpv",
-            'iri': 'https://w3id.org/dpv/legal/jp',
-            "bibo:status": "proposed",
-        },
-    },
-    'legal-kr': {
-        'vocab': f'{IMPORT_PATH}/legal/kr/legal-kr.ttl',
-        'template': 'template_legal_jurisdiction.jinja2',
-        'export': f'{EXPORT_PATH}/legal/kr',
-        'modules': {
-            'legal': f'{IMPORT_PATH}/legal/kr/legal-kr.ttl',
-        },
-        'metadata': {
-            "dct:title": "Legal Concepts for Republic of Korea (KR)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for South Korea as jurisdiction",
-            "dct:created": "2025-03-19",
-            "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Arthit Suriyawongkul",
-            "schema:version": DPV_VERSION,
-            "profile:isProfileOf": "dpv",
-            'iri': 'https://w3id.org/dpv/legal/kr',
-            "bibo:status": "proposed",
-        },
-    },
     'legal-li': {
         'vocab': f'{IMPORT_PATH}/legal/li/legal-li.ttl',
         'template': 'template_legal_jurisdiction.jinja2',
@@ -1698,25 +1600,6 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
-    'legal-mo': {
-        'vocab': f'{IMPORT_PATH}/legal/mo/legal-mo.ttl',
-        'template': 'template_legal_jurisdiction.jinja2',
-        'export': f'{EXPORT_PATH}/legal/mo',
-        'modules': {
-            'legal': f'{IMPORT_PATH}/legal/mo/legal-mo.ttl',
-        },
-        'metadata': {
-            "dct:title": "Legal Concepts for Macao (MO)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Macao as jurisdiction",
-            "dct:created": "2025-03-19",
-            "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Arthit Suriyawongkul",
-            "schema:version": DPV_VERSION,
-            "profile:isProfileOf": "dpv",
-            'iri': 'https://w3id.org/dpv/legal/mo',
-            "bibo:status": "proposed",
-        },
-    },
     'legal-mt': {
         'vocab': f'{IMPORT_PATH}/legal/mt/legal-mt.ttl',
         'template': 'template_legal_jurisdiction.jinja2',
@@ -1734,25 +1617,6 @@ RDF_VOCABS = {
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/mt',
             "bibo:status": "published",
-        },
-    },
-    'legal-my': {
-        'vocab': f'{IMPORT_PATH}/legal/my/legal-my.ttl',
-        'template': 'template_legal_jurisdiction.jinja2',
-        'export': f'{EXPORT_PATH}/legal/my',
-        'modules': {
-            'legal': f'{IMPORT_PATH}/legal/my/legal-my.ttl',
-        },
-        'metadata': {
-            "dct:title": "Legal Concepts for Malaysia (MY)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Malaysia as jurisdiction",
-            "dct:created": "2025-03-19",
-            "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Arthit Suriyawongkul",
-            "schema:version": DPV_VERSION,
-            "profile:isProfileOf": "dpv",
-            'iri': 'https://w3id.org/dpv/legal/my',
-            "bibo:status": "proposed",
         },
     },
     'legal-nl': {
@@ -1791,25 +1655,6 @@ RDF_VOCABS = {
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/no',
             "bibo:status": "published",
-        },
-    },
-    'legal-ph': {
-        'vocab': f'{IMPORT_PATH}/legal/ph/legal-ph.ttl',
-        'template': 'template_legal_jurisdiction.jinja2',
-        'export': f'{EXPORT_PATH}/legal/ph',
-        'modules': {
-            'legal': f'{IMPORT_PATH}/legal/ph/legal-ph.ttl',
-        },
-        'metadata': {
-            "dct:title": "Legal Concepts for the Philippines (PH)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for the Philippines as jurisdiction",
-            "dct:created": "2025-03-19",
-            "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Arthit Suriyawongkul",
-            "schema:version": DPV_VERSION,
-            "profile:isProfileOf": "dpv",
-            'iri': 'https://w3id.org/dpv/legal/ph',
-            "bibo:status": "proposed",
         },
     },
     'legal-pl': {
@@ -1888,25 +1733,6 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
-    'legal-sg': {
-        'vocab': f'{IMPORT_PATH}/legal/sg/legal-sg.ttl',
-        'template': 'template_legal_jurisdiction.jinja2',
-        'export': f'{EXPORT_PATH}/legal/sg',
-        'modules': {
-            'legal': f'{IMPORT_PATH}/legal/sg/legal-sg.ttl',
-        },
-        'metadata': {
-            "dct:title": "Legal Concepts for Singapore (SG)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Singapore as jurisdiction",
-            "dct:created": "2025-03-19",
-            "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Arthit Suriyawongkul",
-            "schema:version": DPV_VERSION,
-            "profile:isProfileOf": "dpv",
-            'iri': 'https://w3id.org/dpv/legal/sg',
-            "bibo:status": "proposed",
-        },
-    },
     'legal-si': {
         'vocab': f'{IMPORT_PATH}/legal/si/legal-si.ttl',
         'template': 'template_legal_jurisdiction.jinja2',
@@ -1943,25 +1769,6 @@ RDF_VOCABS = {
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/sk',
             "bibo:status": "published",
-        },
-    },
-    'legal-th': {
-        'vocab': f'{IMPORT_PATH}/legal/th/legal-th.ttl',
-        'template': 'template_legal_jurisdiction.jinja2',
-        'export': f'{EXPORT_PATH}/legal/th',
-        'modules': {
-            'legal': f'{IMPORT_PATH}/legal/th/legal-th.ttl',
-        },
-        'metadata': {
-            "dct:title": "Legal Concepts for Thailand (TH)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Thailand as jurisdiction",
-            "dct:created": "2025-03-19",
-            "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Arthit Suriyawongkul",
-            "schema:version": DPV_VERSION,
-            "profile:isProfileOf": "dpv",
-            'iri': 'https://w3id.org/dpv/legal/th',
-            "bibo:status": "proposed",
         },
     },
     'legal-us': {
@@ -2265,10 +2072,6 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/gr', 
         'modules': f'{EXPORT_RDF_PATH}/legal/gr/modules', 
     },
-    'legal-hk': {
-        'main': f'{EXPORT_RDF_PATH}/legal/hk', 
-        'modules': f'{EXPORT_RDF_PATH}/legal/hk/modules', 
-    },
     'legal-hr': {
         'main': f'{EXPORT_RDF_PATH}/legal/hr', 
         'modules': f'{EXPORT_RDF_PATH}/legal/hr/modules', 
@@ -2293,14 +2096,6 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/it', 
         'modules': f'{EXPORT_RDF_PATH}/legal/it/modules', 
     },
-    'legal-jp': {
-        'main': f'{EXPORT_RDF_PATH}/legal/jp', 
-        'modules': f'{EXPORT_RDF_PATH}/legal/jp/modules', 
-    },
-    'legal-kr': {
-        'main': f'{EXPORT_RDF_PATH}/legal/kr', 
-        'modules': f'{EXPORT_RDF_PATH}/legal/kr/modules', 
-    },
     'legal-li': {
         'main': f'{EXPORT_RDF_PATH}/legal/li', 
         'modules': f'{EXPORT_RDF_PATH}/legal/li/modules', 
@@ -2317,17 +2112,9 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/lv', 
         'modules': f'{EXPORT_RDF_PATH}/legal/lv/modules', 
     },
-    'legal-mo': {
-        'main': f'{EXPORT_RDF_PATH}/legal/mo', 
-        'modules': f'{EXPORT_RDF_PATH}/legal/mo/modules', 
-    },
     'legal-mt': {
         'main': f'{EXPORT_RDF_PATH}/legal/mt', 
         'modules': f'{EXPORT_RDF_PATH}/legal/mt/modules', 
-    },
-    'legal-my': {
-        'main': f'{EXPORT_RDF_PATH}/legal/my', 
-        'modules': f'{EXPORT_RDF_PATH}/legal/my/modules', 
     },
     'legal-nl': {
         'main': f'{EXPORT_RDF_PATH}/legal/nl', 
@@ -2336,10 +2123,6 @@ RDF_STRUCTURE = {
     'legal-no': {
         'main': f'{EXPORT_RDF_PATH}/legal/no', 
         'modules': f'{EXPORT_RDF_PATH}/legal/no/modules', 
-    },
-    'legal-ph': {
-        'main': f'{EXPORT_RDF_PATH}/legal/ph', 
-        'modules': f'{EXPORT_RDF_PATH}/legal/ph/modules', 
     },
     'legal-pl': {
         'main': f'{EXPORT_RDF_PATH}/legal/pl', 
@@ -2357,10 +2140,6 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/se', 
         'modules': f'{EXPORT_RDF_PATH}/legal/se/modules', 
     },
-    'legal-sg': {
-        'main': f'{EXPORT_RDF_PATH}/legal/sg', 
-        'modules': f'{EXPORT_RDF_PATH}/legal/sg/modules', 
-    },
     'legal-si': {
         'main': f'{EXPORT_RDF_PATH}/legal/si', 
         'modules': f'{EXPORT_RDF_PATH}/legal/si/modules', 
@@ -2368,10 +2147,6 @@ RDF_STRUCTURE = {
     'legal-sk': {
         'main': f'{EXPORT_RDF_PATH}/legal/sk', 
         'modules': f'{EXPORT_RDF_PATH}/legal/sk/modules', 
-    },
-    'legal-th': {
-        'main': f'{EXPORT_RDF_PATH}/legal/th', 
-        'modules': f'{EXPORT_RDF_PATH}/legal/th/modules', 
     },
     'legal-us': {
         'main': f'{EXPORT_RDF_PATH}/legal/us', 
@@ -2425,33 +2200,25 @@ RDF_COLLATIONS = ({
         f'{EXPORT_RDF_PATH}/legal/fr/legal-fr.ttl',
         f'{EXPORT_RDF_PATH}/legal/gb/legal-gb.ttl',
         f'{EXPORT_RDF_PATH}/legal/gr/legal-gr.ttl',
-        f'{EXPORT_RDF_PATH}/legal/hk/legal-hk.ttl',
         f'{EXPORT_RDF_PATH}/legal/hr/legal-hr.ttl',
         f'{EXPORT_RDF_PATH}/legal/hu/legal-hu.ttl',
         f'{EXPORT_RDF_PATH}/legal/ie/legal-ie.ttl',
         f'{EXPORT_RDF_PATH}/legal/in/legal-in.ttl',
         f'{EXPORT_RDF_PATH}/legal/is/legal-is.ttl',
         f'{EXPORT_RDF_PATH}/legal/it/legal-it.ttl',
-        f'{EXPORT_RDF_PATH}/legal/jp/legal-jp.ttl',
-        f'{EXPORT_RDF_PATH}/legal/kr/legal-kr.ttl',
         f'{EXPORT_RDF_PATH}/legal/li/legal-li.ttl',
         f'{EXPORT_RDF_PATH}/legal/lt/legal-lt.ttl',
         f'{EXPORT_RDF_PATH}/legal/lu/legal-lu.ttl',
         f'{EXPORT_RDF_PATH}/legal/lv/legal-lv.ttl',
-        f'{EXPORT_RDF_PATH}/legal/mo/legal-mo.ttl',
         f'{EXPORT_RDF_PATH}/legal/mt/legal-mt.ttl',
-        f'{EXPORT_RDF_PATH}/legal/my/legal-my.ttl',
         f'{EXPORT_RDF_PATH}/legal/nl/legal-nl.ttl',
         f'{EXPORT_RDF_PATH}/legal/no/legal-no.ttl',
-        f'{EXPORT_RDF_PATH}/legal/ph/legal-ph.ttl',
         f'{EXPORT_RDF_PATH}/legal/pl/legal-pl.ttl',
         f'{EXPORT_RDF_PATH}/legal/pt/legal-pt.ttl',
         f'{EXPORT_RDF_PATH}/legal/ro/legal-ro.ttl',
         f'{EXPORT_RDF_PATH}/legal/se/legal-se.ttl',
-        f'{EXPORT_RDF_PATH}/legal/sg/legal-sg.ttl',
         f'{EXPORT_RDF_PATH}/legal/si/legal-si.ttl',
         f'{EXPORT_RDF_PATH}/legal/sk/legal-sk.ttl',
-        f'{EXPORT_RDF_PATH}/legal/th/legal-th.ttl',
         f'{EXPORT_RDF_PATH}/legal/us/legal-us.ttl',
 
         ),
