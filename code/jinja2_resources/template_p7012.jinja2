@@ -72,21 +72,21 @@
   <section>
     <h2>Introduction</h2>
     <p>The [[[IEEE-P7012]]] is an upcoming specification that describes a mechanism for discovering, negotiating, and executing contracts based on machine-readable privacy terms that represent the preferences and decisions of individuals in their interactions with service providers. The draft standard describes processes for the discovery of an individual's acceptable privacy terms - such as on a website, through which a service provider can initiate and execute contracts for the provision of services in accordance with the expressed terms. The standard also includes processes for negotiation to choose between a set of acceptable privacy terms, a common shared registry within which the privacy terms shall be listed for common reference, and how agents - acting on behalf of individuals and service providers - utilise these to complete the contract execution processes.</p>
-    <p>The [[IEEE-P7012]] draft standard references [[DPV]] in its appendix as an example of a vocabulary that can be used to express the relevant information for the creation and use of privacy terms in its defined processes. This includes concepts existing in [[DPV]] such as {{ anchor('dpv:Purpose') }} and {{ anchor('dpv:PersonalData') }}, but also includes other concepts which currently not present in [[DPV]] - such as to indicate preferences and to indicate agents that utilise these and negotiate the terms. This document describes and extension to the [[DPV]] specifications for representing the processes and information with the aim of supporting implementations of [[IEEE-P7012]].</p>
+    <p>The [[IEEE-P7012]] draft standard references [[DPV]] in its appendix as an example of a vocabulary that can be used to express the relevant information for the creation and use of privacy terms in its defined processes. This includes concepts existing in [[DPV]] such as {{ anchor('dpv:Purpose') }} and {{ anchor('dpv:PersonalData') }}, but also includes other concepts which currently are not present in [[DPV]] - such as to indicate preferences and to indicate agents that utilise these and negotiate the terms. This document describes an extension to the [[DPV]] specifications for representing the processes and information needed by supporting implementations of [[IEEE-P7012]].</p>
     <p>As a broad overview, [[IEEE-P7012]] can be understood through the following concepts:</p>
     <ul>
-      <li>[=Person=] is a human individual, who wants to establish an [=Agreement=] with an [=Entity=] Organisation for the purposes of service delivery or to contribute data (e.g. for public good).</li>
+      <li>[=Person=] is a human individual, who wants to establish an [=Agreement=] with an [=Entity=] Organisation for the purposes of service delivery or to contribute data (e.g., for public good).</li>
       <li>[=PersonAgent=] is a software or machine agent that acts on behalf of the [=Person=], and interacts with the [=EntityAgent=] which acts on behalf of the [=Entity=].</li>
       <li>The [=Person=] can have an [=AgreementPreference=] which is used by the [=PersonAgent=] to communicate acceptable terms with the [=EntityAgent=].</li>
       <li>If the [=EntityAgent=] does not accept the offered terms, it can make a counter-offer through an [=AgreementNegotiation=], which the [=PersonAgent=] evaluates to approve or reject based on established [=AgreementPreference=].</li>
       <li>To avoid arbitrary terms and challenges associated with reasoning over unknown terms, an [=AgreementRegistry=] hosts terms or agreements for agents to use and refer to when interacting with each other. Agreements not hosted in such registries are not supported by agents. This creates consistency in interpretation (as each agreement in the registry has a well-defined interpretation) and ensures interoperability between agents.</li>
-      <li>The specifics of the terms, such as what is permitted or prohibited, or what purposes and personal data are involved, can be expressed using the concepts provided in this document as well as the concepts defined in the [[DPV]], [[PD]], and other specifications. Doing this is recommended as it ensures all agents utilise the same concepts for consistency and interoperability, and through which establish standards such as [[ODRL-Model]] can be used to express agreements and contracts with the appropriate vocabulary.</li>
+      <li>The specifics of the terms, such as what is permitted or prohibited, or what purposes and personal data are involved, can be expressed using the concepts provided in this document as well as the concepts defined in the [[DPV]], [[PD]], and other specifications. Doing this is recommended as it ensures all agents utilise the same concepts for consistency and interoperability, and through which established standards such as [[ODRL-Model]] can be used to express agreements and contracts with the appropriate vocabulary.</li>
     </ul>
     <aside class="note" title="Scope of IEEE P7012 does not include technical implementation details">
-      <p>Further granular details of how agents store and use information, how interactions between agents takes place, and how decisions over agreements are made are not defined within [[IEEE-P7012]]. Therefore, this document also does not consider them to be in scope.</p>
-      <p>However, practicality requires guidance on how the [[IEEE-P7012]] and this document can be implemented in specific environments, such as within browsers or in smartphone apps. For this, the DPVCG invites participation and contribution towards creating a guide document that provides information on how this can be implemented using the [[DPV]] specifications. The DPVCG also invites references to existing articles and specifications (which may or may not DPV) that can be listed within such a guide.</p>
+      <p>Further granular details of how agents store and use information, how interactions between agents take place, and how decisions over agreements are made are not defined within [[IEEE-P7012]]. Therefore, this document also does not consider them to be in scope.</p>
+      <p>However, practicality requires guidance on how the [[IEEE-P7012]] and this document can be implemented in specific environments, such as within browsers or in smartphone apps. For this, the DPVCG invites participation and contribution towards creating a guide document that provides information on how this can be implemented using the [[DPV]] specifications. The DPVCG also invites references to existing articles and specifications (which may or may not use DPV) that can be listed within such a guide.</p>
     </aside>
-    <p>An example of how the [[IEEE-P7012]] can be implemented is visually represented in the following <a href="https://en.wikipedia.org/wiki/Sequence_diagram">UML sequence diagram</a> where a person visits a website, their agent ensures that P7012 is supported and asks the website whether it will accept [=SD-BY=] which is an agreement defined in this document and would be stored in a common repository accessible to all agents. If the entity agent accepts it, both enter into a contract. If not, the entity agent makes a counter-offer to negotiate using an agreement of its choice from the registry. The person's agent then accepts this or refuses this based on whether it satisfies the person's preferences. A step-by-step description is provided after the diagram.</p>
+    <p>An example of how the [[IEEE-P7012]] can be implemented is visually represented in the following <a href="https://en.wikipedia.org/wiki/Sequence_diagram">UML sequence diagram</a> where a person visits a website, their agent ensures that P7012 is supported and asks the website whether it will accept [=SD-BY=], which is an agreement defined in this document and would be stored in a common repository accessible to all agents. If the entity agent accepts it, both enter into a contract. If not, the entity agent makes a counter-offer to negotiate using an agreement of its choice from the registry. The person's agent then accepts this or refuses this based on whether it satisfies the person's preferences. A step-by-step description is provided after the diagram.</p>
     <figure>
       <img  style="max-height: 90vh;" src="../../diagrams/p7012-process-overview.png">
       <figcaption>Overview of Contract Discovery and Negotiation Process</figcaption>
@@ -122,7 +122,7 @@
     <h2>Agreements</h2>
     <section id="controlled-agreements">
       <h3>Model</h3>
-      <p>To provide the person (and by extension - organisations) a simple way to select and express terms, the following set of agreements have been developed based on the [[[CC-ABOUT]]] model where a baseline term is defined and further terms are added to have the intended effect. Such as baseline term in the CC model (called CC-BY) represents the requirement to acknowledge authorship and provides a broad permission to other activities with the resource, which is then restricted through additional terms and represented by extending the acronym (see [[CC-CHOOSE]]). To adapt this to P7012, the baseline term must represent the key reason why the term is needed - which is the intention to receive a '<i>service</i>. However, unlike CC-BY, the person is not signalling that the service provider or any (random) third party can do whatever else they want - such as the commonly required but misused activities of analytics, tracking, profiling, or data sharing.</p>
+      <p>To provide the person (and by extension - organisations) a simple way to select and express terms, the following set of agreements have been developed based on the [[[CC-ABOUT]]] model where a baseline term is defined and further terms are added to have the intended effect. Such as the baseline term in the CC model (called CC-BY) represents the requirement to acknowledge authorship and provides a broad permission to other activities with the resource, which is then restricted through additional terms and represented by extending the acronym (see [[CC-CHOOSE]]). To adapt this to P7012, the baseline term must represent the key reason why the term is needed - which is the intention to receive a '<i>service</i>'. However, unlike CC-BY, the person is not signalling that the service provider or any (random) third party can do whatever else they want - such as the commonly required but misused activities of analytics, tracking, profiling, or data sharing.</p>
       <p>Based on the above, the following terms have been developed and formulated as acronyms which can be easily understood in combinations:</p>
       <ul>
         <li>Service Delivery <strong>(SD)</strong></li>
@@ -131,18 +131,18 @@
         <li>Analytics and Tracking by Second-Party <strong>(AT)</strong></li>
         <li>Analytics, Tracking, and Profiling by Second-Party <strong>(ATP)</strong></li>
         <li>Share Anonymised Data with Third Party <strong>(S3P)</strong></li>
-        <li>Personal Data Contribution <strong>(PDC)</strong> i.e. proactive contribution of data by a person towards some specific objective/purpose</li>
+        <li>Personal Data Contribution <strong>(PDC)</strong>, i.e., proactive contribution of data by a person towards some specific objective/purpose</li>
         <li>Intent Casting <strong>(INTENT)</strong></li>
         <li>AI Training and Operation <strong>(AI)</strong></li>
         <li>Public Good <strong>(GOOD)</strong></li>
       </ul>
-      <p>The development of the terms consider what activities are commonly required by organisation, whether as part of providing a service, or tangential to it. In this, the activities of analytics, tracking, and profiling were found to be desirable when conducted by an organisation providing the service - such as to understand the usage of service, evaluate performance and response times, and to understand users. However, these same activities were found to be problematic and a widespread issue when conducted by - often unauthorised - third parties. Therefore, the use of these terms in combinations is about expressing how the organisation acting as the second party can or cannot perform these activities, while third parties - who often have no relation to the individual nor do they provide any benefits - are always prohibited.</p>
+      <p>The development of the terms consider what activities are commonly required by organisations, whether as part of providing a service, or tangential to it. In this, the activities of analytics, tracking, and profiling were found to be desirable when conducted by an organisation providing the service - such as to understand the usage of the service, evaluate performance and response times, and to understand users. However, these same activities were found to be problematic and a widespread issue when conducted by - often unauthorised - third parties. Therefore, the use of these terms in combinations is about expressing how the organisation acting as the second party can or cannot perform these activities, while third parties - who often have no relation to the individual nor do they provide any benefits - are always prohibited.</p>
     </section>
     <section id="vocab-agreement">
       <h3>Defined Agreements</h3>
-      <p>The combination of these terms follows a naming model where the terms acknowledged within the acronym expresses what the <i>second party</i> i.e. the entity organisation can do, and which any <i>third party</i> is prohibited to do. If the term is absent, it means it must not be done i.e. it is prohibited for both the second and third party. Thus, the baseline term of [=SD-BY=] offers the 'highest privacy level' as it prohibits most activities, while the term [=SD-BY-ATP-S3P=] offers the 'lowest privacy level' as it permits most activities - however, it is imperative to note that even at this 'lowest' level, it is only the <i>second party i.e. entity organisation</i> which is allowed to perform these activities. Thus, even at the 'lowest' level, the privacy level is still higher than the current norms as third parties are expressly prohibited from being involved in these activities.</p>
-      <p>In addition to whether activities may or may not be performed, the term <code>DP</code> represents an obligation to perform 'data portability' i.e. provide involved data back to the individual. This term is optionally added to other terms, and thus represents variations of those agreements. The intention of this term is to ensure that there is no vendor lock-in, and that the data of the individual is provided back to them. The <a href="vocab-privacy-term">Section on Terms</a> expresses further developed concepts which have not been defined in acronyms, but which can be involved in agreements to express specific requirements such as regarding transparency, and to support the consistent interpretation of these terms across jurisdictions.</p>
-      <p>Summarising the above, the below table represents a visual overview of the provided agreements and how they permit or prohibit specific terms. In the table, the symbol '✓' means the term is <i>permitted</i> i.e. it MAY BE optionally done, 'X' means the term is <i>prohibited</i> i.e. it MUST NOT be done, and '○' means the term is an <i>obligation</i> i.e. it MUST be done.</p>
+      <p>The combination of these terms follows a naming model where the terms acknowledged within the acronym expresses what the <i>second party</i>, i.e., the entity organisation can do, and which any <i>third party</i> is prohibited to do. If the term is absent, it means it must not be done, i.e., it is prohibited for both the second and third party. Thus, the baseline term of [=SD-BY=] offers the 'highest privacy level' as it prohibits most activities, while the term [=SD-BY-ATP-S3P=] offers the 'lowest privacy level' as it permits most activities - however, it is imperative to note that even at this 'lowest' level, it is only the <i>second party, i.e., entity organisation</i> which is allowed to perform these activities. Thus, even at the 'lowest' level, the privacy level is still higher than the current norms as third parties are expressly prohibited from being involved in these activities.</p>
+      <p>In addition to whether activities may or may not be performed, the term <code>DP</code> represents an obligation to perform 'data portability', i.e., provide involved data back to the individual. This term is optionally added to other terms, and thus represents variations of those agreements. The intention of this term is to ensure that there is no vendor lock-in, and that the data of the individual is provided back to them. The <a href="vocab-privacy-term">Section on Terms</a> expresses further developed concepts which have not been defined in acronyms, but which can be involved in agreements to express specific requirements such as regarding transparency, and to support the consistent interpretation of these terms across jurisdictions.</p>
+      <p>Summarising the above, the below table represents a visual overview of the provided agreements and how they permit or prohibit specific terms. In the table, the symbol '✓' means the term is <i>permitted</i>, i.e., it MAY BE optionally done, 'X' means the term is <i>prohibited</i>, i.e., it MUST NOT be done, and '○' means the term is an <i>obligation</i>, i.e., it MUST be done.</p>
       <table style="font-size: 0.75rem;">
         <thead>
           <tr>
@@ -293,9 +293,9 @@
     </section>
     <section id="vocab-privacy-term">
       <h3>Defined Terms</h3>
-      <p>While the <a href="vocab-agreement">agreement concepts</a> provide a set of useful concepts to represent entire agreements, their interpretation requires that the agent or system knows about the intended meaning associated with the concept. This requires that each concept be individual coded in to the system e.g. as a set of permissions, prohibitions, and obligations. To simplify and support this process, and provide a 'machine-readable' representation of what specifics each agreement entails, the following concepts represent the granular components which when combined can create the intended meaning as used in the agreement concepts.</p>
-      <p>Each concept is represented as a {{anchor('dpv:ContractualClause')}} to reflect its use as terms involved in a larger agreement. To support the expression of what the clause contains, [[DPV]] {{anchor('dpv:Rule')}} concepts are used to represent what the clause models, and are associated with the agreement concepts through contextual relations - {{anchor('dpv:hasPermission')}}, {{anchor('dpv:hasProhibition')}}, and {{anchor('dpv:hasObligation')}}.. Through this, the agreement is defined as a set of clauses or terms representing specific permissions, prohibitions, and obligations.</p>
-      <p>To further support implementations and human-oriented reviewing and other activities, the two relations [=hasMachineReadableFormat=] and [=hasHumanReadableFormat=] are provided. Using these, the agreement concepts can have different 'formats' and 'serialisations' to support implementing these in different systems. To express metadata about these, we recommend using [[DCTERMS]], such as `dct:format` and `dct:conformsTo` for machine-readable representations, and `dct:language` for human-readable representations. We also recommend using existing relevant standards for representing and cataloguing terms and agreements, particularly [[[DCAT]]], and using [[[ODRL-MODEL]]] for a standardised structure and interpretation of the terms and to represent and record interactions as 'offers', 'responses', and 'agreements'.</p>
+      <p>While the <a href="vocab-agreement">agreement concepts</a> provide a set of useful concepts to represent entire agreements, their interpretation requires that the agent or system knows about the intended meaning associated with the concept. This requires that each concept be individual coded in to the system, e.g., as a set of permissions, prohibitions, and obligations. To simplify and support this process, and provide a 'machine-readable' representation of what specifics each agreement entails, the following concepts represent the granular components which when combined can create the intended meaning as used in the agreement concepts.</p>
+      <p>Each concept is represented as a {{anchor('dpv:ContractualClause')}} to reflect its use as terms involved in a larger agreement. To support the expression of what the clause contains, [[DPV]] {{anchor('dpv:Rule')}} concepts are used to represent what the clause models, and are associated with the agreement concepts through contextual relations - {{anchor('dpv:hasPermission')}}, {{anchor('dpv:hasProhibition')}}, and {{anchor('dpv:hasObligation')}}. Through this, the agreement is defined as a set of clauses or terms representing specific permissions, prohibitions, and obligations.</p>
+      <p>To further support implementations and human-oriented reviewing and other activities, the two relations [=hasMachineReadableFormat=] and [=hasHumanReadableFormat=] are provided. Using these, the agreement concepts can have different 'formats' and 'serialisations' to support implementing these in different systems. To express metadata about these, we recommend using [[DCTERMS]], such as `dct:format` and `dct:conformsTo` for machine-readable representations, and `dct:language` for human-readable representations. We also recommend using existing relevant standards for representing and cataloguing terms and agreements, particularly the [[[DCAT]]], and using [[[ODRL-MODEL]]] for a standardised structure and interpretation of the terms and to represent and record interactions as 'offers', 'requests', and 'agreements'.</p>
       <p>The terms defined and used to model the agreements are as follows:</p>
       <ul>
         <li>[=TrackingTerm=] for whether tracking is allowed or not, and associated using [=hasTrackingTerm=];</li>
@@ -343,7 +343,65 @@
     </section>
     <section>
       <h3>Expressing Privacy Terms using ODRL</h3>
-      <aside class="issue" title="Example: Privacy Term using ODRL"></aside>
+      <aside class="issue" title="Privacy Terms using ODRL">
+        <p>We are currently developing ODRL policies for each of the agreements defined in the <a href="#vocab-agreement">Defined Agreements</a> section of this document. Draft versions are currently being explored at <a href="https://github.com/coolharsh55/7012-contracts">https://github.com/coolharsh55/7012-contracts</a>.</p>
+        <p>As an example, for representing the terms of [=SD-BY-AT=], the following ODRL policy can be modelled:</p>
+        <pre><code>ex:SD-BY-AT a odrl:Offer ;
+  odrl:uid ex:SD-BY-AT ;
+  odrl:profile &lt;https://w3id.org/dpv/mappings/odrl> ;
+  dcterms:title "SD BY-AT";
+  odrl:conflict odrl:perm ;
+  # service delivery is mandatory
+  odrl:obligation [
+    odrl:action odrl-dpv:Processing ;
+    odrl:assignee p7012:Entity ;
+    odrl:constraint [
+      odrl:leftOperand odrl-dpv:Purpose ;
+      odrl:operator odrl:eq ;
+      odrl:rightOperand p7012:ServiceDelivery
+    ]
+  ] ;
+  # analytics by second party are allowed
+  odrl:permission [
+    odrl:action odrl-dpv:Processing ;
+    odrl:assignee p7012:Entity ;
+    odrl:constraint [
+      odrl:leftOperand odrl-dpv:Purpose ;
+      odrl:operator odrl:eq ;
+      odrl:rightOperand p7012:ServiceAnalytics
+    ]
+  ] ;
+  # tracking by second party is allowed
+  odrl:permission [
+    odrl:action odrl-dpv:Tracking ;
+    odrl:assignee p7012:Entity ;
+  ] ;
+  # profiling and sharing with both the second and third party is prohibited
+  odrl:prohibition [
+    odrl:action odrl-dpv:Profiling, odrl-dpv:Share ;
+    odrl:assignee p7012:Entity, p7012:ThirdParty ;
+  ] ;
+  # analytics by third party is prohibited
+  odrl:prohibition [
+    odrl:action odrl-dpv:Processing ;
+    odrl:assignee p7012:ThirdParty ;
+    odrl:constraint [
+      odrl:leftOperand odrl-dpv:Purpose ;
+      odrl:operator odrl:eq ;
+      odrl:rightOperand p7012:ServiceAnalytics
+    ]
+  ] ;
+  # tracking by third party is prohibited
+  odrl:permission [
+    odrl:action odrl-dpv:Tracking ;
+    odrl:assignee p7012:ThirdParty ;
+  ] .</code></pre>
+        <p></p>
+      </aside>
+      <aside class="note" title="Full interaction using ODRL for proper enforcement using an ODRL evaluator">
+        <p>To record a full interaction using ODRL policies to reach an agreement on the contract terms for data exchange, we recommend to model people's terms as <code>odrl:Offer</code>s, second party's as <code>odrl:Request</code>s, and the final agreement as an <code>odrl:Agreement</code>.</p>
+        <p>By following this structure, a proper validation and evaluation of ODRL policies can be made using an ODRL evaluator, such as the one proposed at <a href="https://github.com/SolidLabResearch/ODRL-Evaluator">https://github.com/SolidLabResearch/ODRL-Evaluator</a>.</p>
+      </aside>
     </section>
     <section>
       <h3>Record showing full contract interaction</h3>
