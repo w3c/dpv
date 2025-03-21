@@ -4,9 +4,14 @@
 '''Data and configurations for vocabulary management'''
 
 import csv
-from rdflib import Namespace, BNode, Literal
-
+import hashlib
+import json
 import logging
+import re
+import unicodedata
+
+from rdflib import BNode, Literal, Namespace
+
 logging.basicConfig(
     level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
@@ -69,8 +74,7 @@ IANA_TYPES = {
 VOCAB_TERM_ACCEPT = ('accepted', 'changed', 'modified', 'sunset')
 VOCAB_TERM_REJECT = ('deprecated', 'removed')
 
-## === term-ignored
-
+## === term-ignored ===
 IGNORED_TERMS = ('rdf:type', 'rdfs:Class', 'rdf:Property', 'skos:Concept')
 
 # === namespaces ===
@@ -95,6 +99,7 @@ for csvfile in NAMESPACE_CSV:
             # DEBUG(f'{prefix} namespace with IRI {iri}')
 
 from rdflib import Graph
+
 NS = Graph()
 NS.ns = { k:v for k,v in NAMESPACES.items() }
 
@@ -109,7 +114,7 @@ DOCUMENT_STATUS = "CG-DRAFT"
 
 # Root folder to import RDF files from
 IMPORT_PATH = f'../{DPV_VERSION}'
-# Root folder to export HTML filese to
+# Root folder to export HTML files to
 EXPORT_PATH = f'../{DPV_VERSION}'
 # Root folder where Jinja2 templates are stored
 TEMPLATE_PATH = './jinja2_resources'
@@ -757,7 +762,7 @@ IMPORT_TRANSLATIONS = {
     # },
 }
 # This file will save the missing translations.
-# The initial list is populated in [[200.py]] and then the data is 
+# The initial list is populated in [[200.py]] and then the data is
 # collected and overwritten in [[300.py]]
 TRANSLATIONS_MISSING_FILE = f"{IMPORT_CSV_PATH}/translations_missing.json"
 
@@ -2380,9 +2385,23 @@ def prefix_from_iri(iri):
             return f'{prefix}:{term}'
     return None
 
+def normalize_fixed_len(text: str, target_len: int = 0) -> str:
+    """Normalize text and make the text fixed length"""
+    text = text.strip()
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+    text = text.replace(" ", "-")
+    text = re.sub(r"[^a-zA-Z0-9-]", "", text)
+    text = re.sub(r"-+", "-", text)
+    text = text.strip("-")
+    if target_len <= 0:
+        return text
+    if len(text) > target_len:
+        text = text[:target_len].strip("-")
+    return text.ljust(target_len, "0")
+
+
 # === contributors ==
-import json
-with open(f'./contributors.json', 'r') as fd:
+with open('./contributors.json', 'r') as fd:
     contributors = json.load(fd)
 
 
@@ -2418,6 +2437,36 @@ def generate_authors_affiliations(authors):
     return authors
 
 
+def generate_node_id(
+    prefix: str, text: str, text_target_len: int, hash_target_len: int
+) -> str:
+    """takes a prefix and a text, returns a stable identifier"""
+    hash = hashlib.sha256(text.encode()).hexdigest()[:hash_target_len]
+    text = normalize_fixed_len(text, text_target_len)
+    if prefix.strip() == "":
+        return f"{text}-{hash}"
+    return f"{prefix}-{text}-{hash}"
+
+
+def generate_author_node_id(author: str) -> str:
+    """takes author name, returns a stable person identifier"""
+    affi = generate_author_affiliation(author)
+    author_affi = f"{author}-{affi}"
+
+    orcid = generate_author_orcid(author)
+    if orcid:
+        author_affi = normalize_fixed_len(author_affi, 16)
+        return f"person-{author_affi}-{orcid}"
+
+    return generate_node_id("person", author_affi, 16, 16)
+
+
+def generate_author_affiliation_node_id(author: str) -> str:
+    """takes author name, returns a stable org identifier"""
+    affi = generate_author_affiliation(author)
+    return generate_node_id("org", affi, 16, 16)
+
+
 def _person_slugify():
     '''person is a string, slugify means make it IRI compatible'
     - e.g. 'Harshvardhan J. Pandit' should be 'HarshvardhanJPandit'
@@ -2434,8 +2483,8 @@ def _person_slugify():
         # if person_name.startswith('n')
         if person in people:
             return people[person]
-        bnode_person = BNode()
-        bnode_org = BNode()
+        bnode_person = BNode(generate_author_node_id(person_name))
+        bnode_org = BNode(generate_author_affiliation_node_id(person_name))
         triples = []
         triples.append((bnode_person, RDF.type, FOAF.Person))
         triples.append((bnode_person, RDF.type, DCT.Agent))

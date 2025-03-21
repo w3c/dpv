@@ -1,6 +1,4 @@
-from rdflib import Graph, Namespace
-from rdflib.compare import graph_diff
-from rdflib.term import Literal, URIRef, BNode
+from rdflib.term import BNode, Literal
 from vocab_management import *
 
 
@@ -239,7 +237,8 @@ def construct_source(item, data, namespace, header):
                 label = label.replace('(', '', 1)
             if url.endswith(')'):
                 url = url[::-1].replace(')', '', 1)[::-1] # reverse string
-            node = BNode()
+            node_id = generate_node_id('webpage', f'{label}-{url}', 16, 32)
+            node = BNode(node_id)
             triples.append((node, RDF.type, SCHEMA.WebPage))
             triples.append((node, SCHEMA.name, Literal(label)))
             triples.append((node, SCHEMA.url, Literal(url)))
@@ -301,7 +300,6 @@ def construct_legal_basis_rights_mapping(item, data, namespace, header):
     # DEBUG(f'{clause} has right {right}')
     triples.append((namespace[clause], DPV.hasRight, namespace[right]))
     return triples
-
 
 
 def _get_term_from_prefix_notation(term, namespace):
