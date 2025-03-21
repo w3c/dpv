@@ -9,7 +9,9 @@
 # extracted from it using an external tool [xlsx2csv
 # ](https://github.com/dilshod/xlsx2csv).
 
+import csv
 import logging
+
 logging.basicConfig(
     level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
@@ -448,6 +450,15 @@ def _download_spreadsheets(document_id, document_name, export_link):
         export_link=GOOGLE_EXCEL_EXPORT_LINK,
         ext='xlsx')
 
+def _remove_csv_empty_lines(filepath):
+    '''Remove empty lines (all fields empty) from a CSV file'''
+    with open(filepath, 'r') as infile:
+        reader = csv.reader(infile)
+        rows = [row for row in reader if any(row)]  # Keep rows with at least one non-empty field
+
+    with open(filepath, 'w') as outfile:
+        writer = csv.writer(outfile)
+        writer.writerows(rows)
 
 def _extract_CSVs(document_name, sheets):
     # Extracts sheets from XLSX file and saves them as individual CSVs
@@ -455,8 +466,11 @@ def _extract_CSVs(document_name, sheets):
     INFO(document_name)
     import subprocess
     for sheet_name in sheets:
-        with open(f'{DOCS_FOLDER}/{sheet_name}.csv', 'w') as outfile:
+        csv_filepath = f'{DOCS_FOLDER}/{sheet_name}.csv'
+        with open(csv_filepath, 'w') as outfile:
             subprocess.run(["xlsx2csv", f"{DOCS_FOLDER}/{document_name}.xlsx", "-n", f"{sheet_name}"], stdout=outfile)
+        _remove_csv_empty_lines(csv_filepath)
+
         INFO(f'Wrote {sheet_name}.csv from {document_name}.xlsx')
 
 
