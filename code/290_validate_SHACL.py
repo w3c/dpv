@@ -56,6 +56,7 @@ DATA_PATHS = [
     f'{EXPORT_PATH}/legal/si/legal-si.ttl',
     f'{EXPORT_PATH}/legal/sk/legal-sk.ttl',
     f'{EXPORT_PATH}/legal/th/legal-th.ttl',
+    f'{EXPORT_PATH}/legal/tw/legal-tw.ttl',
     f'{EXPORT_PATH}/legal/us/legal-us.ttl',
     f'{EXPORT_PATH}/legal/eu/aiact/eu-aiact.ttl',
     f'{EXPORT_PATH}/legal/eu/dga/eu-dga.ttl',
@@ -176,6 +177,7 @@ IGNORE_ERRORS = {
     'legal-si': ['ex:Require_SKOS_Definition'],
     'legal-sk': ['ex:Require_SKOS_Definition'],
     'legal-th': ['ex:Require_SKOS_Definition'],
+    'legal-tw': ['ex:Require_SKOS_Definition'],
     'legal-us': ['ex:Require_SKOS_Definition'],
 }
 

@@ -300,6 +300,7 @@ DPV_FILES = {
             'legal-si',
             'legal-sk',
             'legal-th',
+            'legal-tw',
             'legal-us',
             )
     },

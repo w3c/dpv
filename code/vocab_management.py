@@ -624,6 +624,11 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-th.csv',
         },
     },
+    'legal-tw': {
+        'tw': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-tw.csv',
+        },
+    },
     'legal-us': {
         'us': {
             'laws': f'{IMPORT_CSV_PATH}/legal-us.csv',
@@ -1963,6 +1968,25 @@ RDF_VOCABS = {
             "bibo:status": "proposed",
         },
     },
+    'legal-tw': {
+        'vocab': f'{IMPORT_PATH}/legal/tw/legal-tw.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/tw',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/tw/legal-tw.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Taiwan (TW)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Taiwan as jurisdiction",
+            "dct:created": "2025-03-19",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Arthit Suriyawongkul",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/tw',
+            "bibo:status": "proposed",
+        },
+    },
     'legal-us': {
         'vocab': f'{IMPORT_PATH}/legal/us/legal-us.ttl',
         'template': 'template_legal_jurisdiction.jinja2',
@@ -2372,6 +2396,10 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/th', 
         'modules': f'{EXPORT_RDF_PATH}/legal/th/modules', 
     },
+    'legal-tw': {
+        'main': f'{EXPORT_RDF_PATH}/legal/tw', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/tw/modules', 
+    },
     'legal-us': {
         'main': f'{EXPORT_RDF_PATH}/legal/us', 
         'modules': f'{EXPORT_RDF_PATH}/legal/us/modules', 
@@ -2451,6 +2479,7 @@ RDF_COLLATIONS = ({
         f'{EXPORT_RDF_PATH}/legal/si/legal-si.ttl',
         f'{EXPORT_RDF_PATH}/legal/sk/legal-sk.ttl',
         f'{EXPORT_RDF_PATH}/legal/th/legal-th.ttl',
+        f'{EXPORT_RDF_PATH}/legal/tw/legal-tw.ttl',
         f'{EXPORT_RDF_PATH}/legal/us/legal-us.ttl',
 
         ),
@@ -2493,7 +2522,7 @@ for loc in (
         'at','be','bg','cy','cz','de','dk','ee','es','eu',
         'fi','fr','gb','gr','hk','hr','hu','ie','in','is','it','jp','kr',
         'li','lt','lu','lv','mo','mt','my','nl','no','ph','pl','pt','ro',
-        'se','sg','si','sk','th','us',):
+        'se','sg','si','sk','th','tw','us',):
     if f'legal-{loc}' not in RDF_EXPORT_HOOK:
         RDF_EXPORT_HOOK[f'legal-{loc}'] = []
     RDF_EXPORT_HOOK[f'legal-{loc}'].append(query)
