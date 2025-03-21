@@ -2491,9 +2491,9 @@ query = {
         }
 for loc in (
         'at','be','bg','cy','cz','de','dk','ee','es','eu',
-        'fi','fr','gb','gr','hr','hu','ie','in','is','it',
-        'li','lt','lu','lv','mt','nl','no','pl','pt','ro',
-        'se','si','sk','us',):
+        'fi','fr','gb','gr','hk','hr','hu','ie','in','is','it','jp','kr',
+        'li','lt','lu','lv','mo','mt','my','nl','no','ph','pl','pt','ro',
+        'se','sg','si','sk','th','us',):
     if f'legal-{loc}' not in RDF_EXPORT_HOOK:
         RDF_EXPORT_HOOK[f'legal-{loc}'] = []
     RDF_EXPORT_HOOK[f'legal-{loc}'].append(query)
