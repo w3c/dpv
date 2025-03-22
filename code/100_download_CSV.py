@@ -465,7 +465,7 @@ def _extract_CSVs(document_name, sheets):
     import subprocess
     for sheet_name in sheets:
         with open(f'{DOCS_FOLDER}/{sheet_name}.csv', 'w') as outfile:
-            subprocess.run(["xlsx2csv", f"{DOCS_FOLDER}/{document_name}.xlsx", "-n", f"{sheet_name}"], stdout=outfile)
+            subprocess.run(["xlsx2csv", f"{DOCS_FOLDER}/{document_name}.xlsx", "-i", "-n", f"{sheet_name}"], stdout=outfile)
         INFO(f'Wrote {sheet_name}.csv from {document_name}.xlsx')
 
 
