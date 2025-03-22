@@ -4,15 +4,13 @@
 '''This script parses CSV files and generates RDF serialisations from it'''
 
 import csv
-from collections import namedtuple
-import json
-# [RDFLib](https://rdflib.readthedocs.io/en/stable/) library required
-from rdflib import Graph, Namespace
-from rdflib import RDF, RDFS, OWL, SKOS, DCTERMS, SDO, VANN
-from rdflib.compare import graph_diff
-from rdflib.term import Literal, URIRef, BNode
-
 import logging
+import os
+
+# [RDFLib](https://rdflib.readthedocs.io/en/stable/) library required
+from rdflib import DCTERMS, OWL, RDF, RDFS, SDO, SKOS, VANN, Graph
+from rdflib.term import Literal, URIRef
+
 logging.basicConfig(
     level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
@@ -219,6 +217,7 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     formats from `vocab_management.RDF_SERIALIZATIONS`. `hook` defines
     a string key which is used to retrieve SPARQL queries for the
     provided graph e.g. to add/delete/update triples'''
+
     graph = Graph()
     for prefix, namespace in NAMESPACES.items():
         graph.namespace_manager.bind(prefix, namespace)
@@ -318,7 +317,7 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     graph.add((artifact, PROFILE.hasArtifact, URIRef(f'{vocab_iri}/{vocab}.html')))
     graph.add((artifact, DCTERMS.format, URIRef(IANA_TYPES['html']['format'])))
     graph.add((artifact, DCTERMS.conformsTo, URIRef(IANA_TYPES['html']['standard'])))
-    graph.add((artifact, DCTERMS.title, Literal(f"{metadata['dct:title']} - {IANA_TYPES['html']['title']} serialiation")))
+    graph.add((artifact, DCTERMS.title, Literal(f"{metadata['dct:title']} - {IANA_TYPES['html']['title']} serialisation")))
     # RDF resources
     for ext, format in RDF_SERIALIZATIONS.items():
         artifact = URIRef(vocab_iri + f'#serialisation-{ext}')
@@ -331,8 +330,14 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
             graph.add((artifact, PROFILE.hasArtifact, URIRef(f'{vocab_iri}/{vocab}.{ext}')))
         graph.add((artifact, DCTERMS.format, URIRef(IANA_TYPES[ext]['format'])))
         graph.add((artifact, DCTERMS.conformsTo, URIRef(IANA_TYPES[ext]['standard'])))
-        graph.add((artifact, DCTERMS.title, Literal(f"{metadata['dct:title']} - {IANA_TYPES[ext]['title']} serialiation")))
+        graph.add((artifact, DCTERMS.title, Literal(f"{metadata['dct:title']} - {IANA_TYPES[ext]['title']} serialisation")))
     # Serialise the graph in specific formats defined in `RDF_SERIALIZATIONS`
+    # Ensure the directory paths exist e.g. for new extensions
+    filedir = os.path.dirname(filepath)
+    if not os.path.exists(filedir):
+        os.makedirs(filedir)
+        INFO(f"Created missing directory path {filedir}")
+
     # from [[vocab_management.py]]
     for ext, format in RDF_SERIALIZATIONS.items():
         graph.serialize(f'{filepath}.{ext}', format=format)
