@@ -1691,7 +1691,7 @@ RDF_VOCABS = {
             'legal': f'{IMPORT_PATH}/legal/lv/legal-lv.ttl',
         },
         'metadata': {
-            "dct:title": "Legal Concepts for Latvia(LV)",
+            "dct:title": "Legal Concepts for Latvia (LV)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Latvia as jurisdiction",
             "dct:created": "2024-08-02",
             "dct:modified": DPV_PUBLISH_DATE,
