@@ -42,6 +42,8 @@ FILES=(
     "$MODE/legal/gb/index.html"
     "$MODE/legal/ie/index.html"
     "$MODE/legal/in/index.html"
+    "$MODE/legal/kr/index.html"
+    "$MODE/legal/th/index.html"
     "$MODE/legal/us/index.html"
     # misc
     "$MODE/../primer/index.html"
