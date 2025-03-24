@@ -5,27 +5,24 @@ and group meeting minutes.
 
 links: [Community Group](https://www.w3.org/community/dpvcg/) | [GitHub wiki](https://github.com/w3c/dpv/wiki/)
 
-> **Announcement: DPV v2.1-RC feedback/review period until FEB-16** The DPVCG welcomes feedback and review on the v2.1 Release Candidate containing DPV and related specifications until FEB-16, after which, these documents will be published unless unresolved major issues have been identified. Feedback/review can be e.g., suggestions for improvements, fixing grammar/typos, additional information and references, and technical changes to files. The DPVCG shall discuss all submitted feedback and will resolve in through the weekly meetings. To submit feedback, please use [GitHub issue#235](https://github.com/w3c/dpv/issues/235). See the [changelog](https://w3id.org/dpv/2.1/changelog.html) for more details.
-
 The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to develop a taxonomy of privacy and data protection related terms, which include in particular terms from the new European General Data Protection Regulation (GDPR), such as a taxonomy of personal data as well as a classification of purposes (i.e., purposes for data collection), and events of disclosures, consent, and processing such personal data.
 
 License: All work produced by DPVCG and provided through this repo or elsewhere is provided by contributors under the [W3C Document License](https://www.w3.org/copyright/software-license-2023/) unless otherwise noted. A copy of the license is provided in the [LICENSE.md](./LICENSE.md) file.
 
-[Guidelines for suggesting new concepts, identifying bugs and issues, and sending patches or PRs](https://github.com/w3c/dpv/wiki/Contribution-Guide)
+[Guidelines for suggesting new concepts, identifying bugs and issues, and sending patches or PRs](https://github.com/w3c/dpv/wiki/contributing)
 
 ## Specifications
 Newcomers to the DPV are recommended to start with the [Primer](https://w3id.org/dpv/primer) to familiarise themselves with the concepts, semantics, and usefulness of the DPV. A [Concise Primer](https://w3id.org/dpv/primer) is also available for a quick (2-pager) introduction to DPV.
-
 ### Data Privacy Vocabulary (DPV)
 The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) provides an ontology (classes and properties) along with taxonomies that represent real-world uses of these  concepts for representing information regarding how (personal) data and technologies (including AI). For example, it provides concepts and taxonomies to represent:
 
-- purposes of processing data or using technologies
-- personal data categories
-- processing operations on data
-- technical and organisational measures for safeguarding data and processes
-- legal basis used to indicate why it is legally permitted
-- rights involved and how to exercise them
-- risks applicable and what would be its consequences and impacts 
+* purposes of processing data or using technologies
+* personal data categories
+* processing operations on data
+* technical and organisational measures for safeguarding data and processes
+* legal basis used to indicate why it is legally permitted
+* rights involved and how to exercise them
+* risks applicable and what would be its consequences and impacts 
 
 > The versionless base IRI https://w3id.org/dpvalways points to the latest release. The versioned base IRI for v2.0 is https://w3id.org/dpv/2.0 and for v2.1 is https://w3id.org/dpv/2.1. 
 
@@ -41,12 +38,12 @@ These extensions provide additional concepts that extend the concepts and scope 
 - [Risk](https://w3id.org/dpv/risk) provides concepts for risk assessment and management;
 
 In v2.1, the Sector and Standard group of extensions was added to the DPV specifications. [Sector](https://w3id.org/dpv/sector) provides sector-specific concepts which extend concepts in other DPV extensions. Currently, the following sectors are represented:
-- [SECTOR-EDUCATION](https://w3id.org/dpv/sector/education) for Education Sector
-- [SECTOR-FINANCE](https://w3id.org/dpv/sector/finance) for Finance Sector
-- [SECTOR-HEALTH](https://w3id.org/dpv/sector/health) for Health Sector
-- [SECTOR-INFRA](https://w3id.org/dpv/sector/infra) for (Critical) Infrastructure Sector
-- [SECTOR-LAW](https://w3id.org/dpv/sector/law) for Law Enforcement & Justice Sector
-- [SECTOR-PUBLICSERVICES](https://w3id.org/dpv/sector/publicservices) for Public Services Sector
+-[SECTOR-EDUCATION](https://w3id.org/dpv/sector/education) for Education Sector
+-[SECTOR-FINANCE](https://w3id.org/dpv/sector/finance) for Finance Sector
+-[SECTOR-HEALTH](https://w3id.org/dpv/sector/health) for Health Sector
+-[SECTOR-INFRA](https://w3id.org/dpv/sector/infra) for (Critical) Infrastructure Sector
+-[SECTOR-LAW](https://w3id.org/dpv/sector/law) for Law Enforcement & Justice Sector
+-[SECTOR-PUBLICSERVICES](https://w3id.org/dpv/sector/publicservices) for Public Services Sector
 
 The Standards extensions are aimed to provide additional concepts for implementing specific standards using DPV. Currently it contains [IEEE-P7012](https://w3id.org/dpv/standards/p7012) based on [IEEE P7012 Draft Standard for Machine Readable Personal Privacy Terms](https://standards.ieee.org/ieee/7012/7192/).
 
@@ -117,9 +114,9 @@ In addition to the above, we welcome participation in the following guides being
 
 ## Acknowledgements and Citation
 
-- For use of DPV from v2 onwards, **Cite as:** [Data Privacy Vocabulary (DPV) -- Version 2](https://doi.org/10.1007/978-3-031-77847-6_10) by Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake; 23rd International Semantic Web Conference (ISWC 2024) https://doi.org/10.1007/978-3-031-77847-6_10
-- For use of DPV up to v1 and v1.1, **Cite as:** The peer-reviewed article “[Creating A Vocabulary for Data Privacy](https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44)” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed [here](http://hdl.handle.net/2262/91581), [here](http://doras.dcu.ie/23801/), and [here](https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf).
-- In addition to the above, each specifications or document may have additional references for peer-reviewed articles associated with it - these are provided at the top of each document.
+* For use of DPV from v2 onwards, **Cite as:** [Data Privacy Vocabulary (DPV) -- Version 2](https://doi.org/10.1007/978-3-031-77847-6_10) by Harshvardhan J. Pandit, Beatriz Esteves, Georg P. Krog, Paul Ryan, Delaram Golpayegani, Julian Flake; 23rd International Semantic Web Conference (ISWC 2024) https://doi.org/10.1007/978-3-031-77847-6_10
+* For use of DPV up to v1 and v1.1, **Cite as:** The peer-reviewed article “[Creating A Vocabulary for Data Privacy](https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44)” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed [here](http://hdl.handle.net/2262/91581), [here](http://doras.dcu.ie/23801/), and [here](https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf).
+* In addition to the above, each specifications or document may have additional references for peer-reviewed articles associated with it - these are provided at the top of each document.
 
 ## Releases
 
