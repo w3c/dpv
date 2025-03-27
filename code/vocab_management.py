@@ -4,9 +4,11 @@
 '''Data and configurations for vocabulary management'''
 
 import csv
-from rdflib import Namespace, BNode, Literal
-
+import hashlib
 import logging
+
+from rdflib import BNode, Literal, Namespace
+
 logging.basicConfig(
     level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
@@ -109,7 +111,7 @@ DOCUMENT_STATUS = "CG-DRAFT"
 
 # Root folder to import RDF files from
 IMPORT_PATH = f'../{DPV_VERSION}'
-# Root folder to export HTML filese to
+# Root folder to export HTML files to
 EXPORT_PATH = f'../{DPV_VERSION}'
 # Root folder where Jinja2 templates are stored
 TEMPLATE_PATH = './jinja2_resources'
@@ -2679,6 +2681,18 @@ def generate_authors_affiliations(authors):
     return authors
 
 
+def hash_id(input_text: str, output_prefix: str, output_hash_len: int) -> str:
+    """Takes an input text and generates a hash-based identifier, with a prefix if provided.
+    Example:
+        >>> generate_hash_id("example text", "pre-", 8)
+        'pre-5d4140f'
+    """
+    # add version to make ID stable only wihtin the version
+    input_text = f"{DPV_VERSION}{input_text.strip()}"
+    output_hash = hashlib.sha256(input_text.encode()).hexdigest()[:output_hash_len]
+    return f"{output_prefix}{output_hash}"
+
+
 def _person_slugify():
     '''person is a string, slugify means make it IRI compatible'
     - e.g. 'Harshvardhan J. Pandit' should be 'HarshvardhanJPandit'
@@ -2692,11 +2706,16 @@ def _person_slugify():
         nonlocal people
         person_name = person_name.strip()
         person = person_name.replace(',','').replace('.','').replace(' ','')
-        # if person_name.startswith('n')
         if person in people:
             return people[person]
-        bnode_person = BNode()
-        bnode_org = BNode()
+
+        org_name = generate_author_affiliation(person_name)
+        if not org_name:
+            raise Exception(f"{person_name} org is empty!")
+
+        bnode_person = BNode(hash_id(f"{person_name}{org_name}", "person-", 16))
+        bnode_org = BNode( hash_id(org_name, "org-", 16))
+
         triples = []
         triples.append((bnode_person, RDF.type, FOAF.Person))
         triples.append((bnode_person, RDF.type, DCT.Agent))
@@ -2706,9 +2725,7 @@ def _person_slugify():
         if generate_author_website(person_name):
             triples.append((bnode_person, FOAF.homepage, Literal(generate_author_website(person_name))))
         triples.append((bnode_org, RDF.type, FOAF.Organization))
-        triples.append((bnode_org, FOAF.name, Literal(generate_author_affiliation(person_name))))
-        if not generate_author_affiliation(person_name):
-            raise Exception(f"{person_name} org is empty!")
+        triples.append((bnode_org, FOAF.name, Literal(org_name)))
         triples.append((bnode_person, ORG.memberOf, bnode_org))
         people[person] = {
             'person': bnode_person,
