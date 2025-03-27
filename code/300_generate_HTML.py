@@ -1071,10 +1071,10 @@ if __name__ == '__main__':
             filepath = f"{data['output']}"
             with open(filepath, 'w') as fd:
                 template = template_env.get_template(template)
-                fd.write(template.render(data=data))
+                fd.write(template.render(DPV_VERSION=DPV_VERSION, data=data))
             INFO(f"wrote guide {doc} at {filepath}")
         with open('../mappings/index.html', 'w') as fd:
             template = template_env.get_template('template_mappings_index.jinja2')
-            fd.write(template.render(mappings=MAPPINGS.items()))
+            fd.write(template.render(DPV_VERSION=DPV_VERSION, mappings=MAPPINGS.items()))
         INFO(f"wrote mapping index at {filepath}")
         INFO('*'*40)
