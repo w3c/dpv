@@ -6,6 +6,8 @@
 import csv
 import hashlib
 import logging
+import re
+import unicodedata
 
 from rdflib import BNode, Literal, Namespace
 
@@ -2681,16 +2683,18 @@ def generate_authors_affiliations(authors):
     return authors
 
 
-def hash_id(input_text: str, output_prefix: str, output_hash_len: int) -> str:
+def hash_id(input_text: str, output_prefix: str, output_slug_len:int, output_hash_len: int) -> str:
     """Takes an input text and generates a hash-based identifier, with a prefix if provided.
     Example:
-        >>> generate_hash_id("example text", "pre-", 8)
-        'pre-5d4140f'
+        >>> generate_hash_id("Unabhängige Landeszentrum", "org-", 5, 8)
+        'org-Unabhäng-41451ff1'
     """
+    input_text = unicodedata.normalize("NFKC", input_text.strip())
+    slug = re.sub(r"[^a-zA-Z0-9\u00C0-\u00FF-]", "", input_text, flags=re.UNICODE)[:output_slug_len]
     # add version to make ID stable only wihtin the version
-    input_text = f"{DPV_VERSION}{input_text.strip()}"
+    input_text = f"{DPV_VERSION}{input_text}"
     output_hash = hashlib.sha256(input_text.encode()).hexdigest()[:output_hash_len]
-    return f"{output_prefix}{output_hash}"
+    return f"{output_prefix}{slug}-{output_hash}"
 
 
 def _person_slugify():
@@ -2713,8 +2717,8 @@ def _person_slugify():
         if not org_name:
             raise Exception(f"{person_name} org is empty!")
 
-        bnode_person = BNode(hash_id(f"{person_name}{org_name}", "person-", 16))
-        bnode_org = BNode( hash_id(org_name, "org-", 16))
+        bnode_person = BNode(hash_id(f"{person_name}{org_name}", "person-", 8, 8))
+        bnode_org = BNode( hash_id(org_name, "org-", 8, 8))
 
         triples = []
         triples.append((bnode_person, RDF.type, FOAF.Person))
