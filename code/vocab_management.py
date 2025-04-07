@@ -4,9 +4,14 @@
 '''Data and configurations for vocabulary management'''
 
 import csv
-from rdflib import Namespace, BNode, Literal
-
+import hashlib
 import logging
+import re
+import unicodedata
+
+from rdflib import BNode, Literal, Namespace
+import slugify
+
 logging.basicConfig(
     level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
@@ -109,7 +114,7 @@ DOCUMENT_STATUS = "CG-DRAFT"
 
 # Root folder to import RDF files from
 IMPORT_PATH = f'../{DPV_VERSION}'
-# Root folder to export HTML filese to
+# Root folder to export HTML files to
 EXPORT_PATH = f'../{DPV_VERSION}'
 # Root folder where Jinja2 templates are stored
 TEMPLATE_PATH = './jinja2_resources'
@@ -2689,14 +2694,19 @@ def _person_slugify():
     '''
     people = {}
     def _helper(person_name):
-        nonlocal people
         person_name = person_name.strip()
-        person = person_name.replace(',','').replace('.','').replace(' ','')
-        # if person_name.startswith('n')
+        nonlocal people
+        person = slugify.slugify(f"person-{person_name}")
         if person in people:
             return people[person]
-        bnode_person = BNode()
-        bnode_org = BNode()
+        org_name = generate_author_affiliation(person_name)
+        if not org_name:
+            raise Exception(f"{person_name} org is empty!")
+        org = slugify.slugify(f"org-{org_name}")
+
+        bnode_person = BNode(person)
+        bnode_org = BNode(org)
+
         triples = []
         triples.append((bnode_person, RDF.type, FOAF.Person))
         triples.append((bnode_person, RDF.type, DCT.Agent))
@@ -2706,9 +2716,7 @@ def _person_slugify():
         if generate_author_website(person_name):
             triples.append((bnode_person, FOAF.homepage, Literal(generate_author_website(person_name))))
         triples.append((bnode_org, RDF.type, FOAF.Organization))
-        triples.append((bnode_org, FOAF.name, Literal(generate_author_affiliation(person_name))))
-        if not generate_author_affiliation(person_name):
-            raise Exception(f"{person_name} org is empty!")
+        triples.append((bnode_org, FOAF.name, Literal(org_name)))
         triples.append((bnode_person, ORG.memberOf, bnode_org))
         people[person] = {
             'person': bnode_person,
