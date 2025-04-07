@@ -1426,7 +1426,7 @@ RDF_VOCABS = {
         },
         'metadata': {
             "dct:title": "Legal Concepts for United Kingdom of Great Britain and Northern Ireland (GB)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for United Kingdom of Great Britain and Northern Ireland  as jurisdiction",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for United Kingdom of Great Britain and Northern Ireland as jurisdiction",
             "dct:created": "2024-01-01",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Harshvardhan J. Pandit",
@@ -2073,7 +2073,7 @@ RDF_VOCABS = {
         },
         'metadata': {
             "dct:title": "EU Data Governance Act (DGA)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU DGA",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information associated with EU DGA",
             "dct:created": "2023-09-20",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Beatriz Esteves, Harshvardhan J. Pandit, Georg P. Krog",
@@ -2101,7 +2101,7 @@ RDF_VOCABS = {
         },
         'metadata': {
             "dct:title": "EU Artificial Intelligence Act (AI Act)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU AI Act",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information associated with EU AI Act",
             "dct:created": "2024-04-10",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Delaram Golpayegani",
@@ -2120,7 +2120,7 @@ RDF_VOCABS = {
         },
         'metadata': {
             "dct:title": "EU Network and Information Services Directive (NIS2)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU NIS2",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information associated with EU NIS2",
             "dct:created": "2024-05-19",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog",
@@ -2141,7 +2141,7 @@ RDF_VOCABS = {
         },
         'metadata': {
             "dct:title": "EU European Health Data Spaces (EHDS)",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing  information associated with EU Health Data Spaces (EHDS)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information associated with EU Health Data Spaces (EHDS)",
             "dct:created": "2024-12-01",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Beatriz Esteves, Harshvardhan J. Pandit",
