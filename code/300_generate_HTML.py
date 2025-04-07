@@ -806,9 +806,12 @@ JINJA2_FILTERS = {
 }
 template_env.filters.update(JINJA2_FILTERS)
 
+
+# FIXME: OWL template generation is turned OFF to prevent
+# random BNode generation which makes git diff cumbersome
 def _write_template(
     template:str, filepath:str, filename:str,
-    vocab:str, index:bool=False, owl:bool=True, lang:str="en"):
+    vocab:str, index:bool=False, owl:bool=False, lang:str="en"):
     """
     Helper function to refactor jinja output function.
     `template` is the name of the template to load.
