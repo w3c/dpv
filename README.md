@@ -28,7 +28,7 @@ The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) provides an ontology (
 - rights involved and how to exercise them
 - risks applicable and what would be its consequences and impacts
 
-> The versionless base IRI https://w3id.org/dpvalways points to the latest release. The versioned base IRI for v2.0 is https://w3id.org/dpv/2.0 and for v2.1 is https://w3id.org/dpv/2.1.
+> The versionless base IRI, e.g. `https://w3id.org/dpv`, always points to the latest release which is a versioned IRI, e.g. `https://w3id.org/dpv/2.1` for v2.1.
 
 The namespace for DPV terms is `http://w3id.org/dpv#` with suggested prefix `dpv`, and serialisations are provided in RDF/XML, Turtle, JSON-LD, and N3 formats. The default serialisations are defined using RDFS/SKOS semantics, with an [alternate serialisation](https://w3id.org/dpv/dpv-owl) defined using OWL2 semantics.
 
