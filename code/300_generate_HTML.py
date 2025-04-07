@@ -36,6 +36,13 @@ from pygments.formatters import HtmlFormatter
 pyg_lexer = get_lexer_by_name("turtle", stripall=True)
 pyg_formatter = HtmlFormatter(cssclass="source", noclasses=True)
 
+_PARAMS_JINJA2_HTML = {
+    'RDF_VOCABS': RDF_VOCABS,
+    'DPV_VERSION': DPV_VERSION,
+    'DPV_PREVIOUS_VERSION': DPV_PREVIOUS_VERSION,
+    'DOCUMENT_STATUS': DOCUMENT_STATUS,
+}
+
 # == DATA class ==
 
 class DATA(object):
@@ -819,11 +826,8 @@ def _write_template(
         'vocab_name': vocab,
         'lang': lang,
         'template': template_env.get_template(template),
-        'RDF_VOCABS': RDF_VOCABS,
-        'DPV_VERSION': DPV_VERSION,
-        'DPV_PREVIOUS_VERSION': DPV_PREVIOUS_VERSION,
-        'DOCUMENT_STATUS': DOCUMENT_STATUS,
     }
+    params.update(_PARAMS_JINJA2_HTML)
     template = template_env.get_template(template)
     with open(f'{filepath}/{filename}-{lang}.html', 'w+') as fd:
         fd.write(template.render(**params))
@@ -1021,10 +1025,10 @@ filepath = f"{EXPORT_PATH}/search.html"
 with open(filepath, 'w') as fd:
     template = template_env.get_template('template_search_index.jinja2')
     fd.write(template.render(
+        **_PARAMS_JINJA2_HTML,
         data=json.dumps(index), 
         num_classes=len(results_classes), 
-        num_properties=len(results_properties),
-        DPV_VERSION=DPV_VERSION))
+        num_properties=len(results_properties)))
 INFO(f"wrote search index document at {filepath}")
 
 INFO('*'*40)
@@ -1055,11 +1059,11 @@ if __name__ == '__main__':
             filepath = f"{data['output']}"
             with open(filepath, 'w') as fd:
                 template = template_env.get_template(template)
-                fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
+                fd.write(template.render(**_PARAMS_JINJA2_HTML))
             INFO(f"wrote guide {doc} at {filepath}")
         with open('../guides/index.html', 'w') as fd:
             template = template_env.get_template('template_guides_index.jinja2')
-            fd.write(template.render(DPV_VERSION=DPV_VERSION, DOCUMENT_STATUS=DOCUMENT_STATUS))
+            fd.write(template.render(**_PARAMS_JINJA2_HTML))
         INFO(f"wrote guide index at {filepath}")
         INFO('*'*40)
 
@@ -1071,10 +1075,10 @@ if __name__ == '__main__':
             filepath = f"{data['output']}"
             with open(filepath, 'w') as fd:
                 template = template_env.get_template(template)
-                fd.write(template.render(data=data))
+                fd.write(template.render(**_PARAMS_JINJA2_HTML, data=data))
             INFO(f"wrote guide {doc} at {filepath}")
         with open('../mappings/index.html', 'w') as fd:
             template = template_env.get_template('template_mappings_index.jinja2')
-            fd.write(template.render(mappings=MAPPINGS.items()))
+            fd.write(template.render(**_PARAMS_JINJA2_HTML, mappings=MAPPINGS.items()))
         INFO(f"wrote mapping index at {filepath}")
         INFO('*'*40)
