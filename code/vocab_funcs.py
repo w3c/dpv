@@ -227,24 +227,23 @@ def construct_scope_note(item, data, namespace, header):
 def construct_source(item, data, namespace, header):
     triples = []
     term = _term_with_namespace(data['Term'], namespace)
-    items = item.split(',')
-    if 'http' in item:
-        iteritem = iter(items)
-        for item in iteritem:
-            label, url = item, next(iteritem)
+    if item.startswith('('):
+        split_items = item.split(';')
+    elif ',' in item and '://' not in item:
+        split_items = item.split(',')
+    else:
+        split_items = [item]
+    for item in split_items:
+        if item.startswith('('):
+            label, url = item.replace('(','').replace(')','').split(',')
             label = label.strip()
             url = url.strip()
-            if label.startswith('('):
-                label = label.replace('(', '', 1)
-            if url.endswith(')'):
-                url = url[::-1].replace(')', '', 1)[::-1] # reverse string
             node = BNode(hashlib.md5(url.encode('UTF-8')).hexdigest())
             triples.append((node, RDF.type, SCHEMA.WebPage))
             triples.append((node, SCHEMA.name, Literal(label)))
             triples.append((node, SCHEMA.url, Literal(url)))
             triples.append((term, DCT.source, node))
-    else:
-        for item in items:
+        else:
             triples.append((term, DCT.source, Literal(item, lang='en')))
     return triples
 
