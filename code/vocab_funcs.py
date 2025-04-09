@@ -523,3 +523,11 @@ def p7012_term_rule(term, data, namespace, header):
         item = item_namespace[item_label]
         triples.append((subject, rule, item))
     return triples
+
+
+def p7012_human_label(term, data, namespace, header):
+    triples = []
+    if not term: return triples
+    term = term.strip()
+    triples.append((namespace[data['Term']], namespace['hasHumanDescription'], Literal(term)))
+    return triples

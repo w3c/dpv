@@ -164,4 +164,5 @@ SCHEMA['p7012-terms'].update({
     'Permits': vocab_funcs.p7012_term_rule,
     'Prohibits': vocab_funcs.p7012_term_rule,
     'Obligates': vocab_funcs.p7012_term_rule,
+    'HumanDescription': vocab_funcs.p7012_human_label,
     })

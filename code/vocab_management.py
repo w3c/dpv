@@ -274,7 +274,7 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/p7012_purpose.csv',
         },
         'privacy_term': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_privacy_term.csv',
+            'p7012-terms': f'{IMPORT_CSV_PATH}/p7012_privacy_term.csv',
             'properties': f'{IMPORT_CSV_PATH}/p7012_privacy_term_properties.csv',
         },
     },
