@@ -4,10 +4,9 @@
         <meta charset="utf-8" />
         <title>DPV Search Index</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="diagrams/jqtree.css" />
+        <link rel="stylesheet" type="text/css" href="diagrams/jstree-theme/style.min.css">
         <link rel="shortcut icon" href="diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
         <link rel="shortcut icon" href="diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
-        <!-- demo adapted from https://github.com/mbraak/jqTree/ example -->
         <style type="text/css">
 #tree {
     background-color: #EEE;
@@ -17,65 +16,6 @@
 
 #tree.block-style {
     background-color: #fafafa;
-}
-
-.jqtree-tree .jqtree-loading > div .jqtree-title:after {
-    content: url(spinner.gif);
-    margin-left: 8px;
-}
-
-#tree.jqtree-loading:after {
-    content: url(spinner.gif);
-}
-
-#scroll-container {
-    height: 200px;
-    overflow-y: scroll;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-            user-select: none;
-    margin-bottom: 16px;
-}
-
-.block-style ul.jqtree-tree {
-        margin-left: 0;
-    }
-
-.block-style ul.jqtree-tree ul.jqtree_common {
-            margin-left: 2em;
-        }
-
-.block-style ul.jqtree-tree .jqtree-element {
-            margin-bottom: 8px;
-            background-color: #ddd;
-            padding: 8px;
-        }
-
-.block-style ul.jqtree-tree .jqtree-element .jqtree-title {
-                margin-left: 0;
-            }
-
-.block-style ul.jqtree-tree li.jqtree-selected > .jqtree-element,
-            .block-style ul.jqtree-tree li.jqtree-selected > .jqtree-element:hover {
-                background-color: #97bdd6;
-                text-shadow: none;
-            }
-
-.hidden-node {
-    display: none;
-}
-
-.highlight-node > .jqtree-element > .jqtree-title > a {
-    font-weight: bold;
-    color: red;
-}
-
-.jqtree-tree .jqtree-toggler {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-.concept-type {
-    padding-left: 5px;
 }
 #search-term {
     border: 1px solid blue;
@@ -121,110 +61,102 @@ body {
 <div id="tree" class="not-prose"></div>
 
 <script src="diagrams/jquery.min.js"></script>
-<script src="diagrams/tree.jquery.js"></script>
+<script src="diagrams/jstree.min.js"></script>
     
 <script type="text/javascript">
-const ExampleData = {};
+const DPVDATA = {};
 
-ExampleData.exampleData = {{data|safe}};
+DPVDATA.data = {{data|safe}};
 
 </script>
 <script type="text/javascript">
-const $tree = $("#tree");
+$(function() {
+    /** Uses https://www.jstree.com/ for rendering the concepts hierarchically
+     * functionality:
+     * - click and expand/collapse individual nodes -- done by jstree
+     * - click and open concept in new tab -- href is in data + jstree
+     * - styling -- css + js tree css (see link ref)
+     * - search -- handle strings + jstree
+     * - history -- custom code (see below)
+     * - expand/collapse all -- jstree 
+     **/
+    const $tree = $("#tree");
 
-let foundMatch = false;
-
-$tree.tree({
-    autoEscape: false,
-    autoOpen: false,
-    data: ExampleData.exampleData,
-    useContextMenu: false,
-    onCreateLi: (node, $el) => {
-        if (foundMatch && !node.openForMatch && !node.parent.matches) {
-            $el.addClass("hidden-node");
+    $("#tree").jstree({
+        "core" : {
+            "data" : DPVDATA.data,
+            "themes": {"dots": true},
+        },
+        "types" : {
+          "default" : {
+            "icon" : "glyphicon glyphicon-record"
+          }
+        },
+        "plugins": ["search", "types"],
+        "search": {
+            "case_insensitive": true,
+            "show_only_matches": true,
+            "show_only_matches_children": true,
+            "fuzzy": false  
         }
-
-        if (node.matches) {
-            $el.addClass("highlight-node");
+    }).bind("select_node.jstree", function (e, data) {
+        /** attached a href to each concept from data iri **/
+        var href = data.node.a_attr.href;
+        var parentId = data.node.a_attr.parent_id;
+        window.open(href);
+    }).bind('ready.jstree', function(e, data) {
+        /** if newly opened, check if there are search params, and call search **/
+        let url = new URL(window.location.href);
+        console.log(url);
+        if (url.searchParams.has("query")) {
+            var searchstring = url.searchParams.get("query");
+            $("#search-term").val(searchstring);
+            console.log("searching for " + url.searchParams.get("query"));
+            search(searchstring);
         }
-    },
-});
+     });
 
-function handleSearch() {
-    const searchTerm = $("#search-term").val().toLowerCase();
-    const tree = $tree.tree("getTree");
-
-    if (!searchTerm) {
-        foundMatch = false;
-
-        tree.iterate((node) => {
-            node["openForMatch"] = false;
-            node["matches"] = false;
-            return true;
-        });
-
-        $tree.tree("refresh");
-        return;
+    /** search through concepts by calling jstree api **/
+    function search(searchstring) {
+        console.log("call search " + searchstring);
+        $("#tree").jstree("clear_search");
+        $("#tree").jstree("search", searchstring);
     }
 
-    foundMatch = false;
-
-    tree.iterate((node) => {
-        const matches = node.name.toLowerCase().includes(searchTerm);
-        node["openForMatch"] = matches;
-        node["matches"] = matches;
-
-        if (matches) {
-            foundMatch = true;
-
-            if (node.isFolder()) {
-                node.is_open = true;
-            }
-
-            let parent = node.parent;
-            while (parent) {
-                parent["openForMatch"] = true;
-                parent.is_open = true;
-                parent = parent.parent;
-            }
+    /** handler for search button -- also saves query in history **/
+    $("#search").click(function(){
+        var searchstring = $("#search-term").val();
+        search(searchstring);
+        let url = new URL(window.location.href);
+        url.searchParams.delete("query");
+        url.searchParams.append('query', searchstring)
+        history.pushState({}, '', url.href)
+    });
+    $("#search-term").on("keypress", function() {
+        if (e.which == 13) { // ENTER key
+            $("#search").click();
         }
-
-        return true;
+    });
+    /** on back button, handle previous query, if any **/
+    window.addEventListener("popstate", (event) => {
+        let url = new URL(window.location.href);
+        if (url.searchParams.has("query")) {
+            search(url.searchParams.get("query"));
+        }
     });
 
-    $tree.tree("refresh");
-};
-$("#search").on("click", handleSearch);
-$("#search-term").keypress(function(e){
-    if(e.keyCode==13) { $('#search').click(); }
-});
+    $("#reset").click(function() {
+        $("#search-term").val("");
+        $("#tree").jstree("clear_search");
+    });
 
-$('#reset').click(() => {
-    $("#search-term").val("");
-    $("#search").click();
-    $('#collapse').click();
-});
+    $("#expand").click(function() {
+        $("#tree").jstree("open_all");
+    });
 
-$('#collapse').click(function() {
-  var tree = $tree.tree('getTree');
-  tree.iterate(function(node) {
-
-    if (node.hasChildren()) {
-      $tree.tree('closeNode', node, true);
-    }
-    return true;
-  });
-});
-
-$('#expand').click(function() {
-  var tree = $tree.tree('getTree');
-  tree.iterate(function(node) {
-
-    if (node.hasChildren()) {
-      $tree.tree('openNode', node, true);
-    }
-    return true;
-  });
+    $("#collapse").click(function() {
+        $("#tree").jstree("close_all");
+    });
 });
 </script>
 

@@ -980,12 +980,17 @@ for iri, children, category in results_classes+results_properties:
         'parents': [],
         'category': category,
     }
-    relative_iri = iri.replace(f'https://w3id.org/dpv/{DPV_VERSION}', '')
+    print(iri)
+    relative_iri = iri.replace(f'https://w3id.org/dpv', '')
+    # IRI looks like this: w3id.org/dpv/tech#concept --> extension concept
     if relative_iri.startswith('/'):
-        relative_iri = relative_iri.replace('/', '', 1)
+        # to make sure this works on live, dev, and localhost
+        relative_iri = relative_iri.replace('/', f'/{DPV_VERSION}/', 1)
+    # IRI looks like this: w3id.org/dpv#concept --> DPV concept
     elif relative_iri.startswith('#'):
-        relative_iri = f"dpv/{relative_iri}"
+        relative_iri = f"/{DPV_VERSION}/dpv{relative_iri}"
     classes[iri]['relative-iri'] = relative_iri
+    print(relative_iri)
     if children:
         for child in children.split(';'):
             if not child.startswith('https://w3id.org/dpv'): continue
@@ -1013,7 +1018,22 @@ index = []
 
 def add_item_to_index(iri):
     item = classes[iri]
-    data = {'name': f'<a class="concept" href="{item["relative-iri"]}">{item["vocab"]}:{item["label"]}</a><sup class="concept-type">{item["category"]}</sup>'}
+    # data = {'name': f'<a class="concept" href="{item["relative-iri"]}">{item["vocab"]}:{item["label"]}</a><sup class="concept-type">{item["category"]}</sup>'}
+    data = {
+        'id': f'{item["iri"]}',
+        'text': f'{item["vocab"]}:{item["label"]}',
+        'a_attr': {
+            'href': item['relative-iri']
+        },
+        'li_attr': {
+            'class': f'type-{item["category"]}'
+        },
+        'state': {
+            'opened': False,
+            'disabled': False,
+            'selected': False
+        }
+    }
     if item['children']:
         data['children'] = [
             add_item_to_index(child['iri'])
