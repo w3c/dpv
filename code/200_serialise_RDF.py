@@ -142,13 +142,13 @@ def write_CSV_graph(graph, filepath: str, vocab: str, namespace: str) -> None:
         for item in item.split(';'):
             if not item.startswith('https://w3id.org/dpv'): continue
             items.add(item)
-        return ";".join(items)
+        return ";".join(sorted(items))
 
     query_header = ('iri', 'label', 'definition', 
         'dpvtype', 'subclassof', 'hasbroader',
         'scopenote', 'created', 'modified')
     header = ('term', 'type', *query_header, 'vocab', 'namespace')
-    with open(f'{filepath}.csv', 'w') as fd:
+    with open(f'{filepath}.csv', 'w', newline='', encoding='utf-8') as fd:
         writer = csv.writer(fd)
         writer.writerow(header)
         query = """
@@ -173,6 +173,8 @@ def write_CSV_graph(graph, filepath: str, vocab: str, namespace: str) -> None:
         results = graph.query(query)
         for row in results:
             if not row[0].startswith('https://w3id.org/dpv'): continue
+            # row = [x if x is not None else '' for x in row]
+            # row = [re.sub(r'\r\n?$', '', cell) for cell in row]
             value = {
                 'term': prefix_from_iri(row[0]).split(':')[1],
                 'vocab': prefix_from_iri(row[0]).split(':')[0],
@@ -180,12 +182,14 @@ def write_CSV_graph(graph, filepath: str, vocab: str, namespace: str) -> None:
                 }
             for index, item in enumerate(row):
                 value[query_header[index]] = item
+            
             if 'rdf-schema#Class' in value['dpvtype']:
                 value['type'] = 'class'
             elif 'rdf-syntax-ns#Property' in value['dpvtype']:
                 value['type'] = 'property'
             else:
                 raise Exception(f"Unknown type: {value['dpvtype']} in {value['term']}")
+
             for key in (('dpvtype', 'subclassof', 'hasbroader')):
                 value[key] = _consolidate(value[key])
 
@@ -546,10 +550,7 @@ def add_translations_for_concept(concept):
     return triples
 
 
-# === generate-triples ===
-global_triples = []
-# iterate over all CSV files for specific vocab e.g. dpv
-for vocab, vocab_data in CSVFILES.items():
+def _parse_write(vocab, vocab_data, write=True):
     namespace = NAMESPACES[vocab]
     INFO('-'*40)
     INFO(f'VOCAB: {vocab} ({namespace})')
@@ -631,34 +632,59 @@ for vocab, vocab_data in CSVFILES.items():
         # export module triples
         exportpath = RDF_STRUCTURE[vocab]['modules']
         filepath = f'{exportpath}/{module}'
-        serialize_graph(module_triples, filepath, vocab, hook=f'{vocab}-{module}')
+        if write:
+            serialize_graph(module_triples, filepath, vocab, hook=f'{vocab}-{module}')
         vocab_triples += module_triples
 
     # export vocab triples
     exportpath = RDF_STRUCTURE[vocab]['main']
     filepath = f'{exportpath}/{vocab}'
-    serialize_graph(vocab_triples, filepath, vocab, hook=vocab)
+    if write:
+        serialize_graph(vocab_triples, filepath, vocab, hook=vocab)
     INFO(f'VOCAB triples: {len(vocab_triples)} accepted, {sum((len(m) for m in PROPOSED[vocab].values()))} proposed')
-    global_triples += vocab_triples
+    return vocab_triples
 
-INFO('-'*40)
-INFO(f'TOTAL triples: {len(global_triples)} accepted')
-INFO('-'*40)
+
+# === generate-triples ===
+def _generate_triples(includelist=None):
+    global_triples = []
+    skiplist = []
+    if includelist is None:
+        return
+
+    if includelist and 'dex' not in includelist:
+        # examples are loaded and added to the graph from dex, 
+        # and then serialised in the vocab output using vann:example, 
+        # so it is essential to always load this
+        includelist.append('dex')
+        skiplist.append('dex')
+    # iterate over all CSV files for specific vocab e.g. dpv
+    for vocab, vocab_data in CSVFILES.items():
+        if vocab in includelist:
+            if vocab in skiplist:
+                global_triples += _parse_write(vocab, vocab_data, write=False)
+            else:
+                global_triples += _parse_write(vocab, vocab_data, write=True)
+
+    INFO('-'*40)
+    INFO(f'TOTAL triples: {len(global_triples)} accepted')
+    INFO('-'*40)
 
 # === collated-collections ===
-INFO('Creating collated collections')
-INFO('-'*40)
+def _generate_collations():
+    INFO('Creating collated collections')
+    INFO('-'*40)
 
-# "collated collections" are different related concepts grouped together
-# in a single RDF file for convenience. The collations are declared in
-# [vocab_management.py](vocab_management.html#exports)
-for collation in RDF_COLLATIONS:
-    INFO(f"Collating {collation['name']}")
-    triples = Graph()
-    for filepath in collation['input']:
-        triples.parse(filepath)
-    serialize_graph(triples, collation['output'], vocab=collation['name'], hook=f'collation-{collation}')
-    INFO(f"Collected {len(triples)} triples into {collation['output']}")
+    # "collated collections" are different related concepts grouped together
+    # in a single RDF file for convenience. The collations are declared in
+    # [vocab_management.py](vocab_management.html#exports)
+    for collation in RDF_COLLATIONS:
+        INFO(f"Collating {collation['name']}")
+        triples = Graph()
+        for filepath in collation['input']:
+            triples.parse(filepath)
+        serialize_graph(triples, collation['output'], vocab=collation['name'], hook=f'collation-{collation}')
+        INFO(f"Collected {len(triples)} triples into {collation['output']}")
 
 # === serialise-missing-translations ===
 # INFO('-'*40)
@@ -667,4 +693,25 @@ for collation in RDF_COLLATIONS:
 #     import json
 #     json.dump(MISSING_TRANSLATIONS, fd, indent=2)
 
-INFO('-'*40)
+# == script ==
+if __name__ == '__main__':
+    # The script has a default behaviour where it will NOT download
+    # any file and will extract ALL CSVs from existing files.
+    import argparse
+    parser = argparse.ArgumentParser()
+    # parser.add_argument('-A', '--all', action='store_true', help="generate all rdf outputs")
+    parser.add_argument('-V', '--vocab', nargs='+', help="generate specific vocab outputs")
+    parser.add_argument('-C', '--collate', nargs='+', help="generate collations")
+    args = parser.parse_args()
+
+    if args.vocab:
+        vocabs = [s.strip() for s in args.vocab[0].split(',')]
+        # any vocab may have examples, so always include dex
+        INFO(f'Generating outputs only for {vocabs}')
+        _generate_triples(vocabs)
+    else:
+        INFO(f'Generating outputs for ALL vocabulries')
+        _generate_triples(CSVFILES.keys())
+        _generate_collations()
+
+    INFO('-'*40)

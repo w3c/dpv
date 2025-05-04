@@ -69,6 +69,7 @@ class DATA(object):
     # 'graph' will contain ALL triples - helpful if we want to produce
     # a single RDF or CSV file containing all concepts. This is also 
     # helpful to create the index search interface.
+    outputs = []
     graph = Graph()
     
     # === load-vocab ===
@@ -861,200 +862,211 @@ def _write_template(
             INFO(f'wrote {filename} OWL spec at {filepath}/{filename}-owl.html')  
 
 
+def __skip(vocab):
+    for item in DATA.skip:
+        if item.endswith("*"):
+            if vocab.startswith(item[:-1]):
+                return True
+        else:
+            if vocab == item:
+                return True
+    return False
+
 
 # === Load RDF data ===
-for vocab, vocab_data in RDF_VOCABS.items(): 
-    # Load vocab RDF data into DATA dicts
-    DATA.load_vocab(vocab_data['vocab'], vocab)
-    module_data = {}
-    DATA.modules[vocab] = {}
-    # Load the module RDF data and store it in DATA dicts
-    for module, filepath in vocab_data['modules'].items():
-        DATA.load_module(filepath, module, vocab)
-        module_name = module.split('-')[0] # e.g. consent-type = consent
-        if module_name not in module_data:
-            module_data[module_name] = {}
-            module_data[module_name]['index'] = {}
-        module_data[module_name][module] = DATA.modules[vocab][module]
-        module_data[module_name]['prefix'] = vocab
-        for data in DATA.modules[vocab][module].values():
-            for k, v in data.items():
-                module_data[module_name]['index'][k] = v
+def _load_rdf_data():
+    DEBUG(DATA.skip)
+    for vocab, vocab_data in RDF_VOCABS.items(): 
+        # Load vocab RDF data into DATA dicts
+        if __skip(vocab) is False:
+            DATA.load_vocab(vocab_data['vocab'], vocab)
 
-    # === Write Vocab HTML file ===
-    _write_template(
-        template=vocab_data['template'],
-        filepath=vocab_data["export"], filename=vocab,
-        index=True, vocab=vocab, lang="en")
-    for lang in IMPORT_TRANSLATIONS:
-        _write_template(
-            template=vocab_data['template'],
-            filepath=vocab_data["export"], filename=vocab,
-            index=True, vocab=vocab, lang=lang)
 
-    # === Write Module HTML file ===
-    if 'module-template' not in vocab_data:
-        continue # this vocab doesn't have module specific docs
-    for module, data in module_data.items():
-        if module not in vocab_data['module-template']:
-            INFO(f'{module} has no template associated - skipping')
-            continue
-        INFO(f'exporting {module} page')
-        _write_template(
-            template=vocab_data['module-template'][module],
-            filepath=f"{vocab_data['export']}/modules", filename=module,
-            index=False, vocab=vocab, lang="en")
-        for lang in IMPORT_TRANSLATIONS:
+def _generate():
+    for vocab, vocab_data in RDF_VOCABS.items():
+        if __skip(vocab): continue
+        module_data = {}
+        DATA.modules[vocab] = {}
+        # Load the module RDF data and store it in DATA dicts
+        for module, filepath in vocab_data['modules'].items():
+            DATA.load_module(filepath, module, vocab)
+            module_name = module.split('-')[0] # e.g. consent-type = consent
+            if module_name not in module_data:
+                module_data[module_name] = {}
+                module_data[module_name]['index'] = {}
+            module_data[module_name][module] = DATA.modules[vocab][module]
+            module_data[module_name]['prefix'] = vocab
+            for data in DATA.modules[vocab][module].values():
+                for k, v in data.items():
+                    module_data[module_name]['index'][k] = v
+        # === Write Vocab HTML file ===
+        if vocab in DATA.vocabs:
             _write_template(
-            template=vocab_data['module-template'][module],
-            filepath=f"{vocab_data['export']}/modules", filename=module,
-            index=False, vocab=vocab, lang=lang)
+                template=vocab_data['template'],
+                filepath=vocab_data["export"], filename=vocab,
+                index=True, vocab=vocab, lang="en")
+            for lang in IMPORT_TRANSLATIONS:
+                _write_template(
+                    template=vocab_data['template'],
+                    filepath=vocab_data["export"], filename=vocab,
+                    index=True, vocab=vocab, lang=lang)
+
+            # === Write Module HTML file ===
+            if 'module-template' not in vocab_data:
+                continue # this vocab doesn't have module specific docs
+            for module, data in module_data.items():
+                if module not in vocab_data['module-template']:
+                    INFO(f'{module} has no template associated - skipping')
+                    continue
+                INFO(f'exporting {module} page')
+                _write_template(
+                    template=vocab_data['module-template'][module],
+                    filepath=f"{vocab_data['export']}/modules", filename=module,
+                    index=False, vocab=vocab, lang="en")
+                for lang in IMPORT_TRANSLATIONS:
+                    _write_template(
+                    template=vocab_data['module-template'][module],
+                    filepath=f"{vocab_data['export']}/modules", filename=module,
+                    index=False, vocab=vocab, lang=lang)
 
 
 # == Collate Missing Translations ==
-import json
-# [[vocab_management.py]] declares the languages for which
-# translations should exist and the paths to save the data
-with open(TRANSLATIONS_MISSING_FILE, 'r') as fd:
-    data = json.load(fd)
-if data and ':' in list(data.keys())[0]: # hack to detect repeated script call
-    missing = {lang:{} for lang in IMPORT_TRANSLATIONS}
-    # For each concept declared in the missing translations file,
-    # collect the label, definition, and (if exists) scope note
-    # and save it back to the missing translations file.
-    for concept, languages in data.items():
-        for lang in languages:
-            namespace, term = concept.split(':')
-            if namespace not in DATA.data:
-                DEBUG(f"ignored translations missing - external concept {concept}")
-                continue
-            concept = DATA.data[namespace][concept]
-            missing[lang][concept['prefixed']] = {
-                'label': concept['skos:prefLabel']
-                }
-            if 'skos:definition' in concept:
-                missing[lang][concept['prefixed']]['definition'] = concept['skos:definition']
-            if 'skos:scopeNote' in concept:
-                missing[lang][concept['prefixed']]['usage'] = concept['skos:scopeNote']
-    with open(TRANSLATIONS_MISSING_FILE, 'w') as fd:
-        json.dump(missing, fd, indent=2)
-        INFO(F"missing translations collected in {TRANSLATIONS_MISSING_FILE}")
-
-INFO('*'*40)
-
-INFO('Generating Search Index')
-results_classes = list(DATA.graph.query("""
-    SELECT 
-        ?iri 
-        (group_concat(?type; separator=";") as ?types)
-        ?category
-    WHERE {
-        ?iri a rdfs:Class .
-        VALUES ?category { "class" }
-        OPTIONAL { ?type skos:broader ?iri }
-    } GROUP BY ?iri ORDER BY ?iri
-    """))
-results_properties = list(DATA.graph.query("""
-    SELECT 
-        ?iri 
-        (group_concat(?type; separator=";") as ?types)
-        ?category
-    WHERE {
-        ?iri a rdf:Property .
-        VALUES ?category { "property" }
-        OPTIONAL { ?type skos:broader ?iri }
-    } GROUP BY ?iri ORDER BY ?iri
-    """))
-
-classes = {}
-topconcepts = []
-
-for iri, children, category in results_classes+results_properties:
-    if not iri.startswith('https://w3id.org/dpv'): continue
-    iri = str(iri).strip()
-    classes[iri] = {
-        'iri': iri,
-        'vocab': prefix_from_iri(iri).split(':')[0],
-        'label': iri.split('#')[1],
-        'children': [],
-        'parents': [],
-        'category': category,
-    }
-    print(iri)
-    relative_iri = iri.replace(f'https://w3id.org/dpv', '')
-    # IRI looks like this: w3id.org/dpv/tech#concept --> extension concept
-    if relative_iri.startswith('/'):
-        # to make sure this works on live, dev, and localhost
-        relative_iri = relative_iri.replace('/', f'/{DPV_VERSION}/', 1)
-    # IRI looks like this: w3id.org/dpv#concept --> DPV concept
-    elif relative_iri.startswith('#'):
-        relative_iri = f"/{DPV_VERSION}/dpv{relative_iri}"
-    classes[iri]['relative-iri'] = relative_iri
-    print(relative_iri)
-    if children:
-        for child in children.split(';'):
-            if not child.startswith('https://w3id.org/dpv'): continue
-            classes[iri]['children'].append(child)
-
-for iri, data in classes.items():
-    children = []
-    for child in data['children']:
-        classes[child]['parents'].append(iri)
-        children.append(classes[child])
-    data['children'] = children
-
-for iri, data in classes.items():
-    if not data['parents']:
-        topconcepts.append(iri)
-
-# # DEBUG
-# # for data in classes.values():
-# #     for x in data['parents']:
-# #         if x not in classes:
-# #             print(x)
-
-index = []
+def _get_missing_translations():
+    import json
+    # [[vocab_management.py]] declares the languages for which
+    # translations should exist and the paths to save the data
+    with open(TRANSLATIONS_MISSING_FILE, 'r') as fd:
+        data = json.load(fd)
+    if data and ':' in list(data.keys())[0]: # hack to detect repeated script call
+        missing = {lang:{} for lang in IMPORT_TRANSLATIONS}
+        # For each concept declared in the missing translations file,
+        # collect the label, definition, and (if exists) scope note
+        # and save it back to the missing translations file.
+        for concept, languages in data.items():
+            for lang in languages:
+                namespace, term = concept.split(':')
+                if namespace not in DATA.data:
+                    DEBUG(f"ignored translations missing - external concept {concept}")
+                    continue
+                concept = DATA.data[namespace][concept]
+                missing[lang][concept['prefixed']] = {
+                    'label': concept['skos:prefLabel']
+                    }
+                if 'skos:definition' in concept:
+                    missing[lang][concept['prefixed']]['definition'] = concept['skos:definition']
+                if 'skos:scopeNote' in concept:
+                    missing[lang][concept['prefixed']]['usage'] = concept['skos:scopeNote']
+        with open(TRANSLATIONS_MISSING_FILE, 'w') as fd:
+            json.dump(missing, fd, indent=2)
+            INFO(F"missing translations collected in {TRANSLATIONS_MISSING_FILE}")
 
 
-def add_item_to_index(iri):
-    item = classes[iri]
-    # data = {'name': f'<a class="concept" href="{item["relative-iri"]}">{item["vocab"]}:{item["label"]}</a><sup class="concept-type">{item["category"]}</sup>'}
-    data = {
-        'id': f'{item["iri"]}',
-        'text': f'{item["vocab"]}:{item["label"]}',
-        'a_attr': {
-            'href': item['relative-iri']
-        },
-        'li_attr': {
-            'class': f'type-{item["category"]}'
-        },
-        'state': {
-            'opened': False,
-            'disabled': False,
-            'selected': False
+def _generate_search_index():
+    INFO('*'*40)
+
+    INFO('Generating Search Index')
+    results_classes = list(DATA.graph.query("""
+        SELECT 
+            ?iri 
+            (group_concat(?type; separator=";") as ?types)
+            ?category
+        WHERE {
+            ?iri a rdfs:Class .
+            VALUES ?category { "class" }
+            OPTIONAL { ?type skos:broader ?iri }
+        } GROUP BY ?iri ORDER BY ?iri
+        """))
+    results_properties = list(DATA.graph.query("""
+        SELECT 
+            ?iri 
+            (group_concat(?type; separator=";") as ?types)
+            ?category
+        WHERE {
+            ?iri a rdf:Property .
+            VALUES ?category { "property" }
+            OPTIONAL { ?type skos:broader ?iri }
+        } GROUP BY ?iri ORDER BY ?iri
+        """))
+
+    classes = {}
+    topconcepts = []
+
+    for iri, children, category in results_classes+results_properties:
+        if not iri.startswith('https://w3id.org/dpv'): continue
+        iri = str(iri).strip()
+        classes[iri] = {
+            'iri': iri,
+            'vocab': prefix_from_iri(iri).split(':')[0],
+            'label': iri.split('#')[1],
+            'children': [],
+            'parents': [],
+            'category': category,
         }
-    }
-    if item['children']:
-        data['children'] = [
-            add_item_to_index(child['iri'])
-            for child in sorted(item['children'], key=lambda x: x['iri'])]
-    return data
+        relative_iri = iri.replace(f'https://w3id.org/dpv', '')
+        # IRI looks like this: w3id.org/dpv/tech#concept --> extension concept
+        if relative_iri.startswith('/'):
+            # to make sure this works on live, dev, and localhost
+            relative_iri = relative_iri.replace('/', f'/{DPV_VERSION}/', 1)
+        # IRI looks like this: w3id.org/dpv#concept --> DPV concept
+        elif relative_iri.startswith('#'):
+            relative_iri = f"/{DPV_VERSION}/dpv{relative_iri}"
+        classes[iri]['relative-iri'] = relative_iri
+        if children:
+            for child in children.split(';'):
+                if not child.startswith('https://w3id.org/dpv'): continue
+                classes[iri]['children'].append(child)
 
+    for iri, data in classes.items():
+        children = []
+        for child in data['children']:
+            classes[child]['parents'].append(iri)
+            children.append(classes[child])
+        data['children'] = children
 
-for concept in sorted(topconcepts):
-    index.append(add_item_to_index(concept))
+    for iri, data in classes.items():
+        if not data['parents']:
+            topconcepts.append(iri)
 
-filepath = f"{EXPORT_PATH}/search.html"
-with open(filepath, 'w') as fd:
-    template = template_env.get_template('template_search_index.jinja2')
-    fd.write(template.render(
-        **_PARAMS_JINJA2_HTML,
-        data=json.dumps(index), 
-        num_classes=len(results_classes), 
-        num_properties=len(results_properties)))
-INFO(f"wrote search index document at {filepath}")
+    index = []
 
-INFO('*'*40)
+    def add_item_to_index(iri):
+        item = classes[iri]
+        # data = {'name': f'<a class="concept" href="{item["relative-iri"]}">{item["vocab"]}:{item["label"]}</a><sup class="concept-type">{item["category"]}</sup>'}
+        data = {
+            'id': f'{item["iri"]}',
+            'text': f'{item["vocab"]}:{item["label"]}',
+            'a_attr': {
+                'href': item['relative-iri']
+            },
+            'li_attr': {
+                'class': f'type-{item["category"]}'
+            },
+            'state': {
+                'opened': False,
+                'disabled': False,
+                'selected': False
+            }
+        }
+        if item['children']:
+            data['children'] = [
+                add_item_to_index(child['iri'])
+                for child in sorted(item['children'], key=lambda x: x['iri'])]
+        return data
+
+    for concept in sorted(topconcepts):
+        index.append(add_item_to_index(concept))
+
+    filepath = f"{EXPORT_PATH}/search.html"
+    with open(filepath, 'w') as fd:
+        template = template_env.get_template('template_search_index.jinja2')
+        fd.write(template.render(
+            **_PARAMS_JINJA2_HTML,
+            data=json.dumps(index), 
+            num_classes=len(results_classes), 
+            num_properties=len(results_properties)))
+    INFO(f"wrote search index document at {filepath}")
+
+    INFO('*'*40)
 
 # == script ==
 if __name__ == '__main__':
@@ -1062,16 +1074,32 @@ if __name__ == '__main__':
     # any file and will extract ALL CSVs from existing files.
     import argparse
     parser = argparse.ArgumentParser()
-    # - `-d` will download and extract ALL files
+    # parser.add_argument('-A', '--all', action='store_true', help="generate all html outputs")
+    parser.add_argument('-V', '--vocab', nargs='+', help="generate specific vocab outputs")
+    parser.add_argument('-S', '--skip', nargs='+', help="skip loading specific vocab outputs")
+    parser.add_argument('-I', '--skipindex', default=False, help="generate search index")
     parser.add_argument('-G', '--guides', action='store_true', help="generate guides")
     parser.add_argument('-M', '--mappings', action='store_true', help="generate mappings")
-    # - `-x` will extract ALL files
-    # parser.add_argument('-x', '--x', action='store_true', default=True, help="extract CSVs from all data files")
-    # # - `-ds <foo>` will download and extract ONLY `foo` files
-    # parser.add_argument('--ds', nargs='+', default=False, help="download only indicated data files")
-    # # - `-xs <foo>` will extract ONLY `foo` files
-    # parser.add_argument('--xs', nargs='+', default=False, help="extract CSVs from indicated data files")
     args = parser.parse_args()
+
+    INFO('-'*40)
+    if args.vocab:
+        DATA.vocabs = [s.strip() for s in args.vocab[0].split(',')]
+        # any vocab may have examples, so always include dex
+        INFO(f'Generating outputs only for {DATA.vocabs}')
+    else:
+        INFO(f'Generating outputs for ALL vocabulries')
+
+    if args.skip:
+        DATA.skip = [s.strip() for s in args.skip[0].split(',')]
+        INFO(f'Skipping loading data from {DATA.skip}')
+
+    INFO('-'*40)
+    _load_rdf_data()
+    _generate()
+
+    if args.skipindex is False:
+        _generate_search_index()
 
     # If files are to be downloaded, do the following.
     if args.guides:
