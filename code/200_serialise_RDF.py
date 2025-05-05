@@ -374,6 +374,8 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     # generated at same filepath with extension {name}-owl.[ttl,owl]
 
     # Going with #2 above - replace IRI with suffix /owl
+    if not OWL_SERIALIZATIONS: return
+
     graph_temp = Graph()
     
     def replace_iri_owl(iri):

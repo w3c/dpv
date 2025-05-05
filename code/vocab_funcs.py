@@ -531,3 +531,29 @@ def p7012_human_label(term, data, namespace, header):
     term = term.strip()
     triples.append((namespace[data['Term']], namespace['hasHumanDescription'], Literal(term)))
     return triples
+
+
+def construct_inverse_jurisdiction(term, data, namespace, header):
+    triples = []
+    inverse = namespace[term]
+    location = namespace[data['Term']]
+    triples.append((inverse, RDF.type, DPV.InverseJurisdiction))
+    triples.append((inverse, RDF.type, SKOS.Concept))
+    triples.append((inverse, RDF.type, RDFS.Class))
+    triples.append((inverse, SKOS.prefLabel, Literal(term)))
+    triples.append((inverse, SKOS.definition, Literal(f"Set of jurisdictions that are not in {data['Term']}", lang="en")))
+    triples.append((location, DPV.hasInverseJurisdiction, inverse))
+    return triples
+
+
+def construct_inverse_membership_jurisdiction(term, data, namespace, header):
+    triples = []
+    inverse = namespace[term]
+    location = namespace[data['Term']]
+    triples.append((inverse, RDF.type, DPV.InverseJurisdiction))
+    triples.append((inverse, RDF.type, SKOS.Concept))
+    triples.append((inverse, RDF.type, RDFS.Class))
+    triples.append((inverse, SKOS.prefLabel, Literal(term)))
+    triples.append((inverse, SKOS.definition, Literal(f"Set of jurisdictions that are not members of {data['Term']}", lang="en")))
+    triples.append((location, DPV.hasInverseJurisdiction, inverse))
+    return triples
