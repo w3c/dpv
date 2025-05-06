@@ -426,6 +426,9 @@ CSVFILES = {
         'memberships': {
             'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
         },
+        'inverse': {
+            'locations-inverse': f'{IMPORT_CSV_PATH}/location_inverse.csv',
+        },
     },
     # Laws-Authorities
     'legal-at': {
@@ -1059,6 +1062,7 @@ RDF_VOCABS = {
         'modules': {
             'locations': f'{IMPORT_PATH}/loc/modules/locations.ttl',
             'memberships': f'{IMPORT_PATH}/loc/modules/memberships.ttl',
+            'inverse': f'{IMPORT_PATH}/loc/modules/locations-inverse.ttl',
         },
         'metadata': {
             "dct:title": "Location Concepts",
@@ -2509,7 +2513,7 @@ RDF_EXPORT_HOOK = {
             """,
         },
     ],
-    'loc': [
+    'loc-inverse': [
         {
             "title": "Generate inverse jurisdiction set for countries",
             "query": f"""
@@ -2540,6 +2544,9 @@ RDF_EXPORT_HOOK = {
         },
     ],
 }
+# copy loc/modules/inverse.ttl to loc/loc.ttl
+RDF_EXPORT_HOOK['loc'] = RDF_EXPORT_HOOK['loc-inverse']
+
 # add query for associating authority with laws in all jurisdictions
 query = {
             "title": "add Authority to Law",
