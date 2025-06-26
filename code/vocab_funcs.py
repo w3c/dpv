@@ -33,7 +33,7 @@ def construct_label(item, data, namespace, header):
     triples.append((namespace[term], SKOS.prefLabel, Literal(item, lang='en')))
     return triples
 
-def contruct_definition(item, data, namespace, header):
+def construct_definition(item, data, namespace, header):
     triples = []
     term, namespace = _get_term_from_prefix_notation(data['Term'], namespace)
     annotation = SKOS.definition
@@ -342,6 +342,10 @@ def construct_un_m49(term, data, namespace, header):
     return [(namespace[data['Term']], LOC.un_m49, Literal(term))]
 
 
+def construct_inverse_location(term, data, namespace, header):
+    return [(namespace[data['Term']], LOC.inverse_location, Literal(term))]
+
+
 def construct_instance(term, data, namespace, header):
     triples = []
     for parent in term.split(','):
@@ -497,7 +501,7 @@ def construct_risk_parent_Role(term, data, namespace, header):
     return triples    
 
 
-def contruct_gdpr_right_justification(term, data, namespace, header):
+def construct_gdpr_right_justification(term, data, namespace, header):
     triples = []
     rights = [namespace[x.strip()] for x in term.split(',')]
     for right in rights:
