@@ -710,7 +710,7 @@ if __name__ == '__main__':
         INFO(f'Generating outputs only for {vocabs}')
         _generate_triples(vocabs)
     else:
-        INFO(f'Generating outputs for ALL vocabulries')
+        INFO('Generating outputs for ALL vocabularies')
         _generate_triples(CSVFILES.keys())
         _generate_collations()
 
