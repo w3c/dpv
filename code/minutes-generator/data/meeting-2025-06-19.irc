@@ -1,0 +1,70 @@
+16:15:34 <RRSAgent> RRSAgent has joined #dpvcg
+16:15:44 <HarshPandit> Scribe: HarshPandit
+16:15:47 <HarshPandit> repo: w3c/dpv
+16:15:55 <HarshPandit> Meeting: DPVCG Meeting Call
+16:15:57 <HarshPandit> Chair: HarshPandit
+16:16:51 <HarshPandit> Present: HarshPandit, TyttiRintamaki, JulioHernandez, PaulRyan, MarkLizar, BeatrizEsteves
+16:17:47 <HarshPandit> Regrets: DelaramGolpayegani, JulianFlake
+16:17:14 <HarshPandit> Date: 19 JUN 2025
+16:17:28 <HarshPandit> Agenda: https://www.w3.org/events/meetings/178d1c71-a92d-4da7-a196-6a89d0fe2277/20250619T133000/
+16:17:47 <HarshPandit> \ Agenda: https://www.w3.org/events/meetings/178d1c71-a92d-4da7-a196-6a89d0fe2277/20250619T133000/ 
+16:17:37 <HarshPandit> \ Meeting minutes: https://w3id.org/dpv/meetings
+16:17:47 <HarshPandit> \ Persistent ID for current minutes: https://w3id.org/dpv/meetings/meeting-2025-06-19
+16:17:47 <HarshPandit> Topic: v2.2 release
+16:17:47 <HarshPandit> \ agreed to finalise in June, publish in July after commenting period
+16:17:47 <HarshPandit> \ set schedule to finalise in June, release in July (v2.2); then next one is finalise in December and release in January (v2.3), and this will be our regular release schedule
+16:17:47 <HarshPandit> ACTION: finalise v2.2 draft release
+16:17:47 <HarshPandit> Topic: W3C TPAC
+16:17:47 <HarshPandit> HarshPandit: The W3C TPAC is being scheduled. Should the DPVCG have a session during the community group portion? Typically, it costs to attend the W3C TPAC. In previous years we have done a virtual session which aligned with the event but outside of it, this was a combined session with ODRL CG. Attendance was poor.
+16:17:47 <HarshPandit> \ yes we should have it as a virtual event (+6 from people)
+16:17:47 <HarshPandit> \ Is ODRL CG having a meeting? Do we want to collab with them like previous years? 
+16:17:47 <HarshPandit> ACTION: Harsh will check with Victor (ODRL CG chair)
+16:17:47 <HarshPandit> Topic: Rules
+16:17:47 <HarshPandit> Subtopic: Rules <-- Use-Cases
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/284 -> Issue 284 [NEW]: Modelling Intended Uses/Purposes as Use-Cases (by coolharsh55)
+16:17:47 <HarshPandit> \ continued discussion
+16:17:47 <HarshPandit> \ previous discussion: issue with "Use-Case" as a term as it implies users, interactions, etc. based on its use in software/systems engineering domains; we discussed alternatives such as scenario, policy, etc.
+16:17:47 <HarshPandit> HarshPandit: as discussed in previous meeting, we want concepts to represent or indicate something is [acceptable, unacceptable, permitted, prohibited, recommended, deterred] and separately it is [intended]; to represent this, we discussed over several meetings alternatives, and the current proposal is as follows.
+16:17:47 <HarshPandit> HarshPandit: Reuse existing Rules concepts rather than creating new ones such as use-cases or uses which lead to ambiguity; 
+16:17:47 <HarshPandit> the rule taxonomy would be as follows with parent `dpv:Rule` and relation `dpv:hasRule` based on keywords from RFC2119 
+16:17:47 <HarshPandit> HarshPandit: `dpv:AcceptableRule` (new) (no property) with subclass `dpv:Permission` (exists) `dpv:hasPermission` corresponding with RFC2119 keyword MAY with subclass `dpv:Obligation` (exists) `dpv:hasObligation` corresponding with RFC2119 keyword MUST ; and with subclass of acceptable as `dpv:Recommendation` (new) `dpv:hasRecommendation`) corresponding with RFC2119 keyword SHOULD 
+16:17:47 <HarshPandit> HarshPandit: `dpv:UnacceptableRule` (new) (no property) with subclass `dpv:Deterrence` (new) `dpv:hasDeterrence` (note: deterrence has multiple meanings, we are using it as "to turn aside, discourage, or prevent from acting" – Merriam-Webster corresponding with RFC2119 keyword SHOULD NOT); with subclass `dpv:Prohibition` (exists) `dpv:hasProhibition` corresponding with RFC2119 keyword MUST NOT 
+16:17:47 <HarshPandit> HarshPandit: previously Julian enquired whether we have a concept to model MAY NOT, and the argument was that it is the same as MAY i.e. it does not change the action. However, the concept `dpv:Tolerated` with `dpv:hasTolerance` was indicated to indicate something may not happen i.e. there is a tolerance regarding it, it has not been added to this list due to not being normative
+16:17:47 <HarshPandit> ACTION: Add new Rules
+16:17:47 <HarshPandit> Subtopic: Acceptable Use
+16:17:47 <HarshPandit> HarshPandit: The goal of these concepts is to assist with modelling/representing cases where specific actions have to be indicated as being allowed / recommended etc. To model these, we propose two concepts based on common terminology with parent the existing `dpv:Policy` and `dpv:hasPolicy` as `dpv:AcceptableUsePolicy` and `dpv:hasAcceptableUsePolicy` and `dpv:UnacceptableUsePolicy` and `dpv:hasUncceptableUsePolicy` These policies will then contain details, including any rules (obligations, prohibitions, recommendations, etc.) and can be attached to specific products, services, technologies, etc.
+16:17:47 <HarshPandit> PaulRyan: haven't come across `UnacceptableUsePolicy` as a term – is not used in practice (is there a need? is there an alternative for this?)
+16:17:47 <HarshPandit> HarshPandit: agreed, modelled this to represent unacceptable uses section, but let's keep it proposed for the moment until there is certainty
+16:17:47 <HarshPandit> HarshPandit: @beatriz is this compatible with ODRL?
+16:17:47 <HarshPandit> BeatrizEsteves: yes, this is compatible, except in ODRL the obligation is called duty concept, but the meaning is the same
+16:17:47 <HarshPandit> \ Agreed on above, except for UnacceptableUsePolicy to be kept as proposed, and not adding Tolerated (MAY NOT)
+16:17:47 <HarshPandit> ACTION: Add Acceptable Use Policy
+16:17:47 <HarshPandit> Subtopic: AI Act Intended Purpose
+16:17:47 <HarshPandit> HarshPandit: To model the intent as required for AI Act's Intended Purpose, the existing concept of `tech:IntendedUse` should be kept, and AI Act's eu-aiact:IntendedPurpose should be extended from it (currently it is not)
+16:17:47 <HarshPandit> \ Agree to model intended use (as it exists) and make the AI Act's concept as a specialised form of it; and for the regulation specific concepts e.g. for GDPR and AI Act, we add a note saying we are exploring how to model these in future releases e.g. Purpose Compatibility and its outcomes (see reuse concepts)
+16:17:47 <HarshPandit> ACTION: Modify AI Act Intended Purpose concept
+16:17:47 <HarshPandit> Topic: Secondary Use
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/283 -> Issue 283 [NEW]: Secondary Uses for Data Reuse (by coolharsh55)
+16:17:47 <HarshPandit> \ confirming the below to be added to v2.2
+16:17:47 <HarshPandit> \ add `dpv:ReuseCompatibility` with `dpv:hasReuseCompatibility` with `dpv:PrimaryUse` – use is as per the primary context/goal; `dpv:PrimaryInitialUse` - use defines the initial or first primary use and is the basis for future comparisons of compatibility; `dpv:PrimaryCompatibleReuse` - use has a different context but is compatible with the primary initial use; `dpv:SecondaryUse` - use is not compatible with the primary use
+16:17:47 <HarshPandit> HarshPandit: Question: do we add the regulatory concepts for GDPR and AI Act and EHDS now or do we add with guidance later in v2.3?
+16:17:47 <HarshPandit> MarkLizar: compatibility from whose perspective, use-case cenetered around humans, … (Discussion, ref to HUMAN extension)
+16:17:47 <HarshPandit> BeatrizEsteves: EHDS use for these concepts / structure
+16:17:47 <HarshPandit> \ Agree to add these concepts to 2.2, with regulation specific concepts being added to 2.3 based on requirements and interpretations (add note about this in 2.2 docs)
+16:17:47 <HarshPandit> ACTION: Add reuse concepts to v2.2 with a note on what's coming for v2.3
+16:17:47 <HarshPandit> Topic: Operating Factors / Environment
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/285 -> Issue 285 [NEW]: Modelling Operating Factors for Technology (by coolharsh55)
+16:17:47 <HarshPandit> \ confirming the below for v2.2
+16:17:47 <HarshPandit> add `tech:OperatingFactor` and `tech:hasOperatingFactor` and add `tech:OperatingEnvironment` and `tech:hasOperatingEnvironment` ; will support specifying product/service uses and considerations e.g. what works, what is required, etc.
+16:17:47 <HarshPandit> \ Agree to add these to 2.2 with note on why these concepts exist/why they are helpful, what can be factor, what can be environment and so on (and that we're exploring modelling these in detail in future releases)
+16:17:47 <HarshPandit> ACTION: Add operating factor and environment concept for v2.2 with note
+16:17:47 <HarshPandit> Topic: Updates
+16:17:47 <HarshPandit> Subtopic: TAIR
+16:17:47 <HarshPandit> JulioHernandez: mapped TAIR with AI Act extension, will share when done
+16:17:47 <HarshPandit> Subtopic: DPIA
+16:17:47 <HarshPandit> TyttiRintamaki: submitted proposal on Github with concepts categorised based on extension
+16:17:47 <HarshPandit> Subtopic: MLDCAT-AP 
+16:17:47 <HarshPandit> HarshPandit: https://semiceu.github.io/MLDCAT-AP/releases/2.1.0/ uses dpv hasData property (issues with documentation, and use of concepts are not ideal or complete based on what we already have in DPV e.g. see RISK – see github issues about this)
+16:17:47 <HarshPandit> Topic: Next Meeting
+16:17:47 <HarshPandit> \ The next meeting will be on JUN-26 Thursday `13:30WET`/14:30CET 
+16:17:47 <HarshPandit> \ Agenda will be finalising DPV v2.2 scope and release, and starting work on v2.3
