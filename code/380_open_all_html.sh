@@ -18,7 +18,7 @@ fi
 # MODE="https://w3id.org/dpv"
 # MODE="http://localhost:8000"
 MODE="https://dev.dpvcg.org/2.0"
-MODE="localhost:8000/2.0"
+MODE="http://localhost:8000/2.2-dev"
 
 FILES=(
     # core specs
@@ -89,5 +89,5 @@ done
 
 for i in "${!FILES[@]}"
 do
-    xdg-open ${FILES[i]}
+    $COMMAND ${FILES[i]}
 done
