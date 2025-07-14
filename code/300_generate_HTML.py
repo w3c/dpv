@@ -1090,7 +1090,7 @@ if __name__ == '__main__':
         # any vocab may have examples, so always include dex
         INFO(f'Generating outputs only for {DATA.vocabs}')
     else:
-        INFO(f'Generating outputs for ALL vocabulries')
+        INFO(f'Generating outputs for ALL vocabularies')
 
     if args.skip:
         DATA.skip = [s.strip() for s in args.skip[0].split(',')]

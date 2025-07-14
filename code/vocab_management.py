@@ -2494,7 +2494,6 @@ RDF_COLLATIONS = ({
         f'{EXPORT_RDF_PATH}/legal/th/legal-th.ttl',
         f'{EXPORT_RDF_PATH}/legal/tw/legal-tw.ttl',
         f'{EXPORT_RDF_PATH}/legal/us/legal-us.ttl',
-
         ),
     'output': f'{EXPORT_RDF_PATH}/legal/legal',
 },)
