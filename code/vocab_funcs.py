@@ -33,7 +33,7 @@ def construct_label(item, data, namespace, header):
     triples.append((namespace[term], SKOS.prefLabel, Literal(item, lang='en')))
     return triples
 
-def contruct_definition(item, data, namespace, header):
+def construct_definition(item, data, namespace, header):
     triples = []
     term, namespace = _get_term_from_prefix_notation(data['Term'], namespace)
     annotation = SKOS.definition
@@ -497,7 +497,7 @@ def construct_risk_parent_Role(term, data, namespace, header):
     return triples    
 
 
-def contruct_gdpr_right_justification(term, data, namespace, header):
+def construct_gdpr_right_justification(term, data, namespace, header):
     triples = []
     rights = [namespace[x.strip()] for x in term.split(',')]
     for right in rights:
@@ -530,4 +530,22 @@ def p7012_human_label(term, data, namespace, header):
     if not term: return triples
     term = term.strip()
     triples.append((namespace[data['Term']], namespace['hasHumanDescription'], Literal(term)))
+    return triples
+
+
+def construct_inverse_jurisdiction(term, data, namespace, header):
+    triples = []
+    inverse = namespace[term]
+    location = namespace[data['Term']]
+    # construct parent type i.e. loc a dpv:Country
+    # to allow SPARQL hook to create sets for countries and unions
+    data2 = data.copy()
+    data2['ParentTerm'] = ''  # set as none so the function executes successfully
+    triples += construct_parent_taxonomy(data2['ParentType'], data2, namespace, header)
+    triples.append((inverse, RDF.type, DPV.InverseJurisdiction))
+    triples.append((inverse, RDF.type, SKOS.Concept))
+    triples.append((inverse, RDF.type, RDFS.Class))
+    triples.append((inverse, SKOS.prefLabel, Literal(term)))
+    triples.append((inverse, SKOS.definition, Literal(f"Set of jurisdictions that are not in {data['Term']}", lang="en")))
+    triples.append((location, DPV.hasInverseJurisdiction, inverse))
     return triples

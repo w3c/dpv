@@ -374,6 +374,8 @@ def serialize_graph(triples:list, filepath:str, vocab:str, hook:str=None) -> Non
     # generated at same filepath with extension {name}-owl.[ttl,owl]
 
     # Going with #2 above - replace IRI with suffix /owl
+    if not OWL_SERIALIZATIONS: return
+
     graph_temp = Graph()
     
     def replace_iri_owl(iri):
@@ -710,7 +712,7 @@ if __name__ == '__main__':
         INFO(f'Generating outputs only for {vocabs}')
         _generate_triples(vocabs)
     else:
-        INFO(f'Generating outputs for ALL vocabulries')
+        INFO('Generating outputs for ALL vocabulries')
         _generate_triples(CSVFILES.keys())
         _generate_collations()
 

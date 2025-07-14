@@ -70,6 +70,8 @@ class DATA(object):
     # a single RDF or CSV file containing all concepts. This is also 
     # helpful to create the index search interface.
     outputs = []
+    vocabs = [] # vocabs that are loaded from input
+    skip = [] # vocabs that are skipped from input 
     graph = Graph()
     
     # === load-vocab ===

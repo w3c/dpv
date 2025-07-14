@@ -426,6 +426,9 @@ CSVFILES = {
         'memberships': {
             'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
         },
+        'inverse': {
+            'locations-inverse': f'{IMPORT_CSV_PATH}/location_inverse.csv',
+        },
     },
     # Laws-Authorities
     'legal-at': {
@@ -1059,6 +1062,7 @@ RDF_VOCABS = {
         'modules': {
             'locations': f'{IMPORT_PATH}/loc/modules/locations.ttl',
             'memberships': f'{IMPORT_PATH}/loc/modules/memberships.ttl',
+            'inverse': f'{IMPORT_PATH}/loc/modules/inverse.ttl',
         },
         'metadata': {
             "dct:title": "Location Concepts",
@@ -2509,7 +2513,40 @@ RDF_EXPORT_HOOK = {
             """,
         },
     ],
+    'loc-inverse': [
+        {
+            "title": "Generate inverse jurisdiction set for countries",
+            "query": f"""
+            INSERT {{
+                ?country_inverse skos:narrower ?country_other .
+            }}
+            WHERE {{
+                ?country a dpv:Country .
+                ?country_other a dpv:Country .
+                FILTER (?country != ?country_other ) .
+                ?country dpv:hasInverseJurisdiction ?country_inverse .
+            }}
+            """,
+        },
+        {
+            "title": "Generate inverse jurisdiction set for supranational unions",
+            "query": f"""
+            INSERT {{
+                ?union_inverse skos:narrower ?country .
+            }}
+            WHERE {{
+                ?union a dpv:SupraNationalUnion .
+                ?country a dpv:Country .
+                FILTER NOT EXISTS {{ ?union skos:narrower ?country }} .
+                ?union dpv:hasInverseJurisdiction ?union_inverse .
+            }}
+            """,
+        },
+    ],
 }
+# copy loc/modules/inverse.ttl to loc/loc.ttl
+RDF_EXPORT_HOOK['loc'] = RDF_EXPORT_HOOK['loc-inverse']
+
 # add query for associating authority with laws in all jurisdictions
 query = {
             "title": "add Authority to Law",

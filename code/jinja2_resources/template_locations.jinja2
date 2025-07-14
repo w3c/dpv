@@ -101,7 +101,8 @@
     <img src="../diagrams/overview_loc.svg">
     <figcaption>Overview of Location concepts and annotation properties in LOC extension</figcaption>
   </figure>
-  <p>The Locations ([[LOC]]) extension extends the [[DPV]] to provide concepts representing locations based on the <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> and <a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a> standards. At the moment, it only provides country codes with plans for future iterations to provide additional concepts representing subdivisions in countries such as provinces and cities. In addition to ISO 3166 countries and subdivisions, the extension also provides a representation of geo-political supra-unions such as the EU with a list of its member countries. Through these concepts, the [[LOC]] extension enables representation and use of locations with other DPV concepts, such as to indicate where the data is being stored or processed, or to indicate the data subjects are from a particular location. The [[[LEGAL]]] extensions use these concepts to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities.</p>
+  <p>The Locations ([[LOC]]) extension extends the [[DPV]] to provide concepts representing locations based on the <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> and <a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a> standards. At the moment, it  provides country codes and regions with plans for future iterations to provide additional concepts representing provinces and cities. In addition to ISO 3166 countries and subdivisions, the extension also provides a representation of geo-political supra-unions such as the EU with a list of its member countries. Through these concepts, the [[LOC]] extension enables representation and use of locations with other DPV concepts, such as to indicate where the data is being stored or processed, or to indicate the data subjects are from a particular location.</p>
+  <h3>ISO and UN taxonomies</h3>
   <p>To express the ISO and UN codes for specific locations, the following properties have been introduced:</p>
   <ol>
     <li>[=iso_alpha2=] to represent the 2-letter ISO 3166 alpha2 codes</li>
@@ -109,9 +110,23 @@
     <li>[=iso_numeric=] to represent the ISO 3166 numeric codes</li>
     <li>[=un_m49=] to represent the 2-letter UN M49 codes</li>
   </ol>
+  <p>In addition to these, the country table further in the document also contains links to the ISO Online Browsing Platform (OBP) and the <a href="https://op.europa.eu/en/web/eu-vocabularies/">EU Vocabularies</a>.</p>
+  <h3>Locations as Jurisdictions</h3>
+  <p>The [[[LEGAL]]] extensions use these concepts to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities. To further support the legal/jurisdictional use of locations, the extension also defines the {{ 'dpv:InverseJurisdiction'|make_anchor_link }} concept which represents a list of all other jurisdictions for a given location. This helps in defining information and constraints such as "data transfers outside of XYZ location". To implement this, the extension defines a `non-XYZ` concept for each `XYZ` (currently limited to countries and supranational unions), and then associates all jurisdictions which are not `XYZ` with the concept `non-XYZ` using the SKOS narrower/broader relations. The association between `XYZ` and `non-XYZ` is unidirectional and is specified using through the relation {{ 'dpv:hasInverseJurisdiction'|make_anchor_link }}, i.e. we only state `non-XYZ` is the inverse set of jurisdictions for `XYZ` and do not state `XYZ` is the inverse of `non-XYZ` to avoid circular or recursive associations in resolving jurisdictions.</p>
+  <p>Country IRIs are defined by their ISO 3166-1 Alpha2 codes in the following format: <code>https://w3id.org/dpv/loc#&lt;code&gt;</code>. The inverse for each country is defined by prefixing the country code with <code>non-</code> which gives the IRI <code>https://w3id.org/dpv/loc#&lt;code&gt;</code>. The inverse jurisdiction is defined as a set containing all other countries that are not the target country, associated using <code>skos:narrower</code> relations.</p>
+  <aside class="example" title="Inverse Jurisdictions">
+    <p>The example shows the definition of Ireland as a location and its inverse jurisdictional concept.</p>
+    <pre><code>loc:IE a dpv:Country ;
+  dpv:hasInverseJurisdiction loc:non-IE .
+
+loc:non-IE a dpv:InverseJurisdiction ;
+  skos:narrower loc:AD ;
+                # countries except loc:IE
+                loc:ZW .
+</code></pre>
+  </aside>
+  <h3>Unions and Memberships</h3>
   <p>To express unions and memberships such as for [=EEA=] and [=EU=], the [[SKOS]] relations <i>narrower/broader</i> are used, with the union expressed as an instance of <code>dpv:SupraNationalUnion</code>.</p>
-  <aside class="issue" data-number="208"></aside>
-  <aside class="issue" data-number="209"></aside>
 </section>
 {% endblock INTRODUCTION %}
 {% block VOCAB %}
@@ -138,6 +153,8 @@
                 <td><code>{{ loc['loc:iso_numeric'] }}</code></td>
                 <td><code>{{ loc['loc:un_m49'] }}</code></td>
                 <td>{% if 'skos:narrower' in loc %}<a href="#subdivisions-{{loc['term']}}">{{ loc['skos:narrower']|length }} divisions</a>{% else %}N/A{% endif %}</td>
+                <td>{% set invloc = loc['dpv:hasInverseJurisdiction']|resolve_concepts %}
+                    <dfn>{{ invloc['term'] }}</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:{{loc['term']}}">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/{{loc['dpv:iso_alpha3']}}">EU Vocab</a></td>
@@ -542,7 +559,6 @@
 
 <section id="future-work" class="appendix">
   <h2>Future Work</h2>
-  <aside class="issue" data-number="208"></aside>
   <aside class="issue" data-number="209"></aside>
 </section>
 

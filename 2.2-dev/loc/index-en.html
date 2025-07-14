@@ -570,7 +570,10 @@
   <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
-  <p><strong>Contributors:</strong> (ordered alphabetically)   <span><a href="https://harshp.com/"><b>Harshvardhan J. Pandit</b></a>
+  <p><strong>Contributors:</strong> (ordered alphabetically)   <span><a href="https://orcid.org/0000-0002-9698-1899"><b>Arthit Suriyawongkul</b></a>
+  </span>
+  <small><i>(ADAPT Centre, Trinity College Dublin)</i></small>, 
+  <span><a href="https://harshp.com/"><b>Harshvardhan J. Pandit</b></a>
   </span>
   <small><i>(ADAPT Centre, Dublin City University)</i></small>.
 <small>NOTE: The affiliations are informative, do not represent formal endorsements, and may be outdated as this list is generated automatically from existing data.</small></p>
@@ -592,7 +595,8 @@
     <img src="../diagrams/overview_loc.svg">
     <figcaption>Overview of Location concepts and annotation properties in LOC extension</figcaption>
   </figure>
-  <p>The Locations ([[LOC]]) extension extends the [[DPV]] to provide concepts representing locations based on the <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> and <a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a> standards. At the moment, it only provides country codes with plans for future iterations to provide additional concepts representing subdivisions in countries such as provinces and cities. In addition to ISO 3166 countries and subdivisions, the extension also provides a representation of geo-political supra-unions such as the EU with a list of its member countries. Through these concepts, the [[LOC]] extension enables representation and use of locations with other DPV concepts, such as to indicate where the data is being stored or processed, or to indicate the data subjects are from a particular location. The [[[LEGAL]]] extensions use these concepts to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities.</p>
+  <p>The Locations ([[LOC]]) extension extends the [[DPV]] to provide concepts representing locations based on the <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> and <a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a> standards. At the moment, it  provides country codes and regions with plans for future iterations to provide additional concepts representing provinces and cities. In addition to ISO 3166 countries and subdivisions, the extension also provides a representation of geo-political supra-unions such as the EU with a list of its member countries. Through these concepts, the [[LOC]] extension enables representation and use of locations with other DPV concepts, such as to indicate where the data is being stored or processed, or to indicate the data subjects are from a particular location.</p>
+  <h3>ISO and UN taxonomies</h3>
   <p>To express the ISO and UN codes for specific locations, the following properties have been introduced:</p>
   <ol>
     <li>[=iso_alpha2=] to represent the 2-letter ISO 3166 alpha2 codes</li>
@@ -600,9 +604,23 @@
     <li>[=iso_numeric=] to represent the ISO 3166 numeric codes</li>
     <li>[=un_m49=] to represent the 2-letter UN M49 codes</li>
   </ol>
+  <p>In addition to these, the country table further in the document also contains links to the ISO Online Browsing Platform (OBP) and the <a href="https://op.europa.eu/en/web/eu-vocabularies/">EU Vocabularies</a>.</p>
+  <h3>Locations as Jurisdictions</h3>
+  <p>The [[[LEGAL]]] extensions use these concepts to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities. To further support the legal/jurisdictional use of locations, the extension also defines the &lt;a href=&#39;https://w3id.org/dpv#InverseJurisdiction&#39;&gt;&lt;code&gt;InverseJurisdiction&lt;/code&gt;&lt;/a&gt; concept which represents a list of all other jurisdictions for a given location. This helps in defining information and constraints such as "data transfers outside of XYZ location". To implement this, the extension defines a `non-XYZ` concept for each `XYZ` (currently limited to countries and supranational unions), and then associates all jurisdictions which are not `XYZ` with the concept `non-XYZ` using the SKOS narrower/broader relations. The association between `XYZ` and `non-XYZ` is unidirectional and is specified using through the relation &lt;a href=&#39;https://w3id.org/dpv#hasInverseJurisdiction&#39;&gt;&lt;code&gt;hasInverseJurisdiction&lt;/code&gt;&lt;/a&gt;, i.e. we only state `non-XYZ` is the inverse set of jurisdictions for `XYZ` and do not state `XYZ` is the inverse of `non-XYZ` to avoid circular or recursive associations in resolving jurisdictions.</p>
+  <p>Country IRIs are defined by their ISO 3166-1 Alpha2 codes in the following format: <code>https://w3id.org/dpv/loc#&lt;code&gt;</code>. The inverse for each country is defined by prefixing the country code with <code>non-</code> which gives the IRI <code>https://w3id.org/dpv/loc#&lt;code&gt;</code>. The inverse jurisdiction is defined as a set containing all other countries that are not the target country, associated using <code>skos:narrower</code> relations.</p>
+  <aside class="example" title="Inverse Jurisdictions">
+    <p>The example shows the definition of Ireland as a location and its inverse jurisdictional concept.</p>
+    <pre><code>loc:IE a dpv:Country ;
+  dpv:hasInverseJurisdiction loc:non-IE .
+
+loc:non-IE a dpv:InverseJurisdiction ;
+  skos:narrower loc:AD ;
+                # countries except loc:IE
+                loc:ZW .
+</code></pre>
+  </aside>
+  <h3>Unions and Memberships</h3>
   <p>To express unions and memberships such as for [=EEA=] and [=EU=], the [[SKOS]] relations <i>narrower/broader</i> are used, with the union expressed as an instance of <code>dpv:SupraNationalUnion</code>.</p>
-  <aside class="issue" data-number="208"></aside>
-  <aside class="issue" data-number="209"></aside>
 </section>
   <section id="vocab-locations">
     <h2>Countries</h2>
@@ -626,6 +644,7 @@
                 <td><code>20</code></td>
                 <td><code>20</code></td>
                 <td><a href="#subdivisions-AD">7 divisions</a></td>
+                <td>                    <dfn>non-AD</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AD">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -638,6 +657,7 @@
                 <td><code>784</code></td>
                 <td><code>784</code></td>
                 <td><a href="#subdivisions-AE">7 divisions</a></td>
+                <td>                    <dfn>non-AE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -650,6 +670,7 @@
                 <td><code>4</code></td>
                 <td><code>4</code></td>
                 <td><a href="#subdivisions-AF">34 divisions</a></td>
+                <td>                    <dfn>non-AF</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AF">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -662,6 +683,7 @@
                 <td><code>28</code></td>
                 <td><code>28</code></td>
                 <td><a href="#subdivisions-AG">8 divisions</a></td>
+                <td>                    <dfn>non-AG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -674,6 +696,7 @@
                 <td><code>660</code></td>
                 <td><code>660</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-AI</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AI">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -686,6 +709,7 @@
                 <td><code>8</code></td>
                 <td><code>8</code></td>
                 <td><a href="#subdivisions-AL">31 divisions</a></td>
+                <td>                    <dfn>non-AL</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AL">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -698,6 +722,7 @@
                 <td><code>51</code></td>
                 <td><code>51</code></td>
                 <td><a href="#subdivisions-AM">11 divisions</a></td>
+                <td>                    <dfn>non-AM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -710,6 +735,7 @@
                 <td><code>24</code></td>
                 <td><code>24</code></td>
                 <td><a href="#subdivisions-AO">18 divisions</a></td>
+                <td>                    <dfn>non-AO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AO">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -722,6 +748,7 @@
                 <td><code>10</code></td>
                 <td><code>10</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-AQ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AQ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -734,20 +761,9 @@
                 <td><code>32</code></td>
                 <td><code>32</code></td>
                 <td><a href="#subdivisions-AR">24 divisions</a></td>
+                <td>                    <dfn>non-AR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AR">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="AS">
-                <td><dfn>AS</dfn></td>
-                <td>American Samoa</td>
-                <td><code>AS</code></td>
-                <td><code>ASM</code></td>
-                <td><code>16</code></td>
-                <td><code>16</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:AS">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="AT">
@@ -758,6 +774,7 @@
                 <td><code>40</code></td>
                 <td><code>40</code></td>
                 <td><a href="#subdivisions-AT">9 divisions</a></td>
+                <td>                    <dfn>non-AT</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AT">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -770,32 +787,9 @@
                 <td><code>36</code></td>
                 <td><code>36</code></td>
                 <td><a href="#subdivisions-AU">8 divisions</a></td>
+                <td>                    <dfn>non-AU</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AU">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="AW">
-                <td><dfn>AW</dfn></td>
-                <td>Aruba</td>
-                <td><code>AW</code></td>
-                <td><code>ABW</code></td>
-                <td><code>533</code></td>
-                <td><code>533</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:AW">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="AX">
-                <td><dfn>AX</dfn></td>
-                <td>Åland Islands</td>
-                <td><code>AX</code></td>
-                <td><code>ALA</code></td>
-                <td><code>248</code></td>
-                <td><code>248</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:AX">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="AZ">
@@ -806,6 +800,7 @@
                 <td><code>31</code></td>
                 <td><code>31</code></td>
                 <td><a href="#subdivisions-AZ">77 divisions</a></td>
+                <td>                    <dfn>non-AZ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:AZ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -818,6 +813,7 @@
                 <td><code>70</code></td>
                 <td><code>70</code></td>
                 <td><a href="#subdivisions-BA">13 divisions</a></td>
+                <td>                    <dfn>non-BA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BA">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -830,6 +826,7 @@
                 <td><code>52</code></td>
                 <td><code>52</code></td>
                 <td><a href="#subdivisions-BB">11 divisions</a></td>
+                <td>                    <dfn>non-BB</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BB">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -842,6 +839,7 @@
                 <td><code>50</code></td>
                 <td><code>50</code></td>
                 <td><a href="#subdivisions-BD">71 divisions</a></td>
+                <td>                    <dfn>non-BD</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BD">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -854,6 +852,7 @@
                 <td><code>56</code></td>
                 <td><code>56</code></td>
                 <td><a href="#subdivisions-BE">12 divisions</a></td>
+                <td>                    <dfn>non-BE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -866,6 +865,7 @@
                 <td><code>854</code></td>
                 <td><code>854</code></td>
                 <td><a href="#subdivisions-BF">58 divisions</a></td>
+                <td>                    <dfn>non-BF</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BF">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -878,6 +878,7 @@
                 <td><code>100</code></td>
                 <td><code>100</code></td>
                 <td><a href="#subdivisions-BG">28 divisions</a></td>
+                <td>                    <dfn>non-BG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -890,6 +891,7 @@
                 <td><code>48</code></td>
                 <td><code>48</code></td>
                 <td><a href="#subdivisions-BH">3 divisions</a></td>
+                <td>                    <dfn>non-BH</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BH">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -902,6 +904,7 @@
                 <td><code>108</code></td>
                 <td><code>108</code></td>
                 <td><a href="#subdivisions-BI">4 divisions</a></td>
+                <td>                    <dfn>non-BI</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BI">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -914,20 +917,9 @@
                 <td><code>204</code></td>
                 <td><code>204</code></td>
                 <td><a href="#subdivisions-BJ">12 divisions</a></td>
+                <td>                    <dfn>non-BJ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BJ">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="BL">
-                <td><dfn>BL</dfn></td>
-                <td>Saint Barthélemy</td>
-                <td><code>BL</code></td>
-                <td><code>BLM</code></td>
-                <td><code>652</code></td>
-                <td><code>652</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:BL">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="BM">
@@ -938,6 +930,7 @@
                 <td><code>60</code></td>
                 <td><code>60</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-BM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -950,6 +943,7 @@
                 <td><code>96</code></td>
                 <td><code>96</code></td>
                 <td><a href="#subdivisions-BN">4 divisions</a></td>
+                <td>                    <dfn>non-BN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BN">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -962,20 +956,9 @@
                 <td><code>68</code></td>
                 <td><code>68</code></td>
                 <td><a href="#subdivisions-BO">9 divisions</a></td>
+                <td>                    <dfn>non-BO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BO">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="BQ">
-                <td><dfn>BQ</dfn></td>
-                <td>Bonaire, Sint Eustatius and Saba</td>
-                <td><code>BQ</code></td>
-                <td><code>BES</code></td>
-                <td><code>535</code></td>
-                <td><code>535</code></td>
-                <td><a href="#subdivisions-BQ">30 divisions</a></td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:BQ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="BR">
@@ -986,6 +969,7 @@
                 <td><code>76</code></td>
                 <td><code>76</code></td>
                 <td><a href="#subdivisions-BR">27 divisions</a></td>
+                <td>                    <dfn>non-BR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -998,6 +982,7 @@
                 <td><code>44</code></td>
                 <td><code>44</code></td>
                 <td><a href="#subdivisions-BS">15 divisions</a></td>
+                <td>                    <dfn>non-BS</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BS">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1010,6 +995,7 @@
                 <td><code>64</code></td>
                 <td><code>64</code></td>
                 <td><a href="#subdivisions-BT">20 divisions</a></td>
+                <td>                    <dfn>non-BT</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BT">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1022,6 +1008,7 @@
                 <td><code>74</code></td>
                 <td><code>74</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-BV</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BV">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1034,6 +1021,7 @@
                 <td><code>72</code></td>
                 <td><code>72</code></td>
                 <td><a href="#subdivisions-BW">10 divisions</a></td>
+                <td>                    <dfn>non-BW</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BW">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1046,6 +1034,7 @@
                 <td><code>112</code></td>
                 <td><code>112</code></td>
                 <td><a href="#subdivisions-BY">7 divisions</a></td>
+                <td>                    <dfn>non-BY</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BY">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1058,6 +1047,7 @@
                 <td><code>84</code></td>
                 <td><code>84</code></td>
                 <td><a href="#subdivisions-BZ">6 divisions</a></td>
+                <td>                    <dfn>non-BZ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:BZ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1070,6 +1060,7 @@
                 <td><code>124</code></td>
                 <td><code>124</code></td>
                 <td><a href="#subdivisions-CA">13 divisions</a></td>
+                <td>                    <dfn>non-CA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CA">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1082,6 +1073,7 @@
                 <td><code>166</code></td>
                 <td><code>166</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-CC</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CC">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1094,6 +1086,7 @@
                 <td><code>180</code></td>
                 <td><code>180</code></td>
                 <td><a href="#subdivisions-CD">25 divisions</a></td>
+                <td>                    <dfn>non-CD</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CD">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1106,6 +1099,7 @@
                 <td><code>140</code></td>
                 <td><code>140</code></td>
                 <td><a href="#subdivisions-CF">2 divisions</a></td>
+                <td>                    <dfn>non-CF</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CF">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1118,6 +1112,7 @@
                 <td><code>178</code></td>
                 <td><code>178</code></td>
                 <td><a href="#subdivisions-CG">10 divisions</a></td>
+                <td>                    <dfn>non-CG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1130,6 +1125,7 @@
                 <td><code>756</code></td>
                 <td><code>756</code></td>
                 <td><a href="#subdivisions-CH">26 divisions</a></td>
+                <td>                    <dfn>non-CH</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CH">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1142,6 +1138,7 @@
                 <td><code>384</code></td>
                 <td><code>384</code></td>
                 <td><a href="#subdivisions-CI">4 divisions</a></td>
+                <td>                    <dfn>non-CI</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CI">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1154,6 +1151,7 @@
                 <td><code>184</code></td>
                 <td><code>184</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-CK</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CK">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1166,6 +1164,7 @@
                 <td><code>152</code></td>
                 <td><code>152</code></td>
                 <td><a href="#subdivisions-CL">16 divisions</a></td>
+                <td>                    <dfn>non-CL</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CL">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1178,6 +1177,7 @@
                 <td><code>120</code></td>
                 <td><code>120</code></td>
                 <td><a href="#subdivisions-CM">9 divisions</a></td>
+                <td>                    <dfn>non-CM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1189,7 +1189,8 @@
                 <td><code>CHN</code></td>
                 <td><code>156</code></td>
                 <td><code>156</code></td>
-                <td><a href="#subdivisions-CN">34 divisions</a></td>
+                <td><a href="#subdivisions-CN">37 divisions</a></td>
+                <td>                    <dfn>non-CN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CN">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1202,6 +1203,7 @@
                 <td><code>170</code></td>
                 <td><code>170</code></td>
                 <td><a href="#subdivisions-CO">33 divisions</a></td>
+                <td>                    <dfn>non-CO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CO">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1214,6 +1216,7 @@
                 <td><code>188</code></td>
                 <td><code>188</code></td>
                 <td><a href="#subdivisions-CR">7 divisions</a></td>
+                <td>                    <dfn>non-CR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1226,6 +1229,7 @@
                 <td><code>192</code></td>
                 <td><code>192</code></td>
                 <td><a href="#subdivisions-CU">16 divisions</a></td>
+                <td>                    <dfn>non-CU</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CU">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1238,20 +1242,9 @@
                 <td><code>132</code></td>
                 <td><code>132</code></td>
                 <td><a href="#subdivisions-CV">20 divisions</a></td>
+                <td>                    <dfn>non-CV</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CV">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="CW">
-                <td><dfn>CW</dfn></td>
-                <td>Curaçao</td>
-                <td><code>CW</code></td>
-                <td><code>CUW</code></td>
-                <td><code>531</code></td>
-                <td><code>531</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:CW">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="CX">
@@ -1262,6 +1255,7 @@
                 <td><code>162</code></td>
                 <td><code>162</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-CX</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CX">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1274,6 +1268,7 @@
                 <td><code>196</code></td>
                 <td><code>196</code></td>
                 <td><a href="#subdivisions-CY">6 divisions</a></td>
+                <td>                    <dfn>non-CY</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CY">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1286,6 +1281,7 @@
                 <td><code>203</code></td>
                 <td><code>203</code></td>
                 <td><a href="#subdivisions-CZ">102 divisions</a></td>
+                <td>                    <dfn>non-CZ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:CZ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1298,6 +1294,7 @@
                 <td><code>276</code></td>
                 <td><code>276</code></td>
                 <td><a href="#subdivisions-DE">16 divisions</a></td>
+                <td>                    <dfn>non-DE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:DE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1310,6 +1307,7 @@
                 <td><code>262</code></td>
                 <td><code>262</code></td>
                 <td><a href="#subdivisions-DJ">5 divisions</a></td>
+                <td>                    <dfn>non-DJ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:DJ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1322,6 +1320,7 @@
                 <td><code>208</code></td>
                 <td><code>208</code></td>
                 <td><a href="#subdivisions-DK">6 divisions</a></td>
+                <td>                    <dfn>non-DK</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:DK">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1334,6 +1333,7 @@
                 <td><code>212</code></td>
                 <td><code>212</code></td>
                 <td><a href="#subdivisions-DM">10 divisions</a></td>
+                <td>                    <dfn>non-DM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:DM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1346,6 +1346,7 @@
                 <td><code>214</code></td>
                 <td><code>214</code></td>
                 <td><a href="#subdivisions-DO">32 divisions</a></td>
+                <td>                    <dfn>non-DO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:DO">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1358,6 +1359,7 @@
                 <td><code>12</code></td>
                 <td><code>12</code></td>
                 <td><a href="#subdivisions-DZ">56 divisions</a></td>
+                <td>                    <dfn>non-DZ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:DZ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1370,6 +1372,7 @@
                 <td><code>218</code></td>
                 <td><code>218</code></td>
                 <td><a href="#subdivisions-EC">24 divisions</a></td>
+                <td>                    <dfn>non-EC</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:EC">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1382,6 +1385,7 @@
                 <td><code>233</code></td>
                 <td><code>233</code></td>
                 <td><a href="#subdivisions-EE">41 divisions</a></td>
+                <td>                    <dfn>non-EE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:EE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1394,6 +1398,7 @@
                 <td><code>818</code></td>
                 <td><code>818</code></td>
                 <td><a href="#subdivisions-EG">29 divisions</a></td>
+                <td>                    <dfn>non-EG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:EG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1406,6 +1411,7 @@
                 <td><code>732</code></td>
                 <td><code>732</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-EH</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:EH">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1418,6 +1424,7 @@
                 <td><code>232</code></td>
                 <td><code>232</code></td>
                 <td><a href="#subdivisions-ER">2 divisions</a></td>
+                <td>                    <dfn>non-ER</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:ER">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1430,6 +1437,7 @@
                 <td><code>724</code></td>
                 <td><code>724</code></td>
                 <td><a href="#subdivisions-ES">63 divisions</a></td>
+                <td>                    <dfn>non-ES</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:ES">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1442,6 +1450,7 @@
                 <td><code>231</code></td>
                 <td><code>231</code></td>
                 <td><a href="#subdivisions-ET">13 divisions</a></td>
+                <td>                    <dfn>non-ET</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:ET">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1453,7 +1462,8 @@
                 <td><code>FIN</code></td>
                 <td><code>246</code></td>
                 <td><code>246</code></td>
-                <td><a href="#subdivisions-FI">23 divisions</a></td>
+                <td><a href="#subdivisions-FI">24 divisions</a></td>
+                <td>                    <dfn>non-FI</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:FI">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1466,6 +1476,7 @@
                 <td><code>242</code></td>
                 <td><code>242</code></td>
                 <td><a href="#subdivisions-FJ">2 divisions</a></td>
+                <td>                    <dfn>non-FJ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:FJ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1478,6 +1489,7 @@
                 <td><code>238</code></td>
                 <td><code>238</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-FK</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:FK">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1490,6 +1502,7 @@
                 <td><code>583</code></td>
                 <td><code>583</code></td>
                 <td><a href="#subdivisions-FM">3 divisions</a></td>
+                <td>                    <dfn>non-FM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:FM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1502,6 +1515,7 @@
                 <td><code>234</code></td>
                 <td><code>234</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-FO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:FO">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1513,7 +1527,8 @@
                 <td><code>FRA</code></td>
                 <td><code>250</code></td>
                 <td><code>250</code></td>
-                <td><a href="#subdivisions-FR">136 divisions</a></td>
+                <td><a href="#subdivisions-FR">148 divisions</a></td>
+                <td>                    <dfn>non-FR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:FR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1526,6 +1541,7 @@
                 <td><code>266</code></td>
                 <td><code>266</code></td>
                 <td><a href="#subdivisions-GA">9 divisions</a></td>
+                <td>                    <dfn>non-GA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GA">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1538,6 +1554,7 @@
                 <td><code>826</code></td>
                 <td><code>826</code></td>
                 <td><a href="#subdivisions-GB">244 divisions</a></td>
+                <td>                    <dfn>non-GB</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GB">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1550,6 +1567,7 @@
                 <td><code>308</code></td>
                 <td><code>308</code></td>
                 <td><a href="#subdivisions-GD">7 divisions</a></td>
+                <td>                    <dfn>non-GD</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GD">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1562,6 +1580,7 @@
                 <td><code>268</code></td>
                 <td><code>268</code></td>
                 <td><a href="#subdivisions-GE">16 divisions</a></td>
+                <td>                    <dfn>non-GE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1574,6 +1593,7 @@
                 <td><code>254</code></td>
                 <td><code>254</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-GF</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GF">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1586,6 +1606,7 @@
                 <td><code>831</code></td>
                 <td><code>831</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-GG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1598,6 +1619,7 @@
                 <td><code>288</code></td>
                 <td><code>288</code></td>
                 <td><a href="#subdivisions-GH">12 divisions</a></td>
+                <td>                    <dfn>non-GH</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GH">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1610,6 +1632,7 @@
                 <td><code>292</code></td>
                 <td><code>292</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-GI</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GI">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1622,6 +1645,7 @@
                 <td><code>304</code></td>
                 <td><code>304</code></td>
                 <td><a href="#subdivisions-GL">6 divisions</a></td>
+                <td>                    <dfn>non-GL</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GL">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1634,6 +1658,7 @@
                 <td><code>270</code></td>
                 <td><code>270</code></td>
                 <td><a href="#subdivisions-GM">29 divisions</a></td>
+                <td>                    <dfn>non-GM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1646,20 +1671,9 @@
                 <td><code>324</code></td>
                 <td><code>324</code></td>
                 <td><a href="#subdivisions-GN">12 divisions</a></td>
+                <td>                    <dfn>non-GN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GN">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="GP">
-                <td><dfn>GP</dfn></td>
-                <td>Guadeloupe</td>
-                <td><code>GP</code></td>
-                <td><code>GLP</code></td>
-                <td><code>312</code></td>
-                <td><code>312</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:GP">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="GQ">
@@ -1670,6 +1684,7 @@
                 <td><code>226</code></td>
                 <td><code>226</code></td>
                 <td><a href="#subdivisions-GQ">9 divisions</a></td>
+                <td>                    <dfn>non-GQ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GQ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1682,6 +1697,7 @@
                 <td><code>300</code></td>
                 <td><code>300</code></td>
                 <td><a href="#subdivisions-GR">61 divisions</a></td>
+                <td>                    <dfn>non-GR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1694,6 +1710,7 @@
                 <td><code>239</code></td>
                 <td><code>239</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-GS</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GS">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1706,20 +1723,9 @@
                 <td><code>320</code></td>
                 <td><code>320</code></td>
                 <td><a href="#subdivisions-GT">22 divisions</a></td>
+                <td>                    <dfn>non-GT</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GT">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="GU">
-                <td><dfn>GU</dfn></td>
-                <td>Guam</td>
-                <td><code>GU</code></td>
-                <td><code>GUM</code></td>
-                <td><code>316</code></td>
-                <td><code>316</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:GU">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="GW">
@@ -1730,6 +1736,7 @@
                 <td><code>624</code></td>
                 <td><code>624</code></td>
                 <td><a href="#subdivisions-GW">11 divisions</a></td>
+                <td>                    <dfn>non-GW</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GW">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1742,20 +1749,9 @@
                 <td><code>328</code></td>
                 <td><code>328</code></td>
                 <td><a href="#subdivisions-GY">10 divisions</a></td>
+                <td>                    <dfn>non-GY</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:GY">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="HK">
-                <td><dfn>HK</dfn></td>
-                <td>China, Hong Kong Special Administrative Region</td>
-                <td><code>HK</code></td>
-                <td><code>HKG</code></td>
-                <td><code>344</code></td>
-                <td><code>344</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:HK">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="HM">
@@ -1766,6 +1762,7 @@
                 <td><code>334</code></td>
                 <td><code>334</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-HM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:HM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1778,6 +1775,7 @@
                 <td><code>340</code></td>
                 <td><code>340</code></td>
                 <td><a href="#subdivisions-HN">18 divisions</a></td>
+                <td>                    <dfn>non-HN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:HN">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1790,6 +1788,7 @@
                 <td><code>191</code></td>
                 <td><code>191</code></td>
                 <td><a href="#subdivisions-HR">21 divisions</a></td>
+                <td>                    <dfn>non-HR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:HR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1802,6 +1801,7 @@
                 <td><code>332</code></td>
                 <td><code>332</code></td>
                 <td><a href="#subdivisions-HT">10 divisions</a></td>
+                <td>                    <dfn>non-HT</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:HT">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1814,6 +1814,7 @@
                 <td><code>348</code></td>
                 <td><code>348</code></td>
                 <td><a href="#subdivisions-HU">43 divisions</a></td>
+                <td>                    <dfn>non-HU</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:HU">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1826,6 +1827,7 @@
                 <td><code>360</code></td>
                 <td><code>360</code></td>
                 <td><a href="#subdivisions-ID">41 divisions</a></td>
+                <td>                    <dfn>non-ID</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:ID">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1838,6 +1840,7 @@
                 <td><code>372</code></td>
                 <td><code>372</code></td>
                 <td><a href="#subdivisions-IE">30 divisions</a></td>
+                <td>                    <dfn>non-IE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:IE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1850,6 +1853,7 @@
                 <td><code>376</code></td>
                 <td><code>376</code></td>
                 <td><a href="#subdivisions-IL">6 divisions</a></td>
+                <td>                    <dfn>non-IL</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:IL">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1862,6 +1866,7 @@
                 <td><code>833</code></td>
                 <td><code>833</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-IM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:IM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1874,6 +1879,7 @@
                 <td><code>356</code></td>
                 <td><code>356</code></td>
                 <td><a href="#subdivisions-IN">37 divisions</a></td>
+                <td>                    <dfn>non-IN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:IN">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1886,6 +1892,7 @@
                 <td><code>86</code></td>
                 <td><code>86</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-IO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:IO">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1898,6 +1905,7 @@
                 <td><code>368</code></td>
                 <td><code>368</code></td>
                 <td><a href="#subdivisions-IQ">19 divisions</a></td>
+                <td>                    <dfn>non-IQ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:IQ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1910,6 +1918,7 @@
                 <td><code>364</code></td>
                 <td><code>364</code></td>
                 <td><a href="#subdivisions-IR">31 divisions</a></td>
+                <td>                    <dfn>non-IR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:IR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1922,6 +1931,7 @@
                 <td><code>352</code></td>
                 <td><code>352</code></td>
                 <td><a href="#subdivisions-IS">50 divisions</a></td>
+                <td>                    <dfn>non-IS</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:IS">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1934,6 +1944,7 @@
                 <td><code>380</code></td>
                 <td><code>380</code></td>
                 <td><a href="#subdivisions-IT">131 divisions</a></td>
+                <td>                    <dfn>non-IT</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:IT">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1946,6 +1957,7 @@
                 <td><code>832</code></td>
                 <td><code>832</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-JE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:JE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1958,6 +1970,7 @@
                 <td><code>388</code></td>
                 <td><code>388</code></td>
                 <td><a href="#subdivisions-JM">12 divisions</a></td>
+                <td>                    <dfn>non-JM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:JM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1970,6 +1983,7 @@
                 <td><code>400</code></td>
                 <td><code>400</code></td>
                 <td><a href="#subdivisions-JO">11 divisions</a></td>
+                <td>                    <dfn>non-JO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:JO">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1982,6 +1996,7 @@
                 <td><code>392</code></td>
                 <td><code>392</code></td>
                 <td><a href="#subdivisions-JP">47 divisions</a></td>
+                <td>                    <dfn>non-JP</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:JP">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -1994,6 +2009,7 @@
                 <td><code>404</code></td>
                 <td><code>404</code></td>
                 <td><a href="#subdivisions-KE">55 divisions</a></td>
+                <td>                    <dfn>non-KE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2006,6 +2022,7 @@
                 <td><code>417</code></td>
                 <td><code>417</code></td>
                 <td><a href="#subdivisions-KG">9 divisions</a></td>
+                <td>                    <dfn>non-KG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2018,6 +2035,7 @@
                 <td><code>116</code></td>
                 <td><code>116</code></td>
                 <td><a href="#subdivisions-KH">25 divisions</a></td>
+                <td>                    <dfn>non-KH</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KH">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2030,6 +2048,7 @@
                 <td><code>296</code></td>
                 <td><code>296</code></td>
                 <td><a href="#subdivisions-KI">3 divisions</a></td>
+                <td>                    <dfn>non-KI</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KI">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2042,6 +2061,7 @@
                 <td><code>174</code></td>
                 <td><code>174</code></td>
                 <td><a href="#subdivisions-KM">3 divisions</a></td>
+                <td>                    <dfn>non-KM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2054,6 +2074,7 @@
                 <td><code>659</code></td>
                 <td><code>659</code></td>
                 <td><a href="#subdivisions-KN">15 divisions</a></td>
+                <td>                    <dfn>non-KN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KN">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2066,6 +2087,7 @@
                 <td><code>408</code></td>
                 <td><code>408</code></td>
                 <td><a href="#subdivisions-KP">13 divisions</a></td>
+                <td>                    <dfn>non-KP</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KP">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2078,6 +2100,7 @@
                 <td><code>410</code></td>
                 <td><code>410</code></td>
                 <td><a href="#subdivisions-KR">17 divisions</a></td>
+                <td>                    <dfn>non-KR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2090,6 +2113,7 @@
                 <td><code>414</code></td>
                 <td><code>414</code></td>
                 <td><a href="#subdivisions-KW">6 divisions</a></td>
+                <td>                    <dfn>non-KW</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KW">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2102,6 +2126,7 @@
                 <td><code>136</code></td>
                 <td><code>136</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-KY</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KY">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2114,6 +2139,7 @@
                 <td><code>398</code></td>
                 <td><code>398</code></td>
                 <td><a href="#subdivisions-KZ">20 divisions</a></td>
+                <td>                    <dfn>non-KZ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:KZ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2126,6 +2152,7 @@
                 <td><code>418</code></td>
                 <td><code>418</code></td>
                 <td><a href="#subdivisions-LA">17 divisions</a></td>
+                <td>                    <dfn>non-LA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LA">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2138,6 +2165,7 @@
                 <td><code>422</code></td>
                 <td><code>422</code></td>
                 <td><a href="#subdivisions-LB">8 divisions</a></td>
+                <td>                    <dfn>non-LB</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LB">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2150,6 +2178,7 @@
                 <td><code>662</code></td>
                 <td><code>662</code></td>
                 <td><a href="#subdivisions-LC">12 divisions</a></td>
+                <td>                    <dfn>non-LC</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LC">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2162,6 +2191,7 @@
                 <td><code>438</code></td>
                 <td><code>438</code></td>
                 <td><a href="#subdivisions-LI">11 divisions</a></td>
+                <td>                    <dfn>non-LI</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LI">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2174,6 +2204,7 @@
                 <td><code>144</code></td>
                 <td><code>144</code></td>
                 <td><a href="#subdivisions-LK">34 divisions</a></td>
+                <td>                    <dfn>non-LK</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LK">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2186,6 +2217,7 @@
                 <td><code>430</code></td>
                 <td><code>430</code></td>
                 <td><a href="#subdivisions-LR">12 divisions</a></td>
+                <td>                    <dfn>non-LR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2198,6 +2230,7 @@
                 <td><code>426</code></td>
                 <td><code>426</code></td>
                 <td><a href="#subdivisions-LS">10 divisions</a></td>
+                <td>                    <dfn>non-LS</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LS">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2210,6 +2243,7 @@
                 <td><code>440</code></td>
                 <td><code>440</code></td>
                 <td><a href="#subdivisions-LT">70 divisions</a></td>
+                <td>                    <dfn>non-LT</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LT">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2222,6 +2256,7 @@
                 <td><code>442</code></td>
                 <td><code>442</code></td>
                 <td><a href="#subdivisions-LU">15 divisions</a></td>
+                <td>                    <dfn>non-LU</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LU">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2234,6 +2269,7 @@
                 <td><code>428</code></td>
                 <td><code>428</code></td>
                 <td><a href="#subdivisions-LV">122 divisions</a></td>
+                <td>                    <dfn>non-LV</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LV">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2246,6 +2282,7 @@
                 <td><code>434</code></td>
                 <td><code>434</code></td>
                 <td><a href="#subdivisions-LY">3 divisions</a></td>
+                <td>                    <dfn>non-LY</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:LY">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2258,6 +2295,7 @@
                 <td><code>504</code></td>
                 <td><code>504</code></td>
                 <td><a href="#subdivisions-MA">69 divisions</a></td>
+                <td>                    <dfn>non-MA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MA">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2270,6 +2308,7 @@
                 <td><code>492</code></td>
                 <td><code>492</code></td>
                 <td><a href="#subdivisions-MC">9 divisions</a></td>
+                <td>                    <dfn>non-MC</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MC">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2282,6 +2321,7 @@
                 <td><code>498</code></td>
                 <td><code>498</code></td>
                 <td><a href="#subdivisions-MD">36 divisions</a></td>
+                <td>                    <dfn>non-MD</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MD">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2294,20 +2334,9 @@
                 <td><code>499</code></td>
                 <td><code>499</code></td>
                 <td><a href="#subdivisions-ME">14 divisions</a></td>
+                <td>                    <dfn>non-ME</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:ME">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="MF">
-                <td><dfn>MF</dfn></td>
-                <td>Saint Martin (French Part)</td>
-                <td><code>MF</code></td>
-                <td><code>MAF</code></td>
-                <td><code>663</code></td>
-                <td><code>663</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:MF">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="MG">
@@ -2318,6 +2347,7 @@
                 <td><code>450</code></td>
                 <td><code>450</code></td>
                 <td><a href="#subdivisions-MG">5 divisions</a></td>
+                <td>                    <dfn>non-MG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2330,6 +2360,7 @@
                 <td><code>584</code></td>
                 <td><code>584</code></td>
                 <td><a href="#subdivisions-MH">14 divisions</a></td>
+                <td>                    <dfn>non-MH</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MH">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2342,6 +2373,7 @@
                 <td><code>807</code></td>
                 <td><code>807</code></td>
                 <td><a href="#subdivisions-MK">85 divisions</a></td>
+                <td>                    <dfn>non-MK</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MK">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2354,6 +2386,7 @@
                 <td><code>466</code></td>
                 <td><code>466</code></td>
                 <td><a href="#subdivisions-ML">10 divisions</a></td>
+                <td>                    <dfn>non-ML</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:ML">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2366,6 +2399,7 @@
                 <td><code>104</code></td>
                 <td><code>104</code></td>
                 <td><a href="#subdivisions-MM">15 divisions</a></td>
+                <td>                    <dfn>non-MM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2378,44 +2412,9 @@
                 <td><code>496</code></td>
                 <td><code>496</code></td>
                 <td><a href="#subdivisions-MN">22 divisions</a></td>
+                <td>                    <dfn>non-MN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MN">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="MO">
-                <td><dfn>MO</dfn></td>
-                <td>China, Macao Special Administrative Region</td>
-                <td><code>MO</code></td>
-                <td><code>MAC</code></td>
-                <td><code>446</code></td>
-                <td><code>446</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:MO">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="MP">
-                <td><dfn>MP</dfn></td>
-                <td>Northern Mariana Islands</td>
-                <td><code>MP</code></td>
-                <td><code>MNP</code></td>
-                <td><code>580</code></td>
-                <td><code>580</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:MP">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="MQ">
-                <td><dfn>MQ</dfn></td>
-                <td>Martinique</td>
-                <td><code>MQ</code></td>
-                <td><code>MTQ</code></td>
-                <td><code>474</code></td>
-                <td><code>474</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:MQ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="MR">
@@ -2426,6 +2425,7 @@
                 <td><code>478</code></td>
                 <td><code>478</code></td>
                 <td><a href="#subdivisions-MR">13 divisions</a></td>
+                <td>                    <dfn>non-MR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2438,6 +2438,7 @@
                 <td><code>500</code></td>
                 <td><code>500</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-MS</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MS">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2450,6 +2451,7 @@
                 <td><code>470</code></td>
                 <td><code>470</code></td>
                 <td><a href="#subdivisions-MT">68 divisions</a></td>
+                <td>                    <dfn>non-MT</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MT">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2462,6 +2464,7 @@
                 <td><code>480</code></td>
                 <td><code>480</code></td>
                 <td><a href="#subdivisions-MU">12 divisions</a></td>
+                <td>                    <dfn>non-MU</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MU">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2474,6 +2477,7 @@
                 <td><code>462</code></td>
                 <td><code>462</code></td>
                 <td><a href="#subdivisions-MV">9 divisions</a></td>
+                <td>                    <dfn>non-MV</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MV">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2486,6 +2490,7 @@
                 <td><code>454</code></td>
                 <td><code>454</code></td>
                 <td><a href="#subdivisions-MW">8 divisions</a></td>
+                <td>                    <dfn>non-MW</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MW">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2498,6 +2503,7 @@
                 <td><code>484</code></td>
                 <td><code>484</code></td>
                 <td><a href="#subdivisions-MX">33 divisions</a></td>
+                <td>                    <dfn>non-MX</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MX">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2510,6 +2516,7 @@
                 <td><code>458</code></td>
                 <td><code>458</code></td>
                 <td><a href="#subdivisions-MY">16 divisions</a></td>
+                <td>                    <dfn>non-MY</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MY">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2522,6 +2529,7 @@
                 <td><code>508</code></td>
                 <td><code>508</code></td>
                 <td><a href="#subdivisions-MZ">11 divisions</a></td>
+                <td>                    <dfn>non-MZ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:MZ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2534,20 +2542,9 @@
                 <td><code>516</code></td>
                 <td><code>516</code></td>
                 <td><a href="#subdivisions-NA">13 divisions</a></td>
+                <td>                    <dfn>non-NA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NA">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="NC">
-                <td><dfn>NC</dfn></td>
-                <td>New Caledonia</td>
-                <td><code>NC</code></td>
-                <td><code>NCL</code></td>
-                <td><code>540</code></td>
-                <td><code>540</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:NC">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="NE">
@@ -2558,6 +2555,7 @@
                 <td><code>562</code></td>
                 <td><code>562</code></td>
                 <td><a href="#subdivisions-NE">8 divisions</a></td>
+                <td>                    <dfn>non-NE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2570,6 +2568,7 @@
                 <td><code>574</code></td>
                 <td><code>574</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-NF</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NF">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2582,6 +2581,7 @@
                 <td><code>566</code></td>
                 <td><code>566</code></td>
                 <td><a href="#subdivisions-NG">32 divisions</a></td>
+                <td>                    <dfn>non-NG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2594,6 +2594,7 @@
                 <td><code>558</code></td>
                 <td><code>558</code></td>
                 <td><a href="#subdivisions-NI">17 divisions</a></td>
+                <td>                    <dfn>non-NI</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NI">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2605,7 +2606,8 @@
                 <td><code>NLD</code></td>
                 <td><code>528</code></td>
                 <td><code>528</code></td>
-                <td><a href="#subdivisions-NL">17 divisions</a></td>
+                <td><a href="#subdivisions-NL">21 divisions</a></td>
+                <td>                    <dfn>non-NL</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NL">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2617,7 +2619,8 @@
                 <td><code>NOR</code></td>
                 <td><code>578</code></td>
                 <td><code>578</code></td>
-                <td><a href="#subdivisions-NO">29 divisions</a></td>
+                <td><a href="#subdivisions-NO">30 divisions</a></td>
+                <td>                    <dfn>non-NO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NO">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2630,6 +2633,7 @@
                 <td><code>524</code></td>
                 <td><code>524</code></td>
                 <td><a href="#subdivisions-NP">24 divisions</a></td>
+                <td>                    <dfn>non-NP</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NP">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2642,6 +2646,7 @@
                 <td><code>520</code></td>
                 <td><code>520</code></td>
                 <td><a href="#subdivisions-NR">14 divisions</a></td>
+                <td>                    <dfn>non-NR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2654,6 +2659,7 @@
                 <td><code>570</code></td>
                 <td><code>570</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-NU</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NU">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2666,6 +2672,7 @@
                 <td><code>554</code></td>
                 <td><code>554</code></td>
                 <td><a href="#subdivisions-NZ">19 divisions</a></td>
+                <td>                    <dfn>non-NZ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:NZ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2678,6 +2685,7 @@
                 <td><code>512</code></td>
                 <td><code>512</code></td>
                 <td><a href="#subdivisions-OM">7 divisions</a></td>
+                <td>                    <dfn>non-OM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:OM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2690,6 +2698,7 @@
                 <td><code>591</code></td>
                 <td><code>591</code></td>
                 <td><a href="#subdivisions-PA">14 divisions</a></td>
+                <td>                    <dfn>non-PA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PA">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2702,20 +2711,9 @@
                 <td><code>604</code></td>
                 <td><code>604</code></td>
                 <td><a href="#subdivisions-PE">26 divisions</a></td>
+                <td>                    <dfn>non-PE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PE">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="PF">
-                <td><dfn>PF</dfn></td>
-                <td>French Polynesia</td>
-                <td><code>PF</code></td>
-                <td><code>PYF</code></td>
-                <td><code>258</code></td>
-                <td><code>258</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:PF">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="PG">
@@ -2726,6 +2724,7 @@
                 <td><code>598</code></td>
                 <td><code>598</code></td>
                 <td><a href="#subdivisions-PG">17 divisions</a></td>
+                <td>                    <dfn>non-PG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2738,6 +2737,7 @@
                 <td><code>608</code></td>
                 <td><code>608</code></td>
                 <td><a href="#subdivisions-PH">100 divisions</a></td>
+                <td>                    <dfn>non-PH</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PH">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2750,6 +2750,7 @@
                 <td><code>586</code></td>
                 <td><code>586</code></td>
                 <td><a href="#subdivisions-PK">8 divisions</a></td>
+                <td>                    <dfn>non-PK</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PK">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2762,20 +2763,9 @@
                 <td><code>616</code></td>
                 <td><code>616</code></td>
                 <td><a href="#subdivisions-PL">17 divisions</a></td>
+                <td>                    <dfn>non-PL</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PL">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="PM">
-                <td><dfn>PM</dfn></td>
-                <td>Saint Pierre and Miquelon</td>
-                <td><code>PM</code></td>
-                <td><code>SPM</code></td>
-                <td><code>666</code></td>
-                <td><code>666</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:PM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="PN">
@@ -2786,20 +2776,9 @@
                 <td><code>612</code></td>
                 <td><code>612</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-PN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PN">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="PR">
-                <td><dfn>PR</dfn></td>
-                <td>Puerto Rico</td>
-                <td><code>PR</code></td>
-                <td><code>PRI</code></td>
-                <td><code>630</code></td>
-                <td><code>630</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:PR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="PS">
@@ -2810,6 +2789,7 @@
                 <td><code>275</code></td>
                 <td><code>275</code></td>
                 <td><a href="#subdivisions-PS">12 divisions</a></td>
+                <td>                    <dfn>non-PS</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PS">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2822,6 +2802,7 @@
                 <td><code>620</code></td>
                 <td><code>620</code></td>
                 <td><a href="#subdivisions-PT">20 divisions</a></td>
+                <td>                    <dfn>non-PT</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PT">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2834,6 +2815,7 @@
                 <td><code>585</code></td>
                 <td><code>585</code></td>
                 <td><a href="#subdivisions-PW">16 divisions</a></td>
+                <td>                    <dfn>non-PW</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PW">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2846,6 +2828,7 @@
                 <td><code>600</code></td>
                 <td><code>600</code></td>
                 <td><a href="#subdivisions-PY">18 divisions</a></td>
+                <td>                    <dfn>non-PY</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:PY">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2858,20 +2841,9 @@
                 <td><code>634</code></td>
                 <td><code>634</code></td>
                 <td><a href="#subdivisions-QA">8 divisions</a></td>
+                <td>                    <dfn>non-QA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:QA">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="RE">
-                <td><dfn>RE</dfn></td>
-                <td>Réunion</td>
-                <td><code>RE</code></td>
-                <td><code>REU</code></td>
-                <td><code>638</code></td>
-                <td><code>638</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:RE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="RO">
@@ -2882,6 +2854,7 @@
                 <td><code>642</code></td>
                 <td><code>642</code></td>
                 <td><a href="#subdivisions-RO">42 divisions</a></td>
+                <td>                    <dfn>non-RO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:RO">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2894,6 +2867,7 @@
                 <td><code>688</code></td>
                 <td><code>688</code></td>
                 <td><a href="#subdivisions-RS">29 divisions</a></td>
+                <td>                    <dfn>non-RS</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:RS">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2906,6 +2880,7 @@
                 <td><code>643</code></td>
                 <td><code>643</code></td>
                 <td><a href="#subdivisions-RU">83 divisions</a></td>
+                <td>                    <dfn>non-RU</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:RU">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2918,6 +2893,7 @@
                 <td><code>646</code></td>
                 <td><code>646</code></td>
                 <td><a href="#subdivisions-RW">5 divisions</a></td>
+                <td>                    <dfn>non-RW</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:RW">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2930,6 +2906,7 @@
                 <td><code>682</code></td>
                 <td><code>682</code></td>
                 <td><a href="#subdivisions-SA">13 divisions</a></td>
+                <td>                    <dfn>non-SA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SA">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2942,6 +2919,7 @@
                 <td><code>90</code></td>
                 <td><code>90</code></td>
                 <td><a href="#subdivisions-SB">3 divisions</a></td>
+                <td>                    <dfn>non-SB</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SB">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2954,6 +2932,7 @@
                 <td><code>690</code></td>
                 <td><code>690</code></td>
                 <td><a href="#subdivisions-SC">6 divisions</a></td>
+                <td>                    <dfn>non-SC</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SC">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2966,6 +2945,7 @@
                 <td><code>729</code></td>
                 <td><code>729</code></td>
                 <td><a href="#subdivisions-SD">7 divisions</a></td>
+                <td>                    <dfn>non-SD</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SD">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2978,6 +2958,7 @@
                 <td><code>752</code></td>
                 <td><code>752</code></td>
                 <td><a href="#subdivisions-SE">21 divisions</a></td>
+                <td>                    <dfn>non-SE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -2990,6 +2971,7 @@
                 <td><code>702</code></td>
                 <td><code>702</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-SG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3002,6 +2984,7 @@
                 <td><code>654</code></td>
                 <td><code>654</code></td>
                 <td><a href="#subdivisions-SH">3 divisions</a></td>
+                <td>                    <dfn>non-SH</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SH">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3014,20 +2997,9 @@
                 <td><code>705</code></td>
                 <td><code>705</code></td>
                 <td><a href="#subdivisions-SI">212 divisions</a></td>
+                <td>                    <dfn>non-SI</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SI">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="SJ">
-                <td><dfn>SJ</dfn></td>
-                <td>Svalbard and Jan Mayen Islands</td>
-                <td><code>SJ</code></td>
-                <td><code>SJM</code></td>
-                <td><code>744</code></td>
-                <td><code>744</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:SJ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="SK">
@@ -3038,6 +3010,7 @@
                 <td><code>703</code></td>
                 <td><code>703</code></td>
                 <td><a href="#subdivisions-SK">8 divisions</a></td>
+                <td>                    <dfn>non-SK</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SK">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3050,6 +3023,7 @@
                 <td><code>694</code></td>
                 <td><code>694</code></td>
                 <td><a href="#subdivisions-SL">5 divisions</a></td>
+                <td>                    <dfn>non-SL</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SL">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3062,6 +3036,7 @@
                 <td><code>674</code></td>
                 <td><code>674</code></td>
                 <td><a href="#subdivisions-SM">9 divisions</a></td>
+                <td>                    <dfn>non-SM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3074,6 +3049,7 @@
                 <td><code>686</code></td>
                 <td><code>686</code></td>
                 <td><a href="#subdivisions-SN">14 divisions</a></td>
+                <td>                    <dfn>non-SN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SN">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3086,6 +3062,7 @@
                 <td><code>706</code></td>
                 <td><code>706</code></td>
                 <td><a href="#subdivisions-SO">16 divisions</a></td>
+                <td>                    <dfn>non-SO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SO">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3098,6 +3075,7 @@
                 <td><code>740</code></td>
                 <td><code>740</code></td>
                 <td><a href="#subdivisions-SR">10 divisions</a></td>
+                <td>                    <dfn>non-SR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3110,6 +3088,7 @@
                 <td><code>728</code></td>
                 <td><code>728</code></td>
                 <td><a href="#subdivisions-SS">3 divisions</a></td>
+                <td>                    <dfn>non-SS</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SS">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3122,6 +3101,7 @@
                 <td><code>678</code></td>
                 <td><code>678</code></td>
                 <td><a href="#subdivisions-ST">3 divisions</a></td>
+                <td>                    <dfn>non-ST</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:ST">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3134,20 +3114,9 @@
                 <td><code>222</code></td>
                 <td><code>222</code></td>
                 <td><a href="#subdivisions-SV">14 divisions</a></td>
+                <td>                    <dfn>non-SV</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SV">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="SX">
-                <td><dfn>SX</dfn></td>
-                <td>Sint Maarten (Dutch part)</td>
-                <td><code>SX</code></td>
-                <td><code>SXM</code></td>
-                <td><code>534</code></td>
-                <td><code>534</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:SX">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="SY">
@@ -3158,6 +3127,7 @@
                 <td><code>760</code></td>
                 <td><code>760</code></td>
                 <td><a href="#subdivisions-SY">14 divisions</a></td>
+                <td>                    <dfn>non-SY</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SY">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3170,6 +3140,7 @@
                 <td><code>748</code></td>
                 <td><code>748</code></td>
                 <td><a href="#subdivisions-SZ">4 divisions</a></td>
+                <td>                    <dfn>non-SZ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:SZ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3182,6 +3153,7 @@
                 <td><code>796</code></td>
                 <td><code>796</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-TC</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TC">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3194,20 +3166,9 @@
                 <td><code>148</code></td>
                 <td><code>148</code></td>
                 <td><a href="#subdivisions-TD">17 divisions</a></td>
+                <td>                    <dfn>non-TD</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TD">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="TF">
-                <td><dfn>TF</dfn></td>
-                <td>French Southern Territories</td>
-                <td><code>TF</code></td>
-                <td><code>ATF</code></td>
-                <td><code>260</code></td>
-                <td><code>260</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:TF">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="TG">
@@ -3218,6 +3179,7 @@
                 <td><code>768</code></td>
                 <td><code>768</code></td>
                 <td><a href="#subdivisions-TG">3 divisions</a></td>
+                <td>                    <dfn>non-TG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TG">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3230,6 +3192,7 @@
                 <td><code>764</code></td>
                 <td><code>764</code></td>
                 <td><a href="#subdivisions-TH">78 divisions</a></td>
+                <td>                    <dfn>non-TH</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TH">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3242,6 +3205,7 @@
                 <td><code>762</code></td>
                 <td><code>762</code></td>
                 <td><a href="#subdivisions-TJ">5 divisions</a></td>
+                <td>                    <dfn>non-TJ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TJ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3254,6 +3218,7 @@
                 <td><code>772</code></td>
                 <td><code>772</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-TK</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TK">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3266,6 +3231,7 @@
                 <td><code>626</code></td>
                 <td><code>626</code></td>
                 <td><a href="#subdivisions-TL">13 divisions</a></td>
+                <td>                    <dfn>non-TL</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TL">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3278,6 +3244,7 @@
                 <td><code>795</code></td>
                 <td><code>795</code></td>
                 <td><a href="#subdivisions-TM">6 divisions</a></td>
+                <td>                    <dfn>non-TM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3290,6 +3257,7 @@
                 <td><code>788</code></td>
                 <td><code>788</code></td>
                 <td><a href="#subdivisions-TN">24 divisions</a></td>
+                <td>                    <dfn>non-TN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TN">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3302,6 +3270,7 @@
                 <td><code>776</code></td>
                 <td><code>776</code></td>
                 <td><a href="#subdivisions-TO">30 divisions</a></td>
+                <td>                    <dfn>non-TO</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TO">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3314,6 +3283,7 @@
                 <td><code>792</code></td>
                 <td><code>792</code></td>
                 <td><a href="#subdivisions-TR">81 divisions</a></td>
+                <td>                    <dfn>non-TR</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TR">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3326,6 +3296,7 @@
                 <td><code>780</code></td>
                 <td><code>780</code></td>
                 <td><a href="#subdivisions-TT">14 divisions</a></td>
+                <td>                    <dfn>non-TT</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TT">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3338,20 +3309,9 @@
                 <td><code>798</code></td>
                 <td><code>798</code></td>
                 <td><a href="#subdivisions-TV">8 divisions</a></td>
+                <td>                    <dfn>non-TV</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TV">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="TW">
-                <td><dfn>TW</dfn></td>
-                <td>Taiwan (Province of China)</td>
-                <td><code>TW</code></td>
-                <td><code>TWN</code></td>
-                <td><code>158</code></td>
-                <td><code></code></td>
-                <td><a href="#subdivisions-TW">25 divisions</a></td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:TW">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="TZ">
@@ -3362,6 +3322,7 @@
                 <td><code>834</code></td>
                 <td><code>834</code></td>
                 <td><a href="#subdivisions-TZ">30 divisions</a></td>
+                <td>                    <dfn>non-TZ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:TZ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3374,6 +3335,7 @@
                 <td><code>804</code></td>
                 <td><code>804</code></td>
                 <td><a href="#subdivisions-UA">27 divisions</a></td>
+                <td>                    <dfn>non-UA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:UA">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3386,20 +3348,9 @@
                 <td><code>800</code></td>
                 <td><code>800</code></td>
                 <td><a href="#subdivisions-UG">35 divisions</a></td>
+                <td>                    <dfn>non-UG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:UG">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="UM">
-                <td><dfn>UM</dfn></td>
-                <td>United States Minor Outlying Islands</td>
-                <td><code>UM</code></td>
-                <td><code>UMI</code></td>
-                <td><code>581</code></td>
-                <td><code>581</code></td>
-                <td><a href="#subdivisions-UM">9 divisions</a></td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:UM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="US">
@@ -3409,7 +3360,8 @@
                 <td><code>USA</code></td>
                 <td><code>840</code></td>
                 <td><code>840</code></td>
-                <td><a href="#subdivisions-US">56 divisions</a></td>
+                <td><a href="#subdivisions-US">62 divisions</a></td>
+                <td>                    <dfn>non-US</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:US">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3422,6 +3374,7 @@
                 <td><code>858</code></td>
                 <td><code>858</code></td>
                 <td><a href="#subdivisions-UY">19 divisions</a></td>
+                <td>                    <dfn>non-UY</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:UY">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3434,6 +3387,7 @@
                 <td><code>860</code></td>
                 <td><code>860</code></td>
                 <td><a href="#subdivisions-UZ">14 divisions</a></td>
+                <td>                    <dfn>non-UZ</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:UZ">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3446,6 +3400,7 @@
                 <td><code>336</code></td>
                 <td><code>336</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-VA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:VA">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3458,6 +3413,7 @@
                 <td><code>670</code></td>
                 <td><code>670</code></td>
                 <td><a href="#subdivisions-VC">5 divisions</a></td>
+                <td>                    <dfn>non-VC</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:VC">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3470,6 +3426,7 @@
                 <td><code>862</code></td>
                 <td><code>862</code></td>
                 <td><a href="#subdivisions-VE">25 divisions</a></td>
+                <td>                    <dfn>non-VE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:VE">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3482,20 +3439,9 @@
                 <td><code>92</code></td>
                 <td><code>92</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-VG</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:VG">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="VI">
-                <td><dfn>VI</dfn></td>
-                <td>United States Virgin Islands</td>
-                <td><code>VI</code></td>
-                <td><code>VIR</code></td>
-                <td><code>850</code></td>
-                <td><code>850</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:VI">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="VN">
@@ -3506,6 +3452,7 @@
                 <td><code>704</code></td>
                 <td><code>704</code></td>
                 <td><a href="#subdivisions-VN">64 divisions</a></td>
+                <td>                    <dfn>non-VN</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:VN">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3518,20 +3465,9 @@
                 <td><code>548</code></td>
                 <td><code>548</code></td>
                 <td><a href="#subdivisions-VU">4 divisions</a></td>
+                <td>                    <dfn>non-VU</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:VU">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="WF">
-                <td><dfn>WF</dfn></td>
-                <td>Wallis and Futuna Islands</td>
-                <td><code>WF</code></td>
-                <td><code>WLF</code></td>
-                <td><code>876</code></td>
-                <td><code>876</code></td>
-                <td><a href="#subdivisions-WF">3 divisions</a></td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:WF">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="WS">
@@ -3542,6 +3478,7 @@
                 <td><code>882</code></td>
                 <td><code>882</code></td>
                 <td>N/A</td>
+                <td>                    <dfn>non-WS</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:WS">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3554,20 +3491,9 @@
                 <td><code>887</code></td>
                 <td><code>887</code></td>
                 <td><a href="#subdivisions-YE">20 divisions</a></td>
+                <td>                    <dfn>non-YE</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:YE">ISO OBP</a>; 
-                  <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
-            </tr>
-            <tr id="YT">
-                <td><dfn>YT</dfn></td>
-                <td>Mayotte</td>
-                <td><code>YT</code></td>
-                <td><code>MYT</code></td>
-                <td><code>175</code></td>
-                <td><code>175</code></td>
-                <td>N/A</td>
-                <td>
-                  <a href="https://www.iso.org/obp/ui/#iso:code:3166:YT">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
             </tr>
             <tr id="ZA">
@@ -3578,6 +3504,7 @@
                 <td><code>710</code></td>
                 <td><code>710</code></td>
                 <td><a href="#subdivisions-ZA">9 divisions</a></td>
+                <td>                    <dfn>non-ZA</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:ZA">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3590,6 +3517,7 @@
                 <td><code>894</code></td>
                 <td><code>894</code></td>
                 <td><a href="#subdivisions-ZM">9 divisions</a></td>
+                <td>                    <dfn>non-ZM</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:ZM">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -3602,6 +3530,7 @@
                 <td><code>716</code></td>
                 <td><code>716</code></td>
                 <td><a href="#subdivisions-ZW">8 divisions</a></td>
+                <td>                    <dfn>non-ZW</dfn></td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:ZW">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/">EU Vocab</a></td>
@@ -6608,17 +6537,6 @@
         </tr>
         </tbody>
       </table>
-      <h3 id="subdivisions-BQ">Bonaire, Sint Eustatius and Saba (BQ)</h3>
-      <table>
-        <thead>
-          <th>Prefixed</th>
-          <th>IRI</th>
-          <th>Name</th>
-          <th>Type</th>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
       <h3 id="subdivisions-BR">Brazil (BR)</h3>
       <table>
         <thead>
@@ -8124,6 +8042,24 @@
           <td><dfn>loc:CN-ZJ</dfn></td>
           <td>https://w3id.org/dpv/loc#CN-ZJ</td>
           <td>Zhejiang</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="HK">
+          <td><dfn>loc:HK</dfn></td>
+          <td>https://w3id.org/dpv/loc#HK</td>
+          <td>China, Hong Kong Special Administrative Region</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="MO">
+          <td><dfn>loc:MO</dfn></td>
+          <td>https://w3id.org/dpv/loc#MO</td>
+          <td>China, Macao Special Administrative Region</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="TW">
+          <td><dfn>loc:TW</dfn></td>
+          <td>https://w3id.org/dpv/loc#TW</td>
+          <td>Taiwan (Province of China)</td>
           <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
         </tr>
         </tbody>
@@ -11221,6 +11157,12 @@
           <th>Type</th>
         </thead>
         <tbody>
+         <tr id="AX">
+          <td><dfn>loc:AX</dfn></td>
+          <td>https://w3id.org/dpv/loc#AX</td>
+          <td>Åland Islands</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
          <tr id="FI-01">
           <td><dfn>loc:FI-01</dfn></td>
           <td>https://w3id.org/dpv/loc#FI-01</td>
@@ -11422,6 +11364,12 @@
           <th>Type</th>
         </thead>
         <tbody>
+         <tr id="BL">
+          <td><dfn>loc:BL</dfn></td>
+          <td>https://w3id.org/dpv/loc#BL</td>
+          <td>Saint Barthélemy</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
          <tr id="FR-01">
           <td><dfn>loc:FR-01</dfn></td>
           <td>https://w3id.org/dpv/loc#FR-01</td>
@@ -12236,6 +12184,72 @@
           <td><dfn>loc:FR-WF</dfn></td>
           <td>https://w3id.org/dpv/loc#FR-WF</td>
           <td>Wallis and Futuna</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="GF">
+          <td><dfn>loc:GF</dfn></td>
+          <td>https://w3id.org/dpv/loc#GF</td>
+          <td>French Guiana</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Country" class="local-link">dpv:Country</a></td>
+        </tr>
+         <tr id="GP">
+          <td><dfn>loc:GP</dfn></td>
+          <td>https://w3id.org/dpv/loc#GP</td>
+          <td>Guadeloupe</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="MF">
+          <td><dfn>loc:MF</dfn></td>
+          <td>https://w3id.org/dpv/loc#MF</td>
+          <td>Saint Martin (French Part)</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="MQ">
+          <td><dfn>loc:MQ</dfn></td>
+          <td>https://w3id.org/dpv/loc#MQ</td>
+          <td>Martinique</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="NC">
+          <td><dfn>loc:NC</dfn></td>
+          <td>https://w3id.org/dpv/loc#NC</td>
+          <td>New Caledonia</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="PF">
+          <td><dfn>loc:PF</dfn></td>
+          <td>https://w3id.org/dpv/loc#PF</td>
+          <td>French Polynesia</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="PM">
+          <td><dfn>loc:PM</dfn></td>
+          <td>https://w3id.org/dpv/loc#PM</td>
+          <td>Saint Pierre and Miquelon</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="RE">
+          <td><dfn>loc:RE</dfn></td>
+          <td>https://w3id.org/dpv/loc#RE</td>
+          <td>Réunion</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="TF">
+          <td><dfn>loc:TF</dfn></td>
+          <td>https://w3id.org/dpv/loc#TF</td>
+          <td>French Southern Territories</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="WF">
+          <td><dfn>loc:WF</dfn></td>
+          <td>https://w3id.org/dpv/loc#WF</td>
+          <td>Wallis and Futuna Islands</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="YT">
+          <td><dfn>loc:YT</dfn></td>
+          <td>https://w3id.org/dpv/loc#YT</td>
+          <td>Mayotte</td>
           <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
         </tr>
         </tbody>
@@ -24580,6 +24594,24 @@
           <th>Type</th>
         </thead>
         <tbody>
+         <tr id="AW">
+          <td><dfn>loc:AW</dfn></td>
+          <td>https://w3id.org/dpv/loc#AW</td>
+          <td>Aruba</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="BQ">
+          <td><dfn>loc:BQ</dfn></td>
+          <td>https://w3id.org/dpv/loc#BQ</td>
+          <td>Bonaire, Sint Eustatius and Saba</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="CW">
+          <td><dfn>loc:CW</dfn></td>
+          <td>https://w3id.org/dpv/loc#CW</td>
+          <td>Curaçao</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
          <tr id="NL-AW">
           <td><dfn>loc:NL-AW</dfn></td>
           <td>https://w3id.org/dpv/loc#NL-AW</td>
@@ -24680,6 +24712,12 @@
           <td><dfn>loc:NL-ZH</dfn></td>
           <td>https://w3id.org/dpv/loc#NL-ZH</td>
           <td>South Holland</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="SX">
+          <td><dfn>loc:SX</dfn></td>
+          <td>https://w3id.org/dpv/loc#SX</td>
+          <td>Sint Maarten (Dutch part)</td>
           <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
         </tr>
         </tbody>
@@ -24865,6 +24903,12 @@
           <td><dfn>loc:NO-56</dfn></td>
           <td>https://w3id.org/dpv/loc#NO-56</td>
           <td>Finnmark</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="SJ">
+          <td><dfn>loc:SJ</dfn></td>
+          <td>https://w3id.org/dpv/loc#SJ</td>
+          <td>Svalbard and Jan Mayen Islands</td>
           <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
         </tr>
         </tbody>
@@ -31955,167 +31999,6 @@
         </tr>
         </tbody>
       </table>
-      <h3 id="subdivisions-TW">Taiwan (Province of China) (TW)</h3>
-      <table>
-        <thead>
-          <th>Prefixed</th>
-          <th>IRI</th>
-          <th>Name</th>
-          <th>Type</th>
-        </thead>
-        <tbody>
-         <tr id="TW-CHA">
-          <td><dfn>loc:TW-CHA</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-CHA</td>
-          <td>Changhua County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-CYI">
-          <td><dfn>loc:TW-CYI</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-CYI</td>
-          <td>Chiayi City</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-CYQ">
-          <td><dfn>loc:TW-CYQ</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-CYQ</td>
-          <td>Chiayi County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-HSQ">
-          <td><dfn>loc:TW-HSQ</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-HSQ</td>
-          <td>Hsinchu County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-HSZ">
-          <td><dfn>loc:TW-HSZ</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-HSZ</td>
-          <td>Hsinchu City</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-HUA">
-          <td><dfn>loc:TW-HUA</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-HUA</td>
-          <td>Hualien County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-ILA">
-          <td><dfn>loc:TW-ILA</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-ILA</td>
-          <td>Yilan County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-KEE">
-          <td><dfn>loc:TW-KEE</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-KEE</td>
-          <td>Keelung</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-KHH">
-          <td><dfn>loc:TW-KHH</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-KHH</td>
-          <td>Kaohsiung</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-KHQ">
-          <td><dfn>loc:TW-KHQ</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-KHQ</td>
-          <td>Kaohsiung County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-KIN">
-          <td><dfn>loc:TW-KIN</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-KIN</td>
-          <td>Kinmen</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-LIE">
-          <td><dfn>loc:TW-LIE</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-LIE</td>
-          <td>Lienchiang County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-MIA">
-          <td><dfn>loc:TW-MIA</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-MIA</td>
-          <td>Miaoli County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-NAN">
-          <td><dfn>loc:TW-NAN</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-NAN</td>
-          <td>Nantou County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-NWT">
-          <td><dfn>loc:TW-NWT</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-NWT</td>
-          <td>New Taipei</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-PEN">
-          <td><dfn>loc:TW-PEN</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-PEN</td>
-          <td>Penghu County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-PIF">
-          <td><dfn>loc:TW-PIF</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-PIF</td>
-          <td>Pingtung County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-TAO">
-          <td><dfn>loc:TW-TAO</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-TAO</td>
-          <td>Taoyuan City</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-TNN">
-          <td><dfn>loc:TW-TNN</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-TNN</td>
-          <td>Tainan</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-TNQ">
-          <td><dfn>loc:TW-TNQ</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-TNQ</td>
-          <td>Tainan County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-TPE">
-          <td><dfn>loc:TW-TPE</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-TPE</td>
-          <td>Taipei</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-TTT">
-          <td><dfn>loc:TW-TTT</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-TTT</td>
-          <td>Taitung County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-TXG">
-          <td><dfn>loc:TW-TXG</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-TXG</td>
-          <td>Taichung City</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-TXQ">
-          <td><dfn>loc:TW-TXQ</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-TXQ</td>
-          <td>Taichung County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="TW-YUN">
-          <td><dfn>loc:TW-YUN</dfn></td>
-          <td>https://w3id.org/dpv/loc#TW-YUN</td>
-          <td>Yunlin County</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-        </tbody>
-      </table>
       <h3 id="subdivisions-TZ">United Republic of Tanzania (TZ)</h3>
       <table>
         <thead>
@@ -32701,71 +32584,6 @@
         </tr>
         </tbody>
       </table>
-      <h3 id="subdivisions-UM">United States Minor Outlying Islands (UM)</h3>
-      <table>
-        <thead>
-          <th>Prefixed</th>
-          <th>IRI</th>
-          <th>Name</th>
-          <th>Type</th>
-        </thead>
-        <tbody>
-         <tr id="UM-67">
-          <td><dfn>loc:UM-67</dfn></td>
-          <td>https://w3id.org/dpv/loc#UM-67</td>
-          <td>Johnston Atoll</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="UM-71">
-          <td><dfn>loc:UM-71</dfn></td>
-          <td>https://w3id.org/dpv/loc#UM-71</td>
-          <td>Midway Atoll</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="UM-76">
-          <td><dfn>loc:UM-76</dfn></td>
-          <td>https://w3id.org/dpv/loc#UM-76</td>
-          <td>Navassa Island</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="UM-79">
-          <td><dfn>loc:UM-79</dfn></td>
-          <td>https://w3id.org/dpv/loc#UM-79</td>
-          <td>Wake Island</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="UM-81">
-          <td><dfn>loc:UM-81</dfn></td>
-          <td>https://w3id.org/dpv/loc#UM-81</td>
-          <td>Baker Island</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="UM-84">
-          <td><dfn>loc:UM-84</dfn></td>
-          <td>https://w3id.org/dpv/loc#UM-84</td>
-          <td>Howland Island</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="UM-86">
-          <td><dfn>loc:UM-86</dfn></td>
-          <td>https://w3id.org/dpv/loc#UM-86</td>
-          <td>Jarvis Island</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="UM-89">
-          <td><dfn>loc:UM-89</dfn></td>
-          <td>https://w3id.org/dpv/loc#UM-89</td>
-          <td>Kingman Reef</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="UM-95">
-          <td><dfn>loc:UM-95</dfn></td>
-          <td>https://w3id.org/dpv/loc#UM-95</td>
-          <td>Palmyra Atoll</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-        </tbody>
-      </table>
       <h3 id="subdivisions-US">United States of America (US)</h3>
       <table>
         <thead>
@@ -32775,6 +32593,36 @@
           <th>Type</th>
         </thead>
         <tbody>
+         <tr id="AS">
+          <td><dfn>loc:AS</dfn></td>
+          <td>https://w3id.org/dpv/loc#AS</td>
+          <td>American Samoa</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="GU">
+          <td><dfn>loc:GU</dfn></td>
+          <td>https://w3id.org/dpv/loc#GU</td>
+          <td>Guam</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="MP">
+          <td><dfn>loc:MP</dfn></td>
+          <td>https://w3id.org/dpv/loc#MP</td>
+          <td>Northern Mariana Islands</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="PR">
+          <td><dfn>loc:PR</dfn></td>
+          <td>https://w3id.org/dpv/loc#PR</td>
+          <td>Puerto Rico</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="UM">
+          <td><dfn>loc:UM</dfn></td>
+          <td>https://w3id.org/dpv/loc#UM</td>
+          <td>United States Minor Outlying Islands</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
          <tr id="US-AK">
           <td><dfn>loc:US-AK</dfn></td>
           <td>https://w3id.org/dpv/loc#US-AK</td>
@@ -33109,6 +32957,12 @@
           <td><dfn>loc:US-WY</dfn></td>
           <td>https://w3id.org/dpv/loc#US-WY</td>
           <td>Wyoming</td>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
+        </tr>
+         <tr id="VI">
+          <td><dfn>loc:VI</dfn></td>
+          <td>https://w3id.org/dpv/loc#VI</td>
+          <td>United States Virgin Islands</td>
           <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
         </tr>
         </tbody>
@@ -33961,35 +33815,6 @@
           <td><dfn>loc:VU-TOB</dfn></td>
           <td>https://w3id.org/dpv/loc#VU-TOB</td>
           <td>Torba Province</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-        </tbody>
-      </table>
-      <h3 id="subdivisions-WF">Wallis and Futuna Islands (WF)</h3>
-      <table>
-        <thead>
-          <th>Prefixed</th>
-          <th>IRI</th>
-          <th>Name</th>
-          <th>Type</th>
-        </thead>
-        <tbody>
-         <tr id="WF-AL">
-          <td><dfn>loc:WF-AL</dfn></td>
-          <td>https://w3id.org/dpv/loc#WF-AL</td>
-          <td>Alo</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="WF-SG">
-          <td><dfn>loc:WF-SG</dfn></td>
-          <td>https://w3id.org/dpv/loc#WF-SG</td>
-          <td>Sigave</td>
-          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
-        </tr>
-         <tr id="WF-UV">
-          <td><dfn>loc:WF-UV</dfn></td>
-          <td>https://w3id.org/dpv/loc#WF-UV</td>
-          <td>Uvea</td>
           <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Region" class="local-link">dpv:Region</a></td>
         </tr>
         </tbody>
@@ -34880,7 +34705,6 @@
 
 <section id="future-work" class="appendix">
   <h2>Future Work</h2>
-  <aside class="issue" data-number="208"></aside>
   <aside class="issue" data-number="209"></aside>
 </section>
 

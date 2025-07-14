@@ -139,6 +139,7 @@ DPV_FILES = {
             'location',
             'location_properties',
             'location_memberships',
+            'location_inverse',
             ),
     },
     # Sheets for Legal Basis and Consent
