@@ -194,6 +194,7 @@ DPV_FILES = {
             'ai-measures',
             'ai-lifecycle',
             'ai-risks',
+            'ai-development',
             ),
     },
     # Sheets for Risk extension

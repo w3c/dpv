@@ -347,6 +347,9 @@ CSVFILES = {
         'lifecycle': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-lifecycle.csv'
         },
+        'development': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-development.csv'
+        },
     },
     'risk': {
         'risk_management': {
@@ -998,6 +1001,7 @@ RDF_VOCABS = {
             'systems': f'{IMPORT_PATH}/ai/modules/systems.ttl',
             'data': f'{IMPORT_PATH}/ai/modules/data.ttl',
             'lifecycle': f'{IMPORT_PATH}/ai/modules/lifecycle.ttl',
+            'development': f'{IMPORT_PATH}/ai/modules/development.ttl',
         },
         'metadata': {
             "dct:title": "AI Technology Concepts",
