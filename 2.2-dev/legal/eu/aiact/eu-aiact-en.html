@@ -575,12 +575,18 @@
   <link rel="shortcut icon" href="../../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
 </head>
 <body>
-  <p><strong>Contributors:</strong> (ordered alphabetically)   <span><a href="https://orcid.org/0000-0003-0259-7560"><b>Beatriz Esteves</b></a>
+  <p><strong>Contributors:</strong> (ordered alphabetically)   <span><a href="https://orcid.org/0000-0002-9698-1899"><b>Arthit Suriyawongkul</b></a>
+  </span>
+  <small><i>(ADAPT Centre, Trinity College Dublin)</i></small>, 
+  <span><a href="https://orcid.org/0000-0003-0259-7560"><b>Beatriz Esteves</b></a>
   </span>
   <small><i>(IDLab, IMEC, Ghent University)</i></small>, 
   <span><a href="https://orcid.org/0000-0002-1208-186X"><b>Delaram Golpayegani</b></a>
   </span>
   <small><i>(ADAPT Centre, Trinity College Dublin)</i></small>, 
+  <span><a href="https://www.linkedin.com/in/georg-philip-krog-a2a278104/"><b>Georg P. Krog</b></a>
+  </span>
+  <small><i>(Signatu AS)</i></small>, 
   <span><a href="https://harshp.com/"><b>Harshvardhan J. Pandit</b></a>
   </span>
   <small><i>(ADAPT Centre, Dublin City University)</i></small>.
@@ -711,9 +717,8 @@
   </section>
 
   <section id="vocab-risk">
-    <h3>Risks</h3>
+    <h3>Risk</h3>
     <p>The AI Act has a specific definition of risk as "combination of the probability of an occurrence of harm and the severity of that harm", which is represented using the concept [=Risk=] within this extension. This definition is a more specific form of <code>dpv:Risk</code>, and hence the existing relations can be used to describe its severity and likelihood.</p>
-    
     <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>eu-aiact:Risk</strong>: The combination of the probability of an occurrence of harm and the severity of that harm
@@ -737,6 +742,72 @@
       
   </li>
 </ul></div>
+  </section>
+
+  <section id="vocab-risk-levels">
+    <h2>Risk Levels</h2>
+    <p>The interpretation of the AI Act uses terminology referring to <i>Risk Levels</i> which determine the level of obligations under the Act. To represent these, the concept [=RiskLevel=] is defined and instantiated to represent the commonly used concepts for representing prohibited, high-risk, transparency required, and minimal risk levels. The taxonomy also contains two additional concepts to represent not-prohibited and not-high-risk to support documenting outcomes of assessments that test prohibited and high-risk categorisations respectively.</p>
+    <div class="list-hierarchy"><ul class="concept-list">
+  <li>
+    <strong>eu-aiact:RiskLevelPermitted</strong>: Concept representing &#34;AI practices&#34; are permitted i.e. not prohibited under the AI Act
+      <small><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelPermitted" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>eu-aiact:RiskLevelHigh</strong>: Risk Level categorising an AI system as &#34;high-risk&#34; as defined in the AI Act
+      <small><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelHigh" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>eu-aiact:RiskLevelHighAnnexI</strong>: Risk Level categorising an AI system as &#34;high-risk&#34; as defined in the AI Act Annex I
+      <small><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelHighAnnexI" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>eu-aiact:RiskLevelHighAnnexIII</strong>: Risk Level categorising an AI system as &#34;high-risk&#34; as defined in the AI Act Annex III
+      <small><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelHighAnnexIII" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>eu-aiact:RiskLevelMinimal</strong>: Risk Level categorising an AI system as not being prohibited or high-risk or transparency required as defined in the AI Act
+      <small><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelMinimal" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>eu-aiact:RiskLevelNotHigh</strong>: Risk Level categorising an AI system as not being &#34;high-risk&#34; as defined in the AI Act
+      <small><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelNotHigh" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>eu-aiact:RiskLevelTransparencyRequired</strong>: Risk Level categorising an AI system as not high-risk but where transparency is require as defined in the AI Act
+      <small><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelTransparencyRequired" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>eu-aiact:RiskLevelProhibited</strong>: Risk Level prohibiting &#34;AI practices&#34; as defined in the AI Act
+      <small><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelProhibited" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul></div>
+    <aside class="example" title="Representing the Risk Level as per AI Act">
+      <p>The example shows how the risk level for the AI Act can be associated with a process or with a specific AI system.</p>
+<pre><code># method 1: Process/Services
+ex:SomeService a dpv:Process ;
+  dpv:hasPurpose ex:SomePurpose ; # from DPV purpose taxonomy
+  ai:hasTechnique ex:SomeTechnique ; # from AI technique taxonomy
+  dpv:hasRiskLevel eu-aiact:RiskLevelHighAnnexIII .
+
+ex:SomeSystem a eu-aiact:AISystem ;
+  dpv:hasRiskLevel eu-aiact:RiskLevelHighAnnexIII .
+ex:SomeProcess a dpv:Process ;
+  ai:hasAISystem ex:SomeSystem . # uses high-risk AI
+</code></pre>
+    </aside>
+    <aside class="note" title="Scope vs Risk Level">
+      <p>The concept of "Risk Level" should not be mixed with the "scope" of the AI Act. The concept of [=RiskLevelMinimal=] is used to represent AI systems or practices that fit the definition of AI and AI systems under the Act but are not prohibited, high-risk, or require transparency. This is distinct from AI systems and practices which do not fit the (rigid and specific) definitions of AI and AI systems under the AI Act. This reflects the procedure where you first determine whether a system is an AI system as defined by the AI Act (scope determination) and then how it is categorised under the AI Act (risk level determination).</p>
+    </aside>
   </section>
 
   <section id="vocab-data">
@@ -1214,10 +1285,10 @@ ex:PDH3 a dpv:Process ;
 
 <section id="high-risk-prohibited">
   <h2>High-Risk &amp; Prohibited AI Systems</h2>
-  <p>The AI Act defines specific uses of AI systems as being 'prohibited' (Article 5) or as being 'high-risk' (Article 6). To support the expression of these high-risk AI systems using DPV concepts, the following concepts are being discussed for inclusion in future versions of this vocabulary:</p>
+  <p>The AI Act defines specific uses of AI systems as being 'prohibited' (Article 5) or as being 'high-risk' (Article 6). To support the expression of these high-risk AI systems using DPV concepts and the risk levels described earlier, the following concepts are being discussed for inclusion in future versions of this vocabulary:</p>
   <ol>
-    <li><code>ProhibitedAISystem</code> as a subtype of [=AISystem=] to represent AI systems that have been prohibited as per Article 5.</li>
-    <li><code>HighRiskAISystem</code> as a subtype of [=AISystem=] to represent AI systems that have been designated as high-risk as per Article 6.
+    <li><code>ProhibitedAISystem</code> as a subtype of [=AISystem=] to represent each specific AI system that has been prohibited as per Article 5.</li>
+    <li><code>HighRiskAISystem</code> as a subtype of [=AISystem=] to represent each specific AI system that has been designated as high-risk as per Article 6.
       <ol>
         <li><code>SectorialHighRiskAISystem</code> as a subtype of <code>HighRiskAISystem</code> to represent AI systems that have been prohibited as per Article 6 and Annex I (sector-specific regulated uses of AI).</li>
         <li><code>HighRiskApplicationAISystem</code> as a subtype of <code>HighRiskAISystem</code> to represent AI systems that have been prohibited as per Article 6 and Annex III (specific applications).</li>
@@ -1284,6 +1355,11 @@ ex:PDH3 a dpv:Process ;
       
       
        
+      
+      
+      
+      
+      
       
       
       
@@ -7404,18 +7480,12 @@ place on the market or put into service for the purpose of identifying any need 
              →             <a href="https://w3id.org/dpv#Location" class="local-link">dpv:Location</a>
                         </td>        </tr>      
       
-<tr>
-          <th>Subject of relation</th>
-          <td>            <a href="https://w3id.org/dpv/loc#iso_alpha2" class="local-link">loc:iso_alpha2</a>, 
-            <a href="https://w3id.org/dpv/loc#iso_alpha3" class="local-link">loc:iso_alpha3</a>, 
-            <a href="https://w3id.org/dpv/loc#iso_numeric" class="local-link">loc:iso_numeric</a>, 
-            <a href="https://w3id.org/dpv/loc#un_m49" class="local-link">loc:un_m49</a>
-</td>
-        </tr>       
+       
 <tr>
           <th>Object of relation</th>
           <td>            <a href="https://w3id.org/dpv#hasJurisdiction" class="local-link">dpv:hasJurisdiction</a>, 
-            <a href="https://w3id.org/dpv#hasLocation" class="local-link">dpv:hasLocation</a>
+            <a href="https://w3id.org/dpv#hasLocation" class="local-link">dpv:hasLocation</a>, 
+            <a href="https://w3id.org/dpv#isOutsideOfLocation" class="local-link">dpv:isOutsideOfLocation</a>
 </td>
         </tr>
         
@@ -8388,6 +8458,751 @@ place on the market or put into service for the purpose of identifying any need 
       </table>
     </section>
        
+       
+      
+      
+     <section class="term-def" id="RiskLevel">
+      <h4>Risk Level</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RiskLevel</dfn></td>
+          <th>Prefix</th>
+          <td>eu-aiact</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Risk Level</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevel" class="local-link">https://w3id.org/dpv/legal/eu/aiact#RiskLevel</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="https://w3id.org/dpv#RiskLevel" class="local-link">dpv:RiskLevel</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasRiskLevel" class="local-link">dpv:hasRiskLevel</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Enumeration of AI Act&#39;s risk-based categorisation which determines the prohibitions and obligations for AI systems</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-04-03</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-risk-levels"> RISK-LEVELS</a> in <a href="https://w3id.org/dpv/legal/eu/aiact#">EU-AIACT</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RiskLevelHigh">
+      <h4>Risk Level - High</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RiskLevelHigh</dfn></td>
+          <th>Prefix</th>
+          <td>eu-aiact</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Risk Level - High</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelHigh" class="local-link">https://w3id.org/dpv/legal/eu/aiact#RiskLevelHigh</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevel" class="local-link">eu-aiact:RiskLevel</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RiskLevelPermitted" class="local-link">eu-aiact:RiskLevelPermitted</a>
+             →             <a href="#RiskLevel" class="local-link">eu-aiact:RiskLevel</a>
+             →             <a href="https://w3id.org/dpv#RiskLevel" class="local-link">dpv:RiskLevel</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasRiskLevel" class="local-link">dpv:hasRiskLevel</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Risk Level categorising an AI system as &#34;high-risk&#34; as defined in the AI Act</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-04-03</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-risk-levels"> RISK-LEVELS</a> in <a href="https://w3id.org/dpv/legal/eu/aiact#">EU-AIACT</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RiskLevelHighAnnexI">
+      <h4>Risk Level - High per Annex I</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RiskLevelHighAnnexI</dfn></td>
+          <th>Prefix</th>
+          <td>eu-aiact</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Risk Level - High per Annex I</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelHighAnnexI" class="local-link">https://w3id.org/dpv/legal/eu/aiact#RiskLevelHighAnnexI</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevel" class="local-link">eu-aiact:RiskLevel</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RiskLevelHigh" class="local-link">eu-aiact:RiskLevelHigh</a>
+             →             <a href="#RiskLevelPermitted" class="local-link">eu-aiact:RiskLevelPermitted</a>
+             →             <a href="#RiskLevel" class="local-link">eu-aiact:RiskLevel</a>
+             →             <a href="https://w3id.org/dpv#RiskLevel" class="local-link">dpv:RiskLevel</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasRiskLevel" class="local-link">dpv:hasRiskLevel</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Risk Level categorising an AI system as &#34;high-risk&#34; as defined in the AI Act Annex I</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-04-03</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-risk-levels"> RISK-LEVELS</a> in <a href="https://w3id.org/dpv/legal/eu/aiact#">EU-AIACT</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RiskLevelHighAnnexIII">
+      <h4>Risk Level - High per Annex III</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RiskLevelHighAnnexIII</dfn></td>
+          <th>Prefix</th>
+          <td>eu-aiact</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Risk Level - High per Annex III</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelHighAnnexIII" class="local-link">https://w3id.org/dpv/legal/eu/aiact#RiskLevelHighAnnexIII</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevel" class="local-link">eu-aiact:RiskLevel</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RiskLevelHigh" class="local-link">eu-aiact:RiskLevelHigh</a>
+             →             <a href="#RiskLevelPermitted" class="local-link">eu-aiact:RiskLevelPermitted</a>
+             →             <a href="#RiskLevel" class="local-link">eu-aiact:RiskLevel</a>
+             →             <a href="https://w3id.org/dpv#RiskLevel" class="local-link">dpv:RiskLevel</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasRiskLevel" class="local-link">dpv:hasRiskLevel</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Risk Level categorising an AI system as &#34;high-risk&#34; as defined in the AI Act Annex III</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-04-03</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-risk-levels"> RISK-LEVELS</a> in <a href="https://w3id.org/dpv/legal/eu/aiact#">EU-AIACT</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RiskLevelMinimal">
+      <h4>Risk Level - Minimal</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RiskLevelMinimal</dfn></td>
+          <th>Prefix</th>
+          <td>eu-aiact</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Risk Level - Minimal</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelMinimal" class="local-link">https://w3id.org/dpv/legal/eu/aiact#RiskLevelMinimal</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevel" class="local-link">eu-aiact:RiskLevel</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RiskLevelPermitted" class="local-link">eu-aiact:RiskLevelPermitted</a>
+             →             <a href="#RiskLevel" class="local-link">eu-aiact:RiskLevel</a>
+             →             <a href="https://w3id.org/dpv#RiskLevel" class="local-link">dpv:RiskLevel</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasRiskLevel" class="local-link">dpv:hasRiskLevel</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Risk Level categorising an AI system as not being prohibited or high-risk or transparency required as defined in the AI Act</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>The minimal risk level does not indicate there is no risk, but instead indicates that it is not sufficient to be regulated under the categorisations of the AI Act</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-04-03</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-risk-levels"> RISK-LEVELS</a> in <a href="https://w3id.org/dpv/legal/eu/aiact#">EU-AIACT</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RiskLevelNotHigh">
+      <h4>Risk Level - Not High</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RiskLevelNotHigh</dfn></td>
+          <th>Prefix</th>
+          <td>eu-aiact</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Risk Level - Not High</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelNotHigh" class="local-link">https://w3id.org/dpv/legal/eu/aiact#RiskLevelNotHigh</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevel" class="local-link">eu-aiact:RiskLevel</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RiskLevelPermitted" class="local-link">eu-aiact:RiskLevelPermitted</a>
+             →             <a href="#RiskLevel" class="local-link">eu-aiact:RiskLevel</a>
+             →             <a href="https://w3id.org/dpv#RiskLevel" class="local-link">dpv:RiskLevel</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasRiskLevel" class="local-link">dpv:hasRiskLevel</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Risk Level categorising an AI system as not being &#34;high-risk&#34; as defined in the AI Act</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>The &#34;not high&#34; risk level is useful for indicating the outcomes of assessments determining whether something is high-risk</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-04-03</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-risk-levels"> RISK-LEVELS</a> in <a href="https://w3id.org/dpv/legal/eu/aiact#">EU-AIACT</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RiskLevelPermitted">
+      <h4>Risk Level - Permitted</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RiskLevelPermitted</dfn></td>
+          <th>Prefix</th>
+          <td>eu-aiact</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Risk Level - Permitted</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelPermitted" class="local-link">https://w3id.org/dpv/legal/eu/aiact#RiskLevelPermitted</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevel" class="local-link">eu-aiact:RiskLevel</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RiskLevel" class="local-link">eu-aiact:RiskLevel</a>
+             →             <a href="https://w3id.org/dpv#RiskLevel" class="local-link">dpv:RiskLevel</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasRiskLevel" class="local-link">dpv:hasRiskLevel</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Concept representing &#34;AI practices&#34; are permitted i.e. not prohibited under the AI Act</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>The permitted risk level is useful for representing outcomes of assessments determining whether something is prohibited</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-04-03</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-risk-levels"> RISK-LEVELS</a> in <a href="https://w3id.org/dpv/legal/eu/aiact#">EU-AIACT</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RiskLevelProhibited">
+      <h4>Risk Level - Prohibited</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RiskLevelProhibited</dfn></td>
+          <th>Prefix</th>
+          <td>eu-aiact</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Risk Level - Prohibited</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelProhibited" class="local-link">https://w3id.org/dpv/legal/eu/aiact#RiskLevelProhibited</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevel" class="local-link">eu-aiact:RiskLevel</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RiskLevel" class="local-link">eu-aiact:RiskLevel</a>
+             →             <a href="https://w3id.org/dpv#RiskLevel" class="local-link">dpv:RiskLevel</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasRiskLevel" class="local-link">dpv:hasRiskLevel</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Risk Level prohibiting &#34;AI practices&#34; as defined in the AI Act</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-04-03</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-risk-levels"> RISK-LEVELS</a> in <a href="https://w3id.org/dpv/legal/eu/aiact#">EU-AIACT</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RiskLevelTransparencyRequired">
+      <h4>Risk Level - Transparency Required</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RiskLevelTransparencyRequired</dfn></td>
+          <th>Prefix</th>
+          <td>eu-aiact</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Risk Level - Transparency Required</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevelTransparencyRequired" class="local-link">https://w3id.org/dpv/legal/eu/aiact#RiskLevelTransparencyRequired</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv/legal/eu/aiact#RiskLevel" class="local-link">eu-aiact:RiskLevel</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RiskLevelPermitted" class="local-link">eu-aiact:RiskLevelPermitted</a>
+             →             <a href="#RiskLevel" class="local-link">eu-aiact:RiskLevel</a>
+             →             <a href="https://w3id.org/dpv#RiskLevel" class="local-link">dpv:RiskLevel</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="https://w3id.org/dpv#hasRiskLevel" class="local-link">dpv:hasRiskLevel</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Risk Level categorising an AI system as not high-risk but where transparency is require as defined in the AI Act</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+<tr>
+          <th>Source</th>
+          <td><i></i></td>
+        </tr>       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-04-03</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-risk-levels"> RISK-LEVELS</a> in <a href="https://w3id.org/dpv/legal/eu/aiact#">EU-AIACT</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
       
       
      <section class="term-def" id="RiskManagementSystem">
@@ -8637,9 +9452,6 @@ place on the market or put into service for the purpose of identifying any need 
       </table>
     </section>
        
-      
-      
-      
       
       
       
@@ -9833,6 +10645,11 @@ place on the market or put into service for the purpose of identifying any need 
       
       
       
+      
+      
+      
+      
+      
        
       
       
@@ -10187,6 +11004,33 @@ place on the market or put into service for the purpose of identifying any need 
       
       
        
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
        
@@ -10196,9 +11040,6 @@ place on the market or put into service for the purpose of identifying any need 
       
       
        
-      
-      
-      
       
       
       
@@ -10259,6 +11100,11 @@ place on the market or put into service for the purpose of identifying any need 
        
       
        
+      
+       
+      
+       
+       
        
        
        
@@ -10487,6 +11333,33 @@ place on the market or put into service for the purpose of identifying any need 
        
       
         
+        
+       
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
+       
+      
+      
        
       
         
@@ -10496,9 +11369,6 @@ place on the market or put into service for the purpose of identifying any need 
       
       
         
-       
-       
-       
        
        
        

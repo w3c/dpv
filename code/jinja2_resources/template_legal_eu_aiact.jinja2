@@ -1,6 +1,6 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
-{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts, anchor %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
@@ -138,10 +138,32 @@
   </section>
 
   <section id="vocab-risk">
-    <h3>Risks</h3>
+    <h3>Risk</h3>
     <p>The AI Act has a specific definition of risk as "combination of the probability of an occurrence of harm and the severity of that harm", which is represented using the concept [=Risk=] within this extension. This definition is a more specific form of <code>dpv:Risk</code>, and hence the existing relations can be used to describe its severity and likelihood.</p>
-    
     {{ list_hierarchy(modules['risk']['classes']) }}
+  </section>
+
+  <section id="vocab-risk-levels">
+    <h2>Risk Levels</h2>
+    <p>The interpretation of the AI Act uses terminology referring to <i>Risk Levels</i> which determine the level of obligations under the Act. To represent these, the concept [=RiskLevel=] is defined and instantiated to represent the commonly used concepts for representing prohibited, high-risk, transparency required, and minimal risk levels. The taxonomy also contains two additional concepts to represent not-prohibited and not-high-risk to support documenting outcomes of assessments that test prohibited and high-risk categorisations respectively.</p>
+    {{ list_hierarchy(modules['risk-levels']['classes'], head='eu-aiact:RiskLevel') }}
+    <aside class="example" title="Representing the Risk Level as per AI Act">
+      <p>The example shows how the risk level for the AI Act can be associated with a process or with a specific AI system.</p>
+<pre><code># method 1: Process/Services
+ex:SomeService a dpv:Process ;
+  dpv:hasPurpose ex:SomePurpose ; # from DPV purpose taxonomy
+  ai:hasTechnique ex:SomeTechnique ; # from AI technique taxonomy
+  dpv:hasRiskLevel eu-aiact:RiskLevelHighAnnexIII .
+
+ex:SomeSystem a eu-aiact:AISystem ;
+  dpv:hasRiskLevel eu-aiact:RiskLevelHighAnnexIII .
+ex:SomeProcess a dpv:Process ;
+  ai:hasAISystem ex:SomeSystem . # uses high-risk AI
+</code></pre>
+    </aside>
+    <aside class="note" title="Scope vs Risk Level">
+      <p>The concept of "Risk Level" should not be mixed with the "scope" of the AI Act. The concept of [=RiskLevelMinimal=] is used to represent AI systems or practices that fit the definition of AI and AI systems under the Act but are not prohibited, high-risk, or require transparency. This is distinct from AI systems and practices which do not fit the (rigid and specific) definitions of AI and AI systems under the AI Act. This reflects the procedure where you first determine whether a system is an AI system as defined by the AI Act (scope determination) and then how it is categorised under the AI Act (risk level determination).</p>
+    </aside>
   </section>
 
   <section id="vocab-data">
@@ -213,10 +235,10 @@ ex:PDH3 a dpv:Process ;
 
 <section id="high-risk-prohibited">
   <h2>High-Risk &amp; Prohibited AI Systems</h2>
-  <p>The AI Act defines specific uses of AI systems as being 'prohibited' (Article 5) or as being 'high-risk' (Article 6). To support the expression of these high-risk AI systems using DPV concepts, the following concepts are being discussed for inclusion in future versions of this vocabulary:</p>
+  <p>The AI Act defines specific uses of AI systems as being 'prohibited' (Article 5) or as being 'high-risk' (Article 6). To support the expression of these high-risk AI systems using DPV concepts and the risk levels described earlier, the following concepts are being discussed for inclusion in future versions of this vocabulary:</p>
   <ol>
-    <li><code>ProhibitedAISystem</code> as a subtype of [=AISystem=] to represent AI systems that have been prohibited as per Article 5.</li>
-    <li><code>HighRiskAISystem</code> as a subtype of [=AISystem=] to represent AI systems that have been designated as high-risk as per Article 6.
+    <li><code>ProhibitedAISystem</code> as a subtype of [=AISystem=] to represent each specific AI system that has been prohibited as per Article 5.</li>
+    <li><code>HighRiskAISystem</code> as a subtype of [=AISystem=] to represent each specific AI system that has been designated as high-risk as per Article 6.
       <ol>
         <li><code>SectorialHighRiskAISystem</code> as a subtype of <code>HighRiskAISystem</code> to represent AI systems that have been prohibited as per Article 6 and Annex I (sector-specific regulated uses of AI).</li>
         <li><code>HighRiskApplicationAISystem</code> as a subtype of <code>HighRiskAISystem</code> to represent AI systems that have been prohibited as per Article 6 and Annex III (specific applications).</li>

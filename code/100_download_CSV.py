@@ -353,6 +353,7 @@ DPV_FILES = {
             'aiact-system',
             'aiact-capability',
             'aiact-risk',
+            'aiact-risk-levels',
             'aiact-data',
             'aiact-roles',
             'aiact-docs',
