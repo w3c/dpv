@@ -98,3 +98,13 @@ the changes will still need to be synced back to the GSheets.
 1. Fixing an error in the vocabulary terms i.e. term label, property, annotation --> Make the changes in the Google Sheet, and run the `100` script to download CSV, then `200` to produce RDF, then `300` to produce HTML.
 2. Fixing an error in serialisation e.g. rdf:Property is defined as rdfs:Propety --> Make the changes in the `200` script for generating RDF, and `300` script to generate HTML
 3. Changing content in HTML documentation e.g. change motivation paragraph --> Make the changes in the relevant `template` and `300` script to generate HTML
+
+## Using UV
+
+Notes from Harsh: I have switched to using [uv](https://docs.astral.sh/uv/) as the python tooling of choice to replace pip, venv, and a bunch of other stuff. This is not necessary to use, but is recommended (its fast!).
+
+```
+uv run <file> <params>
+uv lock --upgrade 
+uv pip freeze > requirements.txt
+```
