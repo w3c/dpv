@@ -17,7 +17,7 @@ from rdflib import URIRef
 import shutil
 import logging
 logging.basicConfig(
-    level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
+    level=logging.INFO, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
 INFO = logging.info
 
@@ -263,7 +263,7 @@ class DATA(object):
         loads the RDF triples from specified filepath and saves it
         in DATA dicts under the vocab/module namespace
         """
-        INFO(f'loading {vocab}:{module} data from {filepath}')
+        DEBUG(f'loading {vocab}:{module} data from {filepath}')
         graph = Graph()
         graph.parse(filepath)
         graph.ns = { k:v for k,v in NAMESPACES.items() }
@@ -837,22 +837,22 @@ def _write_template(
     template = template_env.get_template(template)
     with open(f'{filepath}/{filename}-{lang}.html', 'w+') as fd:
         fd.write(template.render(**params))
-        INFO(f'wrote {filename} spec at {filepath}/{filename}-{lang}.html')
+        DEBUG(f'wrote {filename} spec at {filepath}/{filename}-{lang}.html')
     if lang == "en":
         shutil.copy(
             f'{filepath}/{filename}-{lang}.html', # src
             f'{filepath}/{filename}.html') # dest
-        INFO(f'wrote {filename} spec at {filepath}/{filename}.html')
+        DEBUG(f'wrote {filename} spec at {filepath}/{filename}.html')
     if index:
         shutil.copy(
             f'{filepath}/{filename}-{lang}.html', # src
             f'{filepath}/index-{lang}.html') # dest
-        INFO(f'wrote {filename} spec at {filepath}/index-{lang}.html')
+        DEBUG(f'wrote {filename} spec at {filepath}/index-{lang}.html')
         if lang == "en":
             shutil.copy(
                 f'{filepath}/{filename}-{lang}.html', # src
                 f'{filepath}/index.html') # dest
-            INFO(f'wrote {filename} spec at {filepath}/index.html')
+            DEBUG(f'wrote {filename} spec at {filepath}/index.html')
     if owl:
         if vocab != 'loc':
             template = template_env.get_template('template_owl_generic_index.jinja2')
@@ -861,7 +861,8 @@ def _write_template(
         params['owl'] = OWL
         with open(f'{filepath}/{filename}-owl.html', 'w+') as fd:
             fd.write(template.render(**params))
-            INFO(f'wrote {filename} OWL spec at {filepath}/{filename}-owl.html')  
+            DEBUG(f'wrote {filename} OWL spec at {filepath}/{filename}-owl.html')
+    INFO(f'wrote {filename} spec at {filepath}')  
 
 
 def __skip(vocab):
@@ -877,7 +878,7 @@ def __skip(vocab):
 
 # === Load RDF data ===
 def _load_rdf_data():
-    DEBUG(DATA.skip)
+    # DEBUG(DATA.skip)
     for vocab, vocab_data in RDF_VOCABS.items(): 
         # Load vocab RDF data into DATA dicts
         if __skip(vocab) is False:
@@ -918,9 +919,8 @@ def _generate():
                 continue # this vocab doesn't have module specific docs
             for module, data in module_data.items():
                 if module not in vocab_data['module-template']:
-                    INFO(f'{module} has no template associated - skipping')
+                    DEBUG(f'{module} has no template associated - skipping')
                     continue
-                INFO(f'exporting {module} page')
                 _write_template(
                     template=vocab_data['module-template'][module],
                     filepath=f"{vocab_data['export']}/modules", filename=module,
@@ -1077,6 +1077,7 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     # parser.add_argument('-A', '--all', action='store_true', help="generate all html outputs")
+    parser.add_argument('-F', '--fastvocab', nargs='+', help="generate specific vocab outputs while skipping legal*, eu*, loc*, search-index")
     parser.add_argument('-V', '--vocab', nargs='+', help="generate specific vocab outputs")
     parser.add_argument('-S', '--skip', nargs='+', help="skip loading specific vocab outputs")
     parser.add_argument('-I', '--skipindex', default=False, help="generate search index")
@@ -1087,21 +1088,29 @@ if __name__ == '__main__':
     INFO('-'*40)
     if args.vocab:
         DATA.vocabs = [s.strip() for s in args.vocab[0].split(',')]
-        # any vocab may have examples, so always include dex
-        INFO(f'Generating outputs only for {DATA.vocabs}')
+        vocabs = args.vocab
+    elif args.fastvocab:
+        vocabs = args.fastvocab
+        DATA.vocabs = [s.strip() for s in args.fastvocab[0].split(',')]
     else:
-        INFO(f'Generating outputs for ALL vocabularies')
+        vocabs = 'ALL'
+
+    INFO(f'Generating outputs for {vocabs} vocabularies')
 
     if args.skip:
         DATA.skip = [s.strip() for s in args.skip[0].split(',')]
-        INFO(f'Skipping loading data from {DATA.skip}')
+    elif args.fastvocab:
+        DATA.skip = ['loc*', 'legal*', 'eu*', 'sector*']
+    INFO(f'Skipping loading data from {DATA.skip}')
 
     INFO('-'*40)
     _load_rdf_data()
     _generate()
 
-    if args.skipindex is False:
+    if args.skipindex is False and not args.fastvocab:
         _generate_search_index()
+    else:
+        INFO('Skipping generating search index')
 
     # If files are to be downloaded, do the following.
     if args.guides:
