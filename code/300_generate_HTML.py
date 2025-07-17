@@ -1093,7 +1093,8 @@ if __name__ == '__main__':
         vocabs = args.fastvocab
         DATA.vocabs = [s.strip() for s in args.fastvocab[0].split(',')]
     else:
-        vocabs = 'ALL'
+        vocabs = RDF_VOCABS.keys()
+        DATA.vocabs = vocabs
 
     INFO(f'Generating outputs for {vocabs} vocabularies')
 
