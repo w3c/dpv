@@ -649,9 +649,15 @@
     <figcaption></figcaption>
   </figure>
   {{ ref_dedicated_documentation("modules/rules", "rules") }}
-  <p>DPV provides the concept [=Rule=] to specify requirements, constraints, and other forms of 'rules' that are associated with specific contexts (e.g., processing activities) using the relation [=hasRule=]. DPV provides three forms of Rules to represent [=Permission=], [=Prohibition=] and [=Obligation=], and their corresponding relations [=hasPermission=], [=hasProhibition=] and [=hasObligation=], to indicate a Rule that specifies whether something is permitted, prohibited or an obligation, respectively. DPV does not define additional semantics for rules and limits its scope and focus to provide a simple way to specify permissions, prohibitions, and obligations as common rules associated with activities. For a more extensive and richer set of semantics and concepts to represent rules, DPVCG suggests looking towards other languages, such as [[ODRL]], [[SHACL]], and [[RuleML]] that have been developed with the specific goal of representing and applying rules. We welcome contributions for aligning DPV with these, and for providing guidance on how to complement DPV's rule-based concepts with external languages.</p>
+  <p>DPV provides the concept [=Rule=] to specify requirements, constraints, and other forms of 'rules' that are associated with specific contexts (e.g., processing activities) using the relation [=hasRule=]. To assist in the interpretation and use of rules, DPV classifies rules as [=AcceptableRule=] to indicate that it is desirable OR it is not unacceptable if it occurs (i.e. it is acceptable to occur), and as [=UnacceptableRule=] to indicate it is not desirable and should be avoided. Note that neither acceptable nor unacceptable by themselves represent any specific permission, recommendation, prohibition, or obligation -- which are represented using specific concepts derived from these two generic categories.</p>
 
-  {{ list_hierarchy(modules['rules']['classes']) }}
+  <p>DPV's rule concepts are aligned with the terms from [[[RFC2119]]] and with other existing uses such as in the [[[ODRL-MODEL]]]. For acceptable rules, DPV provides [=Permission=] to indicate something is allowed to occur but it is not mandatory that it must occur, [=Recommendation] to indicate something is suggested or recommended to occur but it is not mandatory, and [=Obligation=] to indicate something is mandatory and must occur. Permissions are typically expressed using MAY, Recommendations using SHOULD, and Obligations using MUST. Each of these is accompanied by relations to associate them in context using [=hasPermission=], [=hasRecommendation=], and [=hasObligation=].</p>
+  <p>For unacceptable rules, [=Deterrence=] indicates a suggestion or recommendation for something to NOT occur i.e. it should be avoided or is deterred. [=Prohibition=] indicates that something is prohibited and must not occur. These are associated in context using the relations [=hasDeterrence=] and [=hasProhibition=]. Deterrence is typically expressed using SHOULD NOT and Prohibitions using MUST NOT. While both of these can be interpreted as variations on Recommendations (i.e. recommended to not do something) and Obligations (i.e. obligation to not do something), DPV's taxonomy explicitly separates the 'acceptable' and 'unacceptable' concepts so that there is no ambiguity when they are used as to whether something is being nudged towards being carried out or towards being avoided.</p>
+  {{ list_hierarchy(modules['rules']['classes'], head='dpv:Rule') }}
+  
+  <p>To support the documentation of rules and their evaluations, the concept [=RuleFulfilmentStatus=] is provided to indicate whether the rule has been used, has been fulfilled or is unfulfilled, or has been violated -- as enumerated below. These statuses are associated using [=hasFulfilmentStatus=].</p>
+  [=hasFulfilmentsStatus]
+  {{ list_hierarchy(modules['rules']['classes'], head='dpv:RuleFulfilmentStatus') }}
 </section>
 
 <section id="extensions">
@@ -938,6 +944,9 @@
 </section>
 
 <section class="appendix" id="issue-summary"></section>
+
+<section id="conformance" class="notoc"></section>
+
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
 </body>
 </html>

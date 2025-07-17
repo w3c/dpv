@@ -6300,12 +6300,14 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
   <p><strong>Please refer to <a href="modules/rules.html">rules page</a> for additional documentation, examples, references, and best practices</strong>. This document provides only a brief summary of the rules concepts.</p>
 </div>
 
-  <p>DPV provides the concept [=Rule=] to specify requirements, constraints, and other forms of 'rules' that are associated with specific contexts (e.g., processing activities) using the relation [=hasRule=]. DPV provides three forms of Rules to represent [=Permission=], [=Prohibition=] and [=Obligation=], and their corresponding relations [=hasPermission=], [=hasProhibition=] and [=hasObligation=], to indicate a Rule that specifies whether something is permitted, prohibited or an obligation, respectively. DPV does not define additional semantics for rules and limits its scope and focus to provide a simple way to specify permissions, prohibitions, and obligations as common rules associated with activities. For a more extensive and richer set of semantics and concepts to represent rules, DPVCG suggests looking towards other languages, such as [[ODRL]], [[SHACL]], and [[RuleML]] that have been developed with the specific goal of representing and applying rules. We welcome contributions for aligning DPV with these, and for providing guidance on how to complement DPV's rule-based concepts with external languages.</p>
+  <p>DPV provides the concept [=Rule=] to specify requirements, constraints, and other forms of 'rules' that are associated with specific contexts (e.g., processing activities) using the relation [=hasRule=]. To assist in the interpretation and use of rules, DPV classifies rules as [=AcceptableRule=] to indicate that it is desirable OR it is not unacceptable if it occurs (i.e. it is acceptable to occur), and as [=UnacceptableRule=] to indicate it is not desirable and should be avoided. Note that neither acceptable nor unacceptable by themselves represent any specific permission, recommendation, prohibition, or obligation -- which are represented using specific concepts derived from these two generic categories.</p>
 
+  <p>DPV's rule concepts are aligned with the terms from [[[RFC2119]]] and with other existing uses such as in the [[[ODRL-MODEL]]]. For acceptable rules, DPV provides [=Permission=] to indicate something is allowed to occur but it is not mandatory that it must occur, [=Recommendation] to indicate something is suggested or recommended to occur but it is not mandatory, and [=Obligation=] to indicate something is mandatory and must occur. Permissions are typically expressed using MAY, Recommendations using SHOULD, and Obligations using MUST. Each of these is accompanied by relations to associate them in context using [=hasPermission=], [=hasRecommendation=], and [=hasObligation=].</p>
+  <p>For unacceptable rules, [=Deterrence=] indicates a suggestion or recommendation for something to NOT occur i.e. it should be avoided or is deterred. [=Prohibition=] indicates that something is prohibited and must not occur. These are associated in context using the relations [=hasDeterrence=] and [=hasProhibition=]. Deterrence is typically expressed using SHOULD NOT and Prohibitions using MUST NOT. While both of these can be interpreted as variations on Recommendations (i.e. recommended to not do something) and Obligations (i.e. obligation to not do something), DPV's taxonomy explicitly separates the 'acceptable' and 'unacceptable' concepts so that there is no ambiguity when they are used as to whether something is being nudged towards being carried out or towards being avoided.</p>
   <div class="list-hierarchy"><ul class="concept-list">
   <li>
-    <strong>dpv:Rule</strong>: A rule describing a process or control that directs or determines if and how an activity should be conducted
-      <small><a href="https://w3id.org/dpv#Rule" class="local-link">go to full definition</a></small>
+    <strong>dpv:AcceptableRule</strong>: A rule that is acceptable where it is either desirable if it occurs or it is not unacceptable if it does
+      <small><a href="https://w3id.org/dpv#AcceptableRule" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
   <li>
     <strong>dpv:Obligation</strong>: A rule describing an obligation for performing an activity
@@ -6318,20 +6320,42 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
   </li>
   <li>
+    <strong>dpv:Recommendation</strong>: A rule describing a recommendation for performing an activity
+      <small><a href="https://w3id.org/dpv#Recommendation" class="local-link">go to full definition</a></small>
+      
+  </li>
+</ul>
+  </li>
+  <li>
+    <strong>dpv:UnacceptableRule</strong>: A rule that is unacceptable where it not desirable if it occurs
+      <small><a href="https://w3id.org/dpv#UnacceptableRule" class="local-link">go to full definition</a></small>
+      <ul class="concept-list">
+  <li>
+    <strong>dpv:Deterrence</strong>: A rule describing a deterrence for performing an activity
+      <small><a href="https://w3id.org/dpv#Deterrence" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
     <strong>dpv:Prohibition</strong>: A rule describing a prohibition to perform an activity
       <small><a href="https://w3id.org/dpv#Prohibition" class="local-link">go to full definition</a></small>
       
   </li>
 </ul>
   </li>
-  <li>
-    <strong>dpv:RuleFulfilmentStatus</strong>: Status associated with a rule for indicating whether it is applicable, or has been utilised, and whether the requirements of the rule have been fulfilled or violated
-      <small><a href="https://w3id.org/dpv#RuleFulfilmentStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
+</ul></div>
+  
+  <p>To support the documentation of rules and their evaluations, the concept [=RuleFulfilmentStatus=] is provided to indicate whether the rule has been used, has been fulfilled or is unfulfilled, or has been violated -- as enumerated below. These statuses are associated using [=hasFulfilmentStatus=].</p>
+  [=hasFulfilmentsStatus]
+  <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:RuleFulfilled</strong>: Status indicating a rule has been fulfilled, completed, or satisfied
       <small><a href="https://w3id.org/dpv#RuleFulfilled" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
+  <li>
+    <strong>dpv:DeterrenceUtilised</strong>: Status indicating a deterrence has been utilised i.e. the activity stated as being deterred has not been carried out
+      <small><a href="https://w3id.org/dpv#DeterrenceUtilised" class="local-link">go to full definition</a></small>
+      
+  </li>
   <li>
     <strong>dpv:ObligationFulfilled</strong>: Status indicating an obligation has been fulfilled i.e. the activity stated as being required to be carried out has been successfully completed
       <small><a href="https://w3id.org/dpv#ObligationFulfilled" class="local-link">go to full definition</a></small>
@@ -6352,6 +6376,11 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       <small><a href="https://w3id.org/dpv#ProhibitionFulfilled" class="local-link">go to full definition</a></small>
       
   </li>
+  <li>
+    <strong>dpv:RecommendationUtilised</strong>: Status indicating a recommendation has been utilised i.e. the activity stated as being recommended has been carried out
+      <small><a href="https://w3id.org/dpv#RecommendationUtilised" class="local-link">go to full definition</a></small>
+      
+  </li>
 </ul>
   </li>
   <li>
@@ -6359,8 +6388,18 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       <small><a href="https://w3id.org/dpv#RuleUnfulfilled" class="local-link">go to full definition</a></small>
       <ul class="concept-list">
   <li>
+    <strong>dpv:DeterrenceNotUtilised</strong>: Status indicating a deterrence has not been utilised i.e. the activity stated as being deterred has been carried out
+      <small><a href="https://w3id.org/dpv#DeterrenceNotUtilised" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
     <strong>dpv:ObligationUnfulfilled</strong>: Status indicating an obligation has not been fulfilled i.e. the activity stated as being required to be carried out has not been carried out but this is not considered as a violation e.g. there is still time to conduct the activity
       <small><a href="https://w3id.org/dpv#ObligationUnfulfilled" class="local-link">go to full definition</a></small>
+      
+  </li>
+  <li>
+    <strong>dpv:RecommendationNotUtilised</strong>: Status indicating a recommendation has not been utilised i.e. the activity stated as being recommended has not been carried out
+      <small><a href="https://w3id.org/dpv#RecommendationNotUtilised" class="local-link">go to full definition</a></small>
       
   </li>
 </ul>
@@ -6378,8 +6417,6 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
     <strong>dpv:ProhibitionViolated</strong>: Status indicating a prohibition has been violated i.e. the activity stated as being prohibited has been carried out
       <small><a href="https://w3id.org/dpv#ProhibitionViolated" class="local-link">go to full definition</a></small>
       
-  </li>
-</ul>
   </li>
 </ul>
   </li>
@@ -6854,6 +6891,88 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-entities-organisation"> ENTITIES-ORGANISATION</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="AcceptableRule">
+      <h4>Acceptable Rule</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>AcceptableRule</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Acceptable Rule</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#AcceptableRule" class="local-link">https://w3id.org/dpv#AcceptableRule</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Rule" class="local-link">dpv:Rule</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#Rule" class="local-link">dpv:Rule</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasFulfilmentStatus" class="local-link">dpv:hasFulfilmentStatus</a>, 
+            <a href="#hasRule" class="local-link">dpv:hasRule</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>A rule that is acceptable where it is either desirable if it occurs or it is not unacceptable if it does</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>Acceptable is a subjective concept that enables distinguishing with &#34;unacceptable&#34;. By itself it does not signal any permission or obligation - for which further specific concepts are defined</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-06-19</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -19264,10 +19383,12 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
 <tr>
           <th>Subject of relation</th>
-          <td>            <a href="#hasFulfillmentsStatus" class="local-link">dpv:hasFulfillmentsStatus</a>, 
+          <td>            <a href="#hasDeterrence" class="local-link">dpv:hasDeterrence</a>, 
+            <a href="#hasFulfilmentStatus" class="local-link">dpv:hasFulfilmentStatus</a>, 
             <a href="#hasObligation" class="local-link">dpv:hasObligation</a>, 
             <a href="https://w3id.org/dpv#hasPermission" class="local-link">dpv:hasPermission</a>, 
             <a href="https://w3id.org/dpv#hasProhibition" class="local-link">dpv:hasProhibition</a>, 
+            <a href="#hasRecommendation" class="local-link">dpv:hasRecommendation</a>, 
             <a href="#hasRule" class="local-link">dpv:hasRule</a>
 </td>
         </tr>       
@@ -31666,6 +31787,254 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
       
       
+     <section class="term-def" id="Deterrence">
+      <h4>Deterrence</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>Deterrence</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Deterrence</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#Deterrence" class="local-link">https://w3id.org/dpv#Deterrence</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Rule" class="local-link">dpv:Rule</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#UnacceptableRule" class="local-link">dpv:UnacceptableRule</a>
+             →             <a href="#Rule" class="local-link">dpv:Rule</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasDeterrence" class="local-link">dpv:hasDeterrence</a>, 
+            <a href="#hasFulfilmentStatus" class="local-link">dpv:hasFulfilmentStatus</a>, 
+            <a href="#hasRule" class="local-link">dpv:hasRule</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>A rule describing a deterrence for performing an activity</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>Deterrences are aligned with the term SHOULD NOT in RFC2119 where specified activities should be avoided from being carried out but are not prohibitions</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-06-19</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="DeterrenceNotUtilised">
+      <h4>Deterrence Not Utilised</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>DeterrenceNotUtilised</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Deterrence Not Utilised</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#DeterrenceNotUtilised" class="local-link">https://w3id.org/dpv#DeterrenceNotUtilised</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#RuleFulfilmentStatus" class="local-link">dpv:RuleFulfilmentStatus</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RuleUnfulfilled" class="local-link">dpv:RuleUnfulfilled</a>
+             →             <a href="#RuleFulfilmentStatus" class="local-link">dpv:RuleFulfilmentStatus</a>
+             →             <a href="#Status" class="local-link">dpv:Status</a>
+             →             <a href="#Context" class="local-link">dpv:Context</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Status indicating a deterrence has not been utilised i.e. the activity stated as being deterred has been carried out</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-06-19</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="DeterrenceUtilised">
+      <h4>Deterrence Utilised</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>DeterrenceUtilised</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Deterrence Utilised</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#DeterrenceUtilised" class="local-link">https://w3id.org/dpv#DeterrenceUtilised</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#RuleFulfilmentStatus" class="local-link">dpv:RuleFulfilmentStatus</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RuleFulfilled" class="local-link">dpv:RuleFulfilled</a>
+             →             <a href="#RuleFulfilmentStatus" class="local-link">dpv:RuleFulfilmentStatus</a>
+             →             <a href="#Status" class="local-link">dpv:Status</a>
+             →             <a href="#Context" class="local-link">dpv:Context</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Status indicating a deterrence has been utilised i.e. the activity stated as being deterred has not been carried out</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-06-19</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
      <section class="term-def" id="DeviceNotice">
       <h4>Device Notice</h4>
       <table class="term-contents">
@@ -40069,6 +40438,8 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
       
       
+      
+      
      <section class="term-def" id="HashFunctions">
       <h4>Hash Functions</h4>
       <table class="term-contents">
@@ -40241,6 +40612,8 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
         </tbody>
       </table>
     </section>
+      
+      
       
       
       
@@ -54974,13 +55347,14 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#Rule" class="local-link">dpv:Rule</a>
+          <td>            <a href="#AcceptableRule" class="local-link">dpv:AcceptableRule</a>
+             →             <a href="#Rule" class="local-link">dpv:Rule</a>
                         </td>        </tr>      
       
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasFulfillmentsStatus" class="local-link">dpv:hasFulfillmentsStatus</a>, 
+          <td>            <a href="#hasFulfilmentStatus" class="local-link">dpv:hasFulfilmentStatus</a>, 
             <a href="#hasObligation" class="local-link">dpv:hasObligation</a>, 
             <a href="#hasRule" class="local-link">dpv:hasRule</a>
 </td>
@@ -54995,7 +55369,10 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
           <th>Definition</th>
           <td><i>A rule describing an obligation for performing an activity</i></td>
         </tr>        
-       
+<tr>
+          <th>Usage Note</th>
+          <td><i>Obligations are aligned with the term MUST in RFC2119 where specified activities are mandatory to be carried out</i></td>
+        </tr>       
        
 
         <tr class="table-separator"></tr>
@@ -55008,10 +55385,13 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-10-19</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2025-06-19</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
-          <td><i>Beatriz Esteves, Georg P. Krog, Harshvardhan J. Pandit, Paul Ryan</i></td>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
         </tr>
         <tr class="table-separator"></tr>
        
@@ -58565,13 +58945,14 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#Rule" class="local-link">dpv:Rule</a>
+          <td>            <a href="#AcceptableRule" class="local-link">dpv:AcceptableRule</a>
+             →             <a href="#Rule" class="local-link">dpv:Rule</a>
                         </td>        </tr>      
       
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasFulfillmentsStatus" class="local-link">dpv:hasFulfillmentsStatus</a>, 
+          <td>            <a href="#hasFulfilmentStatus" class="local-link">dpv:hasFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasPermission" class="local-link">dpv:hasPermission</a>, 
             <a href="#hasRule" class="local-link">dpv:hasRule</a>
 </td>
@@ -58586,7 +58967,10 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
           <th>Definition</th>
           <td><i>A rule describing a permission to perform an activity</i></td>
         </tr>        
-       
+<tr>
+          <th>Usage Note</th>
+          <td><i>Permissions are aligned with the term MAY in RFC2119 where specified activities may or may not be carried out</i></td>
+        </tr>       
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
@@ -58602,10 +58986,13 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-10-19</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2025-06-19</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
-          <td><i>Beatriz Esteves, Georg P. Krog, Harshvardhan J. Pandit, Paul Ryan</i></td>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
         </tr>
         <tr class="table-separator"></tr>
        
@@ -64118,13 +64505,14 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
        
         <tr class="technical-detail">
           <th>Broader/Parent types</th>
-          <td>            <a href="#Rule" class="local-link">dpv:Rule</a>
+          <td>            <a href="#UnacceptableRule" class="local-link">dpv:UnacceptableRule</a>
+             →             <a href="#Rule" class="local-link">dpv:Rule</a>
                         </td>        </tr>      
       
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasFulfillmentsStatus" class="local-link">dpv:hasFulfillmentsStatus</a>, 
+          <td>            <a href="#hasFulfilmentStatus" class="local-link">dpv:hasFulfilmentStatus</a>, 
             <a href="https://w3id.org/dpv#hasProhibition" class="local-link">dpv:hasProhibition</a>, 
             <a href="#hasRule" class="local-link">dpv:hasRule</a>
 </td>
@@ -64139,7 +64527,10 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
           <th>Definition</th>
           <td><i>A rule describing a prohibition to perform an activity</i></td>
         </tr>        
-       
+<tr>
+          <th>Usage Note</th>
+          <td><i>Prohibitions are aligned with the term MUST NOT in RFC2119 where specified activities are prohibited from being carried out</i></td>
+        </tr>       
        
         <tr class="table-separator"></tr>
           <th>Examples</th>
@@ -64155,10 +64546,13 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2022-10-19</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2025-06-19</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
-          <td><i>Beatriz Esteves, Georg P. Krog, Harshvardhan J. Pandit, Paul Ryan</i></td>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
         </tr>
         <tr class="table-separator"></tr>
        
@@ -67583,6 +67977,254 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-context-status"> CONTEXT-STATUS</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="Recommendation">
+      <h4>Recommendation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>Recommendation</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Recommendation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#Recommendation" class="local-link">https://w3id.org/dpv#Recommendation</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Rule" class="local-link">dpv:Rule</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#AcceptableRule" class="local-link">dpv:AcceptableRule</a>
+             →             <a href="#Rule" class="local-link">dpv:Rule</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasFulfilmentStatus" class="local-link">dpv:hasFulfilmentStatus</a>, 
+            <a href="#hasRecommendation" class="local-link">dpv:hasRecommendation</a>, 
+            <a href="#hasRule" class="local-link">dpv:hasRule</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>A rule describing a recommendation for performing an activity</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>Recommendations are aligned with the term SHOULD in RFC2119 where specified activities should be carried out but are not obligations</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-06-19</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RecommendationNotUtilised">
+      <h4>Recommendation Not Utilised</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RecommendationNotUtilised</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Recommendation Not Utilised</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#RecommendationNotUtilised" class="local-link">https://w3id.org/dpv#RecommendationNotUtilised</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#RuleFulfilmentStatus" class="local-link">dpv:RuleFulfilmentStatus</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RuleUnfulfilled" class="local-link">dpv:RuleUnfulfilled</a>
+             →             <a href="#RuleFulfilmentStatus" class="local-link">dpv:RuleFulfilmentStatus</a>
+             →             <a href="#Status" class="local-link">dpv:Status</a>
+             →             <a href="#Context" class="local-link">dpv:Context</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Status indicating a recommendation has not been utilised i.e. the activity stated as being recommended has not been carried out</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-06-19</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="RecommendationUtilised">
+      <h4>Recommendation Utilised</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>RecommendationUtilised</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Recommendation Utilised</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#RecommendationUtilised" class="local-link">https://w3id.org/dpv#RecommendationUtilised</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#RuleFulfilmentStatus" class="local-link">dpv:RuleFulfilmentStatus</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#RuleFulfilled" class="local-link">dpv:RuleFulfilled</a>
+             →             <a href="#RuleFulfilmentStatus" class="local-link">dpv:RuleFulfilmentStatus</a>
+             →             <a href="#Status" class="local-link">dpv:Status</a>
+             →             <a href="#Context" class="local-link">dpv:Context</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasContext" class="local-link">dpv:hasContext</a>, 
+            <a href="https://w3id.org/dpv#hasStatus" class="local-link">dpv:hasStatus</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Status indicating a recommendation has been utilised i.e. the activity stated as being recommended has been carried out</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-06-19</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -73477,7 +74119,7 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
        
 <tr>
           <th>Object of relation</th>
-          <td>            <a href="#hasFulfillmentsStatus" class="local-link">dpv:hasFulfillmentsStatus</a>, 
+          <td>            <a href="#hasFulfilmentStatus" class="local-link">dpv:hasFulfilmentStatus</a>, 
             <a href="#hasRule" class="local-link">dpv:hasRule</a>
 </td>
         </tr>
@@ -81432,6 +82074,7 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
             <a href="https://w3id.org/dpv/tech#hasManufacturer" class="local-link">tech:hasManufacturer</a>, 
             <a href="https://w3id.org/dpv/tech#hasMarketAvailabilityStatus" class="local-link">tech:hasMarketAvailabilityStatus</a>, 
             <a href="https://w3id.org/dpv/tech#hasModel" class="local-link">tech:hasModel</a>, 
+            <a href="https://w3id.org/dpv/tech#hasOperatingFactor" class="local-link">tech:hasOperatingFactor</a>, 
             <a href="https://w3id.org/dpv/tech#hasOutput" class="local-link">tech:hasOutput</a>, 
             <a href="https://w3id.org/dpv/tech#hasOutputAction" class="local-link">tech:hasOutputAction</a>, 
             <a href="https://w3id.org/dpv/tech#hasOutputData" class="local-link">tech:hasOutputData</a>, 
@@ -83010,6 +83653,88 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-TOM-technical"> TOM-TECHNICAL</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+      
+     <section class="term-def" id="UnacceptableRule">
+      <h4>Unacceptable Rule</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>UnacceptableRule</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>Unacceptable Rule</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#UnacceptableRule" class="local-link">https://w3id.org/dpv#UnacceptableRule</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/2000/01/rdf-schema#Class" class="local-link">rdfs:Class</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a>, <a href="https://w3id.org/dpv#Rule" class="local-link">dpv:Rule</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#Rule" class="local-link">dpv:Rule</a>
+                        </td>        </tr>      
+      
+       
+<tr>
+          <th>Object of relation</th>
+          <td>            <a href="#hasFulfilmentStatus" class="local-link">dpv:hasFulfilmentStatus</a>, 
+            <a href="#hasRule" class="local-link">dpv:hasRule</a>
+</td>
+        </tr>
+        
+        
+        
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>A rule that is unacceptable where it not desirable if it occurs</i></td>
+        </tr>        
+<tr>
+          <th>Usage Note</th>
+          <td><i>Unacceptable is a subjective concept that enables specifying something is to be avoided as compared to &#34;acceptable&#34;. By itself it does not signal any deterrence or prohibition - for which further specific concepts are defined</i></td>
+        </tr>       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-06-19</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -87122,6 +87847,9 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
       
       
+      
+      
+      
        
        
        
@@ -87224,6 +87952,15 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
        
        
        
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -90486,6 +91223,90 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
     </section>
       
       
+     <section class="term-def" id="hasDeterrence">
+      <h4>has deterrence</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>hasDeterrence</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>has deterrence</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#hasDeterrence" class="local-link">https://w3id.org/dpv#hasDeterrence</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#hasRule" class="local-link">dpv:hasRule</a>
+                        </td>        </tr>      
+      
+
+<tr class="technical-detail">
+          <th>Sub-property of</th>
+          <td>            <a href="#hasRule" class="local-link">dpv:hasRule</a>
+                        </td>
+        </tr>        
+        
+<tr class="technical-detail">
+          <th>Domain includes</th>
+          <td>            <a href="#Context" class="local-link">dpv:Context</a>
+                      </td>
+        </tr>        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="#Deterrence" class="local-link">dpv:Deterrence</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Specifies applicability or inclusion of a deterrence rule within specified context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-06-19</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
      <section class="term-def" id="hasDuration">
       <h4>has duration</h4>
       <table class="term-contents">
@@ -91020,23 +91841,23 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
     </section>
       
       
-     <section class="term-def" id="hasFulfillmentsStatus">
-      <h4>has fulfillment status</h4>
+     <section class="term-def" id="hasFulfilmentStatus">
+      <h4>has fulfilment status</h4>
       <table class="term-contents">
       <tbody>
         <tr>
           <th>Term</th>
-          <td><dfn>hasFulfillmentsStatus</dfn></td>
+          <td><dfn>hasFulfilmentStatus</dfn></td>
           <th>Prefix</th>
           <td>dpv</td>
         </tr>
         <tr>
           <th>Label</th>
-          <td><i>has fulfillment status</i></td>
+          <td><i>has fulfilment status</i></td>
         </tr>
         <tr class="technical-detail">
           <th>IRI</th>
-          <td><a href="https://w3id.org/dpv#hasFulfillmentsStatus" class="local-link">https://w3id.org/dpv#hasFulfillmentsStatus</a></td>
+          <td><a href="https://w3id.org/dpv#hasFulfilmentStatus" class="local-link">https://w3id.org/dpv#hasFulfilmentStatus</a></td>
         </tr>
         
         <tr class="table-separator"></tr>
@@ -91072,7 +91893,7 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Specifying the fulfillment status associated with a rule</i></td>
+          <td><i>Specifies the fulfillment status associated with a rule</i></td>
         </tr>        
        
        
@@ -91087,7 +91908,10 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
           <th>Date Created</th>
           <td><i>2024-09-10</i></td>
         </tr>        
-       
+<tr>
+          <th>Date Modified</th>
+          <td><i>2025-06-19</i></td>
+        </tr>       
 <tr>
           <th>Contributors</th>
           <td><i>Harshvardhan J. Pandit</i></td>
@@ -93502,7 +94326,7 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Specifying applicability or inclusion of an obligation rule within specified context</i></td>
+          <td><i>Specifies applicability or inclusion of an obligation rule within specified context</i></td>
         </tr>        
        
        
@@ -93973,7 +94797,7 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Specifying applicability or inclusion of a permission rule within specified context</i></td>
+          <td><i>Specifies applicability or inclusion of a permission rule within specified context</i></td>
         </tr>        
        
        
@@ -94754,7 +95578,7 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Specifying applicability or inclusion of a prohibition rule within specified context</i></td>
+          <td><i>Specifies applicability or inclusion of a prohibition rule within specified context</i></td>
         </tr>        
        
        
@@ -95117,6 +95941,90 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
         <tr>
           <th>See More:</th>
           <td>              section <a href="#vocab-entities-legalrole"> ENTITIES-LEGALROLE</a> in <a href="https://w3id.org/dpv#">DPV</a>
+                      </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+      
+      
+     <section class="term-def" id="hasRecommendation">
+      <h4>has recommendation</h4>
+      <table class="term-contents">
+      <tbody>
+        <tr>
+          <th>Term</th>
+          <td><dfn>hasRecommendation</dfn></td>
+          <th>Prefix</th>
+          <td>dpv</td>
+        </tr>
+        <tr>
+          <th>Label</th>
+          <td><i>has recommendation</i></td>
+        </tr>
+        <tr class="technical-detail">
+          <th>IRI</th>
+          <td><a href="https://w3id.org/dpv#hasRecommendation" class="local-link">https://w3id.org/dpv#hasRecommendation</a></td>
+        </tr>
+        
+        <tr class="table-separator"></tr>
+        
+        <tr class="technical-detail">
+          <th>Type</th>
+          <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property" class="local-link">rdf:Property</a>, <a href="http://www.w3.org/2004/02/skos/core#Concept" class="local-link">skos:Concept</a></td>
+        </tr>
+       
+        <tr class="technical-detail">
+          <th>Broader/Parent types</th>
+          <td>            <a href="#hasRule" class="local-link">dpv:hasRule</a>
+                        </td>        </tr>      
+      
+
+<tr class="technical-detail">
+          <th>Sub-property of</th>
+          <td>            <a href="#hasRule" class="local-link">dpv:hasRule</a>
+                        </td>
+        </tr>        
+        
+<tr class="technical-detail">
+          <th>Domain includes</th>
+          <td>            <a href="#Context" class="local-link">dpv:Context</a>
+                      </td>
+        </tr>        
+<tr class="technical-detail">
+          <th>Range includes</th>
+          <td>            <a href="#Recommendation" class="local-link">dpv:Recommendation</a>
+                      </td>
+        </tr>        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Definition</th>
+          <td><i>Specifies applicability or inclusion of a recommendation rule within specified context</i></td>
+        </tr>        
+       
+       
+
+        <tr class="table-separator"></tr>
+        
+       
+        
+        <tr class="table-separator"></tr>
+
+<tr>
+          <th>Date Created</th>
+          <td><i>2025-06-19</i></td>
+        </tr>        
+       
+<tr>
+          <th>Contributors</th>
+          <td><i>Arthit Suriyawongkul, Beatriz Esteves, Delaram Golpayegani, Georg P. Krog, Harshvardhan J. Pandit, Julian Flake, Paul Ryan</i></td>
+        </tr>
+        <tr class="table-separator"></tr>
+       
+        <tr>
+          <th>See More:</th>
+          <td>              section <a href="#vocab-rules"> RULES</a> in <a href="https://w3id.org/dpv#">DPV</a>
                       </td>
         </tr>
         </tbody>
@@ -95961,7 +96869,7 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
 
 <tr>
           <th>Definition</th>
-          <td><i>Specifying applicability or inclusion of a rule within specified context</i></td>
+          <td><i>Specifies applicability or inclusion of a rule within specified context</i></td>
         </tr>        
        
        
@@ -99988,6 +100896,15 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+      
        
        
       
@@ -100536,6 +101453,9 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
       
       
+      
+      
+      
 
   </section>
   <section id="external-concepts">
@@ -100554,13 +101474,6 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
        
       
        
-       
-      
-       
-       
-      
-       
-       
       
        
       
@@ -100568,7 +101481,14 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
        
        
+       
+       
       
+       
+      
+       
+      
+       
        
       
        
@@ -101047,6 +101967,9 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
        
       
+      
+       
+      
        
       
       
@@ -101944,6 +102867,15 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
        
       
+      
+       
+      
+      
+       
+      
+      
+       
+      
        
       
        
@@ -102256,9 +103188,13 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
        
       
+       
+      
       
        
       
+      
+       
       
        
       
@@ -103431,6 +104367,15 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
        
       
+      
+       
+      
+      
+       
+      
+      
+       
+      
        
       
        
@@ -103867,6 +104812,9 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
       
         
         
+       
+      
+      
        
       
       
@@ -104169,6 +105117,9 @@ link: <a href="https://w3id.org/dpv/examples/E0022.ttl">source file</a>;      co
 </section>
 
 <section class="appendix" id="issue-summary"></section>
+
+<section id="conformance" class="notoc"></section>
+
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
 </body>
 </html>
