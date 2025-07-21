@@ -6,8 +6,8 @@ been identified for mappings (see https://github.com/w3c/dpv/issues/31):
 
 - foaf - annotations for agents / entities
 - vCard - annotations for agents / entities
-- DCMI Metadata Terms - relations for commonly utilised information e.g. timestamps, publication provenance, identifiers
-- ODRL - legal/deontic terms e.g. parties (entities in DPV) and rules regarding permissions - aligned with DPV's taxonomy e.g. personal data, purpose, legal basis
+- DCMI Metadata Terms - relations for commonly utilised information, e.g., timestamps, publication provenance, identifiers
+- ODRL - legal/deontic terms, e.g., parties (entities in DPV) and rules regarding permissions - aligned with DPV's taxonomy, e.g., personal data, purpose, legal basis
 - SEMIC - EU SEMIC vocabularies such as DCAT-AP, Core, ADMS used for open data
 - PROV - activities, artefacts, agents/entities, and expressing plans/provenance
 - gist - upper ontology for business processes and concepts

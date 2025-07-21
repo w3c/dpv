@@ -88,7 +88,7 @@ used.
 
 For spell check in RDF / source, currently this is best done in the source
 tool e.g. Google Sheets has a spell check option which should be used to
-check for English valid terms. Running `aspell` on a CSV can be cumbersome
+check for valid English terms. Running `aspell` on a CSV can be cumbersome
 and difficult to complete as there are a large number of files to process.
 Another reason to prefer the source tool is that if the CSV are modified,
 the changes will still need to be synced back to the GSheets.
@@ -96,8 +96,8 @@ the changes will still need to be synced back to the GSheets.
 ## FAQ
 
 1. Fixing an error in the vocabulary terms i.e. term label, property, annotation --> Make the changes in the Google Sheet, and run the `100` script to download CSV, then `200` to produce RDF, then `300` to produce HTML.
-2. Fixing an error in serialisation e.g. rdf:Property is defined as rdfs:Propety --> Make the changes in the `200` script for generating RDF, and `300` script to generate HTML.
-3. Changing content in HTML documentation e.g. change motivation paragraph --> Make the changes in the relevant `template` and `300` script to generate HTML.
+2. Fixing an error in serialisation, e.g., `rdf:Property` is defined as `rdfs:Property` --> Make the changes in the `200` script for generating RDF, and `300` script to generate HTML.
+3. Changing content in HTML documentation, e.g., change motivation paragraph --> Make the changes in the relevant `template` and `300` script to generate HTML.
 
 ## Using UV
 
