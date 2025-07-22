@@ -44,12 +44,13 @@ These extensions provide additional concepts that extend the concepts and scope 
 - [Risk](https://w3id.org/dpv/risk) provides concepts for risk assessment and management;
 
 In v2.1, the Sector and Standard group of extensions was added to the DPV specifications. [Sector](https://w3id.org/dpv/sector) provides sector-specific concepts which extend concepts in other DPV extensions. Currently, the following sectors are represented:
--[SECTOR-EDUCATION](https://w3id.org/dpv/sector/education) for Education Sector
--[SECTOR-FINANCE](https://w3id.org/dpv/sector/finance) for Finance Sector
--[SECTOR-HEALTH](https://w3id.org/dpv/sector/health) for Health Sector
--[SECTOR-INFRA](https://w3id.org/dpv/sector/infra) for (Critical) Infrastructure Sector
--[SECTOR-LAW](https://w3id.org/dpv/sector/law) for Law Enforcement & Justice Sector
--[SECTOR-PUBLICSERVICES](https://w3id.org/dpv/sector/publicservices) for Public Services Sector
+
+- [SECTOR-EDUCATION](https://w3id.org/dpv/sector/education) for Education Sector
+- [SECTOR-FINANCE](https://w3id.org/dpv/sector/finance) for Finance Sector
+- [SECTOR-HEALTH](https://w3id.org/dpv/sector/health) for Health Sector
+- [SECTOR-INFRA](https://w3id.org/dpv/sector/infra) for (Critical) Infrastructure Sector
+- [SECTOR-LAW](https://w3id.org/dpv/sector/law) for Law Enforcement & Justice Sector
+- [SECTOR-PUBLICSERVICES](https://w3id.org/dpv/sector/publicservices) for Public Services Sector
 
 The Standards extensions are aimed to provide additional concepts for implementing specific standards using DPV. Currently it contains [IEEE-P7012](https://w3id.org/dpv/standards/p7012) based on [IEEE P7012 Draft Standard for Machine Readable Personal Privacy Terms](https://standards.ieee.org/ieee/7012/7192/).
 
