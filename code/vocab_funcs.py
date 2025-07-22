@@ -204,7 +204,12 @@ def construct_value(item, data, namespace, header):
     if not item:
         return triples
     term = _term_with_namespace(data['Term'], namespace)
-    triples.append((term, RDF.value, Literal(item)))
+    item, datatype = item.split(',')
+    datatype_namespace, datatype_type = datatype.split(':')
+    datatype = NAMESPACES[datatype_namespace][datatype_type]
+    DEBUG(f'{datatype=}')
+    triples.append((term, RDF.value, Literal(item.strip(), datatype=datatype)))
+    DEBUG(f'{triples=}')
     return triples
 
 
