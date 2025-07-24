@@ -17,7 +17,7 @@ from rdflib import URIRef
 import shutil
 import logging
 logging.basicConfig(
-    level=logging.INFO, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
+    level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
 INFO = logging.info
 
@@ -475,13 +475,13 @@ def get_sources(sources:str|list) -> list:
     sources = ensure_list(sources)
     returnval = []
     for source in sources:
-        if type(source) is str: 
-            returnval.append([source, sources])
-        if type(source) is BNode: 
+        if type(source) in (str, Literal): 
+            returnval.append([None, source])
+        elif type(source) is BNode: 
             returnval.append([ # order is x=url, y=label
                 DATA.concepts[source]['schema:url'],
                 DATA.concepts[source]['schema:name']])
-    return sorted(returnval, key=lambda x: x[0])
+    return sorted(returnval, key=lambda x: x[1])
 
 
 def ensure_list(item) -> list:
