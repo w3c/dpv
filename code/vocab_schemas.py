@@ -52,6 +52,9 @@ SCHEMA['taxonomy-risk'] = SCHEMA['taxonomy'].copy()
 SCHEMA['taxonomy-risk']['ParentTerm'] = None
 SCHEMA['taxonomy-risk']['CIA'] = vocab_funcs.construct_risk_parent_CIA
 SCHEMA['taxonomy-risk']['Role'] = vocab_funcs.construct_risk_parent_Role
+SCHEMA['taxonomy-risk']['Severity'] = vocab_funcs.construct_risk_severity
+SCHEMA['taxonomy-risk']['Likelihood'] = vocab_funcs.construct_risk_likelihood
+SCHEMA['taxonomy-risk']['Level'] = vocab_funcs.construct_risk_level
 
 SCHEMA['properties'] = {
     '_description': 'lorem ipsum',

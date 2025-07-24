@@ -682,6 +682,9 @@ def make_anchor_link(concept:str|dict) -> str:
     """
     if type(concept) == str:
         concept = DATA.concepts[concept]
+    else:
+        DEBUG(f'{concept=}')
+        DEBUG(type(concept))
     iri = concept['iri']
     term = concept['term']
     return f"<a href='{iri}'><code>{term}</code></a>"

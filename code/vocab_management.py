@@ -360,7 +360,7 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskLevels.csv',
         },
         'risk_matrix': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/RiskMatrix.csv',
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskMatrix.csv',
         },
         'risk_controls': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskControls.csv',

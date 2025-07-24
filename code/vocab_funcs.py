@@ -554,3 +554,24 @@ def construct_inverse_jurisdiction(term, data, namespace, header):
     triples.append((inverse, SKOS.definition, Literal(f"Set of jurisdictions that are not in {data['Term']}", lang="en")))
     triples.append((location, DPV.hasInverseJurisdiction, inverse))
     return triples
+
+
+def construct_risk_severity(term, data, namespace, header):
+    triples = []
+    term = namespace[f'{term}Severity']
+    triples.append((namespace[data['Term']], DPV.hasSeverity, term))
+    return triples
+
+
+def construct_risk_likelihood(term, data, namespace, header):
+    triples = []
+    term = namespace[f'{term}Likelihood']
+    triples.append((namespace[data['Term']], DPV.hasLikelihood, term))
+    return triples
+
+
+def construct_risk_level(term, data, namespace, header):
+    triples = []
+    term = namespace[f'{term}Risk']
+    triples.append((namespace[data['Term']], DPV.hasRiskLevel, term))
+    return triples
