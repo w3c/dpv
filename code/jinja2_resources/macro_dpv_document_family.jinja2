@@ -50,7 +50,7 @@ at the specified link e.g. for specific module #}
 
 {% macro contributors_list(data, vocab_name) %}
 {# for list of contributors as a HTML para #}
-{% if data[vocab_name+'-metadata']['dct:contributor'] %}<p><strong>Contributors:</strong> (ordered alphabetically) {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|resolve_concepts|sort(attribute='foaf:name') %}
+{% if data[vocab_name+'-metadata']['dct:contributor'] %}<p><strong>Contributors:</strong> (ordered alphabetically) {% for person in data[vocab_name+'-metadata']['dct:contributor']|ensure_list|resolve_concepts|unique(attribute='foaf:name')|sort(attribute='foaf:name') %}
   <span>{% if person['foaf:homepage'] %}<a href="{{person['foaf:homepage']}}"><b>{{ person['foaf:name'] }}</b></a>
     {% elif person['scoro:hasORCID'] %}<a href="https://orcid.org/{{person['scoro:hasORCID']}}"><b>{{ person['foaf:name'] }}</b></a>
     {% else %}<b>{{ person['foaf:name'] }}</b>{% endif %}
