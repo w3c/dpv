@@ -61,7 +61,7 @@ at the specified link e.g. for specific module #}
 
 {% macro authors_list(data, vocab_name) %}
 {# for list of authors in ReSpec json #}
-[{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|resolve_concepts|sort(attribute='foaf:name') %}
+[{% for person in data[vocab_name+'-metadata']['dct:creator']|ensure_list|resolve_concepts|unique(attribute='foaf:name')|sort(attribute='foaf:name') %}
   { 
     "name": "{{person['foaf:name']}}",
     "company": "{% set org = person['org:memberOf']|resolve_concepts %}{{org['foaf:name']}}"{% if person['scoro:hasORCID'] %},
