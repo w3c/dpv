@@ -149,7 +149,7 @@ def write_CSV_graph(graph, filepath: str, vocab: str, namespace: str) -> None:
         'scopenote', 'created', 'modified')
     header = ('term', 'type', *query_header, 'vocab', 'namespace')
     with open(f'{filepath}.csv', 'w', newline='', encoding='utf-8') as fd:
-        writer = csv.writer(fd)
+        writer = csv.writer(fd, dialect=csv.unix_dialect)
         writer.writerow(header)
         query = """
             SELECT ?iri ?label ?definition
@@ -201,7 +201,7 @@ def write_rights_mapping_CSV_graph(graph, filepath: str, vocab: str, namespace: 
     '''Write a CSV file for the given graph at filepath'''
     header = ('legal_basis', 'right')
     with open(f'{filepath}.csv', 'w') as fd:
-        writer = csv.writer(fd)
+        writer = csv.writer(fd, dialect=csv.unix_dialect)
         writer.writerow(header)
         query = """
             SELECT ?legal_basis ?right
