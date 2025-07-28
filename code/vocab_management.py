@@ -837,8 +837,8 @@ RDF_VOCABS = {
         # Metadata for RDF Vocabs.
         'metadata': {
         # Manually declared:
-            "dct:title": "Examples for Data Privacy Vocabulary",
-            "dct:description": "Examples for/using DPVCG vocabularies",
+            "dct:title": "Examples",
+            "dct:description": "for using DPVCG vocabularies",
             "dct:created": "2022-08-18",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Harshvardhan J. Pandit",
