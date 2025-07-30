@@ -687,7 +687,8 @@ def make_anchor_link(concept:str|dict) -> str:
         DEBUG(type(concept))
     iri = concept['iri']
     term = concept['term']
-    return f"<a href='{iri}'><code>{term}</code></a>"
+    prefix = concept['prefix']
+    return f"<a href='{iri}'><code>{prefix}:{term}</code></a>"
 
 
 def replace_iri_owl(concept:dict) -> str:
