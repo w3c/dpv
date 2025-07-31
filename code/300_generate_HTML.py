@@ -741,7 +741,7 @@ def get_additional_annotations(concept:dict) -> list:
 
 
 def get_attrib(term, key):
-    DEBUG(f'{term}: {type(term)}')
+    # DEBUG(f'{term}: {type(term)}')
     return term[key]
 
 

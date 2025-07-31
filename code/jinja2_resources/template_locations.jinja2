@@ -102,6 +102,10 @@
     <figcaption>Overview of Location concepts and annotation properties in LOC extension</figcaption>
   </figure>
   <p>The Locations ([[LOC]]) extension extends the [[DPV]] to provide concepts representing locations based on the <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> and <a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a> standards. At the moment, it  provides country codes and regions with plans for future iterations to provide additional concepts representing provinces and cities. In addition to ISO 3166 countries and subdivisions, the extension also provides a representation of geo-political supra-unions such as the EU with a list of its member countries. Through these concepts, the [[LOC]] extension enables representation and use of locations with other DPV concepts, such as to indicate where the data is being stored or processed, or to indicate the data subjects are from a particular location.</p>
+  <aside class="note" title="IMPORTANT: Statement on Geo-Political Implications">
+    <p>Locations and jurisdictions are contentious concepts and are subject to political conflicts and disputes. The authors and contributors for this document, as well as other members and participants in the W3C DPVCG, are providing this document and associated resources with the sole goal of facilitating reference to locations and jurisdictions through a machine-readable vocabulary. To avoid any unwanted political implications of this work, we have utilised the ISO 3166 standard as a reflection of global consensus (in as much as has been made possible) with further links to UN resources. Any mistakes or lapses in  this resource are not intentional and we welcome efforts to highlight and fix them.</p>
+    <p>Further, due to the modular nature of DPV, it is feasible and practical to create extensions that represent an intended modelling of jurisdictions within the `legal` namespace, similar to how laws and authorities have been modelled. Thus, adopters have a choice to create and utilise (and to propose to the DPVCG) other models of locations based on requirements for each specific jurisdiction.</p>
+  </aside>
   <h3>ISO and UN taxonomies</h3>
   <p>To express the ISO and UN codes for specific locations, the following properties have been introduced:</p>
   <ol>
@@ -110,23 +114,24 @@
     <li>[=iso_numeric=] to represent the ISO 3166 numeric codes</li>
     <li>[=un_m49=] to represent the 2-letter UN M49 codes</li>
   </ol>
-  <p>In addition to these, the country table further in the document also contains links to the ISO Online Browsing Platform (OBP) and the <a href="https://op.europa.eu/en/web/eu-vocabularies/">EU Vocabularies</a>.</p>
-  <h3>Locations as Jurisdictions</h3>
-  <p>The [[[LEGAL]]] extensions use these concepts to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities. To further support the legal/jurisdictional use of locations, the extension also defines the {{ anchor('dpv:InverseJurisdiction') }} concept which represents a list of all other jurisdictions for a given location. This helps in defining information and constraints such as "data transfers outside of XYZ location". To implement this, the extension defines a `non-XYZ` concept for each `XYZ` (currently limited to countries and supranational unions), and then associates all jurisdictions which are not `XYZ` with the concept `non-XYZ` using the SKOS narrower/broader relations. The association between `XYZ` and `non-XYZ` is unidirectional and is specified using through the relation {{ anchor('dpv:hasInverseJurisdiction') }}, i.e. we only state `non-XYZ` is the inverse set of jurisdictions for `XYZ` and do not state `XYZ` is the inverse of `non-XYZ` to avoid circular or recursive associations in resolving jurisdictions.</p>
-  <p>Country IRIs are defined by their ISO 3166-1 Alpha2 codes in the following format: <code>https://w3id.org/dpv/loc#&lt;code&gt;</code>. The inverse for each country is defined by prefixing the country code with <code>non-</code> which gives the IRI <code>https://w3id.org/dpv/loc#non-&lt;code&gt;</code>. The inverse jurisdiction is defined as a set containing all other countries that are not the target country, associated using <code>skos:narrower</code> relations.</p>
+  <p>In addition to these, the <a href="vocab-locations">countries table</a> further in the document also contains links to the ISO Online Browsing Platform (OBP) and the <a href="https://op.europa.eu/en/web/eu-vocabularies/">EU Vocabularies</a>.</p>
+  <h3>Inverse Jurisdictions</h3>
+  <p>The [[[LEGAL]]] extensions use the core DPV concepts (see above) to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities. To further support the legal/jurisdictional use of locations, the extension uses the {{ anchor('dpv:InverseJurisdiction') }} concept which represents the set of all other jurisdictions for a given jurisdiction to help represent information and constraints such as "data transfers outside of Ireland" where "Ireland" is a jurisdiction and "outside of Ireland" is what we call an 'inverse jurisdiction' that represents all jurisdictions other than Ireland. Here, it is important to distinguish between <i>outside of a location</i> from <i>outside of a jurisdiction</i>, as locations would also include oceans, Antartica, the moon, and the rest of the universe by virtue of everything being a location. Instead, jurisdictions refer strictly to the geo-political definitions and do not contain such ambiguity and expansive scopes.</p>
+  <p>The LOC extension defines an inverse jurisdiction concept for each jurisdiction (currently limited only to countries and supranational unions) by taking the ISO 3166-2 code and prefixing it with `non-`. For example, the LOC concept for Ireland is [=IE=] and its inverse jurisdiction is [=non-IE=]. SKOS narrower/broader relations are used to associate specific jurisdictions as being part of a inverse jurisdiction concept. As these properties are bidirectional and transitive, this creates an efficient path traversal and reasoning mechanism to quickly check whether a given location/jurisdiction is outside of a target jurisdiction by checking whether there is a SKOS narrower/broader path from it to the inverse jurisdiction concept for the target jurisdiction.</p>
+  <p>To limit the complexity of inverse jurisdiction relations, the {{ anchor('dpv:hasInverseJurisdiction') }} property used to associate a jurisdiction with its inverse is used only as a unidirectional functional property, i.e. a 'real' jurisdiction has an associated virtual 'inverse jurisdiction' expressed through this property, and the vice-versa fact does not exist. For example, [=IE=] has inverse jurisdiction [=non-IE=] is declared but not the other way around. This is to avoid circular or recursive associations in resolving jurisdictions and to prevent mixing actual and inverse jurisdictions in inferences from reasoning.</p>
   <aside class="example" title="Inverse Jurisdictions">
     <p>The example shows the definition of Ireland as a location and its inverse jurisdictional concept.</p>
     <pre><code>loc:IE a dpv:Country ;
   dpv:hasInverseJurisdiction loc:non-IE .
 
 loc:non-IE a dpv:InverseJurisdiction ;
-  skos:narrower loc:AD ;
+  skos:narrower loc:AD ; # Andorra
                 # countries except loc:IE
-                loc:ZW .
+                loc:ZW . # Zimbabwe
 </code></pre>
   </aside>
   <h3>Unions and Memberships</h3>
-  <p>To express unions and memberships such as for [=EEA=] and [=EU=], the [[SKOS]] relations <i>narrower/broader</i> are used, with the union expressed as an instance of <code>dpv:SupraNationalUnion</code>.</p>
+  <p>To express unions and memberships such as for [=EEA=] and [=EU=], the [[SKOS]] relations <i>narrower/broader</i> are used to denote which countries are members, with the union itself expressed as an instance of <code>dpv:SupraNationalUnion</code>. Further, the concept without any suffixes represents the latest membership, while those with suffixes represent specific membership sets in the past and present to provide a way to unambiguously refer to a specific instance of the union in time. See the <a href="vocab-memberships">associated section</a> later in the document for a listing of these concepts and their inverse jurisdictions.</p>
 </section>
 {% endblock INTRODUCTION %}
 {% block VOCAB %}
@@ -198,7 +203,7 @@ loc:non-IE a dpv:InverseJurisdiction ;
     {% for union in vocab.values()|filter_type('dpv:SupraNationalUnion',vocab='loc')|sort(attribute='iri') %}
       <section id="{{union['term']}}">
         <h3><dfn>{{ union['term'] }}</dfn> - {{ union['skos:prefLabel'] }}</h3>
-      <p>{{ union['skos:definition'] }}.</p>
+      <p>{{ union['skos:definition'] }}. The inverse jurisdiction for `{{ union['term'] }}` is <dfn>{{ union['dpv:hasInverseJurisdiction']|resolve_concepts|get_attrib('term') }}</dfn>.</p>
       <p>The following countries are members of this union:
         {% for country in union['skos:narrower']|get_concept_list %}
           <a href="#{{country['loc:iso_alpha2']}}">{{ country['skos:prefLabel'] }} ({{ country['loc:iso_alpha2'] }})</a>{{ ", " if not loop.last }}
@@ -560,6 +565,12 @@ loc:non-IE a dpv:InverseJurisdiction ;
 
 <section id="future-work" class="appendix">
   <h2>Future Work</h2>
+  <aside class="note" title="Subjective Locations mentioned in v2.1">
+    <p>A previous version of this document associated with DPV v2.1 release contained a note on proposed work regarding "subjective locations" such as <i>at home</i> and <i>at work</i> which are often found in contexts such as maps and conversations. For v2.2, the DPVCG deliberated at length on how such concepts can be best defined, and how to resolve the potential overlaps and ambiguity between concepts such as <i>home</i> being both personal data and locations. The DPVCG concluded that such concepts should be provided in the [[[PD]]] extension to indicate their status as personal data, and discarding other alternatives such as declaring them in LOC (this extension) as personal data, or to create a new extension, or to create duplicate concepts in both PD and LOC extensions. While the v2.2 release does not provide these concepts in [[PD]], this note serves to inform regarding their future intended addition.</p>
+  </aside>
+  <aside class="note" title="Labelled Locations mentioned in v2.1">
+    <p>In addition to the above note, the discussions regarding subjective locations such as train stations, parks, and airports that are not personal data but are referenced in regulations and guidelines. The group has not made a decision on how to depict these as of this moment, with the same alternatives mentioned in the above note also being considered. One critical concern raised was the subjectivity of these locations as compared to the concreteness of the concepts currently present in this location based on their origin in a standard that is widely used (ISO 3166). As a similar work does not exist, the group is considering providing such subjective non-personal data concepts in a separate namespace within the LOC or through the Sectorial extensions.</p>
+  </aside>
 </section>
 
 {% block ACKNOWLEDGEMENTS %}
