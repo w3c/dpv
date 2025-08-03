@@ -627,7 +627,11 @@ def resolve_concepts(items:str | list) -> str | list:
         if type(items[0]) is dict: # concepts are already resolved
             return items
         return [DATA.concepts[x] for x in items]
-    return DATA.concepts[items]
+    try:
+        return DATA.concepts[items]
+    except Exception as E:
+        logging.error(f"{items=}")
+        raise E
 
 
 def retrieve_example(exampleID:str, syntaxHighlight=True) -> tuple:

@@ -43,6 +43,18 @@ def construct_definition(item, data, namespace, header):
     return triples
 
 
+def construct_sameas(item, data, namespace, header):
+    triples = []
+    terms = []
+    for x in item.split(','):
+        term, t_namespace = _get_term_from_prefix_notation(x, None)
+        terms.append((term, t_namespace))
+    for term, t_namespace in terms:
+        triples.append((namespace[data['Term']], SKOS.sameAs, t_namespace[term]))
+        triples.append((t_namespace[term], SKOS.sameAs, namespace[data['Term']]))
+    return triples
+
+
 def construct_parent(item, data, namespace, header):
     # parent will be of the form prefix:term
     triples = []

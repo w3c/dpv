@@ -96,6 +96,7 @@ SCHEMA['locations'] = {
     'Term': vocab_funcs.construct_class,
     'Label': vocab_funcs.construct_label,
     'Definition': vocab_funcs.construct_definition,
+    'SameAs': vocab_funcs.construct_sameas,
     'ParentTerm': vocab_funcs.construct_skos_broader,
     'ParentType': vocab_funcs.construct_parent_taxonomy,
     'ISO-3166-Alpha2': vocab_funcs.construct_iso_3166_alpha2,

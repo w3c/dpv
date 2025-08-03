@@ -115,6 +115,10 @@
     <li>[=un_m49=] to represent the 2-letter UN M49 codes</li>
   </ol>
   <p>In addition to these, the <a href="vocab-locations">countries table</a> further in the document also contains links to the ISO Online Browsing Platform (OBP) and the <a href="https://op.europa.eu/en/web/eu-vocabularies/">EU Vocabularies</a>.</p>
+  <aside class="note" title="IMPORTANT: Notion of Country in ISO 3166">
+    <p>ISO 3166-1 and 3166-2 defines <i>country name</i> as "name of a country, dependency, or other area of particular geopolitical interes". As such, the concept of `Country` derived from this and used in the DPV and LOC vocabularies allows for a flexible representation where a country may be part of another country's jurisdiction. As such, `dpv:Country` is a distinct concept from <a href="https://en.wikipedia.org/wiki/Sovereign_state">Sovereign States</a>.</p>
+    <p>Where possible, and based on ISO 3166 standards, the LOC extension provides hints and links between countries as a hierarchy. This is done at two levels: (1) ISO 3166 may define the same concept with a country code and a subdivision code, e.g. `TF` and `FR-TF`. The LOC extension links these with a `skos:sameAs` relation; (2) An expressed country may be part of another country's jurisdictional control for the purposes of data transfers and other legal matters. The LOC extension asserts this with a `skos:broader` relation.</p>
+  </aside>
   <h3>Inverse Jurisdictions</h3>
   <p>The [[[LEGAL]]] extensions use the core DPV concepts (see above) to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities. To further support the legal/jurisdictional use of locations, the extension uses the {{ anchor('dpv:InverseJurisdiction') }} concept which represents the set of all other jurisdictions for a given jurisdiction to help represent information and constraints such as "data transfers outside of Ireland" where "Ireland" is a jurisdiction and "outside of Ireland" is what we call an 'inverse jurisdiction' that represents all jurisdictions other than Ireland. Here, it is important to distinguish between <i>outside of a location</i> from <i>outside of a jurisdiction</i>, as locations would also include oceans, Antartica, the moon, and the rest of the universe by virtue of everything being a location. Instead, jurisdictions refer strictly to the geo-political definitions and do not contain such ambiguity and expansive scopes.</p>
   <p>The LOC extension defines an inverse jurisdiction concept for each jurisdiction (currently limited only to countries and supranational unions) by taking the ISO 3166-2 code and prefixing it with `non-`. For example, the LOC concept for Ireland is [=IE=] and its inverse jurisdiction is [=non-IE=]. SKOS narrower/broader relations are used to associate specific jurisdictions as being part of a inverse jurisdiction concept. As these properties are bidirectional and transitive, this creates an efficient path traversal and reasoning mechanism to quickly check whether a given location/jurisdiction is outside of a target jurisdiction by checking whether there is a SKOS narrower/broader path from it to the inverse jurisdiction concept for the target jurisdiction.</p>
@@ -145,8 +149,10 @@ loc:non-IE a dpv:InverseJurisdiction ;
             <th>ISO 3166-1 Alpha3</th>
             <th>ISO 3166-1 Numeric</th>
             <th>UN M49</th>
+            <th>Same As</th>
             <th>Subdivisions</th>
             <th>Inverted Jurisdiction</th>
+            <th>Part Of</th>
             <th>External links</th>
         </thead>
         <tbody>
@@ -158,9 +164,16 @@ loc:non-IE a dpv:InverseJurisdiction ;
                 <td><code>{{ loc['loc:iso_alpha3'] }}</code></td>
                 <td><code>{{ loc['loc:iso_numeric'] }}</code></td>
                 <td><code>{{ loc['loc:un_m49'] }}</code></td>
+                <td>{% if loc['skos:sameAs'] %}<code>
+                  {% set parents = loc['skos:sameAs']|ensure_list|sort|resolve_concepts %}
+                  {% for parent in parents %}
+                    <a href="#{{parent['term']}}"><code>{{ parent['term'] }}</code></a>{{ ", " if not loop.last }}{% endfor %}{% endif %}</td>
                 <td>{% if 'skos:narrower' in loc %}<a href="#subdivisions-{{loc['term']}}">{{ loc['skos:narrower']|length }} divisions</a>{% else %}N/A{% endif %}</td>
-                <td>{% set invloc = loc['dpv:hasInverseJurisdiction']|resolve_concepts %}
-                    <dfn>{{ invloc['term'] }}</dfn></td>
+                <td>{% if loc['dpv:hasInverseJurisdiction'] %}{% set invloc = loc['dpv:hasInverseJurisdiction']|resolve_concepts %}
+                    <dfn>{{ invloc['term'] }}</dfn>{% endif %}</td>
+                <td>{% if loc['skos:sameAs'] %}<code>
+                  {% set parents = loc['skos:broader']|ensure_list|resolve_concepts|filter_type('dpv:Country')|sort('iri') %}
+                  {% for parent in parents %}<a href="#{{parent['term']}}"><code>{{ parent['term'] }}</code></a> {% endfor %}{% endif %}</td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:{{loc['term']}}">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/{{loc['dpv:iso_alpha3']}}">EU Vocab</a></td>
