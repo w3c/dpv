@@ -636,25 +636,21 @@
 </section>
 
 
-  <section id="vocab-rules">
+  <section>
     <h2>Introduction</h2>
     <figure>
     <img src="../../diagrams/Rules.svg" />
     <figcaption></figcaption>
   </figure>
-    <p>DPV provides the concept [=Rule=] to specify requirements, constraints, and other forms of 'rules' that are associated with specific contexts (e.g., processing activities) using the relation [=hasRule=]. DPV provides three forms of Rules to represent [=Permission=], [=Prohibition=] and [=Obligation=], and their corresponding relations [=hasPermission=], [=hasProhibition=] and [=hasObligation=], to indicate a Rule that specifies whether something is permitted, prohibited or an obligation, respectively.</p>
-
-    <p>[=Permission=] refers to the indicated context being allowed or approved to be carried out. Permissions are only a 'permissive signal' i.e. it is not necessary to carry out an activity just because it is permitted (see obligation for this). Permissions can be used to record what has been permitted or to distinguish the 'permissive' parts from other 'non-permissive' or prohibitive parts, such as in use-cases for policies, agreements, consent records, and risk assessments. </p>
-    <p>[=Prohibition=] represents the indicated context is not allowed or it is not approved to be carried out. If something is expressed as a prohibition - it explicitly indicates that it must not occur. Unlike permission, prohibition is a 'strong' rule i.e. if something is prohibited, then it is necessary that it not be carried out.</p>
-    <p>[=Obligation=] is the antipodal rule for prohibitions, which means if something is an obligation then it is necessary for it to be carried. It differs from permissions - which are a 'soft' rule i.e. a permitted activity is not necessary to be carried out.</p>
+    <p>DPV provides the concept [=Rule=] to specify requirements, constraints, and other forms of 'rules' that are associated with specific contexts (e.g., processing activities) using the relation [=hasRule=]. DPV provides two categories of rules to broadly represent what is <i>acceptable</i> ([=AcceptableRule=]) and <i>unacceptable</i> ([=UnacceptableRule=]). DPV also provides concepts to indicate the outcome of assessing the rules as statuses through [=RuleFulfilmentStatus=] with distinction between [=RuleFulfilled=], [=RuleUnfulfilled=], and [=RuleViolated=].</p>
 
     <p>DPV does not define additional semantics for rules and limits its scope and focus to provide a simple way to specify permissions, prohibitions, and obligations as common rules associated with activities, as well as recommendations and deterrence in assessments and guidelines. For a more extensive and richer set of semantics and concepts to represent rules, DPVCG suggests looking towards other languages, such as [[ODRL]], [[SHACL]], and [[RuleML]] that have been developed with the specific goal of representing and applying rules. We welcome contributions for aligning DPV with these, and for providing guidance on how to complement DPV's rule-based concepts with external languages.</p>
-    
+  </section>
+
+  <section id="vocab-rules">
+    <h2>Rules</h2>
+    <p>DPV's Rules are broadly categorised as [=AcceptableRule=] to indicate something is desired and can or should be allowed to happen - including the undesirability of it not occurring, and [=UnacceptableRule=] to indicate the opposite i.e. something that is undesirable to occur or it is desirable for it to not occur. These categories are only indicative as a way to group the specific concepts together based on commonality of interpretation and application.</p>
     <div class="list-hierarchy"><ul class="concept-list">
-  <li>
-    <strong>dpv:Rule</strong>: A rule describing a process or control that directs or determines if and how an activity should be conducted
-      <small><a href="https://w3id.org/dpv#Rule" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
   <li>
     <strong>dpv:AcceptableRule</strong>: A rule that is acceptable where it is either desirable if it occurs or it is not unacceptable if it does
       <small><a href="https://w3id.org/dpv#AcceptableRule" class="local-link">go to full definition</a></small>
@@ -692,12 +688,140 @@
   </li>
 </ul>
   </li>
-</ul>
-  </li>
-  <li>
-    <strong>dpv:RuleFulfilmentStatus</strong>: Status associated with a rule for indicating whether it is applicable, or has been utilised, and whether the requirements of the rule have been fulfilled or violated
-      <small><a href="https://w3id.org/dpv#RuleFulfilmentStatus" class="local-link">go to full definition</a></small>
-      <ul class="concept-list">
+</ul></div>
+
+    <section id="vocab-rules-rfc2199">
+      <h3>Alignment with RFC2199</h3>
+      <p>The rules concepts are based on specific phrasing defined in [[[RFC2199]]] that allows a standardised and consistent interpretation of the rules and provides a way to detect and represent them in textual forms and documentation. The table below summarises this association.</p>
+      <table>
+        <thead>
+          <th>Concept</th>
+          <th>RFC 2119 Keyword</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>[=Permission=]</td>
+            <td>MAY</td>
+          </tr>
+          <tr>
+            <td>[=Recommendation=]</td>
+            <td>SHOULD</td>
+          </tr>
+          <tr>
+            <td>[=Obligation=]</td>
+            <td>MUST</td>
+          </tr>
+          <tr>
+            <td>[=Prohibition=]</td>
+            <td>MUST NOT</td>
+          </tr>
+          <tr>
+            <td>[=Deterrence=]</td>
+            <td>SHOULD NOT</td>
+          </tr>
+          <tr>
+            <td><i style="color: darkgray;">Not Provided</i></td>
+            <td>MAY NOT</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="vocab-rules-permission">
+      <h3>Permission</h3>
+      <p>[=Permission=] refers to the indicated context being allowed or approved to be carried out. Permissions are only a 'permissive signal' i.e. it is not necessary to carry out an activity just because it is permitted (see obligation for this). Permissions can be used to record what has been permitted, such as in use-cases for policies, agreements, consent records, and risk assessments. [=Permission=] is indicated/associated using the relation [=hasPermission=], and is typically indicated in textual form through the [[RFC2199]] keyword MAY.</p>
+      <p>A [=Permission=] means an optional acceptability, where the default or expectation is that something is not occurring and it is <i>permissible</i> to let is occur. Thus, when evaluating permissions, the only possible outcomes are whether it has or has not been utilised (see the <a href="#vocab-rules-fulfilment">fulfilment statuses</a>).</p>
+
+        <aside class="example" title="Rule specifying permission">
+<p>In this example, a Process which consists of using an email address for service provision using the legal basis as Consent is permitted</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #00F; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Permission</span> ;
+    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServiceProvision</span> ;
+    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #00F; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span> ;
+    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0028"><code>E0028</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0028.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
+    </small></p>
+  </aside>
+
+    </section>
+
+    <section id="vocab-rules-recommendation">
+      <h3>Recommendation</h3>
+      <p>[=Recommendation=] refers to the indicated context being suggested to be carried out. Recommendations are only a 'suggestion' i.e. it is not necessary (see obligation) to carry out an activity, but as it is being <i>recommended</i> not carrying out, it should be accompanied with a justification (see <a href='https://w3id.org/dpv#Justification'><code>dpv:Justification</code></a>
+ that explains why it was not carried out. Recommendations can be used to record what has identified as the 'default' to occur with the possibility that it may not be desirable or may not occur in some cases. Such uses are typical in policies and guidelines. [=Recommendation=] is indicated/associated using the relation [=hasRecommendation=], and is typically indicated in textual form through the [[RFC2199]] keyword SHOULD.</p>
+      <p>A [=Recommendation=] means a desired acceptability, where the default or expectation is that it is <i>permissible</i> to let is occur and it should be occurring. Thus, when evaluating recommendations, the only possible outcomes are whether it has or has not been utilised (see the <a href="#vocab-rules-fulfilment">fulfilment statuses</a>).</p>
+    </section>
+
+    <section id="vocab-rules-obligation">
+      <h3>Obligation</h3>
+      <p>[=Obligation=] refers to the indicated context being necessary or mandatory to be carried out. Obligations are a 'requirement' i.e. it is necessary to carry out an activity, which implies it is permitted, and that not carrying it out will be a problem or issue or violation. Obligations can be used to issue requirements in use-cases for policies, agreements, consent records, and risk assessments. [=Obligation=] is indicated/associated using the relation [=hasObligation=], and is typically indicated in textual form through the [[RFC2199]] keyword MUST.</p>
+      <p>A [=Obligation=] means a necessary acceptability, where the default or expectation is that something is occurring and it is <i>necessary</i> to let is occur. Thus, when evaluating obligations, the only possible outcomes are whether it has been fulfilled (i.e. what was said has been carried out), unfulfilled (i.e. not carried out but there is scope to so), and violated (see the <a href="#vocab-rules-fulfilment">fulfilment statuses</a>).</p>
+    </section>
+
+    <section id="vocab-rules-prohibition">
+      <h3>Prohibition</h3>
+      <p>[=Prohibition=] refers to the indicated context being necessary or mandatory to NOT be carried out. Prohibitions are a 'requirement' i.e. it is necessary to NOT carry out an activity, which implies it is not permitted, and that carrying it out will be a problem or issue or violation. Prohibitions can be used to issue requirements that are different from obligations in that the implementer must ensure the prohibited part is not being carried out, whereas obligations require that part to be carried out. [=Prohibition=] is indicated/associated using the relation [=hasProhibition=], and is typically indicated in textual form through the [[RFC2199]] keyword MUST NOT.</p>
+      <p>A [=Prohibition=] means a necessary unacceptability, where the default or expectation is that something is not occurring and it is <i>prohibited</i> to let is occur. Thus, when evaluating prohibitions, the only possible outcomes are whether it has been fulfilled (i.e. what was said has NOT been carried out) or violated (see the <a href="#vocab-rules-fulfilment">fulfilment statuses</a>).</p>
+    </section>
+
+    <section id="vocab-rules-deterrence">
+      <h3>Deterrence</h3>
+      <p>[=Deterrence=] refers to the indicated context being suggested to NOT be carried out. Deterrences are only a 'suggestion' i.e. it is not necessary (see prohibition) to prevent an activity, but as it is being <i>deterred</i> from being carrying out, it should be accompanied with a justification (see <a href='https://w3id.org/dpv#Justification'><code>dpv:Justification</code></a>
+ that explains why it was carried out. Deterrences can be used to record what has identified as the 'default' that should not be occurring with the possibility that it may be desirable or may occur in some cases. Such uses are typical in policies and guidelines. [=Deterrence=] is indicated/associated using the relation [=hasDeterrence=], and is typically indicated in textual form through the [[RFC2199]] keyword SHOULD NOT.</p>
+      <p>A [=Deterrence=] means a desired unacceptability, where the default or expectation is that it is <i>not permissible</i> to let is occur and it should be not occurring. Thus, when evaluating recommendations, the only possible outcomes are whether it has or has not been utilised (see the <a href="#vocab-rules-fulfilment">fulfilment statuses</a>).</p>
+    </section>
+
+    <section id="vocab-rules-indication">
+      <h3>Indicating Rules</h3>
+      <p>Rules can be expressed in two forms: (1) by directly declaring them as an instance of a specific rule concept; and (2) by using the relation to declare an interpretation/application of a rule. The example below shows both in use, where the first method uses a relation to indicate whether a process is permitted or prohibited, and the second contains the process itself being declared as permitted or prohibited.</p>
+        <aside class="example" title="Specifying permissions and prohibitions">
+<p>This example show a process where service provision based on consent is permitted, and profiling based on legitimate interest is prohibited    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Method 1: associating an existing process as a rule</span>
+<span style="color: #00F; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPermission</span> [
+        <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># a dpv:Permission ; &lt;-- inferred</span>
+        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServiceProvision</span> ;
+        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
+    ] ;
+    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProhibition</span> [
+        <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+        <span style="color: #3D7B7B; font-style: italic"># a dpv:Prohibition ; &lt;-- inferred</span>
+        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Profiling</span> ;
+        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterest</span> ;
+    ] .
+
+<span style="color: #3D7B7B; font-style: italic"># Method 2: indicating rules as a status </span>
+<span style="color: #00F; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> [
+        <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
+        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Permission</span> ; <span style="color: #3D7B7B; font-style: italic"># &lt;-- </span>
+        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServiceProvision</span> ;
+        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
+    ] ;
+    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> [
+        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Prohibition</span> ; <span style="color: #3D7B7B; font-style: italic"># &lt;--</span>
+        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Profiling</span> ;
+        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterest</span> ;
+    ] .
+</pre></div>
+
+    <p><small>(<em>META</em> 
+      Example ID: <a href="https://w3id.org/dpv/examples#E0066"><code>E0066</code></a>;
+link: <a href="https://w3id.org/dpv/examples/E0066.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-14)
+    </small></p>
+  </aside>
+
+      <p>Both methods have their advantages or utility. For Method 1 where relations are used, this allows existing processes to be contextually declared as permitted in one use-case and prohibited in another. For Method 2 where instances are used, this allows annotating processes or use-cases as being permitted or prohibited in entirely -- e.g. in reports. A note of caution: though Method 1 uses relations, it can be inferred that the process is being permitted/prohibited when running a reasoner (which is correct in context).</p>
+      <!-- dct:source can be used to indicate the source of the permission or prohibition e.g. prohibited by GDPR Art-9-1 -->
+    </section>
+  
+    <section id="vocab-rules-fulfilment">
+      <h2>Rule Fulfilment Status</h2>
+      <p>The DPVCG is exploring representing the state of rule fulfilment through concepts, for example to represent a prohibition has been violated, or an obligation has been fulfilled, or a permission has been utilised. The currently provided concepts for these, represented by the concept [=RuleFulfilmentStatus=] and its taxonomy, which are associated using the relation [=hasFulfilmentStatus=], indicate the intent and scope of this work.</p>
+      <div class="list-hierarchy"><ul class="concept-list">
   <li>
     <strong>dpv:RuleFulfilled</strong>: Status indicating a rule has been fulfilled, completed, or satisfied
       <small><a href="https://w3id.org/dpv#RuleFulfilled" class="local-link">go to full definition</a></small>
@@ -771,68 +895,8 @@
   </li>
 </ul>
   </li>
-</ul>
-  </li>
 </ul></div>
-      <aside class="example" title="Rule specifying permission">
-<p>In this example, a Process which consists of using an email address for service provision using the legal basis as Consent is permitted</p>    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #00F; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
-    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Permission</span> ;
-    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServiceProvision</span> ;
-    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPersonalData</span> <span style="color: #00F; font-weight: bold">pd</span>:<span style="color: #008000; font-weight: bold">EmailAddress</span> ;
-    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> .
-</pre></div>
-
-    <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0028"><code>E0028</code></a>;
-link: <a href="https://w3id.org/dpv/examples/E0028.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-10)
-    </small></p>
-  </aside>
-
-      <aside class="example" title="Specifying permissions and prohibitions">
-<p>This example show a process where service provision based on consent is permitted, and profiling based on legitimate interest is prohibited    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #00F; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
-    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPermission</span> [
-        <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Permission</span> ;
-        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServiceProvision</span> ;
-        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
-    ] ;
-    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProhibition</span> [
-        <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Prohibition</span> ;
-        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Profiling</span> ;
-        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterest</span> ;
-    ] .
-
-<span style="color: #3D7B7B; font-style: italic"># processes with permission/prohibition as statuses</span>
-<span style="color: #00F; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">PDH</span> <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
-    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> [
-        <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
-        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Permission</span> ;
-        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasPurpose</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">ServiceProvision</span> ;
-        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Consent</span> ;
-    ] ;
-    <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcess</span> [
-        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Prohibition</span> ;
-        <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Prohibition</span> ;
-        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasProcessing</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Profiling</span> ;
-        <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasLegalBasis</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">LegitimateInterest</span> ;
-    ] .
-</pre></div>
-
-    <p><small>(<em>META</em> 
-      Example ID: <a href="https://w3id.org/dpv/examples#E0066"><code>E0066</code></a>;
-link: <a href="https://w3id.org/dpv/examples/E0066.ttl">source file</a>;      contributed by Harshvardhan J. Pandit on 2024-06-14)
-    </small></p>
-  </aside>
-
-    <!-- dct:source can be used to indicate the source of the permission or prohibition e.g. prohibited by GDPR Art-9-1 -->
-
-  </section>
-
-  
-  <section>
-    <h2>Rule Fulfilment Status</h2>
-    <p>The DPVCG is exploring representing the state of rule fulfilment through concepts, for example to represent a prohibition has been violated, or an obligation has been fulfilled, or a permission has been utilised. The currently provided concepts for these, represented by the concept [=RuleFulfilmentStatus=] and its taxonomy, which are associated using the relation `dpv:hasStatus`, indicate the intent and scope of this work.</p>
-    <p>The DPVCG is working with ongoing efforts regarding similar modelling of concepts for ODRL implementations, in particular to ensure the concepts in DPV are in sync and compatible with those developed for ODRL. The below issue shows the progress for this.</p>
-      <aside class="example" title="Stating status of Rule fulfilment">
+        <aside class="example" title="Stating status of Rule fulfilment">
 <p>This example shows how the status of rules can be expressed in terms of their fulfilment or violation.    <div class="source" style="background: #f8f8f8"><pre class='nohighlight'style="line-height: 125%;"><span></span><span style="color: #3D7B7B; font-style: italic"># Method 1) Rule and status in process</span>
 <span style="color: #00F; font-weight: bold">ex</span>:<span style="color: #008000; font-weight: bold">SomeProcess</span> <span style="color: #B00040">a</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Process</span> ;
     <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">hasRule</span> <span style="color: #00F; font-weight: bold">dpv</span>:<span style="color: #008000; font-weight: bold">Obligation</span> ;
@@ -873,6 +937,8 @@ link: <a href="https://w3id.org/dpv/examples/E0084.ttl">source file</a>;      co
     </small></p>
   </aside>
 
+      <p>The DPVCG is working with ongoing efforts regarding similar modelling of concepts for ODRL implementations, in particular to ensure the concepts in DPV are in sync and compatible with those developed for ODRL. The below issue shows the progress for this.</p>
+    </section>
   </section>
 
   <section>
