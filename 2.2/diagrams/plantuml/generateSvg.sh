@@ -3,7 +3,7 @@
 # you need wget and java on your $PATH
 
 PLANTUML_JAR_PATH=/tmp/plantuml.jar
-PLANTUML_URL="https://github.com/plantuml/plantuml/releases/download/v1.2025.4/plantuml-1.2025.4.jar"
+PLANTUML_URL="https://github.com/plantuml/plantuml/releases/download/v1.2024.5/plantuml-1.2024.5.jar"
 
 EXCLUDES=("dpv.plantuml" "style.plantuml")
 
