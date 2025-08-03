@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #author: Harshvardhan J. Pandit
 
-# Convert DPV files from RDF / Turtle format to OWL / Machester formats
+# Convert DPV files from RDF / Turtle format to OWL / Manchester formats
 
 echo "Converting DPV files from .rdf to .owl with ManchesterSyntax"
 
