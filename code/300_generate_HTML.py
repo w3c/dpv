@@ -663,7 +663,7 @@ def retrieve_example_for_concept(concept:dict) -> list:
     examples = [prefix_from_iri(ex) for ex in examples]
     # Retrieve example data
     examples = [DATA.data['dex'][ex] for ex in examples]
-    # Sort examplese by IRI
+    # Sort examples by IRI
     examples.sort(key=lambda x: x['iri'])
     return examples
 
