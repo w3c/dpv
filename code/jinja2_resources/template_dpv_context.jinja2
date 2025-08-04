@@ -104,24 +104,30 @@
   </section>
   <section>
     <h2>Duration and Frequency</h2>
-    <p>To express the duration of events or operations, such as how long processing will take or the validity of consent, the concept [=Duration=] can be used. Duration is indicated using the relation [=hasDuration=], and has the following subtypes:</p>
-    <ul>
-    <li>[=TemporalDuration=] - indicating a relative temporal duration, e.g. 6 months.</li>
-    <li>[=UntilTimeDuration=] - indicating duration that occurs until the end of specified time, e.g. until 31 DEC 2022.</li>
-    <li>[=UntilEventDuration=] - indicating duration that occurs until the end of specified event, e.g. until account is closed.</li>
-    <li>[=FixedOccurrencesDuration=] - a duration that is based on number of Occurrences, e.g. until you view it 3 times</li>
-    <li>[=EndlessDuration=] - indicating a duration without an end condition or temporal notation.</li>
-    </ul>
-    <p>[=Frequency=] indicates how frequently something occurs. Statistically, this can be expressed as the combination of number of Occurrences and a time period, which can further be expressed as a probabilistic value or a percentage. For example, for something occurring once every year, the frequency is: 1 or 100% for 1 year. While such <i>quantified</i> representations are important for determining metrics and performing operations, DPV focuses on the <i>qualitative</i> labelling of such representations within a specific context.</p>
-    <p>The relation [=hasFrequency=] associates a frequency with a context, and can be expressed using the following subtypes:</p>
-    <ul>
-      <li>[=ContinuousFrequency=] - indicates things occurring Continuously, e.g. location collection happens Continuously.</li>
-      <li>[=SporadicFrequency=] - indicates things occurring sporadically or rarely or not often, e.g. collecting system usage logs every month.</li>
-      <li>[=OftenFrequency=] - indicates things happen often or regularly or commonly, e.g. online status is reported every 5 mins.</li>
-      <li>[=SingularFrequency=] - indicates things happen only once.</li>
-    </ul>
-    {{ example_aside('dex:E0050') }}
-    {{ example_aside('dex:E0051') }}
+    <section id="vocab-duration">
+      <h3>Duration</h3>
+      <p>To express the duration of events or operations, such as how long processing will take or the validity of consent, the concept [=Duration=] can be used. Duration is indicated using the relation [=hasDuration=], and has the following subtypes:</p>
+      <ul>
+      <li>[=TemporalDuration=] - indicating a relative temporal duration, e.g. 6 months.</li>
+      <li>[=UntilTimeDuration=] - indicating duration that occurs until the end of specified time, e.g. until 31 DEC 2022.</li>
+      <li>[=UntilEventDuration=] - indicating duration that occurs until the end of specified event, e.g. until account is closed.</li>
+      <li>[=FixedOccurrencesDuration=] - a duration that is based on number of Occurrences, e.g. until you view it 3 times</li>
+      <li>[=EndlessDuration=] - indicating a duration without an end condition or temporal notation.</li>
+      </ul>
+      {{ example_aside('dex:E0050') }}
+    </section>
+    <section id="vocab-frequency">
+      <h3>Frequency</h3>
+      <p>[=Frequency=] indicates how frequently something occurs. Statistically, this can be expressed as the combination of number of Occurrences and a time period, which can further be expressed as a probabilistic value or a percentage. For example, for something occurring once every year, the frequency is: 1 or 100% for 1 year. While such <i>quantified</i> representations are important for determining metrics and performing operations, DPV focuses on the <i>qualitative</i> labelling of such representations within a specific context.</p>
+      <p>The relation [=hasFrequency=] associates a frequency with a context, and can be expressed using the following subtypes:</p>
+      <ul>
+        <li>[=ContinuousFrequency=] - indicates things occurring Continuously, e.g. location collection happens Continuously.</li>
+        <li>[=SporadicFrequency=] - indicates things occurring sporadically or rarely or not often, e.g. collecting system usage logs every month.</li>
+        <li>[=OftenFrequency=] - indicates things happen often or regularly or commonly, e.g. online status is reported every 5 mins.</li>
+        <li>[=SingularFrequency=] - indicates things happen only once.</li>
+      </ul>
+      {{ example_aside('dex:E0051') }}
+    </section>
   </section>
 
   <section>
@@ -147,40 +153,53 @@
   <section id="vocab-context-status">
     <h2>Status</h2>
     <p>To assist with expressing the state or status associated with various activities, DPV provides the [=Status=] concept that can be associated contextually using the [=hasStatus=] relation. Types of statuses included in DPV are: [=ActivityStatus=], [=ComplianceStatus=] including [=Lawfulness=], [=AuditStatus=], [=ConformanceStatus=], [=RequestStatus=], [=EntityInformedStatus=], [=IntentionStatus=], [=ExpectationStatus=], [=InvolvementStatus=], [=NotificationStatus=], and [=ReuseCompatibility=]. The corresponding relations provided are:  [=hasActivityStatus=], [=hasComplianceStatus=], [=hasLawfulness=], [=hasAuditStatus=], [=hasConformanceStatus=], [=hasRequestStatus=], [=hasInformedStatus=], [=hasIntention=], [=hasExpectation=], [=hasInvolvement=], [=hasNotificationStatus=], and [=hasReuseCompatibility=].</p> 
-
-    <p><strong>[=ActivityStatus=]</strong> represents a state or status of an activity's operations and lifecycle, which includes [=ActivityProposed=], [=ActivityOngoing=], [=ActivityHalted=], [=ActivityCompleted=], and [=ActivityNotCompleted=]. These are associated using the [=hasActivityStatus=] relation. Here, the concept 'Activity' is broadly defined and can refer to a process, a processing operation, or any other type of activity.</p>
-    {{ example_aside('dex:E0054') }}
-
-    <p><strong>[=ComplianceStatus=]</strong> represents status associated with <i>compliance</i> with some norms, objectives, or requirements. Types include [=Compliant=], [=PartiallyCompliant=], [=NonCompliant=], [=ComplianceViolation=], [=ComplianceUnknown=], [=ComplianceIndeterminate=]. These are indicated using the [=hasComplianceStatus=] relation. The association with a law or objective can be specified using [=hasApplicableLaw=] or `hasPolicy` directly for the status or indirectly through the concept whose status is being represented.</p>
-
-    <p><strong>[=Lawfulness=]</strong> represents a special type of [=ComplianceStatus=] which relates to legal compliance, or <i>lawfulness</i>, and has types [=Lawful=], [=Unlawful=], and [=LawfulnessUnkown=]. It is indicated with the relation [=hasLawfulness=]. When using status associated with laws, we recommend using compliance status to refer to whether the specific activities being considered are according to the requirements of law, and lawfulness to refer to the overall nature of the activity being lawful or unlawful. Note that non-compliance may not necessary lead to unlawfulness e.g. there are exceptions or additional obligations to be carried out for non-compliance within the framework of the law.</p>
-  
-    {{ example_aside('dex:E0055') }}
-
-    <p><strong>[=AuditStatus=]</strong> represents the state or status of an audit, where the term <i>audit</i> is loosely defined, and may or may not relate to legal compliance - for e.g. for impact assessments, or as part of certification, or to assess compliance (in combination with above), or for organisational quality assurance processes. Types of audits include [=AuditApproved=], [=AuditConditionallyApproved=], [=AuditRejected=], [=AuditRequested=], [=AuditNotRequired=], and [=AuditRequired=]. The audit status is indicated by using the relation [=hasAuditStatus=].</p>
-
-    {{ example_aside('dex:E0056') }}
-
-    <p><strong>[=ConformanceStatus=]</strong> represents the status of <i>conformance</i>, which is defined distinctly from <i>compliance</i> by considering voluntary association or following of a guideline, requirement, standard, or policy, and where compliance is related to the (legal or other systematically defined) <i>conformity</i> of a given system or use-case with <i>rules</i> which may dictate obligations and prohibitions that must be followed. To provide an illustrative example, consider <i>conformance</i> with a standard on best practices regarding security may assist in the demonstration of <i>compliance</i> with a legal norm requiring organisational measures of security. Types of conformance defined are: [=Conformant=] and [=NonConformant=].</p>
-
-    <p><strong>[=RequestStatus=]</strong> represents the state or status of <i>requests</i>, which can be between entities such as data subjects and controllers regarding exercising of rights, or between controllers and processors regarding processing operations, or between authorities and controllers regarding compliance related communications. Types of request statues are: [=RequestInitiated=], [=RequestAcknowledged=], [=RequestAccepted=], [=RequestRejected=], [=RequestFulfilled=], [=RequestUnfulfilled=], [=RequestRequiresAction=], [=RequestRequiredActionPerformed=], [=RequestActionDelayed=], and [=RequestStatusQuery=].</p>
-
-    {{ example_aside('dex:E0057') }}
-    {{ example_aside('dex:E0058') }}
-    {{ example_aside('dex:E0059') }}
-
-    <p><strong>[=ReuseCompatibility=]</strong> represents the contextual indication of whether there is reuse, and whether it is 'compatible' with an initial or prior context. This context is undefined in the concept itself, but can be specified to be based on criteria such as purpose, personal data, entities and relationships, locations, jurisdictions, and other such concepts. DPV provides two categories of reuse as [=PrimaryUse=] to indicate initial or compatible reuse, and [=SecondaryUse=] to indicate subsequent incompatible reuse. These are associated with the context using the [=hasReuseCompatibility=] relation.</p>
-    <aside class="note" title="Reuse Compatibility and Legal Interpretation">
-      <p>DPV's [=ReuseCompatibility=] concept does not dictate what the compatibility is based on, and only specifies whether it is compatible ([=PrimaryUse=]) or not ([=SecondaryUse=]). The DPVCG is interested in extending these for specific laws in the following manner:</p>
-      <ul>
-        <li>In [[EU-GDPR]] extension to represent purpose compatibility;</li>
-        <li>In [[EU-AIAct]] extension to represent intended purpose compatibility;</li>
-        <li>In [[EU-EHDS]] extension to represent secondary uses;</li>
-      </ul>
-      <p>The DPVCG is also exploring further concepts that go beyond legal and established terminologies to represent degrees compatibility beyond primary and secondary as <code>TertiaryUse</code> where the incompatibility is so high that it should be distinguished from [=SecondaryUse=]. This is based on privacy theories where 'Third Parties' are considered to be far removed from the interaction between persons and providers and their involvement is considered a warning sign. Such categorisations would allow distinguishing between a hospital reusing patient data for medical research from a for-profit company reusing it for targeted advertisements.</p>
-    </aside>
-
     {{ list_hierarchy(modules['context-status']['classes']) }}
+
+    <section id="vocab-status-activity">
+      <h3>Activity Status</h3>
+      <p><strong>[=ActivityStatus=]</strong> represents a state or status of an activity's operations and lifecycle, which includes [=ActivityProposed=], [=ActivityOngoing=], [=ActivityHalted=], [=ActivityCompleted=], and [=ActivityNotCompleted=]. These are associated using the [=hasActivityStatus=] relation. Here, the concept 'Activity' is broadly defined and can refer to a process, a processing operation, or any other type of activity.</p>
+      {{ example_aside('dex:E0054') }}
+    </section>
+    <section id="vocab-status-compliance">
+      <h3>Compliance Status</h3>
+      <p><strong>[=ComplianceStatus=]</strong> represents status associated with <i>compliance</i> with some norms, objectives, or requirements. Types include [=Compliant=], [=PartiallyCompliant=], [=NonCompliant=], [=ComplianceViolation=], [=ComplianceUnknown=], [=ComplianceIndeterminate=]. These are indicated using the [=hasComplianceStatus=] relation. The association with a law or objective can be specified using [=hasApplicableLaw=] or `hasPolicy` directly for the status or indirectly through the concept whose status is being represented.</p>
+    </section>
+    <section id="vocab-status-lawfulness">
+      <h3>Lawfulness Status</h3>
+      <p><strong>[=Lawfulness=]</strong> represents a special type of [=ComplianceStatus=] which relates to legal compliance, or <i>lawfulness</i>, and has types [=Lawful=], [=Unlawful=], and [=LawfulnessUnkown=]. It is indicated with the relation [=hasLawfulness=]. When using status associated with laws, we recommend using compliance status to refer to whether the specific activities being considered are according to the requirements of law, and lawfulness to refer to the overall nature of the activity being lawful or unlawful. Note that non-compliance may not necessary lead to unlawfulness e.g. there are exceptions or additional obligations to be carried out for non-compliance within the framework of the law.</p>
+      {{ example_aside('dex:E0055') }}
+    </section>
+    <section id="vocab-status-audit">
+      <h3>Audit Status</h3>  
+      <p><strong>[=AuditStatus=]</strong> represents the state or status of an audit, where the term <i>audit</i> is loosely defined, and may or may not relate to legal compliance - for e.g. for impact assessments, or as part of certification, or to assess compliance (in combination with above), or for organisational quality assurance processes. Types of audits include [=AuditApproved=], [=AuditConditionallyApproved=], [=AuditRejected=], [=AuditRequested=], [=AuditNotRequired=], and [=AuditRequired=]. The audit status is indicated by using the relation [=hasAuditStatus=].</p>
+      {{ example_aside('dex:E0056') }}
+    </section>
+    <section id="vocab-status-conformance">
+      <h3>Conformance Status</h3>
+      <p><strong>[=ConformanceStatus=]</strong> represents the status of <i>conformance</i>, which is defined distinctly from <i>compliance</i> by considering voluntary association or following of a guideline, requirement, standard, or policy, and where compliance is related to the (legal or other systematically defined) <i>conformity</i> of a given system or use-case with <i>rules</i> which may dictate obligations and prohibitions that must be followed. To provide an illustrative example, consider <i>conformance</i> with a standard on best practices regarding security may assist in the demonstration of <i>compliance</i> with a legal norm requiring organisational measures of security. Types of conformance defined are: [=Conformant=] and [=NonConformant=].</p>
+    </section>
+    <section id="vocab-status-request">
+      <h3>Request Status</h3>
+      <p><strong>[=RequestStatus=]</strong> represents the state or status of <i>requests</i>, which can be between entities such as data subjects and controllers regarding exercising of rights, or between controllers and processors regarding processing operations, or between authorities and controllers regarding compliance related communications. Types of request statues are: [=RequestInitiated=], [=RequestAcknowledged=], [=RequestAccepted=], [=RequestRejected=], [=RequestFulfilled=], [=RequestUnfulfilled=], [=RequestRequiresAction=], [=RequestRequiredActionPerformed=], [=RequestActionDelayed=], and [=RequestStatusQuery=].</p>
+
+      {{ example_aside('dex:E0057') }}
+      {{ example_aside('dex:E0058') }}
+      {{ example_aside('dex:E0059') }}
+    </section>
+    <section id="vocab-status-reuse-compatibility">
+      <h3>Reuse Compatibility Status</h3>
+      <p><strong>[=ReuseCompatibility=]</strong> represents the contextual indication of whether there is reuse, and whether it is 'compatible' with an initial or prior context. This context is undefined in the concept itself, but can be specified to be based on criteria such as purpose, personal data, entities and relationships, locations, jurisdictions, and other such concepts. DPV provides two categories of reuse as [=PrimaryUse=] to indicate initial or compatible reuse, and [=SecondaryUse=] to indicate subsequent incompatible reuse. These are associated with the context using the [=hasReuseCompatibility=] relation.</p>
+      <aside class="note" title="Reuse Compatibility and Legal Interpretation">
+        <p>DPV's [=ReuseCompatibility=] concept does not dictate what the compatibility is based on, and only specifies whether it is compatible ([=PrimaryUse=]) or not ([=SecondaryUse=]). The DPVCG is interested in extending these for specific laws in the following manner:</p>
+        <ul>
+          <li>In [[EU-GDPR]] extension to represent purpose compatibility (see <a href="https://github.com/w3c/dpv/issues/298">#298</a>);</li>
+          <li>In [[EU-EHDS]] extension to represent secondary uses (see <a href="https://github.com/w3c/dpv/issues/299">#299</a>);</li>
+          <li>In [[EU-AIAct]] extension to represent intended purpose compatibility (see <a href="https://github.com/w3c/dpv/issues/300">#300</a>);</li>
+        </ul>
+        <p>The DPVCG is also exploring further concepts that go beyond legal and established terminologies to represent degrees compatibility beyond primary and secondary as <code>TertiaryUse</code> where the incompatibility is so high that it should be distinguished from [=SecondaryUse=]. This is based on privacy theories where 'Third Parties' are considered to be far removed from the interaction between persons and providers and their involvement is considered a warning sign. Such categorisations would allow distinguishing between a hospital reusing patient data for medical research from a for-profit company reusing it for targeted advertisements.</p>
+      </aside>
+    </section>
+    
   </section>
 </section>
 
