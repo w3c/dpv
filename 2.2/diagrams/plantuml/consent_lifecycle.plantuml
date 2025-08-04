@@ -1,0 +1,44 @@
+@startuml consent-lifecycle
+' Note the difference between '_' and '-' in the file name
+left to right direction
+hide empty description
+scale 1500 width
+
+<style>
+start {
+    BackGroundColor Salmon
+}
+end {
+    BackGroundColor Salmon
+}
+state {
+    BackgroundColor Yellow
+}
+</style>
+
+[*] --> NoticeShown
+NoticeShown --> Requested
+Requested --> Given
+Given --> NoticeShown : re-confirm
+Requested --> Refused
+Refused --> NoticeShown : new request
+Given --> Withdrawn
+Given --> Expired
+Given --> Invalidated
+Given --> Halted
+
+state Terminated {
+    state Withdrawn
+    state Expired
+    state Invalidated
+    state Halted
+}
+
+Withdrawn --> [*]
+Expired --> [*]
+Invalidated --> [*]
+Halted --> [*]
+
+'Terminated --> [*]
+
+@enduml
