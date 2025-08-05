@@ -18,7 +18,7 @@ fi
 # MODE="https://w3id.org/dpv"
 # MODE="http://localhost:8000"
 MODE="https://dev.dpvcg.org/2.0"
-MODE="http://localhost:8000/2.2-dev"
+MODE="http://localhost:8000/2.2"
 
 FILES=(
     # core specs
@@ -60,6 +60,7 @@ FILES=(
     "$MODE/../guides/dpv-misc.html"
     "$MODE/../guides/dpv-odrl.html"
     "$MODE/../guides/dpv-skos.html"
+    "$MODE/../404.html"
     )
 
 DPV_MODULES=(
