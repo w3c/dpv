@@ -7,10 +7,13 @@
 import os
 import re
 
+# For example, 1.0, 2.0, 2.3-dev, etc.
+VERSION_PATTERN = re.compile(r"^\d+\.\d+(\-dev)?$")
+
+ROOT_DIR = ".."
 EXCLUDE_DIRS = ["diagrams", "img", "modules"]
 NO_LINK_DIRS = ["standards"]
-ROOT_DIR = ".."
-VERSION_PATTERN = re.compile(r"^\d+\.\d+(\-dev)?$")
+
 OUTPUT_FILE = "404.html"
 
 BASE_URL_PROD = "https://w3c.github.io/dpv"
