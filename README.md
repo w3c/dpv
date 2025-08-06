@@ -6,7 +6,7 @@ and group meeting minutes.
 
 links: [Community Group](https://www.w3.org/community/dpvcg/) | [GitHub wiki](https://github.com/w3c/dpv/wiki/)
 
-The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to develop a taxonomy of privacy and data protection related terms, which include in particular terms from the new European General Data Protection Regulation (GDPR), such as a taxonomy of personal data as well as a classification of purposes (i.e., purposes for data collection), and events of disclosures, consent, and processing such personal data.
+The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to develop a taxonomy of privacy and data protection related terms, which include in particular terms from the European General Data Protection Regulation (GDPR), such as a taxonomy of personal data as well as a classification of purposes (i.e., purposes for data collection), and events of disclosures, consent, and processing such personal data.
 
 License: All work produced by DPVCG and provided through this repo or elsewhere is provided by contributors under the [W3C Document License](https://www.w3.org/copyright/software-license-2023/) unless otherwise noted. A copy of the license is provided in the [LICENSE.md](./LICENSE.md) file.
 
@@ -14,7 +14,7 @@ License: All work produced by DPVCG and provided through this repo or elsewhere 
 
 ## Specifications
 
-Newcomers to the DPV are recommended to start with the [Primer](https://w3id.org/dpv/primer) to familiarise themselves with the concepts, semantics, and usefulness of the DPV. A [Concise Primer](https://w3id.org/dpv/primer) is also available for a quick (2-pager) introduction to DPV.
+Newcomers to the DPV are recommended to start with the [Primer](https://w3id.org/dpv/primer) to familiarise themselves with the concepts, semantics, and usefulness of the DPV. A [Concise Primer](https://w3id.org/dpv/primer/concise) is also available for a quick (2-pager) introduction to DPV.
 
 ### Data Privacy Vocabulary (DPV)
 
@@ -101,11 +101,11 @@ The LEGAL extensions provide concepts associated with specific jurisdictions and
 
 ### Other Resources
 
-The [NACE Taxonomy serialised in RDFS](https://w3id.org/dpv/dpv-nace) provides a serialisation of the NACE v2 taxonomy in RDFS for use with DPV terms. Since then, NACE v2.1 has been published by the EU Commission. The DPVCG has decided to retire/not provide an alternative serialisation of NACE as it provided no significant benefit and the best practice for using NACE is to always utilise the official authoritative version.
+The NACE Taxonomy serialised in RDFS (previously available at <https://w3id.org/dpv/dpv-nace>) provided a serialisation of the NACE v2 taxonomy in RDFS for use with DPV terms. Since then, [NACE v2.1](https://ec.europa.eu/eurostat/web/nace) has been published by the EU Commission. The DPVCG has decided to retire/not provide an alternative serialisation of NACE as it provided no significant benefit and the best practice for using NACE is to always utilise the official authoritative version.
 
 ## Guides
 
-- The [Primer](https://w3id.org/dpv/primer) is an introductory document for newcomers to understand the DPV and its concepts. A [2-Page Short Primer](https://w3id.org/dpv/primer/short) provides a succinct introduction to the DPV.
+- The [Primer](https://w3id.org/dpv/primer) is an introductory document for newcomers to understand the DPV and its concepts. A [2-Page Concise Primer](https://w3id.org/dpv/primer/concise) provides a succinct introduction to the DPV.
 - The [Use-Cases and Requirements](https://w3id.org/dpv/use-cases/) document lists the use-cases and requirements that led to the development of DPV.
 - The [Examples](https://w3id.org/dpv/examples/) page provides an index of examples describing the use of DPV concepts.
 - The [Guides](https://w3id.org/dpv/guides) page lists guides for use of DPV in specific domains and applications
