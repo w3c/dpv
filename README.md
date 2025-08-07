@@ -202,12 +202,12 @@ The following are final reports i.e. formally published by the W3C. Note that wo
 - AI Technology (AI) extension [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-ai-20240801/)
 - Justifications extension [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-justifications-20240801/)
 - Legal extensions [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-20240801/)
-    - Germany (DE) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-de-20240801/)
-    - European Union (EU) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-eu-20240801/)
-    - United Kingdom of Great Britain and Northern Ireland (GB) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-gb-20240801/)
-    - Ireland (IE) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-ie-20240801/)
-    - India (IN) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-in-20240801/)
-    - United Stated of America (US) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-us-20240801/)
+    - Germany (DE) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-20240801/de/)
+    - European Union (EU) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-20240801/eu/)
+    - United Kingdom of Great Britain and Northern Ireland (GB) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-20240801/gb/)
+    - Ireland (IE) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-20240801/ie/)
+    - India (IN) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-20240801/in/)
+    - United Stated of America (US) [w3c/cg-reports link](https://www.w3.org/community/reports/dpvcg/CG-FINAL-legal-20240801/us/)
 
 #### DPV 1.0
 
