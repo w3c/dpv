@@ -8,6 +8,7 @@
 Find terms without an example
 """
 
+import argparse
 import os
 import re
 import sys
@@ -38,14 +39,31 @@ SKIP_PREFIXES = {
     "xsd",
 }
 
+DEFAULT_VOCAB_DIR = "../2.2"
+DEFAULT_EXAMPLES_DIR = "../examples"
 
-vocab_dir = "../2.2"
-examples_dir = "../examples"
 
-verbose = "--verbose" in sys.argv or "-v" in sys.argv
+def parse_args() -> argparse.Namespace:
+    """Parse command line arguments"""
+    parser = argparse.ArgumentParser(description="Find terms without an example")
+    parser.add_argument(
+        "--vocab-dir",
+        default=DEFAULT_VOCAB_DIR,
+        help="Directory containing vocabulary TTL files",
+    )
+    parser.add_argument(
+        "--examples-dir",
+        default=DEFAULT_EXAMPLES_DIR,
+        help="Directory containing example TTL files",
+    )
+    parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Enable verbose output"
+    )
+    return parser.parse_args()
 
 
 def get_ttl_files(root: str):
+    """Yield all TTL files in the given directory and its subdirectories"""
     for dirpath, _, filenames in os.walk(root):
         for f in filenames:
             if f.endswith(".ttl"):
@@ -82,7 +100,7 @@ def collect_terms(files: list[str]) -> tuple[set[str], set[str], dict[str, set[s
     return classes, properties, parents
 
 
-def collect_used_terms(files: list[str]):
+def collect_used_terms(files: list[str]) -> set[str]:
     """
     Collect terms used in TTL files
 
@@ -104,7 +122,7 @@ def collect_used_terms(files: list[str]):
 
 def is_used_or_parent_used(
     term: str, used_terms: set[str], parents: dict[str, set[str]]
-):
+) -> bool:
     """Check if a term is used or any of its parents is used."""
     if term in used_terms:
         return True
@@ -126,7 +144,13 @@ def count_per_namespace(terms: set[str]) -> dict[str, int]:
     return ns_counter
 
 
-def main():
+def main() -> None:
+    """Main function"""
+    args = parse_args()
+    vocab_dir = args.vocab_dir
+    examples_dir = args.examples_dir
+    verbose = args.verbose
+
     vocab_files = list(get_ttl_files(vocab_dir))
     ex_files = list(get_ttl_files(examples_dir))
     if verbose:
