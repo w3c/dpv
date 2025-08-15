@@ -11,8 +11,8 @@ Find terms without an example
 import argparse
 import os
 import re
-import sys
 from collections import Counter
+from typing import Iterator
 
 from rdflib import RDF, RDFS, SKOS, Graph
 
@@ -62,7 +62,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def get_ttl_files(root: str):
+def get_ttl_files(root: str) -> Iterator[str]:
     """Yield all TTL files in the given directory and its subdirectories"""
     for dirpath, _, filenames in os.walk(root):
         for f in filenames:
@@ -104,7 +104,7 @@ def collect_used_terms(files: list[str]) -> set[str]:
     """
     Collect terms used in TTL files
 
-    Since TTLs in examples directory is not in full Turtle format,
+    Since TTLs in examples directory does not have namespaces defined,
     we cannot use RDFLib to parse them.
     Instead, we use regex to find terms.
     """
@@ -134,14 +134,68 @@ def is_used_or_parent_used(
     return False
 
 
-def count_per_namespace(terms: set[str]) -> dict[str, int]:
+def count_per_namespace(terms: set[str]) -> Counter[str]:
     """Count terms per namespace"""
-    ns_counter: dict[str, int] = Counter()
+    ns_counter: Counter[str] = Counter()
     for item in terms:
         if ":" in item:
             ns = item.split(":")[0]
             ns_counter[ns] += 1
     return ns_counter
+
+
+def count_parents(terms: set[str], parents: dict[str, set[str]]) -> Counter[str]:
+    """Count parents of terms"""
+    counter: Counter[str] = Counter()
+    for term in terms:
+        for parent in parents.get(term, []):
+            counter[parent] += 1
+    return counter
+
+
+def print_terms_without_examples(
+    terms: set[str], parents: dict[str, set[str]], label: str = "Terms"
+) -> None:
+    """Print terms without examples with their parent info."""
+    print(f"\n==== {label} without examples ====\n")
+    for term in sorted(terms):
+        parent = parents.get(term)
+        if parent:
+            print(f"{term:<40} ⊂ {', '.join(parent)}")
+        else:
+            print(term)
+
+
+def print_summary(
+    classes: set[str],
+    properties: set[str],
+    used_classes: set[str],
+    used_properties: set[str],
+    print_complete_ns: bool = False,
+) -> None:
+    """Print per-namespace summary of classes and properties with examples.
+
+    If print_complete_ns is False,
+    do not print namespaces where all classes and properties have examples.
+    """
+    classes_ns_count = count_per_namespace(classes)
+    properties_ns_count = count_per_namespace(properties)
+    used_classes_ns_count = count_per_namespace(used_classes)
+    used_properties_ns_count = count_per_namespace(used_properties)
+
+    print()
+    print("Namespace                  Class w/ Examples Prop. w/ Examples")
+    print("-------------------------- ----------------- -----------------")
+    for ns in sorted(set(classes_ns_count) | set(properties_ns_count)):
+        if ns in SKIP_PREFIXES:
+            continue
+        c_used = used_classes_ns_count.get(ns, 0)
+        c_total = classes_ns_count.get(ns, 0)
+        p_used = used_properties_ns_count.get(ns, 0)
+        p_total = properties_ns_count.get(ns, 0)
+        if not print_complete_ns and c_used == c_total and p_used == p_total:
+            continue
+        print(f"{ns:<26} {c_used:>7} / {c_total:<7} {p_used:>7} / {p_total:<7}")
 
 
 def main() -> None:
@@ -161,56 +215,40 @@ def main() -> None:
 
     classes, properties, parents = collect_terms(vocab_files)
     if verbose:
-        print(f"Classes defined in vocabulary files: {len(classes)}")
-        print(f"Properties defined in vocabulary files: {len(properties)}")
+        print(f"Classes defined: {len(classes)}")
+        print(f"Properties defined: {len(properties)}")
 
     used = collect_used_terms(ex_files)
     used_classes = {c for c in classes if is_used_or_parent_used(c, used, parents)}
     used_properties = {
         p for p in properties if is_used_or_parent_used(p, used, parents)
     }
+    unused_classes = classes - used_classes
+    unused_properties = properties - used_properties
     if verbose:
         print(f"Classes with examples: {len(used_classes)} / {len(classes)}")
         print(f"Properties with examples: {len(used_properties)} / {len(properties)}")
+        print_terms_without_examples(unused_classes, parents, "Classes")
+        print_terms_without_examples(unused_properties, parents, "Properties")
 
-    # Print all terms without examples
-    if verbose:
-        unused_classes = sorted(classes - set(used_classes))
-        unused_properties = sorted(properties - set(used_properties))
-        print("\n==== Classes without examples ====\n")
-        for c in unused_classes:
-            parent = parents.get(c)
-            if parent:
-                print(f"{c}  (broader/subClassOf {', '.join(parent)})")
-            else:
-                print(c)
-        print("\n==== Properties without examples ====\n")
-        for p in unused_properties:
-            parent = parents.get(p)
-            if parent:
-                print(f"{p}  (broader/subPropertyOf {', '.join(parent)})")
-            else:
-                print(p)
+    print_summary(
+        classes,
+        properties,
+        used_classes,
+        used_properties,
+        print_complete_ns=verbose,
+    )
 
-    all_classes_ns = count_per_namespace(classes)
-    all_properties_ns = count_per_namespace(properties)
-    used_classes_ns = count_per_namespace(used_classes)
-    used_properties_ns = count_per_namespace(used_properties)
+    unused_classes_no_loc = {c for c in unused_classes if not c.startswith("loc:")}
+    top_classes_parents = count_parents(unused_classes_no_loc, parents).most_common(10)
+    top_properties_parents = count_parents(unused_properties, parents).most_common(10)
 
-    print()
-    print("Namespace              Class w/ Examples Prop. w/ Examples")
-    print("---------------------- ----------------- -----------------")
-    for ns in sorted(set(all_classes_ns) | set(all_properties_ns)):
-        if ns in SKIP_PREFIXES:
-            continue
-        c_used = used_classes_ns.get(ns, 0)
-        c_total = all_classes_ns.get(ns, 0)
-        p_used = used_properties_ns.get(ns, 0)
-        p_total = all_properties_ns.get(ns, 0)
-        if not verbose and c_used == c_total and p_used == p_total:
-            continue
-        print(f"{ns:<22} {c_used:>7} / {c_total:<7} {p_used:>7} / {p_total:<7}")
-
+    print("\nTop parents among classes without examples (excluding 'loc:'):")
+    for parent, count in top_classes_parents:
+        print(f"{count:>7}  {parent}")
+    print("\nTop parents among properties without examples:")
+    for parent, count in top_properties_parents:
+        print(f"{count:>7}  {parent}")
 
 if __name__ == "__main__":
     main()
