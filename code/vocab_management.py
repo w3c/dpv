@@ -2527,6 +2527,22 @@ RDF_COLLATIONS = (
 
 # === SPARQL Query Hooks ===
 RDF_EXPORT_HOOK = {
+    'dex': [
+        {
+            "title": "Example concept metadata", 
+            "query": f"""
+            INSERT {{
+                dex:Example a skos:Concept .
+                dex:Example skos:prefLabel "Example"@en .
+                dex:Example dct:created "2024-01-01"^^xsd:date .
+                dex:Example skos:definition "An example showing the use of DPV concepts"@en .
+                dex:Example sw:term_status "accepted"@en .
+            }} WHERE {{
+                ?s a dex:Example .
+            }}
+            """,
+        }
+    ],
     'pd': [ 
         {
             "title": "Derive concepts as instances of Special Category PD", 

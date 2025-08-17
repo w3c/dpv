@@ -182,6 +182,7 @@ IGNORE_ERRORS = {
     'legal-tw': ['ex:Require_SKOS_Definition'],
     'legal-us': ['ex:Require_SKOS_Definition'],
     '<https': ['ex:VocabTitleShape'],
+    'dex': ['ex:ValidTermsShape-rdf-type'],
 }
 
 # Collate errors.
