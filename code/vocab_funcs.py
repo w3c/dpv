@@ -564,6 +564,10 @@ def construct_inverse_jurisdiction(term, data, namespace, header):
     triples.append((inverse, RDF.type, RDFS.Class))
     triples.append((inverse, SKOS.prefLabel, Literal(term)))
     triples.append((inverse, SKOS.definition, Literal(f"Set of jurisdictions that are not in {data['Term']}", lang="en")))
+    triples.append((inverse, DCT.created, Literal(data['Created'], datatype=XSD.date)))
+    if data['Modified']:
+        triples.append((inverse, DCT.modified, Literal(data['Modified'], datatype=XSD.date)))
+    triples.append((inverse, SW.term_status, Literal(data['Status'], lang='en')))
     triples.append((location, DPV.hasInverseJurisdiction, inverse))
     return triples
 

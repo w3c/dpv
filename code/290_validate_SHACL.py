@@ -14,6 +14,7 @@ from vocab_management import EXPORT_PATH
 DATA_PATHS = [
     f'{EXPORT_PATH}/ai/ai.ttl',
     f'{EXPORT_PATH}/dpv/dpv.ttl',
+    f'{EXPORT_PATH}/examples/dex.ttl',
     f'{EXPORT_PATH}/justifications/justifications.ttl',
     f'{EXPORT_PATH}/legal/at/legal-at.ttl',
     f'{EXPORT_PATH}/legal/be/legal-be.ttl',
@@ -24,6 +25,12 @@ DATA_PATHS = [
     f'{EXPORT_PATH}/legal/dk/legal-dk.ttl',
     f'{EXPORT_PATH}/legal/ee/legal-ee.ttl',
     f'{EXPORT_PATH}/legal/es/legal-es.ttl',
+    f'{EXPORT_PATH}/legal/eu/aiact/eu-aiact.ttl',
+    f'{EXPORT_PATH}/legal/eu/dga/eu-dga.ttl',
+    f'{EXPORT_PATH}/legal/eu/ehds/eu-ehds.ttl',
+    f'{EXPORT_PATH}/legal/eu/gdpr/eu-gdpr.ttl',
+    f'{EXPORT_PATH}/legal/eu/nis2/eu-nis2.ttl',
+    f'{EXPORT_PATH}/legal/eu/rights/eu-rights.ttl',
     f'{EXPORT_PATH}/legal/eu/legal-eu.ttl',
     f'{EXPORT_PATH}/legal/fi/legal-fi.ttl',
     f'{EXPORT_PATH}/legal/fr/legal-fr.ttl',
@@ -58,12 +65,6 @@ DATA_PATHS = [
     f'{EXPORT_PATH}/legal/th/legal-th.ttl',
     f'{EXPORT_PATH}/legal/tw/legal-tw.ttl',
     f'{EXPORT_PATH}/legal/us/legal-us.ttl',
-    f'{EXPORT_PATH}/legal/eu/aiact/eu-aiact.ttl',
-    f'{EXPORT_PATH}/legal/eu/dga/eu-dga.ttl',
-    f'{EXPORT_PATH}/legal/eu/ehds/eu-ehds.ttl',
-    f'{EXPORT_PATH}/legal/eu/gdpr/eu-gdpr.ttl',
-    f'{EXPORT_PATH}/legal/eu/nis2/eu-nis2.ttl',
-    f'{EXPORT_PATH}/legal/eu/rights/eu-rights.ttl',
     f'{EXPORT_PATH}/legal/legal.ttl',
     f'{EXPORT_PATH}/loc/loc.ttl',
     f'{EXPORT_PATH}/pd/pd.ttl',
@@ -74,6 +75,7 @@ DATA_PATHS = [
     f'{EXPORT_PATH}/sector/infra/sector-infra.ttl',
     f'{EXPORT_PATH}/sector/law/sector-law.ttl',
     f'{EXPORT_PATH}/sector/publicservices/sector-publicservices.ttl',
+    f'{EXPORT_PATH}/sector/sector.ttl',
     f'{EXPORT_PATH}/standards/p7012/p7012.ttl',
     f'{EXPORT_PATH}/tech/tech.ttl',
 ]
@@ -179,6 +181,7 @@ IGNORE_ERRORS = {
     'legal-th': ['ex:Require_SKOS_Definition'],
     'legal-tw': ['ex:Require_SKOS_Definition'],
     'legal-us': ['ex:Require_SKOS_Definition'],
+    '<https': ['ex:VocabTitleShape'],
 }
 
 # Collate errors.
