@@ -11,7 +11,7 @@ Find defined terms without an example and terms used in examples but not defined
 import argparse
 import os
 import re
-from collections import Counter
+from collections import Counter, defaultdict
 from typing import Iterator
 
 from rdflib import RDF, RDFS, SKOS, Graph
@@ -70,7 +70,9 @@ def get_ttl_files(root: str) -> Iterator[str]:
                 yield os.path.join(dirpath, f)
 
 
-def collect_terms_in_vocabs(files: list[str]) -> tuple[set[str], set[str], dict[str, set[str]]]:
+def collect_terms_in_vocabs(
+    files: list[str],
+) -> tuple[set[str], set[str], dict[str, set[str]]]:
     """Collect terms defined in vocabulary files"""
     classes: set[str] = set()
     properties: set[str] = set()
@@ -100,7 +102,7 @@ def collect_terms_in_vocabs(files: list[str]) -> tuple[set[str], set[str], dict[
     return classes, properties, parents
 
 
-def collect_terms_in_examples(files: list[str]) -> set[str]:
+def collect_terms_in_examples(files: list[str]) -> dict[str, set[str]]:
     """
     Collect terms used in example files
 
@@ -108,7 +110,7 @@ def collect_terms_in_examples(files: list[str]) -> set[str]:
     we cannot use RDFLib to parse them.
     Instead, we use regex to find terms.
     """
-    used: set[str] = set()
+    used: dict[str, set[str]] = defaultdict(set)
     pattern = re.compile(r"\b([a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)\b")
     # Match terms (prefix:term) not surrounded by quotes (since it can be literal)
     # pattern = re.compile(r'(?<!["\'])\b([a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)\b(?!["\'])')
@@ -116,21 +118,21 @@ def collect_terms_in_examples(files: list[str]) -> set[str]:
         with open(f, encoding="utf-8") as fh:
             for line in fh:
                 for match in pattern.findall(line):
-                    prefix = match.split(":")[0]
+                    prefix = match.split(":", 1)[0]
                     if prefix not in SKIP_PREFIXES:
-                        used.add(match)
+                        used[match].add(f)
     return used
 
 
 def is_used_or_parent_used(
-    term: str, used_terms: set[str], parents: dict[str, set[str]]
+    term: str, used_terms: dict[str, set[str]], parents: dict[str, set[str]]
 ) -> bool:
     """Check if a term is used or any of its parents is used."""
-    if term in used_terms:
+    if term in used_terms.keys():
         return True
 
     for parent in parents.get(term, set()):
-        if parent in used_terms:
+        if parent in used_terms.keys():
             return True
 
     return False
@@ -167,29 +169,40 @@ def print_terms_without_examples(
         else:
             print(term)
 
+
 def print_terms_used_but_undefined(
-    used_terms: set[str], classes: set[str], properties: set[str]
+    used_terms: dict[str, set[str]],
+    classes: set[str],
+    properties: set[str],
+    examples_dir: str,
 ) -> None:
     """
     Print terms that appear in example files but are not defined in the vocabulary files.
-
-    used_terms: set of 'prefix:Term' found in examples
-    classes/properties: sets of 'prefix:Term' defined in vocab files
     """
     defined = classes | properties
     undefined = sorted(
-        t
-        for t in used_terms
-        if t not in defined and (":" in t and t.split(":")[0] not in SKIP_PREFIXES)
+        term
+        for term in used_terms.keys()
+        if term not in defined
+        and (":" in term and term.split(":")[0] not in SKIP_PREFIXES)
     )
 
     if not undefined:
         print("\nNo undefined terms found in examples (all used terms are defined).")
         return
 
-    print("\n==== Terms used in examples but NOT defined in vocabulary files ====\n")
-    for t in undefined:
-        print(t)
+    print("\n==== Terms used in examples but NOT defined in vocabulary files ====")
+    for term in undefined:
+        files = sorted(used_terms.get(term, []))
+        rel_files: list[str] = []
+        for f in files:
+            try:
+                rel = os.path.relpath(f, start=examples_dir)
+            except Exception:
+                rel = f
+            rel_files.append(rel)
+        files_str = ", ".join(rel_files)
+        print(f"{term:<40} in: {files_str}")
 
 
 def print_summary_terms_with_examples(
@@ -276,7 +289,8 @@ def main() -> None:
     for parent, count in top_properties_parents:
         print(f"{count:>7}  {parent}")
 
-    print_terms_used_but_undefined(used, classes, properties)
+    print_terms_used_but_undefined(used, classes, properties, examples_dir)
+
 
 if __name__ == "__main__":
     main()
