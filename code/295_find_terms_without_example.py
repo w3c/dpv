@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: W3C-20150513
 
 """
-Find terms without an example
+Find defined terms without an example and terms used in examples but not defined.
 """
 
 import argparse
@@ -70,7 +70,7 @@ def get_ttl_files(root: str) -> Iterator[str]:
                 yield os.path.join(dirpath, f)
 
 
-def collect_terms(files: list[str]) -> tuple[set[str], set[str], dict[str, set[str]]]:
+def collect_terms_in_vocabs(files: list[str]) -> tuple[set[str], set[str], dict[str, set[str]]]:
     """Collect terms defined in vocabulary files"""
     classes: set[str] = set()
     properties: set[str] = set()
@@ -100,9 +100,9 @@ def collect_terms(files: list[str]) -> tuple[set[str], set[str], dict[str, set[s
     return classes, properties, parents
 
 
-def collect_used_terms(files: list[str]) -> set[str]:
+def collect_terms_in_examples(files: list[str]) -> set[str]:
     """
-    Collect terms used in TTL files
+    Collect terms used in example files
 
     Since TTLs in examples directory does not have namespaces defined,
     we cannot use RDFLib to parse them.
@@ -110,6 +110,8 @@ def collect_used_terms(files: list[str]) -> set[str]:
     """
     used: set[str] = set()
     pattern = re.compile(r"\b([a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)\b")
+    # Match terms (prefix:term) not surrounded by quotes (since it can be literal)
+    # pattern = re.compile(r'(?<!["\'])\b([a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)\b(?!["\'])')
     for f in files:
         with open(f, encoding="utf-8") as fh:
             for line in fh:
@@ -165,8 +167,32 @@ def print_terms_without_examples(
         else:
             print(term)
 
+def print_terms_used_but_undefined(
+    used_terms: set[str], classes: set[str], properties: set[str]
+) -> None:
+    """
+    Print terms that appear in example files but are not defined in the vocabulary files.
 
-def print_summary(
+    used_terms: set of 'prefix:Term' found in examples
+    classes/properties: sets of 'prefix:Term' defined in vocab files
+    """
+    defined = classes | properties
+    undefined = sorted(
+        t
+        for t in used_terms
+        if t not in defined and (":" in t and t.split(":")[0] not in SKIP_PREFIXES)
+    )
+
+    if not undefined:
+        print("\nNo undefined terms found in examples (all used terms are defined).")
+        return
+
+    print("\n==== Terms used in examples but NOT defined in vocabulary files ====\n")
+    for t in undefined:
+        print(t)
+
+
+def print_summary_terms_with_examples(
     classes: set[str],
     properties: set[str],
     used_classes: set[str],
@@ -213,12 +239,12 @@ def main() -> None:
         print(f"Vocabulary TTL files found: {len(vocab_files)}")
         print(f"Example TTL files found: {len(ex_files)}")
 
-    classes, properties, parents = collect_terms(vocab_files)
+    classes, properties, parents = collect_terms_in_vocabs(vocab_files)
     if verbose:
         print(f"Classes defined: {len(classes)}")
         print(f"Properties defined: {len(properties)}")
 
-    used = collect_used_terms(ex_files)
+    used = collect_terms_in_examples(ex_files)
     used_classes = {c for c in classes if is_used_or_parent_used(c, used, parents)}
     used_properties = {
         p for p in properties if is_used_or_parent_used(p, used, parents)
@@ -231,7 +257,7 @@ def main() -> None:
         print_terms_without_examples(unused_classes, parents, "Classes")
         print_terms_without_examples(unused_properties, parents, "Properties")
 
-    print_summary(
+    print_summary_terms_with_examples(
         classes,
         properties,
         used_classes,
@@ -243,12 +269,14 @@ def main() -> None:
     top_classes_parents = count_parents(unused_classes_no_loc, parents).most_common(10)
     top_properties_parents = count_parents(unused_properties, parents).most_common(10)
 
-    print("\nTop parents among classes without examples (excluding 'loc:'):")
+    print("\n==== Top parents among classes without examples (excluding 'loc:')====")
     for parent, count in top_classes_parents:
         print(f"{count:>7}  {parent}")
-    print("\nTop parents among properties without examples:")
+    print("\n==== Top parents among properties without examples ====")
     for parent, count in top_properties_parents:
         print(f"{count:>7}  {parent}")
+
+    print_terms_used_but_undefined(used, classes, properties)
 
 if __name__ == "__main__":
     main()
