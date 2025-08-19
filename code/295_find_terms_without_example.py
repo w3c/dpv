@@ -24,6 +24,7 @@ SKIP_PREFIXES = {
     "dcat",
     "dct",
     "foaf",
+    "odrl",
     "org",
     "owl",
     "profile",
