@@ -255,7 +255,7 @@ def construct_source(item, data, namespace, header):
             label, url = item.replace('(','').replace(')','').split(',')
             label = label.strip()
             url = url.strip()
-            node = BNode(hashlib.md5(url.encode('UTF-8')).hexdigest())
+            node = BNode(f"b{hashlib.md5(url.encode('UTF-8')).hexdigest()}")
             triples.append((node, RDF.type, SCHEMA.WebPage))
             triples.append((node, SCHEMA.name, Literal(label)))
             triples.append((node, SCHEMA.url, Literal(url)))
