@@ -25,17 +25,18 @@ DPV_PREVIOUS_VERSION = "2.1"
 DPV_PUBLISH_DATE = "2025-08-01"
 # Document status: should be one of CG-DRAFT or CG-FINAL
 DOCUMENT_STATUS = "CG-DRAFT"
+SERIALIZATION_MODE = "CG-FINAL"
 
 # === serializations ===
 
 # Serialisations are `key:value` where `key` is the file extension
 # and `value` is the format passed to rdflib to serialise triples
 
-if DOCUMENT_STATUS == "CG-DRAFT":
+if SERIALIZATION_MODE == "CG-DRAFT":
     # in draft mode, we only generate turtle files, and no OWL files
     RDF_SERIALIZATIONS = {'ttl': 'turtle'}
     OWL_SERIALIZATIONS = {}
-elif DOCUMENT_STATUS == "CG-FINAL":
+elif SERIALIZATION_MODE == "CG-FINAL":
     # in final model, we generate all serialisations and OWL files
     RDF_SERIALIZATIONS = {
         'rdf': 'xml', 
@@ -2527,6 +2528,22 @@ RDF_COLLATIONS = (
 
 # === SPARQL Query Hooks ===
 RDF_EXPORT_HOOK = {
+    'dex': [
+        {
+            "title": "Example concept metadata", 
+            "query": f"""
+            INSERT {{
+                dex:Example a skos:Concept .
+                dex:Example skos:prefLabel "Example"@en .
+                dex:Example dct:created "2024-01-01"^^xsd:date .
+                dex:Example skos:definition "An example showing the use of DPV concepts"@en .
+                dex:Example sw:term_status "accepted"@en .
+            }} WHERE {{
+                ?s a dex:Example .
+            }}
+            """,
+        }
+    ],
     'pd': [ 
         {
             "title": "Derive concepts as instances of Special Category PD", 

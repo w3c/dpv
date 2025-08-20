@@ -133,7 +133,9 @@ SCHEMA['locations-inverse'] = {
     'Term': vocab_funcs.construct_class,
     'ParentType': None,
     'InverseLocation': vocab_funcs.construct_inverse_jurisdiction,
-    'Status': vocab_funcs.construct_status,
+    'Created': None,
+    'Modified': None,
+    'Status': None,
 }
 
 SCHEMA['laws'] = {
