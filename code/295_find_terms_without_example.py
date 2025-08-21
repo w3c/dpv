@@ -49,11 +49,13 @@ def parse_args() -> argparse.Namespace:
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(description="Find terms without an example")
     parser.add_argument(
+        "-d",
         "--vocab-dir",
         default=DEFAULT_VOCAB_DIR,
         help="Directory containing vocabulary TTL files",
     )
     parser.add_argument(
+        "-e",
         "--examples-dir",
         default=DEFAULT_EXAMPLES_DIR,
         help="Directory containing example TTL files",
@@ -83,17 +85,34 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print terms used in examples but not defined in vocabulary files",
     )
+    parser.add_argument(
+        "-x",
+        "--list-undefined-html-terms",
+        action="store_true",
+        help="Print terms used in HTMLs but not defined in vocabulary files",
+    )
     return parser.parse_args()
 
 
 def get_ttl_files(root: str) -> Iterator[str]:
-    """Yield .ttl files, excluding files ending with '-owl.ttl'"""
+    """Yield .ttl files, excluding files ending with -owl.ttl"""
     base = Path(root)
     if not base.exists():
         return
     for p in base.rglob("*.ttl"):
         name = p.name.lower()
         if not name.endswith("-owl.ttl"):
+            yield str(p)
+
+
+def get_html_files(root: str) -> Iterator[str]:
+    """Yield .html files, excluding files ending with -en.html"""
+    base = Path(root)
+    if not base.exists():
+        return
+    for p in base.rglob("*.html"):
+        name = p.name.lower()
+        if not name.endswith("-en.html"):
             yield str(p)
 
 
@@ -149,17 +168,51 @@ def collect_terms_in_examples(files: list[str]) -> dict[str, set[str]]:
     Instead, we use regex to find terms.
     """
     used: dict[str, set[str]] = defaultdict(set)
-    pattern = re.compile(r"\b([a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+)\b")
-    # Match terms (prefix:term) not surrounded by quotes (since it can be literal)
-    # pattern = re.compile(r'(?<!["\'])\b([a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)\b(?!["\'])')
+    pattern = re.compile(r"\b([a-zA-Z0-9_\-]+?):([a-zA-Z0-9_\-]+?)\b")
     for f in files:
         with open(f, encoding="utf-8") as fh:
             for line in fh:
                 for match in pattern.finditer(line):
-                    term = match.group(0)
+                    term = match.group(0)  # full term (prefix:term)
                     prefix = match.group(1)
                     if prefix not in SKIP_PREFIXES:
                         used[term].add(f)
+    return used
+
+
+def collect_terms_in_htmls(files: list[str]) -> dict[str, dict[str, set[int]]]:
+    """Collect terms mentioned in description section of HTML files"""
+    # { term: { filepath: set of line numbers } } }
+    used: dict[str, dict[str, set[int]]] = defaultdict(lambda: defaultdict(set))
+
+    # [=term=]
+    bracket_pat = re.compile(r"\[=\s*?([a-zA-Z0-9_\-]+?)\s*?=\]")
+    # <code>prefix:term</code>
+    code_pat = re.compile(r"<code>\s*?([a-zA-Z0-9_\-]+?:[a-zA-Z0-9_\-]+?)\s*?</code>")
+    prefix_pat = re.compile(
+        r"respecConfig\s*=\s*{[\s\S]*?shortName\s*[:=]\s*['\"]([^'\"]+)['\"]",
+        re.IGNORECASE,
+    )
+    for f in files:
+        try:
+            with open(f, encoding="utf-8", errors="ignore") as fh:
+                html = fh.read()
+        except OSError:
+            continue
+
+        match = prefix_pat.search(html)
+        prefix = match.group(1).lower() if match else ""
+
+        for n, line in enumerate(html.splitlines(), start=1):
+            for m in bracket_pat.finditer(line):
+                term = m.group(1)
+                term = f"{prefix}:{term}" if prefix else term
+                used[term][f].add(n)
+
+            for m in code_pat.finditer(line):
+                term = m.group(1)  # full term (prefix:term)
+                used[term][f].add(n)
+
     return used
 
 
@@ -185,9 +238,10 @@ def print_terms_without_examples(
     terms: set[str], parents: dict[str, set[str]], label: str = "Terms"
 ) -> None:
     """Print terms without examples with their parent info."""
-    print(f"\n{label} without examples")
+    print(f"\n{label} without examples ({len(terms)})")
     print("-------------------------------")
-    if len(terms) == 0:
+
+    if not terms:
         print("Not found.")
         return
 
@@ -199,11 +253,11 @@ def print_terms_without_examples(
             print(term)
 
 
-def print_terms_used_but_undefined(
-    used_terms: dict[str, set[str]],
+def print_undefined_example_terms(
+    used: dict[str, set[str]],
     classes: set[str],
     properties: set[str],
-    examples_dir: str,
+    base_dir: str,
 ) -> None:
     """
     Print terms that appear in example files but are not defined in the vocabulary files.
@@ -211,25 +265,63 @@ def print_terms_used_but_undefined(
     defined = classes | properties
     undefined = sorted(
         term
-        for term in used_terms.keys()
+        for term in used.keys()
         if ":" in term
         and term.split(":", 1)[0] not in SKIP_PREFIXES
         and term not in defined
     )
 
+    print(
+        f"\nTerms used in examples but NOT defined in vocabulary files ({len(undefined)})"
+    )
+    print("----------------------------------------------------------")
+
     if not undefined:
-        print("\nNo undefined terms found in examples (all used terms are defined).")
+        print("Not found.")
         return
 
-    print("\nTerms used in examples but NOT defined in vocabulary files")
-    print("----------------------------------------------------------")
     for term in undefined:
-        files = used_terms.get(term, ())
-        rel_files = [
-            (os.path.relpath(f, start=examples_dir) if examples_dir else f)
+        files = used.get(term, ())
+        found_in = [
+            (os.path.relpath(f, start=base_dir) if base_dir else f)
             for f in sorted(files)
         ]
-        print(f"{term:<40} in: {", ".join(rel_files)}")
+        print(f"{term:<40} in: {", ".join(found_in)}")
+
+
+def print_undefined_html_terms(
+    used: dict[str, dict[str, set[int]]],
+    classes: set[str],
+    properties: set[str],
+    base_dir: str,
+) -> None:
+    """Print terms referenced in HTML but not defined in vocabulary files.
+
+    html_used: term -> { filepath -> set(line_numbers) }
+    """
+    undefined = {
+        term: filename_linenum
+        for term, filename_linenum in used.items()
+        if term not in classes
+        and term not in properties
+        and term.split(":", 1)[0] not in SKIP_PREFIXES
+    }
+
+    print(
+        f"\nTerms referenced in HTML but NOT defined in vocabulary files ({len(undefined)})"
+    )
+    print("------------------------------------------------------------")
+    if not undefined:
+        print("Not found.")
+        return
+
+    for term, filename_linenum in sorted(undefined.items()):
+        found_in = []
+        for path in sorted(filename_linenum):
+            rel = os.path.relpath(path, start=base_dir)
+            lines = sorted(filename_linenum[path])
+            found_in.append(f"{rel}:{','.join(map(str, lines))}")
+        print(f"{term:<40} in: {', '.join(found_in)}")
 
 
 def print_summary_terms_with_examples(
@@ -257,6 +349,34 @@ def print_summary_terms_with_examples(
         if not print_complete_ns and c_used == c_total and p_used == p_total:
             continue
         print(f"{ns:<26} {c_used:>7} / {c_total:<7} {p_used:>7} / {p_total:<7}")
+
+
+def print_top_unused_parents(
+    unused: set[str],
+    parents: dict[str, set[str]],
+    exclude_prefixes: set[str],
+    top_n: int = 10,
+    label: str = "Terms",
+) -> None:
+    """
+    Print top parent terms among unused terms
+
+    exclude_prefixes: prefixes to filter out
+    top_n: number of top parents to show
+    """
+    filtered_terms = {
+        c
+        for c in unused
+        if not any(c.startswith(f"{prefix}:") for prefix in exclude_prefixes)
+    }
+    top_parents = count_parents(filtered_terms, parents).most_common(top_n)
+
+    print(f"\nTop parents among {label} without examples")
+    if exclude_prefixes:
+        print(f"(excluding child with prefixes: {", ".join(sorted(exclude_prefixes))})")
+    print("-------------------------------------------------------------")
+    for parent, count in top_parents:
+        print(f"{count:>7}  {parent}")
 
 
 def main() -> None:
@@ -320,24 +440,28 @@ def main() -> None:
     )
 
     if args.top_unused_parents or args.verbose:
-        unused_classes_no_loc = {c for c in unused_classes if not c.startswith("loc:")}
-        top_classes_parents = count_parents(unused_classes_no_loc, parents).most_common(
-            10
+        print_top_unused_parents(
+            unused_classes,
+            parents,
+            exclude_prefixes={"loc"},  # There are many unused loc: terms
+            top_n=10,
+            label="classes",
         )
-        top_properties_parents = count_parents(unused_properties, parents).most_common(
-            10
+        print_top_unused_parents(
+            unused_properties,
+            parents,
+            exclude_prefixes=set(),
+            top_n=10,
+            label="properties",
         )
-        print("\nTop parents among classes without examples (excluding 'loc:')")
-        print("-------------------------------------------------------------")
-        for parent, count in top_classes_parents:
-            print(f"{count:>7}  {parent}")
-        print("\nTop parents among properties without examples")
-        print("---------------------------------------------")
-        for parent, count in top_properties_parents:
-            print(f"{count:>7}  {parent}")
 
     if args.list_undefined_terms or args.verbose:
-        print_terms_used_but_undefined(used, classes, properties, examples_dir)
+        print_undefined_example_terms(used, classes, properties, examples_dir)
+
+    if args.list_undefined_html_terms or args.verbose:
+        html_files = list(get_html_files(vocab_dir))
+        html_used = collect_terms_in_htmls(html_files)
+        print_undefined_html_terms(html_used, classes, properties, vocab_dir)
 
 
 if __name__ == "__main__":
