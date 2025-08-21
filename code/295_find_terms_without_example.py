@@ -12,6 +12,7 @@ import argparse
 import os
 import re
 from collections import Counter, defaultdict
+from pathlib import Path
 from typing import Iterator
 
 from rdflib import RDF, RDFS, SKOS, Graph
@@ -86,11 +87,14 @@ def parse_args() -> argparse.Namespace:
 
 
 def get_ttl_files(root: str) -> Iterator[str]:
-    """Yield all TTL files in the given directory and its subdirectories"""
-    for dirpath, _, filenames in os.walk(root):
-        for f in filenames:
-            if f.endswith(".ttl"):
-                yield os.path.join(dirpath, f)
+    """Yield .ttl files, excluding files ending with '-owl.ttl'"""
+    base = Path(root)
+    if not base.exists():
+        return
+    for p in base.rglob("*.ttl"):
+        name = p.name.lower()
+        if not name.endswith("-owl.ttl"):
+            yield str(p)
 
 
 def collect_terms_in_vocabs(
