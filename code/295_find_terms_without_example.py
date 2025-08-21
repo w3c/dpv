@@ -286,7 +286,7 @@ def print_undefined_example_terms(
             (os.path.relpath(f, start=base_dir) if base_dir else f)
             for f in sorted(files)
         ]
-        print(f"{term:<40} in: {", ".join(found_in)}")
+        print(f"{term:<40} in: {', '.join(found_in)}")
 
 
 def print_undefined_html_terms(
@@ -373,7 +373,7 @@ def print_top_unused_parents(
 
     print(f"\nTop parents among {label} without examples")
     if exclude_prefixes:
-        print(f"(excluding child with prefixes: {", ".join(sorted(exclude_prefixes))})")
+        print(f"(excluding child with prefixes: {', '.join(sorted(exclude_prefixes))})")
     print("-------------------------------------------------------------")
     for parent, count in top_parents:
         print(f"{count:>7}  {parent}")
