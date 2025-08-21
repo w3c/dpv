@@ -185,14 +185,22 @@ def collect_terms_in_htmls(files: list[str]) -> dict[str, dict[str, set[int]]]:
     # { term: { filepath: set of line numbers } } }
     used: dict[str, dict[str, set[int]]] = defaultdict(lambda: defaultdict(set))
 
-    # [=term=]
-    bracket_pat = re.compile(r"\[=\s*?([a-zA-Z0-9_\-]+?)\s*?=\]")
-    # <code>prefix:term</code>
-    code_pat = re.compile(r"<code>\s*?([a-zA-Z0-9_\-]+?:[a-zA-Z0-9_\-]+?)\s*?</code>")
-    prefix_pat = re.compile(
+    # respecConfig.shortName
+    global_prefix_pat = re.compile(
         r"respecConfig\s*=\s*{[\s\S]*?shortName\s*[:=]\s*['\"]([^'\"]+)['\"]",
         re.IGNORECASE,
     )
+    # [=term=]
+    term_bracket_pat = re.compile(r"\[=\s*?([a-zA-Z0-9_\-]+?)\s*?=\]")
+    # <code>prefix:term</code>
+    term_code_prefix_pat = re.compile(
+        r"<code>\s*?([a-zA-Z0-9_\-]+?:[a-zA-Z0-9_\-]+?)\s*?</code>"
+    )
+    # <code>term</code>
+    # term_code_pat = re.compile(r"<code>\s*?([^:\s/]+?)\s*?</code>")
+    # `prefix:term``
+    term_backtick_prefix_pat = re.compile(r"`([a-zA-Z0-9_\-]+?:[a-zA-Z0-9_\-]+?)`")
+
     for f in files:
         try:
             with open(f, encoding="utf-8", errors="ignore") as fh:
@@ -200,16 +208,20 @@ def collect_terms_in_htmls(files: list[str]) -> dict[str, dict[str, set[int]]]:
         except OSError:
             continue
 
-        match = prefix_pat.search(html)
+        match = global_prefix_pat.search(html)
         prefix = match.group(1).lower() if match else ""
 
         for n, line in enumerate(html.splitlines(), start=1):
-            for m in bracket_pat.finditer(line):
+            for m in term_bracket_pat.finditer(line):
                 term = m.group(1)
                 term = f"{prefix}:{term}" if prefix else term
                 used[term][f].add(n)
 
-            for m in code_pat.finditer(line):
+            for m in term_code_prefix_pat.finditer(line):
+                term = m.group(1)  # full term (prefix:term)
+                used[term][f].add(n)
+
+            for m in term_backtick_prefix_pat.finditer(line):
                 term = m.group(1)  # full term (prefix:term)
                 used[term][f].add(n)
 
