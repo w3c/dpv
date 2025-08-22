@@ -192,13 +192,13 @@ def collect_terms_in_htmls(files: list[str]) -> dict[str, dict[str, set[int]]]:
     )
     # [=term=]
     term_bracket_pat = re.compile(r"\[=\s*?([a-zA-Z0-9_\-]+?)\s*?=\]")
+    # <code>term</code> -- too many false positives but can be useful if you have time to comb through
+    # term_code_pat = re.compile(r"<code>\s*?([a-zA-Z0-9_\-]+?)\s*?</code>")
     # <code>prefix:term</code>
     term_code_prefix_pat = re.compile(
         r"<code>\s*?([a-zA-Z0-9_\-]+?:[a-zA-Z0-9_\-]+?)\s*?</code>"
     )
-    # <code>term</code>
-    # term_code_pat = re.compile(r"<code>\s*?([^:\s/]+?)\s*?</code>")
-    # `prefix:term``
+    # `prefix:term`
     term_backtick_prefix_pat = re.compile(r"`([a-zA-Z0-9_\-]+?:[a-zA-Z0-9_\-]+?)`")
 
     for f in files:
@@ -216,6 +216,11 @@ def collect_terms_in_htmls(files: list[str]) -> dict[str, dict[str, set[int]]]:
                 term = m.group(1)
                 term = f"{prefix}:{term}" if prefix else term
                 used[term][f].add(n)
+
+            # for m in term_code_pat.finditer(line):
+            #     term = m.group(1)
+            #     term = f"{prefix}:{term}" if prefix else term
+            #     used[term][f+"**"].add(n)
 
             for m in term_code_prefix_pat.finditer(line):
                 term = m.group(1)  # full term (prefix:term)
@@ -328,7 +333,7 @@ def print_undefined_html_terms(
         return
 
     for term, filename_linenum in sorted(undefined.items()):
-        found_in = []
+        found_in: list[str] = []
         for path in sorted(filename_linenum):
             rel = os.path.relpath(path, start=base_dir)
             lines = sorted(filename_linenum[path])
