@@ -1,0 +1,179 @@
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix dcam: <http://purl.org/dc/dcam/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dex: <https://w3id.org/dpv/examples#> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix profile: <http://www.w3.org/ns/dx/prof/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix role: <http://www.w3.org/ns/dx/prof/role/> .
+@prefix schema: <https://schema.org/> .
+@prefix scoro: <http://purl.org/spar/scoro/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix spl: <https://specialprivacy.ercim.eu/langs/usage-policy#> .
+@prefix svd: <https://specialprivacy.ercim.eu/vocabs/data#> .
+@prefix svpr: <https://specialprivacy.ercim.eu/vocabs/processing#> .
+@prefix svpu: <https://specialprivacy.ercim.eu/vocabs/purposes#> .
+@prefix sw: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.com/shapes/> .
+
+ex:VocabTitleShape 
+    a sh:PropertyShape ;
+    sh:path dct:title ; 
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Ontology missing dct:title"@en .
+
+ex:VocabShape
+    a sh:NodeShape ;
+    sh:targetClass owl:Ontology ;
+    sh:property [
+        sh:path vann:preferredNamespaceUri ; 
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Ontology missing vann:preferredNamespaceUri"@en ;
+    ] ;
+    sh:property [
+        sh:path vann:preferredNamespacePrefix ; 
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Ontology missing vann:preferredNamespacePrefix"@en ;
+    ] ;
+    sh:property [
+        sh:path rdfs:Label ; 
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Ontology missing rdfs:Label"@en ;
+    ] ;
+    sh:property  ex:VocabTitleShape ;
+    sh:property [
+        sh:path dct:description ; 
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Ontology missing dct:description"@en ;
+    ] ;
+    sh:property [
+        sh:path dct:issued ; 
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Ontology missing dct:issued"@en ;
+    ] ;
+    sh:property [
+        sh:path dct:created ; 
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Ontology missing dct:created"@en ;
+    ] ;
+    sh:property [
+        sh:path dct:modified ; 
+        sh:maxCount 1 ;
+        sh:message "Ontology has more than one modification date"@en ;
+    ] ;
+    sh:property [
+        sh:path owl:versionInfo ; 
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Ontology missing owl:versionInfo"@en ;
+    ] ;
+    sh:property [
+        sh:path owl:versionIRI ; 
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Ontology missing owl:versionIRI"@en ;
+    ] ;
+    sh:property [
+        sh:path dct:identifier ; 
+        sh:minCount 1 ;
+        sh:message "Ontology missing dct:identifier"@en ;
+    ] ;
+    sh:property [
+        sh:path bibo:status ; 
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Ontology missing bibo:status"@en ;
+    ] ;
+    sh:property [
+        sh:path bibo:doi ; 
+        sh:minCount 1 ;
+        sh:message "Ontology missing bibo:doi"@en ;
+    ] ;
+    sh:property [
+        sh:path dct:source ; 
+        sh:minCount 1 ;
+        sh:message "Ontology missing dct:source"@en ;
+    ] ;
+    sh:property [
+        sh:path dct:publisher ; 
+        sh:minCount 1 ;
+        sh:message "Ontology missing dct:publisher"@en ;
+    ] ;
+    sh:property [
+        sh:path dct:license ; 
+        sh:minCount 1 ;
+        sh:message "Ontology missing dct:license"@en ;
+    ] ;
+    sh:property [
+        sh:path dct:conformsTo ; 
+        sh:minCount 1 ;
+        sh:message "Ontology missing dct:conformsTo"@en ;
+    ] ;
+    sh:property [
+        sh:path dct:bibliographicCitation ; 
+        sh:minCount 1 ;
+        sh:message "Ontology missing dct:bibliographicCitation"@en ;
+    ] ;
+    sh:property [
+        sh:path dct:creator ; 
+        sh:minCount 1 ;
+        sh:message "Ontology missing dct:creator"@en ;
+    ] ;
+
+    rdfs:label "constraints for ontologies"@en .
+
+ex:ContributorShape 
+    a sh:NodeShape ;
+    sh:targetObjectsOf dct:creator ;
+    sh:property ex:FoafNameShape ;
+    sh:property ex:OrgMemberShape ;
+    sh:class foaf:Person ;
+    sh:class dct:Agent ;
+
+    rdfs:label "constraints for creators"@en .
+
+ex:ContributorShape 
+    a sh:NodeShape ;
+    sh:targetObjectsOf dct:contributor ;
+    sh:property ex:FoafNameShape ;
+    sh:property ex:OrgMemberShape ;
+    sh:class foaf:Person ;
+    sh:class dct:Agent ;
+
+    rdfs:label "constraints for contributors"@en .
+
+ex:FoafNameShape
+    a sh:PropertyShape ;
+    sh:path foaf:name ; 
+    sh:minCount 1 ;
+    sh:message "Entity missing foaf:name"@en .
+
+ex:OrgMemberShape
+    a sh:PropertyShape ;
+    sh:path org:memberOf ; 
+    sh:minCount 1 ;
+    sh:message "Person missing org:memberOf"@en .
+
+ex:OrgShape 
+    a sh:NodeShape ;
+    sh:targetObjectsOf org:memberOf ;
+    sh:property ex:FoafNameShape ;
+    sh:class foaf:Organization ;
+
+    rdfs:label "constraints for organisations"@en .

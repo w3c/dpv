@@ -5,7 +5,7 @@ ex:ExampleNotice a dpv:ConsentNotice ;
         a dpv:NoticeLayer ;
         dct:description "Consent to use location for providing x"@en ;
         dpv:hasPurpose dpv:ServicePersonalisation ;
-        dpv:hasPersonalData pd:Location, pd:Email ;
+        dpv:hasPersonalData pd:Location, pd:EmailAddressPersonal ;
         dpv:hasLegalBasis dpv:ExpressedConsent ;
         dpv:hasConsentControl [  # Consent control with label and icon
             a dpv:ProvideConsent ; 
@@ -21,20 +21,23 @@ ex:ExampleNotice a dpv:ConsentNotice ;
         # link to full privacy notice for the service
         dpv:hasNotice "https://example.com/privacy-notice"^^xsd:anyURI ;
         dpv:hasProcess [ # process for use of location
-                a dpv:Process ;
-                dpv:hasPurpose dpv:ServicePersonalisation ;
-                dpv:hasPersonalData pd:Location ;
-                dpv:hasProcessing dpv:Collect, dpv:Use ;
-                dpv:hasLegalBasis eu-gdpr:A6-1-a ;
-            ], [ # process stating location is also used to prevent fraud
-                a dpv:Process ;
-                dpv:hasPurpose dpv:FraudPreventionAndDetection ;
-                dpv:hasPersonalData pd:Location ;
-                dpv:hasProcessing dpv:Collect, dpv:Store, dpv:Use ;
-                dpv:hasLegalBasis dpv:LegitimateInterest ;
-                dpv:hasStorageLocation loc:EU ;
-                dpv:hasRecipient ex:AcmeInc ;
-            ] ;
+            a dpv:Process ;
+            dpv:hasPurpose dpv:ServicePersonalisation ;
+            dpv:hasPersonalData pd:Location ;
+            dpv:hasProcessing dpv:Collect, dpv:Use ;
+            dpv:hasLegalBasis eu-gdpr:A6-1-a ;
+        ], [ # process stating location is also used to prevent fraud
+            a dpv:Process ;
+            dpv:hasPurpose dpv:FraudPreventionAndDetection ;
+            dpv:hasPersonalData pd:Location ;
+            dpv:hasProcessing dpv:Collect, dpv:Store, dpv:Use ;
+            dpv:hasLegalBasis dpv:LegitimateInterest ;
+            dpv:hasStorageCondition [ 
+                a dpv:StorageLocation ; 
+                dpv:hasLocation loc:EU ;
+            ] ; 
+            dpv:hasRecipient ex:AcmeInc ;
+        ] ;
         dpv:hasConsentControl [
             a dpv:ManageConsent ; 
             dct:title "Manage Consent"@en ;
@@ -54,5 +57,4 @@ ex:ExampleNotice a dpv:ConsentNotice ;
         dpv:hasDataController ex:Company ;
         dpv:hasDataProcessor ex:AcmeInc ;
         dpv:hasApplicableLaw legal-eu:law-GDPR ;
-        ] ;
     ] .

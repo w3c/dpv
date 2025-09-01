@@ -121,17 +121,11 @@
     
     <p>In order to assess whether an instance of given consent is valid thus requires keeping records of information regarding how the consent was obtained i.e. using the notice, and how the consent is being utilised i.e. the processing enabled through that consent. This same information is also required for the organisation to determine whether its processing activities should continue, e.g. depending on whether a particular user has given consent and whether it is still valid (e.g. hasn't expired or wasn't withdrawn). Such information that is documented and maintained regarding consent is called a <i>Consent Record</i>.</p>
 
-    <aside class="note" title="Necessity of maintaining records of past consent states">
-      <p>Consent records should also be maintained regarding past states of consent. For example, consider the situation where an individual gives their consent, then later withdraws it or the consent expires. After some time, the organisation  obtains consent from the individual again.</p>
-      <p>Here, the second collected consent is the latest state of consent, and if only that is maintained then the organisation cannot validly demonstrate that activities conducted before the consent was given are justified based on given consent. Further, the period between the applicability of the two consent instances is where the organisation should not have processed any personal data based on consent - which again cannot be ascertained or demonstrated without a record of consent for both initial and subsequent consent.</p>
-      <p>Therefore, going ahead, this document uses '<i>Consent Record(s)</i>' to refer to record(s) that represent information about all -- current and past -- consent states and not just the current state of consent.</p>
-    </aside>
-
     <p>Where the information is to be communicated to another entity, it can be provided in the form of a <i>Consent Receipt</i>, which is an authoritative copy of the consent record - similar to how a shopping transaction involves a merchant's copy and a <i>receipt</i> provided to the customer. Such receipts may provide only an acknowledgement of the transaction or also involve specifics of the contents of that transaction. Consent records have been a common practice within organisations for a while now, especially given their requirement in laws such as GDPR Article 7 - however the issuing of consent receipts is a relatively new and under explored activity.</p>
 
     <p>[[[ISO-27560]]] is a <a href="https://www.iso.org/deliverables-all.html#TS"><i>Technical Specification</i> (TS)</a> that "specifies an interoperable, open and extensible information structure" for recording the data subject's consent to processing of their personal data i.e. as consent records, and to provide this information i.e. as consent receipts. The specification lists <i>information fields</i> that represent specific information associated with consent, and requirements over the form this information can take e.g. format, number of values, and whether it is mandatory or optional to be present. A <i>[[ISO-27560]] conformant</i> implementation is one that fulfils all requirements by either storing information in the form prescribed by [[ISO-27560]], or by storing information in a form that can be converted or transformed to fulfil its requirements.</p>
 
-    <p>[[ISO-27560]] allows for changes to be made to the fields, for example to suit and match domain-specific labels or descriptions, or to introduce additional fields or information types that are needed. Such changes, expressed as <i>schemas</i> or <i>profiles</i>, are still required to be compatible with the requirements of [[ISO-27560]], such as by requiring the same fields to be mandatory. This document, referred to as [[DPV-27560]], is a schema or profile of [[ISO-27560]], and is intended to enable the use of [[DPV]] to represent information for the implementation of consent records and receipts.</p>
+    <p>[[ISO-27560]] allows for changes to made to the fields, for example to suit and match domain-specific labels or descriptions, or to introduce additional fields or information types that are needed. Such changes, expressed as <i>schemas</i> or <i>profiles</i>, are still required to be compatible with the requirements of [[ISO-27560]], such as by requiring the same fields to be mandatory. This document, referred to as [[DPV-27560]], is a schema or profile of [[ISO-27560]], and is intended to enable the use of [[DPV]] to represent information for the implementation of consent records and receipts.</p>
 
     </section>
 
@@ -141,7 +135,7 @@
       <p>Once a consent has been given by the individual, they may also have the ability to regulate its use by withdrawing it at a later time. Such termination of consent results in the halting of its associated processing activities. Other causes of termination can be the expiry of duration for which the consent would be considered valid, termination by the Controller, or the consent being declared invalid by an authority such as the court.</p>
       <p>Based on these, a lifecycle can be charted regarding the various states that 'consent' can be stated to be in, which is essential to understand which states can be considered 'valid' for the processing of personal data. In the diagram below, consent states begin with a notice being shown to inform the individual and request their consent. Following this, the individual may make the decision to give or grant their consent, or to refuse it. If consent has been given, it can be re-confirmed or re-affirmed to assert its validity, or it can be terminated for several reasons such as its withdrawal by the individual. In all these, only when consent continues to be in a 'given' state can it be used to justify processing.</p>
       <figure>
-          <img src="../2.0/diagrams/consent-lifecycle.png">
+          <img src="../{{DPV_VERSION}}/diagrams/consent-lifecycle.svg">
           <figcaption>Lifecycle of Consent, or 'states' associated with consent</figcaption>
       </figure>
 
@@ -227,7 +221,7 @@
         <li><strong>Events:</strong> information about <i>consent events</i> e.g. consent given, consent withdrawn.</li>
     </ol>
     <figure>
-        <img src="../2.0/diagrams/dpv-27560-summary.png">
+        <img src="../{{DPV_VERSION}}/diagrams/dpv-27560-summary.png">
         <figcaption>Summary of fields in ISO/IEC TS 27560:2023. The field names have been modified for alignment with DPV concepts. Field names in bold are mandatory.</figcaption>
     </figure>
     <p>Each section contains fields which describe the information that must be represented along with the form (e.g. timestamp format) and its necessity (e.g. required or optional). Certain fields are expressed as references to other fields (e.g. 'Controller' in 'Processing' section is a reference to an instance or record in 'Parties' section).</p>
@@ -1118,7 +1112,7 @@
     "@type": "dpv:ConsentRecord",
     "dpv:hasNotice": "a6f58318-72e6-46a2-bfd7-f36d795e30cd"
 }</code></pre>
-                <p>Using an ad-hoc instance of `dpv:ConsentNotice`. This has the benfit of representing other information such as the language used, date of validity for the notice, as well as the interactions performed by the data subject (out of scope for this document). A benefit of providing such information is its use in determining validity of consent e.g. where a notice's temporal coverage has expired and a new notice must be shown to confirm the existing consent (see next example):</p>
+                <p>Using an ad-hoc instance of `dpv:ConsentNotice`. This has the benefit of representing other information such as the language used, date of validity for the notice, as well as the interactions performed by the data subject (out of scope for this document). A benefit of providing such information is its use in determining validity of consent e.g. where a notice's temporal coverage has expired and a new notice must be shown to confirm the existing consent (see next example):</p>
                 <pre><code>{
     "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
     "@type": "dpv:ConsentRecord",
@@ -1652,7 +1646,7 @@
         }, {
             "@type": "dpv:DataSubjectDataSource",
             "dpv:hasProcessing": "dpv:Infer",
-            "dpv:hasPersonalData": "pd:BrowserBehavior"
+            "dpv:hasPersonalData": "pd:BrowsingBehaviour"
         }
     }]
 }</code></pre>
@@ -2100,7 +2094,7 @@
             "dpv:isExercisedAt": "https://example.com/rights",
             "dpv:hasProcess": {
                 "@type": "dpv:Process",
-                "dpv:hasPersonalData": "dpv:Email",
+                "dpv:hasPersonalData": "pd:EmailAddress",
                 "dpv:hasProcessing": "dpv:Collect",
                 "dpv:hasPurpose": "dpv:FulfilmentOfObligation",
                 "dpv:hasNecessity": "dpv:Required"
@@ -2117,7 +2111,7 @@
             "dpv:isExercisedAt": "https://example.com/rights",
             "dpv:hasProcess": {
                 "@type": "dpv:Process",
-                "dpv:hasPersonalData": "dpv:Email",
+                "dpv:hasPersonalData": "pd:EmailAddress",
                 "dpv:hasProcessing": "dpv:Collect",
                 "dpv:hasPurpose": "dpv:FulfilmentOfObligation",
                 "dpv:hasNecessity": "dpv:Required"
@@ -2367,7 +2361,7 @@
 </aside>
     <h5>Postal Address</h5>
     <p>This field MUST be present.</p>
-    <p>Indicates the potal address of the entity, expressed using <code>schema:address</code> and an instance of <code>schema:PostalAddress</code>.</p>
+    <p>Indicates the postal address of the entity, expressed using <code>schema:address</code> and an instance of <code>schema:PostalAddress</code>.</p>
     <p><strong>NOTE:</strong> As in [[ISO-27560]], this field MUST be present for all entities EXCEPT data subjects as in a record it may not be necessary to record the postal address of data subjects. This follows best practices regarding data minimisation and purpose limitation.</p>
     <aside class="example" title="Example specifying entity postal address">
             <p>The entity's postal address expressed using <code>schema:contactPoint</code> and an instance of <code>schema:PostalAddress</code>.</p>
@@ -2541,7 +2535,7 @@
     "dpv:hasLegalBasis": "dpv:ExplicitlyExpressedConsent",
     "dpv:hasConsentStatus": "dpv:ConsentGiven"
 }</code></pre>
-            <p>This example shows that consent has been given for processing witha declaration that it is of type explicitly expressed consent (same as its legal basis). Note that this example does not show when the consent was given as well as any other contextual information (e.g. expressed where, how).</p>
+            <p>This example shows that consent has been given for processing with a declaration that it is of type explicitly expressed consent (same as its legal basis). Note that this example does not show when the consent was given as well as any other contextual information (e.g. expressed where, how).</p>
             <pre><code>{
     "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
     "@type": "dpv:ConsentRecord",
@@ -2958,7 +2952,7 @@
     "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
     "@type": "dpv:ConsentReceipt",
     "dpv:hasIdentifier": "a6f58318-72e6-46a2-bfd7-f36d795e30cd",
-    "dpv:hasRecordOfAcvitity": [{
+    "dpv:hasRecordOfActivity": [{
         "@type": "dpv:ConsentRecord",
         "id": "782c2fab-8bca-4ff9-b5c6-52f7d79f4095"
     }, {
@@ -3004,7 +2998,7 @@
         <pre><code>{
     "@id": "https://example.com/a6f58318-72e6-46a2-bfd7-f36d795e30cd",
     "@type": "dpv:ConsentReceipt",
-    "dpv:hasRecordOfAcvitity": [{
+    "dpv:hasRecordOfActivity": [{
         "@type": "dpv:ConsentRecord",
         "dpv:hasPurpose": "dpv:ServiceProvision",
         "dpv:hasConsentStatus": "dpv:ConsentGiven"
@@ -3357,7 +3351,7 @@ provided to the service provider as proof of consent.</p>
   {{ funding_acknowledgements() }}
 
   <h3>Funding Acknowledgements for Contributors</h3>
-  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre; and the AI Accountability Lab (AIAL) which is supported by grants from following groups: the AI Collaborative, an Initiative of the Omidyar Group; Luminate; the Bestseller Foundation; and the John D. and Catherine T. MacArthur Foundation.</p>
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}

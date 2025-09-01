@@ -18,7 +18,7 @@ fi
 # MODE="https://w3id.org/dpv"
 # MODE="http://localhost:8000"
 MODE="https://dev.dpvcg.org/2.0"
-MODE="localhost:8000/2.0"
+MODE="http://localhost:8000/2.2"
 
 FILES=(
     # core specs
@@ -42,6 +42,8 @@ FILES=(
     "$MODE/legal/gb/index.html"
     "$MODE/legal/ie/index.html"
     "$MODE/legal/in/index.html"
+    "$MODE/legal/kr/index.html"
+    "$MODE/legal/th/index.html"
     "$MODE/legal/us/index.html"
     # misc
     "$MODE/../primer/index.html"
@@ -58,6 +60,7 @@ FILES=(
     "$MODE/../guides/dpv-misc.html"
     "$MODE/../guides/dpv-odrl.html"
     "$MODE/../guides/dpv-skos.html"
+    "$MODE/../404.html"
     )
 
 DPV_MODULES=(
@@ -87,5 +90,5 @@ done
 
 for i in "${!FILES[@]}"
 do
-    xdg-open ${FILES[i]}
+    $COMMAND ${FILES[i]}
 done

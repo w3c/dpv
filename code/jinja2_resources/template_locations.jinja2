@@ -1,6 +1,6 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
-{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts, anchor %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
@@ -56,7 +56,7 @@
         "key": "Changelog",
         "data": [
             {
-              "value": "Changelog for v2.1",
+              "value": "Changelog for v{{DPV_VERSION}}",
               "href": "#changelog"
             }
         ]
@@ -101,7 +101,12 @@
     <img src="../diagrams/overview_loc.svg">
     <figcaption>Overview of Location concepts and annotation properties in LOC extension</figcaption>
   </figure>
-  <p>The Locations ([[LOC]]) extension extends the [[DPV]] to provide concepts representing locations based on the <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> and <a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a> standards. At the moment, it only provides country codes with plans for future iterations to provide additional concepts representing subdivisions in countries such as provinces and cities. In addition to ISO 3166 countries and subdivisions, the extension also provides a representation of geo-political supra-unions such as the EU with a list of its member countries. Through these concepts, the [[LOC]] extension enables representation and use of locations with other DPV concepts, such as to indicate where the data is being stored or processed, or to indicate the data subjects are from a particular location. The [[[LEGAL]]] extensions use these concepts to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities.</p>
+  <p>The Locations ([[LOC]]) extension extends the [[DPV]] to provide concepts representing locations based on the <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> and <a href="https://unstats.un.org/unsd/methodology/m49">UN M49</a> standards. At the moment, it  provides country codes and regions with plans for future iterations to provide additional concepts representing provinces and cities. In addition to ISO 3166 countries and subdivisions, the extension also provides a representation of geo-political supra-unions such as the EU with a list of its member countries. Through these concepts, the [[LOC]] extension enables representation and use of locations with other DPV concepts, such as to indicate where the data is being stored or processed, or to indicate the data subjects are from a particular location.</p>
+  <aside class="note" title="IMPORTANT: Statement on Geo-Political Implications">
+    <p>Locations and jurisdictions are contentious concepts and are subject to political conflicts and disputes. The authors and contributors for this document, as well as other members and participants in the W3C DPVCG, are providing this document and associated resources with the sole goal of facilitating reference to locations and jurisdictions through a machine-readable vocabulary. To avoid any unwanted political implications of this work, we have utilised the ISO 3166 standard as a reflection of global consensus (in as much as has been made possible) with further links to UN resources. Any mistakes or lapses in  this resource are not intentional and we welcome efforts to highlight and fix them.</p>
+    <p>Further, due to the modular nature of DPV, it is feasible and practical to create extensions that represent an intended modelling of jurisdictions within the `legal` namespace, similar to how laws and authorities have been modelled. Thus, adopters have a choice to create and utilise (and to propose to the DPVCG) other models of locations based on requirements for each specific jurisdiction.</p>
+  </aside>
+  <h3>ISO and UN taxonomies</h3>
   <p>To express the ISO and UN codes for specific locations, the following properties have been introduced:</p>
   <ol>
     <li>[=iso_alpha2=] to represent the 2-letter ISO 3166 alpha2 codes</li>
@@ -109,9 +114,28 @@
     <li>[=iso_numeric=] to represent the ISO 3166 numeric codes</li>
     <li>[=un_m49=] to represent the 2-letter UN M49 codes</li>
   </ol>
-  <p>To express unions and memberships such as for [=EEA=] and [=EU=], the [[SKOS]] relations <i>narrower/broader</i> are used, with the union expressed as an instance of <code>dpv:SupraNationalUnion</code>.</p>
-  <aside class="issue" data-number="208"></aside>
-  <aside class="issue" data-number="209"></aside>
+  <p>In addition to these, the <a href="vocab-locations">countries table</a> further in the document also contains links to the ISO Online Browsing Platform (OBP) and the <a href="https://op.europa.eu/en/web/eu-vocabularies/">EU Vocabularies</a>.</p>
+  <aside class="note" title="IMPORTANT: Notion of Country in ISO 3166">
+    <p>ISO 3166-1 and 3166-2 defines <i>country name</i> as "name of a country, dependency, or other area of particular geopolitical interest". The concept `Country` derived from this and used in the DPV and LOC vocabularies allows for a flexible representation where a country may be part of another country's jurisdiction. As such, `dpv:Country` is a distinct concept from <a href="https://en.wikipedia.org/wiki/Sovereign_state">Sovereign States</a>.</p>
+    <p>Where possible, and based on ISO 3166 standards, the LOC extension provides hints and links between countries as a hierarchy. This is done at two levels: (1) ISO 3166 may define the same concept with a country code and a subdivision code, e.g. `TF` and `FR-TF`. The LOC extension links these with a `skos:sameAs` relation; (2) An expressed country may be part of another country's jurisdictional control for the purposes of data transfers and other legal matters. The LOC extension asserts this with a `skos:broader` relation.</p>
+  </aside>
+  <h3>Inverse Jurisdictions</h3>
+  <p>The [[[LEGAL]]] extensions use the core DPV concepts (see above) to represent jurisdictions, and to associate laws and authorities with their specific geo-political entities. To further support the legal/jurisdictional use of locations, the extension uses the {{ anchor('dpv:InverseJurisdiction') }} concept which represents the set of all other jurisdictions for a given jurisdiction to help represent information and constraints such as "data transfers outside of Ireland" where "Ireland" is a jurisdiction and "outside of Ireland" is what we call an 'inverse jurisdiction' that represents all jurisdictions other than Ireland. Here, it is important to distinguish between <i>outside of a location</i> from <i>outside of a jurisdiction</i>, as locations would also include oceans, Antarctica, the moon, and the rest of the universe by virtue of everything being a location. Instead, jurisdictions refer strictly to the geo-political definitions and do not contain such ambiguity and expansive scopes.</p>
+  <p>The LOC extension defines an inverse jurisdiction concept for each jurisdiction (currently limited only to countries and supranational unions) by taking the ISO 3166-2 code and prefixing it with `non-`. For example, the LOC concept for Ireland is [=IE=] and its inverse jurisdiction is [=non-IE=]. SKOS narrower/broader relations are used to associate specific jurisdictions as being part of a inverse jurisdiction concept. As these properties are bidirectional and transitive, this creates an efficient path traversal and reasoning mechanism to quickly check whether a given location/jurisdiction is outside of a target jurisdiction by checking whether there is a SKOS narrower/broader path from it to the inverse jurisdiction concept for the target jurisdiction.</p>
+  <p>To limit the complexity of inverse jurisdiction relations, the {{ anchor('dpv:hasInverseJurisdiction') }} property used to associate a jurisdiction with its inverse is used only as a unidirectional functional property, i.e. a 'real' jurisdiction has an associated virtual 'inverse jurisdiction' expressed through this property, and the vice-versa fact does not exist. For example, [=IE=] has inverse jurisdiction [=non-IE=] is declared but not the other way around. This is to avoid circular or recursive associations in resolving jurisdictions and to prevent mixing actual and inverse jurisdictions in inferences from reasoning.</p>
+  <aside class="example" title="Inverse Jurisdictions">
+    <p>The example shows the definition of Ireland as a location and its inverse jurisdictional concept.</p>
+    <pre><code>loc:IE a dpv:Country ;
+  dpv:hasInverseJurisdiction loc:non-IE .
+
+loc:non-IE a dpv:InverseJurisdiction ;
+  skos:narrower loc:AD ; # Andorra
+                # countries except loc:IE
+                loc:ZW . # Zimbabwe
+</code></pre>
+  </aside>
+  <h3>Unions and Memberships</h3>
+  <p>To express unions and memberships such as for [=EEA=] and [=EU=], the [[SKOS]] relations <i>narrower/broader</i> are used to denote which countries are members, with the union itself expressed as an instance of <code>dpv:SupraNationalUnion</code>. Further, the concept without any suffixes represents the latest membership, while those with suffixes represent specific membership sets in the past and present to provide a way to unambiguously refer to a specific instance of the union in time. See the <a href="vocab-memberships">associated section</a> later in the document for a listing of these concepts and their inverse jurisdictions.</p>
 </section>
 {% endblock INTRODUCTION %}
 {% block VOCAB %}
@@ -125,7 +149,10 @@
             <th>ISO 3166-1 Alpha3</th>
             <th>ISO 3166-1 Numeric</th>
             <th>UN M49</th>
+            <th>Same As</th>
             <th>Subdivisions</th>
+            <th>Inverted Jurisdiction</th>
+            <th>Part Of</th>
             <th>External links</th>
         </thead>
         <tbody>
@@ -137,7 +164,16 @@
                 <td><code>{{ loc['loc:iso_alpha3'] }}</code></td>
                 <td><code>{{ loc['loc:iso_numeric'] }}</code></td>
                 <td><code>{{ loc['loc:un_m49'] }}</code></td>
+                <td>{% if loc['skos:sameAs'] %}<code>
+                  {% set parents = loc['skos:sameAs']|ensure_list|sort|resolve_concepts %}
+                  {% for parent in parents %}
+                    <a href="#{{parent['term']}}"><code>{{ parent['term'] }}</code></a>{{ ", " if not loop.last }}{% endfor %}{% endif %}</td>
                 <td>{% if 'skos:narrower' in loc %}<a href="#subdivisions-{{loc['term']}}">{{ loc['skos:narrower']|length }} divisions</a>{% else %}N/A{% endif %}</td>
+                <td>{% if loc['dpv:hasInverseJurisdiction'] %}{% set invloc = loc['dpv:hasInverseJurisdiction']|resolve_concepts %}
+                    <dfn>{{ invloc['term'] }}</dfn>{% endif %}</td>
+                <td>{% if loc['skos:sameAs'] %}<code>
+                  {% set parents = loc['skos:broader']|ensure_list|resolve_concepts|filter_type('dpv:Country')|sort('iri') %}
+                  {% for parent in parents %}<a href="#{{parent['term']}}"><code>{{ parent['term'] }}</code></a> {% endfor %}{% endif %}</td>
                 <td>
                   <a href="https://www.iso.org/obp/ui/#iso:code:3166:{{loc['term']}}">ISO OBP</a>; 
                   <a href="https://op.europa.eu/web/eu-vocabularies/concept/-/resource?uri=http://publications.europa.eu/resource/authority/country/{{loc['dpv:iso_alpha3']}}">EU Vocab</a></td>
@@ -180,7 +216,7 @@
     {% for union in vocab.values()|filter_type('dpv:SupraNationalUnion',vocab='loc')|sort(attribute='iri') %}
       <section id="{{union['term']}}">
         <h3><dfn>{{ union['term'] }}</dfn> - {{ union['skos:prefLabel'] }}</h3>
-      <p>{{ union['skos:definition'] }}.</p>
+      <p>{{ union['skos:definition'] }}. The inverse jurisdiction for `{{ union['term'] }}` is <dfn>{{ union['dpv:hasInverseJurisdiction']|resolve_concepts|get_attrib('term') }}</dfn>.</p>
       <p>The following countries are members of this union:
         {% for country in union['skos:narrower']|get_concept_list %}
           <a href="#{{country['loc:iso_alpha2']}}">{{ country['skos:prefLabel'] }} ({{ country['loc:iso_alpha2'] }})</a>{{ ", " if not loop.last }}
@@ -542,8 +578,12 @@
 
 <section id="future-work" class="appendix">
   <h2>Future Work</h2>
-  <aside class="issue" data-number="208"></aside>
-  <aside class="issue" data-number="209"></aside>
+  <aside class="note" title="Subjective Locations mentioned in v2.1">
+    <p>A previous version of this document associated with DPV v2.1 release contained a note on proposed work regarding "subjective locations" such as <i>at home</i> and <i>at work</i> which are often found in contexts such as maps and conversations. For v2.2, the DPVCG deliberated at length on how such concepts can be best defined, and how to resolve the potential overlaps and ambiguity between concepts such as <i>home</i> being both personal data and locations. The DPVCG concluded that such concepts should be provided in the [[[PD]]] extension to indicate their status as personal data, and discarding other alternatives such as declaring them in LOC (this extension) as personal data, or to create a new extension, or to create duplicate concepts in both PD and LOC extensions. While the v2.2 release does not provide these concepts in [[PD]], this note serves to inform regarding their future intended addition.</p>
+  </aside>
+  <aside class="note" title="Labelled Locations mentioned in v2.1">
+    <p>In addition to the above note, the discussions regarding subjective locations such as train stations, parks, and airports that are not personal data but are referenced in regulations and guidelines. The group has not made a decision on how to depict these as of this moment, with the same alternatives mentioned in the above note also being considered. One critical concern raised was the subjectivity of these locations as compared to the concreteness of the concepts currently present in this location based on their origin in a standard that is widely used (ISO 3166). As a similar work does not exist, the group is considering providing such subjective non-personal data concepts in a separate namespace within the LOC or through the Sectorial extensions.</p>
+  </aside>
 </section>
 
 {% block ACKNOWLEDGEMENTS %}
@@ -554,7 +594,7 @@
   {{ funding_acknowledgements() }}
 
   <h3>Funding Acknowledgements for Contributors</h3>
-  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre; and the AI Accountability Lab (AIAL) which is supported by grants from following groups: the AI Collaborative, an Initiative of the Omidyar Group; Luminate; the Bestseller Foundation; and the John D. and Catherine T. MacArthur Foundation.</p>
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
@@ -562,14 +602,8 @@
 <section class="appendix" id="issue-summary"></section>
 
 <section id="changelog">
-  <h2>Changelog for v2.1</h2>
-  <p><strong>total terms: 5024 ; added: 4685 ; removed: 1 ;</strong></p>
-  <p>The <a href="../changelog.html">changelog</a> provides more information on concepts that have been added/removed in this version. Below is a summary of the changes.</p>
-  <ul>
-    <li>Virgin Islands of the United States have their term changed and are now represented as <code>VI</code> instead of <code>US-VI</code> following the 3166-2 alpha-2 code.</li>
-    <li>Added ISO 3166-3 codes representing regions within countries. Each region is indicated to be a part of the country it is defined within as per ISO 3166. <strong>DPV's representation of locations is based on international standardised representations in ISO documents and does not reflect or assert any political implications.</strong></li>
-    <li>The HTML documentation has been revised to shorten the size of the document as the large number of concepts created a large number of tables and pages.</li>
-  </ul>
+  <h2>Changelog for v{{DPV_VERSION}}</h2>
+  <div class="issue" title="Changelog for v{{DPV_VERSION}}"><a href="/2.2/changelog">go to changelog</a></div>
 </section>
 
 <script type="text/javascript" src="../diagrams/common.js" defer></script>

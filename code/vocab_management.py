@@ -4,9 +4,14 @@
 '''Data and configurations for vocabulary management'''
 
 import csv
-from rdflib import Namespace, BNode, Literal
-
+import hashlib
 import logging
+import re
+import unicodedata
+
+from rdflib import BNode, Literal, Namespace
+import slugify
+
 logging.basicConfig(
     level=logging.DEBUG, format='%(levelname)s - %(funcName)s :: %(lineno)d - %(message)s')
 DEBUG = logging.debug
@@ -14,23 +19,35 @@ INFO = logging.info
 
 # == data ==
 
+# DPV Version
+DPV_VERSION = "2.2"
+DPV_PREVIOUS_VERSION = "2.1"
+DPV_PUBLISH_DATE = "2025-08-01"
+# Document status: should be one of CG-DRAFT or CG-FINAL
+DOCUMENT_STATUS = "CG-DRAFT"
+SERIALIZATION_MODE = "CG-FINAL"
+
 # === serializations ===
 
 # Serialisations are `key:value` where `key` is the file extension
 # and `value` is the format passed to rdflib to serialise triples
 
-RDF_SERIALIZATIONS = {
-    'rdf': 'xml', 
-    'ttl': 'turtle', 
-    'n3': 'n3',
-    'jsonld': 'json-ld'
+if SERIALIZATION_MODE == "CG-DRAFT":
+    # in draft mode, we only generate turtle files, and no OWL files
+    RDF_SERIALIZATIONS = {'ttl': 'turtle'}
+    OWL_SERIALIZATIONS = {}
+elif SERIALIZATION_MODE == "CG-FINAL":
+    # in final model, we generate all serialisations and OWL files
+    RDF_SERIALIZATIONS = {
+        'rdf': 'xml', 
+        'ttl': 'turtle', 
+        'n3': 'n3',
+        'jsonld': 'json-ld'
     }
-OWL_SERIALIZATIONS = {
-    'rdf': 'xml', 
-    'ttl': 'turtle', 
-    'n3': 'n3',
-    'jsonld': 'json-ld'
-    }
+    OWL_SERIALIZATIONS = RDF_SERIALIZATIONS
+else:
+    raise ValueError(f"Unknown {DOCUMENT_STATUS=}")
+
 IANA_TYPES = {
     'html': {
         'title': 'HTML',
@@ -100,16 +117,9 @@ NS.ns = { k:v for k,v in NAMESPACES.items() }
 
 # === Import/Export for RDF and HTML ===
 
-# DPV Version
-DPV_VERSION = "2.1"
-DPV_PREVIOUS_VERSION = "2.0"
-DPV_PUBLISH_DATE = "2025-03-16"
-# Document status: should be one of CG-DRAFT or CG-FINAL
-DOCUMENT_STATUS = "CG-FINAL"
-
 # Root folder to import RDF files from
 IMPORT_PATH = f'../{DPV_VERSION}'
-# Root folder to export HTML filese to
+# Root folder to export HTML files to
 EXPORT_PATH = f'../{DPV_VERSION}'
 # Root folder where Jinja2 templates are stored
 TEMPLATE_PATH = './jinja2_resources'
@@ -269,7 +279,7 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/p7012_purpose.csv',
         },
         'privacy_term': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_privacy_term.csv',
+            'p7012-terms': f'{IMPORT_CSV_PATH}/p7012_privacy_term.csv',
             'properties': f'{IMPORT_CSV_PATH}/p7012_privacy_term_properties.csv',
         },
     },
@@ -338,6 +348,9 @@ CSVFILES = {
         'lifecycle': {
             'taxonomy': f'{IMPORT_CSV_PATH}/ai-lifecycle.csv'
         },
+        'development': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/ai-development.csv'
+        },
     },
     'risk': {
         'risk_management': {
@@ -348,7 +361,7 @@ CSVFILES = {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskLevels.csv',
         },
         'risk_matrix': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/RiskMatrix.csv',
+            'taxonomy-risk': f'{IMPORT_CSV_PATH}/RiskMatrix.csv',
         },
         'risk_controls': {
             'taxonomy': f'{IMPORT_CSV_PATH}/RiskControls.csv',
@@ -416,6 +429,9 @@ CSVFILES = {
         },
         'memberships': {
             'memberships': f'{IMPORT_CSV_PATH}/location_memberships.csv',
+        },
+        'inverse': {
+            'locations-inverse': f'{IMPORT_CSV_PATH}/location_inverse.csv',
         },
     },
     # Laws-Authorities
@@ -489,6 +505,11 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-gr.csv',
         },
     },
+    'legal-hk': {
+        'hk': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-hk.csv',
+        },
+    },
     'legal-hr': {
         'hr': {
             'laws': f'{IMPORT_CSV_PATH}/legal-hr.csv',
@@ -519,6 +540,16 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-it.csv',
         },
     },
+    'legal-jp': {
+        'jp': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-jp.csv',
+        },
+    },
+    'legal-kr': {
+        'kr': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-kr.csv',
+        },
+    },
     'legal-li': {
         'li': {
             'laws': f'{IMPORT_CSV_PATH}/legal-li.csv',
@@ -539,9 +570,19 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-lv.csv',
         },
     },
+    'legal-mo': {
+        'mo': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-mo.csv',
+        },
+    },
     'legal-mt': {
         'mt': {
             'laws': f'{IMPORT_CSV_PATH}/legal-mt.csv',
+        },
+    },
+    'legal-my': {
+        'my': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-my.csv',
         },
     },
     'legal-nl': {
@@ -552,6 +593,11 @@ CSVFILES = {
     'legal-no': {
         'no': {
             'laws': f'{IMPORT_CSV_PATH}/legal-no.csv',
+        },
+    },
+    'legal-ph': {
+        'ph': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-ph.csv',
         },
     },
     'legal-pl': {
@@ -574,6 +620,11 @@ CSVFILES = {
             'laws': f'{IMPORT_CSV_PATH}/legal-se.csv',
         },
     },
+    'legal-sg': {
+        'sg': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-sg.csv',
+        },
+    },
     'legal-si': {
         'si': {
             'laws': f'{IMPORT_CSV_PATH}/legal-si.csv',
@@ -582,6 +633,16 @@ CSVFILES = {
     'legal-sk': {
         'sk': {
             'laws': f'{IMPORT_CSV_PATH}/legal-sk.csv',
+        },
+    },
+    'legal-th': {
+        'th': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-th.csv',
+        },
+    },
+    'legal-tw': {
+        'tw': {
+            'laws': f'{IMPORT_CSV_PATH}/legal-tw.csv',
         },
     },
     'legal-us': {
@@ -673,6 +734,9 @@ CSVFILES = {
         },
         'risk': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-risk.csv',
+        },
+        'risk_levels': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/aiact-risk-levels.csv',
         },
         'data': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-data.csv',
@@ -774,8 +838,8 @@ RDF_VOCABS = {
         # Metadata for RDF Vocabs.
         'metadata': {
         # Manually declared:
-            "dct:title": "Examples for Data Privacy Vocabulary",
-            "dct:description": "Examples for/using DPVCG vocabularies",
+            "dct:title": "Examples",
+            "dct:description": "for using DPVCG vocabularies",
             "dct:created": "2022-08-18",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Harshvardhan J. Pandit",
@@ -941,6 +1005,7 @@ RDF_VOCABS = {
             'systems': f'{IMPORT_PATH}/ai/modules/systems.ttl',
             'data': f'{IMPORT_PATH}/ai/modules/data.ttl',
             'lifecycle': f'{IMPORT_PATH}/ai/modules/lifecycle.ttl',
+            'development': f'{IMPORT_PATH}/ai/modules/development.ttl',
         },
         'metadata': {
             "dct:title": "AI Technology Concepts",
@@ -1005,6 +1070,7 @@ RDF_VOCABS = {
         'modules': {
             'locations': f'{IMPORT_PATH}/loc/modules/locations.ttl',
             'memberships': f'{IMPORT_PATH}/loc/modules/memberships.ttl',
+            'inverse': f'{IMPORT_PATH}/loc/modules/inverse.ttl',
         },
         'metadata': {
             "dct:title": "Location Concepts",
@@ -1130,7 +1196,9 @@ RDF_VOCABS = {
         'vocab': f'{IMPORT_PATH}/sector/sector.ttl',
         'template': 'template_sector_index.jinja2',
         'export': f'{EXPORT_PATH}/sector',
-        'modules': {},
+        'modules': {
+            'sector': f'{IMPORT_PATH}/sector/sector.ttl',
+        },
         'metadata': {
             "dct:title": "Sector-Specific Concepts for DPV",
             "dct:description": "Sector-specific Extensions to the Data Privacy Vocabulary (DPV)",
@@ -1410,6 +1478,25 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
+    'legal-hk': {
+        'vocab': f'{IMPORT_PATH}/legal/hk/legal-hk.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/hk',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/hk/legal-hk.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Hong Kong (HK)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Hong Kong as jurisdiction",
+            "dct:created": "2025-03-19",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Arthit Suriyawongkul",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/hk',
+            "bibo:status": "proposed",
+        },
+    },
     'legal-hr': {
         'vocab': f'{IMPORT_PATH}/legal/hr/legal-hr.ttl',
         'template': 'template_legal_jurisdiction.jinja2',
@@ -1524,6 +1611,44 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
+    'legal-jp': {
+        'vocab': f'{IMPORT_PATH}/legal/jp/legal-jp.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/jp',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/jp/legal-jp.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Japan (JP)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Japan as jurisdiction",
+            "dct:created": "2025-03-19",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Arthit Suriyawongkul",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/jp',
+            "bibo:status": "proposed",
+        },
+    },
+    'legal-kr': {
+        'vocab': f'{IMPORT_PATH}/legal/kr/legal-kr.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/kr',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/kr/legal-kr.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Republic of Korea (KR)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for South Korea as jurisdiction",
+            "dct:created": "2025-03-19",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Arthit Suriyawongkul",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/kr',
+            "bibo:status": "proposed",
+        },
+    },
     'legal-li': {
         'vocab': f'{IMPORT_PATH}/legal/li/legal-li.ttl',
         'template': 'template_legal_jurisdiction.jinja2',
@@ -1589,7 +1714,7 @@ RDF_VOCABS = {
             'legal': f'{IMPORT_PATH}/legal/lv/legal-lv.ttl',
         },
         'metadata': {
-            "dct:title": "Legal Concepts for Latvia(LV)",
+            "dct:title": "Legal Concepts for Latvia (LV)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Latvia as jurisdiction",
             "dct:created": "2024-08-02",
             "dct:modified": DPV_PUBLISH_DATE,
@@ -1598,6 +1723,25 @@ RDF_VOCABS = {
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/lv',
             "bibo:status": "published",
+        },
+    },
+    'legal-mo': {
+        'vocab': f'{IMPORT_PATH}/legal/mo/legal-mo.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/mo',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/mo/legal-mo.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Macao (MO)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Macao as jurisdiction",
+            "dct:created": "2025-03-19",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Arthit Suriyawongkul",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/mo',
+            "bibo:status": "proposed",
         },
     },
     'legal-mt': {
@@ -1617,6 +1761,25 @@ RDF_VOCABS = {
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/mt',
             "bibo:status": "published",
+        },
+    },
+    'legal-my': {
+        'vocab': f'{IMPORT_PATH}/legal/my/legal-my.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/my',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/my/legal-my.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Malaysia (MY)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Malaysia as jurisdiction",
+            "dct:created": "2025-03-19",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Arthit Suriyawongkul",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/my',
+            "bibo:status": "proposed",
         },
     },
     'legal-nl': {
@@ -1655,6 +1818,25 @@ RDF_VOCABS = {
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/no',
             "bibo:status": "published",
+        },
+    },
+    'legal-ph': {
+        'vocab': f'{IMPORT_PATH}/legal/ph/legal-ph.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/ph',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/ph/legal-ph.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for the Philippines (PH)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for the Philippines as jurisdiction",
+            "dct:created": "2025-03-19",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Arthit Suriyawongkul",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/ph',
+            "bibo:status": "proposed",
         },
     },
     'legal-pl': {
@@ -1733,6 +1915,25 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
+    'legal-sg': {
+        'vocab': f'{IMPORT_PATH}/legal/sg/legal-sg.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/sg',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/sg/legal-sg.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Singapore (SG)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Singapore as jurisdiction",
+            "dct:created": "2025-03-19",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Arthit Suriyawongkul",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/sg',
+            "bibo:status": "proposed",
+        },
+    },
     'legal-si': {
         'vocab': f'{IMPORT_PATH}/legal/si/legal-si.ttl',
         'template': 'template_legal_jurisdiction.jinja2',
@@ -1769,6 +1970,44 @@ RDF_VOCABS = {
             "profile:isProfileOf": "dpv",
             'iri': 'https://w3id.org/dpv/legal/sk',
             "bibo:status": "published",
+        },
+    },
+    'legal-th': {
+        'vocab': f'{IMPORT_PATH}/legal/th/legal-th.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/th',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/th/legal-th.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Thailand (TH)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Thailand as jurisdiction",
+            "dct:created": "2025-03-19",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Arthit Suriyawongkul",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/th',
+            "bibo:status": "proposed",
+        },
+    },
+    'legal-tw': {
+        'vocab': f'{IMPORT_PATH}/legal/tw/legal-tw.ttl',
+        'template': 'template_legal_jurisdiction.jinja2',
+        'export': f'{EXPORT_PATH}/legal/tw',
+        'modules': {
+            'legal': f'{IMPORT_PATH}/legal/tw/legal-tw.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for Taiwan (TW)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for Taiwan as jurisdiction",
+            "dct:created": "2025-03-19",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Arthit Suriyawongkul",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/tw',
+            "bibo:status": "proposed",
         },
     },
     'legal-us': {
@@ -1874,6 +2113,7 @@ RDF_VOCABS = {
             'system': f'{IMPORT_PATH}/legal/eu/aiact/modules/system.ttl',
             'capability': f'{IMPORT_PATH}/legal/eu/aiact/modules/capability.ttl',
             'risk': f'{IMPORT_PATH}/legal/eu/aiact/modules/risk.ttl',
+            'risk-levels': f'{IMPORT_PATH}/legal/eu/aiact/modules/risk_levels.ttl',
             'data': f'{IMPORT_PATH}/legal/eu/aiact/modules/data.ttl',
             'roles': f'{IMPORT_PATH}/legal/eu/aiact/modules/roles.ttl',
             'docs': f'{IMPORT_PATH}/legal/eu/aiact/modules/docs.ttl',
@@ -1985,6 +2225,9 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/justifications',
         'modules': f'{EXPORT_RDF_PATH}/justifications/modules',
     },
+    'sector': {  # Consolidated graph of all sector data
+        'main': f'{EXPORT_RDF_PATH}/sector',
+    },
     'sector-education': {
         'main': f'{EXPORT_RDF_PATH}/sector/education',
         'modules': f'{EXPORT_RDF_PATH}/sector/education/modules',
@@ -2072,6 +2315,10 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/gr', 
         'modules': f'{EXPORT_RDF_PATH}/legal/gr/modules', 
     },
+    'legal-hk': {
+        'main': f'{EXPORT_RDF_PATH}/legal/hk', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/hk/modules', 
+    },
     'legal-hr': {
         'main': f'{EXPORT_RDF_PATH}/legal/hr', 
         'modules': f'{EXPORT_RDF_PATH}/legal/hr/modules', 
@@ -2096,6 +2343,14 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/it', 
         'modules': f'{EXPORT_RDF_PATH}/legal/it/modules', 
     },
+    'legal-jp': {
+        'main': f'{EXPORT_RDF_PATH}/legal/jp', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/jp/modules', 
+    },
+    'legal-kr': {
+        'main': f'{EXPORT_RDF_PATH}/legal/kr', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/kr/modules', 
+    },
     'legal-li': {
         'main': f'{EXPORT_RDF_PATH}/legal/li', 
         'modules': f'{EXPORT_RDF_PATH}/legal/li/modules', 
@@ -2112,9 +2367,17 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/lv', 
         'modules': f'{EXPORT_RDF_PATH}/legal/lv/modules', 
     },
+    'legal-mo': {
+        'main': f'{EXPORT_RDF_PATH}/legal/mo', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/mo/modules', 
+    },
     'legal-mt': {
         'main': f'{EXPORT_RDF_PATH}/legal/mt', 
         'modules': f'{EXPORT_RDF_PATH}/legal/mt/modules', 
+    },
+    'legal-my': {
+        'main': f'{EXPORT_RDF_PATH}/legal/my', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/my/modules', 
     },
     'legal-nl': {
         'main': f'{EXPORT_RDF_PATH}/legal/nl', 
@@ -2123,6 +2386,10 @@ RDF_STRUCTURE = {
     'legal-no': {
         'main': f'{EXPORT_RDF_PATH}/legal/no', 
         'modules': f'{EXPORT_RDF_PATH}/legal/no/modules', 
+    },
+    'legal-ph': {
+        'main': f'{EXPORT_RDF_PATH}/legal/ph', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/ph/modules', 
     },
     'legal-pl': {
         'main': f'{EXPORT_RDF_PATH}/legal/pl', 
@@ -2140,6 +2407,10 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/legal/se', 
         'modules': f'{EXPORT_RDF_PATH}/legal/se/modules', 
     },
+    'legal-sg': {
+        'main': f'{EXPORT_RDF_PATH}/legal/sg', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/sg/modules', 
+    },
     'legal-si': {
         'main': f'{EXPORT_RDF_PATH}/legal/si', 
         'modules': f'{EXPORT_RDF_PATH}/legal/si/modules', 
@@ -2147,6 +2418,14 @@ RDF_STRUCTURE = {
     'legal-sk': {
         'main': f'{EXPORT_RDF_PATH}/legal/sk', 
         'modules': f'{EXPORT_RDF_PATH}/legal/sk/modules', 
+    },
+    'legal-th': {
+        'main': f'{EXPORT_RDF_PATH}/legal/th', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/th/modules', 
+    },
+    'legal-tw': {
+        'main': f'{EXPORT_RDF_PATH}/legal/tw', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/tw/modules', 
     },
     'legal-us': {
         'main': f'{EXPORT_RDF_PATH}/legal/us', 
@@ -2183,50 +2462,88 @@ RDF_STRUCTURE = {
 }
 
 # Collated concepts
-RDF_COLLATIONS = ({
-    'name': 'legal',
-    'input': (
-        f'{EXPORT_RDF_PATH}/legal/at/legal-at.ttl',
-        f'{EXPORT_RDF_PATH}/legal/be/legal-be.ttl',
-        f'{EXPORT_RDF_PATH}/legal/bg/legal-bg.ttl',
-        f'{EXPORT_RDF_PATH}/legal/cy/legal-cy.ttl',
-        f'{EXPORT_RDF_PATH}/legal/cz/legal-cz.ttl',
-        f'{EXPORT_RDF_PATH}/legal/de/legal-de.ttl',
-        f'{EXPORT_RDF_PATH}/legal/dk/legal-dk.ttl',
-        f'{EXPORT_RDF_PATH}/legal/ee/legal-ee.ttl',
-        f'{EXPORT_RDF_PATH}/legal/es/legal-es.ttl',
-        f'{EXPORT_RDF_PATH}/legal/eu/legal-eu.ttl',
-        f'{EXPORT_RDF_PATH}/legal/fi/legal-fi.ttl',
-        f'{EXPORT_RDF_PATH}/legal/fr/legal-fr.ttl',
-        f'{EXPORT_RDF_PATH}/legal/gb/legal-gb.ttl',
-        f'{EXPORT_RDF_PATH}/legal/gr/legal-gr.ttl',
-        f'{EXPORT_RDF_PATH}/legal/hr/legal-hr.ttl',
-        f'{EXPORT_RDF_PATH}/legal/hu/legal-hu.ttl',
-        f'{EXPORT_RDF_PATH}/legal/ie/legal-ie.ttl',
-        f'{EXPORT_RDF_PATH}/legal/in/legal-in.ttl',
-        f'{EXPORT_RDF_PATH}/legal/is/legal-is.ttl',
-        f'{EXPORT_RDF_PATH}/legal/it/legal-it.ttl',
-        f'{EXPORT_RDF_PATH}/legal/li/legal-li.ttl',
-        f'{EXPORT_RDF_PATH}/legal/lt/legal-lt.ttl',
-        f'{EXPORT_RDF_PATH}/legal/lu/legal-lu.ttl',
-        f'{EXPORT_RDF_PATH}/legal/lv/legal-lv.ttl',
-        f'{EXPORT_RDF_PATH}/legal/mt/legal-mt.ttl',
-        f'{EXPORT_RDF_PATH}/legal/nl/legal-nl.ttl',
-        f'{EXPORT_RDF_PATH}/legal/no/legal-no.ttl',
-        f'{EXPORT_RDF_PATH}/legal/pl/legal-pl.ttl',
-        f'{EXPORT_RDF_PATH}/legal/pt/legal-pt.ttl',
-        f'{EXPORT_RDF_PATH}/legal/ro/legal-ro.ttl',
-        f'{EXPORT_RDF_PATH}/legal/se/legal-se.ttl',
-        f'{EXPORT_RDF_PATH}/legal/si/legal-si.ttl',
-        f'{EXPORT_RDF_PATH}/legal/sk/legal-sk.ttl',
-        f'{EXPORT_RDF_PATH}/legal/us/legal-us.ttl',
-
+RDF_COLLATIONS = (
+    {
+        'name': 'sector',
+        'input': (
+            # f'{EXPORT_RDF_PATH}/sector/education/sector-education.ttl',
+            # f'{EXPORT_RDF_PATH}/sector/finance/sector-finance.ttl',
+            # f'{EXPORT_RDF_PATH}/sector/health/sector-health.ttl',
+            # f'{EXPORT_RDF_PATH}/sector/infra/sector-infra.ttl',
+            # f'{EXPORT_RDF_PATH}/sector/law/sector-law.ttl',
+            # f'{EXPORT_RDF_PATH}/sector/publicservices/sector-publicservices.ttl',
         ),
-    'output': f'{EXPORT_RDF_PATH}/legal/legal',
-},)
+        'output': f'{EXPORT_RDF_PATH}/sector/sector',
+    },
+    {
+        'name': 'legal',
+        'input': (
+            f'{EXPORT_RDF_PATH}/legal/at/legal-at.ttl',
+            f'{EXPORT_RDF_PATH}/legal/be/legal-be.ttl',
+            f'{EXPORT_RDF_PATH}/legal/bg/legal-bg.ttl',
+            f'{EXPORT_RDF_PATH}/legal/cy/legal-cy.ttl',
+            f'{EXPORT_RDF_PATH}/legal/cz/legal-cz.ttl',
+            f'{EXPORT_RDF_PATH}/legal/de/legal-de.ttl',
+            f'{EXPORT_RDF_PATH}/legal/dk/legal-dk.ttl',
+            f'{EXPORT_RDF_PATH}/legal/ee/legal-ee.ttl',
+            f'{EXPORT_RDF_PATH}/legal/es/legal-es.ttl',
+            f'{EXPORT_RDF_PATH}/legal/eu/legal-eu.ttl',
+            f'{EXPORT_RDF_PATH}/legal/fi/legal-fi.ttl',
+            f'{EXPORT_RDF_PATH}/legal/fr/legal-fr.ttl',
+            f'{EXPORT_RDF_PATH}/legal/gb/legal-gb.ttl',
+            f'{EXPORT_RDF_PATH}/legal/gr/legal-gr.ttl',
+            f'{EXPORT_RDF_PATH}/legal/hk/legal-hk.ttl',
+            f'{EXPORT_RDF_PATH}/legal/hr/legal-hr.ttl',
+            f'{EXPORT_RDF_PATH}/legal/hu/legal-hu.ttl',
+            f'{EXPORT_RDF_PATH}/legal/ie/legal-ie.ttl',
+            f'{EXPORT_RDF_PATH}/legal/in/legal-in.ttl',
+            f'{EXPORT_RDF_PATH}/legal/is/legal-is.ttl',
+            f'{EXPORT_RDF_PATH}/legal/it/legal-it.ttl',
+            f'{EXPORT_RDF_PATH}/legal/jp/legal-jp.ttl',
+            f'{EXPORT_RDF_PATH}/legal/kr/legal-kr.ttl',
+            f'{EXPORT_RDF_PATH}/legal/li/legal-li.ttl',
+            f'{EXPORT_RDF_PATH}/legal/lt/legal-lt.ttl',
+            f'{EXPORT_RDF_PATH}/legal/lu/legal-lu.ttl',
+            f'{EXPORT_RDF_PATH}/legal/lv/legal-lv.ttl',
+            f'{EXPORT_RDF_PATH}/legal/mo/legal-mo.ttl',
+            f'{EXPORT_RDF_PATH}/legal/mt/legal-mt.ttl',
+            f'{EXPORT_RDF_PATH}/legal/my/legal-my.ttl',
+            f'{EXPORT_RDF_PATH}/legal/nl/legal-nl.ttl',
+            f'{EXPORT_RDF_PATH}/legal/no/legal-no.ttl',
+            f'{EXPORT_RDF_PATH}/legal/ph/legal-ph.ttl',
+            f'{EXPORT_RDF_PATH}/legal/pl/legal-pl.ttl',
+            f'{EXPORT_RDF_PATH}/legal/pt/legal-pt.ttl',
+            f'{EXPORT_RDF_PATH}/legal/ro/legal-ro.ttl',
+            f'{EXPORT_RDF_PATH}/legal/se/legal-se.ttl',
+            f'{EXPORT_RDF_PATH}/legal/sg/legal-sg.ttl',
+            f'{EXPORT_RDF_PATH}/legal/si/legal-si.ttl',
+            f'{EXPORT_RDF_PATH}/legal/sk/legal-sk.ttl',
+            f'{EXPORT_RDF_PATH}/legal/th/legal-th.ttl',
+            f'{EXPORT_RDF_PATH}/legal/tw/legal-tw.ttl',
+            f'{EXPORT_RDF_PATH}/legal/us/legal-us.ttl',
+            ),
+        'output': f'{EXPORT_RDF_PATH}/legal/legal',
+    },
+)
 
 # === SPARQL Query Hooks ===
 RDF_EXPORT_HOOK = {
+    'dex': [
+        {
+            "title": "Example concept metadata", 
+            "query": f"""
+            INSERT {{
+                dex:Example a skos:Concept .
+                dex:Example skos:prefLabel "Example"@en .
+                dex:Example dct:created "2024-01-01"^^xsd:date .
+                dex:Example skos:definition "An example showing the use of DPV concepts"@en .
+                dex:Example sw:term_status "accepted"@en .
+            }} WHERE {{
+                ?s a dex:Example .
+            }}
+            """,
+        }
+    ],
     'pd': [ 
         {
             "title": "Derive concepts as instances of Special Category PD", 
@@ -2239,7 +2556,40 @@ RDF_EXPORT_HOOK = {
             """,
         },
     ],
+    'loc-inverse': [
+        {
+            "title": "Generate inverse jurisdiction set for countries",
+            "query": f"""
+            INSERT {{
+                ?country_inverse skos:narrower ?country_other .
+            }}
+            WHERE {{
+                ?country a dpv:Country .
+                ?country_other a dpv:Country .
+                FILTER (?country != ?country_other ) .
+                ?country dpv:hasInverseJurisdiction ?country_inverse .
+            }}
+            """,
+        },
+        {
+            "title": "Generate inverse jurisdiction set for supranational unions",
+            "query": f"""
+            INSERT {{
+                ?union_inverse skos:narrower ?country .
+            }}
+            WHERE {{
+                ?union a dpv:SupraNationalUnion .
+                ?country a dpv:Country .
+                FILTER NOT EXISTS {{ ?union skos:narrower ?country }} .
+                ?union dpv:hasInverseJurisdiction ?union_inverse .
+            }}
+            """,
+        },
+    ],
 }
+# copy loc/modules/inverse.ttl to loc/loc.ttl
+RDF_EXPORT_HOOK['loc'] = RDF_EXPORT_HOOK['loc-inverse']
+
 # add query for associating authority with laws in all jurisdictions
 query = {
             "title": "add Authority to Law",
@@ -2259,9 +2609,9 @@ query = {
         }
 for loc in (
         'at','be','bg','cy','cz','de','dk','ee','es','eu',
-        'fi','fr','gb','gr','hr','hu','ie','in','is','it',
-        'li','lt','lu','lv','mt','nl','no','pl','pt','ro',
-        'se','si','sk','us',):
+        'fi','fr','gb','gr','hk','hr','hu','ie','in','is','it','jp','kr',
+        'li','lt','lu','lv','mo','mt','my','nl','no','ph','pl','pt','ro',
+        'se','sg','si','sk','th','tw','us',):
     if f'legal-{loc}' not in RDF_EXPORT_HOOK:
         RDF_EXPORT_HOOK[f'legal-{loc}'] = []
     RDF_EXPORT_HOOK[f'legal-{loc}'].append(query)
@@ -2428,14 +2778,19 @@ def _person_slugify():
     '''
     people = {}
     def _helper(person_name):
-        nonlocal people
         person_name = person_name.strip()
-        person = person_name.replace(',','').replace('.','').replace(' ','')
-        # if person_name.startswith('n')
+        nonlocal people
+        person = slugify.slugify(f"person-{person_name}")
         if person in people:
             return people[person]
-        bnode_person = BNode()
-        bnode_org = BNode()
+        org_name = generate_author_affiliation(person_name)
+        if not org_name:
+            raise Exception(f"{person_name} org is empty!")
+        org = slugify.slugify(f"org-{org_name}")
+
+        bnode_person = BNode(person)
+        bnode_org = BNode(org)
+
         triples = []
         triples.append((bnode_person, RDF.type, FOAF.Person))
         triples.append((bnode_person, RDF.type, DCT.Agent))
@@ -2445,9 +2800,7 @@ def _person_slugify():
         if generate_author_website(person_name):
             triples.append((bnode_person, FOAF.homepage, Literal(generate_author_website(person_name))))
         triples.append((bnode_org, RDF.type, FOAF.Organization))
-        triples.append((bnode_org, FOAF.name, Literal(generate_author_affiliation(person_name))))
-        if not generate_author_affiliation(person_name):
-            raise Exception(f"{person_name} org is empty!")
+        triples.append((bnode_org, FOAF.name, Literal(org_name)))
         triples.append((bnode_person, ORG.memberOf, bnode_org))
         people[person] = {
             'person': bnode_person,

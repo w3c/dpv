@@ -1,6 +1,5 @@
-from rdflib import Graph, Namespace
-from rdflib.compare import graph_diff
-from rdflib.term import Literal, URIRef, BNode
+import hashlib
+from rdflib.term import BNode, Literal
 from vocab_management import *
 
 
@@ -34,13 +33,25 @@ def construct_label(item, data, namespace, header):
     triples.append((namespace[term], SKOS.prefLabel, Literal(item, lang='en')))
     return triples
 
-def contruct_definition(item, data, namespace, header):
+def construct_definition(item, data, namespace, header):
     triples = []
     term, namespace = _get_term_from_prefix_notation(data['Term'], namespace)
     annotation = SKOS.definition
     if data['Term'] != term: # e.g. dpv:Concept and Concept
         annotation = SKOS.scopeNote
     triples.append((namespace[term], annotation, Literal(item, lang='en')))
+    return triples
+
+
+def construct_sameas(item, data, namespace, header):
+    triples = []
+    terms = []
+    for x in item.split(','):
+        term, t_namespace = _get_term_from_prefix_notation(x, None)
+        terms.append((term, t_namespace))
+    for term, t_namespace in terms:
+        triples.append((namespace[data['Term']], SKOS.sameAs, t_namespace[term]))
+        triples.append((t_namespace[term], SKOS.sameAs, namespace[data['Term']]))
     return triples
 
 
@@ -205,7 +216,12 @@ def construct_value(item, data, namespace, header):
     if not item:
         return triples
     term = _term_with_namespace(data['Term'], namespace)
-    triples.append((term, RDF.value, Literal(item)))
+    item, datatype = item.split(',')
+    datatype_namespace, datatype_type = datatype.split(':')
+    datatype = NAMESPACES[datatype_namespace][datatype_type]
+    DEBUG(f'{datatype=}')
+    triples.append((term, RDF.value, Literal(item.strip(), datatype=datatype)))
+    DEBUG(f'{triples=}')
     return triples
 
 
@@ -228,24 +244,23 @@ def construct_scope_note(item, data, namespace, header):
 def construct_source(item, data, namespace, header):
     triples = []
     term = _term_with_namespace(data['Term'], namespace)
-    items = item.split(',')
-    if 'http' in item:
-        iteritem = iter(items)
-        for item in iteritem:
-            label, url = item, next(iteritem)
+    if item.startswith('('):
+        split_items = item.split(';')
+    elif ',' in item and '://' not in item:
+        split_items = item.split(',')
+    else:
+        split_items = [item]
+    for item in split_items:
+        if item.startswith('('):
+            label, url = item.replace('(','').replace(')','').split(',')
             label = label.strip()
             url = url.strip()
-            if label.startswith('('):
-                label = label.replace('(', '', 1)
-            if url.endswith(')'):
-                url = url[::-1].replace(')', '', 1)[::-1] # reverse string
-            node = BNode()
+            node = BNode(f"b{hashlib.md5(url.encode('UTF-8')).hexdigest()}")
             triples.append((node, RDF.type, SCHEMA.WebPage))
             triples.append((node, SCHEMA.name, Literal(label)))
             triples.append((node, SCHEMA.url, Literal(url)))
             triples.append((term, DCT.source, node))
-    else:
-        for item in items:
+        else:
             triples.append((term, DCT.source, Literal(item, lang='en')))
     return triples
 
@@ -499,7 +514,7 @@ def construct_risk_parent_Role(term, data, namespace, header):
     return triples    
 
 
-def contruct_gdpr_right_justification(term, data, namespace, header):
+def construct_gdpr_right_justification(term, data, namespace, header):
     triples = []
     rights = [namespace[x.strip()] for x in term.split(',')]
     for right in rights:
@@ -524,4 +539,55 @@ def p7012_term_rule(term, data, namespace, header):
         item_namespace = NAMESPACES[item_namespace]
         item = item_namespace[item_label]
         triples.append((subject, rule, item))
+    return triples
+
+
+def p7012_human_label(term, data, namespace, header):
+    triples = []
+    if not term: return triples
+    term = term.strip()
+    triples.append((namespace[data['Term']], namespace['hasHumanDescription'], Literal(term)))
+    return triples
+
+
+def construct_inverse_jurisdiction(term, data, namespace, header):
+    triples = []
+    inverse = namespace[term]
+    location = namespace[data['Term']]
+    # construct parent type i.e. loc a dpv:Country
+    # to allow SPARQL hook to create sets for countries and unions
+    data2 = data.copy()
+    data2['ParentTerm'] = ''  # set as none so the function executes successfully
+    triples += construct_parent_taxonomy(data2['ParentType'], data2, namespace, header)
+    triples.append((inverse, RDF.type, DPV.InverseJurisdiction))
+    triples.append((inverse, RDF.type, SKOS.Concept))
+    triples.append((inverse, RDF.type, RDFS.Class))
+    triples.append((inverse, SKOS.prefLabel, Literal(term)))
+    triples.append((inverse, SKOS.definition, Literal(f"Set of jurisdictions that are not in {data['Term']}", lang="en")))
+    triples.append((inverse, DCT.created, Literal(data['Created'], datatype=XSD.date)))
+    if data['Modified']:
+        triples.append((inverse, DCT.modified, Literal(data['Modified'], datatype=XSD.date)))
+    triples.append((inverse, SW.term_status, Literal(data['Status'], lang='en')))
+    triples.append((location, DPV.hasInverseJurisdiction, inverse))
+    return triples
+
+
+def construct_risk_severity(term, data, namespace, header):
+    triples = []
+    term = namespace[f'{term}Severity']
+    triples.append((namespace[data['Term']], DPV.hasSeverity, term))
+    return triples
+
+
+def construct_risk_likelihood(term, data, namespace, header):
+    triples = []
+    term = namespace[f'{term}Likelihood']
+    triples.append((namespace[data['Term']], DPV.hasLikelihood, term))
+    return triples
+
+
+def construct_risk_level(term, data, namespace, header):
+    triples = []
+    term = namespace[f'{term}Risk']
+    triples.append((namespace[data['Term']], DPV.hasRiskLevel, term))
     return triples

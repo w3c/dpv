@@ -1,9 +1,8 @@
 # Diagrams
 
 > The diagrams in this folder are linked in published documents. **DO NOT REMOVE OR MODIFY THEM**. For newer diagrams linked to versioned documented, e.g. a purpose diagram in DPV 2.0, put them in the `2.0/diagrams` folder. If this diagram is used in another document, e.g. the Primer, use the diagram from the versioned folder. If there are diagrams that are present in unversioned documents, e.g. Primer or guides, put them in a subfolder called `docs` i.e. in `/diagrams/docs`.
-
+>
 > Always **include sources** for diagrams so they can be modified when needed. Always use **open source and non-proprietary** formats so that anyone can modify diagrams without purchasing specific tools/software.
-
 
 ## Naming
 
@@ -27,7 +26,7 @@ where the conventional extension is `.drawio` (preferred) or `.xml`. If using
 this tool, please export images using the PNG format with transparent background
 and a border width of 5 (see options when exporting). Please provide the source
 file with the preferred extension.
-- https://www.yworks.com/products/yed (yED) is another tool that provides a 
+- https://www.yworks.com/products/yed (yED) is another tool that provides a
 relatively more polished experience. Files are saved using `graphml` extension
 which is a form of `XML`. If using this tool, please export images using the PNG
 format and provide the source code using the `.graphml` extension.
@@ -41,7 +40,7 @@ tool OR you can re-create the diagram in an alternate tool (see above section).
 ## Linking to Diagrams
 
 Use relative links, i.e. prefer `../diagrams` instead of `/diagrams` to have
-consistency in the online and local(host) versions as we use w3id.org which 
+consistency in the online and local(host) versions as we use w3id.org which
 replaces the root as `w3id.org/dpv` - note the prefix.
 
 ## Contributions
@@ -52,3 +51,4 @@ Add yourself here if you have contributed to diagrams.
 - Georg P Krog
 - Delaram Golpayegani
 - Julian Flake
+- Arthit Suriyawongkul

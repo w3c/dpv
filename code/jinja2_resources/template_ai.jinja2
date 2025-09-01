@@ -1,6 +1,6 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
-{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts, anchor %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 
 {% macro make_risk_table(concepts, head) %}
@@ -92,7 +92,7 @@
         "key": "Changelog",
         "data": [
             {
-              "value": "Changelog for v2.1",
+              "value": "Changelog for v{{DPV_VERSION}}",
               "href": "#changelog"
             }
         ]
@@ -142,10 +142,11 @@
       <li><strong>Capabilities</strong> such as image recognition and text generation</li>
       <li><strong>AI Systems and Models</strong> such as expert systems, or general purpose AI models (GPAI)</li>
       <li><strong>Data</strong> such as for training, testing, and validation</li>
+      <li><strong>Development Phases</strong> such as training</li>
       <li><strong>Risks</strong> such as data poisoning, statistical noise and bias, etc.</li>
       <li><strong>Risk Measures</strong> to address the AI specific risks</li>
       <li><strong>Lifecycle</strong> such as data collection, training, fine-tuning, etc.</li>
-      <li><strong>Documentation</strong> such as Data Sheets and Model Cards</li>
+      <li><strong>Documentation</strong> such as Datasheets and Model Cards</li>
       <li><strong>Actors</strong> such as AI Developer and AI Deployer</li>
       <li><strong>Status</strong> associated with AI development</li>
     </ul>
@@ -179,17 +180,27 @@
 
   <section id="vocab-techniques">
     <h2>Techniques</h2>
-    <p>[=Technique=] represents the underlying technical implementation, and is associated using [=hasTechnique=]. It represents the lowest level of technical details within the conceptual model used in this extension to describe 'AI technology'. By itself, a technique is not sufficient to describe what the AI technology is being used for, but it is useful to express how the AI technology functions.</p>
+    <p>[=Technique=] represents the underlying technical implementation, and is associated using [=hasTechnique=]. It represents the lowest level of technical detail within the conceptual model used in this extension to describe 'AI technology'. It is useful to describe how the AI technology works in terms of specific algorithms and methodologies being used. By itself, a technique is not sufficient to describe what the AI technology is being used for, i.e. [=Technique=] is distinct from [=Capability=] and {{anchor('dpv:Purpose')}}.</p>
     <p>An implementation of AI technology can be developed only based on a technique - for example as a library or as a framework that can be reused by others. Therefore, a technique can act as a component of a larger AI system where it represents a particular method for implementing something. A technique can also involve the use of other techniques in a composite or combined manner.</p>
     {{ list_hierarchy(modules['techniques']['classes']) }}
   </section>
 
   <section id="vocab-capabilities">
     <h2>Capabilities</h2>
-    <p>[=Capability=] represents the use of a technique to achieve some technical goal or objective, and is associated using [=hasCapability=]. It represents the middle level of technical details within the conceptual model used in this extension to describe 'AI technology'. By itself, a capability it not useful to describe what the end-goal of using the AI technology is, but it is useful to describe what the AI technology is used for in context of achieving an end-goal.</p>
-    <p>An implementation of AI technology can be developed with a capability - for example as a service or as a software, which can be used in a stand-alone manner or be integrated in to a larger AI system. Therefore, AI capabilities can occur as both components and systems, and be involved in processes directly or indirectly in this manner. A capability can also involve the use of other capabilities in a composite or combined manner.</p>
-    <aside class="note" title="Distinction between Capability and Purpose">
-      <p>As outlined earlier, the 'Capability' concept only represents the technical goal i.e. describing what the AI technology is achieving in a technical sense. By itself, it is not sufficient to describe <i>why</i> it is being used - for which the concept `dpv:Purpose` exists. However, despite this, there may be cases where a Capability is expressed without a purpose, such as to describe the development of specific capabilities, which may later be used in a particular use-case towards a specific purpose.</p>
+    <p>[=Capability=] represents the use of a [=Technique=] to achieve a particular technical goal or objective, which is indicated using the [=hasCapability=] relation. In this sense, it forms the middle level of technical detail within the conceptual model used in this extension. By itself, a capability only describes a 'goal' or 'purpose' that is limited to the technical context i.e. what the technology is trying to do or perform. This is distinct from the goal or purpose of the process within which the AI technology is used, which forms the highest level of detail. This distinction allows clarity on what is the actual purpose of an activity in the sense of a high-level or broad goal (expressed using {{ anchor('dpv:Purpose') }}) distinct and separate from the specific reason for using the technology towards achieving this goal.</p>
+    <aside class="note" title="Distinction between ai:Technique, ai:Capability, dpv:Purpose, and tech:Function.">
+      <p>The primary distinction between these concepts is that {{anchor('ai:Technique')}} and {{anchor('ai:Capability')}} are specific to AI, {{anchor('tech:Function')}} concerns any technology, whereas {{anchor('dpv:Purpose')}} is generic. Additionally, `Technique` refers to how the AI is developed, whereas `Capability` and `Purpose`, by contrast, is limited to refer to end-goals or broad justifications not just for the technology but rather in order to understand the motivations and intentions of the entities involved. `Function` is a 'catch-all' concept to express what a technology is capable of in a manner that can include techniques, capabilities, and purposes, but can also go beyond these to include aspects such as data collection methods and security measures. In DPV, the more specific concepts should be used first (i.e. `Technique`, `Capability`, and `Purpose`) and where information cannot be defined using these, a broad concept such as `Function` is provided.</p>
+      <p>The following examples further outline the distinctions between [=Technique=], [=Capability=], and {{anchor('dpv:Purpose')}}.</p>
+      <ol>
+        <li>A smartphone uses speech recognition to recognise commands and learns to better identify the user's voice over time through the use of deep learning. Here, the purpose is not specified as to what's the end goal of doing this, while speech recognition is the capability used with deep learning as a technique.</li>
+        <li>A CCTV camera monitors footage in a high-security building and performs facial recognition to ensure unknown persons are flagged. Here, maintaining security is the purpose and facial recognition is a capability used to achieve it.</li>
+        <li>An organisation tracks a person across the internet and profiles them based on a combination of neural networks and semi-supervised learning. Here, 'profiling' by itself is a capability but its purpose i.e. why is it being done is not specified, while the techniques (neural network and semi-supervised learning) used to achieve it are specified.</li>
+      </ol>
+    </aside>
+    <p>As with techniques, specific software and services can provide capabilities for inclusion in an AI system or technology. For example, [=ImageRecognition=] can be integrated in an AI system through an API through an API service, or [=NamedEntityRecognition=] can be implemented by using software libraries. This implies that AI technologies need not be developed with specific capabilities, and that such capabilities can be added or combined later within the AI system.</p>
+    <aside class="note" title="Capabilities do not imply authenticity or validity of methods">
+      <p>A [=Capability=] does not necessarily imply that the AI technology is indeed capable of performing what is described, as such capabilities can also be identified through marketing claims or misuse of a technology. For example, DPV's taxonomy contains capabilities such as [=EmotionRecognition=] which might be implemented through a [=TrainedModel=]. However, even if the model somehow returns a high statistical accuracy for a given sample data, such capabilities still risk being inaccurate and incomplete due to their basis in human physiology and psychology.</p>
+      <p>Regulations recognise this risk, for example the AI Act's Recital 44 notes emotional recognition risks as "limited reliability, the lack of specificity and the limited generalisability" and that they "may lead to discriminatory outcomes and can be intrusive to the rights and freedoms". For this reason, the AI Act Article 5-1f prohibits this practice in workplaces and educational institutions. We are interested in capturing such concerns through the <a href="#vocab-risks">AI-specific Risks section</a> in this extension.</p>
     </aside>
     {{ list_hierarchy(modules['capabilities']['classes']) }}
   </section>
@@ -208,9 +219,15 @@
   <section id="vocab-data">
     <h2>Data</h2>
     <p>The concept [=Data=] is a broad generic term for describing data involved in the context of AI technology. At the moment, this includes three categories - [=TrainingData=], [=ValidationData=], and [=TestingData=]. The DPVCG welcomes proposals and participation to further enhance this taxonomy.</p>
-    <p>[=Data=] extends `dpv:Data`, and can be associated with the property [=hasData=] which is a specialised form of `dpv:hasData` to indicate the specified data is involved in context of an AI technology. To specifically indicate the contextual involvement of data within AI development, the properties [=hasTrainingData=], [=hasTestingData=], and [=hasValidationData=] are provided.</p>
+    <p>[=Data=] extends {{anchor('dpv:Data')}}, and can be associated with the property [=hasData=] which is a specialised form of {{anchor('dpv:hasData')}} to indicate the specified data is involved in context of an AI technology. To specifically indicate the contextual involvement of data within AI development, the properties [=hasTrainingData=], [=hasTestingData=], and [=hasValidationData=] are provided.</p>
     <p>To indicate the involvement of personal data, the concept `dpv:PersonalData` should be used along with its relation `dpv:hasPersonalData`. The [[DPV]] taxonomy contains specific concepts to model sensitive data - including that related to confidential and IP, and the [[PD]] extension provides a taxonomy of personal data categories that can be used to indicate involvement in AI technologies.</p>
     {{ list_hierarchy(modules['data']['classes']) }}
+  </section>
+
+  <section id="vocab-development">
+    <h2>Development Phases</h2>
+    <aside class="issue" data-number="294"></aside>
+    {{ list_hierarchy(modules['development']['classes']) }}
   </section>
 
   <section id="vocab-risks">
@@ -218,7 +235,7 @@
     <aside class="note" title="AI Risk concepts extend the RISK extension concepts">
       <p>The risk concepts presented in this extension are intended to represent concepts specific to AI development and use, and do not contain general risk concepts which exist in other contexts e.g. applicable for any (AI and non-AI) technology. The [[RISK]] extension contains the general set of concepts that this vocabulary extends to represent risks that are specific to the development and use of AI.</p>
     </aside>
-    <p>The concept [=RiskConcept=] in this extension extends <code>dpv:RiskConcept</code> to represent risk sources, risks, consequences, and impacts specific to the development, use, or operation of AI. As with the [[RISK]] extension, the risk concepts presented here can taken on different roles in different use-cases, for example what is a risk source in one scenario could be the consequence in another. The relations <code>risk:hasRiskSource</code>, <code>dpv:hasRisk</code>, <code>dpv:hasConsequence</code>, and <code>dpv:hasImpact</code> are useful to indicate the specific interpretation and role of the AI risk concepts in a scenario.</p>
+    <p>The concept [=RiskConcept=] in this extension extends {{anchor('dpv:RiskConcept')}} to represent risk sources, risks, consequences, and impacts specific to the development, use, or operation of AI. As with the [[RISK]] extension, the risk concepts presented here can taken on different roles in different use-cases, for example what is a risk source in one scenario could be the consequence in another. The relations <code>risk:hasRiskSource</code>, <code>dpv:hasRisk</code>, <code>dpv:hasConsequence</code>, and <code>dpv:hasImpact</code> are useful to indicate the specific interpretation and role of the AI risk concepts in a scenario.</p>
     <p>The AI Risk Concepts are broadly categorised according to the following:</p>
     <ol>
       <li>[=DataRisk=] - Risk associated with data used or produced or otherwise involved in the context of AI</li>
@@ -311,9 +328,10 @@
 
 <section id="future-work" class="appendix">
   <h2>Future Work</h2>
-  <aside class="issue" data-number="82"></aside>
   <aside class="issue" data-number="94"></aside>
   <aside class="issue" data-number="197"></aside>
+  <aside class="issue" data-number="294"></aside>
+  <aside class="issue" data-number="295"></aside>
 </section>
 
 {% block ACKNOWLEDGEMENTS %}
@@ -325,26 +343,14 @@
 
   <h3>Funding Acknowledgements for Contributors</h3>
   <p>The contributions of Delaram Golpayegani have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497, in particular through the development of <a href="https://w3id.org/airo">AI Risk Ontology (AIRO)</a> and <a href="https://w3id.org/vair">Vocabulary of AI Risks (VAIR)</a> which have been integrated in to this extension.</p>
-  <p>The contributions of Harshvardhan J. Pandit and Delaram Golpayegani have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+  <p>The contributions of Harshvardhan J. Pandit and Delaram Golpayegani have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre. The contributions of Harshvardhan J. Pandit have been made with the AI Accountability Lab (AIAL) which is supported by grants from following groups: the AI Collaborative, an Initiative of the Omidyar Group; Luminate; the Bestseller Foundation; and the John D. and Catherine T. MacArthur Foundation.</p>
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
 
 <section id="changelog">
-  <h2>Changelog for v2.1</h2>
-  <p><strong>total terms: 208 ; added: 192 ; removed: 1 ;</strong></p>
-  <p>The <a href="../changelog.html">changelog</a> provides more information on concepts that have been added/removed in this version. Below is a summary of the changes.</p>
-  <ul>
-    <li><code>Risk</code> was renamed to <code>RiskConcept</code> as a specialisation of DPV's concept to enable it to be used in multiple roles as detailed in the <code>RISK</code> extension.</li>
-    <li>Integrates concepts from <a href="https://w3id.org/airo"><code>AI Risk Ontology (AIRO)</code></a> by Golpayegani et al.</li>
-    <li>Integrates concepts from <a href="https://w3id.org/vair"><code>Vocabulary of AI Risks (VAIR)</code></a> by Golpayegani et al.</li>
-    <li>Added concepts for <code>Technique</code>.</li>
-    <li>Added concepts for <code>Capability</code>.</li>
-    <li>Added concepts for <code>AISystem</code> and <code>Model</code>.</li>
-    <li>Added concepts for <code>Data</code> including training, output, and validation.</li>
-    <li>Added <code>RiskConcept</code> taxonomies to represent concepts that can be risk sources, risks, consequences, impacts - including <code>DataRisk</code> and <code>AIBias</code>.</li>
-    <li>Added concepts for <code>LifecycleStage</code> based on ISO/IEC 22989:2022.</li>
-  </ul>
+  <h2>Changelog for v{{DPV_VERSION}}</h2>
+  <div class="issue" title="Changelog for v{{DPV_VERSION}}"><a href="/2.2/changelog">go to changelog</a></div>
 </section>
 
 <script type="text/javascript" src="../diagrams/common.js" defer></script>

@@ -1,6 +1,6 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
-{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts, anchor %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
@@ -60,7 +60,7 @@
         "key": "Changelog",
         "data": [
             {
-              "value": "Changelog for v2.1",
+              "value": "Changelog for v{{DPV_VERSION}}",
               "href": "#changelog"
             }
         ]
@@ -95,7 +95,7 @@
   {{ contributors_list(data, vocab_name) }}
 {% block ABSTRACT %}
   <section id="abstract">
-    <p>The EU-AIAct extension extends the [[[DPV]]] to provide concepts such as systems, purposes, risks, roles, documentations, and assessments based on the [[[AIAct]]]. The canonical URL for EU-AIAct extension is <a href="https://w3id.org/dpv/legal/eu/aiact">https://w3id.org/dpv/legal/eu/aiact</a>, the namespace for terms is <a href="https://w3id.org/dpv/legal/eu/aiact#"><code>https://w3id.org/dpv/legal/eu/aiact#</code></a>, the suggested prefix is <code>eu-aiact</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+    <p>The EU-AIAct extension extends the [[[DPV]]] to provide concepts such as systems, purposes, risks, roles, documentation, and assessments based on the [[[AIAct]]]. The canonical URL for EU-AIAct extension is <a href="https://w3id.org/dpv/legal/eu/aiact">https://w3id.org/dpv/legal/eu/aiact</a>, the namespace for terms is <a href="https://w3id.org/dpv/legal/eu/aiact#"><code>https://w3id.org/dpv/legal/eu/aiact#</code></a>, the suggested prefix is <code>eu-aiact</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
   </section>
     {{ sotd(DPV_VERSION=DPV_VERSION, metadata=data[vocab_name+'-metadata']) }}
     {{ dpv_document_family(document='eu-aiact-spec') }}
@@ -138,15 +138,37 @@
   </section>
 
   <section id="vocab-risk">
-    <h3>Risks</h3>
-    <p>The AI Act has a specific definition of risk as "combination of the probability of an occurrence of harm and the severity of that harm", which is represented using the concept [=Risk=] within this extension. This definition is a more specific form of <code>dpv:Risk</code>, and hence the existing relations can be used to describe its severity and likelihood.</p>
-    
+    <h3>Risk</h3>
+    <p>The AI Act has a specific definition of risk as "combination of the probability of an occurrence of harm and the severity of that harm", which is represented using the concept [=Risk=] within this extension. This definition is a more specific form of {{anchor('dpv:Risk')}}, and hence the existing relations can be used to describe its severity and likelihood.</p>
     {{ list_hierarchy(modules['risk']['classes']) }}
+  </section>
+
+  <section id="vocab-risk-levels">
+    <h2>Risk Levels</h2>
+    <p>The interpretation of the AI Act uses terminology referring to <i>Risk Levels</i> which determine the level of obligations under the Act. To represent these, the concept [=RiskLevel=] is defined and instantiated to represent the commonly used concepts for representing prohibited, high-risk, transparency required, and minimal risk levels. The taxonomy also contains two additional concepts to represent not-prohibited and not-high-risk to support documenting outcomes of assessments that test prohibited and high-risk categorisations respectively.</p>
+    {{ list_hierarchy(modules['risk-levels']['classes'], head='eu-aiact:RiskLevel') }}
+    <aside class="example" title="Representing the Risk Level as per AI Act">
+      <p>The example shows how the risk level for the AI Act can be associated with a process or with a specific AI system.</p>
+<pre><code># method 1: Process/Services
+ex:SomeService a dpv:Process ;
+  dpv:hasPurpose ex:SomePurpose ; # from DPV purpose taxonomy
+  ai:hasTechnique ex:SomeTechnique ; # from AI technique taxonomy
+  dpv:hasRiskLevel eu-aiact:RiskLevelHighAnnexIII .
+
+ex:SomeSystem a eu-aiact:AISystem ;
+  dpv:hasRiskLevel eu-aiact:RiskLevelHighAnnexIII .
+ex:SomeProcess a dpv:Process ;
+  ai:hasAISystem ex:SomeSystem . # uses high-risk AI
+</code></pre>
+    </aside>
+    <aside class="note" title="Scope vs Risk Level">
+      <p>The concept of "Risk Level" should not be mixed with the "scope" of the AI Act. The concept of [=RiskLevelMinimal=] is used to represent AI systems or practices that fit the definition of AI and AI systems under the Act but are not prohibited, high-risk, or require transparency. This is distinct from AI systems and practices which do not fit the (rigid and specific) definitions of AI and AI systems under the AI Act. This reflects the procedure where you first determine whether a system is an AI system as defined by the AI Act (scope determination) and then how it is categorised under the AI Act (risk level determination).</p>
+    </aside>
   </section>
 
   <section id="vocab-data">
     <h3>Data</h3>
-    <p>The AI Act defines different categories of data as used to develop and deploy AI systems, such as [=TrainingData=] and [=TestingData=]. It also uses [=Biometric=] which is a special category of personal data under [[GDPR]].</p>
+    <p>The AI Act defines different categories of data as used to develop and deploy AI systems, such as [=TrainingData=] and [=TestingData=]. It also uses [=BiometricData=] which is a special category of personal data under [[GDPR]].</p>
     
     {{ list_hierarchy(modules['data']['classes']) }}
   </section>
@@ -213,10 +235,10 @@ ex:PDH3 a dpv:Process ;
 
 <section id="high-risk-prohibited">
   <h2>High-Risk &amp; Prohibited AI Systems</h2>
-  <p>The AI Act defines specific uses of AI systems as being 'prohibited' (Article 5) or as being 'high-risk' (Article 6). To support the expression of these high-risk AI systems using DPV concepts, the following concepts are being discussed for inclusion in future versions of this vocabulary:</p>
+  <p>The AI Act defines specific uses of AI systems as being 'prohibited' (Article 5) or as being 'high-risk' (Article 6). To support the expression of these high-risk AI systems using DPV concepts and the risk levels described earlier, the following concepts are being discussed for inclusion in future versions of this vocabulary:</p>
   <ol>
-    <li><code>ProhibitedAISystem</code> as a subtype of [=AISystem=] to represent AI systems that have been prohibited as per Article 5.</li>
-    <li><code>HighRiskAISystem</code> as a subtype of [=AISystem=] to represent AI systems that have been designated as high-risk as per Article 6.
+    <li><code>ProhibitedAISystem</code> as a subtype of [=AISystem=] to represent each specific AI system that has been prohibited as per Article 5.</li>
+    <li><code>HighRiskAISystem</code> as a subtype of [=AISystem=] to represent each specific AI system that has been designated as high-risk as per Article 6.
       <ol>
         <li><code>SectorialHighRiskAISystem</code> as a subtype of <code>HighRiskAISystem</code> to represent AI systems that have been prohibited as per Article 6 and Annex I (sector-specific regulated uses of AI).</li>
         <li><code>HighRiskApplicationAISystem</code> as a subtype of <code>HighRiskAISystem</code> to represent AI systems that have been prohibited as per Article 6 and Annex III (specific applications).</li>
@@ -254,7 +276,7 @@ ex:PDH3 a dpv:Process ;
       <li><strong>Anx.III-7a</strong> -  LegalInterrogation</li>
       <li><strong>Anx.III-7b</strong> -  ImmigrationSecurityManagement, ImmigrationHealthRiskManagement, UnauthorisedMigrationManagement</li>
       <li><strong>Anx.III-7c</strong> -  ImmigrationEligibilityAssessment, ImmigrationApplicationManagement, ImmigrationRequestManagement, ImmigrationVisaManagement, ImmigrationResidencyPermitManagement, ImmigrationAsylumManagement, ImmigrationComplaintManagement</li>
-      <li><strong>Anx.III-7d</strong> -  ImmigrationAsylumManagement, ImmigrationMigrationManagement, ImmigrationBorderControlManagement, ImmigrationIdentityVerification, ImmigrationDocumentVerficiation</li>
+      <li><strong>Anx.III-7d</strong> -  ImmigrationAsylumManagement, ImmigrationMigrationManagement, ImmigrationBorderControlManagement, ImmigrationIdentityVerification, ImmigrationDocumentVerification</li>
       <li><strong>Anx.III-8a</strong> -  JudicialLegalInterpretation, JudicialDisputeManagement</li>
       <li><strong>Anx.III-8b</strong> -  PoliticalCampaign</li>
     </ul>
@@ -315,7 +337,7 @@ ex:PDH3 a dpv:Process ;
 
   <h3>Funding Acknowledgements for Contributors</h3>
   <p>The contributions of Delaram Golpayegani have received funding through the <a href="https://protect-network.eu/">PROTECT ITN Project</a> from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 813497, in particular through the development of <a href="https://w3id.org/airo">AI Risk Ontology (AIRO)</a> and <a href="https://w3id.org/vair">Vocabulary of AI Risks (VAIR)</a> which have been integrated in to this extension.</p>
-  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre; and the AI Accountability Lab (AIAL) which is supported by grants from following groups: the AI Collaborative, an Initiative of the Omidyar Group; Luminate; the Bestseller Foundation; and the John D. and Catherine T. MacArthur Foundation.</p>
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
@@ -337,14 +359,8 @@ ex:PDH3 a dpv:Process ;
 <section class="appendix" id="issue-summary"></section>
 
 <section id="changelog">
-  <h2>Changelog for v2.1</h2>
-  <p><strong>total terms: 115 ; added: 32 ; removed: 4 ;</strong></p>
-  <p>The <a href="../../../changelog.html">changelog</a> provides more information on concepts that have been added/removed in this version. Below is a summary of the changes.</p>
-  <ul>
-    <li>Removed concepts represent changing wording of the concepts. Variants have been added with proper naming e.g. <code>CriticalInfrastructure</code> as <code>CriticalInfrastructureSector</code>.</li>
-    <li>Added sectors referenced in AI Act Annex III as experimental concepts.</li>
-    <li>Added concepts to represent information such as <code>ChangeDescription</code> for changes in AI systems, <code>TestReport</code>, and <code>PredeterminedChange</code>.</li>
-    <li>Added compliance status for AI Act.</li>
+  <h2>Changelog for v{{DPV_VERSION}}</h2>
+  <div class="issue" title="Changelog for v{{DPV_VERSION}}"><a href="/2.2/changelog">go to changelog</a></div>
 </section>
 
 <script type="text/javascript" src="../../../diagrams/common.js" defer></script>

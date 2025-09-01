@@ -104,24 +104,30 @@
   </section>
   <section>
     <h2>Duration and Frequency</h2>
-    <p>To express the duration of events or operations, such as how long processing will take or the validity of consent, the concept [=Duration=] can be used. Duration is indicated using the relation [=hasDuration=], and has the following subtypes:</p>
-    <ul>
-    <li>[=TemporalDuration=] - indicating a relative temporal duration, e.g. 6 months.</li>
-    <li>[=UntilTimeDuration=] - indicating duration that occurs until the end of specified time, e.g. until 31 DEC 2022.</li>
-    <li>[=UntilEventDuration=] - indicating duration that occurs until the end of specified event, e.g. until account is closed.</li>
-    <li>[=FixedOccurrencesDuration=] - a duration that is based on number of Occurrences, e.g. until you view it 3 times</li>
-    <li>[=EndlessDuration=] - indicating a duration without an end condition or temporal notation.</li>
-    </ul>
-    <p>[=Frequency=] indicates how frequently something occurs. Statistically, this can be expressed as the combination of number of Occurrences and a time period, which can further be expressed as a probabilistic value or a percentage. For example, for something occurring once every year, the frequency is: 1 or 100% for 1 year. While such <i>quantified</i> representations are important for determining metrics and performing operations, DPV focuses on the <i>qualitative</i> labelling of such representations within a specific context.</p>
-    <p>The relation [=hasFrequency=] associates a frequency with a context, and can be expressed using the following subtypes:</p>
-    <ul>
-      <li>[=ContinuousFrequency=] - indicates things occurring Continuously, e.g. location collection happens Continuously.</li>
-      <li>[=SporadicFrequency=] - indicates things occurring sporadically or rarely or not often, e.g. collecting system usage logs every month.</li>
-      <li>[=OftenFrequency=] - indicates things happen often or regularly or commonly, e.g. online status is reported every 5 mins.</li>
-      <li>[=SingularFrequency=] - indicates things happen only once.</li>
-    </ul>
-    {{ example_aside('dex:E0050') }}
-    {{ example_aside('dex:E0051') }}
+    <section id="vocab-duration">
+      <h3>Duration</h3>
+      <p>To express the duration of events or operations, such as how long processing will take or the validity of consent, the concept [=Duration=] can be used. Duration is indicated using the relation [=hasDuration=], and has the following subtypes:</p>
+      <ul>
+      <li>[=TemporalDuration=] - indicating a relative temporal duration, e.g. 6 months.</li>
+      <li>[=UntilTimeDuration=] - indicating duration that occurs until the end of specified time, e.g. until 31 DEC 2022.</li>
+      <li>[=UntilEventDuration=] - indicating duration that occurs until the end of specified event, e.g. until account is closed.</li>
+      <li>[=FixedOccurrencesDuration=] - a duration that is based on number of Occurrences, e.g. until you view it 3 times</li>
+      <li>[=EndlessDuration=] - indicating a duration without an end condition or temporal notation.</li>
+      </ul>
+      {{ example_aside('dex:E0050') }}
+    </section>
+    <section id="vocab-frequency">
+      <h3>Frequency</h3>
+      <p>[=Frequency=] indicates how frequently something occurs. Statistically, this can be expressed as the combination of number of Occurrences and a time period, which can further be expressed as a probabilistic value or a percentage. For example, for something occurring once every year, the frequency is: 1 or 100% for 1 year. While such <i>quantified</i> representations are important for determining metrics and performing operations, DPV focuses on the <i>qualitative</i> labelling of such representations within a specific context.</p>
+      <p>The relation [=hasFrequency=] associates a frequency with a context, and can be expressed using the following subtypes:</p>
+      <ul>
+        <li>[=ContinuousFrequency=] - indicates things occurring Continuously, e.g. location collection happens Continuously.</li>
+        <li>[=SporadicFrequency=] - indicates things occurring sporadically or rarely or not often, e.g. collecting system usage logs every month.</li>
+        <li>[=OftenFrequency=] - indicates things happen often or regularly or commonly, e.g. online status is reported every 5 mins.</li>
+        <li>[=SingularFrequency=] - indicates things happen only once.</li>
+      </ul>
+      {{ example_aside('dex:E0051') }}
+    </section>
   </section>
 
   <section>
@@ -146,30 +152,54 @@
 
   <section id="vocab-context-status">
     <h2>Status</h2>
-    <p>To assist with expressing the state or status associated with various activities, DPV provides the [=Status=] concept that can be associated contextually using the [=hasStatus=] relation. Types of statuses included in DPV are: [=ActivityStatus=], [=ComplianceStatus=] including [=Lawfulness=], [=AuditStatus=], [=ConformanceStatus=], [=RequestStatus=], [=EntityInformedStatus=], [=IntentionStatus=], [=ExpectationStatus=], [=InvolvementStatus=], and [=NotificationStatus=]. The corresponding relations provided are:  [=hasActivityStatus=], [=hasComplianceStatus=], [=hasLawfulness=], [=hasAuditStatus=], [=hasConformanceStatus=], [=hasRequestStatus=], [=hasInformedStatus=], [=hasIntention=], [=hasExpectation=], [=hasInvolvement=], and [=hasNotificationStatus=].</p> 
-
-    <p>[=ActivityStatus=] represents a state or status of an activity's operations and lifecycle, which includes [=ActivityProposed=], [=ActivityOngoing=], [=ActivityHalted=], [=ActivityCompleted=], and [=ActivityNotCompleted=]. These are associated using the [=hasActivityStatus=] relation. Here, the concept 'Activity' is broadly defined and can refer to a process, a processing operation, or any other type of activity.</p>
-    {{ example_aside('dex:E0054') }}
-
-    <p><strong>[=ComplianceStatus=]</strong> represents status associated with <i>compliance</i> with some norms, objectives, or requirements. Types include [=Compliant=], [=PartiallyCompliant=], [=NonCompliant=], [=ComplianceViolation=], [=ComplianceUnknown=], [=ComplianceIndeterminate=]. These are indicated using the [=hasComplianceStatus=] relation. The association with a law or objective can be specified using [=hasApplicableLaw=] or `hasPolicy` directly for the status or indirectly through the concept whose status is being represented.</p>
-
-    <p><strong>[=Lawfulness=]</strong> represents a special type of [=ComplianceStatus=] which relates to legal compliance, or <i>lawfulness</i>, and has types [=Lawful=], [=Unlawful=], and [=LawfulnessUnkown=]. It is indicated with the relation [=hasLawfulness=]. When using status associated with laws, we recommend using compliance status to refer to whether the specific activities being considered are according to the requirements of law, and lawfulness to refer to the overall nature of the activity being lawful or unlawful. Note that non-compliance may not necessary lead to unlawfulness e.g. there are exceptions or additional obligations to be carried out for non-compliance within the framework of the law.</p>
-  
-    {{ example_aside('dex:E0055') }}
-
-    <p><strong>[=AuditStatus=]</strong> represents the state or status of an audit, where the term <i>audit</i> is loosely defined, and may or may not relate to legal compliance - for e.g. for impact assessments, or as part of certification, or to assess compliance (in combination with above), or for organisational quality assurance processes. Types of audits include [=AuditApproved=], [=AuditConditionallyApproved=], [=AuditRejected=], [=AuditRequested=], [=AuditNotRequired=], and [=AuditRequired=]. The audit status is indicated by using the relation [=hasAuditStatus=].</p>
-
-    {{ example_aside('dex:E0056') }}
-
-    <p><strong>[=ConformanceStatus=]</strong> represents the status of <i>conformance</i>, which is defined distinctly from <i>compliance</i> by considering voluntary association or following of a guideline, requirement, standard, or policy, and where compliance is related to the (legal or other systematically defined) <i>conformity</i> of a given system or use-case with <i>rules</i> which may dictate obligations and prohibitions that must be followed. To provide an illustrative example, consider <i>conformance</i> with a standard on best practices regarding security may assist in the demonstration of <i>compliance</i> with a legal norm requiring organisational measures of security. Types of conformance defined are: [=Conformant=] and [=NonConformant=].</p>
-
-    <p><strong>[=RequestStatus=]</strong> represents the state or status of <i>requests</i>, which can be between entities such as data subjects and controllers regarding exercising of rights, or between controllers and processors regarding processing operations, or between authorities and controllers regarding compliance related communications. Types of request statues are: [=RequestInitiated=], [=RequestAcknowledged=], [=RequestAccepted=], [=RequestRejected=], [=RequestFulfilled=], [=RequestUnfulfilled=], [=RequestRequiresAction=], [=RequestRequiredActionPerformed=], [=RequestActionDelayed=], and [=RequestStatusQuery=].</p>
-
-    {{ example_aside('dex:E0057') }}
-    {{ example_aside('dex:E0058') }}
-    {{ example_aside('dex:E0059') }}
-
+    <p>To assist with expressing the state or status associated with various activities, DPV provides the [=Status=] concept that can be associated contextually using the [=hasStatus=] relation. Types of statuses included in DPV are: [=ActivityStatus=], [=ComplianceStatus=] including [=Lawfulness=], [=AuditStatus=], [=ConformanceStatus=], [=RequestStatus=], [=EntityInformedStatus=], [=IntentionStatus=], [=ExpectationStatus=], [=InvolvementStatus=], [=NotificationStatus=], and [=ReuseCompatibility=]. The corresponding relations provided are:  [=hasActivityStatus=], [=hasComplianceStatus=], [=hasLawfulness=], [=hasAuditStatus=], [=hasConformanceStatus=], [=hasRequestStatus=], [=hasInformedStatus=], [=hasIntention=], [=hasExpectation=], [=hasInvolvement=], [=hasNotificationStatus=], and [=hasReuseCompatibility=].</p> 
     {{ list_hierarchy(modules['context-status']['classes']) }}
+
+    <section id="vocab-status-activity">
+      <h3>Activity Status</h3>
+      <p><strong>[=ActivityStatus=]</strong> represents a state or status of an activity's operations and lifecycle, which includes [=ActivityProposed=], [=ActivityOngoing=], [=ActivityHalted=], [=ActivityCompleted=], and [=ActivityNotCompleted=]. These are associated using the [=hasActivityStatus=] relation. Here, the concept 'Activity' is broadly defined and can refer to a process, a processing operation, or any other type of activity.</p>
+      {{ example_aside('dex:E0054') }}
+    </section>
+    <section id="vocab-status-compliance">
+      <h3>Compliance Status</h3>
+      <p><strong>[=ComplianceStatus=]</strong> represents status associated with <i>compliance</i> with some norms, objectives, or requirements. Types include [=Compliant=], [=PartiallyCompliant=], [=NonCompliant=], [=ComplianceViolation=], [=ComplianceUnknown=], [=ComplianceIndeterminate=]. These are indicated using the [=hasComplianceStatus=] relation. The association with a law or objective can be specified using [=hasApplicableLaw=] or `hasPolicy` directly for the status or indirectly through the concept whose status is being represented.</p>
+    </section>
+    <section id="vocab-status-lawfulness">
+      <h3>Lawfulness Status</h3>
+      <p><strong>[=Lawfulness=]</strong> represents a special type of [=ComplianceStatus=] which relates to legal compliance, or <i>lawfulness</i>, and has types [=Lawful=], [=Unlawful=], and [=LawfulnessUnknown=]. It is indicated with the relation [=hasLawfulness=]. When using status associated with laws, we recommend using compliance status to refer to whether the specific activities being considered are according to the requirements of law, and lawfulness to refer to the overall nature of the activity being lawful or unlawful. Note that non-compliance may not necessary lead to unlawfulness e.g. there are exceptions or additional obligations to be carried out for non-compliance within the framework of the law.</p>
+      {{ example_aside('dex:E0055') }}
+    </section>
+    <section id="vocab-status-audit">
+      <h3>Audit Status</h3>  
+      <p><strong>[=AuditStatus=]</strong> represents the state or status of an audit, where the term <i>audit</i> is loosely defined, and may or may not relate to legal compliance - for e.g. for impact assessments, or as part of certification, or to assess compliance (in combination with above), or for organisational quality assurance processes. Types of audits include [=AuditApproved=], [=AuditConditionallyApproved=], [=AuditRejected=], [=AuditRequested=], [=AuditNotRequired=], and [=AuditRequired=]. The audit status is indicated by using the relation [=hasAuditStatus=].</p>
+      {{ example_aside('dex:E0056') }}
+    </section>
+    <section id="vocab-status-conformance">
+      <h3>Conformance Status</h3>
+      <p><strong>[=ConformanceStatus=]</strong> represents the status of <i>conformance</i>, which is defined distinctly from <i>compliance</i> by considering voluntary association or following of a guideline, requirement, standard, or policy, and where compliance is related to the (legal or other systematically defined) <i>conformity</i> of a given system or use-case with <i>rules</i> which may dictate obligations and prohibitions that must be followed. To provide an illustrative example, consider <i>conformance</i> with a standard on best practices regarding security may assist in the demonstration of <i>compliance</i> with a legal norm requiring organisational measures of security. Types of conformance defined are: [=Conformant=] and [=NonConformant=].</p>
+    </section>
+    <section id="vocab-status-request">
+      <h3>Request Status</h3>
+      <p><strong>[=RequestStatus=]</strong> represents the state or status of <i>requests</i>, which can be between entities such as data subjects and controllers regarding exercising of rights, or between controllers and processors regarding processing operations, or between authorities and controllers regarding compliance related communications. Types of request statues are: [=RequestInitiated=], [=RequestAcknowledged=], [=RequestAccepted=], [=RequestRejected=], [=RequestFulfilled=], [=RequestUnfulfilled=], [=RequestRequiresAction=], [=RequestRequiredActionPerformed=], [=RequestActionDelayed=], and [=RequestStatusQuery=].</p>
+
+      {{ example_aside('dex:E0057') }}
+      {{ example_aside('dex:E0058') }}
+      {{ example_aside('dex:E0059') }}
+    </section>
+    <section id="vocab-status-reuse-compatibility">
+      <h3>Reuse Compatibility Status</h3>
+      <p><strong>[=ReuseCompatibility=]</strong> represents the contextual indication of whether there is reuse, and whether it is 'compatible' with an initial or prior context. This context is undefined in the concept itself, but can be specified to be based on criteria such as purpose, personal data, entities and relationships, locations, jurisdictions, and other such concepts. DPV provides two categories of reuse as [=PrimaryUse=] to indicate initial or compatible reuse, and [=SecondaryUse=] to indicate subsequent incompatible reuse. These are associated with the context using the [=hasReuseCompatibility=] relation.</p>
+      <aside class="note" title="Reuse Compatibility and Legal Interpretation">
+        <p>DPV's [=ReuseCompatibility=] concept does not dictate what the compatibility is based on, and only specifies whether it is compatible ([=PrimaryUse=]) or not ([=SecondaryUse=]). The DPVCG is interested in extending these for specific laws in the following manner:</p>
+        <ul>
+          <li>In [[EU-GDPR]] extension to represent purpose compatibility (see <a href="https://github.com/w3c/dpv/issues/298">#298</a>);</li>
+          <li>In [[EU-EHDS]] extension to represent secondary uses (see <a href="https://github.com/w3c/dpv/issues/299">#299</a>);</li>
+          <li>In [[EU-AIAct]] extension to represent intended purpose compatibility (see <a href="https://github.com/w3c/dpv/issues/300">#300</a>);</li>
+        </ul>
+        <p>The DPVCG is also exploring further concepts that go beyond legal and established terminologies to represent degrees compatibility beyond primary and secondary as <code>TertiaryUse</code> where the incompatibility is so high that it should be distinguished from [=SecondaryUse=]. This is based on privacy theories where 'Third Parties' are considered to be far removed from the interaction between persons and providers and their involvement is considered a warning sign. Such categorisations would allow distinguishing between a hospital reusing patient data for medical research from a for-profit company reusing it for targeted advertisements.</p>
+      </aside>
+    </section>
+    
   </section>
 </section>
 
@@ -181,14 +211,30 @@
   </figure>
   <p>To represent location, the concept [=Location=] along with relations [=hasLocation=] is provided. For geo-political locations, the concepts such as [=Country=] and [=SupraNationalUnion=] are subtypes, with [=hasCountry=] and [=ThirdCountry=] with [=hasThirdCountry=] provided for convenience in common uses (e.g. data storage, transfers).</p>
   <p>To define contextual location concepts, such as there being several locations, or that the location is 'local' to an event, DPV provides two concepts. [=LocationFixture=] specifies whether the location is 'fixed' or 'deterministic', and is extended with concepts [=FixedLocation=], [=FederatedLocations=], [=DecentralisedLocations=], [=RandomLocation=], and [=VariableLocation=]. [=LocationLocality=] specifies whether the location is 'local' within the context, and is extended as [=LocalLocation=] and [=RemoteLocation=]. Local locations provided include [=PrivateLocation=], [=PublicLocation=], [=WithinDevice=], [=WithinPhysicalEnvironment=], and [=WithinVirtualEnvironment=]. Remote location is extended to represent [=CloudLocation=].</p>
+  <p>By default, the location concepts represent the boundaries and what is contained inside them. To subjectively indicate something outside of this location, the property [=isOutsideOfLocation=] is provided. Having this property is helpful to indicate spaces outside of a given location, for example to indicate a CCTV is monitoring the area outside of a home. Using [=hasLocation=] and [=isOutsideOfLocation=] with <code>ex:Home</code> would indicate the monitoring of the combined area of inside and outside the home.</p>
   <p>To represent locations as jurisdictions, the relation [=hasJurisdiction=] is provided. The concept [=Law=] represents an official or authoritative law or regulation created by a government or an authority. To indicate applicability of laws within a jurisdiction, the relation [=hasApplicableLaw=] is provided.</p>
+  <aside class="note" title="Inverse Locations for distinguishing outside of a location vs a jurisdiction">
+    <p>It is strongly advised to not use this property beyond such subjective uses, for example to specify data being transferred outside of a jurisdiction as "outside" here refers to a legal qualification rather than a subjective concept. Instead, the [[LOC]] extension offers instances of [=InverseJurisdiction=] which are aligned with the legal interpretation by definition to refer to other jurisdictions (as opposed to locations) which are not part of a given jurisdiction.</p>
+  </aside>
   <p>[[[LEGAL]]] provides taxonomies extending these concepts, such as to represent specific countries, their laws, authorities, memberships, adequacy decisions, and other information.</p>
 
   {{ list_hierarchy(modules['context-jurisdiction']['classes']) }}
   {{ example_aside('dex:E0060') }}
 
-  <aside class="note" title="DPV hasLocation and Location should not be used directly for representing personal data">
-    <p>The location concepts in DPV are useful to represent locations associated with activities, and should not be used with personal data i.e. `dpv:hasLocation "Home"` should not be used to indicate 'home location' as personal data by itself. Instead, personal data should always be indicated by using `dpv:hasPersonalData`, and then creating an instance of `dpv:PersonalData` and associating it with the appropriate concept in [[PD]] or another taxonomy to represent the location or relevant concept.</p>
+  <aside class="note" title="Planned deprecation of concepts">
+    <p>The concepts `PrivateLocation` and `PublicLocation` will be deprecated in the next version as their definitions are not aligned with legal terminology and contain problematic assertions such as always being local locations. Instead, new concepts have been added to explicitly denote "public/private spaces", including considerations for ownership and accessibility that enable a better description and interpretation of the location. See the location page linked above for more information.</p>
+    <p>The concepts `WithinDevice`, `WithinPhysicalEnvironment`, and `WithinVirtualEnvironment` will also be deprecated in the next version. These concepts share an overlap with existing TECH concepts such as {{ "tech:Device"|make_anchor_link|safe }} and {{ "tech:Software"|make_anchor_link|safe }} and which should be used as locations instead of creating separate concepts only to state data is shared within these. See the location page linked above for more information.</p>
+  </aside>
+
+  <aside class="note" title="Expressing location as personal data e.g. Home, Work places">
+    <p>Even though in DPV, the location concepts are provided in a distinct namespace, there are situations where such locations have an overlap with personal data. For example, the locations represented by a person's <i>home</i> or <i>work</i> places are also their personal data. Rather than creating separate concepts to represent this as a location and as a personal data, and then express the similarity or equivalence between them, we strongly recommend explicitly declaring them as personal data and then using them as location. This allows the correct categorisation and identification of what personal data are involved in a system or process, and also allows association of locations without changing the concept or nature of personal data.</p>
+    <p>With this modelling structure in mind, the DPVCG welcomes addition of concepts representing both personal data and locations to the [[PD]] taxonomy.</p>
+  </aside>
+
+  <aside class="note" title="Expressing location as virtual locations e.g. Device, Apps">
+    <p>Similar to the above note regarding personal data, location concepts can also refer to technologies -- such as to state data is processing within/on a device or that it is stored in an app. Instead of representing these as separate location concepts, we strongly recommend using the concepts from [[TECH]] extension to represent devices and apps as locations. This allows the correct interpretation that these are technologies used to store data or execute processes and that the locations being referenced here are the same concept as the technology.</p>
+    <p>With this modelling structure in mind, the DPVCG welcomes additions to the [[TECH]] extension to express technologies that act as locations for the storage and other processing operations over data, including newer concepts associated with AI (e.g. to express training locations).</p>
+  </aside>
 </section>
 
 <section>
@@ -226,7 +272,7 @@
   {{ funding_acknowledgements() }}
 
   <h3>Funding Acknowledgements for Contributors</h3>
-  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre.</p>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre; and the AI Accountability Lab (AIAL) which is supported by grants from following groups: the AI Collaborative, an Initiative of the Omidyar Group; Luminate; the Bestseller Foundation; and the John D. and Catherine T. MacArthur Foundation.</p>
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}

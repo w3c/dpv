@@ -139,6 +139,7 @@ DPV_FILES = {
             'location',
             'location_properties',
             'location_memberships',
+            'location_inverse',
             ),
     },
     # Sheets for Legal Basis and Consent
@@ -193,6 +194,7 @@ DPV_FILES = {
             'ai-measures',
             'ai-lifecycle',
             'ai-risks',
+            'ai-development',
             ),
     },
     # Sheets for Risk extension
@@ -273,25 +275,34 @@ DPV_FILES = {
             'legal-fr',
             'legal-gb',
             'legal-gr',
+            'legal-hk',
             'legal-hr',
             'legal-hu',
             'legal-ie',
             'legal-in',
             'legal-is',
             'legal-it',
+            'legal-jp',
+            'legal-kr',
             'legal-li',
             'legal-lt',
             'legal-lu',
             'legal-lv',
+            'legal-mo',
             'legal-mt',
+            'legal-my',
             'legal-nl',
             'legal-no',
+            'legal-ph',
             'legal-pl',
             'legal-pt',
             'legal-ro',
             'legal-se',
+            'legal-sg',
             'legal-si',
             'legal-sk',
+            'legal-th',
+            'legal-tw',
             'legal-us',
             )
     },
@@ -316,7 +327,6 @@ DPV_FILES = {
             'GDPR_entities',
             'GDPR_entities_properties',
             'GDPR_principles',
-            # 'GDPR_Justificiations',
             ),
     },
     # Sheets for EU-DGA extension
@@ -342,6 +352,7 @@ DPV_FILES = {
             'aiact-system',
             'aiact-capability',
             'aiact-risk',
+            'aiact-risk-levels',
             'aiact-data',
             'aiact-roles',
             'aiact-docs',
@@ -456,7 +467,7 @@ def _extract_CSVs(document_name, sheets):
     import subprocess
     for sheet_name in sheets:
         with open(f'{DOCS_FOLDER}/{sheet_name}.csv', 'w') as outfile:
-            subprocess.run(["xlsx2csv", f"{DOCS_FOLDER}/{document_name}.xlsx", "-n", f"{sheet_name}"], stdout=outfile)
+            subprocess.run(["xlsx2csv", f"{DOCS_FOLDER}/{document_name}.xlsx", "-i", "-n", f"{sheet_name}"], stdout=outfile)
         INFO(f'Wrote {sheet_name}.csv from {document_name}.xlsx')
 
 

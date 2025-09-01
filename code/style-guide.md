@@ -3,13 +3,13 @@
 ## Terms
 
 1.  Term
-    1.  Should be a continuos string of alphanumeric characters without spaces or special characters.
+    1.  Should be a continuous string of alphanumeric characters without spaces or special characters.
     2.  Is intended to be both machine and human readable.
     3.  Should be in English (UK) unless representing a specific concept where no alternative is possible or suitable.
     4.  For classes, should be in *PascalCase* (leading capital-case).
-    5.  For properties, should be in *camel_Case* (leading small-case with underscore separation), with a suitable prefix expressing application or association, e.g. hasX or isY or forZ
-    6.  Use of 'and', 'or', or similar terms in labels is omitted from corresponding Term, e.g. 'X and Y' label has term as 'XY'
-    7.  Status should be one of: accepted, modified, proposed, deprecated
+    5.  For properties, should be in *camelCase* (leading small-case), with a suitable prefix expressing application or association, e.g. 'hasX' or 'isY' or 'forZ'
+    6.  Use of 'and', 'or', or similar terms in labels is omitted from corresponding Term, e.g., 'X and Y' label has term as 'XY'
+    7.  Status should be one of: accepted, modified, changed, proposed, deprecated, sunset
 
 2.  Label
     1.  Should be a set of strings separated by spaces or special characters as appropriate.
@@ -26,10 +26,10 @@
     6.  At least one description must be provided.
 
 4.  Comments
-    1.  Comments should be used for providing additional information, such as clarificatinos, examples, or guidance.
+    1.  Comments should be used for providing additional information, such as clarifications, examples, or guidance.
     2.  Comments should not repeat the same information as the description.
 
 5.  Status
-    1.  Each Term MUST have a Status
+    1.  Each Term MUST have a Status.
     2.  Statuses valid for inclusion in outputs are: accepted, modified, changed
     3.  Statuses not included in outputs but used for documenting are: proposed, deprecated, sunset

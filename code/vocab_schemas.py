@@ -9,7 +9,7 @@ def get_schema(name):
 
 _common_annotations = {
     'Label': vocab_funcs.construct_label,
-    'Definition': vocab_funcs.contruct_definition,
+    'Definition': vocab_funcs.construct_definition,
     'RelatedTerms': vocab_funcs.construct_related_terms,
     'Relation': None,
     'Usage': vocab_funcs.construct_scope_note,
@@ -34,7 +34,7 @@ SCHEMA['taxonomy'] = {
     '_description': 'lorem ipsum',
     'Term': vocab_funcs.construct_class,
     'Label': vocab_funcs.construct_label,
-    'Definition': vocab_funcs.contruct_definition,
+    'Definition': vocab_funcs.construct_definition,
     'ParentTerm': None,
     'ParentType': vocab_funcs.construct_parent_taxonomy,
     'Value': vocab_funcs.construct_value,
@@ -52,12 +52,15 @@ SCHEMA['taxonomy-risk'] = SCHEMA['taxonomy'].copy()
 SCHEMA['taxonomy-risk']['ParentTerm'] = None
 SCHEMA['taxonomy-risk']['CIA'] = vocab_funcs.construct_risk_parent_CIA
 SCHEMA['taxonomy-risk']['Role'] = vocab_funcs.construct_risk_parent_Role
+SCHEMA['taxonomy-risk']['Severity'] = vocab_funcs.construct_risk_severity
+SCHEMA['taxonomy-risk']['Likelihood'] = vocab_funcs.construct_risk_likelihood
+SCHEMA['taxonomy-risk']['Level'] = vocab_funcs.construct_risk_level
 
 SCHEMA['properties'] = {
     '_description': 'lorem ipsum',
     'Term': vocab_funcs.construct_property,
     'Label': vocab_funcs.construct_label,
-    'Definition': vocab_funcs.contruct_definition,
+    'Definition': vocab_funcs.construct_definition,
     'domain': vocab_funcs.construct_domain,
     'range': vocab_funcs.construct_range,
     'ParentProperty': vocab_funcs.construct_parent_property,
@@ -92,13 +95,15 @@ SCHEMA['legal_basis_rights_mapping'] = {
 SCHEMA['locations'] = {
     'Term': vocab_funcs.construct_class,
     'Label': vocab_funcs.construct_label,
-    'Definition': vocab_funcs.contruct_definition,
+    'Definition': vocab_funcs.construct_definition,
+    'SameAs': vocab_funcs.construct_sameas,
     'ParentTerm': vocab_funcs.construct_skos_broader,
     'ParentType': vocab_funcs.construct_parent_taxonomy,
     'ISO-3166-Alpha2': vocab_funcs.construct_iso_3166_alpha2,
     'ISO-3166-Alpha3': vocab_funcs.construct_iso_3166_alpha3,
     'ISO-3166-Numeric': vocab_funcs.construct_iso_3166_numeric,
     'UN-M49': vocab_funcs.construct_un_m49,
+    'InverseLocation': None, # vocab_funcs.construct_inverse_jurisdiction,
     'Created': vocab_funcs.construct_date_created,
     'Modified': vocab_funcs.construct_date_modified,
     'Status': vocab_funcs.construct_status,
@@ -109,18 +114,28 @@ SCHEMA['locations'] = {
 SCHEMA['memberships'] = {
     'Term': vocab_funcs.construct_class,
     'Label': vocab_funcs.construct_label,
-    'Definition': vocab_funcs.contruct_definition,
+    'Definition': vocab_funcs.construct_definition,
     'ParentTerm': None,
     'ParentType': vocab_funcs.construct_parent_taxonomy,
     'Members': vocab_funcs.construct_skos_narrower,
     'Start': vocab_funcs.construct_temporal_duration,
     'End': None,
+    'InverseLocation': None, # vocab_funcs.construct_inverse_membership_jurisdiction,
     'Usage': vocab_funcs.construct_scope_note,
     'Created': vocab_funcs.construct_date_created,
     'Modified': vocab_funcs.construct_date_modified,
     'Status': vocab_funcs.construct_status,
     'Contributors': vocab_funcs.construct_contributors,
     'Resolution': vocab_funcs.construct_resolution, 
+}
+
+SCHEMA['locations-inverse'] = {
+    'Term': vocab_funcs.construct_class,
+    'ParentType': None,
+    'InverseLocation': vocab_funcs.construct_inverse_jurisdiction,
+    'Created': None,
+    'Modified': None,
+    'Status': None,
 }
 
 SCHEMA['laws'] = {
@@ -140,7 +155,7 @@ SCHEMA['laws'] = {
 }
 
 SCHEMA['gdpr-rights-justifications'] = SCHEMA['taxonomy'].copy()
-SCHEMA['gdpr-rights-justifications']['Right'] = vocab_funcs.contruct_gdpr_right_justification
+SCHEMA['gdpr-rights-justifications']['Right'] = vocab_funcs.construct_gdpr_right_justification
 
 SCHEMA['examples'] = {
     'Term': vocab_funcs.construct_example,
@@ -164,4 +179,5 @@ SCHEMA['p7012-terms'].update({
     'Permits': vocab_funcs.p7012_term_rule,
     'Prohibits': vocab_funcs.p7012_term_rule,
     'Obligates': vocab_funcs.p7012_term_rule,
+    'HumanDescription': vocab_funcs.p7012_human_label,
     })

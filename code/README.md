@@ -2,17 +2,17 @@
 
 The documentation generator is responsible for producing the HTML and RDF-based outputs. It downloads a bunch of spreadsheets containing the data for DPV and other vocabularies (such as DPV-GDPR), converts it to RDF serialisations, and generates HTML documentation using the W3C ReSpec template.
 
-The Data Privacy Vocabulary (DPV) is available at https://w3id.org/dpv and its repository is at https://github.com/w3c/dpv. 
+The Data Privacy Vocabulary (DPV) is available at https://w3id.org/dpv and its repository is at https://github.com/w3c/dpv.
 
 ## Quick Summary
 
-There are 3 scripts to executre for each of the three tasks.
+There are 3 scripts to execute for each of the three tasks.
 
-If you have updated concepts or want to regenerate the spreadsheets from which all RDF and HTML is produced - use `./100_download_CSV.py` (by default it will download and extract all spreadsheets). You can use `-d <name>` to only download and extract specific spreadsheets. See the _Downloading CSV data_ section below for more information on this.
+If you have updated concepts or want to regenerate the spreadsheets from which all RDF and HTML is produced - use `./100_download_CSV.py` (by default it will download and extract all spreadsheets). You can use `--ds <name>` to only download and extract specific spreadsheets. See the _Downloading CSV data_ section below for more information on this.
 
-If you want to generate the RDF files - `./200_serialise_RDF.py` which will will create RDF serialisations for all DPV modules and extensions.
+If you want to generate the RDF files - `./200_serialise_RDF.py` which will will create RDF serialisations for all DPV modules and extensions. You can use `--vocab=<name>` to generate outputs only for a specific vocabulary or extension. By default, it will generate outputs for all vocabularies.
 
-If you want to generate the HTML files - `./300_generate_HTML.py` will generate HTML documentation for all DPV modules and extensions. To only generate the HTML for guides, use `./300_generate_HTML.py --guides`.
+If you want to generate the HTML files - `./300_generate_HTML.py` will generate HTML documentation for all DPV modules and extensions. To only generate the HTML for guides, use `./300_generate_HTML.py --guides`.  You can use `--vocab=<name>` to generate outputs only for a specific vocabulary or extension. By default, it will generate outputs for all vocabularies. You can use `--skip=<name>` to skip loading specific vocabularies, e.g. `loc`, to speed up the process. The skip parameters support wildcards as suffixes, e.g. `legal*` will match all legal vocabularies.
 
 To generate the zip files for publishing DPV releases on GitHub, use `./900_generate_releases.sh`, which will produce zip files in `releases` folder.
 
@@ -37,7 +37,7 @@ The below are optional additional requirements for validations using SHACL:
 
 ### Downloading CSV data
 
-`./100_download_CSV.py` will download the CSV data from a Google Sheets document and store it in the `vocab_csv` path specified. The outcome will be a CSV file for each sheet. To only download and generate the CSVs for specific modules/extensions, use `-d <name>` where `name` is the key in `DPV_FILES` present in the script. E.g. to download spreadsheets containing purposes, use `-d purpose_processing`. Running the script without any parameters will download and extract all spreadsheets.
+`./100_download_CSV.py` will download the CSV data from a Google Sheets document and store it in the `vocab_csv` path specified. The outcome will be a CSV file for each sheet. To only download and generate the CSVs for specific modules/extensions, use `--ds <name>` where `name` is the key in `DPV_FILES` present in the script. E.g. to download spreadsheets containing purposes, use `--ds purpose_processing`. Running the script without any parameters will download and extract all spreadsheets.
 
 This uses the Google Sheet export link to download the sheet data in CSV form. Needs specifying the document ID in `DPV_DOCUMENT_ID` variable and listing the sheet name(s) in `DPV_SHEETS`. The default save path for CSV is `vocab_csv`. This results in downloading the Google Sheet as a Excel spreadsheet and then locally exporting each tab as a CSV file.
 
@@ -47,12 +47,12 @@ This uses `rdflib` to generate the RDF data from CSV. Namespaces are manually re
 
 The way the RDF generation works is as follows:
 
-. In `vocab_management.py`, the CSV file path is associated with a _schema_ in the `CSVFILES` variable. For example, _classes_, _properties_, and _taxonomy_ are schemas commonly used for most CSVs. 
-. The schema is a reference to a dict in `vocab_schemas.py` where each CSV column is mapped to a function in `vocab_funcs.py`. 
-. The generator in `300` script takes each row, and calls the appropriate function by passing the specific cell and the entire row as values (along with others stuff like currently used namespace). 
-. The function returns a list of triples which are added to the current graph being generated.
-. In addition to the above, the generator `300` script also deals with modules and extensions by using the metadata/config variables in `vocab_management.py`.
-. The generator `300` script outputs the RDF files using RDFS+SKOS serialisation, then converts them to OWL using SPARQL CONSTRUCT queries. In addition, it can also add in custom OWL-only triples at this stage.
+- In `vocab_management.py`, the CSV file path is associated with a _schema_ in the `CSVFILES` variable. For example, _classes_, _properties_, and _taxonomy_ are schemas commonly used for most CSVs.
+- The schema is a reference to a dict in `vocab_schemas.py` where each CSV column is mapped to a function in `vocab_funcs.py`.
+- The generator in `300` script takes each row, and calls the appropriate function by passing the specific cell and the entire row as values (along with others stuff like currently used namespace).
+- The function returns a list of triples which are added to the current graph being generated.
+- In addition to the above, the generator `300` script also deals with modules and extensions by using the metadata/config variables in `vocab_management.py`.
+- The generator `300` script outputs the RDF files using RDFS+SKOS serialisation, then converts them to OWL using SPARQL CONSTRUCT queries. In addition, it can also add in custom OWL-only triples at this stage.
 
 ### Generating HTML documentation
 
@@ -68,7 +68,7 @@ The folder `shacl_shapes` holds the constraints in `shapes.ttl` to verify the vo
 
 The script uses `DATA_PATHS` to declare what data files should be validated. Currently, it will only validate `Turtle (.ttl)` files for simplicity as all files are duplicate serialisations of each other. The variable `SHAPES` declares the list of shape files to use. For each folder in `DATA_PATHS`, the script will execute the SHACL binary to check constraints defined in each of the `SHAPES` files.
 
-To execute the tests, and to use the TopBraid SHACL binary, download the latest release from [maven](https://repo1.maven.org/maven2/org/topbraid/shacl/), extract it somewhere and note the path of the folder. Export `SHACLROOT` in the shell the script is going to run in (or e.g. save it in the bash profile) to the path of the folder. To be more precise, `$SHACLROOT/shaclvalidate.sh` should result in the binary being executed. 
+To execute the tests, and to use the TopBraid SHACL binary, download the latest release from [maven](https://repo1.maven.org/maven2/org/topbraid/shacl/), extract it somewhere and note the path of the folder. Export `SHACLROOT` in the shell the script is going to run in (or e.g. save it in the bash profile) to the path of the folder. To be more precise, `$SHACLROOT/shaclvalidate.sh` should result in the binary being executed.
 
 The output of the script lists the data and shapes files being used in the validation process, the number of errors found, and a list of data nodes and the corresponding failure message.
 
@@ -88,7 +88,7 @@ used.
 
 For spell check in RDF / source, currently this is best done in the source
 tool e.g. Google Sheets has a spell check option which should be used to
-check for english valid terms. Running `aspell` on a CSV can be cumbersome
+check for valid English terms. Running `aspell` on a CSV can be cumbersome
 and difficult to complete as there are a large number of files to process.
 Another reason to prefer the source tool is that if the CSV are modified,
 the changes will still need to be synced back to the GSheets.
@@ -96,5 +96,15 @@ the changes will still need to be synced back to the GSheets.
 ## FAQ
 
 1. Fixing an error in the vocabulary terms i.e. term label, property, annotation --> Make the changes in the Google Sheet, and run the `100` script to download CSV, then `200` to produce RDF, then `300` to produce HTML.
-2. Fixing an error in serialisation e.g. rdf:Property is defined as rdfs:Propety --> Make the changes in the `200` script for generating RDF, and `300` script to generate HTML
-3. Changing content in HTML documentation e.g. change motivation paragraph --> Make the changes in the relevant `template` and `300` script to generate HTML
+2. Fixing an error in serialisation, e.g., `rdf:Property` is defined as `rdfs:Property` --> Make the changes in the `200` script for generating RDF, and `300` script to generate HTML.
+3. Changing content in HTML documentation, e.g., change motivation paragraph --> Make the changes in the relevant `template` and `300` script to generate HTML.
+
+## Using UV
+
+Notes from Harsh: I have switched to using [uv](https://docs.astral.sh/uv/) as the Python tooling of choice to replace pip, venv, and a bunch of other stuff. This is not necessary to use, but is recommended (it's fast!).
+
+```shell
+uv run <file> <params>
+uv lock --upgrade 
+uv pip freeze > requirements.txt
+```
