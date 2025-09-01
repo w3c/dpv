@@ -16,7 +16,7 @@
 # -O output file
 # unzip -l file to view list of files
 
-VERSION="2.1"
+VERSION="2.2"
 
 cd ../$VERSION
 
