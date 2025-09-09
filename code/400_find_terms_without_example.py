@@ -19,7 +19,14 @@ from rdflib import RDF, RDFS, SKOS, Graph
 
 # Assuming consistent prefixes in vocabulary files
 SKIP_PREFIXES = {
-    "ex",  # Example namespace
+    "ex",  # Example namespaces
+    "exA",
+    "exB",
+    "exC",
+    "exD",
+    "exE",
+    "exF",
+    "exG",
     "_",  # Blank nodes
     "bibo",
     "dcat",
@@ -168,7 +175,7 @@ def collect_terms_in_examples(files: list[str]) -> dict[str, set[str]]:
     Instead, we use regex to find terms.
     """
     used: dict[str, set[str]] = defaultdict(set)
-    pattern = re.compile(r"\b([a-zA-Z0-9_\-]+?):([a-zA-Z0-9_\-]+?)\b")
+    pattern = re.compile(r"(?<![\"\'\:])\b([a-zA-Z0-9_\-]+):([a-zA-Z0-9_\-]+)\b(?![\"\'\:])")  # prefix:term, do not match if surrounded by quotes or colons 
     for f in files:
         with open(f, encoding="utf-8") as fh:
             for line in fh:
