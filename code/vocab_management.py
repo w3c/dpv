@@ -20,23 +20,22 @@ INFO = logging.info
 # == data ==
 
 # DPV Version
-DPV_VERSION = "2.2"
-DPV_PREVIOUS_VERSION = "2.1"
-DPV_PUBLISH_DATE = "2025-08-01"
+DPV_VERSION = "2.3-dev"
+DPV_PREVIOUS_VERSION = "2.2"
+DPV_PUBLISH_DATE = "2026-01-01"
 # Document status: should be one of CG-DRAFT or CG-FINAL
 DOCUMENT_STATUS = "CG-DRAFT"
-SERIALIZATION_MODE = "CG-FINAL"
 
 # === serializations ===
 
 # Serialisations are `key:value` where `key` is the file extension
 # and `value` is the format passed to rdflib to serialise triples
 
-if SERIALIZATION_MODE == "CG-DRAFT":
+if DOCUMENT_STATUS == "CG-DRAFT":
     # in draft mode, we only generate turtle files, and no OWL files
     RDF_SERIALIZATIONS = {'ttl': 'turtle'}
     OWL_SERIALIZATIONS = {}
-elif SERIALIZATION_MODE == "CG-FINAL":
+elif DOCUMENT_STATUS == "CG-FINAL":
     # in final model, we generate all serialisations and OWL files
     RDF_SERIALIZATIONS = {
         'rdf': 'xml', 

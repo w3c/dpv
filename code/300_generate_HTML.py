@@ -1088,7 +1088,7 @@ if __name__ == '__main__':
     parser.add_argument('-F', '--fastvocab', nargs='+', help="generate specific vocab outputs while skipping legal*, eu*, loc*, search-index")
     parser.add_argument('-V', '--vocab', nargs='+', help="generate specific vocab outputs")
     parser.add_argument('-S', '--skip', nargs='+', help="skip loading specific vocab outputs")
-    parser.add_argument('-I', '--index', default=False, help="generate search index")
+    parser.add_argument('-I', '--index', default=False, action='store_true', help="generate search index")
     parser.add_argument('-G', '--guides', action='store_true', help="generate guides")
     parser.add_argument('-M', '--mappings', action='store_true', help="generate mappings")
     args = parser.parse_args()

@@ -1,7 +1,7 @@
 ex:SomeContract a dpv:Contract ;
     dpv:hasEntity ex:AcmeInc, ex:BetaInc ; # parties to the contract
     # 1) stating status of contract within the contract
-    dpv:hasContractStatus dpv:ContractAccepted ;
+    dpv:hasContractStatus dpv:ContractFullyExecuted ;
     # 2) multiple statuses, and a timestamp for the event
     dpv:hasContractStatus [
         a dpv:ContractStatus ;
@@ -12,32 +12,32 @@ ex:SomeContract a dpv:Contract ;
     dpv:hasContractStatus [
         a dpv:ContractStatus ; # Acme received the contract and accepted it
         dpv:hasEntity ex:AcmeInc ;
-        skos:broader dpv:ContractOfferReceived, dpv:ContractPartiallyAccepted;
+        skos:broader dpv:ContractOffered, dpv:ContractSignedByParty ;
         dct:date "2024-12-29"^^xsd:date ;
     ], [
         a dpv:ContractStatus ; # Beta received the contract and accepted it
         dpv:hasEntity ex:BetaInc ; # All parties have accepted the contract
-        skos:broader dpv:ContractOfferReceived, dpv:ContractAccepted;
+        skos:broader dpv:ContractOffered, dpv:ContractSignedByParty ;
         dct:date "2024-12-30"^^xsd:date ;
     ], [
         a dpv:ContractStatus ;
         dpv:hasEntity ex:AcmeInc ; # Acme gets the completed/signed contract
-        skos:broader dpv:ContractOfferReceived, dpv:ContractAccepted;
+        skos:broader dpv:ContractFullySigned ;
         dct:date "2024-12-31"^^xsd:date ;
     ] .
 
 ex:SomeOtherContract a dpv:Contract ;
     # 1) Contract fulfilments are not complete, but no breaches either
-    dpv:hasContractualFulfilmentStatus dpv:ContractUnfulfilled ;
+    dpv:hasContractualFulfilmentStatus dpv:ContractPartiallyFulfilled ;
     # 2) Contract is fulfilled - date recorded for event
     dpv:hasContractualFulfilmentStatus [
         a dpv:ContractStatus ;
         skos:broader dpv:ContractFulfilled ;
         dct:date "2024-12-31"^^xsd:date ;
     ] ;
-    # 3) Contract breach - with date and justification
+    # 3) Contract violation - with date and justification
     dpv:hasContractualFulfilmentStatus [
-        a dpv:ContractBreached ;
+        a dpv:ContractViolated ;
         dct:date "2024-12-31"^^xsd:date ;
-        dpv:hasJustification "explanation of the breach"@en ;
+        dpv:hasJustification "explanation of the violation"@en ;
     ] .
