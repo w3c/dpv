@@ -12,7 +12,7 @@ If you have updated concepts or want to regenerate the spreadsheets from which a
 
 If you want to generate the RDF files - `./200_serialise_RDF.py` which will will create RDF serialisations for all DPV modules and extensions. You can use `--vocab=<name>` to generate outputs only for a specific vocabulary or extension. By default, it will generate outputs for all vocabularies.
 
-If you want to generate the HTML files - `./300_generate_HTML.py` will generate HTML documentation for all DPV modules and extensions. To only generate the HTML for guides, use `./300_generate_HTML.py --guides`.  You can use `--vocab=<name>` to generate outputs only for a specific vocabulary or extension. By default, it will generate outputs for all vocabularies. You can use `--skip=<name>` to skip loading specific vocabularies, e.g. `loc`, to speed up the process. The skip parameters support wildcards as suffixes, e.g. `legal*` will match all legal vocabularies.
+If you want to generate the HTML files - `./300_generate_HTML.py` will generate HTML documentation for all DPV modules and extensions. To only generate the HTML for guides, use `./300_generate_HTML.py --guides`. You can use `--vocab=<name>` to generate outputs only for a specific vocabulary or extension. By default, it will generate outputs for all vocabularies. You can use `--skip=<name>` to skip loading specific vocabularies, e.g. `loc`, to speed up the process. The skip parameters support wildcards as suffixes, e.g. `legal*` will match all legal vocabularies.
 
 To generate the zip files for publishing DPV releases on GitHub, use `./900_generate_releases.sh`, which will produce zip files in `releases` folder.
 
