@@ -5,12 +5,12 @@
     {% set concept=vocab[iri] %}
     {% if filter == "external" %} {# only show external concepts? #}
       {# filter external concepts - where external is defined as either
-      not belonging to DPVCG vocabs or not part of the current vocab  #}
-      {% set inscope = (not concept['_dpvterm']) or (concept['prefix'] != vocab_name)  %}
+      not belonging to DPVCG vocabs or not part of the current vocab #}
+      {% set inscope = (not concept['_dpvterm']) or (concept['prefix'] != vocab_name) %}
       {% set inscope = inscope and concept['prefix'] != '_' and not concept['_ignored'] %}
     {% else %}
       {# internal/DPVCG defined concepts #}
-      {% set inscope = (concept['_dpvterm']) and (concept['prefix'] == vocab_name)  %}
+      {% set inscope = (concept['_dpvterm']) and (concept['prefix'] == vocab_name) %}
       {% if filter == "classes" %}
         {% set inscope = inscope and concept['_type'] == "class" %}
       {% elif filter == "properties" %}
@@ -24,7 +24,7 @@
       {% if (parent['prefixed'] == "owl:Ontology")
           or (parent['prefixed'] == 'skos:ConceptScheme') %}
         {% if is_ontology_term.append(True) %}{% endif %} {# HACK: jinja2 scope to access variable outside loop #}
-      {% endif %}      
+      {% endif %}
     {% endfor %}
     {% set inscope = inscope and is_ontology_term|length == 0 %}
     {% set inscope = inscope and not '#serialisation-' in concept['iri'] %}
