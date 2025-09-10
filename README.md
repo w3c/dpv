@@ -18,7 +18,7 @@ Newcomers to the DPV are recommended to start with the [Primer](https://w3id.org
 
 ### Data Privacy Vocabulary (DPV)
 
-The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) provides an ontology (classes and properties) along with taxonomies that represent real-world uses of these  concepts for representing information regarding how (personal) data and technologies (including AI). For example, it provides concepts and taxonomies to represent:
+The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) provides an ontology (classes and properties) along with taxonomies that represent real-world uses of these concepts for representing information regarding how (personal) data and technologies (including AI). For example, it provides concepts and taxonomies to represent:
 
 - purposes of processing data or using technologies
 - personal data categories
