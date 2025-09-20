@@ -2656,7 +2656,7 @@ GUIDES = {
     },
     'DPV-MISC': {
         'template': 'template_guides_dpv_miscformats.jinja2',
-        'output': '../guides/dpv-miscformats.html',
+        'output': '../guides/dpv-misc.html',
     },
     'Rights': {
         'template': 'template_guides_rights.jinja2',
