@@ -216,7 +216,7 @@ Membership to the group is open to all interested individuals and organisations.
 
 ## Funding Acknowledgements
 
-The DPVCG was established as part of the [SPECIAL H2020 Project](https://specialprivacy.ercim.eu/), which received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No. 731601 from 2017 to 2019.
+The DPVCG was established as part of the [SPECIAL H2020 Project](https://specialprivacy.ercim.eu/), which received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No. 731601 from 2017 to 2019. Continued maintainence is funded under: [RECITALS project](https://recitals-project.eu/) under EU's Horizon program grant no 101168490.
 
 Harshvardhan J. Pandit was funded to maintain these specifications and to chair the DPVCG from 2020 to 2022 by the [Irish Research Council\'s](https://research.ie/) Government of Ireland Postdoctoral Fellowship Grant#GOIPD/2020/790, and through the [ADAPT SFI Centre](https://www.adaptcentre.ie/) for Digital Media Technology which is funded by Science Foundation Ireland through the SFI Research Centres Programme and is co-funded under the European Regional Development Fund (ERDF) through Grant#13/RC/2106 (2018 to 2020) and Grant#13/RC/2106_P2 (2021 onwards), and through the AI Accountability Lab (AIAL) which is supported by grants from following groups: the AI Collaborative, an Initiative of the Omidyar Group; Luminate; the Bestseller Foundation; and the John D. and Catherine T. MacArthur Foundation (from 2025 onwards).
 
