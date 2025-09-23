@@ -20,7 +20,7 @@ MODE = None
 URL_BASE = None
 URLS = []
 _DPV_VERSION_override = None
-_DPV_VERSION_w3id = '2.1'
+_DPV_VERSION_w3id = '2.2'
 
 
 def clean_path(path: str) -> str:
@@ -205,9 +205,10 @@ if __name__ == "__main__":
         }
     elif args.purl:
         MODE = "purl"
-        _DPV_VERSION_override = f'{_DPV_VERSION_w3id}/'
+        # _DPV_VERSION_override = f'{_DPV_VERSION_w3id}/'
+        _DPV_VERSION_override = ''
         URL_BASE = {
-            'live': 'https://w3c.github.io/dpv/',
+            'live': f'https://w3c.github.io/dpv/{_DPV_VERSION_w3id}/',
             'purl': 'https://w3id.org/dpv/',
         }
     else:
