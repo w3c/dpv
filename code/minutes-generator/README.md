@@ -16,4 +16,4 @@ To publish:
 
 1. All raw minutes and the code for minutes generator is kept on `dev`, therefore minutes should be first generated here (as above)
 2. (ensure you are in root) `git switch dev` and then run `git add . && git commit -m "minutes for DD MMM YYYY" && git push`
-3. Then to publish this for everyone, `git switch master`, and then `git reset -- code && git rm -r` to discard the code and raw files. Then `git commit --amend --no-edit && git push` to publish.
+3. Then to publish this for everyone, `git switch master`, ensure you are in root, and then `git checkout dev -- meetings`. Then `git commit -C dev && git push` to publish.
