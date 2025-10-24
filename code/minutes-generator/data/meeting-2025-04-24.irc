@@ -1,0 +1,78 @@
+16:15:34 <RRSAgent> RRSAgent has joined #dpvcg
+16:15:44 <HarshPandit> Scribe: HarshPandit
+16:15:47 <HarshPandit> repo: w3c/dpv
+16:15:55 <HarshPandit> Meeting: DPVCG Meeting Call
+16:15:57 <HarshPandit> Chair: HarshPandit
+16:16:51 <HarshPandit> Present: HarshPandit, DelaramGolpayegani, MarkLizar, GeorgKrog, JulianFlake, ArthitSuriyawongkul, JulioHernandez
+16:18:43 <HarshPandit> Regrets: BeatrizEsteves
+16:17:14 <HarshPandit> Date: 24 APR 2025
+16:17:28 <HarshPandit> Agenda: https://www.w3.org/events/meetings/178d1c71-a92d-4da7-a196-6a89d0fe2277/20250424T133000/
+16:17:47 <HarshPandit> \ Agenda: https://www.w3.org/events/meetings/178d1c71-a92d-4da7-a196-6a89d0fe2277/20250424T133000/ 
+16:17:37 <HarshPandit> \ Meeting minutes: https://w3id.org/dpv/meetings
+16:17:47 <HarshPandit> \ Persistent ID for current minutes: https://w3id.org/dpv/meetings/meeting-2025-04-24
+16:17:47 <HarshPandit> Topic: Subjective Locations
+16:17:47 <ghurlbot> https://github.com/w3c/dpv/issues/209 -> Issue 209 [Concept]: `AtX` subjective Location concepts  (by coolharsh55)
+16:17:47 <HarshPandit> HarshPandit: Reporting from the dedicated meeting today on locations (https://www.w3.org/events/meetings/57a5f337-487e-43df-891c-5f9e6642af50/) with Georg and Julian based on agenda/discussion topics at https://harshp.com/dev/dpv/locations-05. 
+16:17:47 <HarshPandit> HarshPandit: DPV currently has locality concepts to refer to local/remote locations which are useful. Therefore they should stay in DPV.
+16:17:47 <HarshPandit> HarshPandit: DPV also has public/private concepts - we have proposed additional concepts that expand upon them significantly based on ownership and accessibility such as to specify a privately owned shop having a publicly accessible area. These concepts should therefore be added to the existing DPV taxonomy.
+16:17:47 <HarshPandit> ACTION: Add public/private taxonomy to existing DPV locations
+16:17:47 <HarshPandit> HarshPandit: For subjective labels such as home, work, etc. we discussed this at length and agreed that these are exceedingly subjective (as title indicates) and that the LOC extension is well-defined and clear in terms of modelling locations concepts such as countries. Therefore it would not be ideal to mix subjective concepts in to that. Further, concepts such as home and work have an element of personal data i.e. they are highly likely to refer to personal data when being used. For this reason, these concepts should be added to the PD extension as personal data concepts.
+16:17:47 <HarshPandit> ACTION: Add subjective locations to PD 
+16:17:47 <HarshPandit> HarshPandit: The use of subjective labels and the distinction between public/private is also relevant for cases such as a CCTV installed in the home (private location) which monitors the home and the area outside the home. To enable such distinctions of boundary between inside and outside home, previously prefixes such as _AtHome_ and _WithinHome_ were proposed. However, by itself, stating _Home_ also has the same interpretation. Therefore, there should be no prefixes, and the concept should be directly used as stated. 
+16:17:47 <HarshPandit> HarshPandit: To distinguish locations outside of concepts like Home, the new property `dpv:isOutsideOfLocation` is proposed that indicates locations outside of the stated location e.g. the area outside the home which is then further annotated with a description that clarifies if it refers to the front door or the yard or a public road. This property is a sub-property of `dpv:hasLocation` as it also specifies a location.
+16:17:47 <HarshPandit> ACTION: Add property `dpv:isOutsideOfLocation` to DPV
+16:17:47 <HarshPandit> HarshPandit: For virtual locations, such as data being stored within the device or where processing takes place only on device, there are existing concepts in DPV such as `dpv:WithinDevice` that were added with the aim of expressing such conditions. However, upon discussion, we agreed that these are not locations on their own, but are describing the use of the device as a location, and a measure for keeping data on the device. Therefore, as we already have concepts representing hardware like devices and software like apps in the TECH extension, these should be used as locations e.g. `dpv:hasLocation tech:Device` which has the same intended interpretation. To separately specify that data is only stored or processed on device, these should be modelled as technical measures in the DPV TOMs taxonomy. Such separation is also useful for evaluation as location and the technical measure have different interpretations and assessments with legal relevance.
+16:17:47 <HarshPandit> ACTION: Add guidance on use of TECH concepts as locations
+16:17:47 <HarshPandit> ACTION: Add technical measures associated with on-device storage and processing to DPV
+16:17:47 <HarshPandit> HarshPandit: The concepts `dpv:WithinDevice` are thus now redundant and should be deprecated. For backwards compatibility reasons, we don't immediately remove these mark them for deletion in a future version. If there are no issues reported then we remove them in the next (to next) version. Otherwise if we get engagement that asks to delay deprecation or to support existing implementation, we will aim to work with them on that. As of now, we are not aware of any use-cases or implementations that critically rely on these concepts (or use them). Therefore, this should be a minor breaking change.
+16:17:47 <HarshPandit> ACTION: Deprecate redundant concepts in DPV e.g. on-device location
+16:17:47 <HarshPandit> Topic: AI Training
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/82 -> Issue 82 Provide vocabulary to specify purposes and permissions related to AI training (by scottkellum)
+16:17:47 <HarshPandit> HarshPandit: As discussed earlier, we have `ai:Train` as a kind of `dpv:Processing` as it involves processing data by definition. We will go ahead with implementing this in the vocabulary.
+16:17:47 <HarshPandit> ACTION: Add `ai:Train` as `dpv:Processing` in AI extension
+16:17:47 <HarshPandit> HarshPandit: For the expression of lifecycle or phases that involve training, these are _process_ level concepts i.e. they should be expressed as processes as they can involve specific data, entities, measures, techniques, etc. We will undertake discussion on this later with concrete proposals. 
+16:17:47 <HarshPandit> MarkLizar: (via chat) what about pii provided when AI is used, is this training data?
+16:17:47 <HarshPandit> HarshPandit: (summarising discussion) it could be as some AI techniques use the input data to retrain or continuously train themselves; for other information like what data is involved and so on -- the existing DPV concepts/properties should be used
+16:17:47 <HarshPandit> ACTION: Develop proposal and guidance on AI lifecycle/phases/stages as processes
+16:17:47 <HarshPandit> HarshPandit: For the training techniques taxonomy, the last discussion was regarding adding more concepts and marking some of them as always involving training. However, we need to ensure these concepts are accurate and are not reflecting only the popular uses of the term as some terms can refer to both training methods as well as other statistical methods. This work therefore is not finalised.
+16:17:47 <HarshPandit> ACTION: Assess involvement of training in AI techniques with domain experts
+16:17:47 <HarshPandit> Topic: AI Act Risk Levels
+16:17:47 <ghurlbot> https://github.com/w3c/dpv/issues/231 -> Issue 231 Represent Risk Level classifications for AI/Systems in AI Act (by coolharsh55)
+16:17:47 <HarshPandit> HarshPandit: From the last meeting, we have a concrete proposal on modelling these with agreement that they should reflect the risk levels as defined in the AI Act. Therefore, we have 1) prohibited; 2) high-risk with further distinction between annex I and III; 3) transparency required; 4) minimal; and 5) unknown to state not known at the time. 
+16:17:47 <HarshPandit> DelaramGolpayegani: As risk levels, should prohibited be unacceptable following the normative terms for expressing levels?
+16:17:47 <HarshPandit> HarshPandit: No, because we aren't really modelling risk levels here but the level of regulation under AI Act, which unfortunately is referred to as risk levels in a different way. Since our goal is to use the same terms as the AI Act / stakeholders, we are modelling it as risk levels. 
+16:17:47 <HarshPandit> ACTION: Add Risk Levels to AI Act extension
+16:17:47 <HarshPandit> Topic: Incident and Data Breach Notifications
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/282 -> Issue 282 Incident and Data Breach Notifications (by Gogga)
+16:17:47 <HarshPandit> HarshPandit: Georg has proposed a comprehensive summary of various incident reporting and notification obligations across several regulations like GDPR, NIS2, AI Act, and more. As these are quite a number of different regulations, we should start with the regulations which we are already modelling to develop a foundational incident reporting framework or specification and then specialise it for each regulation. This is also something the Commission is intending to do for GDPR and NIS2 as part of its simplification plan. 
+16:17:47 <HarshPandit> GeorgKrog: Agreed, we should create a consistent framework that works for all regulations.
+16:17:47 <HarshPandit> ACTION: Create dedicated issues for discussing incident reporting in specific regulations
+16:17:47 <HarshPandit> Topic: Secondary Use for Data Reuse
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/283 -> Issue 283 [NEW]: Secondary Uses for Data Reuse (by coolharsh55)
+16:17:47 <HarshPandit> HarshPandit: These are discussions currently ongoing with Georg and Beatriz (please feel free to participate) regarding the reuse of data for a different purpose -- especially for EHDS where patient treatment data can be reused for research as secondary use To model these, I have proposed concepts which clarify the distinction between primary/secondary in alignment with legal terminology and which are based on an assessment of compatibility between purposes and uses. 
+16:17:47 <HarshPandit> GeorgKrog: How does this relate to purposes as secondary purposes?
+16:17:47 <HarshPandit> HarshPandit: So the initial proposal did use secondary purpose as the term, but I have changed that to secondary use in line with EHDS and also to avoid only looking at purpose as use is a broader concept from legal perspective. 
+16:17:47 <HarshPandit> HarshPandit: The proposed secondary use proposals also have implications under GDPR where they are relevant in the assessment of compatibility between purposes, and for the AI Act where they are relevant in the assessment of changes to/from the intended uses of AI system.
+16:17:47 <HarshPandit> ACTION: Add proposed concepts regarding secondary use to DPV
+16:17:47 <HarshPandit> ACTION: Add proposed concepts regarding purpose compatibility to EU-GDPR
+16:17:47 <HarshPandit> ACTION: Add proposed concepts regarding intended use compatibility to EU-GDPR
+16:17:47 <HarshPandit> Topic: Use-Case as a concept
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/284 -> Issue 284 [NEW]: Modelling Intended Uses/Purposes as Use-Cases (by coolharsh55)
+16:17:47 <HarshPandit> HarshPandit: A lot of documentation efforts such as datasheets and model cards as well as legal documents such as AI Act use the phrase _use_ which should not be mixed with the DPV technical processing concept for _use_ as an operation over data or technology. Instead, it should be read as _use-case_ which is describing a broad scenario or use-case associated with the data or technology. To represent these in DPV, we should have `dpv:UseCase` as a concept, which is then used in documentation to specify information such as intended use-case, known problematic use-cases, and so on in a clear and non-confusing manner. The term itself will be a subclass of process but for representing scenarios and hypotheticals rather than system or service processes. This way, the documentation would be describing information using the same/similar phrasing and concepts as humans do, and there is clarity as to what is being represented as compared to use or process.
+16:17:47 <HarshPandit> ACTION: Add proposed concepts regarding use-cases to DPV
+16:17:47 <HarshPandit> Topic: Technology Operating Factors
+20:10:04 <ghurlbot> https://github.com/w3c/dpv/issues/285 -> Issue 285 [NEW]: Modelling Operating Factors for Technology (by coolharsh55)
+16:17:47 <HarshPandit> HarshPandit: The documentation also contains information on factors, which can include data, instruments(technology), and environment. Here, environment is quite broad and can include all sorts of stuff like locations, devices, people, etc. To distinguish information, the concept `EnvironmentalCondition` will specifically model the conditions like temperature and humidity while `OperatingEnvironment` will describe the broader environment description. This information is important for AI Act documentation and is also used commonly in technical manuals and other forms of documentation.
+16:17:47 <HarshPandit> ACTION: Add proposed operating factor and environment concepts to TECH
+16:17:47 <HarshPandit> Topic: AI cards
+16:17:47 <ghurlbot> https://github.com/w3c/dpv/issues/281 -> Issue 281 Represent AI Cards with DPV (by DelaramGlp)
+16:17:47 <HarshPandit> DelaramGolpayegani: Proposing adopting AI Cards as a specification for AI documentation as it is useful to document the use of AI systems and is aligned with datasheets and model cards which describe earlier stages of the AI development. Would this type of a specification be in the scope of the DPVCG as it is not based in law i.e. it does not correspond directly to a legal requirement or is legally required or is based on established/commonly-used work?
+16:17:47 <HarshPandit> HarshPandit: As a group I think we are open to having original work being developed by the group and we have done this in the past e.g. Paul's work on ROPA, and then later our work on the incident and data breach management, the rights exercise specification, and so on. The consent records and receipts stuff was based on established work, but we developed it in parallel with the ISO work -- so it also had a lot of original work in it for the DPVCG. Based on this, I think it should be okay to consider this work as being within the scope. Of course, as a group we will have to have consensus that we will adopt/develop and publish this as DPVCG.
+16:17:47 <HarshPandit> ACTION: Decide if AI Cards is in scope of the DPVCG
+16:17:47 <HarshPandit> Topic: Shared Events Info
+16:17:47 <HarshPandit> MarkLizar: https://www.globalprivacyrights.org/the-quebec-collective-action-for-damages-standing-up-for-valid-t-28
+16:17:47 <HarshPandit> HarshPandit: Workshop on Next Generation Data Governance https://nxdg-workshop.github.io/2025/ -- cfp on mailing list https://lists.w3.org/Archives/Public/public-dpvcg/2025Apr/0006.html
+16:17:47 <HarshPandit> Topic: Next Meeting
+16:17:47 <HarshPandit> \ The next meeting will be on MAY-01 Thursday 13:30WET/14:30CET 
+16:17:47 <HarshPandit> \ Agenda will be continuing on topics started under v2.2, and any other updates that come up.
+16:17:47 <HarshPandit> \ Note that ACTIONS listed above are for collecting discussions regarding proposed concepts, updating issues and documents etc. The next meeting will involve getting resolutions based on consensus on some of these.
