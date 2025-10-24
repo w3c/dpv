@@ -115,7 +115,7 @@
       <li>[=Developer=] and [=hasDeveloper=] specifies who develops or has developed the technology.</li>
       <li>[=Provider=] and [=hasProvider=] specifies who provides the technology. This could be the same entity as developer, or a different one - such as when the technology is repackaged or modified before provision.</li>
       <li>[=User=] and [=hasUser=] specifies who uses or is the user for the technology.</li>
-      <aside class="note" title="Technology User does not refer to end-user">   <p>The term <i>User</i> refers to users in the technical sense of the term, where such users may or may not be <i>data subjects</i> or end-users or other similar concepts. For example, a technology used by an immigration officer has that officer as the user, rather than the immigrating person. To be more explicit, <i>technology user</i> and <i>whom the technology is used on</i> are two different criteria. See [=Subject=] concept to represent the immigrating person in this scenario. In other cases, both the user and subject can be the same person, for example where a person is using a technology on their personal device to take a selfie.</p>
+      <aside class="note" title="Technology User does not refer to end-user"><p>The term <i>User</i> refers to users in the technical sense of the term, where such users may or may not be <i>data subjects</i> or end-users or other similar concepts. For example, a technology used by an immigration officer has that officer as the user, rather than the immigrating person. To be more explicit, <i>technology user</i> and <i>whom the technology is used on</i> are two different criteria. See [=Subject=] concept to represent the immigrating person in this scenario. In other cases, both the user and subject can be the same person, for example where a person is using a technology on their personal device to take a selfie.</p>
       </aside>
       <li>[=Subject=] and [=hasSubject=] is the <i>subject</i> of the technology i.e. whom the technology is used on or subjected to. When humans are subjects, we recommend explicitly stating this using `dpv:HumanSubject` and `dpv:hasHumanSubject`. Subjects can be involved directly (e.g. person within a CCTV camera's vision) or indirectly (e.g. person whose details were used as training data). What is considered a subject may be contextually dependant on the nature and scope of the technology as well as its application. The [[DPV]] provides concepts to represent whether an entity (including humans) are involved in an 'active' or 'passive' capacity as well as other forms of involvement - which is useful in the description of individuals subjected to technologies.</li>
     </ul>
@@ -137,14 +137,14 @@
       </code></pre>
     </aside>
     {{ list_hierarchy(modules['actors']['classes']) }}
-  </section>  
+  </section>
 
   <section id="vocab-intended-use">
     <h2>Function &amp; Intended Use</h2>
     <aside class="note" title="Why not reuse 'dpv:Purpose'? Why do we need 'Function' and 'Intended Use'?">
       <p>Technology is developed and used with a specific <i>purpose or goal</i> in mind - such as to verify identity, or collect specific data, or send information packets over a networking connection. It is important to distinguish such 'abstract <i>purposes</i>' associated with technology from the similarly named term <code>Purpose</code> in [[DPV]] which refers only to the end-goal and a sufficiently clear description for the technology within a specified context.</p>
-      <p>If we reuse the '<i>purpose</i>' term to also describe how  technologies are developed or used towards what are essentially more technical terms (e.g. data collection, networking), it would 'pollute' the DPV's purpose taxonomy by increasing its scope to such an extent that it subsumes the other concepts and taxonomies - such as processing actions (e.g. collect or use data), technical measures (e.g. encryption), or context (e.g. human involvement).</p>
-      <p>To avoid this issue, and to ensure the Purpose taxonomy stays useful,  the TECH extension uses [=Function=] and [=IntendedUse=] to express the intended information without any semantic conflict with other existing concepts.</p>
+      <p>If we reuse the '<i>purpose</i>' term to also describe how technologies are developed or used towards what are essentially more technical terms (e.g. data collection, networking), it would 'pollute' the DPV's purpose taxonomy by increasing its scope to such an extent that it subsumes the other concepts and taxonomies - such as processing actions (e.g. collect or use data), technical measures (e.g. encryption), or context (e.g. human involvement).</p>
+      <p>To avoid this issue, and to ensure the Purpose taxonomy stays useful, the TECH extension uses [=Function=] and [=IntendedUse=] to express the intended information without any semantic conflict with other existing concepts.</p>
     </aside>
     <p>[=Function=] is a generic abstract term that refers to what '<i>functions</i>' a technology has or is capable of through the relation [=hasFunction=]. It can be used as a 'catch-all' concept to express that a technology is capable of e.g. identity verification (purpose), data collection (processing operation), access control or encryption (technical measure), and other concepts. A function in a technology is always present or possible with the use of that technology, and a specific use-case may or may not use the function. It thus provides a way to express information about the technology regarding what exists or can be done without invoking any potential interpretation that the technology is being used in a specific way. Function as a concept is not necessary to be used until the other existing DPV concepts, which are more concrete and specific, are not sufficient for reasons described above.</p>
     <aside class="example" title="Indicating the functions available in a technology from what is being used">
@@ -195,7 +195,7 @@ ex:TechPlan2 a tech:IntendedUse ;
 ex:OperationLog a dpv:Process ;
   dpv:isImplementedUsingTechnology ex:MyDatabase, ex:MyCloudServer ;
   dpv:hasPurpose dpv:AccountManagement ;  # okay as per intended use
-  dpv:hasPurpose # ambiguous use --          
+  dpv:hasPurpose  # ambiguous use
     dpv:IdentityAuthentication . # database has intended use, cloud server doesn't
 
 # a clearer representation
@@ -289,7 +289,7 @@ ex:DatabaseDocs a tech:Instructions ;
       <p>We welcome contributions and discussions on adding additional statuses to technologies - such as to indicate it is under development, testing, or to indicate it had been released and has been recalled or deprecated or is outdated. We suggest basing such concepts on established standards and authoritative requirements to ensure their practical uses.</p>
     </aside>
     {{ list_hierarchy(modules['status']['classes']) }}
-  </section>  
+  </section>
 
   <section id="vocab-tools">
     <h2>Tools</h2>
@@ -310,7 +310,7 @@ ex:DatabaseDocs a tech:Instructions ;
     {{ index_concepts(vocab, vocab_name, filter="properties") }}
   </section>
   <section id="external-concepts">
-    <p>DPV uses the following terms from [[RDF]] and  [[RDFS]] with their defined meanings:</p>
+    <p>DPV uses the following terms from [[RDF]] and [[RDFS]] with their defined meanings:</p>
     <ul>
       <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
       <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
@@ -351,11 +351,20 @@ ex:DatabaseDocs a tech:Instructions ;
 
 </section>
 {% endblock ACKNOWLEDGEMENTS %}
-<section class="appendix" id="issue-summary"></section>
+
+<section id="future-work" class="appendix">
+  <h2>Future Work</h2>
+  <aside class="issue" data-number="342"></aside>
+</section>
 
 <section id="changelog">
   <h2>Changelog for v{{DPV_VERSION}}</h2>
-  <div class="issue" title="Changelog for v{{DPV_VERSION}}"><a href="/2.2/changelog">go to changelog</a></div>
+  <p><strong>total terms: 196 ; added: 4 ; removed: 0</strong></p>
+  <p>The <a href="../changelog.html">changelog</a> provides more information on concepts that have been added/removed in this version. Below is a summary of the changes.</p>
+  <ul>
+      <li><code>OperatingEnvironment</code> to describe the environment (physical or virtual) the technology operates within.</li>
+      <li><code>OperatingFactor</code> to describe factors which affect (positively or negatively) the operation of technology.</li>
+  </ul>
 </section>
 
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
