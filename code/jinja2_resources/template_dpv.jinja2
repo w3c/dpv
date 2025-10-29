@@ -865,16 +865,21 @@
   
 <section id="vocabulary">
 <h2>Vocabulary Index</h2>
-  <section id="dpv-classes">
-    {{ index_concepts(vocab, vocab_name, filter="classes", lang=lang) }}
-  </section>
-  <section id="dpv-properties">
-    {{ index_concepts(vocab, vocab_name, filter="properties", lang=lang) }}
-  </section>
-  <section id="external-concepts">
-    <p>The following external concepts are re-used within DPV:</p>
-    {{ index_concepts(vocab, vocab_name, filter="external") }}
-  </section>
+  {%  for concept in vocab.values() %}
+    <p id="{{ concept['term'] }}" data-type="concept" {% if concept['module'] %}
+      {% set module=concept['module'][0].split('-')[0] %}
+      data-module="{{ module }}{% endif %}">{{ concept['term'] }}</p>
+  {% endfor %}
+  ## <section id="dpv-classes">
+  ##   {{ index_concepts(vocab, vocab_name, filter="classes", lang=lang) }}
+  ## </section>
+  ## <section id="dpv-properties">
+  ##   {{ index_concepts(vocab, vocab_name, filter="properties", lang=lang) }}
+  ## </section>
+  ## <section id="external-concepts">
+  ##   <p>The following external concepts are re-used within DPV:</p>
+  ##   {{ index_concepts(vocab, vocab_name, filter="external") }}
+  ## </section>
 </section>
 
 {% endblock VOCAB %}
@@ -990,5 +995,20 @@
 <section id="conformance" class="notoc"></section>
 
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
+
+<script type="text/javascript">
+  window.onload = (event) => {
+    if (window.location.hash.length == 0) { return ; }
+    let hash = window.location.hash.split('#')[1];
+    let ele = document.getElementById(hash);
+    if (ele == null) { return ; }
+    if (ele.attributes['data-type'] == null) { return ;}
+    let href = ele.attributes['data-module']['nodeValue'];
+    console.log(href);
+    let url = window.location.href.split('#')[0] + "modules/" + href + "#" + hash;
+    console.log(url);
+    window.location.href = url;
+  }
+</script>
 </body>
 </html>
