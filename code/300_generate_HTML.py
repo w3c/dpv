@@ -1013,13 +1013,14 @@ def _generate_search_index():
             'category': category,
         }
         relative_iri = iri.replace(f'https://w3id.org/dpv', '')
-        # IRI looks like this: w3id.org/dpv/tech#concept --> extension concept
-        if relative_iri.startswith('/'):
-            # to make sure this works on live, dev, and localhost
-            relative_iri = relative_iri.replace('/', f'/{DPV_VERSION}/', 1)
-        # IRI looks like this: w3id.org/dpv#concept --> DPV concept
-        elif relative_iri.startswith('#'):
-            relative_iri = f"/{DPV_VERSION}/dpv{relative_iri}"
+        if relative_iri.startswith('#'):
+            # iri: w3id.org/dpv#concept -> #concept -> ./dpv/concept
+            relative_iri = f'dpv{relative_iri}'
+        elif relative_iri.startswith('/'):
+            # iri: w3id.org/dpv/tech#concept -> tech#concept -> do nothing
+            relative_iri = relative_iri.replace('/', '', 1)
+        else:
+            raise ValueError(f'Could not construct relative IRI from {iri}')
         classes[iri]['relative-iri'] = relative_iri
         if children:
             for child in children.split(';'):

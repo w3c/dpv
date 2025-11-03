@@ -107,18 +107,18 @@ $(function() {
     }).bind('ready.jstree', function(e, data) {
         /** if newly opened, check if there are search params, and call search **/
         let url = new URL(window.location.href);
-        console.log(url);
+        // console.log(url);
         if (url.searchParams.has("query")) {
             var searchstring = url.searchParams.get("query");
             $("#search-term").val(searchstring);
-            console.log("searching for " + url.searchParams.get("query"));
+            // console.log("searching for " + url.searchParams.get("query"));
             search(searchstring);
         }
      });
 
     /** search through concepts by calling jstree api **/
     function search(searchstring) {
-        console.log("call search " + searchstring);
+        // console.log("call search " + searchstring);
         $("#tree").jstree("clear_search");
         $("#tree").jstree("search", searchstring);
     }
@@ -132,7 +132,7 @@ $(function() {
         url.searchParams.append('query', searchstring)
         history.pushState({}, '', url.href)
     });
-    $("#search-term").on("keypress", function() {
+    $("#search-term").on("keypress", function(e) {
         if (e.which == 13) { // ENTER key
             $("#search").click();
         }

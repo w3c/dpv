@@ -1,260 +1,405 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-GB">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DPV - 404 error</title>
-    <style type="text/css">
-        body {
-            max-width: 800px;
-            margin: auto;
-            /*font-family: monospace;*/
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>404 - Resource Not Found</title>
+    <link rel="icon" type="image/x-icon" href="diagrams/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="diagrams/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="diagrams/favicon-16x16.png">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --fg: #0b0b0b;
+            --muted: #6b7280;
+            --accent: #0b66c3;
+            --gap: 1rem;
+            --max-width: 1100px;
         }
-        .url {
-            color: blue;
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--fg);
+        }
+
+        main {
+            font-size: 0.8rem;
+        }
+
+        a {
+            color: var(--accent)
+        }
+
+        a:focus {
+            outline: 3px solid rgba(11, 102, 195, 0.18);
+            outline-offset: 3px
+        }
+
+        .site {
+            max-width: var(--max-width);
+            margin: 1.25rem auto;
+            padding: 1rem;
+        }
+
+        header {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            line-height: 1.05;
+        }
+
+        .logo img {
+            border-radius: 8px;
+            display: block
+        }
+
+        .search {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .search-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+        }
+
+        .search-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            font-size: 0.8rem;
+        }
+
+        .search-text {
+            font-size: 0.95rem;
+        }
+
+        .lead {
+            margin: 0;
+            color: var(--muted)
+        }
+
+        .announce {
+            background: linear-gradient(180deg, #f0f9ff, #e6f2fb);
+            border: 1px solid #cfeefa;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            color: var(--fg);
+            text-align: center
+        }
+
+        .announce p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .announce a {
+            color: var(--accent);
+            font-weight: 600
+        }
+
+        .row-title {
+            margin: 0 0 .5rem 0;
+            font-size: 1rem
+        }
+
+        /* specs row - normative: subtle green */
+        .specs-row {
+            background: linear-gradient(180deg, #f4fbf5, #eef9ee);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem
+        }
+
+        /* info row - informative: subtle orange */
+        .info-row {
+            background: linear-gradient(180deg, #fff8f0, #fff2e6);
+            padding: 1rem;
+            border-radius: 10px
+        }
+
+        .specs-grid,
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--gap)
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            transition: box-shadow .15s ease, transform .08s ease;
+        }
+
+        .card h3 {
+            margin: .25rem 0 .5rem 0
+        }
+
+        .card:hover,
+        .card:focus-within {
+            box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .card a {
+            text-decoration: none
+        }
+
+        .card-lead {
+            margin: 0 0 0.5rem 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .links {
+            margin: 0;
+            padding-left: 1.25rem
+        }
+
+        footer {
+            margin-top: 1.5rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        footer dl {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 0.25rem 1rem;
+            align-items: start;
+            margin: 0;
+            padding: 0;
+        }
+
+        footer dt {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: right;
+            margin: 0;
+            padding-right: 0.5rem;
+        }
+
+        footer dd {
+            white-space: normal;
+            word-break: break-word;
+            margin: 0 0 .25rem 0;
+        }
+
+        @media (max-width:900px) {
+
+            .specs-grid,
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media (max-width:640px) {
+
+            .specs-grid,
+            .info-grid {
+                grid-template-columns: 1fr
+            }
+
+            .footer-list {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-list dt {
+                text-align: left;
+                padding-right: 0;
+                margin-top: 0.25rem;
+            }
         }
     </style>
 </head>
+
 <body>
-    <h1>404 Error</h1>
-    <p><strong>DPVCG Resource Not Found</strong>
-    <p>Common causes of this error:</p>
-    <ol>
-        <li>Typo in the URL - <span id="span-check-url"></span>.</li>
-        <li>Used an older unversioned URL - <span id="span-check-version"></span>.</li>
-        <li>The page existed before, but doesn't exist now OR it has been moved to a new location under a different name. You can view the available resources below.</li>
-    </ol>
-    <div id="wb404"/>
-    <script src="https://archive.org/web/wb404.js"></script>
+    <div class="site">
+        <header>
+            <div class="logo">
+                <img src="diagrams/logo.png" alt="DPV logo" height="80" width="80" />
+            </div>
+            <div>
+                <h1 id="page-title">404 - Error: Resource Not Found</h1>
+                <p class="lead">W3C Data Privacy Vocabularies and Controls Group</p>
+                </p>
+            </div>
+            <div class="search">
+                <!-- Search link: keep update the URL to the latest version -->
+                <a href="https://w3id.org/dpv/2.2/search" class="search-link" aria-label="DPV search index">
+                    <span class="search-icon" aria-hidden="true">&#x1F50D;</span>
+                    <span class="search-text">DPV search index</span>
+                </a>
+            </div>
+        </header>
 
-    <p><strong>DPV v2.2</strong> [<a href="2.2/search.html">Search</a>] [<a href="2.2/changelog.html">Changelog</a>]<br/>
-    ├── <a href="https://w3c.github.io/dpv/2.2/ai/">ai</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.2/dpv/">dpv</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.2/examples/">examples</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.2/justifications/">justifications</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.2/legal/">legal</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/at/">at</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/be/">be</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/bg/">bg</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/cy/">cy</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/cz/">cz</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/de/">de</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/dk/">dk</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/ee/">ee</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/es/">es</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/eu/">eu</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/eu/aiact/">aiact</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/eu/dga/">dga</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/eu/ehds/">ehds</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/eu/gdpr/">gdpr</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/eu/nis2/">nis2</a><br>
-    │   │   └── <a href="https://w3c.github.io/dpv/2.2/legal/eu/rights/">rights</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/fi/">fi</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/fr/">fr</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/gb/">gb</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/gr/">gr</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/hk/">hk</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/hr/">hr</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/hu/">hu</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/ie/">ie</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/in/">in</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/is/">is</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/it/">it</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/jp/">jp</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/kr/">kr</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/li/">li</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/lt/">lt</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/lu/">lu</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/lv/">lv</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/mo/">mo</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/mt/">mt</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/my/">my</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/nl/">nl</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/no/">no</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/ph/">ph</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/pl/">pl</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/pt/">pt</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/ro/">ro</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/se/">se</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/sg/">sg</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/si/">si</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/sk/">sk</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/th/">th</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/legal/tw/">tw</a><br>
-    │   └── <a href="https://w3c.github.io/dpv/2.2/legal/us/">us</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.2/loc/">loc</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.2/pd/">pd</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.2/risk/">risk</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.2/sector/">sector</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/sector/education/">education</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/sector/finance/">finance</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/sector/health/">health</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/sector/infra/">infra</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.2/sector/law/">law</a><br>
-    │   └── <a href="https://w3c.github.io/dpv/2.2/sector/publicservices/">publicservices</a><br>
-    ├── standards<br>
-    │   └── <a href="https://w3c.github.io/dpv/2.2/standards/p7012/">p7012</a><br>
-    └── <a href="https://w3c.github.io/dpv/2.2/tech/">tech</a>
-    </p>
+        <!-- When announce new DPV version, don't forget to update the search link above -->
+        <section class="announce" aria-label="Announcement">
+            <p><strong>DPV — Version 2.2.1</strong>
+                (31 October 2025) — the latest specifications are available at
+                <a href="https://w3id.org/dpv">https://w3id.org/dpv</a>
+            </p>
+        </section>
 
-    <p><strong>DPV v2.1</strong> [<a href="2.1/search.html">Search</a>] [<a href="2.1/changelog.html">Changelog</a>]<br/>
-    ├── <a href="https://w3c.github.io/dpv/2.1/ai/">ai</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.1/dpv/">dpv</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.1/examples/">examples</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.1/justifications/">justifications</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.1/legal/">legal</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/at/">at</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/be/">be</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/bg/">bg</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/cy/">cy</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/cz/">cz</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/de/">de</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/dk/">dk</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/ee/">ee</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/es/">es</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/eu/">eu</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/eu/aiact/">aiact</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/eu/dga/">dga</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/eu/ehds/">ehds</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/eu/gdpr/">gdpr</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/eu/nis2/">nis2</a><br>
-    │   │   └── <a href="https://w3c.github.io/dpv/2.1/legal/eu/rights/">rights</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/fi/">fi</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/fr/">fr</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/gb/">gb</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/gr/">gr</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/hr/">hr</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/hu/">hu</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/ie/">ie</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/in/">in</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/is/">is</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/it/">it</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/li/">li</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/lt/">lt</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/lu/">lu</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/lv/">lv</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/mt/">mt</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/nl/">nl</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/no/">no</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/pl/">pl</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/pt/">pt</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/ro/">ro</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/se/">se</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/si/">si</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/legal/sk/">sk</a><br>
-    │   └── <a href="https://w3c.github.io/dpv/2.1/legal/us/">us</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.1/loc/">loc</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.1/pd/">pd</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.1/risk/">risk</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.1/sector/">sector</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/sector/education/">education</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/sector/finance/">finance</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/sector/health/">health</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/sector/infra/">infra</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.1/sector/law/">law</a><br>
-    │   └── <a href="https://w3c.github.io/dpv/2.1/sector/publicservices/">publicservices</a><br>
-    ├── standards<br>
-    │   └── <a href="https://w3c.github.io/dpv/2.1/standards/p7012/">p7012</a><br>
-    └── <a href="https://w3c.github.io/dpv/2.1/tech/">tech</a>
-    </p>
+        <section>
+            <p><strong>Contact &amp; help:</strong>
+                <a href="https://github.com/w3c/dpv/issues">open an issue on github</a> or ask on the
+                <a href="https://lists.w3.org/Archives/Public/public-dpvcg/">public mailing list</a>.
+            </p>
+        </section>
 
-    <p><strong>DPV v2.0</strong> [<a href="2.0/search.html">Search</a>] [<a href="2.0/changelog.html">Changelog</a>]<br/>
-    ├── <a href="https://w3c.github.io/dpv/2.0/ai/">ai</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.0/dpv/">dpv</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.0/examples/">examples</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.0/justifications/">justifications</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.0/legal/">legal</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.0/legal/de/">de</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.0/legal/eu/">eu</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.0/legal/eu/aiact/">aiact</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.0/legal/eu/dga/">dga</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.0/legal/eu/gdpr/">gdpr</a><br>
-    │   │   ├── <a href="https://w3c.github.io/dpv/2.0/legal/eu/nis2/">nis2</a><br>
-    │   │   └── <a href="https://w3c.github.io/dpv/2.0/legal/eu/rights/">rights</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.0/legal/gb/">gb</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.0/legal/ie/">ie</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/2.0/legal/in/">in</a><br>
-    │   └── <a href="https://w3c.github.io/dpv/2.0/legal/us/">us</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.0/loc/">loc</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.0/pd/">pd</a><br>
-    ├── <a href="https://w3c.github.io/dpv/2.0/risk/">risk</a><br>
-    └── <a href="https://w3c.github.io/dpv/2.0/tech/">tech</a>
-    </p>
+        <main aria-labelledby="page-title">
+            <section class="specs-row" aria-labelledby="specsRowTitle">
+                <h2 id="specsRowTitle" class="row-title">Specifications</h2>
+                <div class="specs-grid">
+                    <article class="card" aria-labelledby="specs-core-title">
+                        <h3 id="specs-core-title">Core</h3>
+                        <ul class="links">
+                            <li><a href="https://w3id.org/dpv">Data Privacy Vocabulary (DPV)</a></li>
+                        </ul>
+                        <h3 id="specs-extensions-title">General-purpose extensions</h3>
+                        <ul class="links">
+                            <li><a href="https://w3id.org/dpv/pd">PD (Personal Data categories)</a></li>
+                            <li><a href="https://w3id.org/dpv/loc">LOC (Locations)</a></li>
+                            <li><a href="https://w3id.org/dpv/tech">TECH (Technologies)</a></li>
+                            <li><a href="https://w3id.org/dpv/ai">AI (AI Technologies)</a></li>
+                            <li><a href="https://w3id.org/dpv/justifications">JUST (Justifications)</a></li>
+                            <li><a href="https://w3id.org/dpv/risk">RISK (Risk Management)</a></li>
+                        </ul>
+                    </article>
 
-    <p><strong>DPV v1.0</strong><br/>
-    ├── <a href="https://w3c.github.io/dpv/1.0/dpv/">dpv</a><br>
-    ├── <a href="https://w3c.github.io/dpv/1.0/dpv-gdpr/">dpv-gdpr</a><br>
-    ├── <a href="https://w3c.github.io/dpv/1.0/dpv-legal/">dpv-legal</a><br>
-    ├── <a href="https://w3c.github.io/dpv/1.0/dpv-nace/">dpv-nace</a><br>
-    ├── <a href="https://w3c.github.io/dpv/1.0/dpv-owl/">dpv-owl</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/1.0/dpv-owl/dpv-gdpr/">dpv-gdpr</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/1.0/dpv-owl/dpv-legal/">dpv-legal</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/1.0/dpv-owl/dpv-pd/">dpv-pd</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/1.0/dpv-owl/dpv-tech/">dpv-tech</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/1.0/dpv-owl/rights/">rights</a><br>
-    │   │   └── <a href="https://w3c.github.io/dpv/1.0/dpv-owl/rights/eu/">eu</a><br>
-    │   └── <a href="https://w3c.github.io/dpv/1.0/dpv-owl/risk/">risk</a><br>
-    ├── <a href="https://w3c.github.io/dpv/1.0/dpv-pd/">dpv-pd</a><br>
-    ├── <a href="https://w3c.github.io/dpv/1.0/dpv-skos/">dpv-skos</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/1.0/dpv-skos/dpv-gdpr/">dpv-gdpr</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/1.0/dpv-skos/dpv-legal/">dpv-legal</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/1.0/dpv-skos/dpv-pd/">dpv-pd</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/1.0/dpv-skos/dpv-tech/">dpv-tech</a><br>
-    │   ├── <a href="https://w3c.github.io/dpv/1.0/dpv-skos/rights/">rights</a><br>
-    │   │   └── <a href="https://w3c.github.io/dpv/1.0/dpv-skos/rights/eu/">eu</a><br>
-    │   └── <a href="https://w3c.github.io/dpv/1.0/dpv-skos/risk/">risk</a><br>
-    ├── <a href="https://w3c.github.io/dpv/1.0/dpv-tech/">dpv-tech</a><br>
-    ├── <a href="https://w3c.github.io/dpv/1.0/examples/">examples</a><br>
-    ├── <a href="https://w3c.github.io/dpv/1.0/rights/">rights</a><br>
-    │   └── <a href="https://w3c.github.io/dpv/1.0/rights/eu/">eu</a><br>
-    └── <a href="https://w3c.github.io/dpv/1.0/risk/">risk</a>
-    </p>
+                    <article class="card" aria-labelledby="specs-sector-title">
+                        <h3 id="specs-sector-title">Sector-specific extensions</h3>
+                        <p class="card-lead">Provide concepts extending the DPV for a specific sector.</p>
+                        <ul class="links">
+                            <li><a href="https://w3id.org/dpv/sector/education">Education</a></li>
+                            <li><a href="https://w3id.org/dpv/sector/finance">Finance</a></li>
+                            <li><a href="https://w3id.org/dpv/sector/health">Health</a></li>
+                            <li><a href="https://w3id.org/dpv/sector/infra">Critical infrastructure</a></li>
+                            <li><a href="https://w3id.org/dpv/sector/law">Law Enforcement &amp; Justice</a></li>
+                            <li><a href="https://w3id.org/dpv/sector">See more in SECTOR</a></li>
+                        </ul>
+                    </article>
 
-    <script type="text/javascript">
-        const url = window.location.href;
-        const span_typo = document.getElementById('span-check-url');
-        const span_unversioned = document.getElementById('span-check-version');
-        const re_check_version = /\d+/;
-        class PAGE_STATUS {
-            static _PROD = 0;
-            static _DEV = 1;
-            static _LOCAL = 2;
-            static _OTHER = 3;
+                    <article class="card" aria-labelledby="specs-legal-title">
+                        <h3 id="specs-legal-title">Legal / jurisdiction extensions</h3>
+                        <p class="card-lead">Extends the DPV to represent legal concepts in various jurisdictions.</p>
+                        <ul class="links">
+                            <li><a href="https://w3id.org/dpv/legal/eu">European Union (EU)</a> -- with laws
+                                <a href="https://w3id.org/dpv/legal/eu/gdpr">GDPR</a>,
+                                <a href="https://w3id.org/dpv/legal/eu/dga">DGA</a>,
+                                <a href="https://w3id.org/dpv/legal/eu/ehds">EHDS</a>,
+                                <a href="https://w3id.org/dpv/legal/eu/aiact">AI Act</a>,
+                                <a href="https://w3id.org/dpv/legal/eu/rights">Charter of Fundamental Rights</a>;
+                            </li>
+                            <li><a href="https://w3id.org/dpv/legal/in">India</a></li>
+                            <li><a href="https://w3id.org/dpv/legal/us">United States</a></li>
+                            <li><a href="https://w3id.org/dpv/legal">See more in LEGAL</a></li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
 
-            static get PROD() { return this._PROD; }
-            static get DEV() { return this._DEV; }
-            static get LOCAL() { return this._LOCAL; }
-            static get OTHER() { return this._OTHER; }
-        };
-        var MODE = PAGE_STATUS.OTHER;
-        if (url.startsWith("https://w3c.github.io/dpv/")) {
-            MODE = PAGE_STATUS.PROD;
-            var purl = url.replace("https://w3c.github.io/dpv/", "https://w3id.org/dpv/")
-            span_typo.innerHTML = "check <span class='url'>"+url+"</span> is correct, or its purl form <a href='"+purl+"'>"+purl+"<a/>";
-            if (re_check_version.exec(url.replace("https://w3c.github.io/dpv/", "")) == null) {
-                span_unversioned.innerHTML = "you can check whether this versioned form is the url you are looking for: <a href='https://w3c.github.io/dpv/2.2/" + url.replace("https://w3c.github.io/dpv/", "") + "'>https://w3c.github.io/dpv/2.2/" + url.replace("https://w3c.github.io/dpv/", "") + "</a>";
-            } else {
-                span_unversioned.innerHTML = "but this doesn't appear to be the case";
-            }
-        } else if (url.startsWith("https://dev.dpvcg.org/")) { 
-            MODE = PAGE_STATUS.DEV;
-            span_typo.innerHTML = "check <span class='url'>"+url+"</span> is correct";
-            if (re_check_version.exec(url.replace("https://dev.dpvcg/org/", "")) == null) {
-                span_unversioned.innerHTML = "this appears to be an unversioned url, you can check whether this versioned form is the url you are looking for: <a href='https://dev.dpvcg/org/2.2/" + url.replace("https://dev.dpvcg/org/", "") + "'>https://dev.dpvcg/org/2.2/" + url.replace("https://dev.dpvcg/org/", "") + "</a>";
-            } else {
-                span_unversioned.innerHTML = "... but this doesn't appear to be the case";
-            }
-        } else if (url.includes("localhost:")) { 
-            MODE = PAGE_STATUS.LOCAL;
-            span_typo.innerHTML = "check <span class='url'>"+url+"</span> is correct";
-            span_unversioned.innerHTML = "but this doesn't appear to be the case";
-        }
+            <section class="info-row" aria-labelledby="usingRowTitle">
+                <h2 id="usingRowTitle" class="row-title">Using and improving DPV</h2>
+                <div class="info-grid">
+                    <article class="card" aria-labelledby="guides-title">
+                        <h3 id="guides-title">Guides &amp; examples</h3>
+                        <p class="card-lead">Introductory material, adoption guides and examples.</p>
+                        <ul class="links">
+                            <li><a href="https://w3id.org/dpv/primer">Primer</a> — learn the core concepts</li>
+                            <li><a href="https://w3id.org/dpv/primer/concise">Concise primer (2&#8209;page)</a></li>
+                            <li><a href="https://w3id.org/dpv/guides">Guides</a>
+                                <ul class="links" aria-label="Guides for using DPV">
+                                    <li><a href="https://w3id.org/dpv/guides/dpv-owl">Using DPV in OWL2</a></li>
+                                    <li><a href="https://w3id.org/dpv/guides/consent-27560">Implementing ISO/IEC
+                                            27560:2023 Consent Records and Receipts</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="https://w3id.org/dpv/examples/">Examples</a></li>
+                        </ul>
+                    </article>
 
-        // Typo in the URL
-            // .replace("https://w3c.github.io/dpv/", "https://w3id.org/dpv");
+                    <article class="card" aria-labelledby="publications-title">
+                        <h3 id="publications-title">Key publications</h3>
+                        <p class="card-lead">Understand the foundations and design of DPV.</p>
+                        <ul class="links">
+                            <li itemscope itemtype="https://schema.org/ScholarlyArticle"
+                                itemid="https://doi.org/10.1007/978-3-031-77847-6_10">
+                                <a href="https://doi.org/10.1007/978-3-031-77847-6_10" itemprop="url name">Data Privacy
+                                    Vocabulary (DPV) — Version 2.0 (2024)</a>
+                            </li>
+                            <li itemscope itemtype="https://schema.org/ScholarlyArticle"
+                                itemid="https://doi.org/10.1007/978-3-030-33246-4_44">
+                                <a href="https://doi.org/10.1007/978-3-030-33246-4_44" itemprop="url name">Creating
+                                    a Vocabulary for Data Privacy (2019)</a>
+                            </li>
+                        </ul>
+                    </article>
 
-        // const span_currenturl = document.getElementById('current-url');
-        // span_currenturl.innerHTML = window.location.href;
-    </script>
+                    <article class="card" aria-labelledby="project-title">
+                        <h3 id="project-title">Project &amp; contributions</h3>
+                        <p class="card-lead">How to participate, contribution guidelines, meetings and releases.</p>
+                        <ul class="links">
+                            <li><a href="https://github.com/w3c/dpv">GitHub repository</a></li>
+                            <li><a href="https://github.com/w3c/dpv/wiki/Contribution-Guide">Contribution guide</a>
+                            </li>
+                            <li><a href="https://w3id.org/dpv/use-cases/">Use&#8209;cases and requirements</a> that
+                                led to the development of DPV</li>
+                            <li><a href="https://www.w3.org/community/dpvcg/">W3C DPVCG community group</a></li>
+                            <li><a href="https://w3c.github.io/dpv/meetings/">Meeting calendar and minutes</a></li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+
+            <p><strong>Funding acknowledgements:</strong>
+                <span>
+                    The DPVCG was established as part of the <a href="https://specialprivacy.ercim.eu/">SPECIAL H2020 Project</a>, which received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No. 731601 from 2017 to 2019. Further funding acknowledgements for individual members are provided within relevant documents. Continued maintainence is funded under: <a href="https://recitals-project.eu/">RECITALS project</a> under EU's Horizon program grant no 101168490.
+                </span>
+            </p>
+
+            <p><strong>Licence:</strong>
+                <span>Work by <a href="https://www.w3.org/community/dpvcg/participants">DPVCG
+                        contributors</a> is released under the
+                    <a href="https://www.w3.org/copyright/software-license-2023/">W3C Software and document
+                        license - 2023 version</a>. See <a href="LICENSE.md">LICENSE.md</a> for details.
+                </span>
+            </p>
+
+            <p><strong>Website last updated:</strong>
+                <span><time datetime="2025-10-30">30 October 2025</time></span>
+            </p>
+
+        </footer>
+    </div>
 </body>
+
 </html>
