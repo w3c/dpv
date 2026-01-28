@@ -140,7 +140,7 @@ In addition to the above, we welcome participation in the following guides being
 
 ## Releases
 
-> [go to latest release](https://github.com/w3c/dpv/releases/latest)
+> [go to the latest release](https://github.com/w3c/dpv/releases/latest)
 
 Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/releases](https://github.com/w3c/dpv/releases) and contain zipped collections of DPV specifications, modules, extensions, and accompanying documents.
 
@@ -212,7 +212,7 @@ A full list of reports (i.e. formally published by the W3C) produced by the CG i
 
 If you're unsure about something, or would like clarifications, or suggestions - please communicate with us or open an issue. We would be happy to help. You can view the [current open issues](https://github.com/w3c/dpv/issues) and the [public mailing list](https://lists.w3.org/Archives/Public/public-dpvcg/).
 
-Membership to the group is open to all interested individuals and organisations. To join the group, you need a valid W3C account – which is free to get and can be [requested here](https://www.w3.org/accounts/request). The group usually meets through online meeting calls - see [meetings calendar](https://www.w3.org/groups/cg/dpvcg/calendar) and [minutes](https://w3id.org/dpv/meetings/).
+Membership to the group is open to all interested individuals and organisations. To join the group, you need a valid W3C account – which is free to get and can be [requested here](https://www.w3.org/accounts/request). The group meets usually through online meeting calls - see [meetings calendar](https://www.w3.org/groups/cg/dpvcg/calendar) and [minutes](https://w3id.org/dpv/meetings/).
 
 ## Funding Acknowledgements
 
