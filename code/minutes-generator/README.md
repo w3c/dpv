@@ -9,8 +9,8 @@ To generate latest minutes:
 
 1. copy `./template.irc` as `./data/meeting-YYYY-MM-DD.irc` with the date in the filename
 2. edit the meeting minutes file according to irc / w3c bot format -- see https://harshp.com/dev/webdev/w3c-irc for relevant links and a cheatsheet
-3. execute `./generate_latest_minutes.sh` (requires perl) to generate the latest minutes based on filename OR execute `./generate_specific_minutes.sh MM-DD` to generate based on parameters; This will produce the HTML for the minutes
-4. run `uv run generate_index.py` or `python3 generate_index.py` to update the `index.html` with link to latest minutes
+3. execute `./latest_minutes.sh` (requires perl) to generate the latest minutes based on filename OR execute `./specific_minutes.sh MM-DD` to generate based on parameters; This will produce the HTML for the minutes
+4. run `uv run index.py` or `python3 index.py` to update the `index.html` with link to latest minutes
 
 To publish:
 
