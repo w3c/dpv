@@ -2,13 +2,12 @@
 
 # Check if argument is provided
 if [ -z "$1" ]; then
-  echo "Usage: '$0 <month-date>' to generate minutes from 'meeting-year-<month>-<date>.irc'"
+  echo "Usage: '$0 <YY-MM-DD>' to generate minutes from 'meeting-20<year>-<month>-<date>.irc'"
   exit 1
 fi
 
 time="$1"
-year=$(date +%Y)
-file="meeting-${year}-${time}"
+file="meeting-20${time}"
 
 # check if file exists
 if [ ! -f ./data/${file}.irc ]; then
