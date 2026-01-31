@@ -5,4 +5,4 @@ filename=$(basename -- "$file")
 # extension="${filename##*.}"
 filename="${filename%.*}"
 perl scribe.perl -implicitContinuations -final -emphasis $file > ../../meetings/${filename}.html
-echo "generated $filename"
+echo "generated $filename ;; please ensure INDEX is updated"
