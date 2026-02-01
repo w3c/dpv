@@ -863,23 +863,25 @@
     </ul>
   </section>
   
-<section id="vocabulary">
+<section id="vocabulary" style="display: none;">
 <h2>Vocabulary Index</h2>
-  {%  for concept in vocab.values() %}
-    <p id="{{ concept['term'] }}" data-type="concept" {% if concept['module'] %}
+  <p>{%  for concept in vocab.values() %}
+    {% if concept['_dpvterm'] %}
+    <dfn>{{ concept['term'] }}</dfn><span id="{{ concept['term'] }}" data-type="concept" {% if concept['module'] %}
       {% set module=concept['module'][0].split('-')[0] %}
-      data-module="{{ module }}{% endif %}">{{ concept['term'] }}</p>
-  {% endfor %}
-  ## <section id="dpv-classes">
-  ##   {{ index_concepts(vocab, vocab_name, filter="classes", lang=lang) }}
-  ## </section>
-  ## <section id="dpv-properties">
-  ##   {{ index_concepts(vocab, vocab_name, filter="properties", lang=lang) }}
-  ## </section>
-  ## <section id="external-concepts">
-  ##   <p>The following external concepts are re-used within DPV:</p>
-  ##   {{ index_concepts(vocab, vocab_name, filter="external") }}
-  ## </section>
+      data-module="{{ module }}{% endif %}">{{ concept['term'] }}</span><br/>
+    {% endif %}
+  {% endfor %}</p>
+  {# <section id="dpv-classes">
+   {{ index_concepts(vocab, vocab_name, filter="classes", lang=lang) }}
+  </section>
+  <section id="dpv-properties">
+   {{ index_concepts(vocab, vocab_name, filter="properties", lang=lang) }}
+  </section>
+  <section id="external-concepts">
+   <p>The following external concepts are re-used within DPV:</p>
+   {{ index_concepts(vocab, vocab_name, filter="external") }}
+  </section> #}
 </section>
 
 {% endblock VOCAB %}
@@ -998,18 +1000,73 @@
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
 
 <script type="text/javascript">
-  window.onload = (event) => {
-    if (window.location.hash.length == 0) { return ; }
-    let hash = window.location.hash.split('#')[1];
-    let ele = document.getElementById(hash);
+  const loadDfn = function(ele, hash) {
+    /** common function that redirects to a module url
+     * ele = element containing the url on this page
+     * hash = id of the concept to do to on the next page **/
     if (ele == null) { return ; }
     if (ele.attributes['data-type'] == null) { return ;}
     let href = ele.attributes['data-module']['nodeValue'];
-    console.log(href);
-    let url = window.location.href.split('#')[0] + "modules/" + href + "#" + hash;
-    console.log(url);
+    console.log("href=" + href);
+    let url = window.location.href.split('#')[0];
+    if (url.endsWith('/')) {
+      url = url + "modules/" + href + "#" + hash;
+    } else {
+      url = url + "/modules/" + href + "#" + hash;
+    }
+    console.log("url=" + url);
     window.location.href = url;
+  };
+
+  window.onload = (event) => {
+    /** when a page loads
+     * check if there is a concept in the url e.g. #Concept
+     * if there is, redirect it to the correct module page **/
+    if (window.location.hash.length == 0) { return ; }
+    let hash = window.location.hash.split('#')[1]; // strip prefix #
+    console.log("hash="+ hash);
+    let ele = null;
+    if (hash.startsWith("dfn-")) { // ref to local <dfn id="dfn-Concept">
+      // get next element, which contains the metadata for target module
+      ele = document.getElementById(hash).nextSibling; 
+    } else { // the element has id Concept
+      ele = document.getElementById(hash);
+    }
+    loadDfn(ele, hash);   
   }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    /** when a page loads and has a <dfn> id
+     * this can happen when opening a respec link in a new tab
+     * in such cases, the <dfn> link needs to be resolved 
+     * to the element containing the target module */
+    if (window.location.hash.length == 0) { return ; }
+    let hash = window.location.hash.split('#')[1]; // strip prefix #
+    console.log("hash="+ hash);
+    let ele = null;
+    if (hash.startsWith("dfn-")) { // ref to local <dfn id="dfn-Concept">
+      // get next element, which contains the metadata for target module
+      ele = document.getElementById(hash).nextSibling; 
+    } else { // the element has id Concept
+      ele = document.getElementById(hash);
+    }
+    loadDfn(ele, hash);
+  });
+
+  document.addEventListener("click", function (e) {
+    /** when a link is clicked
+     * check if there is a concept in the href e.g. #Concept
+     * if there is, redirect it to the correct module page **/
+    const link = e.target.closest("a");
+    if (!link) return;
+    let hash = link.getAttribute("href").split('#')[1];
+    if (!hash.startsWith("dfn-")) { return ; }
+    console.log("hash=" + hash)
+    let ele = document.getElementById(hash).nextSibling;
+    if (ele == null) { return ; }
+    if (ele.attributes['data-type'] == null) { return ;}
+    loadDfn(ele, hash); 
+  });
 </script>
 </body>
 </html>
