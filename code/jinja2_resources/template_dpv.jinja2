@@ -88,7 +88,7 @@
 {% block ABSTRACT %}
     {# {{ language_selector(lang) }} #}
     <section id="abstract">
-      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of (personal or otherwise) data and technologies based on legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model. The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>. A changelog this version is provided in the <a href="#changelog">appendix</a>.</p>
+      <p>The Data Privacy Vocabulary [[DPV]] enables expressing machine-readable metadata about the use and processing of (personal or otherwise) data and technologies, and supports legislative requirements such as the General Data Protection Regulation [[GDPR]]. This document describes the DPV specification along with its data model. The canonical URL for DPV is <a href="https://w3id.org/dpv">https://w3id.org/dpv</a> which contains (this) specification. The namespace for DPV terms is <a href="https://w3id.org/dpv#"><code>https://w3id.org/dpv#</code></a>, the suggested prefix is <code>dpv</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>. A changelog this version is provided in the <a href="#changelog">appendix</a>.</p>
     </section>
 {% endblock ABSTRACT %}
       {{ sotd(DPV_VERSION=DPV_VERSION, metadata=data[vocab_name+'-metadata']) }}
@@ -113,151 +113,65 @@
 {% endblock INTRODUCTION %}
 {% block VOCAB %}
   <section>
-    <h2>Vocabularies</h2>
+    <h2>DPV</h2>
     <aside class="note" title="Refer to the PRIMER for modelling, semantics, and uses">
       <p><em>This document assumes the reader is familiar with DPV through the [[[PRIMER]]], and focuses on providing an overview of the DPV and its extensions.</em></p>
     </aside>
-    <section id="vocab-dpv">
-      <h3>DPV</h3>
-      <p>The rest of the document expands on the core concepts through the following taxonomies.</p>
+      <p>The Data Privacy Vocabulary (DPV) provides the following core concepts which have been grouped into 'modules'. Each module has its own documentation page which provides the full definition for involved concepts, provides guidance and examples, and illustrates ongoing discussions on future additions and changes. The modules in DPV are:</p>
       <ul>
-        <li><a href="#vocab-entities"><strong>Entities</strong></a> - different categories of entities (e.g. <a href="#vocab-entities-organisation">Organisations</a>, <a href="#vocab-entities-authority">Authorities</a>, and <a href="#vocab-entities-datasubject">Human/Data Subjects</a>) and various <a href="#vocab-entities-legalrole">Legal Roles</a> they can take (e.g. [=DataController=] or [=DataProcessor=]).</li>
-        <li><a href="#vocab-purposes"><strong>Purposes</strong></a> that justify the need or goal for which personal data is processed.</li>
-        <li><a href="#vocab-personal-data"><strong>Data and Personal Data</strong></a> categories.</li>
-        <li><a href="#vocab-processing"><strong>Processing</strong></a> operations over personal data.</li>
-        <li><a href="#vocab-processing-context"><strong>Contextual information about Processing</strong></a> (e.g. <a href="#vocab-processing-context-processing">Processing and Storage Conditions</a>, <a href="#vocab-processing-context-automation">Automation</a>, <a href="#vocab-processing-context-involvement">Entity and Human Involvement</a>, <a href="#vocab-processing-context-data-source">Data Source</a>, and <a href="#vocab-processing-scale">Scale of Processing</a>).</li>
-        <li><a href="#vocab-context"><strong>General Contextual information</strong></a> (e.g. <a href="#vocab-context-duration-frequency">duration and frequency</a>, and <a href="#vocab-context-status">statuses</a> associated with activities.</li>
-        <li><a href="#vocab-TOM"><strong>Technical &amp; Organisational Measures</strong></a>.</li>
-        <li><a href="#vocab-legal-basis"><strong>Legal Bases</strong></a> that justify the processing (e.g. <a href="#vocab-legal-basis-consent">Consent</a>).</li>
-        <li><a href="#vocab-context-jurisdiction"><strong>Locations &amp; Jurisdictions</strong></a> providing relevance to laws, authorities, and location contexts.</li>
-        <li><a href="#vocab-risk"><strong>Risk &amp; Impacts</strong></a> for risk assessment, management, and expression of consequences and impacts associated with processing.</li>
-        <li><a href="#vocab-rights"><strong>Rights and Rights Exercise</strong></a> for specifying what rights are applicable, how they can be exercised, and how to provide information associated with rights.</li>
-        <li><a href="#vocab-rules"><strong>Rules</strong></a> for expressing constraints, requirements, and other forms of rules that can specify or assist in interpreting what is permitted, prohibited, mandatory, etc.</li>
+        <li><a href="./modules/purposes">Purposes</a> that justify the (end) goal for which data is processed or technologies are used</li> 
+        <li><a href="./modules/personal_data">Data and Personal Data</a> categories</li>
+        <li><a href="./modules/processing">Processing</a> operations over data</li>
+        <li><a href="./modules/entities">Entities</a> for actors and the roles they can take</li>
+        <li><a href="./modules/legal_basis">Legal Basis</a> such as consent or contract that justify the process</li>
+        <li><a href="./modules/risk">Risk</a> for assessment and management of risks and impacts</li>
+        <li><a href="./modules/TOM">Technical &amp; Organisational Measures</a></li>
+        <li><a href="./modules/rights">Rights</a></li>
+        <li><a href="./modules/context">Contextual information</a> such as location and automation</li>
+        <li><a href="./modules/rules">Rules</a> such as permissions and prohibitions</li>
+        <li><a href="./modules/process">Process</a> to describe organsiation of concepts into a logical and coherent unit to represent business processes and services</li>
       </ul>
-      <p>In addition to these the <a href="#extensions">Extensions</a> section describes the available extensions which also provide additional taxonomies for specific concepts within the DPV.</p>
-    </section>
 
 <section id="extensions">
   <h3>Extensions</h3>
-  <figure>
-        <img src="../diagrams/dpv_packages.svg" style="width: 100%; height: auto" />
-        <figcaption>Structure of DPV vocabularies where DPV defines the core concepts which are then extended in specific extensions. The LEGAL extensions are named using ISO 3166-2 country codes, and contain specific extensions modelling laws within that jurisdiction. SECTOR and STANDARDS extensions also contain extensions within them modelling specific sectors and standards respectively.</figcaption>
-      </figure>
-  <p>To supplement the concepts and taxonomies in [[DPV]] for specific applications, use-cases, or to provide separation for better management of terms, we provide several extensions to the DPV.</p>
-  <section id="extension-pd">
-    <h4>Personal Data (PD)</h4>
-      <p>[[[PD]]] provides additional concepts that extend the DPV's personal data taxonomy based on an opinionated structure contributed by R. Jason Cronk from <a href="https://enterprivacy.com/">EnterPrivacy</a>. This separation is to enable adopters to decide whether the extension's concepts are useful to them, or to use other external vocabularies, or define their own.</p>
-      <p>Concepts within [[PD]] are broadly structured in top-down fashion by utilising their relevance and origin as:</p>
-      <ul>
-        <li>Internal (within the person): e.g. Preferences, Knowledge, Beliefs</li>
-        <li>External (visible to others): e.g. Behavioural, Demographics, Physical, Sexual, Identifying</li>
-        <li>Household: e.g. personal or household activities</li>
-        <li>Social: e.g. Family, Friends, Professional, Public Life, Communication</li>
-        <li>Financial: e.g. Transactional, Ownership, Financial Account</li>
-        <li>Tracking: e.g. Location, Device based, Contact</li>
-        <li>Historical: e.g. Life History</li>
-      </ul>
-  </section>
+    <p>Extensions reflect additional concepts that extend the core concepts present in DPV and also provide a way to group related concepts that relate to the same topic. Currently, the following extensions are provided. A 'draft' status represents evolving modelling and concepts as they are actively being refined.</p>
 
-  <section id="extension-loc">
-    <h4>Locations (LOC)</h4>
-    <p>[[[LOC]]] provides additional concepts regarding locations such as countries and regions based on the ISO 3166 standards. It enables representing information such as processing takes place within Ireland, represented by <code>loc:IE</code>, or within European Union (EU) by using <code>loc:EU</code>. We are working on expanding this list to also specify regions, cities, and other pertinent location details, and welcome participation and contributions for this.</p>
-  </section>
+    <p>[[[PD]]] ([[PD]]) provides additional concepts that extend the DPV's personal data taxonomy based on an opinionated structure contributed by R. Jason Cronk from <a href="https://enterprivacy.com/">EnterPrivacy</a>. This separation is to enable adopters to decide whether the extension's concepts are useful to them, or to use other external vocabularies, or define their own.</p>
+      
+    <p>[[[LOC]]] ([[LOC]]) provides additional concepts regarding locations such as countries and regions based on the ISO 3166 standards.</p>
+  
+    <p>[[[RISK]]] ([[RISK]]) extends [[DPV]]'s risk assessment concepts based on ISO standards and provides taxonomies relevant to impact assessments.</p>
 
-  <section id="extension-risk">
-    <h4>Risk Management (RISK)</h4>
-    <p>[[[RISK]]] builds on top of the lightweight risk framework within DPV by providing the following extensive concepts related to risk assessment and management. We are in the process of identifying additional concepts and taxonomies for the risk extension, such as for risk management procedures and the creation of a risk ontology based on ISO standards.</p>
-    <ul>
-      <li><strong>Risk Controls</strong> - categories of measures such as those related to risk source, likelihood, consequence, vulnerability, as well as the intended effect in terms of monitoring, controlling, halting, removing, or reducing.</li>
-      <li><strong>Consequences and Impacts</strong> - list of consequences such as data breaches, costs, identity theft and several others that are categorised based on DPV's impact framework i.e. damage, harm, or detriment.</li>
-      <li><strong>Scale for Risk Levels, Severity, and Likelihood</strong> - a 7 point qualitative scale to express concepts associated with levels, severity, and likelihood of risk and its consequences.</li>
-      <li><strong>Risk Matrix</strong> - an encoded form of risk matrices based on combinations of severity and likelihood along with the resulting risk level. Risk matrix nodes and values are provided for dimensions 3x3, 5x5, and 7x7.</li>
-      <li><strong>Incidents, Reports, and Notices</strong> - specifying incidents such as security incidents or data breaches, documenting information about them, and notices used to communicate with other relevant entities such as authorities and data subjects.</li>
-      <li><strong>Risk Management</strong> - risk management concepts based on ISO 31000 series.</li>
-    </ul>
-  </section>
+    <p>[[[TECH]]] ([[TECH]]) extends the DPV's terms to represent further specific details regarding technologies, their management, and relevance to actual real-world tools and systems. The [[[AI]]] ([[AI]]) extension further extends [[TECH]] to provide concepts specifically regarding AI techniques, capabilities, risks, data and documentation.</p>
 
-  <section id="extension-tech">
-    <h4>Technologies (TECH)</h4>
-    <p>[[[TECH]]] extends the DPV's terms to represent further specific details regarding technologies, their management, and relevance to actual real-world tools and systems. It provides concepts for the following:</p>
-    <ul>
-      <li><strong>Provision method</strong>: System, Component, Algorithm, Service, Goods, Product, Subscription, Fixed Use</li>
-      <li><strong>Communication method</strong>: WiFi, Bluetooth, GPS, Cellular Network</li>
-      <li><strong>Actors</strong>: Developer, Provider, User, Subject, etc.</li>
-      <li><strong>Intended Use</strong>: what the technology was/is intended to be used for</li>
-      <li><strong>Documentation</strong>: technical and user manuals and other documentation</li>
-      <li><strong>Status</strong>: whether the technology has been released, has been provided, and other statuses</li>
-      <li><strong>Tools</strong>: databases, cookies, etc.</li>
-    </ul>
-    <p>The intention and aim of developing the TECH extension is to describe real-world tools and services, such as a specific cloud storage provider, and provide categorisation and metadata to connect it to DPV's concepts, such as to indicate the cloud storage instance features encryption at rest as a technical measure. Through these, the management and documentation of use-cases can be made easier by providing the relationships between tools/services and technical measures as a 'knowledge graph'.</p>
-  </section>
+    <p>[[[JUSTIFICATIONS]]] ([[JUSTIFICATIONS]]) provides concepts for use as 'justifications' with DPV. For example, where a right cannot be fulfilled, a justification such as 'identity could not be verified' is represented using a specific concept.</p>
+  
+    <p>[[[LEGAL]]] ([[LEGAL]]) provides concepts to represent laws, authorities, and other legal concepts in various jurisdictions. It is structured to create a separate namespace for each country or jurisdiction by using the ISO 3166-2 code, for example <code>IE</code> represents Ireland and <code>EU</code> represents the European Union. Within this namespace, the specific laws and authorities for that jurisdiction are defined.</p>
 
-  <section id="extension-ai">
-    <h4>Artificial Intelligence (AI)</h4>
-    <p>The [[[AI]]] extension provides concepts specifically regarding AI by extending the [[TECH]] extension. It consists of:</p>
-    <ul>
-      <li><strong>Techniques</strong> such as machine learning and natural language programming</li>
-      <li><strong>Capabilities</strong> such as image recognition and text generation</li>
-      <li><strong>Lifecycle</strong> such as data collection, training, fine-tuning, etc.</li>
-      <li><strong>Risks</strong> such as data poisoning, statistical noise and bias, etc.</li>
-      <li><strong>Risk Measures</strong> to address the AI specific risks</li>
-      <li><strong>Documentation</strong> such as Data Sheets and Model Cards</li>
-      <li><strong>Data</strong> associated with AI development, training, validation, and use.</li>
-      <li><strong>Systems and Models</strong> such as General Purpose, Robotics, Expert Systems.</li>
-    </ul>
-  </section>
+    <p>Within [[LEGAL]], the following Members States of the European Union are defined in their individual namespaces, with [[LEGAL-EU]] as an additional namespace for representing laws and concepts at EU-level:
+        [[LEGAL-AT]] for Austria, [[LEGAL-BE]] for Belgium, [[LEGAL-BG]] for Bulgaria, [[LEGAL-CY]] for Cyprus, [[LEGAL-CZ]] for Czech Republic, [[LEGAL-DE]] for Germany, [[LEGAL-DK]] for Denmark, [[LEGAL-EE]] for Estonia, [[LEGAL-ES]] for Spain, [[LEGAL-FI]] for Finland, [[LEGAL-FR]] for France, [[LEGAL-GR]] for Greece, [[LEGAL-HR]] for Croatia, [[LEGAL-HU]] for Hungary, [[LEGAL-IE]] for Ireland, [[LEGAL-IS]] for Iceland, [[LEGAL-IT]] for Italy, [[LEGAL-LI]] for Liechtenstein, [[LEGAL-LT]] for Lithuania, [[LEGAL-LU]] for Luxembourg, [[LEGAL-LV]] for Latvia, [[LEGAL-MT]] for Malta, [[LEGAL-NL]] for Netherlands, [[LEGAL-NO]] for Norway, [[LEGAL-PL]] for Poland, [[LEGAL-PT]] for Portugal, [[LEGAL-RO]] for Romania, [[LEGAL-SE]] for Sweden, [[LEGAL-SI]] for Slovenia, [[LEGAL-SK]] for Slovakia.
+      [[LEGAL]] also contains the following jurisdictions: [[LEGAL-GB]] for Great Britain and Northern Ireland, [[LEGAL-HK]] for Hong Kong, [[LEGAL-IN]] for India, [[LEGAL-JP]] for Japan, [[LEGAL-KR]] for Republic of Korea, [[LEGAL-MO]] for Macao, [[LEGAL-MY]] for Malaysia, [[LEGAL-PH]] for the Philippines, [[LEGAL-SG]] for Singapore, [[LEGAL-TH]] for Thailand, [[LEGAL-TW]] for Taiwan, [[LEGAL-US]] for United States of America.
+      </p>
+    <p>Laws are modelled as extensions within the namespace of their respective jurisdictions. The following are extensions part of [[LEGAL-EU]]:
+      [[[EU-GDPR]]] ([[EU-GDPR]]),
+      [[[EU-DGA]]] ([[EU-DGA]]),
+      [[[EU-NIS2]]] ([[EU-NIS2]]),
+      [[[EU-AIAct]]] ([[EU-AIAct]]),
+      [[[EU-EHDS]]] ([[EU-EHDS]]),
+      [[[EU-RIGHTS]]] ([[EU-RIGHTS]]).
+    </p>
+  
+    <p>[[SECTOR]] provides extensions modelling specific sectors by using those sector-specific concepts, terms, and modelling which extends the concepts in other DPV extensions. These extensions include:
+      [[SECTOR-EDUCATION]] for Education Sector,
+      [[SECTOR-FINANCE]] for Finance Sector,
+      [[SECTOR-HEALTH]] for Health Sector,
+      [[SECTOR-INFRA]] for (Critical) Infrastructure Sector,
+      [[SECTOR-LAW]] for Law Enforcement & Justice Sector,
+      [[SECTOR-PUBLICSERVICES]] for Public Services Sector.
+    </p>
 
-  <section id="extension-justifications">
-    <h4>Justifications</h4>
-    <p>[[[JUSTIFICATIONS]]] provides concepts for use as 'justifications' with DPV. For example, where a right cannot be fulfilled, a justification such as 'identity could not be verified' is represented using a specific concept.</p>
+    <p>The [[STANDARDS]] extensions model the core terminologies defined and used within specific forums such as ISO, CEN/CENELEC, NIST, and IEEE so that they can be used with DPV. They also provide additional concepts needed to implement specific standards, such as [[[IEEE-P7012]]] ([[STANDARD-P7012]])</p>
   </section>
-
-  <section id="extension-legal">
-    <h4>Legal Jurisdictions</h4>
-    <p>[[[LEGAL]]] provides concepts to represent laws, authorities, and other legal concepts in various jurisdictions. It is structured to create a separate namespace for each country or jurisdiction by using the ISO 3166-2 code, for example <code>IE</code> represents Ireland and <code>EU</code> represents the European Union. Within this namespace, the specific laws and authorities for that jurisdiction are defined.</p>
-    <p>At the moment, the following jurisdictions are defined:</p>
-    <ul>
-      <li>The following Members States of the European Union are defined in their individual namespaces, with [[LEGAL-EU]] as an additional namespace for representing laws and concepts at EU-level:
-        [[LEGAL-AT]] for Austria, [[LEGAL-BE]] for Belgium, [[LEGAL-BG]] for Bulgaria, [[LEGAL-CY]] for Cyprus, [[LEGAL-CZ]] for Czech Republic, [[LEGAL-DE]] for Germany, [[LEGAL-DK]] for Denmark, [[LEGAL-EE]] for Estonia, [[LEGAL-ES]] for Spain, [[LEGAL-FI]] for Finland, [[LEGAL-FR]] for France, [[LEGAL-GR]] for Greece, [[LEGAL-HR]] for Croatia, [[LEGAL-HU]] for Hungary, [[LEGAL-IE]] for Ireland, [[LEGAL-IS]] for Iceland, [[LEGAL-IT]] for Italy, [[LEGAL-LI]] for Liechtenstein, [[LEGAL-LT]] for Lithuania, [[LEGAL-LU]] for Luxembourg, [[LEGAL-LV]] for Latvia, [[LEGAL-MT]] for Malta, [[LEGAL-NL]] for Netherlands, [[LEGAL-NO]] for Norway, [[LEGAL-PL]] for Poland, [[LEGAL-PT]] for Portugal, [[LEGAL-RO]] for Romania, [[LEGAL-SE]] for Sweden, [[LEGAL-SI]] for Slovenia, [[LEGAL-SK]] for Slovakia.</li>
-      <li>Additional jurisdictions: [[LEGAL-GB]] for Great Britain and Northern Ireland, [[LEGAL-HK]] for Hong Kong, [[LEGAL-IN]] for India, [[LEGAL-JP]] for Japan, [[LEGAL-KR]] for Republic of Korea, [[LEGAL-MO]] for Macao, [[LEGAL-MY]] for Malaysia, [[LEGAL-PH]] for the Philippines, [[LEGAL-SG]] for Singapore, [[LEGAL-TH]] for Thailand, [[LEGAL-TW]] for Taiwan, [[LEGAL-US]] for United States of America.</li>
-    </ul>
-  </section>
-  <section>
-    <h4>Laws</h4>
-    <p>Within the [[LEGAL-EU]] extension namespace, the following laws are defined as separate extensions with their own namespaces:</p>
-    <ul>
-      <li>[[[EU-GDPR]]]</li>
-      <li>[[[EU-DGA]]]</li>
-      <li>[[[EU-NIS2]]]</li>
-      <li>[[[EU-AIAct]]]</li>
-      <li>[[[EU-EHDS]]]</li>
-      <li>[[[EU-RIGHTS]]]</li>
-      </ul>
-  </section>
-
-  <section id="extension-sector">
-    <h4>Sector</h4>
-    <p>[[SECTOR]] provides extensions modelling specific sectors by using those sector-specific concepts, terms, and modelling which extends the concepts in other DPV extensions. At the moment, it only extends the [=Purpose=] taxonomy in [[DPV]]. In the future, we plan to provide more concepts such as [=Data=] and [=PersonalData=] categories.</p>
-    <p>The following sectorial extensions are currently provided:</p>
-    <ul>
-      <li>[[SECTOR-EDUCATION]] for Education Sector</li>
-      <li>[[SECTOR-FINANCE]] for Finance Sector</li>
-      <li>[[SECTOR-HEALTH]] for Health Sector</li>
-      <li>[[SECTOR-INFRA]] for (Critical) Infrastructure Sector</li>
-      <li>[[SECTOR-LAW]] for Law Enforcement & Justice Sector</li>
-      <li>[[SECTOR-PUBLICSERVICES]] for Public Services Sector</li>
-    </ul>
-  </section>
-
-  <section id="extension-standards">
-    <h4>Standards</h4>
-    <p>The STANDARD extensions model specific concepts and processes along with the terminology defined and used within specific standards. The goal of this is to represent concepts and processes defined in standards produced in forums such as ISO, CEN/CENELEC, NIST, and IEEE so that they can be used with DPV. It is not intended to duplicate the existing standards, especially when they are already provided as semantic web representations.</p>
-    <p>The following standards are currently provided:</p>
-    <ul>
-      <li>[[STANDARD-P7012]] for [[[IEEE-P7012]]]</li>
-    </ul>
-  </section>
-</section>
 </section>
 
 <section id="guide-applications">
@@ -272,24 +186,31 @@
     <h3>Applications</h3>
     <p>This section provides brief examples of how various DPV concepts and extensions are relevant to specific applications.</p>
     <ul>
-      <li><strong>GDPR Compliance</strong></li>
-      <li><strong>AI Act Compliance</strong></li>
-      <li><strong>Consent Management</strong></li>
-      <li><strong>Rights Management</strong></li>
-      <li><strong>Security &amp; Risk Management</strong></li>
+      <li><strong>Legal Compliance:</strong> In addition to [[DPV]], specific extensions such as the [[EU-GDPR]] for GDPR and [[EU-AIAct]] for the AI Act provides concepts related to the law. The implementation details may require additional extensions such as [[PD]] for personal data categories, [[RISK]] for risk and impact assessments, and [[TECH]] and [[AI]] extensions to model the technologies.</li>
+      <li><strong>Consent Management</strong> For consent management, the [[DPV]] extension provides key concepts concerning informed consent such as the purposes and data categories, as well as to represent its states (e.g. given). The [[PD]] extension may be relevant to express specific personal data categories, the [[TECH]] extension to denote which technologies might be relevant, and [[RISK]] extensions to specify involved risks. If the consent should meet requirements from a specific law, then the relevant extension should be used for these additional concepts e.g. consent as a legal basis under the GDPR is represented in [[EU-GDPR]] extension.</li>
+      <li><strong>Rights Management:</strong> [[DPV]] defines the core concept for rights, including those related to exercise and records. Additional concepts require jurisdictional extensions, such as [[EU-GDPR]] for GDPR provided rights, or the [[EU-RIGHTS]] extension for the EU Charter of Fundamental Rights.</li>
+      <li><strong>Security &amp; Risk Management:</strong> The [[DPV]] provides core concepts regarding risk management, including technical and organisational measures. The [[RISK]] extension provides a larger set of concepts for risk management. Additional risk management concepts may be required based on the use-cases, for example as part of impact assessments required by laws such as [[EU-GDPR]], or to model risk concepts specific to a sector such as [[SECTOR-HEALTH]] for health.</li>
+      <li><strong>AI Training and Governance:</strong> The [[AI]] extension provides AI-specific concepts, and additionally the [[TECH]] extension provides concepts to represent how technology is provisioned and used. These can be combined with [[DPV]] concepts such as purposes, location, or measures to represent the necessary information.</li>
+      <li><strong>Health Data Management:</strong> The [[SECTOR-HEALTH]] extension provides concepts focused on Health sector by extending the core concepts defined in [[DPV]]. In addition, jurisdiction-specific concepts are also present which model health-specific requirements, such as the [[EU-EHDS]] extension for EU's Health Data Spaces. Depending on the use-case, core concepts may be chosen from [[DPV]] such as high-level purposes or technical measures, or from [[SECTOR-HEALTH]] such as medical purposes, or concepts defined in laws such as [[EU-EHDS]].</li>
     </ul>
   </section>
 </section>
 
-<section id="vocabulary" class="notoc" style="display: none;">
+<section id="vocabulary">
 <h2>Vocabulary Index</h2>
-  <p>{%  for concept in vocab.values() %}
-    {% if concept['_dpvterm'] %}
-    <dfn>{{ concept['term'] }}</dfn><span id="{{ concept['term'] }}" data-type="concept" {% if concept['module'] %}
+  <p>Below is an index of the {{ vocab|length }} concepts defined in DPV. Additional documentation with guidance and examples is provided in the specific module pages.</p>
+  <p><small>{%  for concept in vocab.values()|sort(attribute='term') %}
+    {% if concept['_dpvterm'] and not concept['_ignored'] and concept['_type'] in ('class', 'property') %}
+    <dfn>
+      <span id="{{ concept['term'] }}" data-type="concept" {% if concept['module'] %}
       {% set module=concept['module'][0].split('-')[0] %}
-      data-module="{{ module }}{% endif %}">{{ concept['term'] }}</span><br/>
+      data-module="{{ module }}{% endif %}">{{ concept['term'] }}</span></dfn>
+      <span class="definition">{{ concept['skos:definition'] }}.</span>
+      <span class="additional details">{% if concept['module'] %}
+      {% set module=concept['module'][0].split('-')[0] %}See <a href="modules/{{ module }}#{{ concept['term'] }}">full definition</a> in <a href="modules/{{ module }}">{{module}}</a> module{% endif %}</span>
+      <br/>
     {% endif %}
-  {% endfor %}</p>
+  {% endfor %}</small></p>
   {# <section id="dpv-classes">
    {{ index_concepts(vocab, vocab_name, filter="classes", lang=lang) }}
   </section>
@@ -442,74 +363,6 @@
 
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
 
-<script type="text/javascript">
-  const loadDfn = function(ele, hash) {
-    /** common function that redirects to a module url
-     * ele = element containing the url on this page
-     * hash = id of the concept to do to on the next page **/
-    if (ele == null) { return ; }
-    if (ele.attributes['data-type'] == null) { return ;}
-    let href = ele.attributes['data-module']['nodeValue'];
-    console.log("href=" + href);
-    let url = window.location.href.split('#')[0];
-    if (url.endsWith('/')) {
-      url = url + "modules/" + href + "#" + hash;
-    } else {
-      url = url + "/modules/" + href + "#" + hash;
-    }
-    console.log("url=" + url);
-    window.location.href = url;
-  };
 
-  window.onload = (event) => {
-    /** when a page loads
-     * check if there is a concept in the url e.g. #Concept
-     * if there is, redirect it to the correct module page **/
-    if (window.location.hash.length == 0) { return ; }
-    let hash = window.location.hash.split('#')[1]; // strip prefix #
-    console.log("hash="+ hash);
-    let ele = null;
-    if (hash.startsWith("dfn-")) { // ref to local <dfn id="dfn-Concept">
-      // get next element, which contains the metadata for target module
-      ele = document.getElementById(hash).nextSibling; 
-    } else { // the element has id Concept
-      ele = document.getElementById(hash);
-    }
-    loadDfn(ele, hash);   
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    /** when a page loads and has a <dfn> id
-     * this can happen when opening a respec link in a new tab
-     * in such cases, the <dfn> link needs to be resolved 
-     * to the element containing the target module */
-    if (window.location.hash.length == 0) { return ; }
-    let hash = window.location.hash.split('#')[1]; // strip prefix #
-    console.log("hash="+ hash);
-    let ele = null;
-    if (hash.startsWith("dfn-")) { // ref to local <dfn id="dfn-Concept">
-      // get next element, which contains the metadata for target module
-      ele = document.getElementById(hash).nextSibling; 
-    } else { // the element has id Concept
-      ele = document.getElementById(hash);
-    }
-    loadDfn(ele, hash);
-  });
-
-  document.addEventListener("click", function (e) {
-    /** when a link is clicked
-     * check if there is a concept in the href e.g. #Concept
-     * if there is, redirect it to the correct module page **/
-    const link = e.target.closest("a");
-    if (!link) return;
-    let hash = link.getAttribute("href").split('#')[1];
-    if (!hash.startsWith("dfn-")) { return ; }
-    console.log("hash=" + hash)
-    let ele = document.getElementById(hash).nextSibling;
-    if (ele == null) { return ; }
-    if (ele.attributes['data-type'] == null) { return ;}
-    loadDfn(ele, hash); 
-  });
-</script>
 </body>
 </html>
