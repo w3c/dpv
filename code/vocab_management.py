@@ -899,6 +899,7 @@ RDF_VOCABS = {
             'rules': f'{IMPORT_PATH}/dpv/modules/rules.ttl',
         },
         'module-template': {
+            'process': 'template_dpv_process.jinja2',
             'entities': 'template_dpv_entities.jinja2',
             'personal_data': 'template_dpv_personal_data.jinja2',
             'purposes': 'template_dpv_purposes.jinja2',
