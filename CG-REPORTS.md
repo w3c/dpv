@@ -1,4 +1,4 @@
-# CG-REPORTS 
+# CG-REPORTS
 
 List of reports (i.e. formally published by the W3C) produced by the DPVCG. Note that works considered to be in a 'draft' state are not formally published in this manner.
 
