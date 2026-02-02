@@ -1,0 +1,180 @@
+{% from 'macro_term_table.jinja2' import index_concepts %}
+{% from 'macro_term_table.jinja2' import list_hierarchy %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
+{% from 'macro_example.jinja2' import example_aside %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Process &amp; Service{% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "dpv",
+    title: "Process & Service",
+    subtitle: "concepts in Data Privacy Vocabulary (DPV)",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "{{vocab_name|get_document_status}}",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/dpv/modules/entities",
+    canonicalUri: "https://w3id.org/dpv/dpv/modules/entities",
+    edDraftURI: "https://dev.dpvcg.org/dpv/modules/entities",
+    github: "w3c/dpv",
+    subjectPrefix: "[dpv]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com/",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}",
+    }
+    ],
+    otherLinks: [
+      {
+        "key": "This Release",
+        "data": [
+            {
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/process",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/modules/process"
+            }
+        ]
+      },
+      {
+        "key": "Previous Release",
+        "data": [
+            {
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/process",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/modules/process"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v{{DPV_VERSION}}",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/dpv#changelog"
+            }
+        ]
+      },
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2.0 (2024)",
+              "href": "https://doi.org/10.1007/978-3-031-77847-6_10"
+            },
+            {
+              "value": "Creating a Vocabulary for Data Privacy (2019)",
+              "href": "https://doi.org/10.1007/978-3-030-33246-4_44"
+            }
+        ]
+      }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../../diagrams/common.css">
+<link rel="shortcut icon" href="../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+{{ contributors_list(data, vocab_name) }}
+{% block ABSTRACT %}
+    <section id="abstract">
+      <p>This document provides additional details and examples for process and service concepts in the Data Privacy Vocabulary [[DPV]], and is a companion to the [[DPV]] specification.</p>
+      
+    </section>
+      {{ sotd(DPV_VERSION=DPV_VERSION, metadata=data[vocab_name+'-metadata']) }}
+      {{ dpv_document_family(document='dpv-spec') }}
+{% endblock ABSTRACT %}
+  <section id="vocab-process">
+    <h2>Introduction</h2>
+    <figure>
+      <img src="../../diagrams/process.svg">
+      <figcaption></figcaption>
+    </figure>
+    <p>In legal terminology, it is common to refer to all information about how personal data is being processed using the colloquial term <i>processing</i>. This results in confusion between the use of <i>processing</i> as a concept referring to all information (i.e. purposes, personal data, collection, storage, etc.), and <code>processing</code> as a concept referring to (only) the specific actions or operations (e.g. collect, use).</p>
+    <p>To avoid this ambiguity and enable clarity of information, DPV defines a new concept called [=Process=] for representing how the core concepts are combined and applied for a particular use-case, and the relation [=hasProcess=] to associate processes with other processes, services, or any relevant concept. The association of a concept to <code>Process</code> is made using the relationships or properties provided for each concept. For example, to indicate a <code>Process</code> includes personal data, the relationship <code>hasPersonalData</code> is used along with the concept <code>PersonalData</code>.</p>
+    {{ list_hierarchy(modules['process']['classes']) }}
+    <aside class="note" title="Process from DPV v2 is a replacement for PersonalDataHandling from DPV v1">
+      <p>In DPV v1, the concept <code>PersonalDataHandling</code> was defined to represent the combination of core concepts. In DPV v2, this role is fulfilled by <code>Process</code> which is a term more closely aligned with practical uses and the vocabulary used by various entities e.g. business process. For backwards compatibility, <code>PersonalDataHandling</code> is defined as a subclass or subtype of <code>Process</code>.</p>
+    </aside>
+    {{ example_aside('dex:E0005') }}
+    <section>
+      <h3>Nesting Processes</h3>
+      <p>Instances of <code>Process</code> can be nested, which means one instance can contain other instances, much like a box with several smaller boxes inside. This permits breaking down complex or dense use-cases into more granular ones and representing them in a more precise and modular fashion. Such a representation also facilitates reuse of the granular or modular processes, or in defining 'templates' and 'patterns', for example to craft a single process representing collecting and storing email addresses and using it in different processes for different purposes.</p>
+      <p>From the earlier example, consider the situation where a single <code>Process</code> instance consists of two additional instances representing: (i) data is stored using a data processor, (ii) data is used for Marketing. While it is certainly possible to represent all of this information within one single instance of <code>Process</code>, the adopter may decide to create separate instances of <code>Process</code> based on requirements such as reflecting similar separations for legal documentation or accountability purposes.</p>
+      {{ example_aside('dex:E0006') }}
+    </section>
+    <section>
+      <h3>Interpretation of Process</h3>
+      <p>Where multiple concepts such as purposes and data are present in the same process, the interpretation is that they all apply e.g. each purpose applies to each personal data, and so on. If this is not the case, then nested processes should be used to separate the groups so that only those concepts are present within the same process which occur or are associated with each other.</p>
+      <p>Such arrangements can also be used to separate necessary and optional parts of a process, and can aid in avoiding duplication of processes where only a few elements need to be distinguished. For example, if a purpose has necessary and optional data associated with it, it is possible to create two nested processes containing the purpose and the necessary data in one process, and the process and optional data in another. However, such duplication is not necessary, the 'parent' or 'outer' process can contain the purpose and the nested processes can contain only the differentiating elements i.e. one nested process contains the necessary data and the other contains the optional data.</p>
+      <p>Processes are also be useful to indicate separation of responsibilities - for example where some processing is conducted by one processor and another by a different processor, with each nested process corresponding to the processing activities of one processor.</p>
+    </section>
+    <section>
+      <h3>Alternative Models</h3>
+      <p><code>Process</code> is intended to provide a convenient concept for tying the core concepts together, and DPV does not make its use binding, nor does it constrain the relationships to only be defined between <code>Process</code> and the other core concepts. This is so as to permit using DPV in alternate or differing models. For example, where a central concept already exists, such as when describing relevant information for a smartphone app, the concept for <code>App</code> can be a replacement for <code>Process</code> based on statements such as <code>&lt;App&gt; hasPurpose &lt;SomePurpose&gt;</code>. Even in such cases, <code>Process</code> can provide granular expression thereby enabling description of different contexts within which the app uses personal data, such as for registration or complaint resolution. Therefore unless necessary for the use-case, DPV recommends using <code>Process</code> or its subtype/subclass as a central concept for ensuring interoperability.</p>
+      <p>An example of where the adopter or use-case wants to use another concept in a way which is not compatible with <code>Purpose</code> is the use of <code>Purpose</code> to indicate it involves some data i.e. <code>&lt;SomePurpose hasPersonalData SomePersonalData&gt;</code>, or to indicate which legal basis is used for that purpose by using the <code>hasLegalBasis</code> relationship. While not explicitly prohibited by DPV, the implications of using <code>Purpose</code> in this manner is that the personal data and processing and other associated concepts are now strictly tied to the purpose instance (and implementation). Changing any of these would mean changing the purpose, and in addition to these, it is not possible to combine multiple purposes together or have nested purposes with different details in the same manner as with a <code>Process</code>. Therefore, DPVCG recommends the use of <code>Process</code> to ensure compatibility between use-cases as well as to ensure the use of concepts does not create ambiguity or restrict further use-cases from reusing existing information.</p>
+    </section>
+  </section>
+
+  <section>
+    <h2>Process with/without Personal Data</h2>
+    <p>Regulations such as the [[EU-GDPR]] apply when personal data is involved. To provide a convenient way to represent whether a process involves personal data or not, and therefore will be subject to requirements such as those related to privacy or from regulations such as the GDPR, the concepts [=PersonalDataProcess=] and [=NonPersonalDataProcess=] are provided. In providing these concepts, DPV does not dictate how these processes indicate the involvement of personal or non-personal data, for example by mandating the use of properties such as `hasPersonalData`.</p>
+    <p>These concepts are also a convenient way to represent which parts of the process involve personal data and which don't. For example, a process can specify constituent or granular processes using the properties [=hasPersonalDataProcess=] and [=hasNonPersonalDataProcess=] to represent where exactly personal data is or isn't involved.</p>
+  </section>
+
+  <section>
+    <h2>Service</h2>
+    <p>TThe concept [=Service=] is a general concept that represents the legal and social notion of 'service', similar to provided 'product' or 'application' or 'process', and does not represent the technical notion of services such as those associated with operating systems or 'cloud services'. In this sense, a 'Service' is _a process where one entity provides some benefit or assistance to another entity_. Service is useful to indicate a logical grouping of processes into a single 'unit' which has legal relevance - such as a contract covering the service or the provision of a service. To indicate a service is associated or involved, the relation [=hasService=] is provided.  Services are regualted by law, and are also subject to specific requirements and obligations, such as regarding contractual arrangements, provision of benefits, fiduciary duties, and satisfaction of involved parties. While DPV currently does not provide modelling for these aspects, indicating how services are governed, implemented, and provided -- especially in relation to personal data and impacts -- is supported through the use of this concept.</p>
+    <aside class="note" title="Service does not refer to technical service concepts">
+      <p>Adopters are cautioned against using [=Service=] to represent technical concepts such as those used for operating systems or the technical concept of a 'cloud service' architecture or infrastructure. Adopters should use the [[TECH]] extension which provides such technical concepts.</p>
+    </aside>
+    <p>Broadly, a service can be represented as a group of processes which do different but related things in order to achieve the successful provision of the service. Other relevant concepts from the [[DPV]] modules, such as entities, purposes, and context are helpful here to indicate how this happens. Similarly, extensions such as [[TECH]] enable representing the technical implementation of services, including who develops and provides them, and the involvement of specific hardware, software, or provision models such as through cloud and subscriptions.</p>
+    <p>To indicate the entities involved in services, the concepts `ServiceProvider` and `ServiceConsumer` are defined along with the relations `hasServiceProvider` and `hasServiceConsumer` (these are described in the <a href="./entities">`entity`</a> module). Entities acting as providers and consumers can also be controllers or processors or data subjects. For example, a controller or processor may be the service provider for another controller who is the service consumer. Similarly, a processor may be the service provider for data subjects under the instructions of a data controller.</p>
+    {{ example_aside('dex:E0031') }}
+  </section>
+
+  <section>
+  <h2>Vocabulary Index</h2>
+  <section id="classes">
+    {{ index_concepts(modules['process']['classes'], vocab_name, filter="classes") }}
+  </section>
+  <section id="properties">
+    {{ index_concepts(modules['process']['properties'], vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>DPV uses the following terms from [[RDF]] and [[RDFS]] with their defined meanings:</p>
+    <ul>
+      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+      </ul>
+    <p>The following external concepts are re-used within DPV:</p>
+    {{ index_concepts(modules['process']['classes'], vocab_name, filter="external") }}
+    {{ index_concepts(modules['process']['properties'], vocab_name, filter="external") }}
+  </section>
+</section>
+{% block ACKNOWLEDGEMENTS %}
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre; and the AI Accountability Lab (AIAL) which is supported by grants from following groups: the AI Collaborative, an Initiative of the Omidyar Group; Luminate; the Bestseller Foundation; and the John D. and Catherine T. MacArthur Foundation.</p>
+
+</section>
+{% endblock ACKNOWLEDGEMENTS %}
+<script type="text/javascript" src="../../diagrams/common.js" defer></script>
+</body>
+</html>
