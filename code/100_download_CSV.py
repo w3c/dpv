@@ -383,21 +383,21 @@ DPV_FILES = {
             'EHDS_Process',
             ),
     },
-    # Standards - P7012
-    'p7012': {
-        'name': 'p7012',
+    # Standards - ieee_7012
+    'ieee-7012': {
+        'name': 'ieee-7012',
         'doc_id': '1mhnDukj_OHNJJPoG8Yu4FsbPdyeb9FFl_2xXnYemOGU',
         'sheets': (
-            'p7012_entities',
-            'p7012_entities_properties',
-            'p7012_process',
-            'p7012_process_properties',
-            'p7012_agreement',
-            'p7012_status',
-            'p7012_data',
-            'p7012_purpose',
-            'p7012_privacy_term',
-            'p7012_privacy_term_properties',
+            '7012_entities',
+            '7012_entities_properties',
+            '7012_process',
+            '7012_process_properties',
+            '7012_agreement',
+            '7012_status',
+            '7012_data',
+            '7012_purpose',
+            '7012_privacy_term',
+            '7012_privacy_term_properties',
             ),
     },
     # Sheets for Use-Cases, Requirements, and Examples

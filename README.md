@@ -52,7 +52,7 @@ In v2.1, the Sector and Standard group of extensions was added to the DPV specif
 - [SECTOR-LAW](https://w3id.org/dpv/sector/law) for Law Enforcement & Justice Sector
 - [SECTOR-PUBLICSERVICES](https://w3id.org/dpv/sector/publicservices) for Public Services Sector
 
-The Standards extensions are aimed to provide additional concepts for implementing specific standards using DPV. Currently it contains [IEEE-P7012](https://w3id.org/dpv/standards/p7012) based on [IEEE P7012 Draft Standard for Machine Readable Personal Privacy Terms](https://standards.ieee.org/ieee/7012/7192/).
+The Standards extensions are aimed to provide additional concepts for implementing specific standards using DPV. Currently it contains [IEEE-7012](https://w3id.org/dpv/standards/ieee/7012) based on [IEEE 7012-2025 Standard for Machine Readable Personal Privacy Terms](https://standards.ieee.org/ieee/7012/7192/).
 
 ### Extensions for Jurisdictions and Regulations
 
