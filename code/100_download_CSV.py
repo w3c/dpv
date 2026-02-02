@@ -127,6 +127,7 @@ DPV_FILES = {
             'Entities_Organisation', 
             'Entities_DataSubject', 
             'Entities_DataSubject_properties',
+            'Entities_Healthcare',
             ),
     },
     # Sheets for Locations and Jurisdiction

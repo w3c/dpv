@@ -405,6 +405,9 @@ CSVFILES = {
         'purposes': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Healthcare.csv',
         },
+        'entities': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Entities_Healthcare.csv',
+        }
     },
     'sector-infra': {
         'purposes': {
@@ -1126,6 +1129,7 @@ RDF_VOCABS = {
         'export': f'{EXPORT_PATH}/sector/health',
         'modules': {
             'purposes': f'{IMPORT_PATH}/sector/health/modules/purposes.ttl',
+            'entities': f'{IMPORT_PATH}/sector/health/modules/entities.ttl',
         },
         'metadata': {
             "dct:title": "Health Sector Concepts",
