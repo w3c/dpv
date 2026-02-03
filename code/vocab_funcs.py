@@ -107,8 +107,12 @@ def construct_parent_taxonomy(item, data, namespace, header):
             continue
         if parent != 'dpv:Concept':
             # DEBUG(data)
-            prefix, parentterm = parent.split(':')
-            parent = NAMESPACES[prefix][parentterm]
+            try:
+                prefix, parentterm = parent.split(':')
+                parent = NAMESPACES[prefix][parentterm]
+            except Exception as e:
+                DEBUG(f"{data=}")
+                raise
         else:
             parent = RDFS.Class
         parents.append(parent)
