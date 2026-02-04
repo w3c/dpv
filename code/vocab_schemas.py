@@ -171,13 +171,13 @@ SCHEMA['examples'] = {
     'Contributor': vocab_funcs.construct_contributors,
 }
 
-SCHEMA['p7012-terms'] = SCHEMA['taxonomy'].copy()
-SCHEMA['p7012-terms'].update({
-    # 'Permits': vocab_funcs.p7012_term_permit,
-    # 'Prohibits': vocab_funcs.p7012_term_prohibit,
-    # 'Obligates': vocab_funcs.p7012_term_obligate,
-    'Permits': vocab_funcs.p7012_term_rule,
-    'Prohibits': vocab_funcs.p7012_term_rule,
-    'Obligates': vocab_funcs.p7012_term_rule,
-    'HumanDescription': vocab_funcs.p7012_human_label,
+SCHEMA['ieee-7012-terms'] = SCHEMA['taxonomy'].copy()
+SCHEMA['ieee-7012-terms'].update({
+    # 'Permits': vocab_funcs.ieee_7012_term_permit,
+    # 'Prohibits': vocab_funcs.ieee_7012_term_prohibit,
+    # 'Obligates': vocab_funcs.ieee_7012_term_obligate,
+    'Permits': vocab_funcs.ieee_7012_term_rule,
+    'Prohibits': vocab_funcs.ieee_7012_term_rule,
+    'Obligates': vocab_funcs.ieee_7012_term_rule,
+    'HumanDescription': vocab_funcs.ieee_7012_human_label,
     })

@@ -107,8 +107,12 @@ def construct_parent_taxonomy(item, data, namespace, header):
             continue
         if parent != 'dpv:Concept':
             # DEBUG(data)
-            prefix, parentterm = parent.split(':')
-            parent = NAMESPACES[prefix][parentterm]
+            try:
+                prefix, parentterm = parent.split(':')
+                parent = NAMESPACES[prefix][parentterm]
+            except Exception as e:
+                DEBUG(f"{data=}")
+                raise
         else:
             parent = RDFS.Class
         parents.append(parent)
@@ -522,7 +526,7 @@ def construct_gdpr_right_justification(term, data, namespace, header):
     return triples
 
 
-def p7012_term_rule(term, data, namespace, header):
+def ieee_7012_term_rule(term, data, namespace, header):
     triples = []
     subject = namespace[data['Term']]
     if header == 'Permits':
@@ -532,7 +536,7 @@ def p7012_term_rule(term, data, namespace, header):
     elif header == 'Obligates':
         rule = DPV.hasObligation
     else:
-        raise Exception(f"Unknown rule {header} in P7012 spreadsheet column")
+        raise Exception(f"Unknown rule {header} in ieee_7012 spreadsheet column")
 
     for item in term.split(','):
         item_namespace, item_label = item.split(':')
@@ -542,7 +546,7 @@ def p7012_term_rule(term, data, namespace, header):
     return triples
 
 
-def p7012_human_label(term, data, namespace, header):
+def ieee_7012_human_label(term, data, namespace, header):
     triples = []
     if not term: return triples
     term = term.strip()

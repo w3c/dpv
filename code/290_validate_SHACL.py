@@ -76,7 +76,7 @@ DATA_PATHS = [
     f'{EXPORT_PATH}/sector/law/sector-law.ttl',
     f'{EXPORT_PATH}/sector/publicservices/sector-publicservices.ttl',
     f'{EXPORT_PATH}/sector/sector.ttl',
-    f'{EXPORT_PATH}/standards/p7012/p7012.ttl',
+    f'{EXPORT_PATH}/standards/ieee/7012/ieee-7012.ttl',
     f'{EXPORT_PATH}/tech/tech.ttl',
 ]
 

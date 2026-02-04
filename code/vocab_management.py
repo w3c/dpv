@@ -256,30 +256,30 @@ CSVFILES = {
             'properties': f'{IMPORT_CSV_PATH}/Rules_properties.csv',
         },
     },
-    'p7012': {
+    'ieee-7012': {
         'entities': {
-            'classes': f'{IMPORT_CSV_PATH}/p7012_entities.csv',
-            'properties': f'{IMPORT_CSV_PATH}/p7012_entities_properties.csv',
+            'classes': f'{IMPORT_CSV_PATH}/7012_entities.csv',
+            'properties': f'{IMPORT_CSV_PATH}/7012_entities_properties.csv',
         },
         'process': {
-            'classes': f'{IMPORT_CSV_PATH}/p7012_process.csv',
-            'properties': f'{IMPORT_CSV_PATH}/p7012_process_properties.csv',
+            'classes': f'{IMPORT_CSV_PATH}/7012_process.csv',
+            'properties': f'{IMPORT_CSV_PATH}/7012_process_properties.csv',
         },
         'agreement': {
-            'p7012-terms': f'{IMPORT_CSV_PATH}/p7012_agreement.csv',
+            'ieee-7012-terms': f'{IMPORT_CSV_PATH}/7012_agreement.csv',
         },
         'status': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_status.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/7012_status.csv',
         },
         'data': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_data.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/7012_data.csv',
         },
         'purpose': {
-            'taxonomy': f'{IMPORT_CSV_PATH}/p7012_purpose.csv',
+            'taxonomy': f'{IMPORT_CSV_PATH}/7012_purpose.csv',
         },
         'privacy_term': {
-            'p7012-terms': f'{IMPORT_CSV_PATH}/p7012_privacy_term.csv',
-            'properties': f'{IMPORT_CSV_PATH}/p7012_privacy_term_properties.csv',
+            'ieee-7012-terms': f'{IMPORT_CSV_PATH}/7012_privacy_term.csv',
+            'properties': f'{IMPORT_CSV_PATH}/7012_privacy_term_properties.csv',
         },
     },
     'pd': {
@@ -405,6 +405,9 @@ CSVFILES = {
         'purposes': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Purpose_Healthcare.csv',
         },
+        'entities': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Entities_Healthcare.csv',
+        }
     },
     'sector-infra': {
         'purposes': {
@@ -899,6 +902,7 @@ RDF_VOCABS = {
             'rules': f'{IMPORT_PATH}/dpv/modules/rules.ttl',
         },
         'module-template': {
+            'process': 'template_dpv_process.jinja2',
             'entities': 'template_dpv_entities.jinja2',
             'personal_data': 'template_dpv_personal_data.jinja2',
             'purposes': 'template_dpv_purposes.jinja2',
@@ -922,22 +926,22 @@ RDF_VOCABS = {
         },
     },
     # STANDARDS
-    'p7012': {
-        'vocab': f'{IMPORT_PATH}/standards/p7012/p7012.ttl',
-        'template': 'template_p7012.jinja2',
-        'export': f'{EXPORT_PATH}/standards/p7012',
+    'ieee-7012': {
+        'vocab': f'{IMPORT_PATH}/standards/ieee/7012/ieee-7012.ttl',
+        'template': 'template_ieee_7012.jinja2',
+        'export': f'{EXPORT_PATH}/standards/ieee/7012',
         'modules': {
-            'entities': f'{IMPORT_PATH}/standards/p7012/modules/entities.ttl',
-            'process': f'{IMPORT_PATH}/standards/p7012/modules/process.ttl',
-            'agreement': f'{IMPORT_PATH}/standards/p7012/modules/agreement.ttl',
-            'status': f'{IMPORT_PATH}/standards/p7012/modules/status.ttl',
-            'data': f'{IMPORT_PATH}/standards/p7012/modules/data.ttl',
-            'purpose': f'{IMPORT_PATH}/standards/p7012/modules/purpose.ttl',
-            'privacy_term': f'{IMPORT_PATH}/standards/p7012/modules/privacy_term.ttl',
+            'entities': f'{IMPORT_PATH}/standards/ieee/7012/modules/entities.ttl',
+            'process': f'{IMPORT_PATH}/standards/ieee/7012/modules/process.ttl',
+            'agreement': f'{IMPORT_PATH}/standards/ieee/7012/modules/agreement.ttl',
+            'status': f'{IMPORT_PATH}/standards/ieee/7012/modules/status.ttl',
+            'data': f'{IMPORT_PATH}/standards/ieee/7012/modules/data.ttl',
+            'purpose': f'{IMPORT_PATH}/standards/ieee/7012/modules/purpose.ttl',
+            'privacy_term': f'{IMPORT_PATH}/standards/ieee/7012/modules/privacy_term.ttl',
         },
         'metadata': {
-            "dct:title": "Extension for IEEE P7012",
-            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for implementing IEEE P7012",
+            "dct:title": "Extension for IEEE 7012",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for implementing IEEE 7012",
             "dct:created": "2025-01-12",
             "dct:modified": DPV_PUBLISH_DATE,
             "dct:creator": "Harshvardhan J. Pandit, Iain Henderson, Beatriz Esteves",
@@ -1125,6 +1129,7 @@ RDF_VOCABS = {
         'export': f'{EXPORT_PATH}/sector/health',
         'modules': {
             'purposes': f'{IMPORT_PATH}/sector/health/modules/purposes.ttl',
+            'entities': f'{IMPORT_PATH}/sector/health/modules/entities.ttl',
         },
         'metadata': {
             "dct:title": "Health Sector Concepts",
@@ -2200,9 +2205,9 @@ RDF_STRUCTURE = {
         'main': f'{EXPORT_RDF_PATH}/dpv',
         'modules': f'{EXPORT_RDF_PATH}/dpv/modules',
     },
-    'p7012': {
-        'main': f'{EXPORT_RDF_PATH}/standards/p7012',
-        'modules': f'{EXPORT_RDF_PATH}/standards/p7012/modules',
+    'ieee-7012': {
+        'main': f'{EXPORT_RDF_PATH}/standards/ieee/7012',
+        'modules': f'{EXPORT_RDF_PATH}/standards/ieee/7012/modules',
     },
     'pd': {
         'main': f'{EXPORT_RDF_PATH}/pd',
