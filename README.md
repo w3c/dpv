@@ -52,7 +52,7 @@ In v2.1, the Sector and Standard group of extensions was added to the DPV specif
 - [SECTOR-LAW](https://w3id.org/dpv/sector/law) for Law Enforcement & Justice Sector
 - [SECTOR-PUBLICSERVICES](https://w3id.org/dpv/sector/publicservices) for Public Services Sector
 
-The Standards extensions are aimed to provide additional concepts for implementing specific standards using DPV. Currently it contains [IEEE-P7012](https://w3id.org/dpv/standards/p7012) based on [IEEE P7012 Draft Standard for Machine Readable Personal Privacy Terms](https://standards.ieee.org/ieee/7012/7192/).
+The Standards extensions are aimed to provide additional concepts for implementing specific standards using DPV. Currently it contains [IEEE-7012](https://w3id.org/dpv/standards/ieee/7012) based on [IEEE 7012-2025 Standard for Machine Readable Personal Privacy Terms](https://standards.ieee.org/ieee/7012/7192/).
 
 ### Extensions for Jurisdictions and Regulations
 
@@ -69,7 +69,7 @@ The LEGAL extensions provide concepts associated with specific jurisdictions and
 - [LEGAL-BE](https://w3id.org/dpv/legal/be) for Belgium
 - [LEGAL-BG](https://w3id.org/dpv/legal/bg) for Bulgaria
 - [LEGAL-CY](https://w3id.org/dpv/legal/cy) for Cyprus
-- [LEGAL-CZ](https://w3id.org/dpv/legal/cz) for Czech Republic
+- [LEGAL-CZ](https://w3id.org/dpv/legal/cz) for the Czech Republic
 - [LEGAL-DE](https://w3id.org/dpv/legal/de) for Germany
 - [LEGAL-DK](https://w3id.org/dpv/legal/dk) for Denmark
 - [LEGAL-EE](https://w3id.org/dpv/legal/ee) for Estonia
@@ -94,7 +94,7 @@ The LEGAL extensions provide concepts associated with specific jurisdictions and
 - [LEGAL-MO](https://w3id.org/dpv/legal/mo) for Macao
 - [LEGAL-MT](https://w3id.org/dpv/legal/mt) for Malta
 - [LEGAL-MY](https://w3id.org/dpv/legal/my) for Malaysia
-- [LEGAL-NL](https://w3id.org/dpv/legal/nl) for Netherlands
+- [LEGAL-NL](https://w3id.org/dpv/legal/nl) for the Netherlands
 - [LEGAL-NO](https://w3id.org/dpv/legal/no) for Norway
 - [LEGAL-PH](https://w3id.org/dpv/legal/ph) for the Philippines
 - [LEGAL-PL](https://w3id.org/dpv/legal/pl) for Poland
@@ -106,7 +106,7 @@ The LEGAL extensions provide concepts associated with specific jurisdictions and
 - [LEGAL-SK](https://w3id.org/dpv/legal/sk) for Slovakia
 - [LEGAL-TH](https://w3id.org/dpv/legal/th) for Thailand
 - [LEGAL-TW](https://w3id.org/dpv/legal/tw) for Taiwan
-- [LEGAL-US](https://w3id.org/dpv/legal/us) for United States of America
+- [LEGAL-US](https://w3id.org/dpv/legal/us) for the United States of America
 
 ### Other Resources
 
@@ -140,7 +140,7 @@ In addition to the above, we welcome participation in the following guides being
 
 ## Releases
 
-> [go to latest release](https://github.com/w3c/dpv/releases/latest)
+> [go to the latest release](https://github.com/w3c/dpv/releases/latest)
 
 Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/releases](https://github.com/w3c/dpv/releases) and contain zipped collections of DPV specifications, modules, extensions, and accompanying documents.
 
@@ -212,7 +212,7 @@ A full list of reports (i.e. formally published by the W3C) produced by the CG i
 
 If you're unsure about something, or would like clarifications, or suggestions - please communicate with us or open an issue. We would be happy to help. You can view the [current open issues](https://github.com/w3c/dpv/issues) and the [public mailing list](https://lists.w3.org/Archives/Public/public-dpvcg/).
 
-Membership to the group is open to all interested individuals and organisations. To join the group, you need a valid W3C account – which is free to get and can be [requested here](https://www.w3.org/accounts/request). The group meets usually through online meeting calls - see [meetings calendar](https://www.w3.org/groups/cg/dpvcg/calendar) and [minutes](https://w3id.org/dpv/meetings/).
+Membership to the group is open to all interested individuals and organisations. To join the group, you need a valid W3C account – which is free to get and can be [requested here](https://www.w3.org/accounts/request). Usually, the group meets through online meeting calls - see [meetings calendar](https://www.w3.org/groups/cg/dpvcg/calendar) and [minutes](https://w3id.org/dpv/meetings/).
 
 ## Funding Acknowledgements
 
