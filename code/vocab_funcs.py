@@ -25,22 +25,33 @@ def construct_property(item, data, namespace, header):
     return triples
 
 
-def construct_label(item, data, namespace, header):
+def construct_label(item, data, namespace, header, lang='en'):
     triples = []
     term, namespace = _get_term_from_prefix_notation(data['Term'], namespace)
     if ':' in data['Term'] and namespace.startswith('https://w3id.org/dpv'):
         return triples
-    triples.append((namespace[term], SKOS.prefLabel, Literal(item, lang='en')))
+    triples.append((namespace[term], SKOS.prefLabel, Literal(item, lang=lang)))
     return triples
 
-def construct_definition(item, data, namespace, header):
+
+# TODO merge with construct_definition, define language in schema definition
+def construct_label_de(item, data, namespace, header):
+    return construct_label(item, data, namespace, header, lang='de')
+
+
+def construct_definition(item, data, namespace, header, lang='en'):
     triples = []
     term, namespace = _get_term_from_prefix_notation(data['Term'], namespace)
     annotation = SKOS.definition
     if data['Term'] != term: # e.g. dpv:Concept and Concept
         annotation = SKOS.scopeNote
-    triples.append((namespace[term], annotation, Literal(item, lang='en')))
+    triples.append((namespace[term], annotation, Literal(item, lang=lang)))
     return triples
+
+
+# TODO merge with construct_definition, define language in schema definition
+def construct_definition_de(item, data, namespace, header):
+    return construct_definition(item, data, namespace, header, lang='de')
 
 
 def construct_sameas(item, data, namespace, header):
