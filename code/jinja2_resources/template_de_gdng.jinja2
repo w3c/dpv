@@ -1,0 +1,190 @@
+{% from 'macro_term_table.jinja2' import table_classes %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list, language_selector %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}}{% endblock title %}</title>
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+    {% block RESPEC %}
+    <script class="remove">
+    // All config options at https://respec.org/docs/ 
+    var respecConfig = {
+	 shortName: "de-gdng",
+	 title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+	 subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+	 publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+	 specStatus: "{{vocab_name|get_document_status}}",
+	 group: "dpvcg",
+	 latestVersion: "{{RDF_VOCABS[vocab_name]['metadata']['iri']}}",
+	 canonicalUri: "{{RDF_VOCABS[vocab_name]['metadata']['iri']}}",
+	 edDraftURI: "{{RDF_VOCABS[vocab_name]['metadata']['iri'].replace('w3id.org/dpv', 'dev.dpvcg.org')}}",
+	 github: "w3c/dpv",
+	 subjectPrefix: "[loc]",
+	 doJsonLd: true,
+	 lint: { "no-unused-dfns": false, "local-refs-exist": true },
+	 editors: [
+	     {
+		 name: "Julian Flake",
+		 url: "https://uni-ko.de/flake",
+		 "company": "{{ "Julian Flake" | generate_author_affiliation }}"
+	     },
+	     {
+		 name: "Harshvardhan J. Pandit",
+		 url: "https://harshp.com",
+		 "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+	     },
+	 ],
+	 authors: {{ authors_list(data, vocab_name) }},
+	 otherLinks: [
+	     {
+		 "key": "This Release",
+		 "data": [
+		     {
+			 "value": "{{data[vocab_name+'-metadata']['iri']}}",
+			 "href": "{{data[vocab_name+'-metadata']['iri']}}"
+		     }
+		 ]
+	     },
+	     {
+		 "key": "Key Publications",
+		 "data": [
+		     {
+			 "value": "Data Privacy Vocabulary (DPV) -- Version 2.0 (2024)",
+			 "href": "https://doi.org/10.1007/978-3-031-77847-6_10"
+		     },
+		 ]
+	     }
+	 ],
+	 localBiblio: {%  include 'references.json' %}
+    };
+    </script>
+    {% endblock RESPEC %}
+    <script type="text/javascript" src="../../../diagrams/common.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="../../../diagrams/common.css">
+    <link rel="shortcut icon" href="../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+    <link rel="shortcut icon" href="../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+  </head>
+  <body>
+      {{ contributors_list(data, vocab_name) }}
+      {% block ABSTRACT %}
+      {{ language_selector(lang, False) }}
+      <section id="abstract">
+	  <p>The {{vocab_name|upper}} extension extends the [[[DPV]]] to represent concepts in the German Law "Gesetz zur verbesserten Nutzung von Gesundheitsdaten" or short "Gesundheitsdatennutzungsgesetz (GDNG)".</p>
+	  <p>The canonical URL for {{vocab_name|upper}} extension is <a href="{{RDF_VOCABS[vocab_name]['metadata']['iri']}}">{{RDF_VOCABS[vocab_name]['metadata']['iri']}}</a>, the namespace is <a href="{{RDF_VOCABS[vocab_name]['metadata']['iri']}}#"><code>{{RDF_VOCABS[vocab_name]['metadata']['iri']}}#</code></a>, the suggested prefix is <code>{{vocab_name}}</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
+      </section>
+      {{ sotd(DPV_VERSION=DPV_VERSION, metadata=data[vocab_name+'-metadata']) }}
+      {{ dpv_document_family(document='dpv-pd-spec') }}
+      {% endblock ABSTRACT %}
+      {% block INTRODUCTION %}
+
+      {% endblock INTRODUCTION %}
+      {% block VOCAB %}
+      <section id="vocab-de-gdng">
+	  <h2>Overview</h2>
+	  <p>The GDNG extension defines the concepts and properties to describe entities, processes, and data that are involved in processes regulated by the German Gesundheitsdatennutzungsgesetz [[GDNG]] as shown in Figure 1. The Figure 1 also visualizes the relationships of the GDNG extension with other DPV extensions.</p>
+	  <figure>
+              <img src="../../../diagrams/gdng-overview.svg">
+              <figcaption>Overview of concepts defined by this extension.</figcaption>
+	  </figure>
+	  <p>Figure 2 shows a sketch of a GDNG aligned collaboration between a data user and the data access and coordination office that describes the process of identification and localization of health data for the purpose of secondary use of health data. Model elements shown in yellow or green represent terms of this vocabulary.</p>
+	  <figure>
+	      <img src="../../../diagrams/gdng-process-query-{{lang}}.svg">
+	      <figcaption>Collaboration between data user and data access and coordination office to identify and localize health data.</figcaption>
+	  </figure>
+	  <p>Figure 3 shows a GDNG aligned collaboration sketching the activities of a data user, the data access and coordination office and a data holder that are to be carried out, if a data holder (e.g. a research institute) wants to use health data for secondary uses such as research purposes. Model elements shown in yellow or green represent terms of this vocabulary.</p>
+	  <figure>
+	      <img src="../../../diagrams/gdng-process-access-{{lang}}.svg">
+	      <figcaption>Collaboration between data user, data access and coordination office and data holder.</figcaption>
+	  </figure>
+      </section>
+
+      <section id="vocab-basic-definitions">
+	  <h2>Basic Concepts</h2>
+	  <p>
+	      The basic concepts of the GDNG are described in this section.
+	  </p>
+	  {{ list_hierarchy(modules['basic-definitions']['classes'], lang=lang) }}
+      </section>
+
+      <section id="vocab-actors">
+	  <h2>Actors</h2>
+	  <p>
+	      This section describes the actors involved in GDNG regulated processes.
+	  </p>
+	  {{ list_hierarchy(modules['actors']['classes'], lang=lang) }}
+      </section>
+
+
+      <section id="vocab-query-and-access">
+	  <h2>Query and Access Health Data</h2>
+	  <p>
+	      This section describes concepts around the processes of identification and localization of and access to health data for secondary uses.
+	  </p>
+	  {{ list_hierarchy(modules['query-and-access']['classes'], lang=lang) }}
+      </section>
+
+      <section id="vocab-linkage">
+	  <h2>Data Linkage</h2>
+	  <p>
+	      The terms related to data linkage are described in this section.
+	  </p>
+	  {{ list_hierarchy(modules['linkage']['classes'], lang=lang) }}
+      </section>
+
+      <section id="vocabulary">
+	  <h2>Vocabulary Index</h2>
+	  This section shows the full definitions of all classes and all properties.
+	  <section id="dpv-terms">
+	      {{ index_concepts(vocab, vocab_name, filter="classes", lang=lang) }}
+	  </section>
+	  <section id="dpv-properties">
+	      {{ index_concepts(vocab, vocab_name, filter="properties", lang=lang) }}
+	  </section>
+	  <section id="external-concepts">
+	      <p>DPV uses the following terms from [[RDF]] and [[RDFS]] with their defined meanings:</p>
+	      <ul>
+		  <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+		  <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+		  <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+		  <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+	      </ul>
+	      <p>The following external concepts are re-used within DPV:</p>
+	      {{ index_concepts(vocab, vocab_name, filter="external", lang=lang) }}
+	  </section>
+      </section>
+
+      <section id="future-work" class="appendix">
+	  <h2>Future Work</h2>
+	  <p class="issue">add AI disclaimer: deepl.com was used to translate (some of the) definitions from German to English. All translation have been manually checked and adjusted where necessary.</p>
+	  <aside class="issue" data-number="238"></aside>
+	  <aside class="issue" data-number="387"></aside>
+	  <aside class="issue" data-number="416"></aside>
+      </section>
+
+      {% block ACKNOWLEDGEMENTS %}
+      <section id="funding-acknowledgements" class="notoc">
+	  <h2>Funding Acknowledgements</h2>
+
+	  <h3>Funding Sponsors</h3>
+	  {{ funding_acknowledgements() }}
+
+	  <h3>Funding Acknowledgements for Contributors</h3>
+	  <p>The contributions of Julian Flake have been made with the financial support from the European Union’s Digital Europe Programme grant#101123471 (EDGE-Skills) and from the <a href="https://titan-eosc.eu/">TITAN project</a> funded under European Union’s Horizon Europe Framework Programme grant#101129822.</p>
+
+      </section>
+      {% endblock ACKNOWLEDGEMENTS %}
+
+      {% endblock VOCAB %}
+      <!-- <section class="appendix" id="issue-summary"></section> -->
+
+      <!-- <section id="changelog"> -->
+      <!--   <h2>Changelog for v{{DPV_VERSION}}</h2> -->
+      <!--   <p><strong>total extensions: 43 ; added: 9 ; removed: 0 ;</strong></p> -->
+      <!--   <p>The <a href="../changelog.html">changelog</a> provides more information on concepts that have been added/removed in this version. Below is a summary of the changes.</p> -->
+      <!-- </section> -->
+
+  </body>
+</html>
