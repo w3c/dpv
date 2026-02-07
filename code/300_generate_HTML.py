@@ -419,7 +419,7 @@ def get_children_hierarchy(term):
 
 
 # ==== Organise into hierarchy ====
-def organise_hierarchy(terms:list, top:str=None) -> dict:
+def organise_hierarchy(terms:list, top:str=None, mode:str=None) -> dict:
     """
     Organise the given list of terms into a hierarchy.
     `terms` is a list of terms to be organised into a hierarchy,
@@ -441,33 +441,42 @@ def organise_hierarchy(terms:list, top:str=None) -> dict:
     if top is None:
         for key, term in terms.items():
             # DEBUG(f"{key=}")
-            parents = [] #ensure_list(term['rdf:type'])
+            if mode == "taxonomy":
+                parents = ensure_list(term['rdf:type'])
+            else:
+                parents = []
             if 'skos:broader' in term: # has parents
                 parents = parents + ensure_list(term['skos:broader']) # get parents
-                # DEBUG(f"{parents=}")
-                for parent in parents: # check parents are not present in terms
-                    # if parents are in terms, that means this isn't a top
-                    # concept and shouldn't be returned
-                    # DEBUG(f"{parent=} {prefix_from_iri(parent)=}")
-                    if prefix_from_iri(parent) in terms:
-                        # DEBUG(f"{parent=} in terms")
-                        break
-                else:
-                    # DEBUG(f"parent not in terms")
-                    results[key] = term
+            # DEBUG(f"{parents=}")
+            for parent in parents: # check parents are not present in terms
+                # if parents are in terms, that means this isn't a top
+                # concept and shouldn't be returned
+                # DEBUG(f"{parent=} {prefix_from_iri(parent)=}")
+                if prefix_from_iri(parent) in terms:
+                    # DEBUG(f"{parent=} in terms")
+                    break
             else:
+                # DEBUG(f"parent not in terms")
                 results[key] = term
+            # else:
+            #     results[key] = term
         # DEBUG(f"{top=} {results.keys()=}")
         return {k:results[k] for k in sorted(results.keys(), key=str.casefold)}
     # else: top is not None
     for key, term in terms.items():
-        parents = [] #ensure_list(term['rdf:type'])
+        # DEBUG(f"{key=}")
+        if mode == "taxonomy":
+            parents = ensure_list(term['rdf:type'])
+        else:
+            parents = []
         if 'skos:broader' in term: # has parents
             parents = parents + ensure_list(term['skos:broader']) # get parents
-            for parent in parents: # only return those items where parent is top
-                if prefix_from_iri(parent) == top:
-                    results[key] = term
-                    break
+        # DEBUG(f"{parents=}")
+        for parent in parents: # only return those items where parent is top
+            if prefix_from_iri(parent) == top:
+                # DEBUG(f"concept has parent {parent=}")
+                results[key] = term
+                break
     # DEBUG(f"{top=} {results.keys()=}")
     return {k:results[k] for k in sorted(results.keys(), key=str.casefold)}
 
