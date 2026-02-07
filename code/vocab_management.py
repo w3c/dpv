@@ -407,6 +407,9 @@ CSVFILES = {
         },
         'entities': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Entities_Healthcare.csv',
+        },
+        'status': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/Sector_Health_Status.csv',
         }
     },
     'sector-infra': {
@@ -1136,13 +1139,14 @@ RDF_VOCABS = {
         'modules': {
             'purposes': f'{IMPORT_PATH}/sector/health/modules/purposes.ttl',
             'entities': f'{IMPORT_PATH}/sector/health/modules/entities.ttl',
+            'status': f'{IMPORT_PATH}/sector/health/modules/status.ttl',
         },
         'metadata': {
             "dct:title": "Health Sector Concepts",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for the health sector",
             "dct:created": "2024-12-01",
             "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Harshvardhan J. Pandit",
+            "dct:creator": "Harshvardhan J. Pandit, Beatriz Esteves, Julian Flake",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             "bibo:status": "draft",

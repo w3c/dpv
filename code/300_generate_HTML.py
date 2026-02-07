@@ -429,6 +429,7 @@ def organise_hierarchy(terms:list, top:str=None) -> dict:
     """
     data = {}
     for term in terms:
+        # DEBUG(f"{term=}")
         data[term] = { 'parents': [], 'children': [] }
     # Some metadata dicts have `prefix` added amongst
     # the list of concepts - remove that.
@@ -439,28 +440,35 @@ def organise_hierarchy(terms:list, top:str=None) -> dict:
     # From each term, populate parents and children lists
     if top is None:
         for key, term in terms.items():
+            # DEBUG(f"{key=}")
+            parents = [] #ensure_list(term['rdf:type'])
             if 'skos:broader' in term: # has parents
-                parents = term['skos:broader'] # get parents
-                parents = ensure_list(parents)
+                parents = parents + ensure_list(term['skos:broader']) # get parents
+                # DEBUG(f"{parents=}")
                 for parent in parents: # check parents are not present in terms
                     # if parents are in terms, that means this isn't a top
                     # concept and shouldn't be returned
+                    # DEBUG(f"{parent=} {prefix_from_iri(parent)=}")
                     if prefix_from_iri(parent) in terms:
+                        # DEBUG(f"{parent=} in terms")
                         break
                 else:
+                    # DEBUG(f"parent not in terms")
                     results[key] = term
             else:
                 results[key] = term
+        # DEBUG(f"{top=} {results.keys()=}")
         return {k:results[k] for k in sorted(results.keys(), key=str.casefold)}
     # else: top is not None
     for key, term in terms.items():
+        parents = [] #ensure_list(term['rdf:type'])
         if 'skos:broader' in term: # has parents
-            parents = term['skos:broader'] # get parents
-            parents = ensure_list(parents)
+            parents = parents + ensure_list(term['skos:broader']) # get parents
             for parent in parents: # only return those items where parent is top
                 if prefix_from_iri(parent) == top:
                     results[key] = term
                     break
+    # DEBUG(f"{top=} {results.keys()=}")
     return {k:results[k] for k in sorted(results.keys(), key=str.casefold)}
 
 
@@ -1105,7 +1113,7 @@ if __name__ == '__main__':
         vocabs = RDF_VOCABS.keys()
         DATA.vocabs = vocabs
 
-    INFO(f'Generating outputs for {vocabs} vocabularies')
+    INFO(f'Generating outputs for {DATA.vocabs} vocabularies')
 
     if args.skip:
         DATA.skip = [s.strip() for s in args.skip[0].split(',')]
