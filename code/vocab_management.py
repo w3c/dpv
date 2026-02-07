@@ -805,8 +805,22 @@ CSVFILES = {
             'taxonomy-risk': f'{IMPORT_CSV_PATH}/EUFundamentalRights_Impacts.csv',
         },
     },
+    'de-gdng': {
+        'basic-definitions': {
+            'gdng-classes': f'{IMPORT_CSV_PATH}/GDNG-basic-definitions.csv',
+        },
+        'actors': {
+            'gdng-classes': f'{IMPORT_CSV_PATH}/GDNG-actors.csv',
+            'properties': f'{IMPORT_CSV_PATH}/GDNG-actors-properties.csv',
+        },
+        'query-and-access': {
+            'gdng-classes': f'{IMPORT_CSV_PATH}/GDNG-query-and-access.csv',
+        },
+        'linkage': {
+            'gdng-classes': f'{IMPORT_CSV_PATH}/GDNG-linkage.csv',
+        },
+    },
 }
-
 
 # === translations ===
 IMPORT_TRANSLATIONS = {
@@ -2209,6 +2223,29 @@ RDF_VOCABS = {
             "bibo:status": "published",
         },
     },
+    'de-gdng': {
+        'vocab': f'{IMPORT_PATH}/legal/de/gdng/de-gdng.ttl',
+        'template': 'template_de_gdng.jinja2',
+        'export': f'{EXPORT_PATH}/legal/de/gdng',
+        'languages': [ "de" ],
+        'modules': {
+            'basic-definitions': f'{IMPORT_PATH}/legal/de/gdng/modules/basic-definitions.ttl',
+            'actors': f'{IMPORT_PATH}/legal/de/gdng/modules/actors.ttl',
+            'query-and-access': f'{IMPORT_PATH}/legal/de/gdng/modules/query-and-access.ttl',
+            'linkage': f'{IMPORT_PATH}/legal/de/gdng/modules/linkage.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for German Gesundheitsdatennutzungsgesetz (DE)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for a German regulation",
+            "dct:created": "2026-01-21",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Julian Flake, Christian Draeger",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/de/gdng',
+            "bibo:status": "draft",
+        },
+    },
 }
 
 # === exports ===
@@ -2474,7 +2511,11 @@ RDF_STRUCTURE = {
     'dex': {
         'main': f'{EXPORT_RDF_PATH}/examples',
         'modules': f'{EXPORT_RDF_PATH}/examples/modules',
-    }
+    },
+    'de-gdng': {
+        'main': f'{EXPORT_RDF_PATH}/legal/de/gdng', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/de/gdng/modules', 
+    },
 }
 
 # Collated concepts

@@ -1,0 +1,65 @@
+@startuml
+hide attributes
+hide methods
+hide circles
+left to right direction
+
+/'
+' class Thing #silver 
+'/
+
+package dpv {
+	class Law
+	class Process
+	class Data
+'	class Purpose
+'	class Organisation
+}
+
+package "sector-health" as health {
+	class DataHolder
+	class DataUser
+	class HealthDataAccessAuthority
+	class SecondaryUse
+	class HealthDataProcessingOrganisation
+}
+
+package tech {
+	class OperatingEnvironment
+}
+
+package "eu-gdpr" as gdpr {
+	class PersonalData
+}
+
+package "de-gdng" as gdng {
+	dpv.Law <|-- HealthDataUseAct
+	
+	dpv.Data <|-- IndentificationAndLocalizationOfHealthData
+	dpv.Process <|-- IndentificationAndLocalizationOfHealthData
+
+	dpv.Data <|-- HealthDataAccessApplication
+	dpv.Process <|-- HealthDataAccessApplication
+
+	dpv.Data <|-- PublicHealthDataAccessApplicationRegister
+	health.HealthDataProcessingOrganisation <|--  DataProcessingHealthcareFacility
+	health.HealthDataAccessAuthority <|-- DataAccessAndCoordinationOffice
+	health.DataHolder <|-- gdng.DataHolder
+	health.DataUser <|-- gdng.DataUser
+	health.SecondaryUse <|-- gdng.SecondaryUse
+	tech.OperatingEnvironment <|-- gdng.SecureProcessingEnvironment
+	gdpr.PersonalData <|-- gdng.PersonalData
+
+	DataHolder <|-- DataHolderByLaw
+	DataHolderByLaw <|-- HealthDataLab
+	DataHolderByLaw <|-- GermanCentreForCancerRegistryData
+	DataHolderByLaw <|-- ModelProjectGenomeSequencingPlatform
+	SecondaryUse <|-- ResearchProject
+	ResearchProject <|-- HealthAndHealthcareResearch
+	PersonalData <|-- HealthData
+
+}
+
+' PublicHealthDataAccessApplicationRegister -- HealthDataAccessApplication : hasHealthDataAccessApplication >
+
+@enduml

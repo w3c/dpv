@@ -231,7 +231,7 @@ class DATA(object):
                 concept['_type'] = 'notcp'
             # Ensure there are no duplicate labels or annotations 
             for prop in (
-                    'skos:prefLabel', 'dct:created', 'dct:modified',):
+                    'dct:created', 'dct:modified',):
                 if prop not in concept: continue
                 if type(concept[prop]) is list and len(concept[prop]) > 1:
                     concept[prop] = concept[prop][0]
@@ -242,7 +242,7 @@ class DATA(object):
                     'skos:prefLabel', 'skos:definition', 'skos:scopeNote'):
                 if prop not in concept: continue # unsupported text
                 values = ensure_list(concept[prop])
-                languages = {'en': []}
+                languages = {'en': [], 'de': []}
                 for prop_value in values:
                     if prop_value.language is None: # default lang is EN
                         languages['en'].append(prop_value)
@@ -933,11 +933,12 @@ def _generate():
                 template=vocab_data['template'],
                 filepath=vocab_data["export"], filename=vocab,
                 index=True, vocab=vocab, lang="en")
-            for lang in IMPORT_TRANSLATIONS:
-                _write_template(
-                    template=vocab_data['template'],
-                    filepath=vocab_data["export"], filename=vocab,
-                    index=True, vocab=vocab, lang=lang)
+            if 'languages' in vocab_data:
+                for lang in vocab_data['languages']:
+                    _write_template(
+                        template=vocab_data['template'],
+                        filepath=vocab_data["export"], filename=vocab,
+                        index=True, vocab=vocab, lang=lang)
 
             # === Write Module HTML file ===
             if 'module-template' not in vocab_data:
@@ -950,12 +951,12 @@ def _generate():
                     template=vocab_data['module-template'][module],
                     filepath=f"{vocab_data['export']}/modules", filename=module,
                     index=False, vocab=vocab, lang="en")
-                for lang in IMPORT_TRANSLATIONS:
+            if 'languages' in vocab_data:
+                for lang in vocab_data['languages']:
                     _write_template(
                     template=vocab_data['module-template'][module],
                     filepath=f"{vocab_data['export']}/modules", filename=module,
                     index=False, vocab=vocab, lang=lang)
-
 
 # == Collate Missing Translations ==
 def _get_missing_translations():

@@ -386,6 +386,17 @@ DPV_FILES = {
             'EHDS_Process',
             ),
     },
+    'de-gdng': {
+        'name': 'de-gdng',
+        'doc_id': '1Zx-_YS5i8LSQpMsmxB7zToWqorUBidCz4UTihZ9_UDc',
+        'sheets': (
+            'GDNG-basic-definitions',
+            'GDNG-actors',
+            'GDNG-actors-properties',
+            'GDNG-query-and-access',
+            'GDNG-linkage',
+            ),
+    },
     # Standards - ieee_7012
     'ieee-7012': {
         'name': 'ieee-7012',
