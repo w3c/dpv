@@ -181,3 +181,17 @@ SCHEMA['ieee-7012-terms'].update({
     'Obligates': vocab_funcs.ieee_7012_term_rule,
     'HumanDescription': vocab_funcs.ieee_7012_human_label,
     })
+
+SCHEMA['gdng-classes'] = SCHEMA['classes'].copy()
+SCHEMA['gdng-classes'].update({
+    'ParentTerms': vocab_funcs.construct_parent,
+    'Label (en)': vocab_funcs.construct_label, # @en
+    'Label (de)': vocab_funcs.construct_label_de, # @de
+    'Definition (en)': vocab_funcs.construct_definition,
+    'Definition (de)': vocab_funcs.construct_definition_de,
+    'Term (ignore)': None,
+    'EHDS (de)': None,
+    'EHDS (en)': None,
+    'Notes': None,
+    })
+# SCHEMA['gdng-properties'] = SCHEMA['properties'].copy()
