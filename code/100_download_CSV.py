@@ -328,6 +328,8 @@ DPV_FILES = {
             'GDPR_entities',
             'GDPR_entities_properties',
             'GDPR_principles',
+            'GDPR_purpose_compatibility',
+            'GDPR_proportionality',
             ),
     },
     # Sheets for EU-DGA extension

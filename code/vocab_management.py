@@ -699,6 +699,12 @@ CSVFILES = {
         'principles': {
             'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_principles.csv',
         },
+        'purpose_compatibility': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_purpose_compatibility.csv',
+        },
+        'proportionality': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/GDPR_proportionality.csv',
+        }
     },
     'eu-dga': {
         'legal_basis': {
@@ -2072,13 +2078,15 @@ RDF_VOCABS = {
             'legal_basis-rights_mapping': f'{IMPORT_PATH}/legal/eu/gdpr/modules/legal_basis_rights_mapping.ttl',
             'entities': f'{IMPORT_PATH}/legal/eu/gdpr/modules/entities.ttl',
             'principles': f'{IMPORT_PATH}/legal/eu/gdpr/modules/principles.ttl',
+            'purpose_compatibility': f'{IMPORT_PATH}/legal/eu/gdpr/modules/purpose_compatibility.ttl',
+            'proportionality': f'{IMPORT_PATH}/legal/eu/gdpr/modules/proportionality.ttl',
         },
         'metadata': {
             "dct:title": "EU General Data Protection Regulation (GDPR)",
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information associated with EU GDPR",
             "dct:created": "2019-06-18",
             "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog, Paul Ryan, Beatriz Esteves",
+            "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog, Paul Ryan, Beatriz Esteves, Stratis Koulierakis",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             "bibo:status": "published",
