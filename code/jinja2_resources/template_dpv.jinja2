@@ -81,6 +81,12 @@
   <link rel="stylesheet" type="text/css" href="../diagrams/common.css">
 <link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
   <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+  <style>
+    .concept-item { font-size: 0.9rem; }
+    .concept-hide { display: none; }
+    .concept-show { display: block; }
+    }
+  </style>
 </head>
 <body>
   {{ contributors_list(data, vocab_name) }}
@@ -170,7 +176,7 @@
       [[SECTOR-PUBLICSERVICES]] for Public Services Sector.
     </p>
 
-    <p>The [[STANDARDS]] extensions model the core terminologies defined and used within specific forums such as ISO, CEN/CENELEC, NIST, and IEEE so that they can be used with DPV. They also provide additional concepts needed to implement specific standards, such as [[[IEEE-P7012]]] ([[STANDARD-P7012]])</p>
+    <p>The [[STANDARDS]] extensions model the core terminologies defined and used within specific forums such as ISO, CEN/CENELEC, NIST, and IEEE so that they can be used with DPV. Currently it provides the extension [[STANDARD-IEEE-7012]] to support the implementation of [[[IEEE-7012]]].</p>
   </section>
 </section>
 
@@ -198,17 +204,15 @@
 
 <section id="vocabulary">
 <h2>Vocabulary Index</h2>
-  <p>Below is an index of the {{ vocab|length }} concepts defined in DPV. Additional documentation with guidance and examples is provided in the specific module pages.</p>
-  <p><small>{%  for concept in vocab.values()|sort(attribute='term') %}
+  <p>As DPV contains a large number of concepts ({{ vocab|length }} in this version), additional documentation with guidance and examples is provided in the <a href="#dpv">specific module pages</a>. <button id="view-concept-index">Click</button> to display the full index.</p>
+  {%  for concept in vocab.values()|sort(attribute='term') %}
     {% if concept['_dpvterm'] and not concept['_ignored'] and concept['_type'] in ('class', 'property') %}
-    <dfn>
-      <span id="{{ concept['term'] }}" data-type="concept" {% if concept['module'] %}
-      {% set module=concept['module'][0].split('-')[0] %}
-      data-module="{{ module }}{% endif %}">{{ concept['term'] }}</span></dfn>
+    {% set module=concept['module'][0].split('-')[0] %}
+    <span class="concept-item concept-hide" id="{{ concept['term'] }}" data-type="concept" data-module="{{ module }}">
+      <dfn>{{ concept['term'] }}</dfn>
       <span class="definition">{{ concept['skos:definition'] }}.</span>
-      <span class="additional details">{% if concept['module'] %}
-      {% set module=concept['module'][0].split('-')[0] %}See <a href="modules/{{ module }}#{{ concept['term'] }}">full definition</a> in <a href="modules/{{ module }}">{{module}}</a> module{% endif %}</span>
-      <br/>
+      <span class="additional details">See <a href="modules/{{ module }}#{{ concept['term'] }}">full definition</a> in <a href="modules/{{ module }}">{{module}}</a> module</span>
+    </span>
     {% endif %}
   {% endfor %}</small></p>
   {# <section id="dpv-classes">
@@ -363,6 +367,29 @@
 
 <script type="text/javascript" src="../diagrams/common.js" defer></script>
 
+<script>
+  function updateView() {
+    const id = location.hash.slice(1); if (!id) return;
+    console.log(id);
+    const target = document.getElementById(id); if (!target) return;
+    console.log(target);
+    console.log(target.classList);
+    if (!target.classList.contains('concept-item')) return;
+    target.classList.remove('concept-hide');
+    target.classList.add('concepts-show');
+
+    document.getElementById("vocabulary").scrollIntoView({ behaviour: 'smooth'});
+  }
+  window.addEventListener('load', updateView);
+  window.addEventListener('hashchange', updateView);
+
+  document.getElementById('view-concept-index').addEventListener('click', () => {
+    document.querySelectorAll('.concept-item').forEach(e => {
+      e.classList.remove('concept-hide');
+      e.classList.add('concept-show');
+    })
+  });
+</script>
 
 </body>
 </html>
