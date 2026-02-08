@@ -39,8 +39,10 @@ pyg_formatter = HtmlFormatter(cssclass="source", noclasses=True)
 _PARAMS_JINJA2_HTML = {
     'RDF_VOCABS': RDF_VOCABS,
     'DPV_VERSION': DPV_VERSION,
+    'DPV_PUBLISH_DATE': DPV_PUBLISH_DATE,
     'DPV_PREVIOUS_VERSION': DPV_PREVIOUS_VERSION,
     'DOCUMENT_STATUS': DOCUMENT_STATUS,
+    'NAMESPACES': NAMESPACES,
 }
 
 # == DATA class ==
@@ -1090,6 +1092,7 @@ def _generate_search_index():
         template = template_env.get_template('template_search_index.jinja2')
         fd.write(template.render(
             **_PARAMS_JINJA2_HTML,
+            namespaces=NAMESPACES,
             data=json.dumps(index), 
             num_classes=len(results_classes), 
             num_properties=len(results_properties)))
@@ -1107,13 +1110,18 @@ if __name__ == '__main__':
     parser.add_argument('-F', '--fastvocab', nargs='+', help="generate specific vocab outputs while skipping legal*, eu*, loc*, search-index")
     parser.add_argument('-V', '--vocab', nargs='+', help="generate specific vocab outputs")
     parser.add_argument('-S', '--skip', nargs='+', help="skip loading specific vocab outputs")
+    parser.add_argument('-N', '--novocab', action='store_true', help="generate non-vocab docs")
     parser.add_argument('-I', '--index', default=False, action='store_true', help="generate search index")
     parser.add_argument('-G', '--guides', action='store_true', help="generate guides")
     parser.add_argument('-M', '--mappings', action='store_true', help="generate mappings")
+    parser.add_argument('--repoindex', action='store_true', help="generate mappings")
     args = parser.parse_args()
 
     INFO('-'*40)
-    if args.vocab:
+    if args.novocab:
+        DATA.vocabs = []
+        DATA.skip = RDF_VOCABS.keys()
+    elif args.vocab:
         DATA.vocabs = [s.strip() for s in args.vocab[0].split(',')]
         vocabs = args.vocab
     elif args.fastvocab:
@@ -1171,4 +1179,14 @@ if __name__ == '__main__':
             template = template_env.get_template('template_mappings_index.jinja2')
             fd.write(template.render(**_PARAMS_JINJA2_HTML, mappings=MAPPINGS.items()))
         INFO(f"wrote mapping index at {filepath}")
+        INFO('*'*40)
+
+    if args.repoindex:
+        INFO('Generating REPO index.html')
+        template = 'template_repo_index.jinja2'
+        filepath = '../index.html'
+        with open(filepath, 'w') as fd:
+            template = template_env.get_template(template)
+            fd.write(template.render(**_PARAMS_JINJA2_HTML, data=None))
+        INFO(f"wrote repo index at {filepath}")
         INFO('*'*40)

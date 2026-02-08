@@ -47,9 +47,8 @@ body {
     </head>
     <body>
         <h1>DPV Search Index</h1>
-        <p>Search through {{num_classes}} classes and {{num_properties}} properties from DPV specifications version {{DPV_VERSION}}.<br/>
-            Purl for this page: <a href="https://w3id.org/dpv/{{DPV_VERSION}}/search">https://w3id.org/dpv/{{DPV_VERSION}}/search</a>
-        </p>
+        <p><small>Search through {{num_classes}} classes and {{num_properties}} properties from DPV specifications version {{DPV_VERSION}}. Concepts are shown in the prefixed form, e.g. <code>prefix:Concept</code> where prefix is a shorthand for the vocabulary's full IRI/URL (see <a href="#namespaces">table</a>).</small></p>
+        <p><small>Purl for search <a href="https://w3id.org/dpv/search">https://w3id.org/dpv/search</a>; for v{{DPV_VERSION}}: <a href="https://w3id.org/dpv/{{DPV_VERSION}}/search">https://w3id.org/dpv/{{DPV_VERSION}}/search</a></small></p>
 <div style="padding-bottom: 20px;">
     <input id="search-term" autofocus>
     <button id="search" >Search</button>
@@ -59,6 +58,24 @@ body {
 </div>
 <hr/>
 <div id="tree" class="not-prose"></div>
+
+<div id="namespaces">
+    <h2>Namespaces</h2>
+    <table>
+        <thead>
+            <th>prefix</th>
+            <th>iri</th>
+        </thead>
+        <tbody>
+        {% for prefix, iri in namespaces.items()|sort(attribute='0') %}
+        {% if iri.startswith('https://w3id.org/dpv') %}{% if not prefix.endswith('-owl') %}<tr>
+            <td>{{ prefix }}</td>
+            <td><a href="{{ iri }}">{{ iri }}</a></td>
+        </tr>{% endif %}{% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 <script src="diagrams/jquery.min.js"></script>
 <script src="diagrams/jstree.min.js"></script>
@@ -160,7 +177,7 @@ $(function() {
 });
 </script>
 
-<footer>
+<footer style="margin-top: 10px; border-top: 1px solid black;">
     <p>This page is provided by the <a href="https://www.w3.org/groups/cg/dpvcg/">Data Privacy Vocabularies and Controls Privacy Controls (DPVCG)</a>. Source and issues are managed on <a href="https://github.com/w3c/dpv">GitHub</a> under the <a href="https://www.w3.org/copyright/software-license-2023/">W3C Software and Document License</a>.</p>
 </footer>
 
