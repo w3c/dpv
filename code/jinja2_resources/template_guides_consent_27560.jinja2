@@ -14,7 +14,7 @@
     latestVersion: "https://w3id.org/dpv/guides/consent-27560",
     canonicalUri: "https://w3id.org/dpv/guides/consent-27560",
     edDraftURI: "https://dev.dpvcg.org/guides/consent-27560",
-    publishDate: "2024-08-01",
+    publishDate: "2026-02-15",
     // isPreview: true,
     subjectPrefix: "[DPV-27560]",
     doJsonLd: true,
@@ -3318,20 +3318,20 @@ provided to the service provider as proof of consent.</p>
 
 <section id="technical-considerations" >
     <h3>Technical Considerations in Managing Records and Receipts</h3>
-    <p>We can use the [[[vocab-dcat-3]]], a W3C standard, to represent the records as datasets and receipts as a catalogue of records. By doing so, the metadata fields provided by DCAT can be readily used to represent information that supports in maintenance and exchange of consent records and receipts, including using existing infrastructure to manage them. DCAT is a widely used standard that supports implementing (open) data portals and has tooling for discovery and management of information. The EU has developed the [[[DCAT-AP]]] [[DCAT-AP]] which extends DCAT to support the <a href="https://data.europa.eu/">EU Open Data Portals</a>. </p>
-    <p>Through these records and receipts can be readily communicated as interoperable datasets between relevant entities - for example controller to data subject, or between controllers and third parties. This is a crucial technical enabler for the principle of increasing data value through utilisation within the Data Governance Act and Data Spaces. In particular, the use of DCAT(-AP) also supports the addition of further policies and measures to support the implementation of data intermediaries which will be required to maintain consent records under the obligations of the DGA.</p>
+    <p>The 27560 fields and specifications are a representation of the detailed information required to document and demonstrate valid consent, including for regulations such as the GDPR. However, this does not necessiate storing each and every record with the full extent of the information within the record. Technical implementations can implement the storage, retrieval, and document-generation processes in a way that suits their use-cases and provides efficiency and optimisation. For example, if parts of a record are common for all or a large portion of users, then this can be stored separately and linked to the record. The only necessity is that the full record, i.e. conforming with this specification, can be produced as needed.</p>
+    <p>Other practical technical requirements may also dictate how the consent records are stored, and consequently require a different implementation of the specific schema or model suggested in this specification. For example, when there are mutliple records associated with a data subject, then how to assess the latest state of consent? Adopters therefore should take into considerations such factors and structure their implementations accordingly, e.g. by identifying whether additional metadata is needed to represent the latest state, or to implement the records in a way that allows efficient querying of latest state based on event timestamps.</p>
+    <p>Below are some suggested ways on how [[[vocab-dcat-3]]], a W3C standard, can be helpful in these discussions to represent the records as datasets and receipts as a catalogue of records. By doing so, the metadata fields provided by DCAT can be readily used to represent information that supports in maintenance and exchange of consent records and receipts, including using existing infrastructure to manage them. DCAT is a widely used standard that supports implementing (open) data portals and has tooling for discovery and management of information. Additionally, the EU has developed the [[[DCAT-AP]]] [[DCAT-AP]] which extends DCAT to support the <a href="https://data.europa.eu/">EU Open Data Portals</a>, which would be of interest to EU stakeholders. A <a href="https://doi.org/10.3390/info13050244">similar effort</a> for use of DCAT and DCAT-AP has shown the usefulness of this work for Records of Processing Activities (GDPR Article 30). The interoperable communication of records between relevant entities - for example controller to data subject, or between controllers and third parties is a crucial technical enabler for the principle of increasing data value through utilisation within the Data Governance Act and Data Spaces. In particular, the use of DCAT(-AP) also supports the addition of further policies and measures to support the implementation of other regulatory obligations, such as notifications under GDPR and NIS2, or the documentation needed under Data Act and AI Act.</p>
+    <p>The use of DCAT for expressing consent records was discussed in <a href="https://github.com/w3c/dpv/issues/114">Issue#114</a> regarding expressing the latest state of consent (adopters may be interested in discussed approaches). To implement consent records with DCAT, we must first express the consent record as a `dcat:Resource`, and then multiple records can be collated in a `dcat:Catalog`. This allows for grouping relevant records together under a collective concept, which can simplify the implementation by only requiring specification of data subject, purposes, etc. within the catalog concept, and only recording the events and consent states within the record concept. Another possibility is the use of `dcat:DatasetSeries` which has associated properties `dcat:first` and `dcat:last` to represent which (consent) records are first and last. Using the 'last' property as an indicator for 'latest' state is thus possible.</p>
+    <p>In addition to these considerations, technical implementations may also have cases where they implement an "append-only" record i.e. systems where records are added, but cannot be modified, and future updates can only be appended. If all data must necessarily reside in this state, then each record can indicate its previous record using the property `dcat:isVersionOf`, with the latest record not being a previous version of any other record.</p>
 </section>
 
 
-</section>
-
-<section id="future-work" class="appendix">
-  <h2>Future Work</h2>
-  <aside class="issue" data-number="114"></aside>
 </section>
 
 <section id="changelog">
   <h2>Changelog and Errata</h2>
+  <p><strong>08 February 2026</strong><br/>
+    Added additional details to Technical Implementation section, with a link to github issue for discussion, and the use of DCAT for identifying latest state.</p>
   <p><strong>15 August 2024</strong></p>
   <ul>
     <li>Changed <code>InvolvementControl</code> (which doesn't exist) to <code>ConsentControl</code> (which is what was added in DPV 2.0). This change affects ISO 27560:2023, EU GDPR, and DPV comparison table, Processing Fields table, Consent Change & Withdrawal section, Example 19: Example specifying change and withdrawal of consent, Example 39: Example of a Consent Record with only the required fields, Example 40: Example of a Consent Record with both required and optional fields, Example 46: Example of a Consent Receipt with information from required fields in a consent record.</li>
