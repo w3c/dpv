@@ -2744,6 +2744,13 @@ MAPPINGS = {
         'rdf': '../mappings/gist/dpv-gist.ttl',
         'title': 'Mapping from DPV to GIST',
     },
+    'iso': {
+        'template': 'template_mappings_iso.jinja2',
+        'iri': 'https://w3id.org/dpv/mappings/iso',
+        'output': '../mappings/iso/index.html',
+        'rdf': '../mappings/iso/dpv-iso.ttl',
+        'title': 'Mapping from DPV to ISO',
+    },
     'odrl': {
         'template': 'template_mappings_odrl.jinja2',
         'iri': 'https://w3id.org/dpv/mappings/odrl',
