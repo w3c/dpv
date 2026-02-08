@@ -96,6 +96,7 @@ DPV_FILES = {
             'Context_properties', 
             'Status', 
             'Status_properties',
+            'Sector_Health_Status',
             ),
     },
     # Sheets for Tech/Org Measures
@@ -328,6 +329,8 @@ DPV_FILES = {
             'GDPR_entities',
             'GDPR_entities_properties',
             'GDPR_principles',
+            'GDPR_purpose_compatibility',
+            'GDPR_proportionality',
             ),
     },
     # Sheets for EU-DGA extension
@@ -381,6 +384,17 @@ DPV_FILES = {
             'EHDS_Purpose',
             'EHDS_Entities',
             'EHDS_Process',
+            ),
+    },
+    'de-gdng': {
+        'name': 'de-gdng',
+        'doc_id': '1Zx-_YS5i8LSQpMsmxB7zToWqorUBidCz4UTihZ9_UDc',
+        'sheets': (
+            'GDNG-basic-definitions',
+            'GDNG-actors',
+            'GDNG-actors-properties',
+            'GDNG-query-and-access',
+            'GDNG-linkage',
             ),
     },
     # Standards - ieee_7012

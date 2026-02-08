@@ -287,17 +287,17 @@
   {% endfor %}
 {% endmacro %}
 
-{% macro list_hierarchy(vocab, head=None, lang="en", first_iteration=True) %}
+{% macro list_hierarchy(vocab, head=None, mode=None, lang="en", first_iteration=True) %}
 {# for the given vocab, generate a hierarchical list with `head` as the top
 concept. If top is None, then use all concepts. `lang` is used to retrieve the label to show the concept. #}
 {% if first_iteration %}<div class="list-hierarchy">{% endif %}
-{% set concepts = vocab|organise_hierarchy(head) %}
+{% set concepts = vocab|organise_hierarchy(head, mode) %}
 {% if concepts %}<ul class="concept-list">
 {% for term, data in concepts.items() %}
   <li>
     <strong>{{term}}</strong>: {{data|translation_message('skos:definition',lang)}}
       <small><a href="{{data['iri']}}" class="local-link">go to full definition</a>{% if data|is_sunset %}<span style="color:red; padding-left: 2px; font-style: italic;">deprecated in next version</span>{% endif %}</small>
-      {{ list_hierarchy(vocab, head=term, lang=lang, first_iteration=False) }}
+      {{ list_hierarchy(vocab, head=term, mode=mode, lang=lang, first_iteration=False) }}
   </li>
 {% endfor %}
 </ul>{% endif %}
