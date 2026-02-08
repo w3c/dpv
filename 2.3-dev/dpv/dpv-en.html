@@ -791,7 +791,7 @@
 
 <section id="vocabulary">
 <h2>Vocabulary Index</h2>
-  <p>As DPV contains a large number of concepts (1251 in this version), additional documentation with guidance and examples is provided in the <a href="#dpv">specific module pages</a>. <button id="view-concept-index">Click</button> to display the full index.</p>
+  <div id="concept-index">
     <span class="concept-item concept-hide" id="AcademicResearch" data-type="concept" data-module="purposes">
       <dfn>AcademicResearch</dfn>
       <span class="definition">Purposes associated with conducting or assisting with research conducted in an academic context e.g. within universities.</span>
@@ -6347,7 +6347,8 @@
       <span class="definition">Authentication using Zero-Knowledge proofs.</span>
       <span class="additional details">See <a href="modules/TOM#ZeroKnowledgeAuthentication">full definition</a> in <a href="modules/TOM">TOM</a> module</span>
     </span>
-</small></p>
+  </div>
+  <p id="concept-index-message">As DPV contains a large number of concepts (1251 in this version), additional documentation with guidance and examples is provided in the <a href="#dpv">specific module pages</a>. <button id="view-concept-index">Click</button> to display the full index.</p>
 </section>
 
 
@@ -6479,10 +6480,10 @@
 <script>
   function updateView() {
     const id = location.hash.slice(1); if (!id) return;
-    console.log(id);
+    // console.log(id);
     const target = document.getElementById(id); if (!target) return;
-    console.log(target);
-    console.log(target.classList);
+    // console.log(target);
+    // console.log(target.classList);
     if (!target.classList.contains('concept-item')) return;
     target.classList.remove('concept-hide');
     target.classList.add('concepts-show');
@@ -6493,6 +6494,9 @@
   window.addEventListener('hashchange', updateView);
 
   document.getElementById('view-concept-index').addEventListener('click', () => {
+    const message = document.getElementById('concept-index-message');
+    const index = document.getElementById('concept-index');
+    index.parentNode.insertBefore(message, index);
     document.querySelectorAll('.concept-item').forEach(e => {
       e.classList.remove('concept-hide');
       e.classList.add('concept-show');

@@ -204,7 +204,7 @@
 
 <section id="vocabulary">
 <h2>Vocabulary Index</h2>
-  <p>As DPV contains a large number of concepts ({{ vocab|length }} in this version), additional documentation with guidance and examples is provided in the <a href="#dpv">specific module pages</a>. <button id="view-concept-index">Click</button> to display the full index.</p>
+  <div id="concept-index">
   {%  for concept in vocab.values()|sort(attribute='term') %}
     {% if concept['_dpvterm'] and not concept['_ignored'] and concept['_type'] in ('class', 'property') %}
     {% set module=concept['module'][0].split('-')[0] %}
@@ -214,7 +214,9 @@
       <span class="additional details">See <a href="modules/{{ module }}#{{ concept['term'] }}">full definition</a> in <a href="modules/{{ module }}">{{module}}</a> module</span>
     </span>
     {% endif %}
-  {% endfor %}</small></p>
+  {% endfor %}
+  </div>
+  <p id="concept-index-message">As DPV contains a large number of concepts ({{ vocab|length }} in this version), additional documentation with guidance and examples is provided in the <a href="#dpv">specific module pages</a>. <button id="view-concept-index">Click</button> to display the full index.</p>
   {# <section id="dpv-classes">
    {{ index_concepts(vocab, vocab_name, filter="classes", lang=lang) }}
   </section>
@@ -370,10 +372,10 @@
 <script>
   function updateView() {
     const id = location.hash.slice(1); if (!id) return;
-    console.log(id);
+    // console.log(id);
     const target = document.getElementById(id); if (!target) return;
-    console.log(target);
-    console.log(target.classList);
+    // console.log(target);
+    // console.log(target.classList);
     if (!target.classList.contains('concept-item')) return;
     target.classList.remove('concept-hide');
     target.classList.add('concepts-show');
@@ -384,6 +386,9 @@
   window.addEventListener('hashchange', updateView);
 
   document.getElementById('view-concept-index').addEventListener('click', () => {
+    const message = document.getElementById('concept-index-message');
+    const index = document.getElementById('concept-index');
+    index.parentNode.insertBefore(message, index);
     document.querySelectorAll('.concept-item').forEach(e => {
       e.classList.remove('concept-hide');
       e.classList.add('concept-show');
