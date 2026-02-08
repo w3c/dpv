@@ -1,6 +1,6 @@
 {% from 'macro_term_table.jinja2' import index_concepts %}
 {% from 'macro_term_table.jinja2' import list_hierarchy %}
-{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_term_table.jinja2' import table_properties, anchor %}
 {% from 'macro_example.jinja2' import example_aside %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
@@ -134,9 +134,15 @@
   </section>
 
   <section id="desc-service-provision">
-    <h2>Service Provision</h2>
-    <p>For purposes associated with [=ServiceProvision=], DPV provides concepts such as [=PaymentManagement=], [=ServiceOptimisation=], and [=ServiceRegistration=] amongst others. To associate these with services, the `Service` concept can be used similar to how `Process` is used to structure related information together. In this manner, a service can be expressed in terms of the different purposes and processes it contains - which may have their own separate legal basis.</p>
+    <h2>Service Management &amp; Provision</h2>
+    <p>A '<i>service</i>' is a specific legal concept that is distinct from the technical notion of services. In the legal context, services are processes performed by one entity for another entity, where the expectations are to enjoy its benefits or in exchange of some monetary or other forms of value. Services are regulated by law, often under the remit of contractual obligations and also through consumer protection. Examples of services are the use of streaming services, social media services, or even grocery store services. In DPV, services are represented using the {{ anchor('dpv:Service') }} concept and associated using the relation {{ anchor('dpv:hasService') }}. Functionally, services can be considered as a broad category of activities or processes which the organisation operates on. Internally, each services can be represented as a series of processes which make up the service, including its management and implementation. To reflect this, the `Service` concept is extended from {{ anchor('dpv:Purpose') }}.</p>
+    <p>The concept [=ServiceManagement=] represents a broad term for all purposes associated with the management and provision of services. It is extended to represent specific activities, such as [=ServiceProvision=] to represent providing the service, [=PaymentManagement=] for payments assocaited with the service, [=ServiceOptimisation=] for optimisations regarding the service, [=ServiceMonitoring=] for monitoring the service, and [=ServiceRegistration=] amongst others.</p>
+    <aside class="note" title="Breaking change in v2.3">
+      <p>Up to v2.2, [=ServiceProvision=] represented all aspects of providing a service, including its maintainance, repairs, and optimisation. This was changed in v2.3 with the introduction of [=ServiceManagement=] as the top-level concept to distinguish between the provision of a service as an independent purpose from other service-associated purposes. This allows for more explicit and accurate representation of purposes and enhances legal compliance activities which target specific purposes under the broad remit of service management.</p>
+      <p>Existing users of [=ServiceProvision=] should evaluate whether their use of the concept is consistent with the renewed definition and taxonomy. [=ServiceProvision=] should  be used only to describe the provision of a service, and should not be used to represent its management, monitoring, or other non-provision related purposes. To remedy existing uses, the use of service provision concept should be replaced with other more accurate purposes.
+    </aside>
     {{ example_aside('dex:E0041') }}
+    {{ list_hierarchy(modules['purposes']['classes'], head='dpv:ServiceManagement') }}
    </section>
 
   <section id="desc-legal-obligation">

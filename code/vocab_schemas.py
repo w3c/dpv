@@ -168,6 +168,7 @@ SCHEMA['examples'] = {
     'Reference': None,
     'Status': vocab_funcs.construct_status,
     'Date': vocab_funcs.construct_date_created,
+    'Modified': vocab_funcs.construct_date_modified,
     'Contributor': vocab_funcs.construct_contributors,
 }
 
