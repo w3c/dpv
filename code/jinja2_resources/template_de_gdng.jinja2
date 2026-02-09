@@ -70,13 +70,18 @@
   <body>
       {{ contributors_list(data, vocab_name) }}
       {% block ABSTRACT %}
-      {{ language_selector(lang, False) }}
       <section id="abstract">
-	  <p>The {{vocab_name|upper}} extension extends the [[[DPV]]] to represent concepts in the German Law "Gesetz zur verbesserten Nutzung von Gesundheitsdaten" or short "Gesundheitsdatennutzungsgesetz (GDNG)".</p>
+	  <p>The {{vocab_name|upper}} extension extends the [[[DPV]]] to represent concepts in the German Law "Gesetz zur Nutzung von Gesundheitsdaten zu gemeinwohlorientierten Forschungszwecken und zur datenbasierten Weiterentwicklung des Gesundheitswesens (Gesundheitsdatennutzungsgesetz – [[GDNG]])".</p>
+	  <p style="color: red">NOTE: This is a draft vocabulary, which is being updated. The DPVCG welcomes feedback, participation and contributions for this work.</p>
 	  <p>The canonical URL for {{vocab_name|upper}} extension is <a href="{{RDF_VOCABS[vocab_name]['metadata']['iri']}}">{{RDF_VOCABS[vocab_name]['metadata']['iri']}}</a>, the namespace is <a href="{{RDF_VOCABS[vocab_name]['metadata']['iri']}}#"><code>{{RDF_VOCABS[vocab_name]['metadata']['iri']}}#</code></a>, the suggested prefix is <code>{{vocab_name}}</code>, and this document along with source and releases are available at <a href="https://github.com/w3c/dpv">https://github.com/w3c/dpv</a>.</p>
       </section>
       {{ sotd(DPV_VERSION=DPV_VERSION, metadata=data[vocab_name+'-metadata']) }}
-      {{ dpv_document_family(document='dpv-pd-spec') }}
+      <section id="translations" class="introductory">
+	  <h2>Translations</h2>
+	  <p>The GDNG vocabulary is defined in English and German. That means: Each term (identifier) contains English words only, but for each term there exist a German label and a German definition. All explanatory texts and diagrams are available in English only.</p>
+	  <p>To switch the language, select the language to show: {{ language_selector(lang, False) }}</p>
+      </section>
+      <!-- {{ dpv_document_family(document='dpv-pd-spec') }} -->
       {% endblock ABSTRACT %}
       {% block INTRODUCTION %}
 
@@ -84,20 +89,16 @@
       {% block VOCAB %}
       <section id="vocab-de-gdng">
 	  <h2>Overview</h2>
-	  <p>The GDNG extension defines the concepts and properties to describe entities, processes, and data that are involved in processes regulated by the German Gesundheitsdatennutzungsgesetz [[GDNG]] as shown in Figure 1. The Figure 1 also visualizes the relationships of the GDNG extension with other DPV extensions.</p>
+	  <p>The GDNG extension defines the concepts and properties to describe entities, processes, and data that are involved in processes regulated by the German Gesundheitsdatennutzungsgesetz [[GDNG]] as shown in Figure 1. The Figure 1 also visualizes the relationships of the concepts defined by the GDNG extension with concepts defined by other DPV extensions.</p>
+	  <p>Figure 2 shows a sketch of a possible GDNG aligned collaboration between a [=HealthDataUser=] and the [=DataAccessAndCoordinationOffice=] that describes the process of identification and localization of [=HealthData=] for the purpose of [=SecondaryUse=] of [=HealthData=]. Model elements shown in yellow or green represent terms of this vocabulary.</p>
 	  <figure>
-              <img src="../../../diagrams/gdng-overview.svg">
-              <figcaption>Overview of concepts defined by this extension.</figcaption>
+	      <img src="../../../diagrams/gdng-process-query.svg">
+	      <figcaption>Example of a collaboration between [=HealthDataUser=] and [=DataAccessAndCoordinationOffice=] to identify and localize [=HealthData=].</figcaption>
 	  </figure>
-	  <p>Figure 2 shows a sketch of a GDNG aligned collaboration between a data user and the data access and coordination office that describes the process of identification and localization of health data for the purpose of secondary use of health data. Model elements shown in yellow or green represent terms of this vocabulary.</p>
+	  <p>Figure 3 shows a possible GDNG aligned collaboration sketching the activities of a [=HealthDataUser=], the [=DataAccessAndCoordinationOffice=] and a [=HealthDataHolder=] that are to be carried out, if a [=HealthDataUser=] (e.g. a research institute) wants to use [=HealthData=] for [=SecondaryUse=] in a [=HealthAndHealthcareResearchProject=]. Model elements shown in yellow or green represent terms of this vocabulary.</p>
 	  <figure>
-	      <img src="../../../diagrams/gdng-process-query-{{lang}}.svg">
-	      <figcaption>Collaboration between data user and data access and coordination office to identify and localize health data.</figcaption>
-	  </figure>
-	  <p>Figure 3 shows a GDNG aligned collaboration sketching the activities of a data user, the data access and coordination office and a data holder that are to be carried out, if a data holder (e.g. a research institute) wants to use health data for secondary uses such as research purposes. Model elements shown in yellow or green represent terms of this vocabulary.</p>
-	  <figure>
-	      <img src="../../../diagrams/gdng-process-access-{{lang}}.svg">
-	      <figcaption>Collaboration between data user, data access and coordination office and data holder.</figcaption>
+	      <img src="../../../diagrams/gdng-process-access.svg">
+	      <figcaption>Collaboration between  [=HealthDataUser=] and [=DataAccessAndCoordinationOffice=] and [=HealthDataHolder=].</figcaption>
 	  </figure>
       </section>
 
@@ -106,6 +107,10 @@
 	  <p>
 	      The basic concepts of the GDNG are described in this section.
 	  </p>
+	  <figure>
+	      <img src="../../../diagrams/gdng-basic-definitions.svg">
+	      <figcaption>Basic terms of this extension.</figcaption>
+	  </figure>
 	  {{ list_hierarchy(modules['basic-definitions']['classes'], lang=lang) }}
       </section>
 
@@ -114,15 +119,23 @@
 	  <p>
 	      This section describes the actors involved in GDNG regulated processes.
 	  </p>
+	  <figure>
+	      <img src="../../../diagrams/gdng-actors.svg">
+	      <figcaption>Relevant actors as defined by this extension.</figcaption>
+	  </figure>
 	  {{ list_hierarchy(modules['actors']['classes'], lang=lang) }}
       </section>
 
 
       <section id="vocab-query-and-access">
-	  <h2>Query and Access Health Data</h2>
+	  <h2>Query and Access</h2>
 	  <p>
 	      This section describes concepts around the processes of identification and localization of and access to health data for secondary uses.
 	  </p>
+	  <figure>
+	      <img src="../../../diagrams/gdng-query-and-access.svg">
+	      <figcaption>Terms of the query and access application processes.</figcaption>
+	  </figure>
 	  {{ list_hierarchy(modules['query-and-access']['classes'], lang=lang) }}
       </section>
 
@@ -131,7 +144,23 @@
 	  <p>
 	      The terms related to data linkage are described in this section.
 	  </p>
+	  <figure>
+	      <img src="../../../diagrams/gdng-linkage.svg">
+	      <figcaption>Terms defined by this extension to describe data linkage.</figcaption>
+	  </figure>
 	  {{ list_hierarchy(modules['linkage']['classes'], lang=lang) }}
+      </section>
+
+      <section id="vocab-lawfulness">
+	  <h2>Lawfulness of Processing</h2>
+	  <p>
+	      The terms related to Art. 1 § 6 GDNG:
+	  </p>
+	  <figure>
+	      <img src="../../../diagrams/gdng-lawfulness.svg">
+	      <figcaption>Terms defined by this extension to describe lawfulness of [=HealthcareDataProcessing=] for [=SecondaryUse=].</figcaption>
+	  </figure>
+	  {{ list_hierarchy(modules['lawfulness']['classes'], lang=lang) }}
       </section>
 
       <section id="vocabulary">
@@ -151,17 +180,23 @@
 		  <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
 		  <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
 	      </ul>
-	      <p>The following external concepts are re-used within DPV:</p>
+	      <!-- <p>The following external concepts are re-used within DPV:</p> -->
 	      {{ index_concepts(vocab, vocab_name, filter="external", lang=lang) }}
 	  </section>
       </section>
 
       <section id="future-work" class="appendix">
 	  <h2>Future Work</h2>
-	  <p class="issue">add AI disclaimer: deepl.com was used to translate (some of the) definitions from German to English. All translation have been manually checked and adjusted where necessary.</p>
-	  <aside class="issue" data-number="238"></aside>
-	  <aside class="issue" data-number="387"></aside>
-	  <aside class="issue" data-number="416"></aside>
+	  <p>This is a draft release and compiled from a snapshot documenting the current state. It does neither claim to be precise nor to be complete.</p>
+	  <ul>
+	      <li>Properties will be added.</li>
+	      <li>Missing terms & definitions will be added.</li>
+	      <li>Art. 1 §7 - §9 are still to be covered.</li>
+	      <li>Validate ParentTypes.</li>
+	      <li>Some terms will be refined and even terms itself maybe rephrased.</li>
+	      <li>Further verification of defined terms by use cases and expert interviews.</li>
+	      <li>Usage examples will be provided.</li>
+	  </ul>
       </section>
 
       {% block ACKNOWLEDGEMENTS %}
@@ -172,7 +207,8 @@
 	  {{ funding_acknowledgements() }}
 
 	  <h3>Funding Acknowledgements for Contributors</h3>
-	  <p>The contributions of Julian Flake have been made with the financial support from the European Union’s Digital Europe Programme grant#101123471 (EDGE-Skills) and from the <a href="https://titan-eosc.eu/">TITAN project</a> funded under European Union’s Horizon Europe Framework Programme grant#101129822.</p>
+	  <p>The contributions of Julian Flake have been made possible with the financial support from the European Union’s Digital Europe Programme grant#101123471 (EDGE-Skills) and from the TITAN EOSC project funded under European Union’s Horizon Europe Framework Programme grant#101129822.</p>
+	  <p>The contributions of Christian Draeger, Christian Henke and Matthias Löbe were supported by the project NMDR3 under DFG grant 315072261.</p>
 
       </section>
       {% endblock ACKNOWLEDGEMENTS %}
