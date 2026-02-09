@@ -748,6 +748,7 @@ CSVFILES = {
         },
         'risk_levels': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-risk-levels.csv',
+            'properties': f'{IMPORT_CSV_PATH}/aiact-risk-levels-properties.csv',
         },
         'data': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-data.csv',
@@ -774,6 +775,9 @@ CSVFILES = {
         'sector': {
             'taxonomy': f'{IMPORT_CSV_PATH}/aiact-sector.csv',
         },
+        'prohibited-systems': {
+            'taxonomy-aiact': f'{IMPORT_CSV_PATH}/aiact-prohibited-systems.csv',
+        }
     },
     'eu-nis2': {
         'notice': {
@@ -2152,6 +2156,7 @@ RDF_VOCABS = {
             'assessment': f'{IMPORT_PATH}/legal/eu/aiact/modules/assessment.ttl',
             'compliance': f'{IMPORT_PATH}/legal/eu/aiact/modules/compliance.ttl',
             'sector': f'{IMPORT_PATH}/legal/eu/aiact/modules/sector.ttl',
+            'prohibited-systems': f'{IMPORT_PATH}/legal/eu/aiact/modules/prohibited-systems.ttl',
         },
         'metadata': {
             "dct:title": "EU Artificial Intelligence Act (AI Act)",
