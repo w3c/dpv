@@ -235,24 +235,20 @@ ex:PDH3 a dpv:Process ;
 
 <section id="high-risk-prohibited">
   <h2>High-Risk &amp; Prohibited AI Systems</h2>
-  <p>The AI Act defines specific uses of AI systems as being 'prohibited' (Article 5) or as being 'high-risk' (Article 6). To support the expression of these high-risk AI systems using DPV concepts and the risk levels described earlier, the following concepts are being discussed for inclusion in future versions of this vocabulary:</p>
-  <ol>
-    <li><code>ProhibitedAISystem</code> as a subtype of [=AISystem=] to represent each specific AI system that has been prohibited as per Article 5.</li>
-    <li><code>HighRiskAISystem</code> as a subtype of [=AISystem=] to represent each specific AI system that has been designated as high-risk as per Article 6.
-      <ol>
-        <li><code>SectorialHighRiskAISystem</code> as a subtype of <code>HighRiskAISystem</code> to represent AI systems that have been prohibited as per Article 6 and Annex I (sector-specific regulated uses of AI).</li>
-        <li><code>HighRiskApplicationAISystem</code> as a subtype of <code>HighRiskAISystem</code> to represent AI systems that have been prohibited as per Article 6 and Annex III (specific applications).</li>
-      </ol>
-    </li>
-    <li><code>NonHighRiskAISystem</code> as a subtype of [=AISystem=] to represent AI systems that have not been prohibited as per Article 5, and are not designated as high-risk as per Article 6.</li>
-  </ol>
 
-  <section id="high-risk">
+  <section id="vocab-highrisk-systems">
     <h3>High-Risk AI Systems</h3>
     <aside class="note" title="Work in progress">
       <p>This section reflects the work in progress for expressing specific applications described in Annex III using DPV concepts, based on the work "<a href="https://doi.org/10.1145/3593013.3594050">To Be High-Risk, or Not To Be—Semantic Specifications and Implications of the AI Act’s High-Risk AI Applications and Harmonised Standards (Golpayegani et. al - FAccT 2023)</a>". We welcome help/support for this.</p>
     </aside>
-    <p>The below is a list mapping the clauses in Annex III to specific purposes in DPV vocabularies.</p>
+    <p>The AI Act describes high-risk AI systems in Article 6, with two categories: Article 6(1) which refers to Annex I containing sectorial laws, and Article 6(2) referring to the specific AI applications in Annex III. The risk levels section earlier in the document described the corresponding risk levels that reflect this structure. To represent [=AISystem=] that are thus categorised as high-risk, [=HighRiskAISystem=] is provided. To specifically refer to AI Systems that are high-risk due to sectorial laws Annex I, the concept [=HighRiskAISystem-A6-1=] is defined. Similarly, to represent AI systems that are high-risk due to applications in Annex III, the concept [=HighRiskAISystem-A6-2=] is defined.</p>
+    <p>Both Annex I defines several high-risk systems. These are represented as instances of [=HighRiskAISystem=] and are more specific forms of [=HighRiskAISystem-A6-1=] (i.e. using `skos:broader`). Similarly, Annex III contains several applications, which are represented as more specific forms of [=HighRiskAISystem-A6-2=]. Adopters can declare their system is a high-risk implementation of one of these specific clauses by using the appropriate SKOS relations.</p>
+    <aside class="example" title="Specifying a high-risk AI system according to Annex III-3(a)">
+      <p>Annex III-3(a) concerns "AI systems intended to be used to determine access or admission or to assign natural persons to educational and vocational training institutions at all levels". These are represented by the concept [=HighRiskAISystem-AnnexIII-3-a=].</p>
+      <pre><code>ex:MySystem a eu-aiact:HighRiskAISystem ;
+  skos:broader eu-aiact:HighRiskAISystem-AnnexIII-3-a .</code></pre>
+    </aside>
+    <p>In addition to represent each clause of the specific annexes as an instance of [=HighRiskAISystem=], future work involves also modelling the specifics of the criteria to assist detection of when an AI system is high-risk. For this, each clause, for example in Annex III, is expressed as an [=AISystem=] with additional metadata about its purpose, data involved, and so on. This represents a 'pattern' that can be checked, for example using [[[SHACL]]], to identify which AI systems are high-risk and under which clause in Annex III. Below is a list of relevant concepts identified for modelling each high-risk AI system defined in Annex III.</p>
     <ul>
       <li><strong>Anx.III-1a</strong> - IdentityVerification</li>
       <li><strong>Anx.III-1b</strong> - n/a</li>
@@ -280,6 +276,7 @@ ex:PDH3 a dpv:Process ;
       <li><strong>Anx.III-8a</strong> - JudicialLegalInterpretation, JudicialDisputeManagement</li>
       <li><strong>Anx.III-8b</strong> - PoliticalCampaign</li>
     </ul>
+    {{ list_hierarchy(modules['highrisk-systems']['classes']) }}
   </section>
 
   <section id="vocab-prohibited-systems">

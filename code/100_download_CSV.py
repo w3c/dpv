@@ -368,6 +368,7 @@ DPV_FILES = {
             'aiact-compliance',
             'aiact-sector',
             'aiact-prohibited-systems',
+            'aiact-highrisk-systems',
             ),
     },
     'eu-nis2': {
