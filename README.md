@@ -28,7 +28,7 @@ The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) provides an ontology (
 - rights involved and how to exercise them
 - risks applicable and what would be its consequences and impacts
 
-> The versionless base IRI, e.g. `https://w3id.org/dpv`, always points to the latest release which is a versioned IRI, e.g. `https://w3id.org/dpv/2.2` for v2.2.
+> The versionless base IRI, e.g. `https://w3id.org/dpv`, always points to the latest release which is a versioned IRI, e.g. `https://w3id.org/dpv/2.3` for v2.3.
 
 The namespace for DPV terms is `http://w3id.org/dpv#` with suggested prefix `dpv`, and serialisations are provided in RDF/XML, Turtle, JSON-LD, and N3 formats. The default serialisations are defined using RDFS/SKOS semantics, with an [alternate serialisation](https://w3id.org/dpv/dpv-owl) defined using OWL2 semantics.
 
@@ -146,7 +146,7 @@ Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/
 
 ### Final Reports
 
-A full list of reports (i.e. formally published by the W3C) produced by the CG is available in [CG-REPORTS](./CG-REPORTS.md). Note that works considered to be in a 'draft' state are not formally published in this manner. Below are reports corresponding to the latest release v2.2.
+A full list of reports (i.e. formally published by the W3C) produced by the CG is available in [CG-REPORTS](./CG-REPORTS.md). Note that works considered to be in a 'draft' state are not formally published in this manner. Below are reports corresponding to the latest release v2.3.
 
 - Primer [w3c/cg-reports link to be added]()
 - DPV [w3c/cg-reports link to be added]()
