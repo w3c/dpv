@@ -357,6 +357,7 @@ DPV_FILES = {
             'aiact-capability',
             'aiact-risk',
             'aiact-risk-levels',
+            'aiact-risk-levels-properties',
             'aiact-data',
             'aiact-roles',
             'aiact-docs',
@@ -366,6 +367,8 @@ DPV_FILES = {
             'aiact-assessment',
             'aiact-compliance',
             'aiact-sector',
+            'aiact-prohibited-systems',
+            'aiact-highrisk-systems',
             ),
     },
     'eu-nis2': {

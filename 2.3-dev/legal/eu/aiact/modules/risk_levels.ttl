@@ -1,4 +1,5 @@
 @prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix dcam: <http://purl.org/dc/dcam/> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix dpv: <https://w3id.org/dpv#> .
 @prefix eu-aiact: <https://w3id.org/dpv/legal/eu/aiact#> .
@@ -6,6 +7,7 @@
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix profile: <http://www.w3.org/ns/dx/prof/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix role: <http://www.w3.org/ns/dx/prof/role/> .
 @prefix schema: <https://schema.org/> .
@@ -43,41 +45,37 @@ eu-aiact:RiskLevelHigh a rdfs:Class,
     rdfs:isDefinedBy eu-aiact: ;
     sw:term_status "accepted"@en ;
     skos:broader eu-aiact:RiskLevelPermitted ;
-    skos:definition "Risk Level categorising an AI system as \"high-risk\" as defined in the AI Act"@en ;
+    skos:definition "Risk Level categorising an AI system as \"high-risk\" as defined in the AI Act Article 6"@en ;
     skos:inScheme eu-aiact:risk-levels-classes ;
     skos:prefLabel "Risk Level - High"@en .
 
-eu-aiact:RiskLevelHighAnnexI a rdfs:Class,
+eu-aiact:RiskLevelHigh-A6-1 a rdfs:Class,
         skos:Concept,
         eu-aiact:RiskLevel ;
-    dct:contributor _:person-arthit-suriyawongkul,
-        _:person-delaram-golpayegani,
-        _:person-georg-p-krog,
+    dct:contributor _:person-delaram-golpayegani,
         _:person-harshvardhan-j-pandit ;
-    dct:created "2025-04-03"^^xsd:date ;
-    dct:source "AIA(Anx.I)"@en ;
+    dct:created "2026-02-09"^^xsd:date ;
+    dct:source "AIA(Art.6(1))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
     sw:term_status "accepted"@en ;
     skos:broader eu-aiact:RiskLevelHigh ;
-    skos:definition "Risk Level categorising an AI system as \"high-risk\" as defined in the AI Act Annex I"@en ;
+    skos:definition "Risk Level categorising an AI system as \"high-risk\" as defined in the AI Act Article 6(1), which specifies the sectorial laws mentiond in Annex I"@en ;
     skos:inScheme eu-aiact:risk-levels-classes ;
-    skos:prefLabel "Risk Level - High per Annex I"@en .
+    skos:prefLabel "Risk Level - High per Article 6(1)"@en .
 
-eu-aiact:RiskLevelHighAnnexIII a rdfs:Class,
+eu-aiact:RiskLevelHigh-A6-2 a rdfs:Class,
         skos:Concept,
         eu-aiact:RiskLevel ;
-    dct:contributor _:person-arthit-suriyawongkul,
-        _:person-delaram-golpayegani,
-        _:person-georg-p-krog,
+    dct:contributor _:person-delaram-golpayegani,
         _:person-harshvardhan-j-pandit ;
-    dct:created "2025-04-03"^^xsd:date ;
-    dct:source "AIA(Anx.III)"@en ;
+    dct:created "2026-02-09"^^xsd:date ;
+    dct:source "AIA(Art.6(2))"@en ;
     rdfs:isDefinedBy eu-aiact: ;
     sw:term_status "accepted"@en ;
     skos:broader eu-aiact:RiskLevelHigh ;
-    skos:definition "Risk Level categorising an AI system as \"high-risk\" as defined in the AI Act Annex III"@en ;
+    skos:definition "Risk Level categorising an AI system as \"high-risk\" as defined in the AI Act Article 6(1), which specifies applications of AI in Annex III"@en ;
     skos:inScheme eu-aiact:risk-levels-classes ;
-    skos:prefLabel "Risk Level - High per Annex III"@en .
+    skos:prefLabel "Risk Level - High per Article 6(2)"@en .
 
 eu-aiact:RiskLevelMinimal a rdfs:Class,
         skos:Concept,
@@ -122,7 +120,7 @@ eu-aiact:RiskLevelPermitted a rdfs:Class,
     rdfs:isDefinedBy eu-aiact: ;
     sw:term_status "accepted"@en ;
     skos:broader eu-aiact:RiskLevel ;
-    skos:definition "Concept representing \"AI practices\" are permitted i.e. not prohibited under the AI Act"@en ;
+    skos:definition "Risk Level representing \"AI practices\" are permitted i.e. not prohibited under the AI Act"@en ;
     skos:inScheme eu-aiact:risk-levels-classes ;
     skos:prefLabel "Risk Level - Permitted"@en ;
     skos:scopeNote "The permitted risk level is useful for representing outcomes of assessments determining whether something is prohibited"@en .
@@ -139,7 +137,7 @@ eu-aiact:RiskLevelProhibited a rdfs:Class,
     rdfs:isDefinedBy eu-aiact: ;
     sw:term_status "accepted"@en ;
     skos:broader eu-aiact:RiskLevel ;
-    skos:definition "Risk Level prohibiting \"AI practices\" as defined in the AI Act"@en ;
+    skos:definition "Risk Level prohibiting \"AI practices\" as defined in the AI Act Article 5"@en ;
     skos:inScheme eu-aiact:risk-levels-classes ;
     skos:prefLabel "Risk Level - Prohibited"@en .
 
@@ -195,6 +193,24 @@ eu-aiact:RiskLevelTransparencyRequired a rdfs:Class,
         <https://w3id.org/dpv> ;
     foaf:logo <https://w3id.org/dpv/media/logo.png> ;
     schema:version "2.3-dev" .
+
+eu-aiact:hasRiskLevel a rdf:Property,
+        skos:Concept ;
+    dcam:domainIncludes eu-aiact:AISystem ;
+    dcam:rangeIncludes eu-aiact:RiskLevel ;
+    dct:contributor _:person-harshvardhan-j-pandit ;
+    dct:created "2026-02-09"^^xsd:date ;
+    rdfs:isDefinedBy eu-aiact: ;
+    rdfs:subPropertyOf dpv:hasRiskLevel ;
+    sw:term_status "accepted"@en ;
+    skos:broader dpv:hasRiskLevel ;
+    skos:definition "Indicates the risk level of the AI system under the AI Act"@en ;
+    skos:inScheme eu-aiact:risk-levels-properties ;
+    skos:prefLabel "has risk level"@en ;
+    schema:domainIncludes eu-aiact:AISystem ;
+    schema:rangeIncludes eu-aiact:RiskLevel .
+
+eu-aiact:risk-levels-properties a skos:ConceptScheme .
 
 eu-aiact:serialisation-html a profile:ResourceDescriptor ;
     dct:conformsTo <https://www.w3.org/TR/html/> ;
@@ -254,16 +270,16 @@ _:person-georg-p-krog a dct:Agent,
     foaf:homepage "https://www.linkedin.com/in/georg-philip-krog-a2a278104/" ;
     foaf:name "Georg P. Krog" .
 
+_:person-delaram-golpayegani a dct:Agent,
+        foaf:Person ;
+    scoro:hasORCID "0000-0002-1208-186X" ;
+    org:memberOf _:org-adapt-centre-trinity-college-dublin ;
+    foaf:name "Delaram Golpayegani" .
+
 _:person-harshvardhan-j-pandit a dct:Agent,
         foaf:Person ;
     scoro:hasORCID "0000-0002-5068-3714" ;
     org:memberOf _:org-ai-accountability-lab-aial-trinity-college-dublin ;
     foaf:homepage "https://harshp.com/" ;
     foaf:name "Harshvardhan J. Pandit" .
-
-_:person-delaram-golpayegani a dct:Agent,
-        foaf:Person ;
-    scoro:hasORCID "0000-0002-1208-186X" ;
-    org:memberOf _:org-adapt-centre-trinity-college-dublin ;
-    foaf:name "Delaram Golpayegani" .
 

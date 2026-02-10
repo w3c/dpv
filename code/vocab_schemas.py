@@ -19,7 +19,9 @@ _common_annotations = {
     'Modified': vocab_funcs.construct_date_modified,
     'Status': vocab_funcs.construct_status,
     'Contributors': vocab_funcs.construct_contributors,
-    'Resolution': vocab_funcs.construct_resolution, 
+    'Resolution': vocab_funcs.construct_resolution,
+    'ExtraFunction': vocab_funcs.extra_function,
+    'ExtraParams': None, 
 }
 
 SCHEMA['classes'] = {
@@ -46,7 +48,9 @@ SCHEMA['taxonomy'] = {
     'Modified': vocab_funcs.construct_date_modified,
     'Status': vocab_funcs.construct_status,
     'Contributors': vocab_funcs.construct_contributors,
-    'Resolution': vocab_funcs.construct_resolution, 
+    'Resolution': vocab_funcs.construct_resolution,
+    'ExtraFunction': vocab_funcs.extra_function,
+    'ExtraParams': None,  
 }
 SCHEMA['taxonomy-risk'] = SCHEMA['taxonomy'].copy()
 SCHEMA['taxonomy-risk']['ParentTerm'] = None
@@ -196,3 +200,6 @@ SCHEMA['gdng-classes'].update({
     'Notes': None,
     })
 # SCHEMA['gdng-properties'] = SCHEMA['properties'].copy()
+
+SCHEMA['taxonomy-aiact'] = SCHEMA['taxonomy'].copy()
+SCHEMA['taxonomy-aiact']['AIActRiskLevel'] = vocab_funcs.contruct_aiact_risk_level

@@ -606,3 +606,36 @@ def construct_risk_level(term, data, namespace, header):
     term = namespace[f'{term}Risk']
     triples.append((namespace[data['Term']], DPV.hasRiskLevel, term))
     return triples
+
+
+def contruct_aiact_risk_level(term, data, namespace, header):
+    triples = []
+    risklevel = namespace[term]
+    term = namespace[data['Term']]
+    triples.append((term, namespace['hasRiskLevel'], risklevel))
+    return triples
+
+
+### Experimental function for creating triples from spreadsheet
+def extra_function(term, data, namespace, header):
+    DEBUG(f"{term=}")
+    if term not in globals():
+        return []
+    function = globals()[term]
+    DEBUG(f"{function=}")
+    DEBUG(f"{data['ExtraParams']=}")
+    return function(term, data, namespace, header)
+
+
+def add_triple_subject(term, data, namespace, header):
+    triples = []
+    term = namespace[term]
+    p, o = data['ExtraParams'].replace('(','').replace(')', '').split(',')
+    p = _term_with_namespace(p, None)
+    if ':' in o:
+        o = _term_with_namespace(o, None)
+    triples.append((term, p, o))
+    return triples
+
+
+
