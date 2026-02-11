@@ -1,6 +1,6 @@
 {% from 'macro_term_table.jinja2' import table_classes %}
 {% from 'macro_term_table.jinja2' import table_properties %}
-{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts, anchor %}
 {% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
 <!DOCTYPE html>
 <html>
@@ -299,6 +299,16 @@ ex:DatabaseDocs a tech:Instructions ;
     </aside>
     {{ list_hierarchy(modules['tools']['classes']) }}
 
+  </section>
+
+  <section id="locations">
+    <h2>Locations</h2>
+    <p>Locations in [[TECH]] are expressed by stating the concept is an instance of {{anchor('dpv:Location')}}). Expressing technologies as locations is needed when it can store data or be used as a (virtual) location. The [[LOC]] extension provides a taxonomy of locations to represent geo-political jurisdictions based on standardised notations. In addition, [[PD]] provides location concepts to represent software and devices as locations. Additional locations are planned to be provided in [[SECTOR]] extensions to reflect the specific terms and peculiarities of sectorial concepts.</p>
+    <aside class="note" title="Clarity on use of Technologies as Locations">
+      <p>Technologies may directly be specified as locations i.e. by using {{anchor('dpv:hasLocation')}}. For example, to indicate data storage location is a device, or to indicate the application's data storage as a location. Such uses of technologies as locations should be distinct from the indication of that technology to implement a process, e.g. by using {{anchor('dpv:isImplementedUsingTechnology')}}.</p>
+    </aside>
+    {{ list_hierarchy((vocab|filter_type_dict("dpv:Location"))) }}
+    
   </section>
   
   <section id="vocabulary">
