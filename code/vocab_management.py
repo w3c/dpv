@@ -835,6 +835,9 @@ CSVFILES = {
         'linkage': {
             'gdng-classes': f'{IMPORT_CSV_PATH}/GDNG-linkage.csv',
         },
+        'lawfulness': {
+            'gdng-classes': f'{IMPORT_CSV_PATH}/GDNG-lawfulness.csv',
+        },
     },
 }
 
@@ -2254,6 +2257,7 @@ RDF_VOCABS = {
             'actors': f'{IMPORT_PATH}/legal/de/gdng/modules/actors.ttl',
             'query-and-access': f'{IMPORT_PATH}/legal/de/gdng/modules/query-and-access.ttl',
             'linkage': f'{IMPORT_PATH}/legal/de/gdng/modules/linkage.ttl',
+            'lawfulness': f'{IMPORT_PATH}/legal/de/gdng/modules/lawfulness.ttl',
         },
         'metadata': {
             "dct:title": "Legal Concepts for German Gesundheitsdatennutzungsgesetz (DE)",

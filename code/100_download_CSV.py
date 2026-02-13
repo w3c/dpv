@@ -401,6 +401,7 @@ DPV_FILES = {
             'GDNG-actors-properties',
             'GDNG-query-and-access',
             'GDNG-linkage',
+            'GDNG-lawfulness',
             ),
     },
     # Standards - ieee_7012
