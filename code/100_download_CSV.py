@@ -387,6 +387,9 @@ DPV_FILES = {
             'EHDS_Purpose',
             'EHDS_Entities',
             'EHDS_Process',
+            'EHDS_Technology',
+            'EHDS_Right',
+            'EHDS_TOM',
             ),
     },
     'de-gdng': {

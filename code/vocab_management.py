@@ -803,6 +803,15 @@ CSVFILES = {
         'process': {
             'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Process.csv',
         },
+        'technology': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Technology.csv',
+        },
+        'rights': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_Right.csv',
+        },
+        'TOM': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/EHDS_TOM.csv',
+        },
     },
     'eu-rights': {
         'fundamental': {
@@ -2201,6 +2210,9 @@ RDF_VOCABS = {
             'purposes': f'{IMPORT_PATH}/legal/eu/ehds/modules/purposes.ttl',
             'entities': f'{IMPORT_PATH}/legal/eu/ehds/modules/entities.ttl',
             'process': f'{IMPORT_PATH}/legal/eu/ehds/modules/process.ttl',
+            'technology': f'{IMPORT_PATH}/legal/eu/ehds/modules/technology.ttl',
+            'rights': f'{IMPORT_PATH}/legal/eu/ehds/modules/rights.ttl',
+            'TOM': f'{IMPORT_PATH}/legal/eu/ehds/modules/TOM.ttl',
         },
         'metadata': {
             "dct:title": "EU European Health Data Spaces (EHDS)",
