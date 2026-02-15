@@ -410,7 +410,13 @@ CSVFILES = {
         },
         'status': {
             'taxonomy': f'{IMPORT_CSV_PATH}/Sector_Health_Status.csv',
-        }
+        },
+        'data': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/data-healthcare.csv',
+        },
+        'technology': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/tech-healthcare.csv',
+        },
     },
     'sector-infra': {
         'purposes': {
@@ -1170,6 +1176,8 @@ RDF_VOCABS = {
             'purposes': f'{IMPORT_PATH}/sector/health/modules/purposes.ttl',
             'entities': f'{IMPORT_PATH}/sector/health/modules/entities.ttl',
             'status': f'{IMPORT_PATH}/sector/health/modules/status.ttl',
+            'technology': f'{IMPORT_PATH}/sector/health/modules/technology.ttl',
+            'data': f'{IMPORT_PATH}/sector/health/modules/data.ttl',
         },
         'metadata': {
             "dct:title": "Health Sector Concepts",

@@ -64,6 +64,7 @@ DPV_FILES = {
             'PersonalData_properties', 
             'pd-core',
             'pd-extended',
+            'data-healthcare',
             ),
     },
     # Sheets for Purpose, Processing, and Processing Context/Scale
@@ -180,6 +181,7 @@ DPV_FILES = {
             'tech-status-properties',
             'tech-tools',
             'tech-tools-properties',
+            'tech-healthcare',
             ),
     },
     'ai': {
