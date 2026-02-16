@@ -2131,7 +2131,7 @@ RDF_VOCABS = {
             "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing information associated with EU GDPR",
             "dct:created": "2019-06-18",
             "dct:modified": DPV_PUBLISH_DATE,
-            "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog, Paul Ryan, Beatriz Esteves, Stratis Koulierakis",
+            "dct:creator": "Harshvardhan J. Pandit, Georg P. Krog, Paul Ryan, Beatriz Esteves, Efstratios Koulierakis",
             "schema:version": DPV_VERSION,
             "profile:isProfileOf": "dpv",
             "bibo:status": "published",
