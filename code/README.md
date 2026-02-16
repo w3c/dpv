@@ -6,15 +6,15 @@ The Data Privacy Vocabulary (DPV) is available at https://w3id.org/dpv and its r
 
 ## Quick Summary
 
-There are 3 scripts to execute for each of the three tasks.
+There are 3 python scripts to execute for each of the three tasks. We use `uv` to manage python (see end of document).
 
-If you have updated concepts or want to regenerate the spreadsheets from which all RDF and HTML is produced - use `./100_download_CSV.py` (by default it will download and extract all spreadsheets). You can use `--ds <name>` to only download and extract specific spreadsheets. See the _Downloading CSV data_ section below for more information on this.
+If you have updated concepts or want to regenerate the spreadsheets from which all RDF and HTML is produced - use `100_download_CSV.py` (by default it will download and extract all spreadsheets). You can use `--ds <name>` to only download and extract specific spreadsheets. See the _Downloading CSV data_ section below for more information on this.
 
-If you want to generate the RDF files - `./200_serialise_RDF.py` which will will create RDF serialisations for all DPV modules and extensions. You can use `--vocab=<name>` to generate outputs only for a specific vocabulary or extension. By default, it will generate outputs for all vocabularies.
+If you want to generate the RDF files - `200_serialise_RDF.py` which will will create RDF serialisations for all DPV modules and extensions. You can use `--vocab=<name>` to generate outputs only for a specific vocabulary or extension. By default, it will generate outputs for all vocabularies.
 
-If you want to generate the HTML files - `./300_generate_HTML.py` will generate HTML documentation for all DPV modules and extensions. To only generate the HTML for guides, use `./300_generate_HTML.py --guides`. You can use `--vocab=<name>` to generate outputs only for a specific vocabulary or extension. By default, it will generate outputs for all vocabularies. You can use `--skip=<name>` to skip loading specific vocabularies, e.g. `loc`, to speed up the process. The skip parameters support wildcards as suffixes, e.g. `legal*` will match all legal vocabularies.
+If you want to generate the HTML files - `300_generate_HTML.py` will generate HTML documentation for all DPV modules and extensions. To only generate the HTML for guides, use `300_generate_HTML.py --guides`. You can use `--vocab=<name>` to generate outputs only for a specific vocabulary or extension. By default, it will generate outputs for all vocabularies. You can use `--skip=<name>` to skip loading specific vocabularies, e.g. `loc`, to speed up the process. The skip parameters support wildcards as suffixes, e.g. `legal*` will match all legal vocabularies.
 
-To generate the zip files for publishing DPV releases on GitHub, use `./900_generate_releases.sh`, which will produce zip files in `releases` folder.
+To generate the zip files for publishing DPV releases on GitHub, use `900_generate_releases.sh`, which will produce zip files in `releases` folder.
 
 To change metadata and config for the above processes, see `vocab_management.py`
 
@@ -37,7 +37,7 @@ The below are optional additional requirements for validations using SHACL:
 
 ### Downloading CSV data
 
-`./100_download_CSV.py` will download the CSV data from a Google Sheets document and store it in the `vocab_csv` path specified. The outcome will be a CSV file for each sheet. To only download and generate the CSVs for specific modules/extensions, use `--ds <name>` where `name` is the key in `DPV_FILES` present in the script. E.g. to download spreadsheets containing purposes, use `--ds purpose_processing`. Running the script without any parameters will download and extract all spreadsheets.
+`100_download_CSV.py` will download the CSV data from a Google Sheets document and store it in the `vocab_csv` path specified. The outcome will be a CSV file for each sheet. To only download and generate the CSVs for specific modules/extensions, use `--ds <name>` where `name` is the key in `DPV_FILES` present in the script. E.g. to download spreadsheets containing purposes, use `--ds purpose_processing`. Running the script without any parameters will download and extract all spreadsheets.
 
 This uses the Google Sheet export link to download the sheet data in CSV form. Needs specifying the document ID in `DPV_DOCUMENT_ID` variable and listing the sheet name(s) in `DPV_SHEETS`. The default save path for CSV is `vocab_csv`. This results in downloading the Google Sheet as a Excel spreadsheet and then locally exporting each tab as a CSV file.
 
@@ -56,7 +56,7 @@ The way the RDF generation works is as follows:
 
 ### Generating HTML documentation
 
-The `./300_generate_HTML.py` script is used to produce the HTML documentation for all DPV modules and extensions. This uses `jinja2` to render the HTML file from a template. The RDF data is loaded for each vocabulary and its modules for all RDF filepaths as defined in `vocab_management.py`. The data is stored in-memory as a giant dictionary so that lookups can be performed across extensions (e.g. to get the label of a parent concept from another vocabulary). See `vocab_management.py` file for export paths and the configuration of each template assigned to a vocabulary or module.
+The `300_generate_HTML.py` script is used to produce the HTML documentation for all DPV modules and extensions. This uses `jinja2` to render the HTML file from a template. The RDF data is loaded for each vocabulary and its modules for all RDF filepaths as defined in `vocab_management.py`. The data is stored in-memory as a giant dictionary so that lookups can be performed across extensions (e.g. to get the label of a parent concept from another vocabulary). See `vocab_management.py` file for export paths and the configuration of each template assigned to a vocabulary or module.
 
 This script also produces the guides HTML files. By default, it will do this automatically after producing all the RDF documentation. To only produce the guides, use the `--guides` flag.
 
@@ -101,10 +101,16 @@ the changes will still need to be synced back to the GSheets.
 
 ## Using UV
 
-Notes from Harsh: I have switched to using [uv](https://docs.astral.sh/uv/) as the Python tooling of choice to replace pip, venv, and a bunch of other stuff. This is not necessary to use, but is recommended (it's fast!).
+[uv](https://docs.astral.sh/uv/) as the Python tooling of choice to replace pip, venv, and a bunch of other stuff. This is not necessary to use, but is recommended (it's fast!).
 
 ```shell
+# to install requirements
+uv sync
+# to execute a script
 uv run <file> <params>
+
+# to update requirements
 uv lock --upgrade 
-uv pip freeze > requirements.txt
 ```
+
+Required minimum python version and dependencies are declared in `pyproject.toml`.
