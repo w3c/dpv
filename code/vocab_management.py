@@ -20,9 +20,9 @@ INFO = logging.info
 # == data ==
 
 # DPV Version
-DPV_VERSION = "2.3-dev"
+DPV_VERSION = "2.3"
 DPV_PREVIOUS_VERSION = "2.2"
-DPV_PUBLISH_DATE = "2026-01-01"
+DPV_PUBLISH_DATE = "2026-02-25"
 # Document status: should be one of CG-DRAFT or CG-FINAL
 DOCUMENT_STATUS = "CG-DRAFT"
 

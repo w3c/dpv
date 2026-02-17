@@ -1,0 +1,65 @@
+@startuml
+!include style.plantuml
+left to right direction
+
+class "Thing" as Thing2 #silver
+package dpv {
+    class Entity
+    class Risk
+    class RiskMitigationMeasure
+    class RiskLevel
+    class Consequence
+    class Impact
+    class Severity
+    class Likelihood
+}
+
+Thing2 -- Risk : hasRisk >
+Thing2 -- Consequence: hasConsequence >
+Consequence -- Thing2: hasConsequenceOn >
+Thing2 -- Impact: hasImpact >
+Impact -d- Entity: hasImpactOn >
+Thing2 -- Severity: hasSeverity >
+Thing2 -- Likelihood: hasLikelihood >
+Risk -- Risk: hasResidualRisk >
+Risk -- RiskMitigationMeasure : isMitigatedByMeasure >
+Risk -- RiskLevel: hasRiskLevel >
+
+class Thing #silver
+
+package dpv {
+    class Risk
+}
+
+package risk {
+    class Incident
+    class IncidentStatus
+    class RiskSource
+    class Threat
+    class ThreatSource
+    class Vulnerability
+    class RiskControl
+    class RiskMatrix
+    class RiskAnalysis
+    class RiskAssessment
+    class RiskManagement
+}
+
+Incident -- Risk : risk:refersToRisk >
+Thing -- Incident : risk:hasIncident >
+Incident -- IncidentStatus : dpv:hasStatus >
+Risk -- RiskSource : risk:hasRiskSource >
+RiskSource <|-- Threat
+Risk -- Threat : risk:causedByThreat >
+Threat -- ThreatSource : hasThreatSource >
+Thing -- Vulnerability : hasVulnerability >
+Vulnerability -- Thing : isVulnerabilityOf >
+Threat -- Vulnerability : exploitsVulnerability >
+Vulnerability -- Threat : isExploitedBy >
+Incident -- Vulnerability : causedByVulnerability >
+Thing -- RiskControl : hasRiskControl >
+RiskAssessment <|-- RiskMatrix
+RiskManagement <|-- RiskAssessment
+RiskAssessment <|-- RiskAnalysis
+
+@enduml
