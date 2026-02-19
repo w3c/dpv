@@ -1119,8 +1119,8 @@ if __name__ == '__main__':
 
     INFO('-'*40)
     if args.novocab:
-        DATA.vocabs = []
-        DATA.skip = RDF_VOCABS.keys()
+        DATA.vocabs = ['dex']
+        DATA.skip = [vocab for vocab in RDF_VOCABS.keys() if vocab != 'dex']
     elif args.vocab:
         DATA.vocabs = [s.strip() for s in args.vocab[0].split(',')]
         vocabs = args.vocab
