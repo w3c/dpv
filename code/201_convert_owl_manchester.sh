@@ -25,5 +25,5 @@ export -f convert_owl
 #   where DPV outputs exist, and won't be for example in the
 #   documentation generator metadata folders (they are .ttl)
 
-find ../2.2 -type f -name "*-owl.rdf" -exec bash -c 'convert_owl "$0"' {} \;
+find ../2.3 -type f -name "*-owl.rdf" -exec bash -c 'convert_owl "$0"' {} \;
 # java -jar $ONT_CONVERTER
