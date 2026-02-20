@@ -4,7 +4,7 @@ Data Privacy Vocabularies and Controls Community Group (DPVCG) repository contai
 specifications for Data Privacy Vocabulary (DPV) and its extensions, primer, and guides,
 and group meeting minutes.
 
-links: [Community Group](https://www.w3.org/community/dpvcg/) | [GitHub wiki](https://github.com/w3c/dpv/wiki/) | [Charter](https://w3id.org/dpv/charter)
+links: [Community Group](https://www.w3.org/community/dpvcg/) | [GitHub wiki](https://github.com/w3c/dpv/wiki/)
 
 The mission of the W3C Data Privacy Vocabularies and Controls CG (DPVCG) is to develop a taxonomy of privacy and data protection related terms, which include in particular terms from the European General Data Protection Regulation (GDPR), such as a taxonomy of personal data as well as a classification of purposes (i.e., purposes for data collection), and events of disclosures, consent, and processing such personal data.
 
@@ -28,7 +28,7 @@ The [Data Privacy Vocabulary (DPV)](https://w3id.org/dpv) provides an ontology (
 - rights involved and how to exercise them
 - risks applicable and what would be its consequences and impacts
 
-> The versionless base IRI, e.g. `https://w3id.org/dpv`, always points to the latest release which is a versioned IRI, e.g. `https://w3id.org/dpv/2.2` for v2.2.
+> The versionless base IRI, e.g. `https://w3id.org/dpv`, always points to the latest release which is a versioned IRI, e.g. `https://w3id.org/dpv/2.3` for v2.3.
 
 The namespace for DPV terms is `http://w3id.org/dpv#` with suggested prefix `dpv`, and serialisations are provided in RDF/XML, Turtle, JSON-LD, and N3 formats. The default serialisations are defined using RDFS/SKOS semantics, with an [alternate serialisation](https://w3id.org/dpv/dpv-owl) defined using OWL2 semantics.
 
@@ -52,7 +52,7 @@ In v2.1, the Sector and Standard group of extensions was added to the DPV specif
 - [SECTOR-LAW](https://w3id.org/dpv/sector/law) for Law Enforcement & Justice Sector
 - [SECTOR-PUBLICSERVICES](https://w3id.org/dpv/sector/publicservices) for Public Services Sector
 
-The Standards extensions are aimed to provide additional concepts for implementing specific standards using DPV. Currently it contains [IEEE-P7012](https://w3id.org/dpv/standards/p7012) based on [IEEE P7012 Draft Standard for Machine Readable Personal Privacy Terms](https://standards.ieee.org/ieee/7012/7192/).
+The Standards extensions are aimed to provide additional concepts for implementing specific standards using DPV. Currently it contains [IEEE-7012](https://w3id.org/dpv/standards/ieee/7012) based on [IEEE 7012-2025 Standard for Machine Readable Personal Privacy Terms](https://standards.ieee.org/ieee/7012/7192/).
 
 ### Extensions for Jurisdictions and Regulations
 
@@ -69,7 +69,7 @@ The LEGAL extensions provide concepts associated with specific jurisdictions and
 - [LEGAL-BE](https://w3id.org/dpv/legal/be) for Belgium
 - [LEGAL-BG](https://w3id.org/dpv/legal/bg) for Bulgaria
 - [LEGAL-CY](https://w3id.org/dpv/legal/cy) for Cyprus
-- [LEGAL-CZ](https://w3id.org/dpv/legal/cz) for Czech Republic
+- [LEGAL-CZ](https://w3id.org/dpv/legal/cz) for the Czech Republic
 - [LEGAL-DE](https://w3id.org/dpv/legal/de) for Germany
 - [LEGAL-DK](https://w3id.org/dpv/legal/dk) for Denmark
 - [LEGAL-EE](https://w3id.org/dpv/legal/ee) for Estonia
@@ -94,7 +94,7 @@ The LEGAL extensions provide concepts associated with specific jurisdictions and
 - [LEGAL-MO](https://w3id.org/dpv/legal/mo) for Macao
 - [LEGAL-MT](https://w3id.org/dpv/legal/mt) for Malta
 - [LEGAL-MY](https://w3id.org/dpv/legal/my) for Malaysia
-- [LEGAL-NL](https://w3id.org/dpv/legal/nl) for Netherlands
+- [LEGAL-NL](https://w3id.org/dpv/legal/nl) for the Netherlands
 - [LEGAL-NO](https://w3id.org/dpv/legal/no) for Norway
 - [LEGAL-PH](https://w3id.org/dpv/legal/ph) for the Philippines
 - [LEGAL-PL](https://w3id.org/dpv/legal/pl) for Poland
@@ -106,7 +106,7 @@ The LEGAL extensions provide concepts associated with specific jurisdictions and
 - [LEGAL-SK](https://w3id.org/dpv/legal/sk) for Slovakia
 - [LEGAL-TH](https://w3id.org/dpv/legal/th) for Thailand
 - [LEGAL-TW](https://w3id.org/dpv/legal/tw) for Taiwan
-- [LEGAL-US](https://w3id.org/dpv/legal/us) for United States of America
+- [LEGAL-US](https://w3id.org/dpv/legal/us) for the United States of America
 
 ### Other Resources
 
@@ -115,8 +115,8 @@ The NACE Taxonomy serialised in RDFS (previously available at <https://w3id.org/
 ## Guides
 
 - The [Primer](https://w3id.org/dpv/primer) is an introductory document for newcomers to understand the DPV and its concepts. A [2-Page Concise Primer](https://w3id.org/dpv/primer/concise) provides a succinct introduction to the DPV.
-- The [Use-Cases and Requirements](https://w3id.org/dpv/use-cases/) document lists the use-cases and requirements that led to the development of DPV.
-- The [Examples](https://w3id.org/dpv/examples/) page provides an index of examples describing the use of DPV concepts.
+- The [Use-Cases and Requirements](https://w3id.org/dpv/use-cases) document lists the use-cases and requirements that led to the development of DPV.
+- The [Examples](https://w3id.org/dpv/examples) page provides an index of examples describing the use of DPV concepts.
 - The [Guides](https://w3id.org/dpv/guides) page lists guides for use of DPV in specific domains and applications
     - [Using DPV in OWL2](https://w3id.org/dpv/guides/dpv-owl)
     - [Implementing ISO/IEC 27560:2023 Consent Records and Receipts](https://w3id.org/dpv/guides/consent-27560)
@@ -140,13 +140,13 @@ In addition to the above, we welcome participation in the following guides being
 
 ## Releases
 
-> [go to latest release](https://github.com/w3c/dpv/releases/latest)
+> [go to the latest release](https://github.com/w3c/dpv/releases/latest)
 
 Releases are provided through the GitHub feature at [https://github.com/w3c/dpv/releases](https://github.com/w3c/dpv/releases) and contain zipped collections of DPV specifications, modules, extensions, and accompanying documents.
 
 ### Final Reports
 
-A full list of reports (i.e. formally published by the W3C) produced by the CG is available in [CG-REPORTS](./CG-REPORTS.md). Note that works considered to be in a 'draft' state are not formally published in this manner. Below are reports corresponding to the latest release v2.2.
+A full list of reports (i.e. formally published by the W3C) produced by the CG is available in [CG-REPORTS](./CG-REPORTS.md). Note that works considered to be in a 'draft' state are not formally published in this manner. Below are reports corresponding to the latest release v2.3.
 
 - Primer [w3c/cg-reports link to be added]()
 - DPV [w3c/cg-reports link to be added]()
@@ -212,11 +212,11 @@ A full list of reports (i.e. formally published by the W3C) produced by the CG i
 
 If you're unsure about something, or would like clarifications, or suggestions - please communicate with us or open an issue. We would be happy to help. You can view the [current open issues](https://github.com/w3c/dpv/issues) and the [public mailing list](https://lists.w3.org/Archives/Public/public-dpvcg/).
 
-Membership to the group is open to all interested individuals and organisations. To join the group, you need a valid W3C account – which is free to get and can be [requested here](https://www.w3.org/accounts/request). The group meets usually through online meeting calls - see [meetings calendar](https://www.w3.org/groups/cg/dpvcg/calendar) and [minutes](https://w3id.org/dpv/meetings/).
+Membership to the group is open to all interested individuals and organisations. To join the group, you need a valid W3C account – which is free to get and can be [requested here](https://www.w3.org/accounts/request). Usually, the group meets through online meeting calls - see [meetings calendar](https://www.w3.org/groups/cg/dpvcg/calendar) and [minutes](https://w3id.org/dpv/meetings).
 
 ## Funding Acknowledgements
 
-The DPVCG was established as part of the [SPECIAL H2020 Project](https://specialprivacy.ercim.eu/), which received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No. 731601 from 2017 to 2019. Continued maintainence is funded under: [RECITALS project](https://recitals-project.eu/) under EU's Horizon program grant no 101168490.
+The DPVCG was established as part of the [SPECIAL H2020 Project](https://specialprivacy.ercim.eu/), which received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No. 731601 from 2017 to 2019.
 
 Harshvardhan J. Pandit was funded to maintain these specifications and to chair the DPVCG from 2020 to 2022 by the [Irish Research Council\'s](https://research.ie/) Government of Ireland Postdoctoral Fellowship Grant#GOIPD/2020/790, and through the [ADAPT SFI Centre](https://www.adaptcentre.ie/) for Digital Media Technology which is funded by Science Foundation Ireland through the SFI Research Centres Programme and is co-funded under the European Regional Development Fund (ERDF) through Grant#13/RC/2106 (2018 to 2020) and Grant#13/RC/2106_P2 (2021 onwards), and through the AI Accountability Lab (AIAL) which is supported by grants from following groups: the AI Collaborative, an Initiative of the Omidyar Group; Luminate; the Bestseller Foundation; and the John D. and Catherine T. MacArthur Foundation (from 2025 onwards).
 

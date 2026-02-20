@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Changelog for DPV 2.3</title>
+    <style type="text/css">
+        body {
+            max-width: 850px;
+            margin: auto;
+            font-size: 1.15rem;
+            line-height: 1.5rem;
+        }
+        main {
+            background-color: rgb(255,255,250);
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+            padding-right: 10px;
+        }
+        section {
+            border-top: 1px solid darkgray;
+        }
+        strong {
+            font-style: italic;
+            font-size: 1.25rem;
+        }
+        code {
+            color: rgb(150,0,0);
+        }
+        .seemore {
+            border: 1px dotted darkblue;
+            background-color: rgb(250,255,250);
+            padding-left: 5px;
+            padding-right: 5px;
+            font-size: 0.75rem;
+        }
+        details > details {
+            padding-left: 20px;
+            border-left: 5px solid lightgray;
+        }
+        .label-status-stable {
+            background-color: #CFC;
+            padding: 1px;
+        }
+        .label-status-draft {
+            background-color: #FFC;
+            padding: 1px;
+        }
+        .label-status-new {
+            background-color: #FCC;
+            padding: 1px;
+            margin-left: 2px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+    <h1>Changelog for DPV 2.3</h1>
+    <p>Published: 2026-02-25
+        <!-- <br/>author(s): Harshvardhan Pandit -->
+    </p>
+    <p>This document describes the changes in <a href="https://w3id.org/dpv/2.3">DPV 2.3</a> release as compared to the previous <a href="https://w3id.org/dpv/2.2">DPV 2.2</a> release. This changelog covers the DPV specification as well as all extensions.</p>
+    <section id="summary">
+        <h2>Summary</h2>
+        <p>DPV 2.3 has <strong>backwards-incompatible changes</strong> regarding purposes where the meaning of concept(s) has changed. Fixes for these are simple to implement (see note further ahead in DPV concepts). Use of 2.3 is compatible with existing uses of 2.2 despite this. The changelog for 2.2 is available <a href="../2.2/changelog.html">here</a>.</p>
+        <ol>
+            <li><strong>When updating are there are any issues?</strong> Yes, there may be a minor issue if using Service Provision purpose in DPV. The namespace for IEEE 7012 has been revised.<a class="seemore" href="#change-implementation">see more</a></li>
+            <li><strong>Change in concepts:</strong> In total, DPV 2.3 and all its extensions contain <code>9982</code> concepts, and compared to 2.2 - <code>594</code> concepts have been added and <code>30</code> concepts removed. The count of added and removed concepts include changes to extension IRIs and moving concepts between extensions. <a class="seemore" href="#change-terms">see more</a></li>
+            <li><strong>Development process:</strong> The development process for DPV is carried out through GitHub and meetings. Participation is open and welcome. <a class="seemore" href="#change-dev">see more</a></li>
+            <li><strong>Contributors:</strong> list of contributors to version 2.3. <a class="seemore" href="#contributors">see more</a></li>
+        </ol>
+    </section>
+
+    <section id="change-implementation">
+        <h2>Do I need to update or change something?</h2>
+        <p>You should consider updating to the latest version of the DPV as it provides a more comprehensive set of terms, has new extensions with refinements and advances in representing information, and represents more recent and up to date knowledge within the domain.</p>
+        <p>There is one breaking change between 2.3 and 2.2 where the DPV concept <code>ServiceProvision</code> has been made narrower i.e. it now represents a subset of previously possible things. The new concept <code>ServiceMaintainence</code> is the broader concept and comes with several granular concepts to better describe service related concepts. Existing users of <code>ServiceProvision</code> can continue to use the concept, but are recommended to additionally evaluate whether their use should also include one or more of the newly added concepts to correctly describe the intended purposes. There are no changes to the underlying model and semantics.</p>
+        <p>The namespace for the IEEE 7012 extension has changed following a change in its name from <code>P7012</code> to <code>7012</code>, and the new IRI as <code>/standards/ieee/7012</code>. Adopters are advised to switch to this namespace and concepts in it if using the draft extension.</p>
+        <p>Going ahead, we do not foresee major breaking changes in the future release which is tentatively labelled 2.4 and scheduled to be released in July 2026.</p>
+    </section>
+    
+    <section id="change-terms">
+        <h2>Detailed Changes to Terms</h2>
+        <p>Click on arrows to expand descriptions and see added/removed concepts.</p>
+        <details>
+            <summary><code>Data Privacy Vocabulary (DPV)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 1175 ; added: 10 ; removed: 0 <a href="https://w3id.org/dpv/2.2/dpv"><small><i>view document</i></small></a>
+            </summary>
+            <!-- <details>
+                <summary>Concepts Removed <small>(click to expand)</small>
+                    <p>Removed concepts include fixing typos in Contract Statuses, Rule Fulfilment Statuses, Rights Fulfilment Status and the property <code>isOrganisationalUnitOf</code>.</p>
+                </summary>
+                <pre>
+1: ContractFulfiled
+2: ContractNotFulfiled
+3: ContractPartiallyFulfiled
+4: ContractualClauseFulfiled
+5: ContractualClauseNotFulfiled
+6: ContractualClausePartiallyFulfiled
+7: LawfulnessUnkown
+8: ProhibitionFulfilled
+9: RightsFulfillment
+10: hasFulfillmentsStatus
+11: isOrganistionalUnitOf
+                </pre>
+            </details> -->
+            <details>
+                <summary>Concepts Added <small>(click to expand)</small>
+                    <ul>
+                        <li><code>Agent</code> and <code>LegalAgent</code> have been added to specifically distinguish between legal representation and (in TECH and AI extension) software representation.</li>
+                        <li><code>ServiceManagement</code> is now the top/broad concept for service related purposes, with existing purposes such as <code>ServiceProvision</code> being made part of it. This narrows the definition of service provision and thus is a change in its meaning. Added and existing service related concepts are now no longer a subclass/narrower forms of service provision but are now part of service management.</li>
+                        <code>Added technical and organisational measures</code>
+                    </ul>
+                </summary>
+                <pre>
+1: AIGovernance
+2: Agent
+3: DataAvailabilityAssessment
+4: DataSuitabilityAssessment
+5: FailSafeProtocols
+6: HumanOversight
+7: LegalAgent
+8: ServiceAccessDetermination
+9: ServiceManagement
+10: ServiceMonitoring
+                </pre>
+            </details>
+        </details>
+        <details>
+            <summary><code>Personal Data Categories (PD)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 239 ; added: 10 ; removed: 0 <a href="https://w3id.org/dpv/2.3/pd"><small><i>view document</i></small></a>
+            </summary>
+            <!-- <details>
+                <summary>Concepts Removed <small>(click to expand)</small>
+                    <p>Removed concepts involve fixing typos in the concept names (e.g. <code>Behavioral</code> to <code>Behavioural</code></p>
+                    </summary>
+                <pre>
+1: Acquantaince
+2: Behavioral
+3: BrowsingBehavior
+4: CriminalOffense
+5: Demeanor
+6: Favorite
+7: FavoriteColor
+8: FavoriteFood
+9: FavoriteMusic
+10: HairColor
+11: ServiceConsumptionBehavior
+12: TVViewingBehavior
+                </pre>
+            </details> -->
+            <details>
+                <summary>Concepts Added <small>(click to expand)</small>
+                    <p>Added concepts include locations as personal data and additional categories relevant in impact assessments.</p>
+                </summary>
+                <pre>
+1: CurrentLocation
+2: EducationTraining
+3: HomeLocation
+4: ProfessionalExperience
+5: ProfessionalTraining
+6: SocialBehaviour
+7: TechnicalKnowledge
+8: Vulnerability
+9: WorkExperience
+10: WorkLocation
+                </pre>
+            </details>
+        </details>
+        <details>
+            <summary><code>Technology (TECH)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 199 ; added: 3 ; removed: 0 <a href="https://w3id.org/dpv/2.3/tech"><small><i>view document</i></small></a>
+            </summary>
+            <details>
+                <summary>Concepts Added <small>(click to expand)</small>
+                    <ul>
+                        <li><code>SoftwareAgent</code> to describe use of software as agents (as a distinct concept from `LegalAgent` which is added to DPV. <code>UserAgent</code> is expanded from software agent for representing the concept as used e.g. in web browsers.</li>
+                        <li><code>WebScraper</code> as a technology.</li>
+                    </ul>
+                </summary>
+                <pre>
+1: SoftwareAgent
+2: UserAgent
+3: WebScraper
+                </pre>
+            </details>
+        </details>
+        <details>
+            <summary><code>Artificial Intelligence (AI)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 257 ; added: 47 ; removed: 1 <a href="https://w3id.org/dpv/2.3/ai"><small><i>view document</i></small></a>
+            </summary>
+            <details>
+                <summary>Concepts Removed <small>(click to expand)</small>
+                    <p><code>Measure</code> has been removed as a generic concept, and the existing DPV concepts for technical and organisational measures should be used. These may be expanded in future versions to represent specific forms of AI versions.</p>
+                    </summary>
+                <pre>
+1: Measure
+                </pre>
+            </details>
+            <details>
+                <summary>Concepts Added <small>(click to expand)</small>
+                    <ul>
+                        <li>The AI Taxonomy provided by the Publications Office of the European Union has been added (techniques, capabilities, and AI systems)</li>
+                        <li><code>AIAgent</code> extended the software agent concept in TECH</li>
+                        <li><code>AIProcess</code> to describe a DPV Process containing or using AI</li>
+                        <li>Measures such as benchmarking and related to bias</li>
+                        <li>Stages of data processing in AI development</li>
+                        <li>GenAI, GPAI, LLM, etc. (aligned with EU AI Taxonomy)</li>
+                    </ul>
+                </summary>
+                <pre>
+1: AIAgent
+2: AIProcess
+3: Benchmarking
+4: BiasAssessment
+5: BiasDetection
+6: BiasMitigation
+7: BiasPrevention
+8: ChatbotCapability
+9: ComputationalCreativity
+10: CyberphysicalSystem
+11: DataAggregation
+12: DataAnnotation
+13: DataCleaning
+14: DataCollection
+15: DataEnrichment
+16: DataLabelling
+17: DataOperation
+18: DataPreparation
+19: DataUpdating
+20: EdgeAI
+21: ExplainabilityRisk
+22: FineTunedModel
+23: FrugalAISystem
+24: FrugalMachineLearning
+25: GPAI
+26: GenAI
+27: HeuristicProgramming
+28: HumanIdentification
+29: ImageClassification
+30: LLM
+31: ModelFineTuning
+32: MotionAnalysis
+33: NaturalLanguageProcessing
+34: ObjectDetection
+35: PatternRecognition
+36: PerceptionBasedAI
+37: ReasoningSystem
+38: RemoteSensing
+39: RoboticProcessAutomation
+40: Robotics
+41: RuleBasedTechnique
+42: SelfSupervisedLearning
+43: TextClassification
+44: TextDataMining
+45: TransferLearning
+46: TransparencyRisk
+47: VisualRecognition
+                </pre>
+            </details>
+        </details>
+        <details>
+            <summary><code>Risk Management (RISK)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 565 ; added: 15 ; removed: 0 <a href="https://w3id.org/dpv/2.3/risk"><small><i>view document</i></small></a>
+            </summary>
+            <!-- <details>
+                <summary>Concepts Removed <small>(click to expand)</small>
+                    <p>Removed concepts include fixing typos in the terms.</p>
+                    <p>Other removed concepts include those of the form <code>LoseX</code> where a new concept has been added of the form <code>XLoss</code> to better phrase the concept and align it with practically used terminology.</p>
+                    </summary>
+                <pre>
+1: Extorsion
+2: InabilityToFulfillLegalObligations
+3: LoseCredibility
+4: LoseCustomerConfidence
+5: LoseGoodwill
+6: LoseNegotiatingCapacity
+7: LoseOpportunity
+8: LoseReputation
+9: LoseTrust
+10: RemeditationControl
+11: Renumeration
+12: TaskOmmitted
+13: UnauthorisedAccesstoPremises
+                </pre>
+            </details> -->
+            <details>
+                <summary>Concepts Added <small>(click to expand)</small>
+                    <p>Risk Events that correspond to consenquences/impacts</p>
+                </summary>
+                <pre>
+1: Deception
+2: DocumentationIssues
+3: Exploitation
+4: ImpairedDecisionMaking
+5: InstructionsInaccessible
+6: InstructionsUnsuitable
+7: IntentionalManipulation
+8: ResilienceDegraded
+9: ResilienceInconsistent
+10: ResilienceInsufficient
+11: ResilienceRisk
+12: ResilienceUnknown
+13: ResilienceUnverified
+14: UnfavourableTreatment
+15: VulnerabilityExploitation
+                </pre>
+            </details>
+        </details>
+        <details>
+            <summary><code>JUSTIFICATIONS</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 75 ; added: 0 ; removed: 0 <a href="https://w3id.org/dpv/2.3/justifications"><small><i>view document</i></small></a>
+            </summary>
+            <p>No changes</p>
+        </details>
+        <details>
+            <summary><code>Locations (LOC)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 5283 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/loc"><small><i>view document</i></small></a>
+            </summary>
+            <p>No changes</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Jurisdictions (LEGAL)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total extensions: 43 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal"><small><i>view document</i></small></a>
+            </summary>
+        <details>
+            <summary><code>Legal Concepts for Austria (LEGAL-AT)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/at"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Belgium (LEGAL-BE)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/be"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Bulgaria (LEGAL-BG)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/bg"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Cyprus (LEGAL-CY)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/cy"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Czech Republic (LEGAL-CZ)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/cz"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Germany (LEGAL-DE)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 41 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/de"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Denmark (LEGAL-DK)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/dk"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Estonia (LEGAL-EE)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/ee"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Spain (LEGAL-ES)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 11 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/es"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for European Union (EU) (LEGAL-EU)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 27 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/eu"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Finland (LEGAL-FI)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/fi"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for France (LEGAL-FR)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/fr"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for United Kingdom of Great Britain and Northern Ireland (LEGAL-GB)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 9 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/gb"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Greece (LEGAL-GR)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/gr"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Hong Kong (LEGAL-HK)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/gr"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>        
+        <details>
+            <summary><code>Legal Concepts for Crotia (LEGAL-HR)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/hr"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Hungary (LEGAL-HU)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/hu"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Ireland (LEGAL-IE)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 10 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/ie"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for India (LEGAL-IN)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/in"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Iceland (LEGAL-IS)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/is"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Italy (LEGAL-IT)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/it"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Japan (LEGAL-JP)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 7 ; added: 0; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Republic of Korea (LEGAL-KR)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 10 ; added:  ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Liechtenstein (LEGAL-LI)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/li"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Lithuania (LEGAL-LT)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Luxembourg (LEGAL-LU)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lu"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Latvia (LEGAL-LV)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lv"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Macao (LEGAL-MO)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Malta (LEGAL-MT)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/mt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Malaysia (LEGAL-MY)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for the Netherlands (LEGAL-NL)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/nl"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Norway (LEGAL-NO)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/no"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Philippines (LEGAL-PH)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Poland (LEGAL-PL)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/pl"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Portugal (LEGAL-PT)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/pt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Romania (LEGAL-RO)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/ro"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Sweden (LEGAL-SE)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/se"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Singapore (LEGAL-SG)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Slovenia (LEGAL-SI)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/si"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Slovakia (LEGAL-SK)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/sk"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Thailand (LEGAL-TH)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 9 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for Taiwan (LEGAL-TW)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 8 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/lt"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>Legal Concepts for United States of America (LEGAL-US)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 19 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/us"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+    </details>
+    <details>
+            <summary><code>EU General Data Protection Regulation (EU-GDPR)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 258 ; added: 13 ; removed: 0 <a href="https://w3id.org/dpv/2.3/legal/eu/gdpr"><small><i>view document</i></small></a>
+            </summary>
+            <details>
+                <summary>Concepts Added <small>(click to expand)</small>
+                    <p>Proportionality Assessment concepts (Suitability assessment, Necessity assessment, and Balancing test) have been addded along with statuses to represent the outcomes as proportionate.</p>
+                    <p>Purpose compatibility statuses to represent whether purposes are compatible (with each other or an intial purpose)</p>
+                </summary>
+                <pre>
+1: BalancingTest
+2: Disproportionate
+3: NecessityAssessment
+4: ProportionalityAssessment
+5: ProportionalityStatus
+6: Proportionate
+7: PurposeCompatibility
+8: PurposeCompatibilityAssessment
+9: PurposeCompatible
+10: PurposeIncompatible
+11: SuitabilityAssessment
+12: proportionality-classes
+13: purpose-compatibility-classes
+                </pre>
+            </details>
+        </details>
+        <details>
+            <summary><code>EU Data Governance Act (EU-DGA)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 81 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/eu/dga"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>EU Artificial Intelligence Act (EU-AIAct)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 191 ; added: 68 ; removed: 2 <a href="https://w3id.org/dpv/2.3/legal/eu/aiact"><small><i>view document</i></small></a>
+            </summary>
+            <details>
+                <summary>Concepts Removed <small>(click to expand)</small>
+                    <p>Removed concepts represent changing wording of the concepts related to High-Risk level, which in the previous version were associated with Annex I and III. In the current version they have been replaced with concepts representing the Article 6(1) and 6(2) clauses as per legal norms. Existing users of these concepts should switch to the new concepts.</p>
+                    </summary>
+                <pre>
+1: RiskLevelHighAnnexI
+2: RiskLevelHighAnnexIII
+                </pre>
+            </details>
+            <details>
+                <summary>Concepts Added <small>(click to expand)</small>
+                    <ul>
+                        <li>High-Risk and Prohibited AI system as a concept</li>
+                        <li>Concepts representing each of the high-risk AI systems as per Annex I and III</li>
+                        <li>Concepts representing each of the prohibited AI systems as per Article 5</li>
+                        <li>Measures defined in AI Act</li>
+                        <li>The HTML documentation contains a table outlining relevant DPV concepts and extensions for each Article. The table is to be refined in future versions.</li>
+                    </ul>
+                </summary>
+                <pre>
+1: DeployerHumanOversightMeasure
+2: HighRiskAISystem
+3: HighRiskAISystem-A6-1
+4: HighRiskAISystem-A6-2
+5: HighRiskAISystem-AnnexI-1
+6: HighRiskAISystem-AnnexI-10
+7: HighRiskAISystem-AnnexI-11
+8: HighRiskAISystem-AnnexI-12
+9: HighRiskAISystem-AnnexI-13
+10: HighRiskAISystem-AnnexI-14
+11: HighRiskAISystem-AnnexI-15
+12: HighRiskAISystem-AnnexI-16
+13: HighRiskAISystem-AnnexI-17
+14: HighRiskAISystem-AnnexI-18
+15: HighRiskAISystem-AnnexI-19
+16: HighRiskAISystem-AnnexI-2
+17: HighRiskAISystem-AnnexI-20
+18: HighRiskAISystem-AnnexI-3
+19: HighRiskAISystem-AnnexI-4
+20: HighRiskAISystem-AnnexI-5
+21: HighRiskAISystem-AnnexI-6
+22: HighRiskAISystem-AnnexI-7
+23: HighRiskAISystem-AnnexI-8
+24: HighRiskAISystem-AnnexI-9
+25: HighRiskAISystem-AnnexIII-1-a
+26: HighRiskAISystem-AnnexIII-1-b
+27: HighRiskAISystem-AnnexIII-1-c
+28: HighRiskAISystem-AnnexIII-2
+29: HighRiskAISystem-AnnexIII-3-a
+30: HighRiskAISystem-AnnexIII-3-b
+31: HighRiskAISystem-AnnexIII-3-c
+32: HighRiskAISystem-AnnexIII-3-d
+33: HighRiskAISystem-AnnexIII-4-a
+34: HighRiskAISystem-AnnexIII-4-b
+35: HighRiskAISystem-AnnexIII-5-a
+36: HighRiskAISystem-AnnexIII-5-b
+37: HighRiskAISystem-AnnexIII-5-c
+38: HighRiskAISystem-AnnexIII-5-d
+39: HighRiskAISystem-AnnexIII-6-a
+40: HighRiskAISystem-AnnexIII-6-b
+41: HighRiskAISystem-AnnexIII-6-c
+42: HighRiskAISystem-AnnexIII-6-d
+43: HighRiskAISystem-AnnexIII-6-e
+44: HighRiskAISystem-AnnexIII-7-a
+45: HighRiskAISystem-AnnexIII-7-b
+46: HighRiskAISystem-AnnexIII-7-c
+47: HighRiskAISystem-AnnexIII-7-d
+48: HighRiskAISystem-AnnexIII-8-a
+49: HighRiskAISystem-AnnexIII-8-b
+50: HumanOverseer
+51: ProhibitedAISystem
+52: ProhibitedAISystem-A5-1-a
+53: ProhibitedAISystem-A5-1-b
+54: ProhibitedAISystem-A5-1-c
+55: ProhibitedAISystem-A5-1-d
+56: ProhibitedAISystem-A5-1-e
+57: ProhibitedAISystem-A5-1-f
+58: ProhibitedAISystem-A5-1-g
+59: ProhibitedAISystem-A5-1-h
+60: ProviderHumanOversightMeasure
+61: QualityManagementSystem
+62: RiskLevelHigh-A6-1
+63: RiskLevelHigh-A6-2
+64: SubliminalCapability
+65: hasRiskLevel
+66: highrisk-systems-classes
+67: prohibited-systems-classes
+68: risk-levels-properties
+                </pre>
+            </details>
+        </details>
+        <details>
+            <summary><code>EU Network and Information Services Directive (EU-NIS2)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 19 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/eu/nis2"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>EU Fundamental Rights and Freedoms (EU-RIGHTS)</code><small class="label-status-stable"><i>stable</i></small><br/>
+            total terms: 144 ; added: 0 ; removed: 6 <a href="https://w3id.org/dpv/2.3/legal/eu/rights"><small><i>view document</i></small></a>
+            </summary>
+            <p>No change</p>
+        </details>
+        <details>
+            <summary><code>EU European Health Data Spaces (EU-EHDS)</code><small class="label-status-draft"><i>draft</i></small><br/>
+            total terms: 121 ; added: 78 ; removed: 27 <a href="https://w3id.org/dpv/2.3/legal/eu/ehds"><small><i>view document</i></small></a>
+            </summary>
+            <details>
+                <summary>Concepts Removed <small>(click to expand)</small>
+                    <p>Removed concepts represent changes to the concept based on improved understanding of what is needed to model the specifics of EHDS' clauses. Some removed concepts have changed phrasing and are included as added concepts.</p>
+                </summary>
+                <pre>
+1: BehaviouralData
+2: ClaimData
+3: DataRequest
+4: DevelopSocialSecurityProductsAndServices
+5: EHRManufacturer
+6: EHRSupplier
+7: ElectronicHealthRecord
+8: EnvironmentalData
+9: HealthProfessional
+10: HealthRegistryData
+11: HealthcareProvider
+12: LifestyleData
+13: PathogenGenomicData
+14: PersonGeneratedHealthAppData
+15: PersonGeneratedHealthData
+16: PersonGeneratedMedicalDevice
+17: PersonalisedHealthcare
+18: ReimbursementData
+19: SocialData
+20: StudyData
+21: TechnologyDistributor
+22: TechnologyImporter
+23: TechnologyManufacturer
+24: TechnologySupplier
+25: WellnessAppManufacturer
+26: WellnessAppSupplier
+27: WellnessData
+                </pre>
+            </details>
+            <details>
+                <summary>Concepts Added <small>(click to expand)</small>
+                    <p>New concepts include rights, systems and data categories, documentation, and revisions of removed concepts with more accurate phrasing.</p>
+                </summary>
+                <pre>
+1: A10
+2: A100
+3: A16-1
+4: A21
+5: A3
+6: A5
+7: A6
+8: A68-11
+9: A7
+10: A71
+11: A8
+12: A9
+13: AdministrativeServicesProvision
+14: AuthorisedRepresentative
+15: BehaviouralHealthDeterminant
+16: ClaimAdminData
+17: ClinicalInvestigationsData
+18: ClinicalStudiesData
+19: DigitalHealthAuthorityActivityReport
+20: DischargeReport
+21: DispensationAdminData
+22: EHDSBoard
+23: EHR
+24: EHRData
+25: EHRSystem
+26: EHRSystemInformationSheet
+27: EHRSystemTechnicalDocumentation
+28: EUDatabaseForRegistrationOfEHRSystems
+29: EUDatabaseForRegistrationOfWellnessApplications
+30: EUDeclarationOfConformity
+31: ElectronicDispensation
+32: ElectronicHealthData
+33: ElectronicHealthDataAccessService
+34: ElectronicPrescription
+35: EnvironmentalHealthDeterminant
+36: EpigenomicData
+37: EuropeanDigitalTestingEnvironment
+38: HealthDataAccessApplication
+39: HealthDataHolder
+40: HealthDataRequest
+41: HealthDataUser
+42: HealthProfessionalAccessService
+43: HealthcareFinancingAggregatedData
+44: HealthcareNeedsAggregatedData
+45: HealthcareProvisionAggregatedData
+46: HealthcareResourcesAggregatedData
+47: ImproveHealthcare
+48: InteroperabilitySoftwareForEHRSystem
+49: LipidomicData
+50: LoggingSoftwareForEHRSystem
+51: MedicalDevicesDispensation
+52: MedicalDevicesPrescription
+53: MedicalDevicesProvision
+54: MedicalImaging
+55: MedicalTestResult
+56: MedicinalProductsDispensation
+57: MedicinalProductsPrescription
+58: MedicinalProductsProvision
+59: MetabolomicData
+60: MortalityRegistryData
+61: NonPersonalElectronicHealthData
+62: PathogenData
+63: PatientSummary
+64: PerformanceStudiesData
+65: PersonGeneratedMedicalDeviceData
+66: PersonalElectronicHealthData
+67: PublicPolicyMaking
+68: ReimbursementAdminData
+69: ReimbursementServicesProvision
+70: SocialServicesProvision
+71: SocioeconomicHealthDeterminant
+72: TOM-classes
+73: TranscriptomicData
+74: TrustedHealthDataHolder
+75: WellnessApplication
+76: WellnessApplicationLabel
+77: rights-classes
+78: technology-classes
+                </pre>
+            </details>
+        </details>
+        <details>
+            <summary><code>German Gesundheitsdatennutzungsgesetz (DE-GDNG)</code><small class="label-status-draft"><i>draft</i></small><small class="label-status-new">new</small><br/>                
+                total terms: 66 ; added: 66 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/legal/de/gdng"><small><i>view document</i></small></a>
+            </summary>
+            <details>
+                <summary>Concepts Added <small>(click to expand)</small></summary>
+                <pre>
+1: Anonymization
+2: AuthorizedPerson
+3: Controller
+4: DPAApproval
+5: DataAccessAndCoordinationOffice
+6: DataInfrastructure
+7: DataLinkage
+8: DataLinkagePermission
+9: DataLinkageRequest
+10: DataLinkageRequestRecord
+11: DataPlatform
+12: DataProcessingHealthcareFacility
+13: DataSubject
+14: DeletionPolicy
+15: DutyToInform
+16: FederalStateCentresForCancerRegistryData
+17: GermanCentreForCancerRegistryData
+18: HealthAndHealthcareResearchProject
+19: HealthData
+20: HealthDataAccessApplication
+21: HealthDataAccessApplicationRecord
+22: HealthDataHolder
+23: HealthDataLab
+24: HealthDataQuery
+25: HealthDataQueryRecord
+26: HealthDataUser
+27: HealthcareDataProcessing
+28: LegitimateInterest
+29: MedicalRehabNursingResearch
+30: ModelProjectGenomeSequencingPlatform
+31: Necessity
+32: P6-1
+33: P6-3-Consent
+34: P6-3-PublicJointResearch
+35: P6-3-Statutory
+36: PersonalData
+37: ProcessingRequirementsConformance
+38: ProcessingResultsAnonymization
+39: PromotionOfPatientSafety
+40: Pseudonymization
+41: PseudonymizedData
+42: PublicHealthDataAccessApplicationRegister
+43: PublicJointHealthResearchNetwork
+44: PublicMetadataCatalogue
+45: QualityAssurance
+46: RegulatedHealthDataHolder
+47: ResearchProject
+48: ResponsibleDataHoldingAndMediatingBody
+49: RightsRolesConcept
+50: SecondaryUse
+51: SecureProcessingEnvironment
+52: Statistics
+53: ThirdParty
+54: Transfer
+55: actors-classes
+56: actors-properties
+57: basic-definitions-classes
+58: hasDataHolder
+59: lawfulness-classes
+60: linkage-classes
+61: query-and-access-classes
+62: serialisation-html
+63: serialisation-jsonld
+64: serialisation-n3
+65: serialisation-rdf
+66: serialisation-ttl
+                </pre>
+            </details>
+        </details>
+        <details>
+            <summary><code>Sectorial Concepts (SECTOR)</code><small class="label-status-draft"><i>draft</i></small><br/>
+            total extensions: 6 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/sector"><small><i>view document</i></small></a>
+            </summary>
+            <details>
+                <summary><code>Education Sector Concepts (SECTOR-EDUCATION)</code><small class="label-status-draft"><i>draft</i></small><br/>
+                total terms: 55 ; added: 0 ; removed: 0 <a href="https://w3id.org/dpv/2.3/sector/education"><small><i>view document</i></small></a>
+                </summary>
+                <p>No change</p>
+            </details>
+            <details>
+                <summary><code>Finance Sector Concepts (SECTOR-FINANCE)</code><small class="label-status-draft"><i>draft</i></small><br/>
+                total terms: 49 ; added: 49 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/sector/finance"><small><i>view document</i></small></a>
+                </summary>
+                <p>No change</p>
+            </details>
+            <details>
+                <summary><code>Health Sector Concepts (SECTOR-HEALTH)</code><small class="label-status-draft"><i>draft</i></small><br/>
+                total terms: 177 ; added: 112 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/sector/health"><small><i>view document</i></small></a>
+                </summary>
+                <details>
+                    <summary>Concepts Added <small>(click to expand)</small></summary>
+                    <p>Added concepts represent parent/hierarchy concepts for supporting EU-EHDS and DE-GDNG extensions.</p>
+                    <pre>
+1: AdministrativeServicesProvision
+2: BehaviouralHealthDeterminant
+3: BiobankData
+4: ClaimAdminData
+5: ClinicalInvestigationsData
+6: ClinicalStudiesData
+7: ClinicalTrialsData
+8: CompatibilityUnknown
+9: DevelopPublicHealthProductsAndServices
+10: DevelopSocialSecurityProductsAndServices
+11: DigitalHealthAuthority
+12: DischargeReport
+13: DiseaseRegistryData
+14: DispensationAdminData
+15: DispensationManagement
+16: EHRData
+17: EHRSystem
+18: EHRSystemDistributor
+19: EHRSystemImporter
+20: EHRSystemManufacturer
+21: EHRSystemSupplier
+22: ElectronicDispensation
+23: ElectronicHealthData
+24: ElectronicHealthDataAccessService
+25: ElectronicPrescription
+26: EnsureQualitySafetyHealthcare
+27: EnsureQualitySafetyMedicalDevices
+28: EnsureQualitySafetyMedicinalProducts
+29: EnvironmentalHealthDeterminant
+30: EpigenomicData
+31: GenomicData
+32: HealthAdminData
+33: HealthAggregatedData
+34: HealthApplication
+35: HealthDataAccessBody
+36: HealthDataHolder
+37: HealthDataUser
+38: HealthProfessional
+39: HealthProfessionalAccessService
+40: HealthProfessionalData
+41: HealthQuestionnaire
+42: HealthRegistryData
+43: HealthSurvey
+44: HealthcareProvider
+45: HealthcareScientificResearch
+46: HomeCareManagement
+47: ImproveHealthcare
+48: ImproveHealthcareEducation
+49: InferredHealthData
+50: InteroperabilitySoftwareForEHRSystem
+51: LifestyleData
+52: LipidomicData
+53: LoggingSoftwareForEHRSystem
+54: MedicalDeviceManufacturer
+55: MedicalDevicesData
+56: MedicalDevicesDispensation
+57: MedicalDevicesPrescription
+58: MedicalDevicesProvision
+59: MedicalDevicesRegistryData
+60: MedicalImaging
+61: MedicalRegistryData
+62: MedicalTestResult
+63: MedicinalProductsDispensation
+64: MedicinalProductsPrescription
+65: MedicinalProductsProvision
+66: MedicinalProductsRegistryData
+67: MetabolomicData
+68: MortalityRegistryData
+69: NonPersonalElectronicHealthData
+70: PathogenData
+71: PatientSummary
+72: PerformanceStudiesData
+73: PersonGeneratedHealthAppData
+74: PersonGeneratedHealthData
+75: PersonGeneratedMedicalDeviceData
+76: PersonGeneratedWellnessAppData
+77: PersonalElectronicHealthData
+78: PersonalisedHealthcare
+79: PrescriptionManagement
+80: PrimaryUse
+81: ProtectAgainstCrossBorderThreatsToHealth
+82: ProteomicData
+83: ProvideHealthcareOfficialStatistics
+84: PublicHealthRegistryData
+85: PublicHealthSurveillance
+86: PublicInterestRelatedToHealth
+87: PublicPolicyMaking
+88: ReimbursementAdminData
+89: ReimbursementServicesProvision
+90: ResearchCohortData
+91: ReuseCompatibility
+92: SecondMedicalOpinion
+93: SecondaryUse
+94: SocialServicesProvision
+95: SocioeconomicHealthDeterminant
+96: StudyData
+97: SupportAuthoritiesRegulatoryActivities
+98: System
+99: TrainTestAndEvaluateAISystemsAlgorithms
+100: TrainTestAndEvaluateHealthAlgorithms
+101: TrainTestAndEvaluateHealthAppsAlgorithms
+102: TrainTestAndEvaluateMedicalDevicesAlgorithms
+103: TranscriptomicData
+104: WellnessAppDistributor
+105: WellnessAppManufacturer
+106: WellnessAppSupplier
+107: WellnessApplication
+108: WellnessData
+109: data-classes
+110: entities-classes
+111: status-classes
+112: technology-classes
+                    </pre>
+                </details>
+            </details>
+            <details>
+                <summary><code>Infrastructure Sector Concepts (SECTOR-INFRA)</code><small class="label-status-draft"><i>draft</i></small><br/>
+                total terms: 53 ; added: 0 ; removed: 0 ; <a href="https://w3id.org/dpv/2.3/sector/infra"><small><i>view document</i></small></a>
+                </summary>
+                <p>No change</p>
+            </details>
+            <details>
+                <summary><code>Law Enforcement & Justice Sector Concepts (SECTOR-LAW)</code><small class="label-status-draft"><i>draft</i></small><br/>
+                total terms: 100 ; added: 0 ; removed: 0 <a href="https://w3id.org/dpv/2.3/sector/law"><small><i>view document</i></small></a>
+                </summary>
+                <p>No change</p>
+            </details>
+            <details>
+                <summary><code>Public Services Sector Concepts (SECTOR-PUBLICSERVICES)</code><small class="label-status-draft"><i>draft</i></small><br/>
+                total terms: 21 ; added: 0 ; removed: 0 <a href="https://w3id.org/dpv/2.3/sector/publicservices"><small><i>view document</i></small></a>
+                </summary>
+            </details>
+        </details>
+        <details>
+                <summary><code>Extension for IEEE 7012</code><small class="label-status-draft"><i>draft</i></small><br/>
+                total terms: 172 ; added: 172 ; removed: 172 <a href="https://w3id.org/dpv/2.3/standards/p7012"><small><i>view document</i></small></a>
+                </summary>
+                <p>The name and namespace of the extension has been changed to accurately reflect the formal terminology used by IEEE i.e. "p7012" reflected the draft standard while "7012" reflects the published standard. The namespace has also been changed to be <code>/standards/ieee/7012</code> to better differentiate between different standards development organisations and their specific numbered standards. As a result of this, all concepts have been shown as removed from the old namespace and added to the new namespace.</p>
+                <details>
+                    <summary>Concepts Added <small>(click to expand)</small></summary>
+                    <pre>
+1: Agent
+2: AgentAllowsNegotiation
+3: AgentAllowsNegotiationOnlyKnownParty
+4: AgentAllowsNegotiationOnlyPriorAgreementParty
+5: AgentAllowsRequests
+6: AgentAllowsRequestsOnlyKnownParty
+7: AgentAllowsRequestsOnlyPriorAgreementParty
+8: AgentBehaviour
+9: AgentDisallowsNegotiation
+10: AgentDisallowsRequests
+11: AgentNegotiationBehaviour
+12: AgentRequestBehaviour
+13: Agreement
+14: AgreementAccepted
+15: AgreementInteractionRecord
+16: AgreementNegotiation
+17: AgreementNegotiationClarificationRequired
+18: AgreementNegotiationConfirmationRequired
+19: AgreementNegotiationCounterOfferMade
+20: AgreementNegotiationExpired
+21: AgreementNegotiationInitiated
+22: AgreementNegotiationInvalid
+23: AgreementNegotiationPaused
+24: AgreementNegotiationPendingResponse
+25: AgreementNegotiationRefused
+26: AgreementNegotiationRequest
+27: AgreementNegotiationRequested
+28: AgreementNegotiationStatus
+29: AgreementNegotiationTerminated
+30: AgreementNegotiationUnknown
+31: AgreementPreference
+32: AgreementRefused
+33: AgreementRegistry
+34: ConflictResolutionTerm
+35: DataDeletionNotRequired
+36: DataDeletionOnRequest
+37: DataDeletionRequired
+38: DataDeletionTerm
+39: DataSharingTerm
+40: DataTransparencyExAnte
+41: DataTransparencyExPost
+42: DataTransparencyNotRequired
+43: DataTransparencyOnRequest
+44: DataTransparencyRequired
+45: DataTransparencyTerm
+46: DeonticInterpretationTerm
+47: Endpoint
+48: Entity
+49: EntityAgent
+50: NonServiceData
+51: PDC
+52: PDC-AI
+53: PDC-GOOD
+54: PDC-INTENT
+55: PartyTransparencyExAnte
+56: PartyTransparencyExPost
+57: PartyTransparencyNotRequired
+58: PartyTransparencyOnRequest
+59: PartyTransparencyRequired
+60: PartyTransparencyTerm
+61: PermissiveInterpretation
+62: Person
+63: PersonAgent
+64: PortabilityNotRequired
+65: PortabilityRequired
+66: PortabilityRequiredImmediately
+67: PortabilityRequiredOnRequest
+68: PortabilityTerm
+69: PortabilityToThirdParty
+70: PreferenceAlwaysApplies
+71: PreferenceApplicability
+72: PreferenceConditionallyApplies
+73: PreferenceNeverApplies
+74: Profiling2PAllowed
+75: Profiling3PDisallowed
+76: ProfilingAllowed
+77: ProfilingDisallowed
+78: ProfilingTerm
+79: ProfilingWithFPDisallowed
+80: ProfilingWithPIIDisallowed
+81: ProfilingWithoutFPAllowed
+82: ProfilingWithoutPIIAllowed
+83: ProhibitiveInterpretation
+84: PurposeTransparencyExAnte
+85: PurposeTransparencyExPost
+86: PurposeTransparencyNotRequired
+87: PurposeTransparencyOnRequest
+88: PurposeTransparencyRequired
+89: PurposeTransparencyTerm
+90: ResolveAcrossContexts
+91: ResolveByDiscarding
+92: ResolveOnlyWithinContext
+93: ResolvePreferringPermission
+94: ResolvePreferringProhibition
+95: SD-BASE
+96: SD-BASE-A
+97: SD-BASE-A-DP
+98: SD-BASE-AT
+99: SD-BASE-AT-DP
+100: SD-BASE-ATP
+101: SD-BASE-ATP-DP
+102: SD-BASE-ATP-S3P
+103: SD-BASE-ATP-S3P-DP
+104: SD-BASE-DP
+105: ServiceAnalytics
+106: ServiceAnalyticsData
+107: ServiceData
+108: ServiceDelivery
+109: ServiceImprovement
+110: ServiceUsageData
+111: SharingData3PAllowed
+112: SharingData3PDisallowed
+113: SharingDataAllowed
+114: SharingDataAnonymised3PAllowed
+115: SharingDataAnonymised3PDisallowed
+116: SharingDataDisallowed
+117: SharingDataNonAnonymised3PDisallowed
+118: SharingDataNonAnonymisedDisallowed
+119: TPR
+120: TPR-IDENTITY-REF
+121: ThirdParty
+122: Tracking2PAllowed
+123: Tracking3PDisallowed
+124: TrackingAllowed
+125: TrackingDisallowed
+126: TrackingTerm
+127: TrackingWithFPDisallowed
+128: TrackingWithPIIDisallowed
+129: TrackingWithoutFPAllowed
+130: TrackingWithoutPIIAllowed
+131: TransparencyExAnte
+132: TransparencyExPost
+133: TransparencyNotRequired
+134: TransparencyOnRequest
+135: TransparencyRequired
+136: TransparencyTerm
+137: agreement-classes
+138: data-classes
+139: entities-classes
+140: entities-properties
+141: hasAgent
+142: hasAgentBehaviour
+143: hasAgreement
+144: hasAgreementPreference
+145: hasAgreementRegistry
+146: hasConflictResolution
+147: hasDataSharingTerm
+148: hasDeonticInterpretation
+149: hasEndpoint
+150: hasFirstParty
+151: hasHumanDescription
+152: hasHumanReadableFormat
+153: hasMachineReadableFormat
+154: hasParty
+155: hasPortabilityTerm
+156: hasPreferenceApplicability
+157: hasProfilingTerm
+158: hasSecondParty
+159: hasThirdParty
+160: hasTrackingTerm
+161: hasTransparencyTerm
+162: privacy-term-classes
+163: privacy-term-properties
+164: process-classes
+165: process-properties
+166: purpose-classes
+167: serialisation-html
+168: serialisation-jsonld
+169: serialisation-n3
+170: serialisation-rdf
+171: serialisation-ttl
+172: status-classes
+                    </pre>
+                </details>
+            </details>
+    </section>
+
+    <section id="change-dev">
+        <h2>Development Process</h2>
+        <ol>
+            <li><strong>GitHub</strong>: All code and artefacts are hosted in a <a href="https://github.com/w3c/dpv">github repo</a>, and it is also used for <a href="https://github.com/w3c/dpv/issues">discussions via issues</a> and for hosting a <a href="https://github.com/w3c/dpv/wiki">community wiki</a>.</li>
+            <li><strong>Git branches:</strong> Development takes place on the <code>dev</code> branch, and the development version is suffixed to indicate ongoing work as <code>2.4-dev</code>. The <code>main</code> branch hosts stable and published releases and is updated for fixes and for storing working notes and minutes for the DPVCG meetings.</li>
+            <li><strong>Announcement for releases:</strong> The issue <a href="https://github.com/w3c/dpv/issues/145">#145</a> acts as a 'sticky' board for announcements regarding releases, fixes, and other relevant news. Adopters can subscribe to this issue to be notified.</li>
+            <li><strong>Improved guides and tutorials:</strong> The DPVCG plans to provide more/better guidance to support the adoption and use of DPV. A tentative list can be found at the <a href="https://w3id.org/dpv/guides">guides page</a> and requests for additional specific content or guidance can be made via github.</li>
+            <li><strong>Multilingual support:</strong> This feature is planned for future releases where the DPV concepts will be provided with labels, definitions, and notes in more languages. Planned languages include Italian, French, German, and Spanish. If you are interested in having another language added, please <a href="https://github.com/w3c/dpv/issues/89">discuss in issue#89</a>.</li>
+            <li><strong>Release schedule:</strong> The DPVCG plans to provide two releases per year to enable rapid incorporation of changing regulations and facilitating adoption.</li>
+        </ol>
+    </section>
+
+    <section id="contributors">
+        <h2>Contributors</h2>
+        <p>Thanks to the following members of the DPVCG (ordered alphabetically):
+        <ul>
+            <li>Arthit Suriyawongkul <a href="https://github.com/bact/">@bact</a></li>
+            <li>Beatriz Esteves <a href="https://github.com/besteves4">@besteves4</a></li>
+            <li>Christian Draeger <a href="https://github.com/chhdraeger">@chhdraeger</a></li>
+            <li>Delaram Golpayegani <a href="https://github.com/delaramglp">@delaramglp</a></li>
+            <li>Efstratios Koulierakis <a href="https://github.com/StrKoulierakis">@StrKoulierakis</a></li>
+            <li>Georg P. Krog <a href="https://github.com/Gogga">@Gogga</a></li>
+            <li>Harshvardhan J. Pandit <a href="https://github.com/coolharsh55">@coolharsh55</a></li>
+            <li>Iain Henderson <a href="https://github.com/iainh1">@iainh1</a></li>
+            <li>Julian Flake <a href="https://github.com/nuthub">@nuthub</a></li>
+            <li>Paul Ryan <a href="https://github.com/Paul-Ryan76">@Paul-Ryan76</a></li>
+            <li>Ruhi Anand Finn <a href="https://github.com/ruhianandfinn">ruhianandfinn</a></li>
+            <li>Ted Thibodeau Jr <a href="https://github.com/TallTed">@TallTed</a></li>
+            <li>Tytti Rintamaki <a href="https://github.com/TyttiKatariina">@TyttiKatariina</a></li>
+
+        </ul>
+        <p>Also thanks to the following people for discussions and fixes:</p>
+        <ul>
+            <li>Pat McBennett <a href="https://github.com/pmcb55">@pmcb55</a></li>
+            <li>Rui Zhao <a href="https://github.com/renyuneyun">@renyuneyun</a></li>
+            <li>Tim van der Lippe <a href="https://github.com/TimvdLippe">@TimvdLippe</a></li>
+        </ul>
+
+    </section>
+
+    </main>
+    <hr/>
+    <footer>
+        <p><small>The DPV and its extensions and associated resources are produced by the <a href="https://www.w3.org/groups/cg/dpvcg/">W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)</a> and provided through <a href="https://github.com/w3c/dpv">w3c/dpv (github repo)</a>.</small></p>
+    </footer>
+
+</body>
+</html>
