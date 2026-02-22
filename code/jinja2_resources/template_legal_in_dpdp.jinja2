@@ -1,0 +1,181 @@
+{% from 'macro_term_table.jinja2' import table_classes %}
+{% from 'macro_term_table.jinja2' import table_properties %}
+{% from 'macro_term_table.jinja2' import list_hierarchy, index_concepts %}
+{% from 'macro_dpv_document_family.jinja2' import dpv_document_family, sotd, funding_acknowledgements, contributors_list, authors_list %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{data[vocab_name+'-metadata']['dct:title']}}{% endblock title %}</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  {% block RESPEC %}
+  <script class="remove">
+   // All config options at https://respec.org/docs/ 
+   var respecConfig = {
+    shortName: "eu-nis2",
+    title: "{{data[vocab_name+'-metadata']['dct:title']}} ({{vocab_name|upper}})",
+    subtitle: "version {{data[vocab_name+'-metadata']['schema:version']}}",
+    publishDate: "{{data[vocab_name+'-metadata']['dct:modified']}}",
+    specStatus: "{{vocab_name|get_document_status}}",
+    group: "dpvcg",
+    latestVersion: "https://w3id.org/dpv/legal/eu/nis2",
+    canonicalUri: "https://w3id.org/dpv/legal/eu/nis2",
+    edDraftURI: "https://dev.dpvcg.org/legal/eu/nis2",
+    github: "w3c/dpv",
+    subjectPrefix: "[eu-nis2]",
+    doJsonLd: true,
+    lint: { "no-unused-dfns": false, "local-refs-exist": true },
+    editors: [
+    {
+      name: "Harshvardhan J. Pandit",
+      url: "https://harshp.com",
+      "company": "{{ "Harshvardhan J. Pandit" | generate_author_affiliation }}"
+    }
+    ],
+    authors: {{ authors_list(data, vocab_name) }},
+    otherLinks: [
+      {
+        "key": "This Release",
+        "data": [
+            {
+              "value": "https://w3id.org/dpv/{{DPV_VERSION}}/legal/eu/nis2",
+              "href": "https://w3id.org/dpv/{{DPV_VERSION}}/legal/eu/nis2"
+            }
+        ]
+      },
+      {
+        "key": "Previous Release",
+        "data": [
+            {
+              "value": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/legal/eu/nis2",
+              "href": "https://w3id.org/dpv/{{DPV_PREVIOUS_VERSION}}/legal/eu/nis2"
+            }
+        ]
+      },
+      {
+        "key": "Changelog",
+        "data": [
+            {
+              "value": "Changelog for v{{DPV_VERSION}}",
+              "href": "../../../changelog"
+            }
+        ]
+      },
+      {
+        "key": "Key Publications",
+        "data": [
+            {
+              "value": "Data Privacy Vocabulary (DPV) -- Version 2.0 (2024)",
+              "href": "https://doi.org/10.1007/978-3-031-77847-6_10"
+            }
+        ]
+      }
+    ],
+    localBiblio: {%  include 'references.json' %}
+  };
+</script>
+{% endblock RESPEC %}
+<link rel="stylesheet" type="text/css" href="../../../diagrams/common.css">
+<link rel="shortcut icon" href="../../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+<link rel="shortcut icon" href="../../../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
+  <link rel="shortcut icon" href="../../../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
+</head>
+<body>
+  {{ contributors_list(data, vocab_name) }}
+{% block ABSTRACT %}
+  <section id="abstract">
+    <p>TODO: Stub</p>
+    <p style="color: red">NOTE: This is a draft vocabulary, which will be updated as authoritative guidance is established on IN DPDP's interpretation. The DPVCG welcomes participation and contributions for this work.</p>
+  </section>
+    {{ sotd(DPV_VERSION=DPV_VERSION, metadata=data[vocab_name+'-metadata']) }}
+    {{ dpv_document_family(document='eu-nis2-spec') }}
+{% endblock ABSTRACT %}
+{% block INTRODUCTION %}
+  <section id="motivation">
+    <h2>Introduction</h2>
+    <p>The extension supports the implementation of TODO: IN-DPDP by providing concepts based on extending [[DPV]] to represent notifications, technical and organisational measures, reporting and compliance documentation, and other relevant information.</p>
+  </section>
+{% endblock INTRODUCTION %}
+{% block VOCAB %}
+
+  <section id="vocab-lawfulness">
+    <h2>Compliance</h2>
+    <p>The concepts in this section reflect the status of processing operations being in <i>compliance with DPDP</i>, by extending the <code>ComplianceStatus</code> from DPV for DPDP. It does not define the requirements for compliance itself. To indicate these, the relation <code>dpv:hasLawfulness</code> can be used.</p>
+    <aside class="example" title="Indicating status of DPDP lawfulness">
+      <p>This example shows the use of EU-DPDP to indicate the state of DPDP lawfulness associated with two processes. The first is asserted to be compliant, while the compliance status for the second is unknown at the moment. Both processes assert the applicability of DPDP for brevity.</p>
+      <pre class="nohighlight"><code>ex:PDH1 a dpv:Process ;
+  dpv:hasApplicableLaw legal-in:DPDP ; # TODO: add DPDP to legal-in
+  dpv:hasLawfulness in-dpdp:DPDPCompliant .
+
+ex:PDH2 a dpv:Process ;
+  dpv:hasApplicableLaw legal-eu:DPDP ;
+  dpv:hasLawfulness eu-nis2:NIS2ComplianceUnknown .
+      </code></pre>
+    </aside>
+    {{ list_hierarchy(modules['lawfulness']['classes']) }}
+  </section>
+
+<section id="vocabulary">
+<h2>Vocabulary Index</h2>
+  <section id="dpv-classes">
+    {{ index_concepts(vocab, vocab_name, filter="classes") }}
+  </section>
+  <section id="dpv-properties">
+    {{ index_concepts(vocab, vocab_name, filter="properties") }}
+  </section>
+  <section id="external-concepts">
+    <p>DPV uses the following terms from [[RDF]] and [[RDFS]] with their defined meanings:</p>
+    <ul>
+      <li id="rdf:type"><dfn>rdf:type</dfn> to denote a concept is an instance of another concept</li>
+      <li id="rdfs:Class"><dfn>rdfs:Class</dfn> to denote a concept is a Class or a category</li>
+      <li id="rdfs:subClassOf"><dfn>rdfs:subClassOf</dfn> to specify the concept is a subclass (subtype, sub-category, subset) of another concept</li>
+      <li id="rdf:Property"><dfn>rdf:Property</dfn> to denote a concept is a property or a relation</li>
+      </ul>
+    <p>The following external concepts are re-used within DPV:</p>
+    {{ index_concepts(vocab, vocab_name, filter="external") }}
+  </section>
+</section>
+{% endblock VOCAB %}
+
+{% block ACKNOWLEDGEMENTS %}
+<section id="funding-acknowledgements" class="notoc">
+  <h2>Funding Acknowledgements</h2>
+
+  <h3>Funding Sponsors</h3>
+  {{ funding_acknowledgements() }}
+
+  <h3>Funding Acknowledgements for Contributors</h3>
+  <p>The contributions of Harshvardhan J. Pandit have been made with the financial support of Science Foundation Ireland under Grant Agreement No. 13/RC/2106_P2 at the ADAPT SFI Research Centre; and the AI Accountability Lab (AIAL) which is supported by grants from following groups: the AI Collaborative, an Initiative of the Omidyar Group; Luminate; the Bestseller Foundation; and the John D. and Catherine T. MacArthur Foundation.</p>
+
+</section>
+{% endblock ACKNOWLEDGEMENTS %}
+
+<section id="future-work" class="appendix">
+  <h2>Future Work</h2>
+  <aside class="issue" data-number="123"></aside>
+  <aside class="issue" data-number="222"></aside>
+  <aside class="issue" data-number="223"></aside>
+  <aside class="issue" data-number="224"></aside>
+  <aside class="issue" data-number="225"></aside>
+  <aside class="issue" data-number="282"></aside>
+</section>
+
+{% block PROPOSED %}
+{% if proposed %}
+<section id="proposed-terms" class="appendix">
+  <h2>Proposed Terms</h2>
+  <p>The following terms have been proposed for inclusion, and are under discussion. They are provided here for illustrative purposes and should not be considered as part of DPV.</p>
+  {% for name, terms in proposed.items() %}
+    <strong>{{name}}</strong>
+    <ul>{% for term in terms %}
+      <li>{{term}}</li>
+    {% endfor %}</ul>
+  {% endfor %}
+</section>
+{% endif %}
+{% endblock PROPOSED %}
+
+<script type="text/javascript" src="../../../diagrams/common.js" defer></script>
+</body>
+</html>
