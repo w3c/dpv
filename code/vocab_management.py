@@ -20,11 +20,11 @@ INFO = logging.info
 # == data ==
 
 # DPV Version
-DPV_VERSION = "2.3"
-DPV_PREVIOUS_VERSION = "2.2"
-DPV_PUBLISH_DATE = "2026-02-25"
+DPV_VERSION = "2.4-dev"
+DPV_PREVIOUS_VERSION = "2.3"
+DPV_PUBLISH_DATE = "2026-07-31"
 # Document status: should be one of CG-DRAFT or CG-FINAL
-DOCUMENT_STATUS = "CG-FINAL"
+DOCUMENT_STATUS = "CG-DRAFT"
 
 # === serializations ===
 
