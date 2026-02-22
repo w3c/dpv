@@ -406,6 +406,13 @@ DPV_FILES = {
             'GDNG-lawfulness',
             ),
     },
+    'in-dpdp': {
+        'name': 'in-dpdp',
+        'doc_id': '13dDReThDcIexWI6g_-C0SgJZB8vGIQJdgsz1PnL6nmw',
+        'sheets': (
+            'IN-DPDP-lawfulness',
+            ),
+    },
     # Standards - ieee_7012
     'ieee-7012': {
         'name': 'ieee-7012',

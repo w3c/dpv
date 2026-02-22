@@ -845,6 +845,11 @@ CSVFILES = {
             'gdng-classes': f'{IMPORT_CSV_PATH}/GDNG-lawfulness.csv',
         },
     },
+    'in-dpdp': {
+        'lawfulness': {
+            'taxonomy': f'{IMPORT_CSV_PATH}/IN-DPDP-lawfulness.csv',
+        },
+    },
 }
 
 # === translations ===
@@ -2279,6 +2284,25 @@ RDF_VOCABS = {
             "bibo:status": "draft",
         },
     },
+    'in-dpdp': {
+        'vocab': f'{IMPORT_PATH}/legal/in/dpdp/in-dpdp.ttl',
+        'template': 'template_legal_in_dpdp.jinja2',
+        'export': f'{EXPORT_PATH}/legal/in/dpdp',
+        'modules': {
+            'lawfulness': f'{IMPORT_PATH}/legal/in/dpdp/modules/lawfulness.ttl',
+        },
+        'metadata': {
+            "dct:title": "Legal Concepts for India's Digital Personal Data Protection Act 2023 (IN-DPDP)",
+            "dct:description": "Extension to the Data Privacy Vocabulary (DPV) providing concepts for representing legal information for India's DPDP (2023)",
+            "dct:created": "2026-02-22",
+            "dct:modified": DPV_PUBLISH_DATE,
+            "dct:creator": "Ajay Jadhav, Georg P. Krog, Harshvardhan J. Pandit",
+            "schema:version": DPV_VERSION,
+            "profile:isProfileOf": "dpv",
+            'iri': 'https://w3id.org/dpv/legal/in/dpdp',
+            "bibo:status": "draft",
+        },
+    },
 }
 
 # === exports ===
@@ -2548,6 +2572,10 @@ RDF_STRUCTURE = {
     'de-gdng': {
         'main': f'{EXPORT_RDF_PATH}/legal/de/gdng', 
         'modules': f'{EXPORT_RDF_PATH}/legal/de/gdng/modules', 
+    },
+    'in-dpdp': {
+        'main': f'{EXPORT_RDF_PATH}/legal/in/dpdp', 
+        'modules': f'{EXPORT_RDF_PATH}/legal/in/dpdp/modules', 
     },
 }
 
