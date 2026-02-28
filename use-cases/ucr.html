@@ -1,277 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>DPV Use-Cases and Requirements</title>
-  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
-  <link rel="stylesheet" type="text/css" href="../diagrams/common.css">
-<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16" />
-  <link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32" />
-  <script class="remove">
-   // All config options at https://respec.org/docs/ 
-   var respecConfig = {
-    title: "DPV Use-Cases and Requirements",
-    publishDate: "2022-10-10",
-    specStatus: "CG-DRAFT",
-    group: "dpvcg",
-    latestVersion: "https://w3id.org/dpv/use-cases",
-    canonicalUri: "https://w3id.org/dpv/use-cases",
-    edDraftURI: "https://w3id.org/dpv/ed/use-cases",
-    github: "w3c/dpv",
-    subjectPrefix: "[ucr]",
-    doJsonLd: true,
-    lint: { "no-unused-dfns": false },
-    editors: [
-    {
-      name: "Harshvardhan J. Pandit",
-      url: "https://harshp.com/",
-      "company": "ADAPT Centre, Dublin City University"
-    }
-    ],
-    localBiblio: {
-  "DPVCG": {
-    "href": "https://www.w3.org/community/dpvcg/",
-    "title": "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)"
-  },
-  "__001": "DPV Core Family",
-  "DPV": {
-    "href": "https://www.w3id.org/dpv",
-    "title": "Data Privacy Vocabulary (DPV) Specification"
-  },
-  "DPV-GDPR": {
-    "href": "https://www.w3id.org/dpv/dpv-gdpr",
-    "title": "DPV-GDPR: Extension providing GDPR concepts"
-  },
-  "DPV-NACE": {
-    "href": "https://www.w3id.org/dpv/dpv-nace",
-    "title": "NACE Taxonomy serialised in RDFS"
-  },
-  "DPV-PD": {
-    "href": "https://www.w3id.org/dpv/dpv-pd",
-    "title": "DPV-PD: Extension providing Personal Data Categories"
-  },
-  "DPV-LEGAL": {
-    "href": "https://www.w3id.org/dpv/dpv-legal",
-    "title": "DPV-LEGAL: Extension providing Jurisdiction-relevant concepts"
-  },
-  "DPV-TECH": {
-    "href": "https://www.w3id.org/dpv/dpv-tech",
-    "title": "DPV-TECH: Extension providing Technology-relevant concepts"
-  },
-  "RISK": {
-    "href": "https://www.w3id.org/dpv/risk",
-    "title": "Risk Extension for DPV"
-  },
-  "RIGHTS": {
-    "href": "https://www.w3id.org/dpv/rights",
-    "title": "Rights Extension for Data Privacy Vocabulary"
-  },
-  "RIGHTS-EU": {
-    "href": "https://www.w3id.org/dpv/rights/eu",
-    "title": "Extension providing EU Rights"
-  },
-  "__002": "DPV-SKOS Family",
-  "DPV-SKOS": {
-    "href": "https://www.w3id.org/dpv/dpv-skos",
-    "title": "DPV-SKOS: Data Privacy Vocabulary serialised in RDFS & SKOS"
-  },
-  "DPV-SKOS-GDPR": {
-    "href": "https://www.w3id.org/dpv/dpv-skos/dpv-gdpr",
-    "title": "DPV-SKOS-GDPR: Extension providing GDPR concepts"
-  },
-  "DPV-SKOS-PD": {
-    "href": "https://www.w3id.org/dpv/dpv-skos/dpv-pd",
-    "title": "DPV-SKOS-PD: Extension providing Personal Data Categories"
-  },
-  "DPV-SKOS-LEGAL": {
-    "href": "https://www.w3id.org/dpv/dpv-skos/dpv-legal",
-    "title": "DPV-SKOS-LEGAL: Extension providing Jurisdiction-relevant concepts"
-  },
-  "DPV-SKOS-TECH": {
-    "href": "https://www.w3id.org/dpv/dpv-skos/dpv-tech",
-    "title": "DPV-SKOS-TECH: Extension providing Technology-relevant concepts"
-  },
-  "RISK-SKOS": {
-    "href": "https://www.w3id.org/dpv/dpv-skos/risk",
-    "title": "Risk Extension for DPV"
-  },
-  "RIGHTS-SKOS": {
-    "href": "https://www.w3id.org/dpv/dpv-skos/rights",
-    "title": "Rights Extension for Data Privacy Vocabulary"
-  },
-  "RIGHTS-EU-SKOS": {
-    "href": "https://www.w3id.org/dpv/dpv-skos/rights/eu",
-    "title": "Extension providing EU Rights"
-  },
-  "__003": "DPV-OWL Family",
-  "DPV-OWL": {
-    "href": "https://www.w3id.org/dpv/dpv-owl",
-    "title": "DPV-OWL: Data Privacy Vocabulary serialised in OWL2"
-  },
-  "DPV-OWL-GDPR": {
-    "href": "https://www.w3id.org/dpv/dpv-owl/dpv-gdpr",
-    "title": "DPV-OWL-GDPR: Extension providing GDPR concepts"
-  },
-  "DPV-OWL-NACE": {
-    "href": "https://www.w3id.org/dpv/dpv-owl/dpv-nace",
-    "title": "NACE Taxonomy serialised in RDFS"
-  },
-  "DPV-OWL-PD": {
-    "href": "https://www.w3id.org/dpv/dpv-owl/dpv-pd",
-    "title": "DPV-OWL-PD: Extension providing Personal Data Categories"
-  },
-  "DPV-OWL-LEGAL": {
-    "href": "https://www.w3id.org/dpv/dpv-owl/dpv-legal",
-    "title": "DPV-OWL-LEGAL: Extension providing Jurisdiction-relevant concepts"
-  },
-  "DPV-OWL-TECH": {
-    "href": "https://www.w3id.org/dpv/dpv-owl/dpv-tech",
-    "title": "DPV-OWL-TECH: Extension providing Technology-relevant concepts"
-  },
-  "RISK-OWL": {
-    "href": "https://www.w3id.org/dpv/dpv-owl/risk",
-    "title": "Risk Extension for DPV"
-  },
-  "RIGHTS-OWL": {
-    "href": "https://www.w3id.org/dpv/dpv-owl/rights",
-    "title": "Rights Extension for Data Privacy Vocabulary"
-  },
-  "RIGHTS-EU-OWL": {
-    "href": "https://www.w3id.org/dpv/dpv-owl/rights/eu",
-    "title": "Extension providing EU Rights"
-  },
-  "__004": "DPV Documentation & Guides",
-  "DPV-Primer": {
-    "href": "https://www.w3id.org/dpv/primer",
-    "title": "Primer for Data Privacy Vocabulary"
-  },
-  "DPV-ADOPTION": {
-    "href": "https://www.w3.org/community/dpvcg/wiki/Adoption_of_DPVCG",
-    "title": "Listing of DPV adoption and applications"
-  },
-  "DPV-GUIDES": {
-    "href": "https://w3id.org/dpv/guides",
-    "title": "Guidelines for Adoption and Use of DPV"
-  },
-  "DPV-GUIDE-Consent": {
-    "href": "https://w3id.org/dpv/guides/consent",
-    "title": "Guide for Consent Records using DPV"
-  },
-  "DPV-GUIDE-Notice": {
-    "href": "https://w3id.org/dpv/guides/notice",
-    "title": "Guide for Privacy Notices using DPV"
-  },
-  "DPV-GUIDE-Serialisations": {
-    "href": "https://w3id.org/dpv/guides/serialisations",
-    "title": "Guide on DPV's serialisations and semantics"
-  },
-  "DPV-GUIDE-SKOS": {
-    "href": "https://w3id.org/dpv/guides/dpv-skos",
-    "title": "Guide for using DPV with RDFS and SKOS"
-  },
-  "DPV-GUIDE-OWL2": {
-    "href": "https://w3id.org/dpv/guides/dpv-owl",
-    "title": "Guide for using DPV in OWL2"
-  },
-  "DPV-GUIDE-GDPR-DPIA": {
-    "href": "https://w3id.org/dpv/dpv-gdpr/dpia",
-    "title": "Guide for GDPR DPIA's using DPV"
-  },
-  "DPV-GUIDE-GDPR-ROPA": {
-    "href": "https://w3id.org/dpv/dpv-gdpr/ropa",
-    "title": "Guide for GDPR ROPA's using DPV"
-  },
-  "__005": "Examples",
-  "Examples": {
-    "href": "https://w3id.org/dpv/examples",
-    "title": "DPV Examples"
-  },
-  "__006": "Examples",
-  "UseCases-Requirements": {
-    "href": "https://w3id.org/dpv/use-cases",
-    "title": "DPV Use-Cases and Requirements"
-  },
-  "__000": "External Vocabularies",
-  "RDF": {
-    "href": "https://www.w3.org/TR/rdf11-concepts/",
-    "title": "RDF 1.1 Concepts and Abstract Syntax"
-  },
-  "RDFS": {
-    "href": "https://www.w3.org/TR/rdf-schema/",
-    "title": "RDF Schema 1.1"
-  },
-  "OWL" :{
-    "href": "https://www.w3.org/TR/owl2-overview/",
-    "title": "OWL 2 Web Ontology Language Document Overview (Second Edition)"
-  },
-  "SKOS": {
-    "href": "https://www.w3.org/TR/skos-reference/",
-    "title": "SKOS Simple Knowledge Organization System"
-  },
-  "__000": "External References",
-  "SPECIAL": {
-    "href": "https://www.specialprivacy.eu/",
-    "title": "SPECIAL H2020 Project"
-  },
-  "GDPR": {
-    "href": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
-    "title": "General Data Protection Regulation (GDPR)"
-  },
-  "NACE": {
-    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
-    "title": "Statistical Classification of Economic Activities in the European Community (NACE)"
-  },
-  "NAICS": {
-    "href": "https://www.census.gov/eos/www/naics/",
-    "title": "North American Industry Classification System (NAICS)"
-  },
-  "ISIC": {
-    "href": "https://unstats.un.org/unsd/classifications",
-    "title": "International Standard Industrial Classification of All Economic Activities (ISIC)"
-  },
-  "GICS": {
-    "href": "https://www.msci.com/gics",
-    "title": "Global Industry Classification Standard (GICS)"
-  },
-  "NACE-NAICS": {
-    "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
-    "title": "NACE to NAICS mapping"
-  },
-  "EnterPrivacy": {
-    "href": "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
-    "title": "Taxonomy of Personal Data Categories"
-  },
-  "TIME": {
-    "href": "https://www.w3.org/TR/owl-time/",
-    "title": "Time Ontology in OWL"
-  },
-  "ISO-27017": {
-    "href": "https://www.iso.org/standard/43757.html",
-    "title": "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
-  },
-  "ISO-27560": {
-    "href": "https://www.iso.org/standard/80392.html",
-    "title": "ISO/IEC TS 27560 Privacy technologies — Consent record information structure"
-  },
-  "SHACL-UseCases": {
-    "href": "https://www.w3.org/TR/shacl-ucr/",
-    "title": "SHACL Use Cases and Requirements"
-  },
-  "DCT": {
-    "title": "DCMI Metadata Terms (DCT)",
-    "href": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
-  },
-  "DCAT": {
-    "title": "Data Catalog Vocabulary (DCAT) - Version 2",
-    "href": "http://www.w3.org/ns/dcat"
-  },
-  "RuleML": {
-    "title": "RuleML: Rule Markup Language",
-    "href": "www.ruleml.org/"
-  }
-}  };
-  </script>
-  <style type="text/css">
+<!DOCTYPE html><html lang="en" dir="ltr"><head>
+<meta charset="utf-8">
+<meta name="generator" content="ReSpec 35.8.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+.issue-label{text-transform:initial}
+.warning>p:first-child{margin-top:0}
+.warning{padding:.5em;border-left-width:.5em;border-left-style:solid}
+span.warning{padding:.1em .5em .15em}
+.issue.closed span.issue-number{text-decoration:line-through}
+.issue.closed span.issue-number::after{content:" (Closed)";font-size:smaller}
+.warning{border-color:#f11;border-color:var(--warning-border,#f11);border-width:.2em;border-style:solid;background:#fbe9e9;background:var(--warning-bg,#fbe9e9);color:#000;color:var(--text,#000)}
+.warning-title:before{content:"⚠";font-size:1.3em;float:left;padding-right:.3em;margin-top:-.3em}
+li.task-list-item{list-style:none}
+input.task-list-item-checkbox{margin:0 .35em .25em -1.6em;vertical-align:middle}
+.issue a.respec-gh-label{padding:5px;margin:0 2px 0 2px;font-size:10px;text-transform:none;text-decoration:none;font-weight:700;border-radius:4px;position:relative;bottom:2px;border:none;display:inline-block}
+</style>
+<style>
+dfn{cursor:pointer}
+.dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font-family:"Helvetica Neue",sans-serif;font-size:small;background:#fff;background:var(--indextable-hover-bg,#fff);color:#000;color:var(--text,#000);box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);box-shadow:0 1em 3em -.4em var(--tocsidebar-shadow,rgba(0,0,0,.3)),0 0 1px 1px var(--tocsidebar-shadow,rgba(0,0,0,.05));border-radius:2px}
+.dfn-panel:not(.docked)>.caret{position:absolute;top:-9px}
+.dfn-panel:not(.docked)>.caret::after,.dfn-panel:not(.docked)>.caret::before{content:"";position:absolute;border:10px solid transparent;border-top:0;border-bottom:10px solid #fff;border-bottom-color:var(--indextable-hover-bg,#fff);top:0}
+.dfn-panel:not(.docked)>.caret::before{border-bottom:9px solid #a2a9b1;border-bottom-color:var(--indextable-hover-bg,#a2a9b1)}
+.dfn-panel *{margin:0}
+.dfn-panel b{display:block;color:#000;color:var(--text,#000);margin-top:.25em}
+.dfn-panel ul a[href]{color:#333;color:var(--text,#333)}
+.dfn-panel>div{display:flex}
+.dfn-panel a.self-link{font-weight:700;margin-right:auto}
+.dfn-panel .marker{padding:.1em;margin-left:.5em;border-radius:.2em;text-align:center;white-space:nowrap;font-size:90%;color:#040b1c}
+.dfn-panel .marker.dfn-exported{background:#d1edfd;box-shadow:0 0 0 .125em #1ca5f940}
+.dfn-panel .marker.idl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel a:not(:hover){text-decoration:none!important;border-bottom:none!important}
+.dfn-panel a[href]:hover{border-bottom-width:1px}
+.dfn-panel ul{padding:0}
+.dfn-panel li{margin-left:1em}
+.dfn-panel.docked{position:fixed;left:.5em;top:unset;bottom:2em;margin:0 auto;max-width:calc(100vw - .75em * 2 - .5em - .2em * 2);max-height:30vh;overflow:auto}
+</style>
+  
+  
+<title>DPV Use-Cases and Requirements</title>
+  
+  
+<link rel="stylesheet" type="text/css" href="../diagrams/common.css">
+
+<link rel="shortcut icon" href="../diagrams/favicon-16x16.png" type="image/x-icon" sizes="16x16">
+  
+<link rel="shortcut icon" href="../diagrams/favicon-32x32.png" type="image/x-icon" sizes="32x32">
+  
+  
+<style type="text/css">
+
   /* Table styles, March 2016 */
   table {border-collapse:collapse}
   th, td {
@@ -283,45 +60,462 @@
     padding: 2px;
     border: 1px solid black;
   }
+
 </style>
-</head>
-<body>
-  <section id="abstract">
-    <p>This document lists the use-cases and requirements that motivate the development and provision of resources within the [[[DPVCG]]]. Specifically, it lists the background information that feeds into the continued development of the [[[DPV]]] and its associated resources. It draws inspiration (and methodology) from [[[SHACL-UseCases]]]. The vocabulary, and instances of use-cases and requirements are available in DPVCG GitHub repo under <i>./use-cases</i> path.</p>
-    <section id="dpv-document-family" class="noTOC">
-    <h2>DPV Family of Documents</h2>
+
+<style id="respec-mainstyle">
+@keyframes pop{
+0%{transform:scale(1,1)}
+25%{transform:scale(1.25,1.25);opacity:.75}
+100%{transform:scale(1,1)}
+}
+a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
+a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
+a.bibref{text-decoration:none}
+.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}
+.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}
+@supports not (text-decoration:red wavy underline){
+.respec-offending-element:not(pre){display:inline-block}
+.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
+}
+#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
+cite .bibref{font-style:italic}
+a[href].orcid{padding-left:4px;padding-right:4px}
+a[href].orcid>svg{margin-bottom:-2px}
+ol.tof,ul.tof{list-style:none outside none}
+.caption{margin-top:.5em;font-style:italic}
+#issue-summary>ul{column-count:2}
+#issue-summary li{list-style:none;display:inline-block}
+details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
+details.respec-tests-details>*{padding-right:2em}
+details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}
+details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}
+details.respec-tests-details>ul{width:100%;margin-top:-.3em}
+details.respec-tests-details>li{padding-left:1em}
+.self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
+aside.example .marker>a.self-link{color:inherit}
+.header-wrapper{display:flex;align-items:baseline}
+:is(h2,h3,h4,h5,h6):not(#toc>h2,#abstract>h2,#sotd>h2,.head>h2){position:relative;left:-.5em}
+:is(h2,h3,h4,h5,h6):not(#toch2)+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;font-size:1rem;opacity:.5}
+:is(h2,h3,h4,h5,h6)+a.self-link::before{content:"§";text-decoration:none;color:var(--heading-text)}
+:is(h2,h3)+a.self-link{top:-.2em}
+:is(h4,h5,h6)+a.self-link::before{color:#000}
+@media (max-width:767px){
+dd{margin-left:0}
+}
+@media print{
+.removeOnSave{display:none}
+}
+</style>
+<meta name="color-scheme" content="light">
+<meta name="description" content="This document lists the use-cases and requirements that motivate the development and provision of resources within the W3C Data Privacy Vocabularies and Controls Community Group (DPVCG). Specifically, it lists the background information that feeds into the continued development of the Data Privacy Vocabulary (DPV) Specification and its associated resources. It draws inspiration (and methodology) from SHACL Use Cases and Requirements. The vocabulary, and instances of use-cases and requirements are available in DPVCG GitHub repo under ./use-cases path.">
+<style>
+var:hover{text-decoration:underline;cursor:pointer}
+var.respec-hl{color:var(--color,#000);background-color:var(--bg-color);box-shadow:0 0 0 2px var(--bg-color)}
+@media (prefers-color-scheme:dark){
+var.respec-hl{filter:saturate(.9) brightness(.9)}
+}
+var.respec-hl-c1{--bg-color:#f4d200}
+var.respec-hl-c2{--bg-color:#ff87a2}
+var.respec-hl-c3{--bg-color:#96e885}
+var.respec-hl-c4{--bg-color:#3eeed2}
+var.respec-hl-c5{--bg-color:#eacfb6}
+var.respec-hl-c6{--bg-color:#82ddff}
+var.respec-hl-c7{--bg-color:#ffbcf2}
+@media print{
+var.respec-hl{background:0 0;color:#000;box-shadow:unset}
+}
+</style>
+<style>
+var{position:relative;cursor:pointer}
+var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}
+var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#222}
+var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#222;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}
+var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
+</style>
+<script id="initialUserConfig" type="application/json">{
+  "title": "DPV Use-Cases and Requirements",
+  "publishDate": "2022-10-10",
+  "specStatus": "CG-DRAFT",
+  "group": "dpvcg",
+  "latestVersion": "https://w3id.org/dpv/use-cases",
+  "canonicalUri": "https://w3id.org/dpv/use-cases",
+  "edDraftURI": "https://w3id.org/dpv/ed/use-cases",
+  "github": "w3c/dpv",
+  "subjectPrefix": "[ucr]",
+  "doJsonLd": true,
+  "lint": {
+    "no-unused-dfns": false
+  },
+  "editors": [
+    {
+      "name": "Harshvardhan J. Pandit",
+      "url": "https://harshp.com/",
+      "company": "ADAPT Centre, Dublin City University"
+    }
+  ],
+  "localBiblio": {
+    "DPVCG": {
+      "href": "https://www.w3.org/community/dpvcg/",
+      "title": "W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)",
+      "id": "dpvcg"
+    },
+    "__001": "DPV Core Family",
+    "DPV": {
+      "href": "https://www.w3id.org/dpv",
+      "title": "Data Privacy Vocabulary (DPV) Specification",
+      "id": "dpv"
+    },
+    "DPV-GDPR": {
+      "href": "https://www.w3id.org/dpv/dpv-gdpr",
+      "title": "DPV-GDPR: Extension providing GDPR concepts",
+      "id": "dpv-gdpr"
+    },
+    "DPV-NACE": {
+      "href": "https://www.w3id.org/dpv/dpv-nace",
+      "title": "NACE Taxonomy serialised in RDFS",
+      "id": "dpv-nace"
+    },
+    "DPV-PD": {
+      "href": "https://www.w3id.org/dpv/dpv-pd",
+      "title": "DPV-PD: Extension providing Personal Data Categories",
+      "id": "dpv-pd"
+    },
+    "DPV-LEGAL": {
+      "href": "https://www.w3id.org/dpv/dpv-legal",
+      "title": "DPV-LEGAL: Extension providing Jurisdiction-relevant concepts",
+      "id": "dpv-legal"
+    },
+    "DPV-TECH": {
+      "href": "https://www.w3id.org/dpv/dpv-tech",
+      "title": "DPV-TECH: Extension providing Technology-relevant concepts",
+      "id": "dpv-tech"
+    },
+    "RISK": {
+      "href": "https://www.w3id.org/dpv/risk",
+      "title": "Risk Extension for DPV",
+      "id": "risk"
+    },
+    "RIGHTS": {
+      "href": "https://www.w3id.org/dpv/rights",
+      "title": "Rights Extension for Data Privacy Vocabulary"
+    },
+    "RIGHTS-EU": {
+      "href": "https://www.w3id.org/dpv/rights/eu",
+      "title": "Extension providing EU Rights",
+      "id": "rights-eu"
+    },
+    "__002": "DPV-SKOS Family",
+    "DPV-SKOS": {
+      "href": "https://www.w3id.org/dpv/dpv-skos",
+      "title": "DPV-SKOS: Data Privacy Vocabulary serialised in RDFS & SKOS",
+      "id": "dpv-skos"
+    },
+    "DPV-SKOS-GDPR": {
+      "href": "https://www.w3id.org/dpv/dpv-skos/dpv-gdpr",
+      "title": "DPV-SKOS-GDPR: Extension providing GDPR concepts",
+      "id": "dpv-skos-gdpr"
+    },
+    "DPV-SKOS-PD": {
+      "href": "https://www.w3id.org/dpv/dpv-skos/dpv-pd",
+      "title": "DPV-SKOS-PD: Extension providing Personal Data Categories",
+      "id": "dpv-skos-pd"
+    },
+    "DPV-SKOS-LEGAL": {
+      "href": "https://www.w3id.org/dpv/dpv-skos/dpv-legal",
+      "title": "DPV-SKOS-LEGAL: Extension providing Jurisdiction-relevant concepts",
+      "id": "dpv-skos-legal"
+    },
+    "DPV-SKOS-TECH": {
+      "href": "https://www.w3id.org/dpv/dpv-skos/dpv-tech",
+      "title": "DPV-SKOS-TECH: Extension providing Technology-relevant concepts",
+      "id": "dpv-skos-tech"
+    },
+    "RISK-SKOS": {
+      "href": "https://www.w3id.org/dpv/dpv-skos/risk",
+      "title": "Risk Extension for DPV",
+      "id": "risk-skos"
+    },
+    "RIGHTS-SKOS": {
+      "href": "https://www.w3id.org/dpv/dpv-skos/rights",
+      "title": "Rights Extension for Data Privacy Vocabulary"
+    },
+    "RIGHTS-EU-SKOS": {
+      "href": "https://www.w3id.org/dpv/dpv-skos/rights/eu",
+      "title": "Extension providing EU Rights",
+      "id": "rights-eu-skos"
+    },
+    "__003": "DPV-OWL Family",
+    "DPV-OWL": {
+      "href": "https://www.w3id.org/dpv/dpv-owl",
+      "title": "DPV-OWL: Data Privacy Vocabulary serialised in OWL2",
+      "id": "dpv-owl"
+    },
+    "DPV-OWL-GDPR": {
+      "href": "https://www.w3id.org/dpv/dpv-owl/dpv-gdpr",
+      "title": "DPV-OWL-GDPR: Extension providing GDPR concepts",
+      "id": "dpv-owl-gdpr"
+    },
+    "DPV-OWL-NACE": {
+      "href": "https://www.w3id.org/dpv/dpv-owl/dpv-nace",
+      "title": "NACE Taxonomy serialised in RDFS"
+    },
+    "DPV-OWL-PD": {
+      "href": "https://www.w3id.org/dpv/dpv-owl/dpv-pd",
+      "title": "DPV-OWL-PD: Extension providing Personal Data Categories",
+      "id": "dpv-owl-pd"
+    },
+    "DPV-OWL-LEGAL": {
+      "href": "https://www.w3id.org/dpv/dpv-owl/dpv-legal",
+      "title": "DPV-OWL-LEGAL: Extension providing Jurisdiction-relevant concepts",
+      "id": "dpv-owl-legal"
+    },
+    "DPV-OWL-TECH": {
+      "href": "https://www.w3id.org/dpv/dpv-owl/dpv-tech",
+      "title": "DPV-OWL-TECH: Extension providing Technology-relevant concepts",
+      "id": "dpv-owl-tech"
+    },
+    "RISK-OWL": {
+      "href": "https://www.w3id.org/dpv/dpv-owl/risk",
+      "title": "Risk Extension for DPV",
+      "id": "risk-owl"
+    },
+    "RIGHTS-OWL": {
+      "href": "https://www.w3id.org/dpv/dpv-owl/rights",
+      "title": "Rights Extension for Data Privacy Vocabulary"
+    },
+    "RIGHTS-EU-OWL": {
+      "href": "https://www.w3id.org/dpv/dpv-owl/rights/eu",
+      "title": "Extension providing EU Rights",
+      "id": "rights-eu-owl"
+    },
+    "__004": "DPV Documentation & Guides",
+    "DPV-Primer": {
+      "href": "https://www.w3id.org/dpv/primer",
+      "title": "Primer for Data Privacy Vocabulary",
+      "id": "dpv-primer"
+    },
+    "DPV-ADOPTION": {
+      "href": "https://www.w3.org/community/dpvcg/wiki/Adoption_of_DPVCG",
+      "title": "Listing of DPV adoption and applications"
+    },
+    "DPV-GUIDES": {
+      "href": "https://w3id.org/dpv/guides",
+      "title": "Guidelines for Adoption and Use of DPV",
+      "id": "dpv-guides"
+    },
+    "DPV-GUIDE-Consent": {
+      "href": "https://w3id.org/dpv/guides/consent",
+      "title": "Guide for Consent Records using DPV",
+      "id": "dpv-guide-consent"
+    },
+    "DPV-GUIDE-Notice": {
+      "href": "https://w3id.org/dpv/guides/notice",
+      "title": "Guide for Privacy Notices using DPV",
+      "id": "dpv-guide-notice"
+    },
+    "DPV-GUIDE-Serialisations": {
+      "href": "https://w3id.org/dpv/guides/serialisations",
+      "title": "Guide on DPV's serialisations and semantics",
+      "id": "dpv-guide-serialisations"
+    },
+    "DPV-GUIDE-SKOS": {
+      "href": "https://w3id.org/dpv/guides/dpv-skos",
+      "title": "Guide for using DPV with RDFS and SKOS",
+      "id": "dpv-guide-skos"
+    },
+    "DPV-GUIDE-OWL2": {
+      "href": "https://w3id.org/dpv/guides/dpv-owl",
+      "title": "Guide for using DPV in OWL2",
+      "id": "dpv-guide-owl2"
+    },
+    "DPV-GUIDE-GDPR-DPIA": {
+      "href": "https://w3id.org/dpv/dpv-gdpr/dpia",
+      "title": "Guide for GDPR DPIA's using DPV",
+      "id": "dpv-guide-gdpr-dpia"
+    },
+    "DPV-GUIDE-GDPR-ROPA": {
+      "href": "https://w3id.org/dpv/dpv-gdpr/ropa",
+      "title": "Guide for GDPR ROPA's using DPV",
+      "id": "dpv-guide-gdpr-ropa"
+    },
+    "__005": "Examples",
+    "Examples": {
+      "href": "https://w3id.org/dpv/examples",
+      "title": "DPV Examples",
+      "id": "examples"
+    },
+    "__006": "Examples",
+    "UseCases-Requirements": {
+      "href": "https://w3id.org/dpv/use-cases",
+      "title": "DPV Use-Cases and Requirements",
+      "id": "usecases-requirements"
+    },
+    "__000": "External References",
+    "RDF": {
+      "href": "https://www.w3.org/TR/rdf11-concepts/",
+      "title": "RDF 1.1 Concepts and Abstract Syntax"
+    },
+    "RDFS": {
+      "href": "https://www.w3.org/TR/rdf-schema/",
+      "title": "RDF Schema 1.1"
+    },
+    "OWL": {
+      "href": "https://www.w3.org/TR/owl2-overview/",
+      "title": "OWL 2 Web Ontology Language Document Overview (Second Edition)"
+    },
+    "SKOS": {
+      "href": "https://www.w3.org/TR/skos-reference/",
+      "title": "SKOS Simple Knowledge Organization System"
+    },
+    "SPECIAL": {
+      "href": "https://www.specialprivacy.eu/",
+      "title": "SPECIAL H2020 Project"
+    },
+    "GDPR": {
+      "href": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+      "title": "General Data Protection Regulation (GDPR)"
+    },
+    "NACE": {
+      "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+      "title": "Statistical Classification of Economic Activities in the European Community (NACE)"
+    },
+    "NAICS": {
+      "href": "https://www.census.gov/eos/www/naics/",
+      "title": "North American Industry Classification System (NAICS)"
+    },
+    "ISIC": {
+      "href": "https://unstats.un.org/unsd/classifications",
+      "title": "International Standard Industrial Classification of All Economic Activities (ISIC)"
+    },
+    "GICS": {
+      "href": "https://www.msci.com/gics",
+      "title": "Global Industry Classification Standard (GICS)"
+    },
+    "NACE-NAICS": {
+      "href": "https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=NACE_REV2",
+      "title": "NACE to NAICS mapping"
+    },
+    "EnterPrivacy": {
+      "href": "https://enterprivacy.com/wp-content/uploads/2018/09/Categories-of-Personal-Information.pdf",
+      "title": "Taxonomy of Personal Data Categories"
+    },
+    "TIME": {
+      "href": "https://www.w3.org/TR/owl-time/",
+      "title": "Time Ontology in OWL"
+    },
+    "ISO-27017": {
+      "href": "https://www.iso.org/standard/43757.html",
+      "title": "ISO/IEC 27017:2015 Information technology — Security techniques — Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
+    },
+    "ISO-27560": {
+      "href": "https://www.iso.org/standard/80392.html",
+      "title": "ISO/IEC TS 27560 Privacy technologies — Consent record information structure"
+    },
+    "SHACL-UseCases": {
+      "href": "https://www.w3.org/TR/shacl-ucr/",
+      "title": "SHACL Use Cases and Requirements",
+      "id": "shacl-usecases"
+    },
+    "DCT": {
+      "title": "DCMI Metadata Terms (DCT)",
+      "href": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
+    },
+    "DCAT": {
+      "title": "Data Catalog Vocabulary (DCAT) - Version 2",
+      "href": "http://www.w3.org/ns/dcat"
+    },
+    "RuleML": {
+      "title": "RuleML: Rule Markup Language",
+      "href": "www.ruleml.org/"
+    }
+  },
+  "publishISODate": "2022-10-10T00:00:00.000Z",
+  "generatedSubtitle": "Draft Community Group Report 10 October 2022"
+}</script>
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/cg-draft"></head>
+<body class="h-entry"><div class="head">
+    
+    <h1 id="title" class="title">DPV Use-Cases and Requirements</h1> 
+    <p id="w3c-state">
+      <a href="https://www.w3.org/standards/types#reports">Draft Community Group Report</a>
+      <time class="dt-published" datetime="2022-10-10">10 October 2022</time>
+    </p>
+    <dl>
+      
+      <dt>Latest published version:</dt><dd>
+              <a href="https://w3id.org/dpv/use-cases">https://w3id.org/dpv/use-cases</a>
+            </dd>
+      <dt>Latest editor's draft:</dt><dd><a href="https://w3id.org/dpv/ed/use-cases">https://w3id.org/dpv/ed/use-cases</a></dd>
+      
+      
+      
+      
+      <dt>Editor:</dt><dd class="editor p-author h-card vcard">
+    <a class="u-url url p-name fn" href="https://harshp.com/">Harshvardhan J. Pandit</a> (<span class="p-org org h-org">ADAPT Centre, Dublin City University</span>)
+  </dd>
+      
+      
+      <dt>Feedback:</dt><dd>
+        <a href="https://github.com/w3c/dpv/">GitHub w3c/dpv</a>
+        (<a href="https://github.com/w3c/dpv/pulls/">pull requests</a>,
+        <a href="https://github.com/w3c/dpv/issues/new/choose">new issue</a>,
+        <a href="https://github.com/w3c/dpv/issues/">open issues</a>)
+      </dd>
+      
+    </dl>
+    
+    <p class="copyright">
+          <a href="https://www.w3.org/policies/#copyright">Copyright</a>
+          ©
+          2022
+          
+          the Contributors to the DPV Use-Cases and Requirements
+          Specification, published by the
+          <a href="https://www.w3.org/groups/cg/dpvcg">Data Privacy Vocabularies and Controls Community Group</a> under the
+          <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>. A human-readable
+                <a href="https://www.w3.org/community/about/agreements/cla-deed/">summary</a>
+                is available.
+              
+        </p>
+    <hr title="Separator for header">
+  </div>
+  <section id="abstract" class="introductory">
+    <p>This document lists the use-cases and requirements that motivate the development and provision of resources within the <cite><a data-matched-text="[[[DPVCG]]]" href="https://www.w3.org/community/dpvcg/">W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)</a></cite>. Specifically, it lists the background information that feeds into the continued development of the <cite><a data-matched-text="[[[DPV]]]" href="https://www.w3id.org/dpv">Data Privacy Vocabulary (DPV) Specification</a></cite> and its associated resources. It draws inspiration (and methodology) from <cite><a data-matched-text="[[[SHACL-UseCases]]]" href="https://www.w3.org/TR/shacl-ucr/">SHACL Use Cases and Requirements</a></cite>. The vocabulary, and instances of use-cases and requirements are available in DPVCG GitHub repo under <i>./use-cases</i> path.</p>
+    <section id="dpv-document-family" class="noTOC"><div class="header-wrapper"><h3 id="dpv-family-of-documents">DPV Family of Documents</h3><a class="self-link" href="#dpv-document-family" aria-label="Permalink for this Section"></a></div>
+    
     <ul>
-      <li>[[[DPV-Primer]]]:  An introductory document for DPV's concepts and taxonomies.
-        <p class="note">Newcomers to the DPV are <strong>strongly recommended to first read through the Primer</strong> to familiarise themselves with the semantics and concepts of DPV.</p>
+      <li><cite><a data-matched-text="[[[DPV-Primer]]]" href="https://www.w3id.org/dpv/primer">Primer for Data Privacy Vocabulary</a></cite>:  An introductory document for DPV's concepts and taxonomies.
+        <div class="note" role="note" id="issue-container-generatedID"><div role="heading" class="note-title marker" id="h-note" aria-level="4"><span>Note</span></div><p class="">Newcomers to the DPV are <strong>strongly recommended to first read through the Primer</strong> to familiarise themselves with the semantics and concepts of DPV.</p></div>
       </li>
-      <li>[[[DPV]]]: (this document) The formal and normative description of DPV and its concepts, with serialisations in RDFS & SKOS [[DPV-SKOS]] and OWL2 [[DPV-OWL]]</li>
+      <li><cite><a data-matched-text="[[[DPV]]]" href="https://www.w3id.org/dpv">Data Privacy Vocabulary (DPV) Specification</a></cite>: (this document) The formal and normative description of DPV and its concepts, with serialisations in RDFS &amp; SKOS [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-skos" title="DPV-SKOS: Data Privacy Vocabulary serialised in RDFS &amp; SKOS">DPV-SKOS</a></cite>] and OWL2 [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-owl" title="DPV-OWL: Data Privacy Vocabulary serialised in OWL2">DPV-OWL</a></cite>]</li>
       <li>Extensions to Concepts: <ul>
-        <li>[[DPV-GDPR]]:  for GDPR concepts; serialisations: [[DPV-SKOS-GDPR]], [[DPV-OWL-GDPR]]</li>
-        <li>[[DPV-PD]]  for Personal Data concepts; serialisations: [[DPV-SKOS-PD]], [[DPV-OWL-PD]]</li>
-        <li>[[DPV-LEGAL]]  for Jurisdiction-relevant concepts; serialisations: [[DPV-SKOS-LEGAL]], [[DPV-OWL-LEGAL]]</li>
-        <li>[[DPV-TECH]]  for Technology concepts; serialisations: [[DPV-SKOS-TECH]], [[DPV-OWL-TECH]]</li>
-        <li>[[RISK]]  for Risk Assessment and Management concepts; serialisations: [[RISK-SKOS]], [[RISK-OWL]]</li>
+        <li>[<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-gdpr" title="DPV-GDPR: Extension providing GDPR concepts">DPV-GDPR</a></cite>]:  for GDPR concepts; serialisations: [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-skos-gdpr" title="DPV-SKOS-GDPR: Extension providing GDPR concepts">DPV-SKOS-GDPR</a></cite>], [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-owl-gdpr" title="DPV-OWL-GDPR: Extension providing GDPR concepts">DPV-OWL-GDPR</a></cite>]</li>
+        <li>[<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-pd" title="DPV-PD: Extension providing Personal Data Categories">DPV-PD</a></cite>]  for Personal Data concepts; serialisations: [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-skos-pd" title="DPV-SKOS-PD: Extension providing Personal Data Categories">DPV-SKOS-PD</a></cite>], [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-owl-pd" title="DPV-OWL-PD: Extension providing Personal Data Categories">DPV-OWL-PD</a></cite>]</li>
+        <li>[<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-legal" title="DPV-LEGAL: Extension providing Jurisdiction-relevant concepts">DPV-LEGAL</a></cite>]  for Jurisdiction-relevant concepts; serialisations: [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-skos-legal" title="DPV-SKOS-LEGAL: Extension providing Jurisdiction-relevant concepts">DPV-SKOS-LEGAL</a></cite>], [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-owl-legal" title="DPV-OWL-LEGAL: Extension providing Jurisdiction-relevant concepts">DPV-OWL-LEGAL</a></cite>]</li>
+        <li>[<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-tech" title="DPV-TECH: Extension providing Technology-relevant concepts">DPV-TECH</a></cite>]  for Technology concepts; serialisations: [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-skos-tech" title="DPV-SKOS-TECH: Extension providing Technology-relevant concepts">DPV-SKOS-TECH</a></cite>], [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpv-owl-tech" title="DPV-OWL-TECH: Extension providing Technology-relevant concepts">DPV-OWL-TECH</a></cite>]</li>
+        <li>[<cite><a class="bibref" data-link-type="biblio" href="#bib-risk" title="Risk Extension for DPV">RISK</a></cite>]  for Risk Assessment and Management concepts; serialisations: [<cite><a class="bibref" data-link-type="biblio" href="#bib-risk-skos" title="Risk Extension for DPV">RISK-SKOS</a></cite>], [<cite><a class="bibref" data-link-type="biblio" href="#bib-risk-owl" title="Risk Extension for DPV">RISK-OWL</a></cite>]</li>
         </ul></li>
-      <li>[[[DPV-GUIDES]]]: <ul>
-        <li>[[[DPV-GUIDE-Serialisations]]]  (coming soon)</li>
-        <li>[[[DPV-GUIDE-SKOS]]]  (coming soon)</li>
-        <li>[[[DPV-GUIDE-OWL2]]] </li>
-        <li>[[[DPV-GUIDE-Notice]]]  (coming soon)</li>
-        <li>[[[DPV-GUIDE-Consent]]]  (being updated for v1)</li>
-        <li>[[[DPV-GUIDE-GDPR-DPIA]]]  (being updated for v1)</li>
-        <li>[[[DPV-GUIDE-GDPR-ROPA]]]  (being updated for v1)</li>
+      <li><cite><a data-matched-text="[[[DPV-GUIDES]]]" href="https://w3id.org/dpv/guides">Guidelines for Adoption and Use of DPV</a></cite>: <ul>
+        <li><cite><a data-matched-text="[[[DPV-GUIDE-Serialisations]]]" href="https://w3id.org/dpv/guides/serialisations">Guide on DPV's serialisations and semantics</a></cite>  (coming soon)</li>
+        <li><cite><a data-matched-text="[[[DPV-GUIDE-SKOS]]]" href="https://w3id.org/dpv/guides/dpv-skos">Guide for using DPV with RDFS and SKOS</a></cite>  (coming soon)</li>
+        <li><cite><a data-matched-text="[[[DPV-GUIDE-OWL2]]]" href="https://w3id.org/dpv/guides/dpv-owl">Guide for using DPV in OWL2</a></cite> </li>
+        <li><cite><a data-matched-text="[[[DPV-GUIDE-Notice]]]" href="https://w3id.org/dpv/guides/notice">Guide for Privacy Notices using DPV</a></cite>  (coming soon)</li>
+        <li><cite><a data-matched-text="[[[DPV-GUIDE-Consent]]]" href="https://w3id.org/dpv/guides/consent">Guide for Consent Records using DPV</a></cite>  (being updated for v1)</li>
+        <li><cite><a data-matched-text="[[[DPV-GUIDE-GDPR-DPIA]]]" href="https://w3id.org/dpv/dpv-gdpr/dpia">Guide for GDPR DPIA's using DPV</a></cite>  (being updated for v1)</li>
+        <li><cite><a data-matched-text="[[[DPV-GUIDE-GDPR-ROPA]]]" href="https://w3id.org/dpv/dpv-gdpr/ropa">Guide for GDPR ROPA's using DPV</a></cite>  (being updated for v1)</li>
         </ul></li>
       <li>Other Resources:<ul>
-        <li>[[[UseCases-Requirements]]]</li>
-        <li>[[[Examples]]]</li>
-        <li>[[[DPV-NACE]]]</li>
-        <li>[[[RIGHTS-EU]]] serialisations: [[RIGHTS-EU-SKOS]], [[RIGHTS-EU-OWL]]</li>
+        <li><cite><a data-matched-text="[[[UseCases-Requirements]]]" href="https://w3id.org/dpv/use-cases">DPV Use-Cases and Requirements</a></cite></li>
+        <li><cite><a data-matched-text="[[[Examples]]]" href="https://w3id.org/dpv/examples">DPV Examples</a></cite></li>
+        <li><cite><a data-matched-text="[[[DPV-NACE]]]" href="https://www.w3id.org/dpv/dpv-nace">NACE Taxonomy serialised in RDFS</a></cite></li>
+        <li><cite><a data-matched-text="[[[RIGHTS-EU]]]" href="https://www.w3id.org/dpv/rights/eu">Extension providing EU Rights</a></cite> serialisations: [<cite><a class="bibref" data-link-type="biblio" href="#bib-rights-eu-skos" title="Extension providing EU Rights">RIGHTS-EU-SKOS</a></cite>], [<cite><a class="bibref" data-link-type="biblio" href="#bib-rights-eu-owl" title="Extension providing EU Rights">RIGHTS-EU-OWL</a></cite>]</li>
         </ul></li>
     </ul>
     <p><strong>Related Links</strong></p>
     <ul>
       <li>Releases are published on <a href="https://github.com/w3c/dpv/releases">GitHub</a></li>
-      <li>For a general overview of the Data Protection Vocabularies and Controls Community Group [[DPVCG]], its history, deliverables, and activities - refer to <a href="https://www.w3.org/community/dpvcg/"><u>DPVCG Website</u></a>.</p>
+      <li>For a general overview of the Data Protection Vocabularies and Controls Community Group [<cite><a class="bibref" data-link-type="biblio" href="#bib-dpvcg" title="W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)">DPVCG</a></cite>], its history, deliverables, and activities - refer to <a href="https://www.w3.org/community/dpvcg/"><u>DPVCG Website</u></a>.<p></p>
       </li>
       <li>
         <p>The peer-reviewed article “<a href="https://link.springer.com/chapter/10.1007%2F978-3-030-33246-4_44"><u>Creating A Vocabulary for Data Privacy</u></a>” presents a historical overview of the DPVCG, and describes the methodology and structure of the DPV along with describing its creation. An open-access version can be accessed <a href="http://hdl.handle.net/2262/91581"><u>here</u></a>, <a href="http://doras.dcu.ie/23801/"><u>here</u></a>, and <a href="https://aic.ai.wu.ac.at/~polleres/publications/pand-etal-2019ODBASE.pdf"><u>here</u></a>.</p>
@@ -329,70 +523,93 @@
     </ul>
 </section>
 
-    <section id="sotd">
-  <!-- sotd: Status of this document -->
+    <section id="sotd" class="introductory"><h2>Status of This Document</h2><p>
+      This specification was published by the
+      <a href="https://www.w3.org/groups/cg/dpvcg">Data Privacy Vocabularies and Controls Community Group</a>. It is not a W3C Standard nor is it
+      on the W3C Standards Track.
+      
+            Please note that under the
+            <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>
+            there is a limited opt-out and other conditions apply.
+          
+      Learn more about
+      <a href="https://www.w3.org/community/">W3C Community and Business Groups</a>.
+    </p>
+  
   <p>This document is published by the <a href="https://www.w3.org/community/dpvcg/">Data Privacy Vocabularies and Controls Community Group (DPVCG)</a> as a deliverable and report of its work in creating and maintaining the Data Privacy Vocabulary (DPV).</p>
-  <div class="note">
+  <div class="note" role="note" id="issue-container-generatedID-0"><div role="heading" class="note-title marker" id="h-note-0" aria-level="4"><span>Note</span></div><div class="">
     <p><strong>Contributing to the DPV and its extensions</strong> The DPVCG welcomes participation regarding the DPV, including expansion or refinement of its terms, addressing open issues, and welcomes suggestions on their resolution or mitigation. For further information, please see the <a href="https://github.com/w3c/dpv#contribution--participation">contribution section</a>.</p>
-  </div>
-</section>
+  </div></div>
+<p>
+    <a href="https://github.com/w3c/dpv/issues/">GitHub Issues</a> are preferred for
+          discussion of this specification.
+        
+    
+  </p></section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#vocab"><bdi class="secno">1. </bdi>Vocabulary</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">1.1 </bdi>Conformance</a></li><li class="tocline"><a class="tocxref" href="#vocab-usecase"><bdi class="secno">1.2 </bdi>UseCase</a></li><li class="tocline"><a class="tocxref" href="#vocab-req"><bdi class="secno">1.3 </bdi>Requirement</a></li></ol></li><li class="tocline"><a class="tocxref" href="#use-cases"><bdi class="secno">2. </bdi>Use Cases</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#U1"><bdi class="secno">2.1 </bdi><strong><i>U1</i>:</strong> Example - An Information Title</a></li><li class="tocline"><a class="tocxref" href="#U2"><bdi class="secno">2.2 </bdi><strong><i>U2</i>:</strong> Example #2 Dictionary of Concepts</a></li><li class="tocline"><a class="tocxref" href="#U3"><bdi class="secno">2.3 </bdi><strong><i>U3</i>:</strong> Example Automating DPVCG usage</a></li><li class="tocline"><a class="tocxref" href="#U4"><bdi class="secno">2.4 </bdi><strong><i>U4</i>:</strong> Tagging personal data categories present in digital resources</a></li><li class="tocline"><a class="tocxref" href="#U5"><bdi class="secno">2.5 </bdi><strong><i>U5</i>:</strong> Access control policies</a></li></ol></li><li class="tocline"><a class="tocxref" href="#req"><bdi class="secno">3. </bdi>Requirements</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#R1"><bdi class="secno">3.1 </bdi><strong><i>R1</i>:</strong> Dummy Requirement</a></li><li class="tocline"><a class="tocxref" href="#R2"><bdi class="secno">3.2 </bdi><strong><i>R2</i>:</strong> Provide concepts in standardised, consistent, machine-readable form</a></li><li class="tocline"><a class="tocxref" href="#R3"><bdi class="secno">3.3 </bdi><strong><i>R3</i>:</strong> Provide concepts as a dictionary or thesauri with contextual parts</a></li></ol></li><li class="tocline"><a class="tocxref" href="#concept-mappings"><bdi class="secno">A. </bdi>Concept Mappings</a></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">B. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">B.1 </bdi>Normative references</a></li><li class="tocline"><a class="tocxref" href="#informative-references"><bdi class="secno">B.2 </bdi>Informative references</a></li></ol></li></ol></nav>
 
     <p>The namespaces used in this document are as follows:</p>
     <table>
-      <tr><td><code>: </code></td><td><code><&lt;https://w3id.org/dpv/use&#45;cases/vocab#&gt;</code></td></tr>
+      <tbody><tr><td><code>: </code></td><td><code>&lt;&lt;https://w3id.org/dpv/use-cases/vocab#&gt;</code></td></tr>
       <tr><td><code>dpv:</code></td><td><code>&lt;https://w3id.org/dpv#&gt;</code></td></tr>
       <tr><td><code>dct:</code></td><td><code>&lt;http://purl.org/dc/terms/&gt;</code></td></tr>
-      <tr><td><code>rdfs:</code></td><td><code>&lt;http://www.w3.org/2000/01/rdf&#45;schema#&gt;</code></td></tr>
+      <tr><td><code>rdfs:</code></td><td><code>&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</code></td></tr>
       <tr><td><code>skos:</code></td><td><code>&lt;http://www.w3.org/2004/02/skos/core#&gt;</code></td></tr>
       <tr><td><code>owl:</code></td><td><code>&lt;http://www.w3.org/2002/07/owl#&gt;</code></td></tr>
       <tr><td><code>vann:</code></td><td><code>&lt;http://purl.org/vocab/vann/&gt;</code></td></tr>
       <tr><td><code>xsd:</code></td><td><code>&lt;http://www.w3.org/2001/XMLSchema#&gt;</code></td></tr>
       <tr><td><code>sh:</code></td><td><code>&lt;http://www.w3.org/ns/shacl#&gt;</code></td></tr>
-    </table>
+    </tbody></table>
     </section>
 
-  <section id="vocab">
-    <h2>Vocabulary</h2>
-    <section id="conformance"></section>
-    <section id="vocab-usecase">
-      <h3>UseCase</h3>
+  <section id="vocab"><div class="header-wrapper"><h2 id="x1-vocabulary"><bdi class="secno">1. </bdi>Vocabulary</h2><a class="self-link" href="#vocab" aria-label="Permalink for Section 1."></a></div>
+    
+    <section id="conformance"><div class="header-wrapper"><h3 id="x1-1-conformance"><bdi class="secno">1.1 </bdi>Conformance</h3><a class="self-link" href="#conformance" aria-label="Permalink for Section 1.1"></a></div><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p><p>
+        The key words <em class="rfc2119">MAY</em> and <em class="rfc2119">MUST</em> in this document
+        are to be interpreted as described in
+        <a href="https://www.rfc-editor.org/info/bcp14">BCP 14</a>
+        [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">RFC2119</a></cite>] [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8174" title="Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words">RFC8174</a></cite>]
+        when, and only when, they appear in all
+        capitals, as shown here.
+      </p></section>
+    <section id="vocab-usecase"><div class="header-wrapper"><h3 id="x1-2-usecase"><bdi class="secno">1.2 </bdi>UseCase</h3><a class="self-link" href="#vocab-usecase" aria-label="Permalink for Section 1.2"></a></div>
+      
       <table>
-        <tr><td>IRI</td><td><code>https://w3id.org/dpv/use&#45;cases/vocab#UseCase</code></td></tr>
+        <tbody><tr><td>IRI</td><td><code>https://w3id.org/dpv/use-cases/vocab#UseCase</code></td></tr>
         <tr><td><code>skos:definition</code></td><td>An UseCase provides a description where information within the scope of DPVCG is expected to be relevant or applied, and acts as the basis for identifying requirements (including but not limited to creation of concepts). Use cases can contain descriptions of systems, their operations, actors and entities involved, restrictions or constraints, or any other pertinent detail. They can be a simple textual paragraph or elaborative structured documents (in which case we prefer to reference them here as an URL).</td></tr>
-      </table>
+      </tbody></table>
       <ol>
-        <li>An UseCase MUST have a title (provided using <code>dct:title</code>)</li>
-        <li>An UseCase MUST have a description (provided using <code>dct:description</code>)</li>
-        <li>An UseCase MUST have an identifier with prefix 'U' (provided using <code>dct:identifier</code>)</li>
-        <li>An UseCase MAY have one or more contributors (specified using <code>dct:contributor</code>)</li>
-        <li>An UseCase MAY have a date (e.g. creation or modification) (specified using <code>dct:date</code>)</li>
-        <li>An UseCase MAY specify the source of its information (using <code>dct:source</code>)</li>
-        <li>An UseCase MAY specify its primary subject or concept (using <code>dct:subject</code>)</li>
-        <li>An UseCase MAY specify relevant requirements derived from it (using <code>dct:references</code>)</li>
+        <li>An UseCase <em class="rfc2119">MUST</em> have a title (provided using <code>dct:title</code>)</li>
+        <li>An UseCase <em class="rfc2119">MUST</em> have a description (provided using <code>dct:description</code>)</li>
+        <li>An UseCase <em class="rfc2119">MUST</em> have an identifier with prefix 'U' (provided using <code>dct:identifier</code>)</li>
+        <li>An UseCase <em class="rfc2119">MAY</em> have one or more contributors (specified using <code>dct:contributor</code>)</li>
+        <li>An UseCase <em class="rfc2119">MAY</em> have a date (e.g. creation or modification) (specified using <code>dct:date</code>)</li>
+        <li>An UseCase <em class="rfc2119">MAY</em> specify the source of its information (using <code>dct:source</code>)</li>
+        <li>An UseCase <em class="rfc2119">MAY</em> specify its primary subject or concept (using <code>dct:subject</code>)</li>
+        <li>An UseCase <em class="rfc2119">MAY</em> specify relevant requirements derived from it (using <code>dct:references</code>)</li>
       </ol>
       </section>
-      <section id="vocab-req">
-        <h3>Requirement</h3>
+      <section id="vocab-req"><div class="header-wrapper"><h3 id="x1-3-requirement"><bdi class="secno">1.3 </bdi>Requirement</h3><a class="self-link" href="#vocab-req" aria-label="Permalink for Section 1.3"></a></div>
+        
       <table>
-        <tr><td>IRI</td><td><code>https://w3id.org/dpv/use&#45;cases/vocab#Requirement</code></td></tr>
+        <tbody><tr><td>IRI</td><td><code>https://w3id.org/dpv/use-cases/vocab#Requirement</code></td></tr>
         <tr><td><code>skos:definition</code></td><td>A Requirement is a functional or non-functional requirement desirable to provided by or implemented within DPVCG's outputs, primarily the DPV and its extensions. Requirements can relate to the design of the resource, specific concepts and relations within it, provision of a resource and its documentation, or any other pertinent usage or behaviour exhibited by resources developed within the scope of the DPVCG.</td></tr>
-      </table>
+      </tbody></table>
       <ol>
-        <li>A Requirement MUST have a title (provided using <code>dct:title</code>)</li>
-        <li>A Requirement MUST have a description (provided using <code>dct:description</code>)</li>
-        <li>A Requirement MUST have an identifier with prefix 'R' (provided using <code>dct:identifier</code>)</li>
-        <li>A Requirement MUST specify the relevant UseCases used to derive it (using <code>dct:references</code>)</li>
-        <li>A Requirement MAY have one or more contributors specified (using <code>dct:contributor</code>)</li>
-        <li>A Requirement MAY specify the source of its information (using <code>dct:source</code>)</li>
-        <li>A Requirement MAY specify its primary subject or concept (using <code>dct:subject</code>)</li>
+        <li>A Requirement <em class="rfc2119">MUST</em> have a title (provided using <code>dct:title</code>)</li>
+        <li>A Requirement <em class="rfc2119">MUST</em> have a description (provided using <code>dct:description</code>)</li>
+        <li>A Requirement <em class="rfc2119">MUST</em> have an identifier with prefix 'R' (provided using <code>dct:identifier</code>)</li>
+        <li>A Requirement <em class="rfc2119">MUST</em> specify the relevant UseCases used to derive it (using <code>dct:references</code>)</li>
+        <li>A Requirement <em class="rfc2119">MAY</em> have one or more contributors specified (using <code>dct:contributor</code>)</li>
+        <li>A Requirement <em class="rfc2119">MAY</em> specify the source of its information (using <code>dct:source</code>)</li>
+        <li>A Requirement <em class="rfc2119">MAY</em> specify its primary subject or concept (using <code>dct:subject</code>)</li>
       </ol>
       </section>
     </section>
 
-    <section id="use-cases">
-      <h2>Use Cases</h2>
-        <section id="U1">
-          <h4><strong><i>U1</i>:</strong> Example - An Information Title</h4>
+    <section id="use-cases"><div class="header-wrapper"><h2 id="x2-use-cases"><bdi class="secno">2. </bdi>Use Cases</h2><a class="self-link" href="#use-cases" aria-label="Permalink for Section 2."></a></div>
+      
+        <section id="U1"><div class="header-wrapper"><h3 id="x2-1-u1-example-an-information-title"><bdi class="secno">2.1 </bdi><strong><i>U1</i>:</strong> Example - An Information Title</h3><a class="self-link" href="#U1" aria-label="Permalink for Section 2.1"></a></div>
+          
           <p>Description of the use-case - a short summary of what/who/how/where/when etc. goes here. This can be as detailed as you want.</p>
             <p><strong>Related Requirements:</strong> 
 <a href="#R1">R1</a>
@@ -401,8 +618,8 @@
 <a href="https://w3id.org/dpv#Concept">dpv:Concept</a>
 </p>
         </section>
-        <section id="U2">
-          <h4><strong><i>U2</i>:</strong> Example #2 Dictionary of Concepts</h4>
+        <section id="U2"><div class="header-wrapper"><h3 id="x2-2-u2-example-2-dictionary-of-concepts"><bdi class="secno">2.2 </bdi><strong><i>U2</i>:</strong> Example #2 Dictionary of Concepts</h3><a class="self-link" href="#U2" aria-label="Permalink for Section 2.2"></a></div>
+          
           <p>There are a vast number of concepts associated with data processing, with differences and variations across jurisdictions, domains, and sectors. A common dictionary of concepts with information on how they relate to other concepts across such differences would be an invaluable resource on its own. This could be a simple list, a dictionary, or a thesauri.</p>
             <p><strong>Related Requirements:</strong> 
 <a href="#R2">R2</a>
@@ -411,8 +628,8 @@
 <a href="https://w3id.org/dpv#Concept">dpv:Concept</a>
 </p>
         </section>
-        <section id="U3">
-          <h4><strong><i>U3</i>:</strong> Example Automating DPVCG usage</h4>
+        <section id="U3"><div class="header-wrapper"><h3 id="x2-3-u3-example-automating-dpvcg-usage"><bdi class="secno">2.3 </bdi><strong><i>U3</i>:</strong> Example Automating DPVCG usage</h3><a class="self-link" href="#U3" aria-label="Permalink for Section 2.3"></a></div>
+          
           <p>The concepts associated with a particular task can be considered the vocabulary necessary for representing information for that particular task. For example choosing the appropriate legal basis requires the concept associated with legal basis as well as the specific legal bases that can be utilised. In order to assist in providing the appropriate contextual vocabulary, the concepts should be encoded in a form that can be automatically queried or retrieved depending on the context.</p>
             <p><strong>Related Requirements:</strong> 
 <a href="#R2">R2</a>, <a href="#R3">R3</a></p>
@@ -420,25 +637,25 @@
 <a href="https://w3id.org/dpv#Concept">dpv:Concept</a>
 </p>
         </section>
-        <section id="U4">
-          <h4><strong><i>U4</i>:</strong> Tagging personal data categories present in digital resources</h4>
+        <section id="U4"><div class="header-wrapper"><h3 id="x2-4-u4-tagging-personal-data-categories-present-in-digital-resources"><bdi class="secno">2.4 </bdi><strong><i>U4</i>:</strong> Tagging personal data categories present in digital resources</h3><a class="self-link" href="#U4" aria-label="Permalink for Section 2.4"></a></div>
+          
           <p>Digital resources, e.g., resources stored in Solid pods, might contain multiple types of personal data categories, including sensitive personal data categories. For instance, in the Solid ecossystem, tagging the resources, or their metadata, with the personal data categories they contain will assist in the matching of personal data categories and the access control policies expressed for those particular categories of data.</p>
             <p><strong>Relevant Concepts:</strong> 
 <a href="https://w3id.org/dpv#PersonalData">dpv:PersonalData</a>
 </p>
         </section>
-        <section id="U5">
-          <h4><strong><i>U5</i>:</strong> Access control policies</h4>
+        <section id="U5"><div class="header-wrapper"><h3 id="x2-5-u5-access-control-policies"><bdi class="secno">2.5 </bdi><strong><i>U5</i>:</strong> Access control policies</h3><a class="self-link" href="#U5" aria-label="Permalink for Section 2.5"></a></div>
+          
           <p>DPV can be used to define access control policies over digital resources, independently or together with other languages, e.g., ODRL.</p>
             <p><strong>Relevant Concepts:</strong> 
 <a href="https://w3id.org/dpv#Entity">dpv:Entity</a>, <a href="https://w3id.org/dpv#LegalBasis">dpv:LegalBasis</a>, <a href="https://w3id.org/dpv#PersonalData">dpv:PersonalData</a>, <a href="https://w3id.org/dpv#Processing">dpv:Processing</a>, <a href="https://w3id.org/dpv#Purpose">dpv:Purpose</a>, <a href="https://w3id.org/dpv#TechnicalOrganisationalMeasure">dpv:TechnicalOrganisationalMeasure</a></p>
         </section>
     </section>
 
-    <section id="req">
-      <h2>Requirements</h2>
-        <section id="R1">
-          <h4><strong><i>R1</i>:</strong> Dummy Requirement</h4>
+    <section id="req"><div class="header-wrapper"><h2 id="x3-requirements"><bdi class="secno">3. </bdi>Requirements</h2><a class="self-link" href="#req" aria-label="Permalink for Section 3."></a></div>
+      
+        <section id="R1"><div class="header-wrapper"><h3 id="x3-1-r1-dummy-requirement"><bdi class="secno">3.1 </bdi><strong><i>R1</i>:</strong> Dummy Requirement</h3><a class="self-link" href="#R1" aria-label="Permalink for Section 3.1"></a></div>
+          
           <p>This requirement does not entail anything</p>
             <p><strong>Motivation:</strong> 
 <a href="#U1">U1</a>
@@ -446,16 +663,16 @@
             <p><strong>Relevant Concepts:</strong> 
 <a href="https://w3id.org/dpv#Concept">dpv:Concept</a>, <a href="https://w3id.org/dpv#Relation">dpv:Relation</a></p>
         </section>
-        <section id="R2">
-          <h4><strong><i>R2</i>:</strong> Provide concepts in standardised, consistent, machine-readable form</h4>
+        <section id="R2"><div class="header-wrapper"><h3 id="x3-2-r2-provide-concepts-in-standardised-consistent-machine-readable-form"><bdi class="secno">3.2 </bdi><strong><i>R2</i>:</strong> Provide concepts in standardised, consistent, machine-readable form</h3><a class="self-link" href="#R2" aria-label="Permalink for Section 3.2"></a></div>
+          
           <p>The encapsulation of concepts must be in a form that is machine-readable, consistent, and using a formal specification - ideally a standard. This will ensure the concepts are correctly parsed, interpreted, and used by machines across use-cases, and will assist in the automation of information and information-based tasks.</p>
             <p><strong>Motivation:</strong> 
 <a href="#U2">U2</a>, <a href="#U3">U3</a></p>
             <p><strong>Relevant Concepts:</strong> 
 <a href="https://w3id.org/dpv#Concept">dpv:Concept</a>, <a href="https://w3id.org/dpv#Relation">dpv:Relation</a></p>
         </section>
-        <section id="R3">
-          <h4><strong><i>R3</i>:</strong> Provide concepts as a dictionary or thesauri with contextual parts</h4>
+        <section id="R3"><div class="header-wrapper"><h3 id="x3-3-r3-provide-concepts-as-a-dictionary-or-thesauri-with-contextual-parts"><bdi class="secno">3.3 </bdi><strong><i>R3</i>:</strong> Provide concepts as a dictionary or thesauri with contextual parts</h3><a class="self-link" href="#R3" aria-label="Permalink for Section 3.3"></a></div>
+          
           <p>The concepts should be bundled together and provided as a vocabulary or thesauri with distinct parts or sections (or sub-vocabularies) that relate to specific contextual details. For example, providing purposes as a separate taxonomy enables use of only purposes elsewhere.</p>
             <p><strong>Motivation:</strong> 
 <a href="#U3">U3</a>
@@ -465,8 +682,8 @@
         </section>
     </section>
 
-    <section id='concept-mappings' class='appendix'>
-      <h2>Concept Mappings</h2>
+    <section id="concept-mappings" class="appendix"><div class="header-wrapper"><h2 id="a-concept-mappings"><bdi class="secno">A. </bdi>Concept Mappings</h2><a class="self-link" href="#concept-mappings" aria-label="Permalink for Appendix A."></a></div>
+      
       <ul>
         <li><a href="https://w3id.org/dpv#Concept">dpv:Concept</a>
           <ul>
@@ -503,5 +720,406 @@
 <a href="#U5">U5</a></li>          </ul></li>
       </ul>
     </section>
-  </body>
-  </html>
+  
+  <section id="references" class="appendix"><div class="header-wrapper"><h2 id="b-references"><bdi class="secno">B. </bdi>References</h2><a class="self-link" href="#references" aria-label="Permalink for Appendix B."></a></div><section id="normative-references"><div class="header-wrapper"><h3 id="b-1-normative-references"><bdi class="secno">B.1 </bdi>Normative references</h3><a class="self-link" href="#normative-references" aria-label="Permalink for Appendix B.1"></a></div>
+    
+    <dl class="bibliography"><dt id="bib-rfc2119">[RFC2119]</dt><dd>
+      <a href="https://www.rfc-editor.org/rfc/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner.  IETF. March 1997. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>
+    </dd><dt id="bib-rfc8174">[RFC8174]</dt><dd>
+      <a href="https://www.rfc-editor.org/rfc/rfc8174"><cite>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</cite></a>. B. Leiba.  IETF. May 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>
+    </dd></dl>
+  </section><section id="informative-references"><div class="header-wrapper"><h3 id="b-2-informative-references"><bdi class="secno">B.2 </bdi>Informative references</h3><a class="self-link" href="#informative-references" aria-label="Permalink for Appendix B.2"></a></div>
+    
+    <dl class="bibliography"><dt id="bib-dpv">[DPV]</dt><dd>
+      <a href="https://www.w3id.org/dpv"><cite>Data Privacy Vocabulary (DPV) Specification</cite></a>. URL: <a href="https://www.w3id.org/dpv">https://www.w3id.org/dpv</a>
+    </dd><dt id="bib-dpv-gdpr">[DPV-GDPR]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-gdpr"><cite>DPV-GDPR: Extension providing GDPR concepts</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-gdpr">https://www.w3id.org/dpv/dpv-gdpr</a>
+    </dd><dt id="bib-dpv-guide-consent">[DPV-GUIDE-Consent]</dt><dd>
+      <a href="https://w3id.org/dpv/guides/consent"><cite>Guide for Consent Records using DPV</cite></a>. URL: <a href="https://w3id.org/dpv/guides/consent">https://w3id.org/dpv/guides/consent</a>
+    </dd><dt id="bib-dpv-guide-gdpr-dpia">[DPV-GUIDE-GDPR-DPIA]</dt><dd>
+      <a href="https://w3id.org/dpv/dpv-gdpr/dpia"><cite>Guide for GDPR DPIA's using DPV</cite></a>. URL: <a href="https://w3id.org/dpv/dpv-gdpr/dpia">https://w3id.org/dpv/dpv-gdpr/dpia</a>
+    </dd><dt id="bib-dpv-guide-gdpr-ropa">[DPV-GUIDE-GDPR-ROPA]</dt><dd>
+      <a href="https://w3id.org/dpv/dpv-gdpr/ropa"><cite>Guide for GDPR ROPA's using DPV</cite></a>. URL: <a href="https://w3id.org/dpv/dpv-gdpr/ropa">https://w3id.org/dpv/dpv-gdpr/ropa</a>
+    </dd><dt id="bib-dpv-guide-notice">[DPV-GUIDE-Notice]</dt><dd>
+      <a href="https://w3id.org/dpv/guides/notice"><cite>Guide for Privacy Notices using DPV</cite></a>. URL: <a href="https://w3id.org/dpv/guides/notice">https://w3id.org/dpv/guides/notice</a>
+    </dd><dt id="bib-dpv-guide-owl2">[DPV-GUIDE-OWL2]</dt><dd>
+      <a href="https://w3id.org/dpv/guides/dpv-owl"><cite>Guide for using DPV in OWL2</cite></a>. URL: <a href="https://w3id.org/dpv/guides/dpv-owl">https://w3id.org/dpv/guides/dpv-owl</a>
+    </dd><dt id="bib-dpv-guide-serialisations">[DPV-GUIDE-Serialisations]</dt><dd>
+      <a href="https://w3id.org/dpv/guides/serialisations"><cite>Guide on DPV's serialisations and semantics</cite></a>. URL: <a href="https://w3id.org/dpv/guides/serialisations">https://w3id.org/dpv/guides/serialisations</a>
+    </dd><dt id="bib-dpv-guide-skos">[DPV-GUIDE-SKOS]</dt><dd>
+      <a href="https://w3id.org/dpv/guides/dpv-skos"><cite>Guide for using DPV with RDFS and SKOS</cite></a>. URL: <a href="https://w3id.org/dpv/guides/dpv-skos">https://w3id.org/dpv/guides/dpv-skos</a>
+    </dd><dt id="bib-dpv-guides">[DPV-GUIDES]</dt><dd>
+      <a href="https://w3id.org/dpv/guides"><cite>Guidelines for Adoption and Use of DPV</cite></a>. URL: <a href="https://w3id.org/dpv/guides">https://w3id.org/dpv/guides</a>
+    </dd><dt id="bib-dpv-legal">[DPV-LEGAL]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-legal"><cite>DPV-LEGAL: Extension providing Jurisdiction-relevant concepts</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-legal">https://www.w3id.org/dpv/dpv-legal</a>
+    </dd><dt id="bib-dpv-nace">[DPV-NACE]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-nace"><cite>NACE Taxonomy serialised in RDFS</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-nace">https://www.w3id.org/dpv/dpv-nace</a>
+    </dd><dt id="bib-dpv-owl">[DPV-OWL]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-owl"><cite>DPV-OWL: Data Privacy Vocabulary serialised in OWL2</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-owl">https://www.w3id.org/dpv/dpv-owl</a>
+    </dd><dt id="bib-dpv-owl-gdpr">[DPV-OWL-GDPR]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-owl/dpv-gdpr"><cite>DPV-OWL-GDPR: Extension providing GDPR concepts</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-owl/dpv-gdpr">https://www.w3id.org/dpv/dpv-owl/dpv-gdpr</a>
+    </dd><dt id="bib-dpv-owl-legal">[DPV-OWL-LEGAL]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-owl/dpv-legal"><cite>DPV-OWL-LEGAL: Extension providing Jurisdiction-relevant concepts</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-owl/dpv-legal">https://www.w3id.org/dpv/dpv-owl/dpv-legal</a>
+    </dd><dt id="bib-dpv-owl-pd">[DPV-OWL-PD]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-owl/dpv-pd"><cite>DPV-OWL-PD: Extension providing Personal Data Categories</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-owl/dpv-pd">https://www.w3id.org/dpv/dpv-owl/dpv-pd</a>
+    </dd><dt id="bib-dpv-owl-tech">[DPV-OWL-TECH]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-owl/dpv-tech"><cite>DPV-OWL-TECH: Extension providing Technology-relevant concepts</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-owl/dpv-tech">https://www.w3id.org/dpv/dpv-owl/dpv-tech</a>
+    </dd><dt id="bib-dpv-pd">[DPV-PD]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-pd"><cite>DPV-PD: Extension providing Personal Data Categories</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-pd">https://www.w3id.org/dpv/dpv-pd</a>
+    </dd><dt id="bib-dpv-primer">[DPV-Primer]</dt><dd>
+      <a href="https://www.w3id.org/dpv/primer"><cite>Primer for Data Privacy Vocabulary</cite></a>. URL: <a href="https://www.w3id.org/dpv/primer">https://www.w3id.org/dpv/primer</a>
+    </dd><dt id="bib-dpv-skos">[DPV-SKOS]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-skos"><cite>DPV-SKOS: Data Privacy Vocabulary serialised in RDFS &amp; SKOS</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-skos">https://www.w3id.org/dpv/dpv-skos</a>
+    </dd><dt id="bib-dpv-skos-gdpr">[DPV-SKOS-GDPR]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-skos/dpv-gdpr"><cite>DPV-SKOS-GDPR: Extension providing GDPR concepts</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-skos/dpv-gdpr">https://www.w3id.org/dpv/dpv-skos/dpv-gdpr</a>
+    </dd><dt id="bib-dpv-skos-legal">[DPV-SKOS-LEGAL]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-skos/dpv-legal"><cite>DPV-SKOS-LEGAL: Extension providing Jurisdiction-relevant concepts</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-skos/dpv-legal">https://www.w3id.org/dpv/dpv-skos/dpv-legal</a>
+    </dd><dt id="bib-dpv-skos-pd">[DPV-SKOS-PD]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-skos/dpv-pd"><cite>DPV-SKOS-PD: Extension providing Personal Data Categories</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-skos/dpv-pd">https://www.w3id.org/dpv/dpv-skos/dpv-pd</a>
+    </dd><dt id="bib-dpv-skos-tech">[DPV-SKOS-TECH]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-skos/dpv-tech"><cite>DPV-SKOS-TECH: Extension providing Technology-relevant concepts</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-skos/dpv-tech">https://www.w3id.org/dpv/dpv-skos/dpv-tech</a>
+    </dd><dt id="bib-dpv-tech">[DPV-TECH]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-tech"><cite>DPV-TECH: Extension providing Technology-relevant concepts</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-tech">https://www.w3id.org/dpv/dpv-tech</a>
+    </dd><dt id="bib-dpvcg">[DPVCG]</dt><dd>
+      <a href="https://www.w3.org/community/dpvcg/"><cite>W3C Data Privacy Vocabularies and Controls Community Group (DPVCG)</cite></a>. URL: <a href="https://www.w3.org/community/dpvcg/">https://www.w3.org/community/dpvcg/</a>
+    </dd><dt id="bib-examples">[Examples]</dt><dd>
+      <a href="https://w3id.org/dpv/examples"><cite>DPV Examples</cite></a>. URL: <a href="https://w3id.org/dpv/examples">https://w3id.org/dpv/examples</a>
+    </dd><dt id="bib-rights-eu">[RIGHTS-EU]</dt><dd>
+      <a href="https://www.w3id.org/dpv/rights/eu"><cite>Extension providing EU Rights</cite></a>. URL: <a href="https://www.w3id.org/dpv/rights/eu">https://www.w3id.org/dpv/rights/eu</a>
+    </dd><dt id="bib-rights-eu-owl">[RIGHTS-EU-OWL]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-owl/rights/eu"><cite>Extension providing EU Rights</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-owl/rights/eu">https://www.w3id.org/dpv/dpv-owl/rights/eu</a>
+    </dd><dt id="bib-rights-eu-skos">[RIGHTS-EU-SKOS]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-skos/rights/eu"><cite>Extension providing EU Rights</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-skos/rights/eu">https://www.w3id.org/dpv/dpv-skos/rights/eu</a>
+    </dd><dt id="bib-risk">[RISK]</dt><dd>
+      <a href="https://www.w3id.org/dpv/risk"><cite>Risk Extension for DPV</cite></a>. URL: <a href="https://www.w3id.org/dpv/risk">https://www.w3id.org/dpv/risk</a>
+    </dd><dt id="bib-risk-owl">[RISK-OWL]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-owl/risk"><cite>Risk Extension for DPV</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-owl/risk">https://www.w3id.org/dpv/dpv-owl/risk</a>
+    </dd><dt id="bib-risk-skos">[RISK-SKOS]</dt><dd>
+      <a href="https://www.w3id.org/dpv/dpv-skos/risk"><cite>Risk Extension for DPV</cite></a>. URL: <a href="https://www.w3id.org/dpv/dpv-skos/risk">https://www.w3id.org/dpv/dpv-skos/risk</a>
+    </dd><dt id="bib-shacl-usecases">[SHACL-UseCases]</dt><dd>
+      <a href="https://www.w3.org/TR/shacl-ucr/"><cite>SHACL Use Cases and Requirements</cite></a>. URL: <a href="https://www.w3.org/TR/shacl-ucr/">https://www.w3.org/TR/shacl-ucr/</a>
+    </dd><dt id="bib-usecases-requirements">[UseCases-Requirements]</dt><dd>
+      <a href="https://w3id.org/dpv/use-cases"><cite>DPV Use-Cases and Requirements</cite></a>. URL: <a href="https://w3id.org/dpv/use-cases">https://w3id.org/dpv/use-cases</a>
+    </dd></dl>
+  </section></section><p role="navigation" id="back-to-top">
+    <a href="#title"><abbr title="Back to Top">↑</abbr></a>
+  </p><script id="respec-highlight-vars">(() => {
+// @ts-check
+
+if (document.respec) {
+  document.respec.ready.then(setupVarHighlighter);
+} else {
+  setupVarHighlighter();
+}
+
+function setupVarHighlighter() {
+  document
+    .querySelectorAll("var")
+    .forEach(varElem => varElem.addEventListener("click", highlightListener));
+}
+
+function highlightListener(ev) {
+  ev.stopPropagation();
+  const { target: varElem } = ev;
+  const hightligtedElems = highlightVars(varElem);
+  const resetListener = () => {
+    const hlColor = getHighlightColor(varElem);
+    hightligtedElems.forEach(el => removeHighlight(el, hlColor));
+    [...HL_COLORS.keys()].forEach(key => HL_COLORS.set(key, true));
+  };
+  if (hightligtedElems.length) {
+    document.body.addEventListener("click", resetListener, { once: true });
+  }
+}
+
+// availability of highlight colors. colors from var.css
+const HL_COLORS = new Map([
+  ["respec-hl-c1", true],
+  ["respec-hl-c2", true],
+  ["respec-hl-c3", true],
+  ["respec-hl-c4", true],
+  ["respec-hl-c5", true],
+  ["respec-hl-c6", true],
+  ["respec-hl-c7", true],
+]);
+
+function getHighlightColor(target) {
+  // return current colors if applicable
+  const { value } = target.classList;
+  const re = /respec-hl-\w+/;
+  const activeClass = re.test(value) && value.match(re);
+  if (activeClass) return activeClass[0];
+
+  // first color preference
+  if (HL_COLORS.get("respec-hl-c1") === true) return "respec-hl-c1";
+
+  // otherwise get some other available color
+  return [...HL_COLORS.keys()].find(c => HL_COLORS.get(c)) || "respec-hl-c1";
+}
+
+function highlightVars(varElem) {
+  const textContent = norm(varElem.textContent);
+  const parent = varElem.closest(".algorithm, section");
+  const highlightColor = getHighlightColor(varElem);
+
+  const varsToHighlight = [...parent.querySelectorAll("var")].filter(
+    el =>
+      norm(el.textContent) === textContent &&
+      el.closest(".algorithm, section") === parent
+  );
+
+  // update availability of highlight color
+  const colorStatus = varsToHighlight[0].classList.contains("respec-hl");
+  HL_COLORS.set(highlightColor, colorStatus);
+
+  // highlight vars
+  if (colorStatus) {
+    varsToHighlight.forEach(el => removeHighlight(el, highlightColor));
+    return [];
+  } else {
+    varsToHighlight.forEach(el => addHighlight(el, highlightColor));
+  }
+  return varsToHighlight;
+}
+
+function removeHighlight(el, highlightColor) {
+  el.classList.remove("respec-hl", highlightColor);
+  // clean up empty class attributes so they don't come in export
+  if (!el.classList.length) el.removeAttribute("class");
+}
+
+function addHighlight(elem, highlightColor) {
+  elem.classList.add("respec-hl", highlightColor);
+}
+
+/**
+ * Same as `norm` from src/core/utils, but our build process doesn't allow
+ * imports in runtime scripts, so duplicated here.
+ * @param {string} str
+ */
+function norm(str) {
+  return str.trim().replace(/\s+/g, " ");
+}
+})()</script><script id="respec-dfn-panel">(() => {
+// @ts-check
+if (document.respec) {
+  document.respec.ready.then(setupPanel);
+} else {
+  setupPanel();
+}
+
+function setupPanel() {
+  const listener = panelListener();
+  document.body.addEventListener("keydown", listener);
+  document.body.addEventListener("click", listener);
+}
+
+function panelListener() {
+  /** @type {HTMLElement} */
+  let panel = null;
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (type === "keydown" && event.key !== "Enter") return;
+
+    const action = deriveAction(event);
+
+    switch (action) {
+      case "show": {
+        hidePanel(panel);
+        /** @type {HTMLElement} */
+        const dfn = target.closest("dfn, .index-term");
+        panel = document.getElementById(`dfn-panel-for-${dfn.id}`);
+        const coords = deriveCoordinates(event);
+        displayPanel(dfn, panel, coords);
+        break;
+      }
+      case "dock": {
+        panel.style.left = null;
+        panel.style.top = null;
+        panel.classList.add("docked");
+        break;
+      }
+      case "hide": {
+        hidePanel(panel);
+        panel = null;
+        break;
+      }
+    }
+  };
+}
+
+/**
+ * @param {MouseEvent|KeyboardEvent} event
+ */
+function deriveCoordinates(event) {
+  const target = /** @type HTMLElement */ (event.target);
+
+  // We prevent synthetic AT clicks from putting
+  // the dialog in a weird place. The AT events sometimes
+  // lack coordinates, so they have clientX/Y = 0
+  const rect = target.getBoundingClientRect();
+  if (
+    event instanceof MouseEvent &&
+    event.clientX >= rect.left &&
+    event.clientY >= rect.top
+  ) {
+    // The event probably happened inside the bounding rect...
+    return { x: event.clientX, y: event.clientY };
+  }
+
+  // Offset to the middle of the element
+  const x = rect.x + rect.width / 2;
+  // Placed at the bottom of the element
+  const y = rect.y + rect.height;
+  return { x, y };
+}
+
+/**
+ * @param {Event} event
+ */
+function deriveAction(event) {
+  const target = /** @type {HTMLElement} */ (event.target);
+  const hitALink = !!target.closest("a");
+  if (target.closest("dfn:not([data-cite]), .index-term")) {
+    return hitALink ? "none" : "show";
+  }
+  if (target.closest(".dfn-panel")) {
+    if (hitALink) {
+      return target.classList.contains("self-link") ? "hide" : "dock";
+    }
+    const panel = target.closest(".dfn-panel");
+    return panel.classList.contains("docked") ? "hide" : "none";
+  }
+  if (document.querySelector(".dfn-panel:not([hidden])")) {
+    return "hide";
+  }
+  return "none";
+}
+
+/**
+ * @param {HTMLElement} dfn
+ * @param {HTMLElement} panel
+ * @param {{ x: number, y: number }} clickPosition
+ */
+function displayPanel(dfn, panel, { x, y }) {
+  panel.hidden = false;
+  // distance (px) between edge of panel and the pointing triangle (caret)
+  const MARGIN = 20;
+
+  const dfnRects = dfn.getClientRects();
+  // Find the `top` offset when the `dfn` can be spread across multiple lines
+  let closestTop = 0;
+  let minDiff = Infinity;
+  for (const rect of dfnRects) {
+    const { top, bottom } = rect;
+    const diffFromClickY = Math.abs((top + bottom) / 2 - y);
+    if (diffFromClickY < minDiff) {
+      minDiff = diffFromClickY;
+      closestTop = top;
+    }
+  }
+
+  const top = window.scrollY + closestTop + dfnRects[0].height;
+  const left = x - MARGIN;
+  panel.style.left = `${left}px`;
+  panel.style.top = `${top}px`;
+
+  // Find if the panel is flowing out of the window
+  const panelRect = panel.getBoundingClientRect();
+  const SCREEN_WIDTH = Math.min(window.innerWidth, window.screen.width);
+  if (panelRect.right > SCREEN_WIDTH) {
+    const newLeft = Math.max(MARGIN, x + MARGIN - panelRect.width);
+    const newCaretOffset = left - newLeft;
+    panel.style.left = `${newLeft}px`;
+    /** @type {HTMLElement} */
+    const caret = panel.querySelector(".caret");
+    caret.style.left = `${newCaretOffset}px`;
+  }
+
+  // As it's a dialog, we trap focus.
+  // TODO: when <dialog> becomes a implemented, we should really
+  // use that.
+  trapFocus(panel, dfn);
+}
+
+/**
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function trapFocus(panel, dfn) {
+  /** @type NodeListOf<HTMLAnchorElement> elements */
+  const anchors = panel.querySelectorAll("a[href]");
+  // No need to trap focus
+  if (!anchors.length) return;
+
+  // Move focus to first anchor element
+  const first = anchors.item(0);
+  first.focus();
+
+  const trapListener = createTrapListener(anchors, panel, dfn);
+  panel.addEventListener("keydown", trapListener);
+
+  // Hiding the panel releases the trap
+  const mo = new MutationObserver(records => {
+    const [record] = records;
+    const target = /** @type HTMLElement */ (record.target);
+    if (target.hidden) {
+      panel.removeEventListener("keydown", trapListener);
+      mo.disconnect();
+    }
+  });
+  mo.observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+}
+
+/**
+ *
+ * @param {NodeListOf<HTMLAnchorElement>} anchors
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function createTrapListener(anchors, panel, dfn) {
+  const lastIndex = anchors.length - 1;
+  let currentIndex = 0;
+  return event => {
+    switch (event.key) {
+      // Hitting "Tab" traps us in a nice loop around elements.
+      case "Tab": {
+        event.preventDefault();
+        currentIndex += event.shiftKey ? -1 : +1;
+        if (currentIndex < 0) {
+          currentIndex = lastIndex;
+        } else if (currentIndex > lastIndex) {
+          currentIndex = 0;
+        }
+        anchors.item(currentIndex).focus();
+        break;
+      }
+
+      // Hitting "Enter" on an anchor releases the trap.
+      case "Enter":
+        hidePanel(panel);
+        break;
+
+      // Hitting "Escape" returns focus to dfn.
+      case "Escape":
+        hidePanel(panel);
+        dfn.focus();
+        return;
+    }
+  };
+}
+
+/** @param {HTMLElement} panel */
+function hidePanel(panel) {
+  if (!panel) return;
+  panel.hidden = true;
+  panel.classList.remove("docked");
+}
+})()</script><script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script></body></html>
