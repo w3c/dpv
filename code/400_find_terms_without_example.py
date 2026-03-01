@@ -48,7 +48,7 @@ SKIP_PREFIXES = {
     "xsd",
 }
 
-DEFAULT_VOCAB_DIR = "../2.2"
+DEFAULT_VOCAB_DIR = "../2.3"
 DEFAULT_EXAMPLES_DIR = "../examples"
 
 
